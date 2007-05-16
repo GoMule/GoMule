@@ -70,13 +70,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
     private JRadioButton  iCatAll;
     
     private RandallPanel  iArmorFilter;
-    private JRadioButton  iCatArmorHead;
-    private JRadioButton  iCatArmorTors;
-    private JRadioButton  iCatArmorShield;
-    private JRadioButton  iCatArmorGlov;
-    private JRadioButton  iCatArmorBelt;
-    private JRadioButton  iCatArmorFeet;
-    private JRadioButton  iCatArmorAll;
+    private ArrayList	  iArmorFilterList;
+    
+    private RandallPanel  iWeaponFilter;
+    private ArrayList	  iWeaponFilterList;
     
     private RandallPanel  iSocketFilter;
     private JRadioButton  iCatSocketJewel;
@@ -327,12 +324,12 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         
         iCatArmor = new JRadioButton("Armor");
         iCatArmor.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatArmor, 0, lRow, 1, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatArmor, 0, lRow, 1, 0.7, RandallPanel.HORIZONTAL);
         lCatBtnGroup.add(iCatArmor);
 
         iCatWeapons = new JRadioButton("Weapon");
         iCatWeapons.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatWeapons, 1, lRow, 1, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatWeapons, 1, lRow, 1, 0.7, RandallPanel.HORIZONTAL);
         lCatBtnGroup.add(iCatWeapons);
 
         iCatSocket = new JRadioButton("Socket Filler");
@@ -343,17 +340,17 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
 
         iCatCharm = new JRadioButton("Charm");
         iCatCharm.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatCharm, 3, lRow, 1, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatCharm, 3, lRow, 1, 0.6, RandallPanel.HORIZONTAL);
         lCatBtnGroup.add(iCatCharm);
 
         iCatMisc = new JRadioButton("Misc");
         iCatMisc.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatMisc, 4, lRow, 1, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatMisc, 4, lRow, 1, 0.5, RandallPanel.HORIZONTAL);
         lCatBtnGroup.add(iCatMisc);
 
         iCatAll = new JRadioButton("All");
         iCatAll.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatAll, 5, lRow, 1, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatAll, 5, lRow, 1, 0.5, RandallPanel.HORIZONTAL);
         lCatBtnGroup.add(iCatAll);
 
         iCatAll.setSelected(true);
@@ -362,6 +359,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         iArmorFilter = getCategoriesArmor();
         iArmorFilter.setVisible(false);
         lCategories.addToPanel(iArmorFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
+        
+        iWeaponFilter = getCategoriesWeapon();
+        iWeaponFilter.setVisible(false);
+        lCategories.addToPanel(iWeaponFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
         
         iSocketFilter = getCategoriesSocket();
         iSocketFilter.setVisible(false);
@@ -383,44 +384,59 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         ButtonGroup lCatArmorBtnGroup = new ButtonGroup();
         RandallPanel lCategoriesArmor = new RandallPanel(true);
         
-        iCatArmorHead = new JRadioButton("Head");
-        iCatArmorHead.addActionListener(iStashFilter);
-        lCategoriesArmor.addToPanel(iCatArmorHead, 0, 0, 1, RandallPanel.HORIZONTAL);
-        lCatArmorBtnGroup.add(iCatArmorHead);
-
-        iCatArmorTors = new JRadioButton("Body");
-        iCatArmorTors.addActionListener(iStashFilter);
-        lCategoriesArmor.addToPanel(iCatArmorTors, 1, 0, 1, RandallPanel.HORIZONTAL);
-        lCatArmorBtnGroup.add(iCatArmorTors);
-        
-        iCatArmorShield = new JRadioButton("Shield");
-        iCatArmorShield.addActionListener(iStashFilter);
-        lCategoriesArmor.addToPanel(iCatArmorShield, 2, 0, 1, RandallPanel.HORIZONTAL);
-        lCatArmorBtnGroup.add(iCatArmorShield);
-        
-        iCatArmorGlov = new JRadioButton("Gloves");
-        iCatArmorGlov.addActionListener(iStashFilter);
-        lCategoriesArmor.addToPanel(iCatArmorGlov, 3, 0, 1, RandallPanel.HORIZONTAL);
-        lCatArmorBtnGroup.add(iCatArmorGlov);
-        
-        iCatArmorBelt = new JRadioButton("Belt");
-        iCatArmorBelt.addActionListener(iStashFilter);
-        lCategoriesArmor.addToPanel(iCatArmorBelt, 4, 0, 1, RandallPanel.HORIZONTAL);
-        lCatArmorBtnGroup.add(iCatArmorBelt);
-        
-        iCatArmorFeet = new JRadioButton("Boots");
-        iCatArmorFeet.addActionListener(iStashFilter);
-        lCategoriesArmor.addToPanel(iCatArmorFeet, 5, 0, 1, RandallPanel.HORIZONTAL);
-        lCatArmorBtnGroup.add(iCatArmorFeet);
-        
-        iCatArmorAll = new JRadioButton("All");
-        iCatArmorAll.addActionListener(iStashFilter);
-        lCategoriesArmor.addToPanel(iCatArmorAll, 6, 0, 1, RandallPanel.HORIZONTAL);
-        lCatArmorBtnGroup.add(iCatArmorAll);
-        
-        iCatArmorAll.setSelected(true);
+        iArmorFilterList = new ArrayList();
+        ArrayList lArmorFilterList = D2BodyLocations.getArmorFilterList();
+        for ( int i = 0 ; i < lArmorFilterList.size() ; i++ )
+        {
+            D2BodyLocations lArmor = (D2BodyLocations) lArmorFilterList.get(i);
+            D2RadioButton lBtn = new D2RadioButton(lArmor);
+            lBtn.addActionListener(iStashFilter);
+            lCategoriesArmor.addToPanel(lBtn, i, 0, 1, RandallPanel.HORIZONTAL);
+            lCatArmorBtnGroup.add(lBtn);
+            if ( lArmor == D2BodyLocations.BODY_ALL )
+            {
+                lBtn.setSelected(true);
+            }
+            iArmorFilterList.add(lBtn);
+        }
         
         return lCategoriesArmor;
+    }
+
+    private RandallPanel getCategoriesWeapon()
+    {
+        ButtonGroup lCatWeaponBtnGroup = new ButtonGroup();
+        RandallPanel lCategoriesWeapon = new RandallPanel(true);
+        
+        int lCurrentRowNr = 0;
+        RandallPanel lCurrentRow = new RandallPanel(true);
+        lCategoriesWeapon.addToPanel(lCurrentRow, 0, lCurrentRowNr++, 1, RandallPanel.HORIZONTAL);
+        
+        iWeaponFilterList = new ArrayList();
+        ArrayList lWeaponFilterList = D2WeaponTypes.getWeaponTypeList();
+        for ( int i = 0 ; i < lWeaponFilterList.size() ; i++ )
+        {
+            if ( lWeaponFilterList.get(i) instanceof D2WeaponTypes )
+            {
+	            D2WeaponTypes lWeapon = (D2WeaponTypes) lWeaponFilterList.get(i);
+	            D2RadioButton lBtn = new D2RadioButton(lWeapon);
+	            lBtn.addActionListener(iStashFilter);
+	            lCurrentRow.addToPanel(lBtn, i, 0, 1, RandallPanel.HORIZONTAL);
+	            lCatWeaponBtnGroup.add(lBtn);
+	            if ( lWeapon == D2WeaponTypes.WEAP_ALL )
+	            {
+	                lBtn.setSelected(true);
+	            }
+	            iWeaponFilterList.add(lBtn);
+            }
+            else
+            {
+                lCurrentRow = new RandallPanel(true);
+                lCategoriesWeapon.addToPanel(lCurrentRow, 0, lCurrentRowNr++, 1, RandallPanel.HORIZONTAL);
+            }
+        }
+        
+        return lCategoriesWeapon;
     }
 
     private RandallPanel getCategoriesSocket()
@@ -619,39 +635,39 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
                         }
                         else if (iCatArmor.isSelected() && lItem.isTypeArmor())
                         {
-                            if ( iCatArmorAll.isSelected() )
+                            D2RadioButton lAll = (D2RadioButton) iArmorFilterList.get(iArmorFilterList.size()-1);
+                            if ( lAll.isSelected() )
                             {
                                 lAdd2 = true;
                             }
-                            else if ( iCatArmorHead.isSelected() && lItem.isBodyHead() )
+                            
+                            for ( int j = 0 ; j < iArmorFilterList.size() - 1 ; j++ )
                             {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatArmorTors.isSelected() && lItem.isBodyTors() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatArmorShield.isSelected() && lItem.isBodyRArm() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatArmorGlov.isSelected() && lItem.isBodyGlov() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatArmorBelt.isSelected() && lItem.isBodyBelt() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatArmorFeet.isSelected() && lItem.isBodyFeet() )
-                            {
-                                lAdd2 = true;
+                                D2RadioButton lBtn = (D2RadioButton) iArmorFilterList.get(j);
+                                if ( lBtn.isSelected() && lItem.isBodyLocation( (D2BodyLocations) lBtn.getData() ) )
+                                {
+                                    lAdd2 = true;
+                                }
                             }
                         }
                         else if (iCatWeapons.isSelected()
                                 && lItem.isTypeWeapon())
                         {
-                            lAdd2 = true;
+                            D2RadioButton lAll = (D2RadioButton) iWeaponFilterList.get(iWeaponFilterList.size()-1);
+                            if ( lAll.isSelected() )
+                            {
+                                lAdd2 = true;
+                            }
+                            
+                            for ( int j = 0 ; j < iWeaponFilterList.size() - 1 ; j++ )
+                            {
+                                D2RadioButton lBtn = (D2RadioButton) iWeaponFilterList.get(j);
+                                if ( lBtn.isSelected() && lItem.isWeaponType( (D2WeaponTypes) lBtn.getData() ) )
+                                {
+                                    lAdd2 = true;
+                                }
+                            }
+//                            lAdd2 = true;
                         }
                         else if (iCatSocket.isSelected()
                                 && lItem.isSocketFiller())
@@ -699,15 +715,15 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
                             {
                                 lAdd2 = true;
                             }
-                            else if ( iCatMiscAmulet.isSelected() && lItem.isBodyNeck() )
+                            else if ( iCatMiscAmulet.isSelected() && lItem.isBodyLocation(D2BodyLocations.BODY_NECK) )
                             {
                                 lAdd2 = true;
                             }
-                            else if ( iCatMiscRing.isSelected() && lItem.isBodyLRin() )
+                            else if ( iCatMiscRing.isSelected() && lItem.isBodyLocation(D2BodyLocations.BODY_LRIN) )
                             {
                                 lAdd2 = true;
                             }
-                            else if ( iCatMiscOther.isSelected() && !lItem.isBodyNeck() && !lItem.isBodyLRin() )
+                            else if ( iCatMiscOther.isSelected() && !lItem.isBodyLocation(D2BodyLocations.BODY_NECK) && !lItem.isBodyLocation(D2BodyLocations.BODY_LRIN) )
                             {
                                 lAdd2 = true;
                             }
@@ -824,6 +840,15 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             else
             {
                 iArmorFilter.setVisible(false);
+            }
+            
+            if ( iCatWeapons.isSelected() )
+            {
+                iWeaponFilter.setVisible(true);
+            }
+            else
+            {
+                iWeaponFilter.setVisible(false);
             }
             
             if ( iCatSocket.isSelected() )

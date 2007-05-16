@@ -51,6 +51,13 @@ public class D2ProjectSettingsDialog extends JDialog
     private JRadioButton         iTypeSC;
     private JRadioButton         iTypeHC;
     private JRadioButton         iTypeBoth;
+    
+    private JButton 			 iColorUnique;
+    private JButton 			 iColorSet;
+    private JButton 			 iColorRare;
+    private JButton 			 iColorMagical;
+    private JButton 			 iColorCrafted;
+    private JButton 			 iColorSocketed;
 
     private JTextField           iFlavieOutputReportFileName;
     private JTextField           iFlavieOutputData;
@@ -163,6 +170,15 @@ public class D2ProjectSettingsDialog extends JDialog
         lType.add(iTypeSC);
         lType.add(iTypeHC);
         lType.add(iTypeBoth);
+        
+        iColorUnique = new JButton("Unique");
+        iTypeBoth.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent pEvent)
+            {
+//                iProject.setType(D2Project.TYPE_BOTH);
+            }
+        });
 
         iFlavieOutputReportFileName = new JTextField();
         iFlavieOutputReportFileName.getDocument().addDocumentListener(new RandallDocumentListener()
@@ -273,10 +289,15 @@ public class D2ProjectSettingsDialog extends JDialog
         iContent.addToPanel(new JLabel("Change Project"), 0, 1, 1, RandallPanel.NONE);
         iContent.addToPanel(iChangeProject, 1, 1, 2, RandallPanel.HORIZONTAL);
         iContent.addToPanel(new JLabel("Type selection: (for stashes naming convection only, names SC/HC should start with SC_ or HC_)"), 0, 10, 3, RandallPanel.NONE);
-        iContent.addToPanel(iTypeSC, 0, 11, 3, RandallPanel.NONE);
-        iContent.addToPanel(iTypeHC, 0, 12, 3, RandallPanel.NONE);
-        iContent.addToPanel(iTypeBoth, 0, 13, 3, RandallPanel.NONE);
+        
+        RandallPanel lTypePanel = new RandallPanel();
+        lTypePanel.addToPanel(iTypeSC, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeHC, 1, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeBoth, 2, 0, 1, RandallPanel.HORIZONTAL);
+        iContent.addToPanel(lTypePanel, 0, 11, 3, RandallPanel.HORIZONTAL);
 
+        RandallPanel lColorPanel = new RandallPanel();
+        
         RandallPanel lFlaviePanel = new RandallPanel(true);
         lFlaviePanel.setBorder("FLAVIE settings");
 

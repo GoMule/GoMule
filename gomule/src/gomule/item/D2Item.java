@@ -61,7 +61,7 @@ public class D2Item implements Comparable, D2ItemInterface
     private String                  item_type;
 
     // additional data for complex items
-    private long                   iSocketNrFilled    = 0;
+    private long                    iSocketNrFilled    = 0;
     private long                   	iSocketNrTotal    = 0;
     private long                    fingerprint;
     private short                   ilvl;
@@ -91,6 +91,8 @@ public class D2Item implements Comparable, D2ItemInterface
     private String                  name;
 
     private D2TxtFileItemProperties iItemType;
+    private String					iType;
+    private String					iType2;
     private boolean                 iEthereal;
     private boolean                 iSocketed;
     private boolean                 iMagical;
@@ -296,6 +298,9 @@ public class D2Item implements Comparable, D2ItemInterface
             iTypeArmor = ("armor".equals(lD2TxtFileName));
         }
 
+        iType = iItemType.get("type");
+        iType2 = iItemType.get("type2");
+        
         // Requerements
         if ( iTypeMisc )
         {
@@ -311,6 +316,8 @@ public class D2Item implements Comparable, D2ItemInterface
             iReqLvl = getReq(iItemType.get("levelreq"));
             iReqStr = getReq(iItemType.get("reqstr"));
             iReqDex = getReq(iItemType.get("reqdex"));
+            
+//            System.err.println("Weapon: " + item_type + " - " + iItemType.get("type") + " - " + iItemType.get("type2") + " - " + iItemType.get("code") );
         }
         
         String lItemName = D2TblFile.getString(item_type);
@@ -358,24 +365,23 @@ public class D2Item implements Comparable, D2ItemInterface
             readExtend2(pFile);
         }
 
-        String lType = iItemType.get("type");
-        String lType2 = iItemType.get("type2");
-        if (lType != null && lType2 != null && lType.startsWith("gem"))
+        if (iType != null && iType2 != null && iType.startsWith("gem"))
         {
-            if (lType2.equals("gem0") || lType2.equals("gem1") || lType2.equals("gem2") || lType2.equals("gem3") || lType2.equals("gem4"))
+            if (iType2.equals("gem0") || iType2.equals("gem1") || iType2.equals("gem2") || iType2.equals("gem3") || iType2.equals("gem4"))
             {
                 iGem = true;
             }
         }
-        D2TxtFileItemProperties lItemType = D2TxtFile.ITEM_TYPES.searchColumns("Code", lType);
+        D2TxtFileItemProperties lItemType = D2TxtFile.ITEM_TYPES.searchColumns("Code", iType);
         if (lItemType == null)
         {
-            lItemType = D2TxtFile.ITEM_TYPES.searchColumns("Equiv1", lType);
+            lItemType = D2TxtFile.ITEM_TYPES.searchColumns("Equiv1", iType);
             if (lItemType == null)
             {
-                lItemType = D2TxtFile.ITEM_TYPES.searchColumns("Equiv2", lType);
+                lItemType = D2TxtFile.ITEM_TYPES.searchColumns("Equiv2", iType);
             }
         }
+        
         if ("1".equals(lItemType.get("Body")))
         {
             iBody = true;
@@ -905,45 +911,10 @@ public class D2Item implements Comparable, D2ItemInterface
             lProp = (int) pFile.read(9);
         }
     }
-
-    public boolean isBodyHead()
-    {
-        return isBodyLocation("head");
-    }
-
-    public boolean isBodyNeck()
-    {
-        return isBodyLocation("neck");
-    }
-
-    public boolean isBodyTors()
-    {
-        return isBodyLocation("tors");
-    }
-
+    
     public boolean isBodyLArm()
     {
         return isBodyLocation("larm");
-    }
-
-    public boolean isBodyRArm()
-    {
-        return isBodyLocation("rarm");
-    }
-
-    public boolean isBodyGlov()
-    {
-        return isBodyLocation("glov");
-    }
-
-    public boolean isBodyBelt()
-    {
-        return isBodyLocation("belt");
-    }
-
-    public boolean isBodyFeet()
-    {
-        return isBodyLocation("feet");
     }
 
     public boolean isBodyRRin()
@@ -954,6 +925,34 @@ public class D2Item implements Comparable, D2ItemInterface
     public boolean isBodyLRin()
     {
         return isBodyLocation("lrin");
+    }
+    
+    public boolean isWeaponType(D2WeaponTypes pType)
+    {
+        if ( iTypeWeapon )
+        {
+            if ( pType.isType( iType ) )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean isBodyLocation(D2BodyLocations pLocation)
+    {
+        if ( iBody )
+        {
+            if (pLocation.getLocation().equals(iBodyLoc1))
+            {
+                return true;
+            }
+            if (pLocation.getLocation().equals(iBodyLoc2))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isBodyLocation(String pLocation)

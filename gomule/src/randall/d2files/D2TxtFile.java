@@ -88,7 +88,7 @@ public class D2TxtFile
         return iFileName;
     }
     
-    public int getRowNr()
+    public int getRowSize()
     {
         return iData.size();
     }

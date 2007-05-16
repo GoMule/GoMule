@@ -800,14 +800,14 @@ public class D2Character
             {
             case BODY_HEAD:
                 // head
-                if (pItem.isBodyHead())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_HEAD) )
                 {
                     return false;
                 }
                 break;
             case BODY_NECK:
                 // neck
-                if (pItem.isBodyNeck())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_NECK) )
                 {
                     return false;
                 }
@@ -822,7 +822,7 @@ public class D2Character
                 break;
             case BODY_TORSO:
                 // neck
-                if (pItem.isBodyTors())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_TORS) )
                 {
                     return false;
                 }
@@ -830,14 +830,14 @@ public class D2Character
             case BODY_RARM:
             case BODY_RARM2:
                 // neck
-                if (pItem.isBodyRArm())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_RARM) )
                 {
                     return false;
                 }
                 break;
             case BODY_GLOVES:
                 // neck
-                if (pItem.isBodyGlov())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_GLOV) )
                 {
                     return false;
                 }
@@ -851,21 +851,21 @@ public class D2Character
                 break;
             case BODY_BELT:
                 // neck
-                if (pItem.isBodyBelt())
+                if ( pItem.isBodyLocation(D2BodyLocations.BODY_BELT) )
                 {
                     return false;
                 }
                 break;
             case BODY_LRING:
                 // neck
-                if (pItem.isBodyLRin())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_LRIN) )
                 {
                     return false;
                 }
                 break;
             case BODY_BOOTS:
                 // neck
-                if (pItem.isBodyFeet())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_FEET) )
                 {
                     return false;
                 }
@@ -934,7 +934,7 @@ public class D2Character
             {
             case BODY_HEAD:
                 // head
-                if (pItem.isBodyHead())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_HEAD) )
                 {
                     return false;
                 }
@@ -948,14 +948,14 @@ public class D2Character
                 break;
             case BODY_TORSO:
                 // body
-                if (pItem.isBodyTors())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_TORS) )
                 {
                     return false;
                 }
                 break;
             case BODY_RARM:
                 // right arm
-                if (pItem.isBodyRArm())
+                if (pItem.isBodyLocation(D2BodyLocations.BODY_RARM) )
                 {
                     return false;
                 }

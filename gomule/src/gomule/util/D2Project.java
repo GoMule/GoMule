@@ -506,7 +506,7 @@ public class D2Project
         }
         if ( pItem.isRare() )
         {
-            return new Color(235, 235, 0);
+            return Color.black;
         }
         if ( pItem.isMagical() )
         {

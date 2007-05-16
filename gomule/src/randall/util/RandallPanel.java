@@ -126,7 +126,11 @@ public class RandallPanel extends JPanel
 
     public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, Object pConstraint)
     {
-        addToPanel(pComponent, pX, pY, pSizeX, 1, pConstraint);
+        addToPanel(pComponent, pX, pY, pSizeX, 1, pConstraint, -1.0, -1.0, -1);
+    }
+    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, double pWeightX, Object pConstraint)
+    {
+        addToPanel(pComponent, pX, pY, pSizeX, 1, pConstraint, pWeightX, -1.0, -1);
     }
     public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, int pSizeY, Object pConstraint)
     {
@@ -155,19 +159,19 @@ public class RandallPanel extends JPanel
 
         if ( pConstraint == HORIZONTAL)
         {
-                lWeightX = 1.0;
-                lGridbagConstraint = GridBagConstraints.HORIZONTAL;
+            lWeightX = 1.0;
+            lGridbagConstraint = GridBagConstraints.HORIZONTAL;
         }
 		if ( pConstraint == VERTICAL)
 		{
-				lWeightY = 1.0;
-				lGridbagConstraint = GridBagConstraints.VERTICAL;
+			lWeightY = 1.0;
+			lGridbagConstraint = GridBagConstraints.VERTICAL;
 		}
         if ( pConstraint == BOTH)
         {
-                lWeightX = 1.0;
-                lWeightY = 1.0;
-                lGridbagConstraint = GridBagConstraints.BOTH;
+            lWeightX = 1.0;
+            lWeightY = 1.0;
+            lGridbagConstraint = GridBagConstraints.BOTH;
         }
         
         if ( pWeightX >= 0.0 )
