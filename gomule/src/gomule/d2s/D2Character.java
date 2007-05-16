@@ -204,16 +204,51 @@ public class D2Character
 
         iTitleString = " Lvl " + iCharLevel + " " + getCharacterCode((int) lCharCode);
 
+//        System.err.println("Test Woo: " + iReader.findNextFlag("Woo!", 0) );
+//        System.err.println("Test W4: " + iReader.findNextFlag("W4", 0) );
+        
+        int lWoo = iReader.findNextFlag("Woo!", 0);
+        if ( lWoo == -1 )
+        {
+            throw new Exception("Error: Act Quests block not found");
+        }
+        if ( lWoo != 335 )
+        {
+            System.err.println("Warning: Act Quests block not on expected position");
+        }
+
+        int lW4 = iReader.findNextFlag("w4", lWoo);
+        if ( lW4 == -1 )
+        {
+            throw new Exception("Error: NPC State control block not found");
+        }
+        if ( lW4 != 714 )
+        {
+            System.err.println("Warning: NPC State control block not on expected position");
+        }
+        
         // For the stats, determine the block
-        iGF = iReader.findNextFlag("gf", 700);
+        iGF = iReader.findNextFlag("gf", lW4);
         if ( iGF == -1 )
         {
-            throw new Exception("Error: stats block not found");
+            throw new Exception("Error: Stats block not found");
         }
-        iIF = iReader.findNextFlag("if", 700);
+        if ( iGF != 765 )
+        {
+            System.err.println("Warning: Stats block not on expected position");
+        }
+        
+        iIF = iReader.findNextFlag("if", iGF);
         if ( iIF == -1 )
         {
             throw new Exception("Error: Skills block not found");
+        }
+        
+//        System.err.println("Test: " + lWoo + " - " + lW4 + " - " + iGF + " - " + iIF );
+        
+        if ( iIF < iGF )
+        {
+            throw new Exception("Error: Stats / Skills not correct");
         }
 
         // now copy the block into the Flavie bitreader 
@@ -273,7 +308,7 @@ public class D2Character
         iEquipped = new boolean[13];
         iMerc = new boolean[13];
         clearGrid();
-        readItems();
+        readItems( iIF );
     }
 
     public String getTitleString()
@@ -311,9 +346,9 @@ public class D2Character
     // item from the character file and use
     // them to construct a new item object.
     // store the items in the vector
-    public void readItems() throws Exception
+    public void readItems(int pStartSearch) throws Exception
     {
-        int lFirstPos = iReader.findNextFlag("JM", 0);
+        int lFirstPos = iReader.findNextFlag("JM", pStartSearch);
         if (lFirstPos == -1)
         {
             throw new Exception("Character items not found");
