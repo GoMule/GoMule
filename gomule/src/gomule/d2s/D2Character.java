@@ -79,6 +79,7 @@ public class D2Character
     private byte            iBetweenItems[];
     private byte            iAfterItems[];
 
+    private String			iCharName;
     private String          iTitleString;
     private long			iCharLevel;
     
@@ -176,6 +177,7 @@ public class D2Character
                 lCharName.append((char) lChar);
             }
         }
+        iCharName = lCharName.toString();
         //        System.err.println("Char: " + lCharName.toString());
 
         iReader.set_byte_pos(36);
@@ -309,6 +311,11 @@ public class D2Character
         iMerc = new boolean[13];
         clearGrid();
         readItems( iIF );
+    }
+    
+    public String getCharName()
+    {
+        return iCharName;
     }
 
     public String getTitleString()

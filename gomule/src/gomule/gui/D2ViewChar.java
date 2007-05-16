@@ -455,7 +455,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
 
     public void setTitle()
     {
-        String lTitle = iFileName;
+        String lTitle = iChar.getCharName();
         if (iChar == null)
         {
             lTitle += " (Error Reading File)";
