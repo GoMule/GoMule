@@ -24,11 +24,14 @@ package gomule;
 import gomule.gui.*;
 import gomule.item.*;
 
+import java.awt.*;
 import java.io.FileInputStream;
 
 import javax.swing.*;
 
 import com.sun.java.swing.plaf.windows.*;
+import com.sun.jndi.ldap.*;
+import com.sun.media.sound.*;
 
 public class GoMule
 {
@@ -107,7 +110,15 @@ public class GoMule
 //            e.printStackTrace();
 //        }
         
-        D2FileManager.getIntance();
+        // Randall: generally adviced for swing, doing anything with GUI inside the swing-thread
+        EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                D2FileManager.getIntance();
+            }
+        });
+        
     }
 }
 
