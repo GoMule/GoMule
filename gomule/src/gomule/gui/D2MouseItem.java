@@ -233,11 +233,11 @@ public class D2MouseItem extends JInternalFrame
         iMouseItem.iBank.setText(Integer.toString(pProject.getBankValue()));
     }
 
-    public static void save()
+    public static void save( )
     {
         if (iMouseItem != null && iMouseItem.iStash != null)
         {
-            iMouseItem.iStash.save();
+            iMouseItem.iStash.save( iMouseItem.iFileManager.getProject() );
         }
     }
 

@@ -56,6 +56,11 @@ public class D2Project
     public static final int    TYPE_HC      = 2;
     public static final int    TYPE_BOTH    = 3;
     private int                iType        = TYPE_BOTH;
+
+    public static final int    BACKUP_DAY   = 1;
+    public static final int    BACKUP_WEEK  = 2;
+    public static final int    BACKUP_MONTH = 3;
+    private int                iBackup      = BACKUP_WEEK;
     
     private String iReportName;
     private String iReportTitle;
@@ -151,6 +156,7 @@ public class D2Project
         {
             iBank = 0;
             iType = TYPE_BOTH;
+            iBackup = BACKUP_WEEK;
             iReportName = "Report";
             iReportTitle = "Flavie Report";
             iDataName = "standard.dat";
@@ -188,6 +194,21 @@ public class D2Project
 	            catch (Exception pEx)
 	            {
 	                iType = TYPE_BOTH;
+	                D2FileManager.displayErrorDialog(pEx);
+	            }
+	        }
+	        
+	        String lBackup = lLoadProperties.getProperty("backup");
+	        iBackup = BACKUP_WEEK;
+	        if (lBackup != null)
+	        {
+	            try
+	            {
+	                iBackup = Integer.parseInt(lBackup);
+	            }
+	            catch (Exception pEx)
+	            {
+	                iBackup = BACKUP_WEEK;
 	                D2FileManager.displayErrorDialog(pEx);
 	            }
 	        }
@@ -240,6 +261,16 @@ public class D2Project
     public void setType(int pType)
     {
         iType = pType;
+    }
+
+    public int getBackup()
+    {
+        return iBackup;
+    }
+
+    public void setBackup(int pBackup)
+    {
+        iBackup = pBackup;
     }
 
     public ArrayList getCharList()
@@ -333,6 +364,7 @@ public class D2Project
 
         lSaveProperties.put("bank", Integer.toString(iBank));
         lSaveProperties.put("type", Integer.toString(iType));
+        lSaveProperties.put("backup", Integer.toString(iBackup));
         
         // flavie settings
         lSaveProperties.put("ReportName", getStringSave(iReportName));

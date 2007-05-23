@@ -175,34 +175,10 @@ public class D2Stash
         }
     }
     
-    public void save()
+    public void save(D2Project pProject)
     {
-        if ( !iBR.isNewFile() )
-        {
-	        // see how many backups exist
-	        int backup_max = -1;
-	        for (int i = 0; i <= 9; i++)
-	        {
-	            if (new java.io.File(iFileName + "." + i).exists())
-	                backup_max = i;
-	            else
-	                break;
-	        }
-
-	        // shift the backups down
-	        // (backup 9 is overwritten, 0 comes free)
-	        for (int i = backup_max; i >= 0; i--)
-	        {
-	            if (i < 9)
-	            {
-	                D2BitReader src = new D2BitReader(iFileName + "." + i);
-	                src.save(iFileName + "." + (i + 1));
-	            }
-	        }
-
-	        // save the file to backup 0
-	        iBR.save(iFileName + ".0");
-        }
+        // backup file
+        D2Backup.backup(pProject, iFileName, iBR);
 
         int size = 0;
         for (int i = 0; i < iItems.size(); i++)

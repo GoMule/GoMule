@@ -448,7 +448,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
         if (iModified)
         {
             // auto save (always)
-            iChar.save();
+            iChar.save( iFileManager.getProject() );
             setModified(false);
         }
     }

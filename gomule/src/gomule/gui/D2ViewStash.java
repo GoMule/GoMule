@@ -898,7 +898,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
     {
         if (iModified)
         {
-            iStash.save();
+            iStash.save( iFileManager.getProject() );
             setModified(false);
         }
     }

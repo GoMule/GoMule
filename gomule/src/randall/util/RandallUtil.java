@@ -20,6 +20,7 @@
  ******************************************************************************/
 package randall.util;
 
+import java.io.*;
 import java.util.*;
 
 public class RandallUtil
@@ -149,6 +150,48 @@ public class RandallUtil
             }
         }
         return lSplit;
+    }
+    
+    public static String fill(int pValue, int pDigits)
+    {
+        String lValue = Integer.toString(pValue);
+        
+        if ( lValue.length() > pDigits )
+        {
+            return lValue.substring(lValue.length()-pDigits);
+        }
+        
+        while ( lValue.length() < pDigits )
+        {
+            lValue = "0" + lValue;
+        }
+        
+        return lValue;
+    }
+    
+    public static void checkDir(String pDir) throws Exception
+    {
+        File lDir = new File(pDir);
+        
+        if ( !lDir.exists() )
+        {
+            if ( !lDir.mkdirs() )
+            {
+                throw new Exception("Can not create backup dir: " + pDir );
+            }
+        }
+        if ( !lDir.isDirectory() )
+        {
+            throw new Exception("File exists with name of backup dir: " + pDir );
+        }
+        if ( !lDir.canRead() )
+        {
+            throw new Exception("Can not read backup dir: " + pDir );
+        }
+        if ( !lDir.canWrite() )
+        {
+            throw new Exception("Can not write backup dir: " + pDir );
+        }
     }
 
 }
