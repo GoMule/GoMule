@@ -206,10 +206,12 @@ public class D2TxtFile
         {
             for (int i = 0; i < iData.size(); i++)
             {
-                if (pText.equals(((ArrayList) iData.get(i)).get(lColNr)))
+            	if(!((ArrayList)iData.get(i)).isEmpty()){
+                if (((ArrayList) iData.get(i)).get(lColNr).equals(pText))
                 {
                     return new D2TxtFileItemProperties(this, i);
                 }
+            	}
             }
         }
 

@@ -870,7 +870,10 @@ public class D2Item implements Comparable, D2ItemInterface
 
                 String lItemStatCostList[];
                 
-                if ( lProp == 201 )
+                /**
+                 * THINGS ON HIT/STRIKE/LEVELUP/ETC NEED 3 VALUES
+                 */
+                if ( lProp == 201||lProp == 197 ||lProp == 199 || lProp == 195||lProp == 198 || lProp == 196)
                 {
                     // extra splitup
                     lItemStatCostList = new String[] { "6", "10", lItemStatCost.get("Save Bits") };

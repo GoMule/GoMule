@@ -97,7 +97,9 @@ public class D2ItemProperty
     public void set(int pProps, D2TxtFileItemProperties pItemStatCost, int pBitSet, long pValue)
     {
         // just archive
-        iProperties.put(COUNTER[iCounter++], new PropValue(pProps, pItemStatCost, pBitSet, pValue));
+        iProperties.put(COUNTER[iCounter++], new  PropValue(pProps, pItemStatCost, pBitSet, pValue));
+        System.out.println(pProps + " , " + pValue);
+        
     }
 
     class PropValue
@@ -126,12 +128,22 @@ public class D2ItemProperty
         try
         {
             // the do not display properties
-            if (iProp == 23 || iProp == 24 || iProp == 159 || iProp == 160)
+        	//ADDED 140 DUE TO GOREFOOT - NEEDS DOUBLE CHECK.
+        	if (iProp == 23 || iProp == 24 || iProp == 159 || iProp == 160 || iProp == 140)
             {
                 iNoValue = true;
                 return null;
             }
 
+        	/**
+        	 * + MAGIC DAMAGE
+        	 */
+        	if(iProp ==52){
+                PropValue lValue1 = (PropValue) iProperties.get(FIRST);                
+                
+                return (D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"))).replaceFirst("%d", lValue1.getValueString());
+        	}
+        	
             if (iProp == 57)
             {
                 PropValue l57 = (PropValue) iProperties.get(FIRST);
@@ -157,7 +169,8 @@ public class D2ItemProperty
             if (iProp == 73)
             {
                 PropValue lValue = (PropValue) iProperties.get(FIRST);
-                iValue = "+" + new Long(lValue.iValue) + " Maximum Durability";
+                
+                return  "+" + new Long(lValue.iValue) + " Maximum Durability";
             }
             
             if (iProp == 83)
@@ -173,14 +186,36 @@ public class D2ItemProperty
                 PropValue lValue1 = (PropValue) iProperties.get(FIRST);
                 return "Required Lvl +" + lValue1.iValue;
             }
-            
-            if (iProp == 107)
+            /**
+             * THIS IS +SKILLS
+             */
+            if (iProp == 107||iProp == 97)
             {
                 PropValue lValue1 = (PropValue) iProperties.get(FIRST);
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
 
                 D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow((int) lValue1.iValue);
+                System.out.println(D2TblFile.getString(lSkill.get("str name")));
                 return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name"));
+            }
+            
+            if(iProp == 111 ){
+                PropValue lValue1 = (PropValue) iProperties.get(FIRST);                
+               
+                return D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos")) + " +"+ lValue1.iValue;
+            }
+            
+            /**
+             * THIS IS AURAS
+             */
+            if (iProp == 151)
+            {
+                PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+                PropValue lValue2 = (PropValue) iProperties.get(SECOND);
+
+                D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow((int) lValue1.iValue);
+//                System.out.println(D2TblFile.getString(lSkill.get("str name")));
+                return "Level " + lValue2.iValue + " "+ D2TblFile.getString(lSkill.get("str name")) + " Aura When Equipped";
             }
             
             if (iProp == 126)
@@ -283,7 +318,106 @@ public class D2ItemProperty
                 return "+" + lSkillCount + " to " + lSkillTree;
             }
             
-            if (iProp == 201)
+
+//            if(iProp == 198){
+//                PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+//                PropValue lValue2 = (PropValue) iProperties.get(SECOND);
+//                
+//                String lNiceString = D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
+//                lNiceString = lNiceString.replaceFirst("%d%", lValue2.getValueString());
+//                System.out.print("h");
+//                return lNiceString;
+//            }
+            
+
+            
+//            if(iProp == 197 ||iProp == 199 || iProp == 195){
+//                PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+//                PropValue lValue2 = (PropValue) iProperties.get(SECOND);
+//                
+//                String lNiceString = D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
+//                lNiceString = lNiceString.replaceFirst("%d%", lValue2.getValueString());
+//                
+//                
+//                /**
+//                 * BAD BAD BAD BAD BAD BAD FIX
+//                 * Need to find some correlation between facet + skills. No idea how.
+//                 */
+//                
+//                /**
+//                 * DIE
+//                 */
+//                if(iProp == 197){
+//                	
+//                	switch((int)lValue1.iValue){
+//                	
+//                	case 3813:
+//            			lNiceString = lNiceString.replaceFirst("%d", "37");
+//            			lNiceString = lNiceString.replaceFirst("%s", "Blizzard");
+//                		break;
+//                	
+//                	case 3615:
+//            			lNiceString = lNiceString.replaceFirst("%d", "31");
+//            			lNiceString = lNiceString.replaceFirst("%s", "Meteor");
+//                    	break;
+//                    	
+//                	case 5939:
+//            			lNiceString = lNiceString.replaceFirst("%d", "51");
+//            			lNiceString = lNiceString.replaceFirst("%s", "Poison Nova");
+//                    	break;
+//                    	
+//                	case 3439:
+//            			lNiceString = lNiceString.replaceFirst("%d", "47");
+//            			lNiceString = lNiceString.replaceFirst("%s", "Chain Lightning");
+//                    	break;
+//                	
+//                	
+//                	}
+////                	System.out.println("DIE "+lValue2.iProps + " " + lValue2.iValue + " "+lValue1.iProps + " " + lValue1.iValue);
+//                	
+//                	}
+//                
+//                /**
+//                 * LVL UP
+//                 */
+//                if(iProp == 199){
+//                	
+//                	switch((int)lValue1.iValue){
+//                	
+//            		case 3113:
+//            			lNiceString = lNiceString.replaceFirst("%d", "41");
+//            			lNiceString = lNiceString.replaceFirst("%s", "Nova");
+//                		break;
+//                	
+//                	case 2973:
+//            			lNiceString = lNiceString.replaceFirst("%d", "29");
+//            			lNiceString = lNiceString.replaceFirst("%s", "Blaze");
+//                    	break;
+//                    	
+//                	case 2859:
+//            			lNiceString = lNiceString.replaceFirst("%d", "43");
+//            			lNiceString = lNiceString.replaceFirst("%s", "Frost Nova");
+//                    	break;
+//                    	
+//                	case 17815:
+//            			lNiceString = lNiceString.replaceFirst("%d", "23");
+//            			lNiceString = lNiceString.replaceFirst("%s", "Venom");
+//                    	break;
+//                    	
+//                	}
+//                	
+////                	System.out.println("LEVEL "+lValue2.iProps + " " + lValue2.iValue + " "+lValue1.iProps + " " + lValue1.iValue);
+//                	
+//                }
+//                
+////                System.out.print("h");
+//                return lNiceString;
+//            }
+//            
+            /**
+             * CTC
+             */
+            if (iProp == 201||iProp == 197 ||iProp == 199 || iProp == 195||iProp == 198|| iProp == 196)
             {
                 PropValue lValue1 = (PropValue) iProperties.get(FIRST);
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
@@ -316,13 +450,28 @@ public class D2ItemProperty
                 return "Level " + lValue1.iValue + " " + D2TblFile.getString(lSkill.get("str name")) + " " + lNiceString;
             }
             
+                        
             if (iProp == 240)
             {
                 PropValue lValue1 = (PropValue) iProperties.get(FIRST);
                 
+                
                 String lNiceString = D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
                 return Long.toString(Math.round((lValue1.iValue * 0.125) * (iCharLvl - 1))) + "% " + lNiceString;
             }
+            
+//            if (iProp == 242)
+//            {
+//                PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+//                
+//                String lNiceString = D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
+//                System.out.println(lNiceString);
+//               return iCharLvl + " to " + lNiceString;
+//            }
+            
+            /**
+             * DURA OVER TIME
+             */
             
             if (iProp == 252)
             {
@@ -331,8 +480,54 @@ public class D2ItemProperty
                 String lNiceString = D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
                 return "Repair 1 Durability in " + Long.toString(Math.round(100.0 / lValue1.iValue)) + " Seconds";
             }
+            
+            /**
+             * REPLENISHES QUANTITY - NOT WORTH DEALING WITH AMOUNT
+             */
+            
+            if(iProp == 253){
+            	
+            	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+            	return D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
+            	
+            }
+
+            
+            if (iProp == 333)
+            {
+                PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+                
+                String lNiceString = D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
+                return lValue1.iValue + "% "+lNiceString;
+            }
+            
+            /**
+             * WIRTS LEG
+             */
+            
+            if(iProp == 356){
+            	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+            	switch ((int)lValue1.iValue){
+            	
+            	case 0:
+            		
+            		return "Found In Normal Difficulty";
+            		
+            	case 1:
+            		
+            		return "Found In Nightmare Difficulty";
+            		
+            	case 2:
+            		
+            		return "Found In Hell Difficulty";
+            	
+            	}
+                
+
+            }
 
             PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+//            PropValue lValue2 = (PropValue) iProperties.get(SECOND);
             String lNiceString = D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
             if (lNiceString == null)
             {
@@ -436,7 +631,7 @@ public class D2ItemProperty
     //                    {
     //                        double lDam = (lMin * lTime) / 10.25;
     //                        iValue = "+" + Math.round(lDam) + " poison damage over " +
-    // Math.round(lTime) + " seconds";
+    // Math.round(lTime) + " secondiProp== 97s";
     //                    }
     //                    else
     //                    {

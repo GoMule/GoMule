@@ -127,7 +127,13 @@ public class D2TblFile
 //                {
 //                    System.err.println("Test " + i + " K: " + lKey + ", V: " + lValue );
 //                }
-                iHashMap.put(lKey, lValue);
+                
+                if(lKey.startsWith("Skill") && lKey.contains("223") && lValue.contains("wolf")){
+               
+                }else{
+                	iHashMap.put(lKey, lValue);
+                }
+//                System.out.println(lKey + " , " + lValue);
                 lKey = lFileReader.getCounterString();
                 lValue = lFileReader.getCounterString();
                 
