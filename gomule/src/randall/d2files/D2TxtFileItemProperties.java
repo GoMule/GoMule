@@ -46,7 +46,7 @@ public class D2TxtFileItemProperties
 //    	int test = 221;
 //    	if(D2TblFile.getString(iTxtFile.getValue(test, "str name")) != null){
 //    	System.out.println(D2TblFile.getString(iTxtFile.getValue(test, "str name")));
-//    	System.out.println((iTxtFile.getValue(test, "str name")));
+//    	System.out.println((iTxtFile.getFileName()));
 //    	System.out.println("bl");
 ////    	}
 //    	}

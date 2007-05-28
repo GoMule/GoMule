@@ -47,7 +47,9 @@ public class D2TxtFile
     public static D2TxtFile  ITEM_STAT_COST;
     public static D2TxtFile  SKILL_DESC;
     public static D2TxtFile  SKILLS;
+    public static D2TxtFile  GEMS;
     public static Properties GOMULE_PROPS;
+    public static D2TxtFile PROPS;
     //    public static D2TxtFile PROPERTIES;
 
     private String           iFileName;
@@ -69,6 +71,8 @@ public class D2TxtFile
         ITEM_STAT_COST = new D2TxtFile("ItemStatCost");
         SKILL_DESC = new D2TxtFile("SkillDesc");
         SKILLS = new D2TxtFile("Skills");
+        GEMS = new D2TxtFile("Gems");
+        PROPS = new D2TxtFile("Properties");
 
         GOMULE_PROPS = new Properties();
         try

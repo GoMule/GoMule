@@ -35,8 +35,9 @@ public class D2ItemProperty
     private static final Integer SECOND      = new Integer(1);
     private static final Integer THIRD       = new Integer(2);
     private static final Integer FOURTH      = new Integer(3);
+    private static final Integer FIFTH      = new Integer(4);
 
-    private static final Integer COUNTER[]   = new Integer[] { FIRST, SECOND, THIRD, FOURTH };
+    private static final Integer COUNTER[]   = new Integer[] { FIRST, SECOND, THIRD, FOURTH , FIFTH};
     private int                  iCounter;
 
     private HashMap              iProperties = new HashMap();
@@ -135,14 +136,48 @@ public class D2ItemProperty
                 return null;
             }
 
+        	
+            if (iProp == 48)
+            {
+                PropValue l48 = (PropValue) iProperties.get(FIRST);
+                PropValue l49 = (PropValue) iProperties.get(SECOND);
+                {
+                    return "+" + l48.iValue + " - " +l49.iValue + " Fire Damage";
+                }
+            }
+            
+            if (iProp == 50)
+            {
+                PropValue l50 = (PropValue) iProperties.get(FIRST);
+                PropValue l51 = (PropValue) iProperties.get(SECOND);
+                {
+                    return "+" + l50.iValue + " - " +l51.iValue + " Lightning Damage";
+                }
+            }
+        	
         	/**
         	 * + MAGIC DAMAGE
         	 */
         	if(iProp ==52){
-                PropValue lValue1 = (PropValue) iProperties.get(FIRST);                
-                
-                return (D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"))).replaceFirst("%d", lValue1.getValueString());
+
+                PropValue l52 = (PropValue) iProperties.get(FIRST);
+                PropValue l53 = (PropValue) iProperties.get(SECOND);
+                {
+                    return "+" + l52.iValue + " - " +l53.iValue + " Magic Damage";
+                }
+        		
         	}
+        	
+            if (iProp == 54)
+            {
+                PropValue l54 = (PropValue) iProperties.get(FIRST);
+                PropValue l55 = (PropValue) iProperties.get(SECOND);
+                PropValue l56 = (PropValue) iProperties.get(THIRD);
+                double lTime = l56.iValue / 25.0;
+                {
+                    return "+" + l54.iValue + " - " +l55.iValue + " cold damage with " + Math.round(lTime) + " sec Duration";
+                }
+            }
         	
             if (iProp == 57)
             {
@@ -195,7 +230,7 @@ public class D2ItemProperty
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
 
                 D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow((int) lValue1.iValue);
-                System.out.println(D2TblFile.getString(lSkill.get("str name")));
+//                System.out.println(D2TblFile.getString(lSkill.get("str name")));
                 return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name"));
             }
             
@@ -593,6 +628,26 @@ public class D2ItemProperty
         if (iValue == null)
         {
             iValue = getValueInternal();
+            
+            PropValue lValue1 = (PropValue) iProperties.get(COUNTER[iCounter-1]);
+            
+            if(lValue1 != null){
+            	
+            	if(lValue1.iValue == 1000){
+            		iValue = "Weapons: " + iValue;
+            	}
+            	
+            	if(lValue1.iValue == 2000){
+            		iValue = "Armour: " + iValue;
+            	}
+            	
+            	if(lValue1.iValue == 3000){
+            		iValue = "Shields: " + iValue;
+            	}
+            	
+            	
+            }
+            
             if (iNoValue)
             {
                 return null;
@@ -602,6 +657,9 @@ public class D2ItemProperty
                 iValue = "No Display for property: " + iProp;
             }
         }
+        
+
+        
         return iValue;
     }
 
