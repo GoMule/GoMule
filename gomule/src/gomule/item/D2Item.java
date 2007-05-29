@@ -54,6 +54,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private ArrayList iSet5;
 
 	private ArrayList iSocketedItems;
+	
+	private ArrayList iRuneWordProps;
 
 	// general item data
 	private int flags;
@@ -212,8 +214,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 			// bytedata = b;
 			// br = new D2BitReader(bytedata);
 			pFile.set_byte_pos(pPos);
-			read_item(pFile);
-
+			read_item(pFile, pPos);
+//			pFile.set_byte_pos(pPos);
 			int lCurrentReadLength = pFile.get_pos() - pPos * 8;
 			int lNextJMPos = pFile.findNextFlag("JM", pFile.get_byte_pos());
 			int lLengthToNextJM = lNextJMPos - pPos;
@@ -230,9 +232,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 			// pFile.findNextFlag("kf", pFile.get_byte_pos()) - pPos;
 			int lDiff = ((lLengthToNextJM * 8) - lCurrentReadLength);
 			if (lDiff > 7) {
-				throw new D2ItemException(
-						"Item not read complete, missing bits: " + lDiff
-								+ getExStr());
+//				throw new D2ItemException(
+//						"Item not read complete, missing bits: " + lDiff
+//								+ getExStr());
+//				System.out.println("GRUMBLE GRUMBLE");
 				// System.err.println("Test: " + lCurrentReadLength + " - " +
 				// lLengthToNextJM*8 + ": " + lDiff);
 			}
@@ -274,7 +277,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	// read basic information from the bytes
 	// common to all items, then split based on
 	// whether the item is an ear
-	private void read_item(D2BitReader pFile) throws Exception {
+	private void read_item(D2BitReader pFile, int pos) throws Exception {
 		pFile.skipBytes(2);
 
 		flags = (int) pFile.unflip(pFile.read(32), 32); // 4 bytes
@@ -284,6 +287,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		iRuneWord = check_flag(27); // 27
 
 		version = (short) pFile.read(8); // 1 byte
+		
 		pFile.skipBits(2);
 		location = (short) pFile.read(3);
 		body_position = (short) pFile.read(4);
@@ -300,7 +304,20 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (personalization == null) {
 			iItemNameNoPersonalising = iItemName;
 		}
-		// System.err.println("Item read: " + iItemName );
+		
+		/**
+		 * 1.10 BETA HAS A GUID ON ALL (?) ITEMS WHICH IS 92 BITS LONG.
+		 */
+		
+//		long fingerprint = pFile.read(32);
+//		long fingerprint2 = pFile.read(32);
+//		long fingerprint3 = pFile.read(32);
+//		
+//		String iFP = "0x" + Integer.toHexString((int) fingerprint);
+//		String iFP2 = "0x" + Integer.toHexString((int) fingerprint2);
+//		String iFP3 = "0x" + Integer.toHexString((int) fingerprint3);
+//		
+//		 System.err.println("Item read");
 
 	}
 
@@ -438,8 +455,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			iSocketedItems = new ArrayList();
 			for (int i = 0; i < iSocketNrFilled; i++) {
 				int lStartNewItem = pFile.findNextFlag("JM", lLastItem);
-				D2Item lSocket = new D2Item(iFileName, pFile, lStartNewItem,
-						iCharLvl);
+				D2Item lSocket = new D2Item(iFileName, pFile, lStartNewItem,iCharLvl);
 				lLastItem = lStartNewItem + lSocket.getItemLength();
 				iSocketedItems.add(lSocket);
 				if (lSocket.iReqLvl > iReqLvl) {
@@ -461,6 +477,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 				// lRuneWord.get("Name") ) + " - " + D2TblFile.getString(
 				// lRuneWord.get("Rune Name") ) + "\n";
 				iItemName = D2TblFile.getString(lRuneWord.get("Name"));
+//				readProperties(pFile, iProperties);
 				// if ( iItemName == null )
 				// {
 				// System.err.println("Runeword: " + iItemName );
@@ -812,10 +829,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 		}
 
-		// if ( iRuneWord )
-		// {
-		// long lProp7 = pFile.read(9);
-		// }
+		 if ( iRuneWord )
+		 {
+			 iRuneWordProps = new ArrayList();
+			 readProperties(pFile, iRuneWordProps);
+//		 long lProp7 = pFile.read(9);
+		 
+		 System.out.println();
+		 }
 
 	}
 
@@ -1084,8 +1105,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		int lProp = (int) pFile.read(9);
 
 		while (lProp != 511) {
-			D2ItemProperty lProperty = new D2ItemProperty(lProp, iCharLvl,
-					iItemName);
+			D2ItemProperty lProperty = new D2ItemProperty(lProp, iCharLvl,iItemName);
 			pProperties.add(lProperty);
 			int lRead[] = lProperty.getPropNrs();
 
@@ -1280,6 +1300,29 @@ public class D2Item implements Comparable, D2ItemInterface {
 	public String get_name() {
 		return name;
 	}
+	
+	public String get_version() {
+				
+		if(version == 0){
+			return "Legacy (pre 1.08)";
+		}
+		
+		if(version == 1){
+			return "Classic";
+		}
+		
+		if(version == 100){
+			return "Expansion";
+		}
+		
+		if(version == 101){
+			return "Expansion 1.10+";
+		}
+		
+		
+		
+		return "UNKNOWN";
+	}
 
 	public long getSocketNrFilled() {
 		return iSocketNrFilled;
@@ -1365,6 +1408,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (ilvl != 0) {
 			lReturn += "<BR>iLvl: " + ilvl;
 		}
+		
+		lReturn += "<BR>Version: " + get_version();
 
 		lReturn += getProperties("Properties: ", iProperties);
 		lReturn += getProperties("Set (1 item): ", iSet1);
@@ -1373,6 +1418,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 		lReturn += getProperties("Set (4 items): ", iSet4);
 		lReturn += getProperties("Set (5 items): ", iSet5);
 
+		if(iRuneWord){
+			lReturn += getProperties("Runeword Mods: ", iRuneWordProps);
+		}
+		
 		if (iEthereal) {
 			lReturn += "<BR>Ethereal";
 		}
