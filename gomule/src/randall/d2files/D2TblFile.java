@@ -128,8 +128,8 @@ public class D2TblFile
 //                    System.err.println("Test " + i + " K: " + lKey + ", V: " + lValue );
 //                }
                 
-                if(lKey.startsWith("Skill") && lKey.contains("223") && lValue.contains("wolf")){
-               
+                if(lKey.startsWith("Skill") && lKey.indexOf("223") >0 && lValue.indexOf("wolf")>0){
+                	System.out.println(lKey);
                 }else{
                 	iHashMap.put(lKey, lValue);
                 }
