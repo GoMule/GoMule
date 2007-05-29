@@ -99,7 +99,7 @@ public class D2ItemProperty
     {
         // just archive
         iProperties.put(COUNTER[iCounter++], new  PropValue(pProps, pItemStatCost, pBitSet, pValue));
-        System.out.println(pProps + " , " + pValue);
+//        System.out.println(pProps + " , " + pValue);
         
     }
 
@@ -135,6 +135,17 @@ public class D2ItemProperty
                 iNoValue = true;
                 return null;
             }
+        	
+        	/**
+        	 * MANA POTS
+        	 */
+        	
+        	if(iProp == 26){
+        		PropValue l26 = (PropValue) iProperties.get(FIRST);
+        		
+        		return l26.iValue + " Replenish Mana";
+        		
+        	}
 
         	
             if (iProp == 48)

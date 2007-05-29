@@ -430,6 +430,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 		if ("1".equals(lItemType.get("Beltable"))) {
 			iBelt = true;
+			readPropertiesPots(pFile, iProperties);
 		}
 
 		int lLastItem = pFile.get_byte_pos();
@@ -765,11 +766,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 				long lQuantity = pFile.read(9);
 			}
 
-			if ("item_gem".equals(iItemType.get("dropsound"))) {
-
-				System.out.println();
-
-			}
 		}
 
 		if (iSocketed) {
@@ -825,6 +821,40 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private String getExStr() {
 		return " (" + iItemName + ", " + iFP + ")";
+	}
+	
+	private void readPropertiesPots(D2BitReader pfile, ArrayList pProperties){
+		
+	
+		String[] statsToRead = {"stat1", "stat2"};
+		
+		for (int x = 0; x < statsToRead.length; x = x + 1) {
+			String txtCheck = (D2TxtFile.MISC.searchColumns("code",
+					item_type)).get(statsToRead[x]);
+			
+			if (!txtCheck.equals("")) {
+				
+				int lProp = Integer.parseInt((D2TxtFile.ITEM_STAT_COST
+						.searchColumns("Stat", txtCheck)).get("ID"));
+
+				D2ItemProperty lProperty = new D2ItemProperty(lProp,
+						iCharLvl, iItemName);
+				
+				pProperties.add(lProperty);
+				
+				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
+						.getRow(lProperty.getPropNrs()[0]);
+				
+								lProperty.set(lProp, lItemStatCost, 0, Long
+						.parseLong(((D2TxtFile.MISC.searchColumns("code",
+								item_type)).get(statsToRead[x].replaceFirst("stat", "calc")))));
+				
+			}
+			
+		}
+		
+		System.out.println();
+		
 	}
 
 	private void readPropertiesRunes(D2BitReader pfile, ArrayList pProperties) {
