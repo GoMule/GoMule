@@ -1387,6 +1387,21 @@ public class D2Item implements Comparable, D2ItemInterface {
 	public String toStringHtml() {
 		return "<HTML>" + toStringHtmlInternal();
 	}
+	
+	public int getReqLvl()
+	{
+	    return iReqLvl;
+	}
+
+	public int getReqStr()
+	{
+	    return iReqStr;
+	}
+
+	public int getReqDex()
+	{
+	    return iReqDex;
+	}
 
 	protected String toStringHtmlInternal() {
 		String lReturn = iItemName;

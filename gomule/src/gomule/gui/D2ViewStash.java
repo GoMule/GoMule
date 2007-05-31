@@ -92,6 +92,11 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
     private JRadioButton  iCatMiscRing;
     private JRadioButton  iCatMiscOther;
     private JRadioButton  iCatMiscAll;
+    
+    private RandallPanel  iRequerementFilter;
+    private JTextField	  iReqMaxLvl;
+    private JTextField	  iReqMaxStr;
+    private JTextField	  iReqMaxDex;
 
     public D2ViewStash(D2FileManager pMainFrame, String pFileName)
     {
@@ -120,8 +125,32 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             iStashFilter = new D2StashFilter();
             iItemModel = new D2ItemModel(iStash);
             iTable = new JTable(iItemModel);
+            
+            iTable.getTableHeader().addMouseListener( new MouseAdapter() 
+            {
+                public void mouseReleased(MouseEvent e) 
+                {
+                    if ( e.getSource() instanceof JTableHeader )
+                    {
+                        JTableHeader lHeader = (JTableHeader) e.getSource();
+                        int lHeaderCol = lHeader.columnAtPoint(new Point(e.getX(), e.getY()));
+                        
+                        lHeaderCol = lHeader.getColumnModel().getColumn(lHeaderCol).getModelIndex();
+                        
+                        if ( lHeaderCol != -1 )
+                        {
+                            iItemModel.sortCol(lHeaderCol);
+                        }
+                    }
+                }
+            });
+            
             iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
             iTable.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+            iTable.getColumnModel().getColumn(0).setPreferredWidth(100);
+            iTable.getColumnModel().getColumn(1).setPreferredWidth(20);
+            iTable.getColumnModel().getColumn(2).setPreferredWidth(20);
+            iTable.getColumnModel().getColumn(3).setPreferredWidth(20);
             JScrollPane lPane = new JScrollPane(iTable);
             lPane.setPreferredSize(new Dimension(200, 100));
             iContentPane.add(lPane, BorderLayout.WEST);
@@ -130,12 +159,27 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             JPanel lTypePanel = getTypePanel();
             RandallPanel lCategoryPanel = getCategoryPanel();
 
+            iRequerementFilter = new RandallPanel();
+            iReqMaxLvl = new JTextField();
+            iReqMaxLvl.getDocument().addDocumentListener(iStashFilter);
+            iReqMaxStr = new JTextField();
+            iReqMaxStr.getDocument().addDocumentListener(iStashFilter);
+            iReqMaxDex = new JTextField();
+            iReqMaxDex.getDocument().addDocumentListener(iStashFilter);
+            
+            iRequerementFilter.addToPanel(new JLabel("MaxLvl"), 0, 0, 1, RandallPanel.NONE);
+            iRequerementFilter.addToPanel(iReqMaxLvl, 1, 0, 1, RandallPanel.HORIZONTAL);
+            iRequerementFilter.addToPanel(new JLabel("MaxStr"), 2, 0, 1, RandallPanel.NONE);
+            iRequerementFilter.addToPanel(iReqMaxStr, 3, 0, 1, RandallPanel.HORIZONTAL);
+            iRequerementFilter.addToPanel(new JLabel("MaxDex"), 4, 0, 1, RandallPanel.NONE);
+            iRequerementFilter.addToPanel(iReqMaxDex, 5, 0, 1, RandallPanel.HORIZONTAL);
+            
             RandallPanel lTopPanel = new RandallPanel();
-            lTopPanel
-                    .addToPanel(lButtonPanel, 0, 0, 1, RandallPanel.HORIZONTAL);
+            lTopPanel.addToPanel(lButtonPanel, 0, 0, 1, RandallPanel.HORIZONTAL);
             lTopPanel.addToPanel(lTypePanel, 0, 1, 1, RandallPanel.HORIZONTAL);
-            lTopPanel.addToPanel(lCategoryPanel, 0, 2, 1,
-                    RandallPanel.HORIZONTAL);
+            lTopPanel.addToPanel(lCategoryPanel, 0, 2, 1, RandallPanel.HORIZONTAL);
+            lTopPanel.addToPanel(iRequerementFilter, 0, 3, 1, RandallPanel.HORIZONTAL);
+            
 
             iContentPane.add(lTopPanel, BorderLayout.NORTH);
 
@@ -144,7 +188,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             JScrollPane lItemScroll = new JScrollPane(iItemText);
             lItemPanel.setLayout(new BorderLayout());
             lItemPanel.add(lItemScroll, BorderLayout.CENTER);
-            lItemPanel.setPreferredSize(new Dimension(200, 100));
+            lItemPanel.setPreferredSize(new Dimension(150, 100));
 
             iContentPane.add(lItemPanel, BorderLayout.CENTER);
         }
@@ -561,22 +605,68 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         private D2Stash   iStash;
         private ArrayList iItems;
         private ArrayList iTableModelListeners = new ArrayList();
+        private ArrayList iSortList = new ArrayList();
 
+        private final Object HEADER[] = new Object[] {new Object(), new Object(), new Object(), new Object()};
+        
         public D2ItemModel(D2Stash pStash)
         {
             iStash = pStash;
+            iSortList.add(new Integer(0));
             refreshData();
+        }
+        
+        public void sortCol(int pHeaderCol)
+        {
+            iSortList.remove(HEADER[pHeaderCol]);
+            iSortList.add(0, HEADER[pHeaderCol]);
+            sort();
+        }
+        
+        public int getInteger(JTextField pTextfield)
+        {
+            String lText = pTextfield.getText();
+            if ( lText != null )
+            {
+                if ( !lText.trim().equals("") )
+                {
+                    try
+                    {
+                        pTextfield.setForeground(Color.black);
+                        return Integer.parseInt(lText);
+                    }
+                    catch ( NumberFormatException pEx )
+                    {
+                        pTextfield.setForeground(Color.red);
+                        // do Nothing
+                    }
+                }
+            }
+            return -1;
         }
 
         public void refreshData()
         {
+            int lMaxReqLvl = -1;
+            int lMaxReqStr = -1;
+            int lMaxReqDex = -1;
+
+            if (iTypeUnique != null)
+            {
+                lMaxReqLvl = getInteger(iReqMaxLvl);
+                lMaxReqStr = getInteger(iReqMaxStr);
+                lMaxReqDex = getInteger(iReqMaxDex);
+            }
+                
             ArrayList lList = iStash.getItemList();
             iItems = new ArrayList();
             for (int i = 0; i < lList.size(); i++)
             {
                 D2Item lItem = (D2Item) lList.get(i);
+                
                 boolean lAdd1 = false;
                 boolean lAdd2 = false;
+                
                 if (iTypeUnique == null)
                 {
                     // initializing, all filters to default
@@ -731,12 +821,73 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
                     }
                 }
 
-                if (lAdd1 && lAdd2)
+                if ( lAdd1 && lAdd2 )
                 {
-                    iItems.add(lItem);
+                    if ( lMaxReqLvl != -1 )
+                    {
+                        if ( lItem.getReqLvl() > lMaxReqLvl )
+                        {
+                            lAdd1 = false;
+                        }
+                    }
+                    if ( lMaxReqStr != -1 )
+                    {
+                        if ( lItem.getReqStr() > lMaxReqStr )
+                        {
+                            lAdd1 = false;
+                        }
+                    }
+                    if ( lMaxReqDex != -1 )
+                    {
+                        if ( lItem.getReqDex() > lMaxReqDex )
+                        {
+                            lAdd1 = false;
+                        }
+                    }
+                    
+                    if ( lAdd1 )
+                    {
+                        iItems.add(lItem);
+                    }
                 }
             }
-            Collections.sort(iItems);
+            sort();
+        }
+        
+        public void sort()
+        {
+            Collections.sort(iItems, new Comparator()
+            {
+                public int compare(Object pObj1, Object pObj2)
+                {
+                    D2Item lItem1 = (D2Item) pObj1;
+                    D2Item lItem2 = (D2Item) pObj2;
+                    
+                    for ( int i = 0 ; i < iSortList.size() ; i++ )
+                    {
+                        Object lSort = iSortList.get(i);
+                        
+                        if ( lSort ==  HEADER[0] )
+                        {
+                            return lItem1.getName().compareTo(lItem2.getName());
+                        }
+                        else if ( lSort ==  HEADER[1] )
+                        {
+                            return lItem1.getReqLvl() - lItem2.getReqLvl();
+                        } 
+                        else if ( lSort ==  HEADER[2] )
+                        {
+                            return lItem1.getReqStr() - lItem2.getReqStr();
+                        } 
+                        else if ( lSort ==  HEADER[3] )
+                        {
+                            return lItem1.getReqDex() - lItem2.getReqDex();
+                        } 
+                    }
+                    
+                    return 0;
+                }
+            });
             fireTableChanged();
         }
 
@@ -752,7 +903,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
 
         public int getColumnCount()
         {
-            return 1;
+            return 4;
         }
 
         public String getColumnName(int pCol)
@@ -762,9 +913,11 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             case 0:
                 return "Name";
             case 1:
-                return "Fingerprint";
+                return "Lvl";
             case 2:
-                return "iLvl";
+                return "Str";
+            case 3:
+                return "Dex";
             default:
                 return "";
             }
@@ -788,12 +941,23 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             case 0:
                 return new D2CellValue( lItem.getItemName(), lItem, iFileManager.getProject());
             case 1:
-                return new D2CellValue( lItem.getFingerprint(), lItem, iFileManager.getProject());
+                return new D2CellValue( getStringValue(lItem.getReqLvl()), lItem, iFileManager.getProject());
             case 2:
-                return new D2CellValue( lItem.getILvl(), lItem, iFileManager.getProject());
+                return new D2CellValue( getStringValue(lItem.getReqStr()), lItem, iFileManager.getProject());
+            case 3:
+                return new D2CellValue( getStringValue(lItem.getReqDex()), lItem, iFileManager.getProject());
             default:
                 return "";
             }
+        }
+        
+        private String getStringValue(int pValue)
+        {
+            if ( pValue == -1 )
+            {
+                return "";
+            }
+            return Integer.toString( pValue );
         }
 
         public void setValueAt(Object pValue, int pRow, int pCol)
@@ -828,7 +992,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
 
     }
 
-    private class D2StashFilter implements ActionListener
+    private class D2StashFilter implements ActionListener, DocumentListener
     {
         public void actionPerformed(ActionEvent pEvent)
         {
@@ -881,6 +1045,25 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             // activate filters
             iItemModel.refreshData();
         }
+        
+        public void insertUpdate(DocumentEvent e)
+        {
+            // activate filters
+            iItemModel.refreshData();
+        }
+
+        public void removeUpdate(DocumentEvent e)
+        {
+            // activate filters
+            iItemModel.refreshData();
+        }
+
+        public void changedUpdate(DocumentEvent e)
+        {
+            // activate filters
+            iItemModel.refreshData();
+        }
+        
     }
 
     public String getFileName()
