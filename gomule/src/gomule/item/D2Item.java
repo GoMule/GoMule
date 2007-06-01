@@ -234,9 +234,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 			// pFile.findNextFlag("kf", pFile.get_byte_pos()) - pPos;
 			int lDiff = ((lLengthToNextJM * 8) - lCurrentReadLength);
 			if (lDiff > 7) {
-//				throw new D2ItemException(
-//						"Item not read complete, missing bits: " + lDiff
-//								+ getExStr());
+				throw new D2ItemException(
+						"Item not read complete, missing bits: " + lDiff
+								+ getExStr());
 //				System.out.println("GRUMBLE GRUMBLE");
 				// System.err.println("Test: " + lCurrentReadLength + " - " +
 				// lLengthToNextJM*8 + ": " + lDiff);
