@@ -173,6 +173,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private boolean iTypeArmor;
 
 	protected String iItemName;
+	
+	protected String iBaseItemName;
 
 	protected String iItemNameNoPersonalising;
 
@@ -382,6 +384,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		String lItemName = D2TblFile.getString(item_type);
 		if (lItemName != null) {
 			iItemName = lItemName;
+			iBaseItemName = iItemName;
 			iItemNameWithSockets = iItemName;
 		}
 
@@ -491,7 +494,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		if (iItemName != null) {
 			iItemName = iItemName.trim();
+			
 		}
+		
+		if (iBaseItemName != null) {
+			iBaseItemName = iBaseItemName.trim();
+			
+		}
+
 
 		if (iEthereal) {
 			if (iReqStr != -1) {
@@ -554,11 +564,13 @@ public class D2Item implements Comparable, D2ItemInterface {
 		case 1: // low quality item
 		{
 			low_quality = (short) pFile.read(3);
+			
 			break;
 		}
 		case 3: // high quality item
 		{
 			iItemName = "Superior " + iItemName;
+			iBaseItemName = iItemName;
 			hi_quality = (short) pFile.read(3);
 			break;
 		}
@@ -803,7 +815,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			lSet4 = pFile.read(1);
 			lSet5 = pFile.read(1);
 		}
-
+ 
 		readProperties(pFile, iProperties);
 
 		if (quality == 5) {
@@ -1405,6 +1417,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	protected String toStringHtmlInternal() {
 		String lReturn = iItemName;
+		
+		if(!iBaseItemName.equals(iItemName)){
+			lReturn += "<BR>"+iBaseItemName;
+		}
 
 		if (iReqLvl > 0) {
 			lReturn += "<BR>Required Level: " + iReqLvl;

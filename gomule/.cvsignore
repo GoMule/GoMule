@@ -2,6 +2,7 @@
 GoMule.jar
 .project
 .classpath
+.settings
 bin
 matched.*.txt
 Report.html

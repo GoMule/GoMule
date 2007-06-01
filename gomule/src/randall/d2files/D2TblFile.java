@@ -129,7 +129,8 @@ public class D2TblFile
 //                }
                 
                 if(lKey.startsWith("Skill") && lKey.indexOf("223") >0 && lValue.indexOf("wolf")>0){
-                	System.out.println(lKey);
+                	//PROPLEM WITH PLAGUE POPPY (SKILL 223) BEING SET AND THEN WEREWOLF OVERWRITING IT FOR SOME REASON.
+                	//THIS IGNORES THE SECOND WRITE OF WEREWOLF.
                 }else{
                 	iHashMap.put(lKey, lValue);
                 }
