@@ -158,12 +158,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private boolean iGem;
 
-	private int iGemWep;
-
-	private int iGemArm;
-
-	private int iGemShi;
-
+	private ArrayList iGemProps = new ArrayList();
+		
 	private boolean iRune;
 
 	private boolean iTypeMisc;
@@ -179,6 +175,24 @@ public class D2Item implements Comparable, D2ItemInterface {
 	protected String iItemNameNoPersonalising;
 
 	private String iItemNameWithSockets;
+	
+	private long iCurDur;
+	
+	private long iMaxDur;
+	
+	private long iDef;
+	
+	private long iMinDmg;
+	
+	private long iMaxDmg;
+	
+	//BARBARIANS
+	private long i2MinDmg;
+	
+	private long i2MaxDmg;
+	
+	//0 FOR BOTH 1 FOR 1H 2 FOR 2H
+	private int iWhichHand;
 
 	// private int iLvl;
 	private String iFP;
@@ -306,6 +320,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (personalization == null) {
 			iItemNameNoPersonalising = iItemName;
 		}
+		if(isTypeWeapon()){
+			applyEDmg();
+		}else if(isTypeArmor()){
+			applyEDef();
+		}
 		
 		/**
 		 * 1.10 BETA HAS A GUID ON ALL (?) ITEMS WHICH IS 92 BITS LONG.
@@ -422,13 +441,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if (iType2.equals("gem0") || iType2.equals("gem1")
 					|| iType2.equals("gem2") || iType2.equals("gem3")
 					|| iType2.equals("gem4")) {
-				readPropertiesGems(pFile, iProperties);
+				readPropertiesGems(pFile, iGemProps);
+				
 				iGem = true;
 			}
 		}
 
 		if (iType != null && iType2 != null && iType.startsWith("rune")) {
-			readPropertiesRunes(pFile, iProperties);
+			readPropertiesRunes(pFile, iGemProps);
 			iRune = true;
 
 		}
@@ -461,6 +481,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 				D2Item lSocket = new D2Item(iFileName, pFile, lStartNewItem,iCharLvl);
 				lLastItem = lStartNewItem + lSocket.getItemLength();
 				iSocketedItems.add(lSocket);
+				if(!lSocket.isJewel()){
+				if(isTypeWeapon()){
+					iGemProps.addAll((ArrayList)lSocket.iGemProps.get(0));
+				}else if(isTypeArmor()){
+					if(iType.equals("tors") || iType.equals("helm")
+							|| iType.equals("phlm") || iType.equals("pelt")
+							|| iType.equals("cloa") || iType.equals("circ")){
+					iGemProps.addAll((ArrayList)lSocket.iGemProps.get(1));
+					}else{
+					iGemProps.addAll((ArrayList)lSocket.iGemProps.get(2));
+				}
+				}
+				}
 				if (lSocket.iReqLvl > iReqLvl) {
 					iReqLvl = lSocket.iReqLvl;
 				}
@@ -762,23 +795,39 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private void readExtend2(D2BitReader pFile) throws Exception {
 		if (isTypeArmor()) {
 			// pFile.read(1);
-			long lDef = (pFile.read(11) - 10); // -10 ???
-			// System.err.println("Defense: " + lDef );
+			iDef = (pFile.read(11) - 10); // -10 ???
 
-			long lMaxDur = pFile.read(8);
-			// System.err.println("Armor Max Dur.: " + lMaxDur );
+			 iMaxDur = pFile.read(8);
 
-			if (lMaxDur != 0) {
-				long lCurDur = pFile.read(9);
+			if (iMaxDur != 0) {
+				iCurDur = pFile.read(9);
 			}
-			// System.err.println("Armor Cur Dur.: " + lCurDur );
+			
 		} else if (isTypeWeapon()) {
-			long lMaxDur = pFile.read(8);
-			// System.err.println("Weapon Max Dur/Quantity: " + lMaxDur );
+			iMaxDur = pFile.read(8);
 
-			if (lMaxDur != 0) {
-				long lCurDur = pFile.read(9);
-				// System.err.println("Weapon Cur Dur/Quantity: " + lCurDur );
+			if (iMaxDur != 0) {
+				iCurDur = pFile.read(9);
+			}
+			
+			if((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("1or2handed").equals("")){
+				
+				if((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("2handed").equals("1")){
+					iWhichHand = 2;
+					iMinDmg =Long.parseLong((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("2handmindam"));
+					iMaxDmg = Long.parseLong((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("2handmaxdam"));
+				}else{
+					iWhichHand = 1;
+					iMinDmg =Long.parseLong((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("mindam"));
+					iMaxDmg = Long.parseLong((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("maxdam"));
+				}
+				
+			}else{
+				iWhichHand = 0;
+				i2MinDmg =Long.parseLong((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("2handmindam"));
+				i2MaxDmg = Long.parseLong((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("2handmaxdam"));
+				iMinDmg =Long.parseLong((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("mindam"));
+				iMaxDmg = Long.parseLong((D2TxtFile.WEAPONS.searchColumns("code",item_type )).get("maxdam"));
 			}
 
 			if ("1".equals(iItemType.get("stackable"))) {
@@ -787,12 +836,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 				// + " - " + iItemType.get("maxstack") + " - " +
 				// iItemType.get("spawnstack") );
 
-				long lQuantity = pFile.read(9);
-				// System.err.println("Weapon Cur Dur/Quantity: " + lQuantity );
+				iCurDur = pFile.read(9);
 			}
 		} else if (isTypeMisc()) {
 			if ("1".equals(iItemType.get("stackable"))) {
-				long lQuantity = pFile.read(9);
+				iCurDur = pFile.read(9);
 			}
 
 		}
@@ -847,7 +895,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 			 readProperties(pFile, iRuneWordProps);
 //		 long lProp7 = pFile.read(9);
 		 
-		 System.out.println();
 		 }
 
 	}
@@ -886,12 +933,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 			
 		}
 		
-		System.out.println();
 		
 	}
 
 	private void readPropertiesRunes(D2BitReader pfile, ArrayList pProperties) {
 
+		ArrayList wepProps = new ArrayList();
+		ArrayList armProps = new ArrayList();
+		ArrayList shiProps = new ArrayList();
+		
 		String[][] interestingSubProp = {
 				{ "weaponMod1Code", "weaponMod2Code", "weaponMod3Code" },
 				{ "helmMod1Code", "helmMod2Code", "helmMod3Code" },
@@ -915,7 +965,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 									.get("stat1")))).get("ID"));
 					D2ItemProperty lProperty = new D2ItemProperty(lProp,
 							iCharLvl, iItemName);
-					pProperties.add(lProperty);
 					D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
 							.getRow(lProperty.getPropNrs()[0]);
 
@@ -948,27 +997,20 @@ public class D2Item implements Comparable, D2ItemInterface {
 								.parseLong(runeParam));
 					}
 
-					if (interestingSubProp[x][0].split("Mod")[0]
-							.equals("weapon")) {
-
-						lProperty.set(lProp, lItemStatCost, 0, 1000);
-
-					} else if (interestingSubProp[x][0].split("Mod")[0]
-							.equals("helm")) {
-
-						lProperty.set(lProp, lItemStatCost, 0, 2000);
-
+					if (interestingSubProp[x][0].split("Mod")[0].equals("weapon")) {
+						wepProps.add(lProperty);
+					} else if (interestingSubProp[x][0].split("Mod")[0].equals("helm")) {
+						armProps.add(lProperty);
 					} else {
-
-						lProperty.set(lProp, lItemStatCost, 0, 3000);
-
+						shiProps.add(lProperty);
 					}
 				}
-				System.out.println("");
-
 			}
 
 		}
+		pProperties.add(wepProps);
+		pProperties.add(armProps);
+		pProperties.add(shiProps);
 
 	}
 
@@ -1028,7 +1070,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 	// }
 
 	private void readPropertiesGems(D2BitReader pFile, ArrayList pProperties) {
-
+		ArrayList wepProps = new ArrayList();
+		ArrayList armProps = new ArrayList();
+		ArrayList shiProps = new ArrayList();
+		
 		String[][] interestingSubProp = {
 				{ "weaponMod1Code", "weaponMod2Code", "weaponMod3Code" },
 				{ "helmMod1Code", "helmMod2Code", "helmMod3Code" },
@@ -1060,7 +1105,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					.searchColumns("Stat", propStats[z])).get("ID"));
 			D2ItemProperty lProperty = new D2ItemProperty(lProp, iCharLvl,
 					iItemName);
-			pProperties.add(lProperty);
+			
 			D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
 					.getRow(lProperty.getPropNrs()[0]);
 			for (int y = 0; y < interestingSubProp[x].length; y = y + 1) {
@@ -1076,39 +1121,33 @@ public class D2Item implements Comparable, D2ItemInterface {
 									.replaceFirst("Code", "Min"))));
 
 				}
-				System.out.println("");
+				
 			}
 
 			if (lProp == 62) {
 				D2ItemProperty lProperty2 = new D2ItemProperty(60, iCharLvl,
 						iItemName);
-				pProperties.add(lProperty2);
 				D2TxtFileItemProperties lItemStatCost2 = D2TxtFile.ITEM_STAT_COST
 						.getRow(lProperty.getPropNrs()[0] - 2);
 				lProperty2.set(60, lItemStatCost2, 0, Long
 						.parseLong((D2TxtFile.GEMS.searchColumns("code",
 								item_type)).get("weaponMod2Min")));
-				lProperty2.set(lProp, lItemStatCost, 0, 1000);
+				wepProps.add(lProperty2);
 			}
 
 			if (interestingSubProp[x][0].split("Mod")[0].equals("weapon")) {
-
-				lProperty.set(lProp, lItemStatCost, 0, 1000);
-				iGemWep = iGemWep + 1;
-
+				wepProps.add(lProperty);
 			} else if (interestingSubProp[x][0].split("Mod")[0].equals("helm")) {
-
-				lProperty.set(lProp, lItemStatCost, 0, 2000);
-				iGemArm = iGemArm + 1;
-
+				armProps.add(lProperty);
 			} else {
-
-				lProperty.set(lProp, lItemStatCost, 0, 3000);
-				iGemShi = iGemShi + 1;
+				shiProps.add(lProperty);
 			}
 		}
 		}
-
+		
+		pProperties.add(wepProps);
+		pProperties.add(armProps);
+		pProperties.add(shiProps);
 	}
 
 	private void readProperties(D2BitReader pFile, ArrayList pProperties) {
@@ -1165,7 +1204,104 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 			lProp = (int) pFile.read(9);
 		}
+		
+
+		
 	}
+	
+	private void applyEDef(){
+		
+		int ENDef = 0;
+		int Def = 0;
+		
+		if(isSocketed()){
+			
+			if(isRuneWord()){
+				for(int x = 0;x<iRuneWordProps.size();x=x+1){
+					if(((D2ItemProperty)iRuneWordProps.get(x)).getiProp() == 16){
+						
+						ENDef = ENDef +((D2ItemProperty)iRuneWordProps.get(x)).getRealValue();
+					}
+					if(((D2ItemProperty)iRuneWordProps.get(x)).getiProp() == 31){
+						Def = Def +((D2ItemProperty)iRuneWordProps.get(x)).getRealValue();
+					}
+				}
+			}
+			
+			for(int x = 0;x<iGemProps.size();x=x+1){
+				if(((D2ItemProperty)iGemProps.get(x)).getiProp() == 16){
+					ENDef = ENDef +((D2ItemProperty)iGemProps.get(x)).getRealValue();
+				}
+				if(((D2ItemProperty)iGemProps.get(x)).getiProp() == 31){
+					Def = Def +((D2ItemProperty)iGemProps.get(x)).getRealValue();
+				}
+			}			
+			
+		}
+			for(int x = 0;x<iProperties.size();x=x+1){
+				if(((D2ItemProperty)iProperties.get(x)).getiProp() == 16){
+					ENDef = ENDef +((D2ItemProperty)iProperties.get(x)).getRealValue();
+				}
+				if(((D2ItemProperty)iProperties.get(x)).getiProp() == 31){
+					Def = Def +((D2ItemProperty)iProperties.get(x)).getRealValue();
+				}
+			}
+			iDef = (long)Math.floor((((double)iDef/(double)100)*ENDef)+(iDef+Def));
+		
+	}
+	
+	private void applyEDmg(){
+		
+		int ENDam = 0;
+		int MinDam = 0;
+		int MaxDam = 0;
+		
+		if(isSocketed()){
+			
+			if(isRuneWord()){
+				for(int x = 0;x<iRuneWordProps.size();x=x+1){
+					if(((D2ItemProperty)iRuneWordProps.get(x)).getiProp() == 17){
+						ENDam = ENDam +((D2ItemProperty)iRuneWordProps.get(x)).getRealValue();
+					}
+					if(((D2ItemProperty)iRuneWordProps.get(x)).getiProp() == 21){
+						MinDam = MinDam +((D2ItemProperty)iRuneWordProps.get(x)).getRealValue();
+					}
+					if(((D2ItemProperty)iRuneWordProps.get(x)).getiProp() == 22){
+						MaxDam = MaxDam +((D2ItemProperty)iRuneWordProps.get(x)).getRealValue();
+					}
+				}
+			}
+			
+			for(int x = 0;x<iGemProps.size();x=x+1){
+				if(((D2ItemProperty)iGemProps.get(x)).getiProp() == 17){
+					ENDam = ENDam +((D2ItemProperty)iGemProps.get(x)).getRealValue();
+				}
+				if(((D2ItemProperty)iGemProps.get(x)).getiProp() == 21){
+					MinDam = MinDam +((D2ItemProperty)iGemProps.get(x)).getRealValue();
+				}
+				if(((D2ItemProperty)iGemProps.get(x)).getiProp() == 22){
+					MaxDam = MaxDam +((D2ItemProperty)iGemProps.get(x)).getRealValue();
+				}
+			}			
+			
+		}
+			for(int x = 0;x<iProperties.size();x=x+1){
+				if(((D2ItemProperty)iProperties.get(x)).getiProp() == 17){
+					ENDam = ENDam +((D2ItemProperty)iProperties.get(x)).getRealValue();
+				}
+				if(((D2ItemProperty)iProperties.get(x)).getiProp() == 21){
+					MinDam = MinDam +((D2ItemProperty)iProperties.get(x)).getRealValue();
+				}
+				if(((D2ItemProperty)iProperties.get(x)).getiProp() == 22){
+					MaxDam = MaxDam +((D2ItemProperty)iProperties.get(x)).getRealValue();
+				}
+			}
+			iMinDmg = (long)Math.floor((((double)iMinDmg/(double)100)*ENDam)+(iMinDmg+MinDam));
+			iMaxDmg = (long)Math.floor((((double)iMaxDmg/(double)100)*ENDam)+(iMaxDmg+MaxDam));
+		
+	}
+		
+	
 
 	public boolean isBodyLArm() {
 		return isBodyLocation("larm");
@@ -1421,6 +1557,21 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if(!iBaseItemName.equals(iItemName)){
 			lReturn += "<BR>"+iBaseItemName;
 		}
+		
+		if (isTypeWeapon()){
+		if(iWhichHand == 0){
+			lReturn += "<BR>" + "One Hand Damage: "+ iMinDmg + " - " + iMaxDmg;
+			lReturn += "<BR>" + "Two Hand Damage: "+i2MinDmg + " - " + i2MaxDmg;
+		}else{
+			if(iWhichHand == 1){
+			lReturn += "<BR>" + "One Hand Damage: "+iMinDmg + " - " + iMaxDmg;
+			}else{
+				lReturn += "<BR>" + "Two Hand Damage: "+iMinDmg + " - " + iMaxDmg;
+			}
+		}
+		} else if (isTypeArmor()) {
+			lReturn += "<BR>" + "Defense: "+iDef;
+		}
 
 		if (iReqLvl > 0) {
 			lReturn += "<BR>Required Level: " + iReqLvl;
@@ -1443,6 +1594,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 		lReturn += "<BR>Version: " + get_version();
 
 		lReturn += getProperties("Properties: ", iProperties);
+		if(isGem() || isRune()){
+			lReturn += getProperties("Weapons: ", (ArrayList)iGemProps.get(0));
+			lReturn += getProperties("Armor: ", (ArrayList)iGemProps.get(1));
+			lReturn += getProperties("Shields: ", (ArrayList)iGemProps.get(2));
+		}
 		lReturn += getProperties("Set (1 item): ", iSet1);
 		lReturn += getProperties("Set (2 items): ", iSet2);
 		lReturn += getProperties("Set (3 items): ", iSet3);
@@ -1484,7 +1640,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private String socketedGemHandler(D2Item lSocket) {
 		
 		String propsReturned ="";
-		String[] propsNotParsed = new String[0];
+		
 //		System.out.println(iType);
 		if (iType.equals("scep") || iType.equals("wand")
 				|| iType.equals("staf") || iType.equals("bow")
@@ -1498,8 +1654,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 				|| iType.equals("ajav") || iType.equals("h2h2")
 				|| iType.equals("tkni") || iType.equals("taxe")) {
 					
-			propsNotParsed = lSocket.getProperties(null, lSocket.iProperties).split("Weapons: ");
+//			propsNotParsed = lSocket.getProperties(null, lSocket.iProperties).split("Weapons: ");
 			
+			propsReturned = propsReturned + getProperties(null,(ArrayList)lSocket.iGemProps.get(0));
 //			System.out.println(propsNotParsed.length);
 //			System.out.println(propsNotParsed[0]);
 //			System.out.println(propsNotParsed[1]);
@@ -1509,37 +1666,22 @@ public class D2Item implements Comparable, D2ItemInterface {
 				|| iType.equals("phlm") || iType.equals("pelt")
 				|| iType.equals("cloa") || iType.equals("circ")){
 			
-			propsNotParsed = lSocket.getProperties(null, lSocket.iProperties).split("Armour: ");
-			
+//			propsNotParsed = lSocket.getProperties(null, lSocket.iProperties).split("Armour: ");
+			propsReturned = propsReturned + getProperties(null,(ArrayList)lSocket.iGemProps.get(1));;
 //			System.out.println(propsNotParsed.length);
 //			System.out.println(propsNotParsed[0]);
 //			System.out.println(propsNotParsed[1]);
 //			System.out.println(propsNotParsed[2]);
 			
 		}else{
-			
-			propsNotParsed = lSocket.getProperties(null, lSocket.iProperties).split("Shields: ");
-
-		}
-		if(propsNotParsed.length != 0 ){	 
-			
-			if(propsNotParsed.length == 5){
-				
-				propsReturned = "<BR>" + propsNotParsed[1] +propsNotParsed[2]+propsNotParsed[3]+ propsNotParsed[4].split("<BR>")[0];
-				
-			}else if(propsNotParsed.length == 4){
-				
-				propsReturned = "<BR>" + propsNotParsed[1] +propsNotParsed[2]+ propsNotParsed[3].split("<BR>")[0];
-				
-			}else if(propsNotParsed.length == 3){
-				propsReturned = "<BR>" + propsNotParsed[1] + propsNotParsed[2].split("<BR>")[0];
-			}else {
-				propsReturned = "<BR>" + propsNotParsed[1].split("<BR>")[0];
-			}
+//			System.out.println(iGemProps[1]);
+//			for(int x = 0; x<((ArrayList)lSocket.iGemProps.get(2)).size();x=x+1){
+				propsReturned = propsReturned + getProperties(null,(ArrayList)lSocket.iGemProps.get(2));
+//			}
+//			propsNotParsed = lSocket.getProperties(null, lSocket.iProperties).split("Shields: ");
 			
 
 		}
-
 		
 //		System.out.println("PROPS " +propsReturned);
 		return propsReturned;

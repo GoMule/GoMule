@@ -123,6 +123,14 @@ public class D2ItemProperty
             return Long.toString(iValue);
         }
     }
+    
+    public int getiProp(){
+    	return iProp;
+    }
+    
+    public int getRealValue(){
+    	return (int)((PropValue) iProperties.get(FIRST)).iValue;
+    }
 
     public String getValueInternal()
     {
@@ -639,26 +647,7 @@ public class D2ItemProperty
         if (iValue == null)
         {
             iValue = getValueInternal();
-            
-            PropValue lValue1 = (PropValue) iProperties.get(COUNTER[iCounter-1]);
-            
-            if(lValue1 != null){
-            	
-            	if(lValue1.iValue == 1000){
-            		iValue = "Weapons: " + iValue;
-            	}
-            	
-            	if(lValue1.iValue == 2000){
-            		iValue = "Armour: " + iValue;
-            	}
-            	
-            	if(lValue1.iValue == 3000){
-            		iValue = "Shields: " + iValue;
-            	}
-            	
-            	
-            }
-            
+                        
             if (iNoValue)
             {
                 return null;
