@@ -46,6 +46,9 @@ public class D2ItemProperty
     private int                  iProp;
     private long                 iCharLvl;
     private String               iItemName;
+    private int					 iBitSet;
+    private D2TxtFileItemProperties iItemStatCost;
+    
 
     public D2ItemProperty(int pProp, long pCharLvl, String pItemName)
     {
@@ -98,6 +101,8 @@ public class D2ItemProperty
     public void set(int pProps, D2TxtFileItemProperties pItemStatCost, int pBitSet, long pValue)
     {
         // just archive
+    	iBitSet = pBitSet;
+    	iItemStatCost = pItemStatCost;
         iProperties.put(COUNTER[iCounter++], new  PropValue(pProps, pItemStatCost, pBitSet, pValue));
 //        System.out.println(pProps + " , " + pValue);
         
@@ -128,8 +133,17 @@ public class D2ItemProperty
     	return iProp;
     }
     
+    public int getiPropertiesLength(){
+    	
+    	return iProperties.size();
+    }
+    
     public int getRealValue(){
     	return (int)((PropValue) iProperties.get(FIRST)).iValue;
+    }
+    
+    public void setRealValue(int newiValue){
+    	((PropValue) iProperties.get(FIRST)).iValue = newiValue;
     }
 
     public String getValueInternal()
@@ -249,7 +263,8 @@ public class D2ItemProperty
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
 
                 D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow((int) lValue1.iValue);
-//                System.out.println(D2TblFile.getString(lSkill.get("str name")));
+                System.out.println(lSkill.get("str name"));
+               System.out.println(D2TblFile.getString(lSkill.get("str name")));
                 return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name"));
             }
             
@@ -612,7 +627,7 @@ public class D2ItemProperty
                     }
                     if ("level_false".equals(lGoMuleProp))
                     {
-                        return Long.toString(Math.round((lValue1.iValue * 0.125) * iCharLvl)) + " " + lNiceString;
+                        return Long.toString((long)Math.floor((lValue1.iValue * 0.125) * iCharLvl)) + " " + lNiceString;
                     }
                     else
                     {
@@ -662,6 +677,16 @@ public class D2ItemProperty
         
         return iValue;
     }
+
+	public int getBitSet() {
+		// TODO Auto-generated method stub
+		return iBitSet;
+	}
+
+	public D2TxtFileItemProperties getItemStatCost() {
+		
+		return iItemStatCost;
+	}
 
     //    public String getValueInternal()
     //    {
