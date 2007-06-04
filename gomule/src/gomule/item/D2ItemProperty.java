@@ -263,8 +263,8 @@ public class D2ItemProperty
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
 
                 D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow((int) lValue1.iValue);
-                System.out.println(lSkill.get("str name"));
-               System.out.println(D2TblFile.getString(lSkill.get("str name")));
+//                System.out.println(lSkill.get("str name"));
+//               System.out.println(D2TblFile.getString(lSkill.get("str name")));
                 return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name"));
             }
             
@@ -594,6 +594,15 @@ public class D2ItemProperty
                 
 
             }
+            
+            if(iProp == 1337){
+            	/**
+            	 * MY OWN PROPERTY FOR ALL RESISTANCES!
+            	 * 
+            	 */
+            	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+            	return "All Resistances +" + lValue1.iValue;
+            }
 
             PropValue lValue1 = (PropValue) iProperties.get(FIRST);
 //            PropValue lValue2 = (PropValue) iProperties.get(SECOND);
@@ -623,11 +632,11 @@ public class D2ItemProperty
                     }
                     if ("level_true".equals(lGoMuleProp))
                     {
-                        return Long.toString(Math.round((lValue1.iValue * 0.125) * (iCharLvl))) + "% " + lNiceString;
+                        return Long.toString(Math.round((lValue1.iValue * 0.125) * (iCharLvl))) + "% " + lNiceString+ " (Based on Char Lvl)";
                     }
                     if ("level_false".equals(lGoMuleProp))
                     {
-                        return Long.toString((long)Math.floor((lValue1.iValue * 0.125) * iCharLvl)) + " " + lNiceString;
+                        return Long.toString((long)Math.floor((lValue1.iValue * 0.125) * iCharLvl)) + " " + lNiceString+ " (Based on Char Lvl)";
                     }
                     else
                     {
@@ -636,7 +645,7 @@ public class D2ItemProperty
                 }
                 else
                 {
-                    System.err.println("NotFound: " + iItemName + " - " + lValue1.iItemStatCost.get("Stat") + ": " + new Long(lValue1.iValue) + " " + lNiceString);
+                    System.err.println("NotFound: " + iItemName + " - " + lValue1.iItemStatCost.get("Stat") + ": " + new Long(lValue1.iValue) + " " + lNiceString + " : " +this.iProp+ " : " +this.iProp);
                 }
             }
         }
