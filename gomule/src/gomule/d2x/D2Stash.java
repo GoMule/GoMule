@@ -20,6 +20,7 @@
  ******************************************************************************/
 package gomule.d2x;
 
+import gomule.gui.*;
 import gomule.item.*;
 import gomule.util.*;
 
@@ -32,7 +33,7 @@ import java.util.*;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class D2Stash
+public class D2Stash implements D2ItemList
 {
     private String		iFileName;
     private ArrayList	iItems;
@@ -42,6 +43,8 @@ public class D2Stash
     private boolean		iSC;
     
     private int			iCharLvl = 75; // default char lvl for properties
+    
+    private boolean		iModified;
 //    private int iItemlistStart;
 //    private int iItemlistEnd;
     
@@ -76,6 +79,13 @@ public class D2Stash
 	        {
 	            readAtmaItems();
 	        }
+	        // clear status
+	        iModified = false;
+        }
+        else
+        {
+            // set status (for first save)
+            iModified = true;
         }
     }
     
@@ -100,13 +110,27 @@ public class D2Stash
         {
             iItems.add(pItem);
             pItem.setCharLvl(iCharLvl);
+            iModified = true;
         }
     }
     
     public void removeItem(D2Item pItem)
     {
         iItems.remove(pItem);
+        iModified = true;
     }
+    
+    public ArrayList removeAllItems()
+    {
+	    ArrayList lReturn = new ArrayList();
+	    lReturn.addAll( iItems );
+	    
+	    iItems.clear();
+	    iModified = true;
+	    
+	    return lReturn;
+    }
+    
     
     public int getNrItems()
     {
@@ -175,6 +199,11 @@ public class D2Stash
         }
     }
     
+    public boolean isModified()
+    {
+        return iModified;
+    }
+
     public void save(D2Project pProject)
     {
         // backup file
@@ -217,6 +246,7 @@ public class D2Stash
         if ( lCheckSum1 == lCheckSum2 )
         {
             iBR.save();
+            iModified = false;
         }
         else
         {

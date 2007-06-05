@@ -34,4 +34,5 @@ public interface D2ItemContainer
 	public boolean isSC();
     public void closeView();
     public void saveView();
+    public boolean isModified();
 }

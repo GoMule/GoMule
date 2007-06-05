@@ -21,6 +21,7 @@
 
 package gomule.d2s;
 
+import gomule.gui.*;
 import gomule.item.*;
 import gomule.util.*;
 
@@ -33,7 +34,7 @@ import randall.d2files.*;
 // stores a filename, a bitreader
 // to read from that file, and
 // a vector of items
-public class D2Character
+public class D2Character implements D2ItemList
 {
     public static final int BODY_INV_CONTENT   = 1;
     public static final int BODY_BELT_CONTENT  = 2; // the belt content
@@ -86,6 +87,8 @@ public class D2Character
     private int				iStats[] = new int[16];
     private int				iGF; 
     private int				iIF; 
+    
+    private boolean			iModified;
 
     public D2Character(String pFileName) throws Exception
     {
@@ -98,6 +101,8 @@ public class D2Character
         iMercItems = new ArrayList();
         iReader = new D2BitReader(iFileName);
         readChar();
+        // clear status
+        iModified = false;
     }
     
     public ArrayList getItemList()
@@ -114,6 +119,20 @@ public class D2Character
         }
         
         return lList;
+    }
+    
+    public int getNrItems()
+    {
+        return iCharItems.size() + iMercItems.size();
+    }
+    
+    public void removeItem(D2Item pItem)
+    {
+        if ( !iCharItems.remove(pItem) )
+        {
+            iMercItems.remove(pItem);
+        }
+        iModified = true;
     }
 
     private void readChar() throws Exception
@@ -730,6 +749,7 @@ public class D2Character
     {
         iCharItems.add(pItem);
         pItem.setCharLvl(iCharLevel);
+        iModified = true;
     }
 
     // insert an item into the vector
@@ -737,16 +757,19 @@ public class D2Character
     {
         iMercItems.add(pItem);
         pItem.setCharLvl(iCharLevel);
+        iModified = true;
     }
 
     public void removeCharItem(int i)
     {
         iCharItems.remove(i);
+        iModified = true;
     }
 
     public void removeMercItem(int i)
     {
         iMercItems.remove(i);
+        iModified = true;
     }
 
     // get an item from the vector
@@ -1072,6 +1095,11 @@ public class D2Character
         }
         return -1;
     }
+    
+    public boolean isModified()
+    {
+        return iModified;
+    }
 
     public void save(D2Project pProject)
     {
@@ -1205,6 +1233,7 @@ public class D2Character
         //		    + " " +
         //		   (0x0000ff & oldchecksum[i]));
         iReader.save();
+        iModified = false;
     }
     
     public int getGold()
@@ -1228,6 +1257,7 @@ public class D2Character
             throw new Exception("gold must be smaller than max" + getGoldMax() );
         }
         iStats[14] = pGold;
+        iModified = true;
     }
 
     public int getGoldBank()
@@ -1246,6 +1276,7 @@ public class D2Character
             throw new Exception("gold must be smaller than max" + getGoldBankMax() );
         }
         iStats[15] = pGoldBank;
+        iModified = true;
     }
     
     public int getGoldBankMax()

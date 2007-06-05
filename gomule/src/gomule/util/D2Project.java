@@ -250,7 +250,7 @@ public class D2Project
     public void setBankValue(int pBank)
     {
         iBank = pBank;
-        D2MouseItem.refreshBank(this);
+        D2ViewClipboard.refreshBank(this);
     }
 
     public int getType()

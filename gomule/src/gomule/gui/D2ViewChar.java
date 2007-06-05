@@ -32,7 +32,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 import randall.util.*;
-import sun.security.x509.*;
 
 /**
  * @author Marco
@@ -87,7 +86,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
     private static final int         CURSOR_X         = 12;
     private static final int         CURSOR_Y         = 14;
 
-    private boolean                  iModified        = false;
     private String                   iFileName;
     private D2FileManager            iFileManager;
 
@@ -283,6 +281,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
             {
                 public void internalFrameClosing(InternalFrameEvent e)
                 {
+                    iFileManager.saveAll();
                     closeView();
                 }
             });
@@ -350,7 +349,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                     iChar.setGoldBank(lNewGold);
                     iGoldBank.setText(Integer.toString(iChar.getGoldBank()));
                 }
-                iModified = true;
                 iFileManager.getProject().setBankValue(lNewGoldBank);
             }
             catch (Exception pEx)
@@ -399,7 +397,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                     iChar.setGoldBank(lNewGold);
                     iGoldBank.setText(Integer.toString(iChar.getGoldBank()));
                 }
-                iModified = true;
                 iFileManager.getProject().setBankValue(lNewGoldBank);
             }
             catch (Exception pEx)
@@ -436,20 +433,24 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
     {
         return iFileName;
     }
+    
+    public boolean isModified()
+    {
+        return iChar.isModified();
+    }
 
     public void closeView()
     {
-        saveView();
         iFileManager.removeInternalFrame(this);
     }
 
     public void saveView()
     {
-        if (iModified)
+        if ( iChar.isModified() )
         {
             // auto save (always)
             iChar.save( iFileManager.getProject() );
-            setModified(false);
+            setTitle();
         }
     }
 
@@ -462,7 +463,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
         }
         else
         {
-            lTitle += ((iModified) ? "*" : "");
+            lTitle += (( iChar.isModified() ) ? "*" : "");
             if (iChar.isSC())
             {
                 lTitle += " (SC)";
@@ -474,12 +475,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
             lTitle += iChar.getTitleString();
         }
         setTitle(lTitle);
-    }
-
-    public void setModified(boolean pModified)
-    {
-        iModified = pModified;
-        setTitle();
     }
 
     public void setCursorPickupItem()
@@ -756,22 +751,22 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                 D2Item lTemp = lItemPanel.getItem();
                                 iChar.unmarkCharGrid(lTemp);
                                 iChar.removeCharItem(lItemPanel.getItemIndex());
-                                D2MouseItem.addItem(lTemp);
+                                D2ViewClipboard.addItem(lTemp);
                                 setCursorDropItem();
 
-                                setModified(true);
+                                setTitle();
 
                                 // redraw
                                 build();
                                 repaint();
                             }
-                            else if (D2MouseItem.getItem() != null)
+                            else if (D2ViewClipboard.getItem() != null)
                             {
                                 //	                    	System.err.println("Drop item");
                                 // since there is an item on the mouse, try to
                                 // drop it here
 
-                                D2Item lDropItem = D2MouseItem.getItem();
+                                D2Item lDropItem = D2ViewClipboard.getItem();
                                 //		                        int lDropWidth = lDropItem.get_width();
                                 //		                        int lDropHeight = lDropItem.get_height();
                                 //	                        int r = 0, c = 0;
@@ -846,9 +841,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                     iChar.markCharGrid(lDropItem);
                                     // move the item to a new charcter, if
                                     // needed
-                                    iChar.addCharItem(D2MouseItem.removeItem());
+                                    iChar.addCharItem(D2ViewClipboard.removeItem());
 
-                                    setModified(true);
+                                    setTitle();
 
                                     // redraw
                                     build();
@@ -893,13 +888,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                         }
                         else
                         {
-                            if (D2MouseItem.getItem() == null)
+                            if (D2ViewClipboard.getItem() == null)
                             {
                                 setCursorNormal();
                             }
                             else
                             {
-                                D2Item lDropItem = D2MouseItem.getItem();
+                                D2Item lDropItem = D2ViewClipboard.getItem();
                                 //	                        int lDropWidth = lDropItem.get_width();
                                 //	                        int lDropHeight = lDropItem.get_height();
 
@@ -1140,22 +1135,22 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                 D2Item lTemp = lItemPanel.getItem();
                                 iChar.unmarkMercGrid(lTemp);
                                 iChar.removeMercItem(lItemPanel.getItemIndex());
-                                D2MouseItem.addItem(lTemp);
+                                D2ViewClipboard.addItem(lTemp);
                                 setCursorDropItem();
 
-                                setModified(true);
+                                setTitle();
 
                                 // redraw
                                 build();
                                 repaint();
                             }
-                            else if (D2MouseItem.getItem() != null)
+                            else if (D2ViewClipboard.getItem() != null)
                             {
                                 //	                    	System.err.println("Drop item");
                                 // since there is an item on the mouse, try to
                                 // drop it here
 
-                                D2Item lDropItem = D2MouseItem.getItem();
+                                D2Item lDropItem = D2ViewClipboard.getItem();
                                 //		                        int lDropWidth = lDropItem.get_width();
                                 //		                        int lDropHeight = lDropItem.get_height();
                                 //	                        int r = 0, c = 0;
@@ -1184,9 +1179,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                     iChar.markMercGrid(lDropItem);
                                     // move the item to a new charcter, if
                                     // needed
-                                    iChar.addMercItem(D2MouseItem.removeItem());
+                                    iChar.addMercItem(D2ViewClipboard.removeItem());
 
-                                    setModified(true);
+                                    setTitle();
 
                                     // redraw
                                     build();
@@ -1231,13 +1226,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                         }
                         else
                         {
-                            if (D2MouseItem.getItem() == null)
+                            if (D2ViewClipboard.getItem() == null)
                             {
                                 setCursorNormal();
                             }
                             else
                             {
-                                D2Item lDropItem = D2MouseItem.getItem();
+                                D2Item lDropItem = D2ViewClipboard.getItem();
                                 //	                        int lDropWidth = lDropItem.get_width();
                                 //	                        int lDropHeight = lDropItem.get_height();
 
@@ -1383,16 +1378,16 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                 D2Item lTemp = lItemPanel.getItem();
                                 iChar.unmarkCharGrid(lTemp);
                                 iChar.removeCharItem(lItemPanel.getItemIndex());
-                                D2MouseItem.addItem(lTemp);
+                                D2ViewClipboard.addItem(lTemp);
                                 setCursorDropItem();
 
-                                setModified(true);
+                                setTitle();
 
                                 // redraw
                                 build();
                                 repaint();
                             }
-                            else if (D2MouseItem.getItem() != null)
+                            else if (D2ViewClipboard.getItem() != null)
                             {
                                 // MBR: for now, disable dropping completely,
                                 // it's not working
@@ -1481,7 +1476,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                         }
                         else
                         {
-                            if (D2MouseItem.getItem() == null)
+                            if (D2ViewClipboard.getItem() == null)
                             {
                                 setCursorNormal();
                             }

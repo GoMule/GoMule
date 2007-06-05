@@ -93,7 +93,7 @@ public class D2FileManager extends JFrame
 
         try
         {
-            iDesktopPane.add(D2MouseItem.getInstance(this));
+            iDesktopPane.add(D2ViewClipboard.getInstance(this));
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             addWindowListener(new java.awt.event.WindowAdapter()
             {
@@ -134,7 +134,7 @@ public class D2FileManager extends JFrame
     public void setProject(D2Project pProject) throws Exception
     {
         iProject = pProject;
-        D2MouseItem.setProject(iProject);
+        D2ViewClipboard.setProject(iProject);
         iBtnProjectSelection.setText(iProject.getProjectName());
         iViewProject.setProject(pProject);
     }
@@ -294,11 +294,7 @@ public class D2FileManager extends JFrame
 
     public void closeWindows()
     {
-        D2MouseItem.save();
-        if (iProject != null)
-        {
-            iProject.saveProject();
-        }
+        saveAll();
         while ( iOpenWindows.size() > 0 )
         {
             D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(0);
@@ -315,7 +311,7 @@ public class D2FileManager extends JFrame
     // windows save on close
     public void saveAll()
     {
-        D2MouseItem.save();
+        D2ViewClipboard.save();
         if (iProject != null)
         {
             iProject.saveProject();
@@ -415,7 +411,7 @@ public class D2FileManager extends JFrame
             if (lStashView != null)
             {
                 // Force first save
-                lStashView.setModified(true);
+//                lStashView.setModified(true);
                 lStashView.saveView();
             }
         }

@@ -108,6 +108,11 @@ public class D2ViewProject extends JPanel
 	                if (lLast instanceof CharTreeNode)
 	                {
 	                    String lFilename = ((CharTreeNode) lLast).getFilename();
+	                    if ( lFilename.equalsIgnoreCase("all") )
+	                    {
+	                        // open All
+	                        System.err.println("All view not done yet");
+	                    }
 	                    if ( lFilename.toLowerCase().endsWith(".d2s") )
 	                    {
 	                        iFileManager.openChar(lFilename);
@@ -221,6 +226,8 @@ public class D2ViewProject extends JPanel
 	            iStashes.add(new CharTreeNode((String) lStashList.get(i)));
 	        }
         }
+        
+        root.add(new CharTreeNode("All"));
 
         return new DefaultTreeModel(root);
     }
@@ -244,6 +251,10 @@ public class D2ViewProject extends JPanel
 
     private static String getCharStr(String pFileName)
     {
+        if ( pFileName.equalsIgnoreCase("all") )
+        {
+            return pFileName;
+        }
         File lFile = new File(pFileName);
         return lFile.getName() + " (" + pFileName + ")";
     }

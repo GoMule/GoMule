@@ -40,8 +40,7 @@ import randall.util.*;
 public class D2ViewStash extends JInternalFrame implements D2ItemContainer
 {
     private D2FileManager iFileManager;
-    private D2Stash       iStash;
-    private boolean       iModified = false;
+    private D2ItemList    iStash;
     private String        iFileName;
 
     private D2StashFilter iStashFilter;
@@ -123,7 +122,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             
             
             iStashFilter = new D2StashFilter();
-            iItemModel = new D2ItemModel(iStash);
+            iItemModel = new D2ItemModel();
             iTable = new JTable(iItemModel);
             
             iTable.getTableHeader().addMouseListener( new MouseAdapter() 
@@ -207,6 +206,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         {
             public void internalFrameClosing(InternalFrameEvent e)
             {
+                iFileManager.saveAll();
                 closeView();
             }
         });
@@ -248,13 +248,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         return iStash.isSC();
     }
 
-    public void setModified(boolean pModified)
-    {
-        iModified = pModified;
-
-        setTitle();
-    }
-
     private RandallPanel getButtonPanel()
     {
         RandallPanel lButtonPanel = new RandallPanel(true);
@@ -277,43 +270,49 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
                     for (int i = 0; i < lItemList.size(); i++)
                     {
                         iStash.removeItem((D2Item) lItemList.get(i));
-                        D2MouseItem.addItem((D2Item) lItemList.get(i));
+                        D2ViewClipboard.addItem((D2Item) lItemList.get(i));
                     }
                     iItemModel.refreshData();
-                    setModified(true);
+                    setTitle();
                 }
             }
         });
         lButtonPanel.addToPanel(lPickup, 0, 0, 1, RandallPanel.HORIZONTAL);
 
-        JButton lDropOne = new JButton("Drop");
-        lDropOne.addActionListener(new ActionListener()
+        if ( iStash instanceof D2Stash )
         {
-            public void actionPerformed(ActionEvent pEvent)
-            {
-                iStash.addItem(D2MouseItem.removeItem());
-                iItemModel.refreshData();
-                setModified(true);
-            }
-        });
-        lButtonPanel.addToPanel(lDropOne, 1, 0, 1, RandallPanel.HORIZONTAL);
+	        JButton lDropOne = new JButton("Drop");
+	        lDropOne.addActionListener(new ActionListener()
+	        {
+	            public void actionPerformed(ActionEvent pEvent)
+	            {
+	                ((D2Stash) iStash).addItem(D2ViewClipboard.removeItem());
+	                iItemModel.refreshData();
+	                setTitle();
+	            }
+	        });
+	        lButtonPanel.addToPanel(lDropOne, 1, 0, 1, RandallPanel.HORIZONTAL);
+        }
 
-        JButton lDropAll = new JButton("Drop All");
-        lDropAll.addActionListener(new ActionListener()
+        if ( iStash instanceof D2Stash )
         {
-            public void actionPerformed(ActionEvent pEvent)
-            {
-                ArrayList lItemList = D2MouseItem.getItemList();
-                while (lItemList.size() > 0)
-                {
-                    iStash.addItem((D2Item) lItemList.remove(0));
-                }
-                iItemModel.refreshData();
-                D2MouseItem.refreshData();
-                setModified(true);
-            }
-        });
-        lButtonPanel.addToPanel(lDropAll, 2, 0, 1, RandallPanel.HORIZONTAL);
+	        JButton lDropAll = new JButton("Drop All");
+	        lDropAll.addActionListener(new ActionListener()
+	        {
+	            public void actionPerformed(ActionEvent pEvent)
+	            {
+	                ArrayList lItemList = D2ViewClipboard.removeAllItems();
+	                while (lItemList.size() > 0)
+	                {
+	                    ((D2Stash) iStash).addItem((D2Item) lItemList.remove(0));
+	                }
+	                iItemModel.refreshData();
+	                D2ViewClipboard.refreshData();
+	                setTitle();
+	            }
+	        });
+	        lButtonPanel.addToPanel(lDropAll, 2, 0, 1, RandallPanel.HORIZONTAL);
+        }
 
         return lButtonPanel;
     }
@@ -583,7 +582,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         else
         {
             lTitle += " (" + iItemModel.getRowCount() + "/";
-            lTitle += iStash.getNrItems() + ")" + ((iModified) ? "*" : "");
+            lTitle += iStash.getNrItems() + ")" + ((iStash.isModified()) ? "*" : "");
             if (iStash.isSC() && iStash.isHC())
             {
                 lTitle += " (Unknown)";
@@ -602,16 +601,16 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
 
     class D2ItemModel implements TableModel
     {
-        private D2Stash   iStash;
+//        private D2ItemList   iStash;
         private ArrayList iItems;
         private ArrayList iTableModelListeners = new ArrayList();
         private ArrayList iSortList = new ArrayList();
 
         private final Object HEADER[] = new Object[] {new Object(), new Object(), new Object(), new Object()};
         
-        public D2ItemModel(D2Stash pStash)
+        public D2ItemModel()
         {
-            iStash = pStash;
+//            iStash = pStash;
             iSortList.add(new Integer(0));
             refreshData();
         }
@@ -1071,18 +1070,22 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         return iFileName;
     }
 
+    public boolean isModified()
+    {
+        return iStash.isModified();
+    }
+
     public void closeView()
     {
-        saveView();
         iFileManager.removeInternalFrame(this);
     }
 
     public void saveView()
     {
-        if (iModified)
+        if (iStash.isModified())
         {
             iStash.save( iFileManager.getProject() );
-            setModified(false);
+            setTitle();
         }
     }
 

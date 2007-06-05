@@ -34,7 +34,7 @@ import javax.swing.table.*;
 
 import randall.util.*;
 
-public class D2MouseItem extends JInternalFrame
+public class D2ViewClipboard extends JInternalFrame
 {
     private static final int   GRID_SIZE = 28;
 
@@ -43,7 +43,7 @@ public class D2MouseItem extends JInternalFrame
     private JTable             iTable;
     private RandallPanel       iContentPane;
 
-    private static D2MouseItem iMouseItem;
+    private static D2ViewClipboard iMouseItem;
 
     private ArrayList          iItems;
 
@@ -51,16 +51,16 @@ public class D2MouseItem extends JInternalFrame
 
     private JTextField         iBank;
 
-    public static D2MouseItem getInstance(D2FileManager pFileManager) throws Exception
+    public static D2ViewClipboard getInstance(D2FileManager pFileManager) throws Exception
     {
         if (iMouseItem == null)
         {
-            iMouseItem = new D2MouseItem(pFileManager);
+            iMouseItem = new D2ViewClipboard(pFileManager);
         }
         return iMouseItem;
     }
 
-    private D2MouseItem(D2FileManager pFileManager)
+    private D2ViewClipboard(D2FileManager pFileManager)
     {
         super("Item Clipboard", true, false, false, true);
         iFileManager = pFileManager;
@@ -107,6 +107,11 @@ public class D2MouseItem extends JInternalFrame
         setSize(300, 200);
 
         setVisible(true);
+    }
+    
+    private void setTitle()
+    {
+        super.setTitle("Item Clipboard" + ( iStash.isModified() ? "*":"" ) );
     }
 
     class D2ItemModel implements TableModel
@@ -233,17 +238,31 @@ public class D2MouseItem extends JInternalFrame
         iMouseItem.iBank.setText(Integer.toString(pProject.getBankValue()));
     }
 
+    public boolean isModified()
+    {
+        return iStash.isModified();
+    }
+
     public static void save( )
     {
         if (iMouseItem != null && iMouseItem.iStash != null)
         {
-            iMouseItem.iStash.save( iMouseItem.iFileManager.getProject() );
+            if ( iMouseItem.iStash.isModified() )
+            {
+                iMouseItem.iStash.save( iMouseItem.iFileManager.getProject() );
+                iMouseItem.setTitle();
+            }
         }
     }
 
     public static ArrayList getItemList()
     {
         return iMouseItem.iItems;
+    }
+    
+    public static ArrayList removeAllItems()
+    {
+        return iMouseItem.iStash.removeAllItems();
     }
 
     public static D2Item getItem()
@@ -276,7 +295,8 @@ public class D2MouseItem extends JInternalFrame
             int lRow = iTable.getSelectedRow();
             if (lRow >= 0 && lRow < iItems.size())
             {
-                D2Item lItem = (D2Item) iItems.remove(lRow);
+                D2Item lItem = (D2Item) iItems.get(lRow);
+                iStash.removeItem(lItem);
                 fireTableChanged();
                 if (!iItems.isEmpty() && iTable.getSelectedRow() == -1)
                 {
@@ -301,7 +321,7 @@ public class D2MouseItem extends JInternalFrame
 
     private void addItemInternal(D2Item pItem)
     {
-        iItems.add(pItem);
+        iStash.addItem(pItem);
         fireTableChanged();
 
         if (iTable.getSelectedRow() == -1)
@@ -337,6 +357,7 @@ public class D2MouseItem extends JInternalFrame
     private void fireTableChanged()
     {
         iItemModel.fireTableChanged();
+        setTitle();
     }
 
 }
