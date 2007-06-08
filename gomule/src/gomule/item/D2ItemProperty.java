@@ -162,6 +162,13 @@ public class D2ItemProperty
         	 * MANA POTS
         	 */
         	
+        	if(iProp == 17){
+        		PropValue l17 = (PropValue) iProperties.get(FIRST);
+        		
+        		return l17.iValue + "% Enhanced Damage";
+        		
+        	}
+        	
         	if(iProp == 26){
         		PropValue l26 = (PropValue) iProperties.get(FIRST);
         		
@@ -263,9 +270,17 @@ public class D2ItemProperty
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
 
                 D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow((int) lValue1.iValue);
+
 //                System.out.println(lSkill.get("str name"));
 //               System.out.println(D2TblFile.getString(lSkill.get("str name")));
+                if(iProp == 97){
                 return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name"));
+                }
+                else{
+                    String sClass = (D2TxtFile.SKILLS.searchColumns("skilldesc",lSkill.get("skilldesc"))).get("charclass");
+                    sClass = (sClass.charAt(0) + "").toUpperCase() + sClass.substring(1) + "Only";
+                	return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name")) + " " + D2TblFile.getString(sClass);
+                }
             }
             
             if(iProp == 111 ){
@@ -372,6 +387,9 @@ public class D2ItemProperty
                     break;
                 case 42:
                     lSkillTree = "Elemental Skills (Druid Only)";
+                    break;
+                case 48:
+                    lSkillTree = "Trap Skills (Assassin Only)";
                     break;
                 case 49:
                     lSkillTree = "Shadow Discipline Skills (Assassin Only)";
@@ -601,7 +619,16 @@ public class D2ItemProperty
             	 * 
             	 */
             	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
-            	return "All Resistances +" + lValue1.iValue;
+            	return "+" + lValue1.iValue + " to all Resistances";
+            }
+            
+            if(iProp == 1338){
+            	/**
+            	 * MY OWN PROPERTY FOR ALL STATS!
+            	 * 
+            	 */
+            	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+            	return "+" + lValue1.iValue + " to all Stats";
             }
 
             PropValue lValue1 = (PropValue) iProperties.get(FIRST);
