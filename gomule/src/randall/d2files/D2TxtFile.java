@@ -42,6 +42,8 @@ public class D2TxtFile
     public static D2TxtFile  SETITEMS;
     public static D2TxtFile  PREFIX;
     public static D2TxtFile  SUFFIX;
+    public static D2TxtFile  RAREPREFIX;
+    public static D2TxtFile  RARESUFFIX;
     public static D2TxtFile  RUNES;
     public static D2TxtFile  ITEM_TYPES;
     public static D2TxtFile  ITEM_STAT_COST;
@@ -66,6 +68,8 @@ public class D2TxtFile
         SETITEMS = new D2TxtFile("SetItems");
         PREFIX = new D2TxtFile("MagicPrefix");
         SUFFIX = new D2TxtFile("MagicSuffix");
+        RAREPREFIX = new D2TxtFile("RarePrefix");
+        RARESUFFIX = new D2TxtFile("RareSuffix");
         RUNES = new D2TxtFile("Runes");
         ITEM_TYPES = new D2TxtFile("ItemTypes");
         ITEM_STAT_COST = new D2TxtFile("ItemStatCost");
