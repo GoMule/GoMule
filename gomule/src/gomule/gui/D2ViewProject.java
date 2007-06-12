@@ -115,7 +115,8 @@ public class D2ViewProject extends JPanel
 	                    if ( lFilename.equalsIgnoreCase("all") )
 	                    {
 	                        // open All
-	                        System.err.println("All view not done yet");
+//	                        System.err.println("All view not done yet");
+	                        iFileManager.openStash("all");
 	                    }
 	                    if ( lFilename.toLowerCase().endsWith(".d2s") )
 	                    {
@@ -151,7 +152,7 @@ public class D2ViewProject extends JPanel
 	                {
 	                    iProject.deleteCharStash((String) lDelete.get(i));
 	                }
-	                refreshTreeModel(false, false);
+//	                refreshTreeModel(false, false);
                 }
             }
         });

@@ -19,11 +19,19 @@ import java.awt.*;
 public class D2CellValue
 {
     private Object  iValue;
+    private String	iTooltip;
     private Color	iForeground;
     
     public D2CellValue(Object pValue, D2Item pItem, D2Project pProject)
     {
         iValue = pValue;
+        iForeground = pProject.getItemColor(pItem); 
+    }
+    
+    public D2CellValue(Object pValue, String pTooltip, D2Item pItem, D2Project pProject)
+    {
+        iValue = pValue;
+        iTooltip = pTooltip;
         iForeground = pProject.getItemColor(pItem); 
     }
     
@@ -40,5 +48,10 @@ public class D2CellValue
     public Object getValue()
     {
         return iValue;
+    }
+    
+    public String getTooltip()
+    {
+        return iTooltip;
     }
 }

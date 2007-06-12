@@ -27,11 +27,13 @@ public class D2CellStringRenderer extends DefaultTableCellRenderer
     {
         Object lValue;
         Color lForeground = null;
+        String lTooltip = null;
         
         if ( pValue instanceof D2CellValue )
         {
             lValue = ((D2CellValue) pValue).getValue();
             lForeground = ((D2CellValue) pValue).getForeground();
+            lTooltip = ((D2CellValue) pValue).getTooltip();
         }
         else
         {
@@ -47,6 +49,11 @@ public class D2CellStringRenderer extends DefaultTableCellRenderer
         else
         {
             lRenderer.setForeground(Color.black);
+        }
+
+        if ( lRenderer instanceof D2CellStringRenderer )
+        {
+            ((D2CellStringRenderer) lRenderer).setToolTipText(lTooltip);
         }
 
         return lRenderer;

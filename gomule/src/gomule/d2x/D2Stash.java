@@ -88,6 +88,11 @@ public class D2Stash extends D2ItemListAdapter
         }
     }
     
+    public String getFilename()
+    {
+        return iFileName;
+    }
+    
     public boolean isHC()
     {
         return iHC;

@@ -103,6 +103,11 @@ public class D2Character extends D2ItemListAdapter
         setModified(false);
     }
     
+    public String getFilename()
+    {
+        return iFileName;
+    }
+    
     public ArrayList getItemList()
     {
         ArrayList lList = new ArrayList();
@@ -139,8 +144,13 @@ public class D2Character extends D2ItemListAdapter
     
     public void removeItem(D2Item pItem)
     {
-        if ( !iCharItems.remove(pItem) )
+        if ( iCharItems.remove(pItem) )
         {
+            unmarkCharGrid(pItem);
+        }
+        else
+        {
+            unmarkMercGrid(pItem);
             iMercItems.remove(pItem);
         }
         setModified(true);

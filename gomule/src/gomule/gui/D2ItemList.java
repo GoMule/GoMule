@@ -23,10 +23,12 @@ public interface D2ItemList
     public void removeItem(D2Item pItem);
     public ArrayList getItemList();
     public int getNrItems();
+    public String getFilename();
     
     public boolean isModified();
     public void addD2ItemListListener(D2ItemListListener pListener);
     public void removeD2ItemListListener(D2ItemListListener pListener);
+    public boolean hasD2ItemListListener();
     public void save(D2Project pProject);
     
     public boolean isSC();

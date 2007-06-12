@@ -20,11 +20,107 @@ import java.util.*;
 public class D2ItemListAll implements D2ItemList
 {
     private D2FileManager	iFileManager;
-    private ArrayList 		iList = new ArrayList();
+    private D2Project		iProject;
     
-    public D2ItemListAll(D2FileManager pFileManager)
+    private ArrayList 		iList = new ArrayList();
+    private ArrayList 		iD2ItemListListenerList = new ArrayList();
+    
+    public D2ItemListAll(D2FileManager pFileManager, D2Project pProject)
     {
         iFileManager = pFileManager;
+        iProject = pProject;
+        
+        ArrayList lFileNames = new ArrayList();
+        
+        lFileNames.addAll( iProject.getCharList() );
+        lFileNames.addAll( iProject.getStashList() );
+        
+        for ( int i = 0 ; i < lFileNames.size() ; i++ )
+        {
+            try
+            {
+                D2ItemList lList = iFileManager.addItemList((String) lFileNames.get(i), null);
+                iList.add( lList );
+            }
+            catch ( Exception pEx )
+            {
+                System.err.println("Error with: " + ((String) lFileNames.get(i)) );
+                pEx.printStackTrace();
+            }
+        }
+        fireD2ItemListEvent();
+    }
+    
+    public void addFileName(String pFileName)
+    {
+        try
+        {
+            D2ItemList lList = iFileManager.addItemList(pFileName, null);
+            // set listeners
+            for ( int i = 0 ; i < iD2ItemListListenerList.size() ; i++ )
+            {
+                D2ItemListListener lListener = (D2ItemListListener) iD2ItemListListenerList.get(i);
+                lList.addD2ItemListListener( lListener );
+            }
+            iList.add( lList );
+            fireD2ItemListEvent();
+        }
+        catch ( Exception pEx )
+        {
+            pEx.printStackTrace();
+        }
+    }
+    
+    public void removeFileName(String pFileName)
+    {
+        try
+        {
+            D2ItemList lList = iFileManager.getItemList(pFileName);
+            
+            if ( lList != null )
+            {
+                // remove listeners
+                for ( int i = 0 ; i < iD2ItemListListenerList.size() ; i++ )
+                {
+                    D2ItemListListener lListener = (D2ItemListListener) iD2ItemListListenerList.get(i);
+                    lList.removeD2ItemListListener( lListener );
+                }
+            
+                iFileManager.removeItemList(pFileName, null);
+            
+                iList.remove( lList );
+                fireD2ItemListEvent();
+            }
+        }
+        catch ( Exception pEx )
+        {
+            pEx.printStackTrace();
+        }
+    }
+    
+    public ArrayList getAllContainers()
+    {
+        return iList;
+    }
+    
+    public String getFilename()
+    {
+        return "all";
+    }
+    
+    public String getFilename(D2Item pItem)
+    {
+        D2ItemList lItemList;
+        for ( int i = 0 ; i < iList.size() ; i++ )
+        {
+            lItemList = (D2ItemList) iList.get(i);
+            if ( lItemList.containsItem(pItem) )
+            {
+                return lItemList.getFilename();
+            }
+        }
+        
+        return null;
     }
     
     public boolean containsItem(D2Item pItem)
@@ -89,7 +185,7 @@ public class D2ItemListAll implements D2ItemList
         for ( int i = 0 ; i < iList.size() ; i++ )
         {
             lItemList = (D2ItemList) iList.get(i);
-            if ( lItemList.isModified() );
+            if ( lItemList.isModified() )
             {
                 return true;
             }
@@ -100,6 +196,7 @@ public class D2ItemListAll implements D2ItemList
 
     public void addD2ItemListListener(D2ItemListListener pListener)
     {
+        iD2ItemListListenerList.add(pListener);
         D2ItemList lItemList;
         for ( int i = 0 ; i < iList.size() ; i++ )
         {
@@ -110,12 +207,37 @@ public class D2ItemListAll implements D2ItemList
 
     public void removeD2ItemListListener(D2ItemListListener pListener)
     {
+        iD2ItemListListenerList.remove(pListener);
         D2ItemList lItemList;
         for ( int i = 0 ; i < iList.size() ; i++ )
         {
             lItemList = (D2ItemList) iList.get(i);
             lItemList.removeD2ItemListListener(pListener);
         }
+    }
+    
+    private void fireD2ItemListEvent()
+    {
+        for ( int i = 0 ; i < iD2ItemListListenerList.size() ; i++ )
+        {
+            D2ItemListListener lListener = (D2ItemListListener) iD2ItemListListenerList.get(i);
+            lListener.itemListChanged();
+        }
+    }
+    
+    public boolean hasD2ItemListListener()
+    {
+        D2ItemList lItemList;
+        for ( int i = 0 ; i < iList.size() ; i++ )
+        {
+            lItemList = (D2ItemList) iList.get(i);
+            if ( lItemList.hasD2ItemListListener() )
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     public void save(D2Project pProject)
@@ -137,7 +259,7 @@ public class D2ItemListAll implements D2ItemList
         for ( int i = 0 ; i < iList.size() ; i++ )
         {
             lItemList = (D2ItemList) iList.get(i);
-            if ( lItemList.isSC() );
+            if ( lItemList.isSC() )
             {
                 return true;
             }
@@ -152,7 +274,7 @@ public class D2ItemListAll implements D2ItemList
         for ( int i = 0 ; i < iList.size() ; i++ )
         {
             lItemList = (D2ItemList) iList.get(i);
-            if ( lItemList.isHC() );
+            if ( lItemList.isHC() )
             {
                 return true;
             }

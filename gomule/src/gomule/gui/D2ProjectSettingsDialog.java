@@ -410,7 +410,7 @@ public class D2ProjectSettingsDialog extends JDialog
             // save current project
             iProject.saveProject();
             // now load new project
-            iProject = new D2Project(pProject);
+            iProject = new D2Project(iFileManager, pProject);
             iFileManager.setProject(iProject);
             setTitle();
             checkProjectsModel();

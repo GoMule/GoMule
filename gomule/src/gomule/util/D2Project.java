@@ -41,6 +41,8 @@ public class D2Project
 {
     public static final String PROJECTS_DIR = "projects";
 
+    private D2FileManager	   iFileManager;
+    
     private String             iProjectName;
     private String             iProjectDir;
     private File               iFile;
@@ -71,8 +73,9 @@ public class D2Project
     private boolean iCountChar;
     private boolean iCountEthereal;
 
-    public D2Project(String pProjectName)
+    public D2Project(D2FileManager pFileManager, String pProjectName)
     {
+        iFileManager = pFileManager;
         boolean lNew = false;
         
         iProjectName = pProjectName;
@@ -289,15 +292,31 @@ public class D2Project
         {
             iCharList.add(pCharFileName);
             Collections.sort(iCharList);
+            iFileManager.getViewProject().refreshTreeModel(true, false);
+            D2ItemListAll lListAll = iFileManager.getAllItemList();
+            if ( lListAll != null )
+            {
+                lListAll.addFileName(pCharFileName);
+            }
         }
     }
 
     public void addStash(String pStashFileName)
     {
+        if ( pStashFileName.equalsIgnoreCase("all") )
+        {
+            return;
+        }
         if (!iStashList.contains(pStashFileName))
         {
             iStashList.add(pStashFileName);
             Collections.sort(iStashList);
+            iFileManager.getViewProject().refreshTreeModel(false, true);
+            D2ItemListAll lListAll = iFileManager.getAllItemList();
+            if ( lListAll != null )
+            {
+                lListAll.addFileName(pStashFileName);
+            }
         }
     }
 
@@ -305,6 +324,13 @@ public class D2Project
     {
         iCharList.remove(pFilename);
         iStashList.remove(pFilename);
+        iFileManager.closeFileName(pFilename);
+        iFileManager.getViewProject().refreshTreeModel(false, false);
+        D2ItemListAll lListAll = iFileManager.getAllItemList();
+        if ( lListAll != null )
+        {
+            lListAll.removeFileName(pFilename);
+        }
     }
 
     public String getProjectName()

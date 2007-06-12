@@ -21,6 +21,8 @@
 
 package gomule.gui;
 
+import gomule.d2s.*;
+import gomule.d2x.*;
 import gomule.util.*;
 
 import java.awt.*;
@@ -38,6 +40,8 @@ public class D2FileManager extends JFrame
 {
     private static final String  CURRENT_VERSION = "R0.16";
 
+    private HashMap				 iItemLists = new HashMap();
+    
     private ArrayList            iOpenWindows;
 
     private JPanel               iContentPane;
@@ -275,7 +279,7 @@ public class D2FileManager extends JFrame
                 lCurrent = "GoMule";
             }
 
-            iProject = new D2Project(lCurrent);
+            iProject = new D2Project(this, lCurrent);
             iBtnProjectSelection.setText(lCurrent);
         }
         catch (Exception pEx)
@@ -286,14 +290,38 @@ public class D2FileManager extends JFrame
         }
     }
 
-    // called on exit or when this window is closed
-    // zip through and make sure all the character
-    // windows close properly, because character
-    // windows save on close
+    /** called on exit or when this window is closed
+     * zip through and make sure all the character
+     * windows close properly, because character
+     * windows save on close
+     */
     public void closeListener()
     {
         closeWindows();
         System.exit(0);
+    }
+    
+    public D2ItemListAll getAllItemList()
+    {
+        if ( iItemLists.containsKey("all") )
+        {
+            return (D2ItemListAll) iItemLists.get("all");
+        }
+        return null;
+    }
+    
+    public void closeFileName(String pFileName)
+    {
+        saveAll();
+        for ( int i = 0 ; i < iOpenWindows.size() ; i++ )
+        {
+            D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
+            
+            if ( lItemContainer.getFileName().equalsIgnoreCase(pFileName) )
+            {
+                lItemContainer.closeView();
+            }
+        }
     }
 
     public void closeWindows()
@@ -309,10 +337,11 @@ public class D2FileManager extends JFrame
         }
     }
 
-    // called on exit or when this window is closed
-    // zip through and make sure all the character
-    // windows close properly, because character
-    // windows save on close
+    /** called on exit or when this window is closed
+     * zip through and make sure all the character
+     * windows close properly, because character
+     * windows save on close
+     */
     public void saveAll()
     {
         if (iProject != null)
@@ -387,9 +416,13 @@ public class D2FileManager extends JFrame
             lCharView.toFront();
         }
         iProject.addChar(pCharName);
-        iViewProject.refreshTreeModel(true, false);
     }
 
+    public D2ViewProject getViewProject()
+    {
+        return iViewProject;
+    }
+    
     public void removeInternalFrame(JInternalFrame pFrame)
     {
         iOpenWindows.remove(pFrame);
@@ -469,7 +502,7 @@ public class D2FileManager extends JFrame
             lStashView.toFront();
         }
         iProject.addStash(pStashName);
-        iViewProject.refreshTreeModel(false, true);
+//        iViewProject.refreshTreeModel(false, true);
 
         return lStashView;
     }
@@ -479,6 +512,63 @@ public class D2FileManager extends JFrame
         JOptionPane.showMessageDialog(this, "A java-based Diablo II muling application\n\noriniginally created by Andy Theuninck (Gohanman)\nVersion 0.1a"
                 + "\n\ncurrent release by Randall & Silospen\nVersion " + CURRENT_VERSION + "\n\nAnd special thanks to:" + "\n\tHakai_no_Tenshi & Gohanman for helping me out with the file formats"
                 + "\n\tSkinhead On The MBTA & nubikon for helping me beta testing", "About", JOptionPane.PLAIN_MESSAGE);
+    }
+    
+    public D2ItemList addItemList(String pFileName, D2ItemListListener pListener) throws Exception
+    {
+        D2ItemList lList;
+        
+        if ( iItemLists.containsKey(pFileName) )
+        {
+            lList = getItemList(pFileName);
+        }
+        else if ( pFileName.equalsIgnoreCase("all") )
+        {
+            lList = new D2ItemListAll(this, iProject);
+            iItemLists.put(pFileName, lList);
+        }
+        else if ( pFileName.toLowerCase().endsWith(".d2s") )
+        {
+            lList = new D2Character(pFileName);
+            System.err.println("Add file: " + pFileName );
+            iItemLists.put(pFileName, lList);
+        }
+        else if ( pFileName.toLowerCase().endsWith(".d2x") )
+        {
+            lList = new D2Stash(pFileName);
+            System.err.println("Add file: " + pFileName );
+            iItemLists.put(pFileName, lList);
+        }
+        else 
+        {
+            throw new Exception("Incorrect filename: pFilename");
+        }
+        
+        if ( pListener != null )
+        {
+            lList.addD2ItemListListener(pListener);
+        }
+        
+        return lList;
+    }
+    
+    public D2ItemList getItemList(String pFileName)
+    {
+        return (D2ItemList) iItemLists.get(pFileName);
+    }
+    
+    public void removeItemList(String pFileName, D2ItemListListener pListener)
+    {
+        D2ItemList lList = getItemList(pFileName);
+        if ( pListener != null )
+        {
+            lList.removeD2ItemListListener(pListener);
+        }
+        if ( !lList.hasD2ItemListListener() )
+        {
+            System.err.println("Remove file: " + pFileName );
+            iItemLists.remove(pFileName);
+        }
     }
 
     public static void displayErrorDialog(Exception pException)

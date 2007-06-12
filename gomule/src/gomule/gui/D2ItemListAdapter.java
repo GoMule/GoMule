@@ -38,6 +38,10 @@ public abstract class D2ItemListAdapter implements D2ItemList
     {
         iListeners.remove(pListener);
     }
+    public boolean hasD2ItemListListener()
+    {
+        return !iListeners.isEmpty();
+    }
     public void fireD2ItemListEvent()
     {
         for ( int i = 0 ; i < iListeners.size() ; i++ )
