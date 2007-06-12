@@ -334,7 +334,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 				D2ItemProperty lProperty = new D2ItemProperty(122,iCharLvl, iItemName);
 				D2TxtFileItemProperties lItemStatCost2 = D2TxtFile.ITEM_STAT_COST
 				.getRow(122);
-				lProperty.set(122, lItemStatCost2, 0,50);
+				lProperty.set(122, lItemStatCost2, 0,150);
 				iProperties.add(lProperty);
 			}
 			
@@ -511,6 +511,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 									.get(2));
 						}
 					}
+				}else{
+					iGemProps.addAll((ArrayList) lSocket.iProperties);
 				}
 				if (lSocket.iReqLvl > iReqLvl) {
 					iReqLvl = lSocket.iReqLvl;
@@ -1216,6 +1218,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		int ENDef = 0;
 		int Def = 0;
 		int Dur = 0;
+		int PlusDur = 0;
 
 		if (isSocketed()) {
 
@@ -1232,8 +1235,13 @@ public class D2Item implements Comparable, D2ItemInterface {
 						+ ((D2ItemProperty) iRuneWordProps.get(x))
 						.getRealValue();
 					}
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 75) {
+					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 75){
 						Dur = Dur
+						+ ((D2ItemProperty) iRuneWordProps.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 73){
+						PlusDur = PlusDur
 						+ ((D2ItemProperty) iRuneWordProps.get(x))
 						.getRealValue();
 					}
@@ -1263,6 +1271,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 					+ ((D2ItemProperty) iGemProps.get(x))
 					.getRealValue();
 				}
+				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 73) {
+					PlusDur = PlusDur
+					+ ((D2ItemProperty) iGemProps.get(x))
+					.getRealValue();
+				}
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 214) {
 					Def = Def
 					+ (int) Math.floor((((D2ItemProperty) iGemProps
@@ -1286,6 +1299,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 				+ ((D2ItemProperty) iProperties.get(x))
 				.getRealValue();
 			}
+			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 73) {
+				PlusDur = PlusDur
+				+ ((D2ItemProperty) iProperties.get(x))
+				.getRealValue();
+			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
 				Def = Def
 				+ (int) Math.floor((((D2ItemProperty) iProperties
@@ -1296,7 +1314,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		iDef = (long) Math.floor((((double) iDef / (double) 100) * ENDef)
 				+ (iDef + Def));
 		iMaxDur = (long) Math.floor((((double) iMaxDur / (double) 100) * Dur)
-				+ (iMaxDur));
+				+ (iMaxDur+PlusDur));
 
 	}
 
@@ -1506,6 +1524,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 		ArrayList maskProps = new ArrayList();
 		ArrayList tempProps = new ArrayList();
 		ArrayList tempStatProps = new ArrayList();
+		ArrayList tempMaxResProps = new ArrayList();
+		ArrayList maxResistanceKeys = new ArrayList();
 		ArrayList resistanceKeys = new ArrayList();
 		ArrayList statKeys = new ArrayList();
 		resistanceKeys.add(new Integer(39));
@@ -1513,12 +1533,18 @@ public class D2Item implements Comparable, D2ItemInterface {
 		resistanceKeys.add(new Integer(43));
 		resistanceKeys.add(new Integer(45));
 		
+		maxResistanceKeys.add(new Integer(40));
+		maxResistanceKeys.add(new Integer(42));
+		maxResistanceKeys.add(new Integer(44));
+		maxResistanceKeys.add(new Integer(46));
+		
 		statKeys.add(new Integer(0));
 		statKeys.add(new Integer(1));
 		statKeys.add(new Integer(2));
 		statKeys.add(new Integer(3));
 		
 		int smallestRes = 0;
+		int smallestMaxRes = 0;
 		int smallestStat = 0;
 
 
@@ -1555,6 +1581,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 
 		for (int x = 0; x < allProps.size(); x = x + 1) {
+			//CHECK REQUIREMENTS FIRST
+			if(((D2ItemProperty) allProps.get(x)).getiProp() == 91){
+				modifyReqs(((D2ItemProperty) allProps.get(x)).getRealValue());
+			}
+			//...
 			if (resistanceKeys.contains(new Integer(((D2ItemProperty) allProps.get(x)).getiProp()))){
 				resistanceKeys.remove(new Integer(((D2ItemProperty) allProps.get(x)).getiProp()));
 				tempProps.add(((D2ItemProperty) allProps.get(x)));
@@ -1564,11 +1595,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 					tempProps.add(((D2ItemProperty) allProps.get(y)));
 					}
 				}
-			break;
 			}
-		}
+			if (maxResistanceKeys.contains(new Integer(((D2ItemProperty) allProps.get(x)).getiProp()))){
+				maxResistanceKeys.remove(new Integer(((D2ItemProperty) allProps.get(x)).getiProp()));
+				tempMaxResProps.add(((D2ItemProperty) allProps.get(x)));
+			for (int y = 0; y < allProps.size(); y = y + 1) {
+				if (maxResistanceKeys.contains(new Integer(((D2ItemProperty) allProps.get(y)).getiProp()))){
+					maxResistanceKeys.remove(new Integer(((D2ItemProperty) allProps.get(y)).getiProp()));
+					tempMaxResProps.add(((D2ItemProperty) allProps.get(y)));
+					}
+				}
+			}
 		
-		for (int x = 0; x < allProps.size(); x = x + 1) {
+		
 			if (statKeys.contains(new Integer(((D2ItemProperty) allProps.get(x)).getiProp()))){
 				statKeys.remove(new Integer(((D2ItemProperty) allProps.get(x)).getiProp()));
 				tempStatProps.add(((D2ItemProperty) allProps.get(x)));
@@ -1578,7 +1617,23 @@ public class D2Item implements Comparable, D2ItemInterface {
 					tempStatProps.add(((D2ItemProperty) allProps.get(y)));
 					}
 				}
-			break;
+			}
+		}
+		
+		if(maxResistanceKeys.size() == 0){
+			smallestMaxRes = ((D2ItemProperty) tempMaxResProps.get(0)).getRealValue();
+			for(int f=1;f<tempMaxResProps.size();f=f+1){
+				if(((D2ItemProperty) tempMaxResProps.get(f)).getRealValue() < smallestMaxRes){
+					smallestMaxRes =((D2ItemProperty) tempMaxResProps.get(f)).getRealValue();
+				}
+			}
+			
+			for(int f=0;f<tempMaxResProps.size();f=f+1){
+				((D2ItemProperty) tempMaxResProps.get(f)).setRealValue(((D2ItemProperty) tempMaxResProps.get(f)).getRealValue()-smallestMaxRes);
+				if(((D2ItemProperty) tempMaxResProps.get(f)).getRealValue()==0){
+					maskProps.remove(allProps.indexOf(tempMaxResProps.get(f)));
+					allProps.remove(tempMaxResProps.get(f));
+				}
 			}
 		}
 		
@@ -1673,6 +1728,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 			D2ItemProperty lProperty = new D2ItemProperty(1338,iCharLvl, iItemName);
 			D2TxtFileItemProperties lItemStatCost2 = null;
 			lProperty.set(1338, lItemStatCost2, 0,smallestStat);
+			if(!isGem()&& !isRune()){
+			iProperties.add(lProperty);
+			combineProps();
+			}else{
+			((ArrayList)iGemProps.get(2)).add(lProperty);
+			}
+			}
+		
+		if(maxResistanceKeys.size() == 0){
+			System.out.println(iItemName + " HAS HAD MAX RESISTANCES COMBINED");
+			D2ItemProperty lProperty = new D2ItemProperty(1339,iCharLvl, iItemName);
+			D2TxtFileItemProperties lItemStatCost2 = null;
+			lProperty.set(1339, lItemStatCost2, 0,smallestMaxRes);
 			if(!isGem()&& !isRune()){
 			iProperties.add(lProperty);
 			combineProps();
@@ -1811,6 +1879,21 @@ public class D2Item implements Comparable, D2ItemInterface {
 //		
 //	}
 	
+	private void modifyReqs(int value) {
+		if(getReqDex() != -1){
+			iReqDex = iReqDex + ((int)Math.floor(iReqDex*((double)value/(double)100)));
+//			iReqDex = (int)Math.floor((iReqDex +(((double)iReqDex/(double)100)*value)));
+			
+			System.out.println(iItemName + "HAS HAD DEXTERITY CHANGED");
+		}
+		
+		if(getReqStr() != -1){
+//			iReqStr = (int)(iReqStr +(((double)iReqStr/(double)100)*value));
+			iReqStr = iReqStr + ((int)Math.floor(iReqStr*((double)value/(double)100)));
+			System.out.println(iItemName + " HAS HAD STRENGTH CHANGED");
+		}
+	}
+
 	public boolean isBodyLArm() {
 		return isBodyLocation("larm");
 	}
@@ -2083,7 +2166,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if(isStackable()){
 			lReturn +="<BR>" + "Quantity: "+iCurDur;
 		}else{
+			if(iMaxDur == 0 ){
+			lReturn +="<BR>" + "Indestructible";
+			}else{
 			lReturn +="<BR>" + "Durability: "+iCurDur+" of "+iMaxDur;
+			}
 		}
 		}
 
@@ -2098,14 +2185,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 
 		if (iFP != null) {
-			lReturn += "<BR>FP: " + iFP;
+			lReturn += "<BR>Fingerprint: " + iFP;
 		}
 		if (hasGUID) {
 			lReturn += "<BR>GUID: " + iGUID;
 		}
 
 		if (ilvl != 0) {
-			lReturn += "<BR>iLvl: " + ilvl;
+			lReturn += "<BR>Item Level: " + ilvl;
 		}
 
 		lReturn += "<BR>Version: " + get_version();
@@ -2141,10 +2228,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 				for (int i = 0; i < iSocketedItems.size(); i++) {
 					D2Item lSocket = ((D2Item) iSocketedItems.get(i));
 					lReturn += "<BR>Socketed: " + lSocket.getItemName();
-					if (lSocket.isJewel()) {
-						lReturn += lSocket.getProperties(null,
-								lSocket.iProperties);
-					}
+//					if (lSocket.isJewel()) {
+//						lReturn += lSocket.getProperties(null,
+//								lSocket.iProperties);
+//					}
 
 				}
 			}

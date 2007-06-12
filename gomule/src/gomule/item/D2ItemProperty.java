@@ -158,9 +158,6 @@ public class D2ItemProperty
                 return null;
             }
         	
-        	/**
-        	 * MANA POTS
-        	 */
         	
         	if(iProp == 17){
         		PropValue l17 = (PropValue) iProperties.get(FIRST);
@@ -282,13 +279,7 @@ public class D2ItemProperty
                 	return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name")) + " " + D2TblFile.getString(sClass);
                 }
             }
-            
-            if(iProp == 111 ){
-                PropValue lValue1 = (PropValue) iProperties.get(FIRST);                
-               
-                return D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos")) + " +"+ lValue1.iValue;
-            }
-            
+                        
             /**
              * THIS IS AURAS
              */
@@ -565,7 +556,7 @@ public class D2ItemProperty
                 PropValue lValue1 = (PropValue) iProperties.get(FIRST);
                 
                 String lNiceString = D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
-                return "Repair 1 Durability in " + Long.toString(Math.round(100.0 / lValue1.iValue)) + " Seconds";
+                return "Repairs 1 Durability in " + Long.toString(Math.round(100.0 / lValue1.iValue)) + " Seconds";
             }
             
             /**
@@ -619,7 +610,7 @@ public class D2ItemProperty
             	 * 
             	 */
             	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
-            	return "+" + lValue1.iValue + " to all Resistances";
+            	return "All Resistances +"+ lValue1.iValue;
             }
             
             if(iProp == 1338){
@@ -628,7 +619,16 @@ public class D2ItemProperty
             	 * 
             	 */
             	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
-            	return "+" + lValue1.iValue + " to all Stats";
+            	return "All Stats +"+ lValue1.iValue;
+            }
+            
+            if(iProp == 1339){
+            	/**
+            	 * MY OWN PROPERTY FOR ALL MAX RESISTANCES!
+            	 * 
+            	 */
+            	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+            	return "+" + lValue1.iValue + "% to all Maximum Resistances";
             }
 
             PropValue lValue1 = (PropValue) iProperties.get(FIRST);
@@ -645,18 +645,6 @@ public class D2ItemProperty
                 String lGoMuleProp = D2TxtFile.GOMULE_PROPS.getProperty(lValue1.iItemStatCost.get("Stat"));
                 if (lGoMuleProp != null)
                 {
-                    if ("true".equals(lGoMuleProp))
-                    {
-                        return Long.toString(lValue1.iValue) + "% " + lNiceString;
-                    }
-                    if ("false".equals(lGoMuleProp))
-                    {
-                        return Long.toString(lValue1.iValue) + " " + lNiceString;
-                    }
-                    if ("none".equals(lGoMuleProp))
-                    {
-                        return lNiceString;
-                    }
                     if ("level_true".equals(lGoMuleProp))
                     {
                         return Long.toString(Math.round((lValue1.iValue * 0.125) * (iCharLvl))) + "% " + lNiceString+ " (Based on Char Lvl)";
@@ -664,6 +652,46 @@ public class D2ItemProperty
                     if ("level_false".equals(lGoMuleProp))
                     {
                         return Long.toString((long)Math.floor((lValue1.iValue * 0.125) * iCharLvl)) + " " + lNiceString+ " (Based on Char Lvl)";
+                    }
+                    if (lGoMuleProp.endsWith("true"))
+                    {
+                    	if(lGoMuleProp.startsWith("right")){
+                    		if(lValue1.iValue > 0){
+                    			if (lGoMuleProp.equals("rightplustrue")){
+                        			return lNiceString + " +"+Long.toString(lValue1.iValue) + "%";
+                        		}else{
+                    			return lNiceString + " "+Long.toString(lValue1.iValue) + "%";
+                        		}
+                    		}else{
+                    			return lNiceString + " "+Long.toString(lValue1.iValue) + "%";
+                    		}
+                    	}else{
+                    		return Long.toString(lValue1.iValue) + "% " + lNiceString;
+                    	}
+                    }
+                    if (lGoMuleProp.endsWith("false"))
+                    {
+                    	if(lGoMuleProp.startsWith("right")){
+                    		if(lValue1.iValue > 0){
+                    			if (lGoMuleProp.equals("rightplusfalse")){
+                        			return lNiceString + " +"+Long.toString(lValue1.iValue);
+                        		}else{
+                    			return lNiceString + " "+Long.toString(lValue1.iValue);
+                        		}
+                    		}else{
+                    			return lNiceString + " "+Long.toString(lValue1.iValue);
+                    		}
+                    	}else{
+                    		if(lValue1.iValue > 0){
+                    			return "+"+Long.toString(lValue1.iValue) + " " + lNiceString;
+                    		}else{
+                    			return Long.toString(lValue1.iValue) + " " + lNiceString;
+                    		}
+                    	}
+                    }
+                    if ("none".equals(lGoMuleProp))
+                    {
+                        return lNiceString;
                     }
                     else
                     {
