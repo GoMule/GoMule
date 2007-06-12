@@ -34,7 +34,7 @@ import javax.swing.table.*;
 
 import randall.util.*;
 
-public class D2ViewClipboard extends JInternalFrame
+public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, D2ItemListListener
 {
     private static final int   GRID_SIZE = 28;
 
@@ -47,6 +47,7 @@ public class D2ViewClipboard extends JInternalFrame
 
     private ArrayList          iItems;
 
+    private String			   iFileName;
     private D2Stash            iStash;
 
     private JTextField         iBank;
@@ -57,6 +58,11 @@ public class D2ViewClipboard extends JInternalFrame
         {
             iMouseItem = new D2ViewClipboard(pFileManager);
         }
+        return iMouseItem;
+    }
+    
+    public static D2ViewClipboard getInstance()
+    {
         return iMouseItem;
     }
 
@@ -72,7 +78,7 @@ public class D2ViewClipboard extends JInternalFrame
             iBank = new JTextField();
             iBank.setEditable(false);
             
-            setProjectInternal(pFileManager.getProject());
+            setProject(pFileManager.getProject());
 
             iItemModel = new D2ItemModel(iItems);
             iTable = new JTable(iItemModel);
@@ -109,8 +115,9 @@ public class D2ViewClipboard extends JInternalFrame
         setVisible(true);
     }
     
-    private void setTitle()
+    public void itemListChanged()
     {
+        fireTableChanged();
         super.setTitle("Item Clipboard" + ( iStash.isModified() ? "*":"" ) );
     }
 
@@ -206,18 +213,25 @@ public class D2ViewClipboard extends JInternalFrame
             {
                 ((TableModelListener) iTableModelListeners.get(i)).tableChanged(pEvent);
             }
+            int lRowCount = iTable.getRowCount();
+            if ( iTable.getSelectedRow() == -1 && iTable.getRowCount() > 0 )
+            {
+                iTable.setRowSelectionInterval(lRowCount-1, lRowCount-1);
+            }
         }
 
     }
 
-    public static void setProject(D2Project pProject) throws Exception
+    public String getFileName()
     {
-        iMouseItem.setProjectInternal(pProject);
+        return iFileName;
     }
 
-    public void setProjectInternal(D2Project pProject) throws Exception
+    public void setProject(D2Project pProject) throws Exception
     {
-        iStash = new D2Stash(pProject.getProjectDir() + File.separator + "Clipboard.d2x");
+        iFileName = pProject.getProjectDir() + File.separator + "Clipboard.d2x";
+        iStash = new D2Stash(iFileName);
+        iStash.addD2ItemListListener(this);
         iItems = iStash.getItemList();
         if (iItemModel != null)
         {
@@ -242,16 +256,34 @@ public class D2ViewClipboard extends JInternalFrame
     {
         return iStash.isModified();
     }
-
-    public static void save( )
+    
+    public ArrayList getItemLists()
     {
-        if (iMouseItem != null && iMouseItem.iStash != null)
+        ArrayList lList = new ArrayList();
+        lList.add(iStash);
+        return lList;
+    }
+    
+    public void closeView()
+    {
+        iStash.removeD2ItemListListener(this);
+    }
+    
+    public boolean isSC()
+    {
+        return true;
+    }
+
+    public boolean isHC()
+    {
+        return true;
+    }
+    
+    public void saveView()
+    {
+        if ( iStash != null && iStash.isModified() )
         {
-            if ( iMouseItem.iStash.isModified() )
-            {
-                iMouseItem.iStash.save( iMouseItem.iFileManager.getProject() );
-                iMouseItem.setTitle();
-            }
+            iStash.save( iMouseItem.iFileManager.getProject() );
         }
     }
 
@@ -297,7 +329,6 @@ public class D2ViewClipboard extends JInternalFrame
             {
                 D2Item lItem = (D2Item) iItems.get(lRow);
                 iStash.removeItem(lItem);
-                fireTableChanged();
                 if (!iItems.isEmpty() && iTable.getSelectedRow() == -1)
                 {
                     iTable.clearSelection();
@@ -309,11 +340,6 @@ public class D2ViewClipboard extends JInternalFrame
         return null;
     }
 
-    public static void refreshData()
-    {
-        iMouseItem.fireTableChanged();
-    }
-
     public static void addItem(D2Item pItem)
     {
         iMouseItem.addItemInternal(pItem);
@@ -322,7 +348,6 @@ public class D2ViewClipboard extends JInternalFrame
     private void addItemInternal(D2Item pItem)
     {
         iStash.addItem(pItem);
-        fireTableChanged();
 
         if (iTable.getSelectedRow() == -1)
         {
@@ -357,7 +382,6 @@ public class D2ViewClipboard extends JInternalFrame
     private void fireTableChanged()
     {
         iItemModel.fireTableChanged();
-        setTitle();
     }
 
 }

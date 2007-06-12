@@ -19,11 +19,14 @@ import gomule.util.*;
  */
 public interface D2ItemList
 {
+    public boolean containsItem(D2Item pItem);
     public void removeItem(D2Item pItem);
     public ArrayList getItemList();
     public int getNrItems();
     
     public boolean isModified();
+    public void addD2ItemListListener(D2ItemListListener pListener);
+    public void removeD2ItemListListener(D2ItemListListener pListener);
     public void save(D2Project pProject);
     
     public boolean isSC();

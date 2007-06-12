@@ -20,6 +20,8 @@
  ******************************************************************************/
 package gomule.gui;
 
+import java.util.*;
+
 
 /**
  * @author Marco
@@ -35,4 +37,6 @@ public interface D2ItemContainer
     public void closeView();
     public void saveView();
     public boolean isModified();
+    
+    public ArrayList getItemLists();
 }

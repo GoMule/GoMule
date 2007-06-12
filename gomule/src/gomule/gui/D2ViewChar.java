@@ -26,7 +26,7 @@ import gomule.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.*;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -37,7 +37,7 @@ import randall.util.*;
  * @author Marco
  *  
  */
-public class D2ViewChar extends JInternalFrame implements D2ItemContainer
+public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2ItemListListener
 {
     private D2CharPainterPanel       iCharPainter;
     private D2MercPainterPanel       iMercPainter;
@@ -102,6 +102,16 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
     public D2ViewChar(D2FileManager pMainFrame, String pFileName)
     {
         super(pFileName, false, true, false, true);
+        
+        addInternalFrameListener(new InternalFrameAdapter()
+        {
+            public void internalFrameClosing(InternalFrameEvent e)
+            {
+                iFileManager.saveAll();
+                closeView();
+            }
+        });
+        
         iFileManager = pMainFrame;
         iFileName = pFileName;
 
@@ -110,6 +120,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
         try
         {
             iChar = new D2Character(pFileName);
+            iChar.addD2ItemListListener(this);
 
             int lType = iFileManager.getProject().getType();
             if (lType == D2Project.TYPE_SC && (!iChar.isSC() || iChar.isHC()))
@@ -276,15 +287,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
 
             lBankPanel.finishDefaultPanel();
             lTabs.addTab("Bank", lBankPanel);
-
-            addInternalFrameListener(new InternalFrameAdapter()
-            {
-                public void internalFrameClosing(InternalFrameEvent e)
-                {
-                    iFileManager.saveAll();
-                    closeView();
-                }
-            });
         }
         catch (Exception pEx)
         {
@@ -302,7 +304,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
         //        setDefaultCloseOperation( JInternalFrame.DO_NOTHING_ON_CLOSE );
         pack();
         setVisible(true);
-        setTitle();
 
         //        setModified(true);
     }
@@ -438,23 +439,33 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
     {
         return iChar.isModified();
     }
+    
+    public ArrayList getItemLists()
+    {
+        ArrayList lList = new ArrayList();
+        lList.add(iChar);
+        return lList;
+    }
 
     public void closeView()
     {
+        if ( iChar != null )
+        {
+            iChar.removeD2ItemListListener(this);
+        }
         iFileManager.removeInternalFrame(this);
     }
 
     public void saveView()
     {
-        if ( iChar.isModified() )
+        if ( iChar != null && iChar.isModified() )
         {
             // auto save (always)
             iChar.save( iFileManager.getProject() );
-            setTitle();
         }
     }
 
-    public void setTitle()
+    public void itemListChanged()
     {
         String lTitle = iChar.getCharName();
         if (iChar == null)
@@ -475,6 +486,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
             lTitle += iChar.getTitleString();
         }
         setTitle(lTitle);
+        iCharPainter.build();
+        iMercPainter.build();
+        iCharCursorPainter.build();
     }
 
     public void setCursorPickupItem()
@@ -754,11 +768,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                 D2ViewClipboard.addItem(lTemp);
                                 setCursorDropItem();
 
-                                setTitle();
-
-                                // redraw
-                                build();
-                                repaint();
+//                                // redraw
+//                                build();
+//                                repaint();
                             }
                             else if (D2ViewClipboard.getItem() != null)
                             {
@@ -843,11 +855,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                     // needed
                                     iChar.addCharItem(D2ViewClipboard.removeItem());
 
-                                    setTitle();
-
                                     // redraw
-                                    build();
-                                    repaint();
+//                                    build();
+//                                    repaint();
 
                                     setCursorPickupItem();
                                     //my_char.show_grid();
@@ -945,7 +955,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
         {
             iWeaponSlot = pWeaponSlot;
             build();
-            repaint();
+//            repaint();
         }
 
         public void build()
@@ -959,7 +969,12 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
             {
                 lEmptyBackground = D2ImageCache.getImage("background2.png");
             }
-            iBackground = new BufferedImage(lEmptyBackground.getWidth(D2CharPainterPanel.this), lEmptyBackground.getHeight(D2CharPainterPanel.this), BufferedImage.TYPE_3BYTE_BGR);
+            
+            int lWidth = lEmptyBackground.getWidth(D2CharPainterPanel.this);
+            int lHeight = lEmptyBackground.getHeight(D2CharPainterPanel.this);
+            
+            iBackground = iFileManager.getGraphicsConfiguration().createCompatibleImage(lWidth, lHeight, Transparency.BITMASK);
+//            iBackground = new BufferedImage(lWidth, lHeight, BufferedImage.TYPE_3BYTE_BGR);
 
             Graphics2D lGraphics = (Graphics2D) iBackground.getGraphics();
 
@@ -1092,6 +1107,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                     }
                 }
             }
+            repaint();
         }
 
         public void paint(Graphics pGraphics)
@@ -1138,11 +1154,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                 D2ViewClipboard.addItem(lTemp);
                                 setCursorDropItem();
 
-                                setTitle();
-
                                 // redraw
-                                build();
-                                repaint();
+//                                build();
+//                                repaint();
                             }
                             else if (D2ViewClipboard.getItem() != null)
                             {
@@ -1181,11 +1195,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                     // needed
                                     iChar.addMercItem(D2ViewClipboard.removeItem());
 
-                                    setTitle();
-
                                     // redraw
-                                    build();
-                                    repaint();
+//                                    build();
+//                                    repaint();
 
                                     setCursorPickupItem();
                                     //my_char.show_grid();
@@ -1272,7 +1284,12 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
         public void build()
         {
             Image lEmptyBackground = D2ImageCache.getImage("merc.png");
-            iBackground = new BufferedImage(lEmptyBackground.getWidth(D2MercPainterPanel.this), lEmptyBackground.getHeight(D2MercPainterPanel.this), BufferedImage.TYPE_3BYTE_BGR);
+
+            int lWidth = lEmptyBackground.getWidth(D2MercPainterPanel.this);
+            int lHeight = lEmptyBackground.getHeight(D2MercPainterPanel.this);
+            
+            iBackground = iFileManager.getGraphicsConfiguration().createCompatibleImage(lWidth, lHeight, Transparency.BITMASK);
+//            iBackground = new BufferedImage(lEmptyBackground.getWidth(lWidth, lHeight, BufferedImage.TYPE_3BYTE_BGR);
 
             Graphics2D lGraphics = (Graphics2D) iBackground.getGraphics();
 
@@ -1335,6 +1352,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                     }
                 }
             }
+            repaint();
         }
 
         public void paint(Graphics pGraphics)
@@ -1381,11 +1399,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                                 D2ViewClipboard.addItem(lTemp);
                                 setCursorDropItem();
 
-                                setTitle();
-
                                 // redraw
-                                build();
-                                repaint();
+//                                build();
+//                                repaint();
                             }
                             else if (D2ViewClipboard.getItem() != null)
                             {
@@ -1524,17 +1540,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
             });
         }
 
-        public void setWeaponSlot(int pWeaponSlot)
-        {
-            iWeaponSlot = pWeaponSlot;
-            build();
-            repaint();
-        }
-
         public void build()
         {
             Image lEmptyBackground = D2ImageCache.getImage("cursor.png");
-            iBackground = new BufferedImage(lEmptyBackground.getWidth(D2CharCursorPainterPanel.this), lEmptyBackground.getHeight(D2CharCursorPainterPanel.this), BufferedImage.TYPE_3BYTE_BGR);
+            
+            int lWidth = lEmptyBackground.getWidth(D2CharCursorPainterPanel.this);
+            int lHeight = lEmptyBackground.getHeight(D2CharCursorPainterPanel.this);
+            
+            iBackground = iFileManager.getGraphicsConfiguration().createCompatibleImage(lWidth, lHeight, Transparency.BITMASK);
+//            iBackground = new BufferedImage(lWidth, lHeight, BufferedImage.TYPE_3BYTE_BGR);
 
             Graphics2D lGraphics = (Graphics2D) iBackground.getGraphics();
 
@@ -1564,6 +1578,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer
                     }
                 }
             }
+            repaint();
         }
 
         public void paint(Graphics pGraphics)

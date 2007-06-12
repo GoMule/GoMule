@@ -36,25 +36,28 @@ import randall.util.*;
 // it is just a menu to open character-file windows
 public class D2FileManager extends JFrame
 {
-    private static final String CURRENT_VERSION = "R0.16";
+    private static final String  CURRENT_VERSION = "R0.16";
 
-    private ArrayList           iOpenWindows;
+    private ArrayList            iOpenWindows;
 
-    private JPanel              iContentPane;
-    private JDesktopPane        iDesktopPane;
+    private JPanel               iContentPane;
+    private JDesktopPane         iDesktopPane;
 
-    private JToolBar            iToolbar;
+    private JToolBar             iToolbar;
 
-    private Properties          iProperties;
-    private D2Project           iProject;
-    private JButton             iBtnProjectSelection;
-    private D2ViewProject       iViewProject;
-    
+    private Properties           iProperties;
+    private D2Project            iProject;
+    private JButton              iBtnProjectSelection;
+    private D2ViewProject        iViewProject;
+
     private static D2FileManager iCurrent;
-    
+
+    private D2ViewClipboard      iClipboard;
+    private D2ViewStash          iViewAll;
+
     public static D2FileManager getIntance()
     {
-        if ( iCurrent == null )
+        if (iCurrent == null)
         {
             iCurrent = new D2FileManager();
         }
@@ -93,7 +96,8 @@ public class D2FileManager extends JFrame
 
         try
         {
-            iDesktopPane.add(D2ViewClipboard.getInstance(this));
+            iClipboard = D2ViewClipboard.getInstance(this);
+            iDesktopPane.add(iClipboard);
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             addWindowListener(new java.awt.event.WindowAdapter()
             {
@@ -134,7 +138,7 @@ public class D2FileManager extends JFrame
     public void setProject(D2Project pProject) throws Exception
     {
         iProject = pProject;
-        D2ViewClipboard.setProject(iProject);
+        iClipboard.setProject(iProject);
         iBtnProjectSelection.setText(iProject.getProjectName());
         iViewProject.setProject(pProject);
     }
@@ -255,7 +259,7 @@ public class D2FileManager extends JFrame
             lPropsIn.close();
 
             String lCurrent = iProperties.getProperty("current-project"); // ,
-                                                                          // "DefaultProject");
+            // "DefaultProject");
 
             if (lCurrent != null)
             {
@@ -295,7 +299,7 @@ public class D2FileManager extends JFrame
     public void closeWindows()
     {
         saveAll();
-        while ( iOpenWindows.size() > 0 )
+        while (iOpenWindows.size() > 0)
         {
             D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(0);
             if (lItemContainer != null)
@@ -311,11 +315,11 @@ public class D2FileManager extends JFrame
     // windows save on close
     public void saveAll()
     {
-        D2ViewClipboard.save();
         if (iProject != null)
         {
             iProject.saveProject();
         }
+        iClipboard.saveView();
         for (int i = 0; i < iOpenWindows.size(); i++)
         {
             D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
@@ -411,7 +415,7 @@ public class D2FileManager extends JFrame
             if (lStashView != null)
             {
                 // Force first save
-//                lStashView.setModified(true);
+                //                lStashView.setModified(true);
                 lStashView.saveView();
             }
         }
@@ -428,7 +432,7 @@ public class D2FileManager extends JFrame
                 // force stash name to end with .d2x
                 lFilename += ".d2x";
             }
-            
+
             return openStash(lFilename);
         }
         catch (Exception pEx)
@@ -466,58 +470,57 @@ public class D2FileManager extends JFrame
         }
         iProject.addStash(pStashName);
         iViewProject.refreshTreeModel(false, true);
-        
+
         return lStashView;
     }
 
     public void about_action()
     {
-        JOptionPane.showMessageDialog(this, "A java-based Diablo II muling application\n\noriniginally created by Andy Theuninck (Gohanman)\nVersion 0.1a" + "\n\ncurrent release by Randall & Silospen\nVersion "
-                + CURRENT_VERSION + "\n\nAnd special thanks to:" + "\n\tHakai_no_Tenshi & Gohanman for helping me out with the file formats"
+        JOptionPane.showMessageDialog(this, "A java-based Diablo II muling application\n\noriniginally created by Andy Theuninck (Gohanman)\nVersion 0.1a"
+                + "\n\ncurrent release by Randall & Silospen\nVersion " + CURRENT_VERSION + "\n\nAnd special thanks to:" + "\n\tHakai_no_Tenshi & Gohanman for helping me out with the file formats"
                 + "\n\tSkinhead On The MBTA & nubikon for helping me beta testing", "About", JOptionPane.PLAIN_MESSAGE);
     }
-    
+
     public static void displayErrorDialog(Exception pException)
     {
         displayErrorDialog(iCurrent, pException);
     }
 
-	public static void displayErrorDialog(Window pParent, Exception pException)
-	{
-	    pException.printStackTrace();
-		JDialog lDialog;
-		if ( pParent instanceof JFrame )
-		{
-			lDialog = new JDialog((JFrame) pParent, "Error");
-		}
-		else
-		{
-			lDialog = new JDialog((JDialog) pParent, "Error");
-		}
-		RandallPanel lPanel = new RandallPanel();
-		JTextArea lTextArea = new JTextArea();
-		JScrollPane lScroll = new JScrollPane(lTextArea);
-		
-		lScroll.setPreferredSize(new Dimension(640,480));
-		lPanel.addToPanel(lScroll,0,0,1,RandallPanel.BOTH);
-		
-		String lText = "Error\n\n" + pException.getMessage()+"\n";
-
-		StackTraceElement trace[] = pException.getStackTrace();
-        for (int i=0; i < trace.length ; i++)
+    public static void displayErrorDialog(Window pParent, Exception pException)
+    {
+        pException.printStackTrace();
+        JDialog lDialog;
+        if (pParent instanceof JFrame)
         {
-        	lText += "\tat " + trace[i] + "\n";
+            lDialog = new JDialog((JFrame) pParent, "Error");
         }
-		
-		lTextArea.setText(lText);
-		lTextArea.setEditable(false);
-		
-		lDialog.setContentPane(lPanel);
-		lDialog.pack();
-		lDialog.setLocation(200, 100);
-		lDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		lDialog.show();
-	}
-	
-    
+        else
+        {
+            lDialog = new JDialog((JDialog) pParent, "Error");
+        }
+        RandallPanel lPanel = new RandallPanel();
+        JTextArea lTextArea = new JTextArea();
+        JScrollPane lScroll = new JScrollPane(lTextArea);
+
+        lScroll.setPreferredSize(new Dimension(640, 480));
+        lPanel.addToPanel(lScroll, 0, 0, 1, RandallPanel.BOTH);
+
+        String lText = "Error\n\n" + pException.getMessage() + "\n";
+
+        StackTraceElement trace[] = pException.getStackTrace();
+        for (int i = 0; i < trace.length; i++)
+        {
+            lText += "\tat " + trace[i] + "\n";
+        }
+
+        lTextArea.setText(lText);
+        lTextArea.setEditable(false);
+
+        lDialog.setContentPane(lPanel);
+        lDialog.pack();
+        lDialog.setLocation(200, 100);
+        lDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        lDialog.show();
+    }
+
 }

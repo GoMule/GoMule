@@ -33,7 +33,7 @@ import java.util.*;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class D2Stash implements D2ItemList
+public class D2Stash extends D2ItemListAdapter
 {
     private String		iFileName;
     private ArrayList	iItems;
@@ -44,7 +44,6 @@ public class D2Stash implements D2ItemList
     
     private int			iCharLvl = 75; // default char lvl for properties
     
-    private boolean		iModified;
 //    private int iItemlistStart;
 //    private int iItemlistEnd;
     
@@ -80,12 +79,12 @@ public class D2Stash implements D2ItemList
 	            readAtmaItems();
 	        }
 	        // clear status
-	        iModified = false;
+	        setModified(false);
         }
         else
         {
             // set status (for first save)
-            iModified = true;
+	        setModified(true);
         }
     }
     
@@ -110,14 +109,19 @@ public class D2Stash implements D2ItemList
         {
             iItems.add(pItem);
             pItem.setCharLvl(iCharLvl);
-            iModified = true;
+	        setModified(true);
         }
+    }
+    
+    public boolean containsItem(D2Item pItem)
+    {
+        return iItems.contains(pItem);
     }
     
     public void removeItem(D2Item pItem)
     {
         iItems.remove(pItem);
-        iModified = true;
+        setModified(true);
     }
     
     public ArrayList removeAllItems()
@@ -126,7 +130,7 @@ public class D2Stash implements D2ItemList
 	    lReturn.addAll( iItems );
 	    
 	    iItems.clear();
-	    iModified = true;
+        setModified(true);
 	    
 	    return lReturn;
     }
@@ -199,11 +203,6 @@ public class D2Stash implements D2ItemList
         }
     }
     
-    public boolean isModified()
-    {
-        return iModified;
-    }
-
     public void save(D2Project pProject)
     {
         // backup file
@@ -246,7 +245,7 @@ public class D2Stash implements D2ItemList
         if ( lCheckSum1 == lCheckSum2 )
         {
             iBR.save();
-            iModified = false;
+	        setModified(false);
         }
         else
         {

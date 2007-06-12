@@ -103,7 +103,8 @@ public class D2ViewProject extends JPanel
                 if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 )
                 {
 	                TreePath lPath = iTree.getPathForLocation(e.getX(), e.getY());
-	                if(lPath == null){
+	                if(lPath == null)
+	                {
 	                	return;
 	                }
 	                Object lPathObjects[] = lPath.getPath();

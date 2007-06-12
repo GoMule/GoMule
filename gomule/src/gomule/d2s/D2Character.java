@@ -34,7 +34,7 @@ import randall.d2files.*;
 // stores a filename, a bitreader
 // to read from that file, and
 // a vector of items
-public class D2Character implements D2ItemList
+public class D2Character extends D2ItemListAdapter
 {
     public static final int BODY_INV_CONTENT   = 1;
     public static final int BODY_BELT_CONTENT  = 2; // the belt content
@@ -88,8 +88,6 @@ public class D2Character implements D2ItemList
     private int				iGF; 
     private int				iIF; 
     
-    private boolean			iModified;
-
     public D2Character(String pFileName) throws Exception
     {
         iFileName = pFileName;
@@ -102,7 +100,7 @@ public class D2Character implements D2ItemList
         iReader = new D2BitReader(iFileName);
         readChar();
         // clear status
-        iModified = false;
+        setModified(false);
     }
     
     public ArrayList getItemList()
@@ -126,13 +124,26 @@ public class D2Character implements D2ItemList
         return iCharItems.size() + iMercItems.size();
     }
     
+    public boolean containsItem(D2Item pItem)
+    {
+        if ( iCharItems.contains(pItem) )
+        {
+            return true;
+        }
+        if ( iMercItems.contains(pItem) )
+        {
+            return true;
+        }
+        return false;
+    }
+    
     public void removeItem(D2Item pItem)
     {
         if ( !iCharItems.remove(pItem) )
         {
             iMercItems.remove(pItem);
         }
-        iModified = true;
+        setModified(true);
     }
 
     private void readChar() throws Exception
@@ -749,7 +760,7 @@ public class D2Character implements D2ItemList
     {
         iCharItems.add(pItem);
         pItem.setCharLvl(iCharLevel);
-        iModified = true;
+        setModified(true);
     }
 
     // insert an item into the vector
@@ -757,19 +768,19 @@ public class D2Character implements D2ItemList
     {
         iMercItems.add(pItem);
         pItem.setCharLvl(iCharLevel);
-        iModified = true;
+        setModified(true);
     }
 
     public void removeCharItem(int i)
     {
         iCharItems.remove(i);
-        iModified = true;
+        setModified(true);
     }
 
     public void removeMercItem(int i)
     {
         iMercItems.remove(i);
-        iModified = true;
+        setModified(true);
     }
 
     // get an item from the vector
@@ -1096,11 +1107,6 @@ public class D2Character implements D2ItemList
         return -1;
     }
     
-    public boolean isModified()
-    {
-        return iModified;
-    }
-
     public void save(D2Project pProject)
     {
         // backup file
@@ -1233,7 +1239,7 @@ public class D2Character implements D2ItemList
         //		    + " " +
         //		   (0x0000ff & oldchecksum[i]));
         iReader.save();
-        iModified = false;
+        setModified(false);
     }
     
     public int getGold()
@@ -1257,7 +1263,7 @@ public class D2Character implements D2ItemList
             throw new Exception("gold must be smaller than max" + getGoldMax() );
         }
         iStats[14] = pGold;
-        iModified = true;
+        setModified(true);
     }
 
     public int getGoldBank()
@@ -1276,7 +1282,7 @@ public class D2Character implements D2ItemList
             throw new Exception("gold must be smaller than max" + getGoldBankMax() );
         }
         iStats[15] = pGoldBank;
-        iModified = true;
+        setModified(true);
     }
     
     public int getGoldBankMax()

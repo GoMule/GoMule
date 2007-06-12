@@ -37,13 +37,14 @@ import randall.util.*;
 /**
  * @author Marco
  */
-public class D2ViewStash extends JInternalFrame implements D2ItemContainer
+public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2ItemListListener
 {
     private D2FileManager iFileManager;
     private D2ItemList    iStash;
     private String        iFileName;
 
     private D2StashFilter iStashFilter;
+    private boolean		  iIgnoreItemListEvents;
     private D2ItemModel   iItemModel;
     private JTable        iTable;
 
@@ -100,6 +101,17 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
     public D2ViewStash(D2FileManager pMainFrame, String pFileName)
     {
         super(pFileName, true, true, false, true);
+        
+        addInternalFrameListener(new InternalFrameAdapter()
+        {
+            public void internalFrameClosing(InternalFrameEvent e)
+            {
+                iFileManager.saveAll();
+                closeView();
+            }
+        });
+
+        
         iFileManager = pMainFrame;
         iFileName = pFileName;
 
@@ -109,6 +121,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         try
         {
             iStash = new D2Stash(pFileName);
+            iStash.addD2ItemListListener(this);
             
             int lType = iFileManager.getProject().getType();
             if ( lType == D2Project.TYPE_SC && (!iStash.isSC() || iStash.isHC()) )
@@ -146,12 +159,12 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             
             iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
             iTable.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-            iTable.getColumnModel().getColumn(0).setPreferredWidth(100);
-            iTable.getColumnModel().getColumn(1).setPreferredWidth(20);
-            iTable.getColumnModel().getColumn(2).setPreferredWidth(20);
-            iTable.getColumnModel().getColumn(3).setPreferredWidth(20);
+            iTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+            iTable.getColumnModel().getColumn(1).setPreferredWidth(11);
+            iTable.getColumnModel().getColumn(2).setPreferredWidth(11);
+            iTable.getColumnModel().getColumn(3).setPreferredWidth(11);
             JScrollPane lPane = new JScrollPane(iTable);
-            lPane.setPreferredSize(new Dimension(200, 100));
+            lPane.setPreferredSize(new Dimension(280, 100));
             iContentPane.add(lPane, BorderLayout.WEST);
 
             RandallPanel lButtonPanel = getButtonPanel();
@@ -187,7 +200,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
             JScrollPane lItemScroll = new JScrollPane(iItemText);
             lItemPanel.setLayout(new BorderLayout());
             lItemPanel.add(lItemScroll, BorderLayout.CENTER);
-            lItemPanel.setPreferredSize(new Dimension(150, 100));
+            lItemPanel.setPreferredSize(new Dimension(250, 100));
 
             iContentPane.add(lItemPanel, BorderLayout.CENTER);
         }
@@ -202,20 +215,11 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
 
         setContentPane(iContentPane);
 
-        addInternalFrameListener(new InternalFrameAdapter()
-        {
-            public void internalFrameClosing(InternalFrameEvent e)
-            {
-                iFileManager.saveAll();
-                closeView();
-            }
-        });
-
         pack();
-        setSize(500, 500);
+        setSize(630, 500);
         setVisible(true);
 
-        setTitle();
+        itemListChanged();
 
         if (iTable != null)
         {
@@ -267,13 +271,20 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
                     {
                         lItemList.add(iItemModel.getItem(lRows[i]));
                     }
-                    for (int i = 0; i < lItemList.size(); i++)
+                    try
                     {
-                        iStash.removeItem((D2Item) lItemList.get(i));
-                        D2ViewClipboard.addItem((D2Item) lItemList.get(i));
+                        iIgnoreItemListEvents = true;
+                        for (int i = 0; i < lItemList.size(); i++)
+                        {
+                            iStash.removeItem((D2Item) lItemList.get(i));
+                            D2ViewClipboard.addItem((D2Item) lItemList.get(i));
+                        }
                     }
-                    iItemModel.refreshData();
-                    setTitle();
+                    finally
+                    {
+                        iIgnoreItemListEvents = false;
+                    }
+                    itemListChanged();
                 }
             }
         });
@@ -287,8 +298,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
 	            public void actionPerformed(ActionEvent pEvent)
 	            {
 	                ((D2Stash) iStash).addItem(D2ViewClipboard.removeItem());
-	                iItemModel.refreshData();
-	                setTitle();
 	            }
 	        });
 	        lButtonPanel.addToPanel(lDropOne, 1, 0, 1, RandallPanel.HORIZONTAL);
@@ -301,14 +310,20 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
 	        {
 	            public void actionPerformed(ActionEvent pEvent)
 	            {
-	                ArrayList lItemList = D2ViewClipboard.removeAllItems();
-	                while (lItemList.size() > 0)
-	                {
-	                    ((D2Stash) iStash).addItem((D2Item) lItemList.remove(0));
-	                }
-	                iItemModel.refreshData();
-	                D2ViewClipboard.refreshData();
-	                setTitle();
+                    try
+                    {
+                        iIgnoreItemListEvents = true;
+		                ArrayList lItemList = D2ViewClipboard.removeAllItems();
+		                while (lItemList.size() > 0)
+		                {
+		                    ((D2Stash) iStash).addItem((D2Item) lItemList.remove(0));
+		                }
+                    }
+                    finally
+                    {
+                        iIgnoreItemListEvents = false;
+                    }
+                    itemListChanged();
 	            }
 	        });
 	        lButtonPanel.addToPanel(lDropAll, 2, 0, 1, RandallPanel.HORIZONTAL);
@@ -572,8 +587,13 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         return lCategoriesMisc;
     }
 
-    public void setTitle()
+    public void itemListChanged()
     {
+        if ( iIgnoreItemListEvents )
+        {
+            return;
+        }
+        iItemModel.refreshData();
         String lTitle = iFileName;
         if (iStash == null || iItemModel == null)
         {
@@ -986,7 +1006,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
                 ((TableModelListener) iTableModelListeners.get(i))
                         .tableChanged(pEvent);
             }
-            setTitle();
         }
 
     }
@@ -1075,9 +1094,17 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         return iStash.isModified();
     }
 
+    public ArrayList getItemLists()
+    {
+        ArrayList lList = new ArrayList();
+        lList.add(iStash);
+        return lList;
+    }
+    
     public void closeView()
     {
         iFileManager.removeInternalFrame(this);
+        iStash.removeD2ItemListListener(this);
     }
 
     public void saveView()
@@ -1085,8 +1112,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer
         if (iStash.isModified())
         {
             iStash.save( iFileManager.getProject() );
-            setTitle();
         }
     }
-
+    
 }
