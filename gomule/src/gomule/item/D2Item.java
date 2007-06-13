@@ -133,6 +133,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private String iType2;
 
 	private boolean iEthereal;
+	
+	private boolean iQuest;
 
 	private boolean iSocketed;
 
@@ -165,6 +167,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private boolean iRune;
 
 	private boolean iTypeMisc;
+	
+	private boolean iIdentified;
 
 	private boolean iTypeWeapon;
 
@@ -301,12 +305,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 	// whether the item is an ear
 	private void read_item(D2BitReader pFile, int pos) throws Exception {
 		pFile.skipBytes(2);
-
+//		pFile.skipBits(5);
+//		long unknown1 = pFile.read(3);
+//		pFile.skipBits(4);
+//		long unknown2 = pFile.read(2);
+//		pFile.skipBits(4);
+//		long unknown3 = pFile.read(2);
+		
 		flags = (int) pFile.unflip(pFile.read(32), 32); // 4 bytes
 
 		iSocketed = check_flag(12); // 12
 		iEthereal = check_flag(23); // 23
 		iRuneWord = check_flag(27); // 27
+		iIdentified = check_flag(5);
 
 		version = (short) pFile.read(8); // 1 byte
 
@@ -316,6 +327,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		col = (short) pFile.read(4);
 		row = (short) pFile.read(4);
 		panel = (short) pFile.read(3); // 20 bits -> 2,5 byte
+		
 
 		// flag 17 is an ear
 		if (!check_flag(17)) {
@@ -440,11 +452,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		if (lHasRand == 1) { // GUID ???
 			//if (!check_flag(22)) {
+			if(iType.startsWith("rune") || iType.startsWith("gem") || !isTypeMisc()){
 			hasGUID=true;
 						
 				 iGUID = "0x" + Integer.toHexString((int)  pFile.read(32)) +" 0x" + Integer.toHexString((int) pFile.read(32))+ " 0x" + Integer.toHexString((int) pFile.read(32));
 //			}
 			// pFile.read(32);
+			}else{
+				pFile.read(3);
+			}
 		}
 
 		// flag 22 is a simple item (extend2)
@@ -2196,7 +2212,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 
 		lReturn += "<BR>Version: " + get_version();
-
+		if(!iIdentified){
+			lReturn +="<BR>Unidentified";
+		}
 		lReturn += getProperties("Properties: ", iProperties);
 		if (isGem() || isRune()) {
 			lReturn += getProperties("Weapons: ", (ArrayList) iGemProps.get(0));
