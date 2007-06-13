@@ -120,18 +120,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         try
         {
             iChar = (D2Character) iFileManager.addItemList(iFileName, this);
-//            iChar = new D2Character(pFileName);
-//            iChar.addD2ItemListListener(this);
-
-            int lType = iFileManager.getProject().getType();
-            if (lType == D2Project.TYPE_SC && (!iChar.isSC() || iChar.isHC()))
-            {
-                throw new Exception("Character is not Softcore (SC), this is a project requirement");
-            }
-            if (lType == D2Project.TYPE_HC && (iChar.isSC() || !iChar.isHC()))
-            {
-                throw new Exception("Character is not Hardcore (HC), this is a project requirement");
-            }
 
             JPanel lCharPanel = new JPanel();
             lCharPanel.setLayout(new BorderLayout());

@@ -121,24 +121,13 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         try
         {
             iStash = iFileManager.addItemList(iFileName, this);
-//            iStash = new D2Stash(pFileName);
-//            iStash.addD2ItemListListener(this);
-            
-            int lType = iFileManager.getProject().getType();
-            if ( lType == D2Project.TYPE_SC && (!iStash.isSC() || iStash.isHC()) )
-            {
-                throw new Exception("Stash is not Softcore (SC), this is a project requirement");
-            }
-            if ( lType == D2Project.TYPE_HC && (iStash.isSC() || !iStash.isHC()) )
-            {
-                throw new Exception("Stash is not Hardcore (HC), this is a project requirement");
-            }
-            
             
             iStashFilter = new D2StashFilter();
             iItemModel = new D2ItemModel();
             iTable = new JTable(iItemModel);
             
+            Font lFont = iTable.getTableHeader().getFont();
+//            iTable.getTableHeader().setFont( new Font(lFont.getName(), lFont.getStyle(), lFont.getSize()-2) );
             iTable.getTableHeader().addMouseListener( new MouseAdapter() 
             {
                 public void mouseReleased(MouseEvent e) 
@@ -162,7 +151,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             iTable.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             if ( iStash instanceof D2ItemListAll )
             {
-                iTable.getColumnModel().getColumn(0).setPreferredWidth(190);
+                iTable.getColumnModel().getColumn(0).setPreferredWidth(180);
             }
             else
             {
@@ -170,13 +159,13 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             }
             iTable.getColumnModel().getColumn(1).setPreferredWidth(11);
             iTable.getColumnModel().getColumn(2).setPreferredWidth(11);
-            iTable.getColumnModel().getColumn(3).setPreferredWidth(11);
+            iTable.getColumnModel().getColumn(3).setPreferredWidth(15);
             if ( iStash instanceof D2ItemListAll )
             {
-                iTable.getColumnModel().getColumn(4).setPreferredWidth(6);
+                iTable.getColumnModel().getColumn(4).setPreferredWidth(8);
             }
             JScrollPane lPane = new JScrollPane(iTable);
-            lPane.setPreferredSize(new Dimension(280, 100));
+            lPane.setPreferredSize(new Dimension(300, 100));
             iContentPane.add(lPane, BorderLayout.WEST);
 
             RandallPanel lButtonPanel = getButtonPanel();
@@ -228,7 +217,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         setContentPane(iContentPane);
 
         pack();
-        setSize(630, 500);
+        setSize(650, 500);
         setVisible(true);
 
         itemListChanged();
@@ -638,7 +627,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         private ArrayList iTableModelListeners = new ArrayList();
         private ArrayList iSortList = new ArrayList();
 
-        private final Object HEADER[] = new Object[] {new Object(), new Object(), new Object(), new Object()};
+        private final Object HEADER[] = new Object[] {new Object(), new Object(), new Object(), new Object(), new Object()};
         
         public D2ItemModel()
         {
@@ -914,6 +903,12 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                         {
                             return lItem1.getReqDex() - lItem2.getReqDex();
                         } 
+                        else if ( lSort ==  HEADER[4] )
+                        {
+                            String lFileName1 = ((D2ItemListAll) iStash).getFilename(lItem1);
+                            String lFileName2 = ((D2ItemListAll) iStash).getFilename(lItem2);
+                            return lFileName1.compareTo(lFileName2);
+                        } 
                     }
                     
                     return 0;
@@ -948,13 +943,13 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             case 0:
                 return "Name";
             case 1:
-                return "Lvl";
+                return "lvl";
             case 2:
-                return "Str";
+                return "str";
             case 3:
-                return "Dex";
+                return "dex";
             case 4:
-                return "Char";
+                return "Type";
             default:
                 return "";
             }
@@ -1127,7 +1122,19 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     {
         if ( iStash != null )
         {
-            iFileManager.removeItemList(iFileName, this);
+            if ( iStash instanceof D2ItemListAll )
+            {
+                ArrayList lList = ((D2ItemListAll) iStash).getAllContainers();
+                for ( int i = 0 ; i < lList.size() ; i++ )
+                {
+                    D2ItemList lItemList = (D2ItemList) lList.get(i);
+                    iFileManager.removeItemList(lItemList.getFilename(), this);
+                }
+            }
+            else
+            {
+                iFileManager.removeItemList(iFileName, this);
+            }
         }
         iFileManager.removeInternalFrame(this);
     }

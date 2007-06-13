@@ -83,32 +83,31 @@ public class GoMule
 
     public static void main(String[] args)
     {
-//        // set up text file tables
-//        D2TxtTable t = D2TxtTable.get(D2TxtTable.BASE);
-//        String s = java.io.File.separator;
-//        t.add_file("resources" + s + "weapons.txt", "code");
-//        t.add_file("resources" + s + "armor.txt", "code");
-//        t.add_file("resources" + s + "misc.txt", "code");
-//        t = D2TxtTable.get(D2TxtTable.UNIQUES);
-//        t.add_file("resources" + s + "uniqueitems.txt", -1);
-//        t = D2TxtTable.get(D2TxtTable.SETS);
-//        t.add_file("resources" + s + "setitems.txt", 0);
-
-        //main gui = new main(args[0]);
-        //new gomule().print_d2s(args[0]);
-        //new character(args[0]);
-        
-//        WindowsClassicLookAndFeel
-        
-//        try
-//        {
+        try
+        {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            if ( args != null )
+            {
+                for ( int i = 0 ; i < args.length ; i++ )
+                {
+                    if ( args[i].equalsIgnoreCase("-system") )
+                    {
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    }
+//                    else if ( args[i].equals("-ownlf") )
+//                    {
+//                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//                    }
+                }
+            }
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//        }
-//        catch (Exception e)
-//        {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+//            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        }
+        catch (Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         // Randall: generally adviced for swing, doing anything with GUI inside the swing-thread
         EventQueue.invokeLater(new Runnable()

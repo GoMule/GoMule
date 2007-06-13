@@ -212,7 +212,7 @@ public class D2FileManager extends JFrame
 
         iToolbar.addSeparator();
 
-        iToolbar.addSeparator();
+//        iToolbar.addSeparator();
 
         iToolbar.add(new JLabel("Projects"));
 
@@ -525,23 +525,44 @@ public class D2FileManager extends JFrame
         else if ( pFileName.equalsIgnoreCase("all") )
         {
             lList = new D2ItemListAll(this, iProject);
-            iItemLists.put(pFileName, lList);
+//            iItemLists.put(pFileName, lList);
         }
         else if ( pFileName.toLowerCase().endsWith(".d2s") )
         {
             lList = new D2Character(pFileName);
-            System.err.println("Add file: " + pFileName );
+            
+            int lType = getProject().getType();
+            if (lType == D2Project.TYPE_SC && (!lList.isSC() || lList.isHC()))
+            {
+                throw new Exception("Character is not Softcore (SC), this is a project requirement");
+            }
+            if (lType == D2Project.TYPE_HC && (lList.isSC() || !lList.isHC()))
+            {
+                throw new Exception("Character is not Hardcore (HC), this is a project requirement");
+            }
+            
+            System.err.println("Add Char: " + pFileName );
             iItemLists.put(pFileName, lList);
         }
         else if ( pFileName.toLowerCase().endsWith(".d2x") )
         {
             lList = new D2Stash(pFileName);
-            System.err.println("Add file: " + pFileName );
+            
+            int lType = getProject().getType();
+            if ( lType == D2Project.TYPE_SC && (!lList.isSC() || lList.isHC()) )
+            {
+                throw new Exception("Stash is not Softcore (SC), this is a project requirement");
+            }
+            if ( lType == D2Project.TYPE_HC && (lList.isSC() || !lList.isHC()) )
+            {
+                throw new Exception("Stash is not Hardcore (HC), this is a project requirement");
+            }
+            System.err.println("Add Stash: " + pFileName );
             iItemLists.put(pFileName, lList);
         }
         else 
         {
-            throw new Exception("Incorrect filename: pFilename");
+            throw new Exception("Incorrect filename: " + pFileName );
         }
         
         if ( pListener != null )
