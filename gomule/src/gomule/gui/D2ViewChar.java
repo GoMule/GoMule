@@ -22,7 +22,6 @@ package gomule.gui;
 
 import gomule.d2s.*;
 import gomule.item.*;
-import gomule.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -477,7 +476,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         }
         setTitle(lTitle);
         iCharPainter.build();
-        iMercPainter.build();
+        if ( iMercPainter != null )
+        {
+            iMercPainter.build();
+        }
         iCharCursorPainter.build();
     }
 

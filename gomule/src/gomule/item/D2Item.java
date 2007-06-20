@@ -2127,9 +2127,13 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 			for (int i = 0; i < pProperties.size(); i++) {
 				D2ItemProperty lValue = (D2ItemProperty) pProperties.get(i);
-				if (!lValue.hasNoValue()) {
-
-					lReturn += "<BR>" + lValue.getValue();
+				if ( !lValue.hasNoValue() ) 
+				{
+				    String lText = lValue.getValue();
+				    if ( lText != null )
+				    {
+				        lReturn += "<BR>" + lText;
+				    }
 				}
 			}
 		}
