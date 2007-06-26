@@ -292,6 +292,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         //        setDefaultCloseOperation( JInternalFrame.DO_NOTHING_ON_CLOSE );
         pack();
         setVisible(true);
+        
+        itemListChanged();
 
         //        setModified(true);
     }
@@ -443,15 +445,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
             iChar.removeD2ItemListListener(this);
         }
         iFileManager.removeInternalFrame(this);
-    }
-
-    public void saveView()
-    {
-        if ( iChar != null && iChar.isModified() )
-        {
-            // auto save (always)
-            iChar.save( iFileManager.getProject() );
-        }
     }
 
     public void itemListChanged()

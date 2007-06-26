@@ -1139,12 +1139,4 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iFileManager.removeInternalFrame(this);
     }
 
-    public void saveView()
-    {
-        if (iStash.isModified())
-        {
-            iStash.save( iFileManager.getProject() );
-        }
-    }
-    
 }

@@ -34,8 +34,11 @@ import javax.swing.*;
 import randall.d2files.*;
 import randall.util.*;
 
-// this class is the top-level window
-// it is just a menu to open character-file windows
+/**
+ * this class is the top-level administrative window. 
+ * It contains all internal frames
+ * it contains all open files
+ */ 
 public class D2FileManager extends JFrame
 {
     private static final String  CURRENT_VERSION = "R0.16";
@@ -349,14 +352,7 @@ public class D2FileManager extends JFrame
             iProject.saveProject();
         }
         iClipboard.saveView();
-        for (int i = 0; i < iOpenWindows.size(); i++)
-        {
-            D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
-            if (lItemContainer != null)
-            {
-                lItemContainer.saveView();
-            }
-        }
+        saveAllItemLists();
     }
 
     private JFileChooser getCharDialog()
@@ -444,17 +440,17 @@ public class D2FileManager extends JFrame
         JFileChooser lStashChooser = getStashDialog();
         if (lStashChooser.showDialog(this, "New Stash") == JFileChooser.APPROVE_OPTION)
         {
-            D2ViewStash lStashView = handleStash(lStashChooser);
-            if (lStashView != null)
+            String lFileName = handleStash(lStashChooser);
+            if (lFileName != null)
             {
-                // Force first save
-                //                lStashView.setModified(true);
-                lStashView.saveView();
+                D2ItemList lList = (D2ItemList) iItemLists.get(lFileName);
+                
+                lList.save(iProject);
             }
         }
     }
 
-    private D2ViewStash handleStash(JFileChooser pStashChooser)
+    private String handleStash(JFileChooser pStashChooser)
     {
         java.io.File lFile = pStashChooser.getSelectedFile();
         try
@@ -466,7 +462,8 @@ public class D2FileManager extends JFrame
                 lFilename += ".d2x";
             }
 
-            return openStash(lFilename);
+            openStash(lFilename);
+            return lFilename;
         }
         catch (Exception pEx)
         {
@@ -475,7 +472,7 @@ public class D2FileManager extends JFrame
         }
     }
 
-    public D2ViewStash openStash(String pStashName)
+    public void openStash(String pStashName)
     {
         D2ItemContainer lExisting = null;
         for (int i = 0; i < iOpenWindows.size(); i++)
@@ -504,7 +501,7 @@ public class D2FileManager extends JFrame
         iProject.addStash(pStashName);
 //        iViewProject.refreshTreeModel(false, true);
 
-        return lStashView;
+//        return lStashView;
     }
 
     public void about_action()
@@ -525,7 +522,6 @@ public class D2FileManager extends JFrame
         else if ( pFileName.equalsIgnoreCase("all") )
         {
             lList = new D2ItemListAll(this, iProject);
-//            iItemLists.put(pFileName, lList);
         }
         else if ( pFileName.toLowerCase().endsWith(".d2s") )
         {
@@ -588,7 +584,22 @@ public class D2FileManager extends JFrame
         if ( !lList.hasD2ItemListListener() )
         {
             System.err.println("Remove file: " + pFileName );
+            saveAll();
             iItemLists.remove(pFileName);
+        }
+    }
+    
+    public void saveAllItemLists()
+    {
+        Iterator lIterator = iItemLists.keySet().iterator();
+        while ( lIterator.hasNext() )
+        {
+            String lFileName = (String) lIterator.next();
+            D2ItemList lList = getItemList(lFileName);
+            if ( lList.isModified() )
+            {
+                lList.save(iProject);
+            }
         }
     }
 

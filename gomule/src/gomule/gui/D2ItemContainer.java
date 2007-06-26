@@ -35,7 +35,6 @@ public interface D2ItemContainer
 	public boolean isHC();
 	public boolean isSC();
     public void closeView();
-    public void saveView();
     public boolean isModified();
     
     public ArrayList getItemLists();
