@@ -304,14 +304,14 @@ public class D2FileManager extends JFrame
         System.exit(0);
     }
     
-    public D2ItemListAll getAllItemList()
-    {
-        if ( iItemLists.containsKey("all") )
-        {
-            return (D2ItemListAll) iItemLists.get("all");
-        }
-        return null;
-    }
+//    public D2ItemListAll getAllItemList()
+//    {
+//        if ( iItemLists.containsKey("all") )
+//        {
+//            return (D2ItemListAll) iItemLists.get("all");
+//        }
+//        return null;
+//    }
     
     public void closeFileName(String pFileName)
     {
@@ -323,6 +323,45 @@ public class D2FileManager extends JFrame
             if ( lItemContainer.getFileName().equalsIgnoreCase(pFileName) )
             {
                 lItemContainer.closeView();
+            }
+        }
+    }
+    
+    public void fullDump(String pFileName)
+    {
+        D2ItemList lList = null;
+        String lFileName = null;
+        
+        if ( pFileName.equalsIgnoreCase("all") )
+        {
+            if ( iViewAll != null )
+            {
+	            lFileName = "." + File.separator + "all.txt";
+	            lList = iViewAll.getItemLists();
+            }
+        }
+        else
+        {
+	        lList = (D2ItemList) iItemLists.get(pFileName);
+	        lFileName = pFileName+".txt";
+        }
+        if ( lList != null && lFileName != null )
+        {
+            try
+            {
+                File lFile = new File(lFileName);
+                System.err.println("File: " + lFile.getCanonicalPath() );
+                
+	            PrintWriter lWriter = new PrintWriter(new FileWriter( lFile.getCanonicalPath() ));
+	            
+	            lList.fullDump(lWriter);
+	            
+	            lWriter.flush();
+	            lWriter.close();
+            }
+            catch ( Exception pEx )
+            {
+                pEx.printStackTrace();
             }
         }
     }
@@ -407,23 +446,40 @@ public class D2FileManager extends JFrame
         {
             D2ViewChar lCharView = new D2ViewChar(D2FileManager.this, pCharName);
             lCharView.setLocation(100, 100);
-            iOpenWindows.add(lCharView);
-            iDesktopPane.add(lCharView);
+            addToOpenWindows(lCharView);
             lCharView.toFront();
         }
         iProject.addChar(pCharName);
     }
-
+    
     public D2ViewProject getViewProject()
     {
         return iViewProject;
     }
     
-    public void removeInternalFrame(JInternalFrame pFrame)
+    private void addToOpenWindows(D2ItemContainer pContainer)
     {
-        iOpenWindows.remove(pFrame);
-        iDesktopPane.remove(pFrame);
+        iOpenWindows.add( pContainer );
+        iDesktopPane.add( (JInternalFrame) pContainer );
+        iViewProject.notifyFileOpened( pContainer.getFileName() );
+        
+        if ( pContainer.getFileName().equalsIgnoreCase("all") )
+        {
+            iViewAll = (D2ViewStash) pContainer;
+        }
+    }
+
+    public void removeFromOpenWindows(D2ItemContainer pContainer)
+    {
+        iOpenWindows.remove( pContainer );
+        iDesktopPane.remove( (JInternalFrame) pContainer );
+        iViewProject.notifyFileClosed( pContainer.getFileName() );
         repaint();
+
+        if ( pContainer.getFileName().equalsIgnoreCase("all") )
+        {
+            iViewAll = null;
+        }
     }
 
     public void openStash()
@@ -494,8 +550,7 @@ public class D2FileManager extends JFrame
         {
             lStashView = new D2ViewStash(D2FileManager.this, pStashName);
             lStashView.setLocation(100, 100);
-            iOpenWindows.add(lStashView);
-            iDesktopPane.add(lStashView);
+            addToOpenWindows(lStashView);
             lStashView.toFront();
         }
         iProject.addStash(pStashName);
@@ -522,6 +577,7 @@ public class D2FileManager extends JFrame
         else if ( pFileName.equalsIgnoreCase("all") )
         {
             lList = new D2ItemListAll(this, iProject);
+//            iViewProject.notifyItemListOpened("all");
         }
         else if ( pFileName.toLowerCase().endsWith(".d2s") )
         {
@@ -539,6 +595,7 @@ public class D2FileManager extends JFrame
             
             System.err.println("Add Char: " + pFileName );
             iItemLists.put(pFileName, lList);
+            iViewProject.notifyItemListRead(pFileName);
         }
         else if ( pFileName.toLowerCase().endsWith(".d2x") )
         {
@@ -555,6 +612,7 @@ public class D2FileManager extends JFrame
             }
             System.err.println("Add Stash: " + pFileName );
             iItemLists.put(pFileName, lList);
+            iViewProject.notifyItemListRead(pFileName);
         }
         else 
         {
@@ -586,6 +644,7 @@ public class D2FileManager extends JFrame
             System.err.println("Remove file: " + pFileName );
             saveAll();
             iItemLists.remove(pFileName);
+            iViewProject.notifyItemListClosed(pFileName);
         }
     }
     

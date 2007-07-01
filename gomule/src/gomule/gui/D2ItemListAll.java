@@ -9,6 +9,7 @@ package gomule.gui;
 import gomule.item.*;
 import gomule.util.*;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -281,6 +282,16 @@ public class D2ItemListAll implements D2ItemList
         }
         
         return false;
+    }
+    
+    public void fullDump(PrintWriter pWriter)
+    {
+        D2ItemList lItemList;
+        for ( int i = 0 ; i < iList.size() ; i++ )
+        {
+            lItemList = (D2ItemList) iList.get(i);
+            lItemList.fullDump( pWriter );
+        }
     }
 
 }

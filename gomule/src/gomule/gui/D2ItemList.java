@@ -6,6 +6,7 @@
  */
 package gomule.gui;
 
+import java.io.*;
 import java.util.*;
 
 import gomule.item.*;
@@ -33,4 +34,6 @@ public interface D2ItemList
     
     public boolean isSC();
     public boolean isHC();
+    
+    public void fullDump(PrintWriter pWriter);
 }

@@ -257,4 +257,21 @@ public class D2Stash extends D2ItemListAdapter
             System.err.println("Incorrect CheckSum");
         }
     }
+    
+    public void fullDump(PrintWriter pWriter)
+    {
+        pWriter.println( iFileName );
+	    pWriter.println();
+        if ( iItems != null )
+        {
+            for ( int i = 0 ; i < iItems.size() ; i++ )
+            {
+                D2Item lItem = (D2Item) iItems.get(i);
+                lItem.toWriter(pWriter);
+            }
+        }
+        pWriter.println( "Finished: " + iFileName );
+        pWriter.println();
+    }
+    
 }

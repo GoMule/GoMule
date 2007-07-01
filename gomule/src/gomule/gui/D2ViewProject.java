@@ -35,13 +35,14 @@ import randall.flavie.*;
 
 public class D2ViewProject extends JPanel
 {
-    private D2FileManager          iFileManager;
-    private D2Project              iProject;
+    private D2FileManager          	iFileManager;
+    private D2Project              	iProject;
 
-    private JTree                  iTree;
-    private DefaultTreeModel       iTreeModel;
-    private DefaultMutableTreeNode iChars;
-    private DefaultMutableTreeNode iStashes;
+    private JTree                  	iTree;
+    private DefaultTreeModel       	iTreeModel;
+    private DefaultMutableTreeNode 	iChars;
+    private DefaultMutableTreeNode 	iStashes;
+    private CharTreeNode 			iAll;
 
     public D2ViewProject(D2FileManager pFileManager)
     {
@@ -56,6 +57,26 @@ public class D2ViewProject extends JPanel
             }
         };
         iTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+        iTree.setCellRenderer(new DefaultTreeCellRenderer()
+        {
+            public Component getTreeCellRendererComponent(JTree pTree, Object pValue,
+					  boolean pSel,
+					  boolean pExpanded,
+					  boolean pLeaf, int pRow,
+					  boolean pHasFocus) 
+            {
+                Component lRenderer = super.getTreeCellRendererComponent( pTree,  pValue, pSel, 
+                    pExpanded, pLeaf, pRow, pHasFocus);
+                
+                if ( pValue instanceof CharTreeNode )
+                {
+                    CharTreeNode lNode = (CharTreeNode) pValue;
+                    lRenderer.setForeground( lNode.getForeGround() );
+                }
+                
+                return lRenderer;
+            }
+        });
 
         JScrollPane lScroll = new JScrollPane(iTree);
         add(lScroll, BorderLayout.CENTER);
@@ -98,37 +119,49 @@ public class D2ViewProject extends JPanel
 
         iTree.addMouseListener(new MouseAdapter()
         {
-            public void mouseClicked(MouseEvent e)
+            public void mousePressed(MouseEvent pEvent)
             {
-                if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 )
+                
+            }
+            public void mouseReleased(MouseEvent e)
+            {
+                if ( e.getX() >=0 && e.getX() <= iTree.getWidth()
+                    && e.getY() >= 0 && e.getY() <= iTree.getHeight() )
                 {
-	                TreePath lPath = iTree.getPathForLocation(e.getX(), e.getY());
-	                if(lPath == null)
-	                {
-	                	return;
-	                }
-	                Object lPathObjects[] = lPath.getPath();
-	                Object lLast = lPathObjects[lPathObjects.length - 1];
-	                if (lLast instanceof CharTreeNode)
-	                {
-	                    String lFilename = ((CharTreeNode) lLast).getFilename();
-	                    if ( lFilename.equalsIgnoreCase("all") )
-	                    {
-	                        // open All
-//	                        System.err.println("All view not done yet");
-	                        iFileManager.openStash("all");
-	                    }
-	                    if ( lFilename.toLowerCase().endsWith(".d2s") )
-	                    {
-	                        iFileManager.openChar(lFilename);
-	                    }
-	                    else if ( lFilename.toLowerCase().endsWith(".d2x") )
-	                    {
-	                        iFileManager.openStash(lFilename);
-	                    }
-	                }
+                    if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 )
+                    {
+    	                TreePath lPath = iTree.getPathForLocation(e.getX(), e.getY());
+    	                if(lPath == null)
+    	                {
+    	                	return;
+    	                }
+    	                Object lPathObjects[] = lPath.getPath();
+    	                Object lLast = lPathObjects[lPathObjects.length - 1];
+    	                if (lLast instanceof CharTreeNode)
+    	                {
+    	                    ((CharTreeNode) lLast).view();
+    	                }
+                    }
+                    if ( e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1 )
+                    {
+    	                TreePath lPath = iTree.getPathForLocation(e.getX(), e.getY());
+    	                if(lPath == null)
+    	                {
+    	                	return;
+    	                }
+    	                Object lPathObjects[] = lPath.getPath();
+    	                Object lLast = lPathObjects[lPathObjects.length - 1];
+    	                if (lLast instanceof CharTreeNode)
+    	                {
+//    	                    if
+    	                    ((CharTreeNode) lLast).startMenu(e.getX()+5, e.getY()+55);
+    	                }
+                    }
                 }
             }
+//            public void mouseClicked(MouseEvent e)
+//            {
+//            }
         });
         iTree.addKeyListener(new KeyAdapter()
         {
@@ -156,6 +189,77 @@ public class D2ViewProject extends JPanel
                 }
             }
         });
+    }
+    
+    public void notifyFileOpened(String pFileName)
+    {
+        CharTreeNode lNode = searchNode(pFileName);
+        if ( lNode != null )
+        {
+            lNode.fileOpened();
+            iTree.repaint();
+        }
+    }
+    
+    public void notifyFileClosed(String pFileName)
+    {
+        CharTreeNode lNode = searchNode(pFileName);
+        if ( lNode != null )
+        {
+            lNode.fileClosed();
+            iTree.repaint();
+        }
+    }
+    
+    public void notifyItemListRead(String pItemListFileName)
+    {
+        CharTreeNode lNode = searchNode(pItemListFileName);
+        if ( lNode != null )
+        {
+            lNode.itemListRead();
+            iTree.repaint();
+        }
+    }
+    
+    public void notifyItemListClosed(String pItemListFileName)
+    {
+        CharTreeNode lNode = searchNode(pItemListFileName);
+        if ( lNode != null )
+        {
+            lNode.itemListClosed();
+            iTree.repaint();
+        }
+    }
+    
+    private CharTreeNode searchNode(String pFileName)
+    {
+        if ( pFileName.toLowerCase().endsWith(".d2s") )
+        {
+            return searchSingleNode(iChars, pFileName);
+        }
+        else if ( pFileName.toLowerCase().endsWith(".d2x") )
+        {
+            return searchSingleNode(iStashes, pFileName);
+        }
+        else if ( pFileName.equalsIgnoreCase("all") )
+        {
+            return iAll;
+        }
+        return null;
+    }
+    
+    private CharTreeNode searchSingleNode(DefaultMutableTreeNode pTreeNode, String pFileName)
+    {
+        for ( int i = 0 ; i < pTreeNode.getChildCount() ; i++ )
+        {
+            CharTreeNode lNode = (CharTreeNode) pTreeNode.getChildAt(i);
+            if ( lNode.getFilename().equalsIgnoreCase(pFileName) )
+            {
+                return lNode;
+            }
+        }
+        System.err.println("D2ViewProject.searchNode() Not Found " + pFileName );
+        return null;
     }
     
     public void setProject(D2Project pProject)
@@ -232,14 +336,18 @@ public class D2ViewProject extends JPanel
 	        }
         }
         
-        root.add(new CharTreeNode("All"));
+        iAll = new CharTreeNode("All");
+        root.add( iAll );
 
         return new DefaultTreeModel(root);
     }
 
-    class CharTreeNode extends DefaultMutableTreeNode
+    private class CharTreeNode extends DefaultMutableTreeNode
     {
-        private String iFileName;
+        private String	iFileName;
+        private Color	iForeGround = Color.black;
+        private boolean	iItemListRead = false;
+        private boolean iFileOpened = false;
 
         public CharTreeNode(String pFileName)
         {
@@ -251,8 +359,153 @@ public class D2ViewProject extends JPanel
         {
             return iFileName;
         }
+        
+        public void itemListRead()
+        {
+            iItemListRead = true;
+            iForeGround = Color.blue;
+        }
+        
+        public void itemListClosed()
+        {
+            iItemListRead = false;
+            iForeGround = Color.black;
+        }
+        
+        public void fileOpened()
+        {
+            iFileOpened = true;
+        }
+        
+        public void fileClosed()
+        {
+            iFileOpened = false;
+        }
+        
+        public Color getForeGround()
+        {
+            return iForeGround;
+        }
+        
+        public void view()
+        {
+            if ( iFileName.equalsIgnoreCase("all") )
+            {
+                // open All
+//                System.err.println("All view not done yet");
+                iFileManager.openStash("all");
+            }
+            if ( iFileName.toLowerCase().endsWith(".d2s") )
+            {
+                iFileManager.openChar(iFileName);
+            }
+            else if ( iFileName.toLowerCase().endsWith(".d2x") )
+            {
+                iFileManager.openStash(iFileName);
+            }
+        }
+        
+        public void close()
+        {
+            iFileManager.closeFileName( getFilename() );
+        }
+        
+        public void fullDump()
+        {
+            iFileManager.fullDump( getFilename() );
+        }
+        
+        public void startMenu(int pX, int pY)
+        {
+            JPopupMenu lMenu = new JPopupMenu();
+            lMenu.setLocation(pX, pY);
+            
+//            JMenu lList = new JMenu();
 
+            if ( iFileOpened )
+            {
+                JMenuItem lOpen = new JMenuItem("Move to Top: " + getFilename());
+                lMenu.add(lOpen);
+                lOpen.addActionListener(new ActionNodeView(this));
+                
+                JMenuItem lFullDump = new JMenuItem("Full Dump");
+                lMenu.add(lFullDump);
+                lFullDump.addActionListener(new ActionNodeFullDump(this));
+                
+                JMenuItem lClose = new JMenuItem("Close: " + getFilename());
+                lMenu.add(lClose);
+                lClose.addActionListener(new ActionNodeClose(this));
+            }
+            else
+            {
+                if ( iItemListRead )
+                {
+	                JMenuItem lOpen = new JMenuItem("View: " + getFilename());
+	                lMenu.add(lOpen);
+	                lOpen.addActionListener(new ActionNodeView(this));
+                }
+                else
+                {
+	                JMenuItem lOpen = new JMenuItem("Open: " + getFilename());
+	                lMenu.add(lOpen);
+	                lOpen.addActionListener(new ActionNodeView(this));
+                }
+            }
+            
+            lMenu.setVisible(true);
+//            lMenu.add()
+        }
+        
     } // end class CharTreeNode
+    
+    private abstract class NodeAction implements ActionListener
+    {
+        protected CharTreeNode iNode;
+        
+        public NodeAction(CharTreeNode pNode)
+        {
+            iNode = pNode;
+        }
+    }
+
+    private class ActionNodeView extends NodeAction
+    {
+        public ActionNodeView(CharTreeNode pNode)
+        {
+            super(pNode);
+        }
+        
+        public void actionPerformed(ActionEvent pEvent)
+        {
+            iNode.view();
+        }
+    }
+
+    private class ActionNodeClose extends NodeAction
+    {
+        public ActionNodeClose(CharTreeNode pNode)
+        {
+            super(pNode);
+        }
+        
+        public void actionPerformed(ActionEvent pEvent)
+        {
+            iNode.close();
+        }
+    }
+
+    private class ActionNodeFullDump extends NodeAction
+    {
+        public ActionNodeFullDump(CharTreeNode pNode)
+        {
+            super(pNode);
+        }
+        
+        public void actionPerformed(ActionEvent pEvent)
+        {
+            iNode.fullDump();
+        }
+    }
 
     private static String getCharStr(String pFileName)
     {

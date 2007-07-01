@@ -37,5 +37,5 @@ public interface D2ItemContainer
     public void closeView();
     public boolean isModified();
     
-    public ArrayList getItemLists();
+    public D2ItemList getItemLists();
 }

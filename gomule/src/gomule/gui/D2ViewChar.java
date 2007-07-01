@@ -430,11 +430,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         return iChar.isModified();
     }
     
-    public ArrayList getItemLists()
+    public D2ItemList getItemLists()
     {
-        ArrayList lList = new ArrayList();
-        lList.add(iChar);
-        return lList;
+        return iChar;
     }
 
     public void closeView()
@@ -444,7 +442,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
             iFileManager.removeItemList(iFileName, this);
             iChar.removeD2ItemListListener(this);
         }
-        iFileManager.removeInternalFrame(this);
+        iFileManager.removeFromOpenWindows(this);
     }
 
     public void itemListChanged()

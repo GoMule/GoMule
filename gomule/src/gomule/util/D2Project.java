@@ -293,11 +293,11 @@ public class D2Project
             iCharList.add(pCharFileName);
             Collections.sort(iCharList);
             iFileManager.getViewProject().refreshTreeModel(true, false);
-            D2ItemListAll lListAll = iFileManager.getAllItemList();
-            if ( lListAll != null )
-            {
-                lListAll.addFileName(pCharFileName);
-            }
+//            D2ItemListAll lListAll = iFileManager.getAllItemList();
+//            if ( lListAll != null )
+//            {
+//                lListAll.addFileName(pCharFileName);
+//            }
         }
     }
 
@@ -312,11 +312,11 @@ public class D2Project
             iStashList.add(pStashFileName);
             Collections.sort(iStashList);
             iFileManager.getViewProject().refreshTreeModel(false, true);
-            D2ItemListAll lListAll = iFileManager.getAllItemList();
-            if ( lListAll != null )
-            {
-                lListAll.addFileName(pStashFileName);
-            }
+//            D2ItemListAll lListAll = iFileManager.getAllItemList();
+//            if ( lListAll != null )
+//            {
+//                lListAll.addFileName(pStashFileName);
+//            }
         }
     }
 
@@ -326,11 +326,11 @@ public class D2Project
         iStashList.remove(pFilename);
         iFileManager.closeFileName(pFilename);
         iFileManager.getViewProject().refreshTreeModel(false, false);
-        D2ItemListAll lListAll = iFileManager.getAllItemList();
-        if ( lListAll != null )
-        {
-            lListAll.removeFileName(pFilename);
-        }
+//        D2ItemListAll lListAll = iFileManager.getAllItemList();
+//        if ( lListAll != null )
+//        {
+//            lListAll.removeFileName(pFilename);
+//        }
     }
 
     public String getProjectName()

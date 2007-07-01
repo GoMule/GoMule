@@ -257,11 +257,9 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
         return iStash.isModified();
     }
     
-    public ArrayList getItemLists()
+    public D2ItemList getItemLists()
     {
-        ArrayList lList = new ArrayList();
-        lList.add(iStash);
-        return lList;
+        return iStash;
     }
     
     public void closeView()

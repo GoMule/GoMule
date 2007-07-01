@@ -25,6 +25,7 @@ import gomule.gui.*;
 import gomule.item.*;
 import gomule.util.*;
 
+import java.io.*;
 import java.util.*;
 
 import randall.d2files.*;
@@ -1376,4 +1377,33 @@ public class D2Character extends D2ItemListAdapter
     {
         return iHC;
     }
+    
+    public void fullDump(PrintWriter pWriter)
+    {
+        pWriter.println( iFileName );
+        pWriter.println( "Level: " + iCharLevel );
+	    pWriter.println();
+        
+        if ( iCharItems != null )
+        {
+            for ( int i = 0 ; i < iCharItems.size() ; i++ )
+            {
+                D2Item lItem = (D2Item) iCharItems.get(i);
+                lItem.toWriter(pWriter);
+            }
+        }
+        if ( iMercItems != null )
+        {
+            pWriter.println();
+            pWriter.println("Mercenary");
+            for ( int i = 0 ; i < iMercItems.size() ; i++ )
+            {
+                D2Item lItem = (D2Item) iMercItems.get(i);
+                lItem.toWriter(pWriter);
+            }
+        }
+        pWriter.println( "Finished: " + iFileName );
+        pWriter.println();
+    }
+    
 }

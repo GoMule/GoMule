@@ -24,6 +24,7 @@ package gomule.item;
 import gomule.gui.*;
 import gomule.util.*;
 
+import java.io.*;
 import java.util.*;
 
 import randall.d2files.*;
@@ -2109,21 +2110,53 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return Short.toString(ilvl);
 	}
 
-	public String toString() {
-		String lReturn = toStringHtml();
-
-		lReturn = lReturn.replaceAll("<HTML>", "");
-		lReturn = lReturn.replaceAll("<BR>", "\n");
-
-		return lReturn;
+	public String toString() 
+	{
+	    ArrayList lDump = getFullItemDump();
+	    StringBuffer lReturn = new StringBuffer("");
+	    for ( int i = 0 ; i < lDump.size() ; i++ )
+	    {
+	        if ( i > 0 )
+	        {
+	            lReturn.append("\n");
+	        }
+	        lReturn.append((String) lDump.get(i));
+	    }
+		return lReturn.toString();
+	}
+	
+	public void toWriter(PrintWriter pWriter)
+	{
+	    ArrayList lDump = getFullItemDump();
+	    for ( int i = 0 ; i < lDump.size() ; i++ )
+	    {
+	        pWriter.println((String) lDump.get(i));
+	    }
+	    pWriter.println();
 	}
 
-	private String getProperties(String pProps, ArrayList pProperties) {
-		String lReturn = "";
+	public String toStringHtml() 
+	{
+	    ArrayList lDump = getFullItemDump();
+	    StringBuffer lReturn = new StringBuffer("<HTML>");
+	    for ( int i = 0 ; i < lDump.size() ; i++ )
+	    {
+	        if ( i > 0 )
+	        {
+	            lReturn.append("<BR>");
+	        }
+	        lReturn.append((String) lDump.get(i));
+	    }
+		return lReturn.toString();
+	}
+	
+	private ArrayList getProperties(String pProps, ArrayList pProperties) 
+	{
+	    ArrayList lReturn = new ArrayList();
 
 		if (pProperties != null) {
 			if (pProps != null) {
-				lReturn += "<BR>" + pProps;
+			    lReturn .add( pProps );
 			}
 			for (int i = 0; i < pProperties.size(); i++) {
 				D2ItemProperty lValue = (D2ItemProperty) pProperties.get(i);
@@ -2132,17 +2165,13 @@ public class D2Item implements Comparable, D2ItemInterface {
 				    String lText = lValue.getValue();
 				    if ( lText != null )
 				    {
-				        lReturn += "<BR>" + lText;
+				        lReturn .add( lText );
 				    }
 				}
 			}
 		}
 
 		return lReturn;
-	}
-
-	public String toStringHtml() {
-		return "<HTML>" + toStringHtmlInternal();
 	}
 
 	public int getReqLvl() {
@@ -2157,99 +2186,99 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return iReqDex;
 	}
 
-	protected String toStringHtmlInternal() {
-		String lReturn = iItemName;
+	public ArrayList getFullItemDump() 
+	{
+	    ArrayList lReturn = new ArrayList();
+		lReturn.add( iItemName );
 
-		if (!iBaseItemName.equals(iItemName)) {
-			lReturn += "<BR>" + iBaseItemName;
+		if (!iBaseItemName.equals(iItemName)) 
+		{
+			lReturn.add( iBaseItemName );
 		}
 
-		if (isTypeWeapon()) {
-			if (iWhichHand == 0) {
-				lReturn += "<BR>" + "One Hand Damage: " + iMinDmg + " - "
-				+ iMaxDmg;
-				lReturn += "<BR>" + "Two Hand Damage: " + i2MinDmg + " - "
-				+ i2MaxDmg;
+		if (isTypeWeapon()) 
+		{
+			if (iWhichHand == 0) 
+			{
+			    lReturn.add( "One Hand Damage: " + iMinDmg + " - " + iMaxDmg );
+			    lReturn.add( "Two Hand Damage: " + i2MinDmg + " - " + i2MaxDmg );
 			} else {
 				if (iWhichHand == 1) {
-					lReturn += "<BR>" + "One Hand Damage: " + iMinDmg + " - "
-					+ iMaxDmg;
+				    lReturn.add( "One Hand Damage: " + iMinDmg + " - " + iMaxDmg );
 				} else {
-					lReturn += "<BR>" + "Two Hand Damage: " + iMinDmg + " - "
-					+ iMaxDmg;
+				    lReturn.add( "Two Hand Damage: " + iMinDmg + " - " + iMaxDmg );
 				}
 			}
 		} else if (isTypeArmor()) {
-			lReturn += "<BR>" + "Defense: " + iDef;
+		    lReturn.add( "Defense: " + iDef );
 		}
 		if (isTypeWeapon() || isTypeArmor()) {
 		if(isStackable()){
-			lReturn +="<BR>" + "Quantity: "+iCurDur;
+		    lReturn.add( "Quantity: " + iCurDur );
 		}else{
 			if(iMaxDur == 0 ){
-			lReturn +="<BR>" + "Indestructible";
+			    lReturn.add( "Indestructible" );
 			}else{
-			lReturn +="<BR>" + "Durability: "+iCurDur+" of "+iMaxDur;
+			    lReturn.add( "Durability: "+iCurDur+" of "+iMaxDur );
 			}
 		}
 		}
 
 		if (iReqLvl > 0) {
-			lReturn += "<BR>Required Level: " + iReqLvl;
+		    lReturn.add( "Required Level: " + iReqLvl );
 		}
 		if (iReqStr > 0) {
-			lReturn += "<BR>Required Strength: " + iReqStr;
+		    lReturn.add( "Required Strength: " + iReqStr );
 		}
 		if (iReqDex > 0) {
-			lReturn += "<BR>Required Dexterity: " + iReqDex;
+		    lReturn.add( "Required Dexterity: " + iReqDex );
 		}
 
 		if (iFP != null) {
-			lReturn += "<BR>Fingerprint: " + iFP;
+		    lReturn.add( "Fingerprint: " + iFP );
 		}
 		if (hasGUID) {
-			lReturn += "<BR>GUID: " + iGUID;
+		    lReturn.add( "GUID: " + iGUID );
 		}
 
 		if (ilvl != 0) {
-			lReturn += "<BR>Item Level: " + ilvl;
+		    lReturn.add( "Item Level: " + ilvl );
 		}
 
-		lReturn += "<BR>Version: " + get_version();
+		lReturn.add( "Version: " + get_version() );
 		if(!iIdentified){
-			lReturn +="<BR>Unidentified";
+		    lReturn.add( "Unidentified" );
 		}
-		lReturn += getProperties("Properties: ", iProperties);
+		lReturn .addAll( getProperties("Properties: ", iProperties) );
 		if (isGem() || isRune()) {
-			lReturn += getProperties("Weapons: ", (ArrayList) iGemProps.get(0));
-			lReturn += getProperties("Armor: ", (ArrayList) iGemProps.get(1));
-			lReturn += getProperties("Shields: ", (ArrayList) iGemProps.get(2));
+		    lReturn .addAll( getProperties("Weapons: ", (ArrayList) iGemProps.get(0)) );
+		    lReturn .addAll( getProperties("Armor: ", (ArrayList) iGemProps.get(1)) );
+		    lReturn .addAll( getProperties("Shields: ", (ArrayList) iGemProps.get(2)) );
 		}
-		lReturn += getProperties("Set (1 item): ", iSet1);
-		lReturn += getProperties("Set (2 items): ", iSet2);
-		lReturn += getProperties("Set (3 items): ", iSet3);
-		lReturn += getProperties("Set (4 items): ", iSet4);
-		lReturn += getProperties("Set (5 items): ", iSet5);
+		lReturn .addAll( getProperties("Set (1 item): ", iSet1) );
+		lReturn .addAll( getProperties("Set (2 items): ", iSet2) );
+		lReturn .addAll( getProperties("Set (3 items): ", iSet3) );
+		lReturn .addAll( getProperties("Set (4 items): ", iSet4) );
+		lReturn .addAll( getProperties("Set (5 items): ", iSet5) );
 
 		if (iRuneWord) {
-			lReturn += getProperties(null, iRuneWordProps);
+		    lReturn .addAll( getProperties(null, iRuneWordProps) );
 		}
 
 		if (iEthereal) {
-			lReturn += "<BR>Ethereal";
+		    lReturn.add( "Ethereal" );
 		}
 		if (iSocketNrTotal > 0) {
 			if (iGemProps.size() > 0) {
 				// lReturn += lSocket.getProperties(null,
 				// lSocket.iProperties);
-				lReturn += getProperties(null, iGemProps);
+			    lReturn .addAll( getProperties(null, iGemProps) );
 			}
-			lReturn += "<BR>" + iSocketNrTotal + " Sockets (" + iSocketNrFilled
-			+ " used)";
+			lReturn.add( iSocketNrTotal + " Sockets (" + iSocketNrFilled + " used)" );
 			if (iSocketedItems != null) {
 				for (int i = 0; i < iSocketedItems.size(); i++) {
 					D2Item lSocket = ((D2Item) iSocketedItems.get(i));
-					lReturn += "<BR>Socketed: " + lSocket.getItemName();
+					lReturn.add( "Socketed: " + lSocket.getItemName() );
 //					if (lSocket.isJewel()) {
 //						lReturn += lSocket.getProperties(null,
 //								lSocket.iProperties);

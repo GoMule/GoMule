@@ -1111,11 +1111,9 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         return iStash.isModified();
     }
 
-    public ArrayList getItemLists()
+    public D2ItemList getItemLists()
     {
-        ArrayList lList = new ArrayList();
-        lList.add(iStash);
-        return lList;
+        return iStash;
     }
     
     public void closeView()
@@ -1136,7 +1134,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 iFileManager.removeItemList(iFileName, this);
             }
         }
-        iFileManager.removeInternalFrame(this);
+        iFileManager.removeFromOpenWindows(this);
     }
 
 }
