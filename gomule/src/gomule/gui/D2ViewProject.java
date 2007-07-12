@@ -154,7 +154,7 @@ public class D2ViewProject extends JPanel
     	                if (lLast instanceof CharTreeNode)
     	                {
 //    	                    if
-    	                    ((CharTreeNode) lLast).startMenu(e.getX()+5, e.getY()+55);
+    	                    ((CharTreeNode) lLast).startMenu(e.getX(), e.getY());
     	                }
                     }
                 }
@@ -169,7 +169,6 @@ public class D2ViewProject extends JPanel
             {
                 if ( e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE )
                 {
-	                ArrayList lDelete = new ArrayList();
 	                int lSelected[] = iTree.getSelectionRows();
 	                for ( int i = 0 ; i < lSelected.length ; i++ )
 	                {
@@ -178,14 +177,54 @@ public class D2ViewProject extends JPanel
 		                Object lLast = lPathObjects[lPathObjects.length - 1];
 		                if (lLast instanceof CharTreeNode)
 		                {
-		                    lDelete.add( ((CharTreeNode) lLast).getFilename() );
+		                    ((CharTreeNode) lLast).remove();
 		                }
 	                }
-	                for ( int i = 0 ; i < lDelete.size() ; i++ )
+                }
+                else if ( e.getModifiers() == KeyEvent.ALT_MASK )
+                {
+	                if ( e.getKeyCode() == KeyEvent.VK_V || e.getKeyCode() == KeyEvent.VK_O  || e.getKeyCode() == KeyEvent.VK_M )
 	                {
-	                    iProject.deleteCharStash((String) lDelete.get(i));
+		                int lSelected[] = iTree.getSelectionRows();
+		                for ( int i = 0 ; i < lSelected.length ; i++ )
+		                {
+		                    TreePath lPath = iTree.getPathForRow(lSelected[i]);
+		                    Object lPathObjects[] = lPath.getPath();
+			                Object lLast = lPathObjects[lPathObjects.length - 1];
+			                if (lLast instanceof CharTreeNode)
+			                {
+			                    ((CharTreeNode) lLast).view();
+			                }
+		                }
 	                }
-//	                refreshTreeModel(false, false);
+	                else if ( e.getKeyCode() == KeyEvent.VK_C  )
+	                {
+		                int lSelected[] = iTree.getSelectionRows();
+		                for ( int i = 0 ; i < lSelected.length ; i++ )
+		                {
+		                    TreePath lPath = iTree.getPathForRow(lSelected[i]);
+		                    Object lPathObjects[] = lPath.getPath();
+			                Object lLast = lPathObjects[lPathObjects.length - 1];
+			                if (lLast instanceof CharTreeNode)
+			                {
+			                    ((CharTreeNode) lLast).close();
+			                }
+		                }
+	                }
+	                else if ( e.getKeyCode() == KeyEvent.VK_F  )
+	                {
+		                int lSelected[] = iTree.getSelectionRows();
+		                for ( int i = 0 ; i < lSelected.length ; i++ )
+		                {
+		                    TreePath lPath = iTree.getPathForRow(lSelected[i]);
+		                    Object lPathObjects[] = lPath.getPath();
+			                Object lLast = lPathObjects[lPathObjects.length - 1];
+			                if (lLast instanceof CharTreeNode)
+			                {
+			                    ((CharTreeNode) lLast).fullDump();
+			                }
+		                }
+	                }
                 }
             }
         });
@@ -353,6 +392,12 @@ public class D2ViewProject extends JPanel
         {
             super(getCharStr(pFileName));
             iFileName = pFileName;
+            
+            File lTest = new File(iFileName);
+            if ( !lTest.exists() || !lTest.isFile() || !lTest.canRead() || !lTest.canWrite() )
+            {
+                iForeGround = Color.red;
+            }
         }
         
         private String getFilename()
@@ -415,24 +460,36 @@ public class D2ViewProject extends JPanel
             iFileManager.fullDump( getFilename() );
         }
         
+        public void remove()
+        {
+            iProject.deleteCharStash( getFilename() );
+        }
+        
         public void startMenu(int pX, int pY)
         {
-            JPopupMenu lMenu = new JPopupMenu();
-            lMenu.setLocation(pX, pY);
+            JPopupMenu lMenu = new JPopupMenu( );
+
+//            JMenuItem lName = new JMenuItem( getFilename() );
+            lMenu.add( new JLabel(getFilename()) );
+            
+//            lMenu.setLocation(pX, pY);
             
 //            JMenu lList = new JMenu();
 
             if ( iFileOpened )
             {
-                JMenuItem lOpen = new JMenuItem("Move to Top: " + getFilename());
+                JMenuItem lOpen = new JMenuItem("Move to Top");
+                lOpen.setAccelerator( KeyStroke.getKeyStroke(new Character('M'), KeyEvent.ALT_MASK) );
                 lMenu.add(lOpen);
                 lOpen.addActionListener(new ActionNodeView(this));
                 
                 JMenuItem lFullDump = new JMenuItem("Full Dump");
+                lFullDump.setAccelerator( KeyStroke.getKeyStroke(new Character('F'), KeyEvent.ALT_MASK) );
                 lMenu.add(lFullDump);
                 lFullDump.addActionListener(new ActionNodeFullDump(this));
                 
-                JMenuItem lClose = new JMenuItem("Close: " + getFilename());
+                JMenuItem lClose = new JMenuItem("Close");
+                lClose.setAccelerator( KeyStroke.getKeyStroke(new Character('C'), KeyEvent.ALT_MASK) );
                 lMenu.add(lClose);
                 lClose.addActionListener(new ActionNodeClose(this));
             }
@@ -440,19 +497,26 @@ public class D2ViewProject extends JPanel
             {
                 if ( iItemListRead )
                 {
-	                JMenuItem lOpen = new JMenuItem("View: " + getFilename());
+	                JMenuItem lOpen = new JMenuItem("View");
+	                lOpen.setAccelerator( KeyStroke.getKeyStroke(new Character('V'), KeyEvent.ALT_MASK) );
 	                lMenu.add(lOpen);
 	                lOpen.addActionListener(new ActionNodeView(this));
                 }
                 else
                 {
-	                JMenuItem lOpen = new JMenuItem("Open: " + getFilename());
+	                JMenuItem lOpen = new JMenuItem("Open");
+	                lOpen.setAccelerator( KeyStroke.getKeyStroke(new Character('O'), KeyEvent.ALT_MASK) );
 	                lMenu.add(lOpen);
 	                lOpen.addActionListener(new ActionNodeView(this));
                 }
             }
             
-            lMenu.setVisible(true);
+            JMenuItem lRemove = new JMenuItem("Remove from project");
+            lRemove.setAccelerator( KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0) );
+            lMenu.add(lRemove);
+            lRemove.addActionListener(new ActionNodeRemove(this));
+            
+            lMenu.show(iTree, pX, pY);
 //            lMenu.add()
         }
         
@@ -478,6 +542,19 @@ public class D2ViewProject extends JPanel
         public void actionPerformed(ActionEvent pEvent)
         {
             iNode.view();
+        }
+    }
+
+    private class ActionNodeRemove extends NodeAction
+    {
+        public ActionNodeRemove(CharTreeNode pNode)
+        {
+            super(pNode);
+        }
+        
+        public void actionPerformed(ActionEvent pEvent)
+        {
+            iNode.remove();
         }
     }
 
