@@ -58,6 +58,7 @@ public class D2Character extends D2ItemListAdapter
 //    private String          iFileName;
     private D2BitReader     iReader;
     private ArrayList       iCharItems;
+    private D2Item			iCharCursorItem;
     private ArrayList       iMercItems;
 
     private boolean[][]     iStashGrid;
@@ -420,8 +421,19 @@ public class D2Character extends D2ItemListAdapter
 
             lLastItemEnd = lItemStart + lItem.getItemLength();
             lCharEnd = lLastItemEnd;
-            addCharItem(lItem);
-            markCharGrid(lItem);
+            if ( lItem.isCursorItem() )
+            {
+                if ( iCharCursorItem != null )
+                {
+                    throw new Exception("Double cursor item found");
+                }
+                iCharCursorItem = lItem;
+            }
+            else
+            {
+                addCharItem(lItem);
+                markCharGrid(lItem);
+            }
         }
 
         //        System.err.println("Read Char: " + lCharStart + " - " + lCharEnd );
@@ -492,6 +504,23 @@ public class D2Character extends D2ItemListAdapter
             // after items
             iAfterItems = iReader.get_bytes(iReader.get_length() - lMercEnd);
         }
+    }
+    
+    public void setCursorItem(D2Item pItem)
+    {
+        iCharCursorItem = pItem;
+        setModified(true);
+        // cursor item
+        if ( iCharCursorItem != null )
+        {
+            iCharCursorItem.set_location((short) 4);
+            iCharCursorItem.set_body_position((short) 0);
+        }
+    }
+    
+    public D2Item getCursorItem()
+    {
+        return iCharCursorItem;
     }
 
     public boolean hasMerc()
@@ -1132,6 +1161,10 @@ public class D2Character extends D2ItemListAdapter
         {
             lCharSize += ((D2Item) iCharItems.get(i)).get_bytes().length;
         }
+        if ( iCharCursorItem != null )
+        {
+            lCharSize += iCharCursorItem.get_bytes().length;
+        }
 
         int lMercSize = 0;
         if (hasMerc())
@@ -1166,6 +1199,12 @@ public class D2Character extends D2ItemListAdapter
             System.arraycopy(item_bytes, 0, lNewbytes, lPos, item_bytes.length);
             lPos += item_bytes.length;
         }
+        if ( iCharCursorItem != null )
+        {
+            byte[] item_bytes = iCharCursorItem.get_bytes();
+            System.arraycopy(item_bytes, 0, lNewbytes, lPos, item_bytes.length);
+            lPos += item_bytes.length;
+        }
 
         if (hasMerc())
         {
@@ -1193,7 +1232,12 @@ public class D2Character extends D2ItemListAdapter
         iReader.setBytes(lNewbytes); // iReader.getFileContent()
 
         iReader.set_byte_pos(lCharItemCountPos);
-        iReader.write(iCharItems.size(), 16);
+        int lCharItemsCount = iCharItems.size();
+        if ( iCharCursorItem != null )
+        {
+            lCharItemsCount++;
+        }
+        iReader.write(lCharItemsCount, 16);
 
         if (hasMerc())
         {

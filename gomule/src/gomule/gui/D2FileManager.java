@@ -213,7 +213,7 @@ public class D2FileManager extends JFrame
 
         iToolbar.addSeparator();
 
-        iToolbar.add(new JLabel("          "));
+        iToolbar.add(new JLabel("     "));
 
         JButton lSaveAll = new JButton(D2ImageCache.getIcon("save.gif"));
         lSaveAll.setToolTipText("Save All");
@@ -226,6 +226,8 @@ public class D2FileManager extends JFrame
         });
         iToolbar.add(lSaveAll);
 
+        iToolbar.add(new JLabel("     "));
+        
         JButton lCancelAll = new JButton(D2ImageCache.getIcon("cancel.gif"));
         lCancelAll.setToolTipText("Cancel (reload all)");
         lCancelAll.addActionListener(new java.awt.event.ActionListener()

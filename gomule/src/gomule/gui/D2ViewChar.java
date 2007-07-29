@@ -589,6 +589,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
         public boolean isItem()
         {
+            if ( iIsCursor )
+            {
+                return ( iCharacter.getCursorItem() != null );
+            }
             if (iIsChar)
             {
                 return iCharacter.checkCharPanel(iPanel, iRow, iCol, null);
@@ -607,7 +611,11 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
         public D2Item getItem()
         {
-            if (iIsChar)
+            if ( iIsCursor )
+            {
+                return iCharacter.getCursorItem();
+            }
+            if ( iIsChar )
             {
                 return iCharacter.getCharItem(iCharacter.getCharItemIndex(iPanel, iRow, iCol));
             }
@@ -1466,71 +1474,78 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                             // if there is an item to grab, grab it
                             if (lItemPanel.isItem())
                             {
-                                D2Item lTemp = lItemPanel.getItem();
-                                iCharacter.unmarkCharGrid(lTemp);
-                                iCharacter.removeCharItem(lItemPanel.getItemIndex());
+                                D2Item lTemp = iCharacter.getCursorItem();
+                                iCharacter.setCursorItem(null);
                                 D2ViewClipboard.addItem(lTemp);
                                 setCursorDropItem();
 
                                 // redraw
-//                                build();
-//                                repaint();
+                                build();
+                                repaint();
                             }
                             else if (D2ViewClipboard.getItem() != null)
                             {
-                                // MBR: for now, disable dropping completely,
-                                // it's not working
-                                //	// System.err.println("Drop item");
-                                //		                        // since there is an item on the mouse, try
-                                // to drop it here
-                                //		                    	
-                                //		                        D2Item lDropItem = D2MouseItem.getItem();
-                                //// int lDropWidth = lDropItem.get_width();
-                                //// int lDropHeight = lDropItem.get_height();
-                                //	// int r = 0, c = 0;
-                                //		                        boolean drop = false;
-                                //		                        // non-equipped items, handle differently
-                                //		                        // because they require a row and column
-                                //		                        // equipped items, a bit simpler
-                                //		                        // if that equipment slot is empty, update
-                                // the
-                                //		                        // item's fields and set drop to true
-                                //		                        // r and c are set to width and height
-                                //		                        // for find_corner to deal with variable-size
-                                //		                        // objects in the hands
-                                //		                        // (note lack of item-type checking)
-                                //	                            if
-                                // (!iChar.checkCharPanel(lItemPanel.getPanel(),
-                                // 0, 0, lDropItem))
-                                //	                            {
-                                //	                            	lDropItem.set_location((short) 1);
-                                //	                            	lDropItem.set_body_position((short)
-                                // (lItemPanel.getPanel() - 10));
-                                //	                            	lDropItem.set_col((short) 0);
-                                //	                            	lDropItem.set_row((short) 0);
-                                //	                            	lDropItem.set_panel((short) 0);
-                                //	                                drop = true;
-                                //// r = lDropWidth;
-                                //// c = lDropHeight;
-                                //	                            }
-                                //		                        // if the space to set the item is empty
-                                //		                        if (drop)
-                                //		                        {
-                                //		                            iChar.markCharGrid(lDropItem);
-                                //		                            // move the item to a new charcter, if needed
-                                //	                                iChar.addCharItem(D2MouseItem.removeItem());
-                                //		
-                                //		                            setModified( true );
-                                //		
-                                //		                            // redraw
-                                //		                            build();
-                                //		                            repaint();
-                                //		                            
-                                //		                            setCursorPickupItem();
-                                //		                            //my_char.show_grid();
-                                //		                        }
+                                iCharacter.setCursorItem(D2ViewClipboard.removeItem());
+                                build();
+                                repaint();
+                                
+                                setCursorPickupItem();
                             }
                         }
+                        
+//                                // MBR: for now, disable dropping completely,
+//                                // it's not working
+//                                //	// System.err.println("Drop item");
+//                                //		                        // since there is an item on the mouse, try
+//                                // to drop it here
+//                                //		                    	
+//                                //		                        D2Item lDropItem = D2MouseItem.getItem();
+//                                //// int lDropWidth = lDropItem.get_width();
+//                                //// int lDropHeight = lDropItem.get_height();
+//                                //	// int r = 0, c = 0;
+//                                //		                        boolean drop = false;
+//                                //		                        // non-equipped items, handle differently
+//                                //		                        // because they require a row and column
+//                                //		                        // equipped items, a bit simpler
+//                                //		                        // if that equipment slot is empty, update
+//                                // the
+//                                //		                        // item's fields and set drop to true
+//                                //		                        // r and c are set to width and height
+//                                //		                        // for find_corner to deal with variable-size
+//                                //		                        // objects in the hands
+//                                //		                        // (note lack of item-type checking)
+//                                //	                            if
+//                                // (!iChar.checkCharPanel(lItemPanel.getPanel(),
+//                                // 0, 0, lDropItem))
+//                                //	                            {
+//                                //	                            	lDropItem.set_location((short) 1);
+//                                //	                            	lDropItem.set_body_position((short)
+//                                // (lItemPanel.getPanel() - 10));
+//                                //	                            	lDropItem.set_col((short) 0);
+//                                //	                            	lDropItem.set_row((short) 0);
+//                                //	                            	lDropItem.set_panel((short) 0);
+//                                //	                                drop = true;
+//                                //// r = lDropWidth;
+//                                //// c = lDropHeight;
+//                                //	                            }
+//                                //		                        // if the space to set the item is empty
+//                                //		                        if (drop)
+//                                //		                        {
+//                                //		                            iChar.markCharGrid(lDropItem);
+//                                //		                            // move the item to a new charcter, if needed
+//                                //	                                iChar.addCharItem(D2MouseItem.removeItem());
+//                                //		
+//                                //		                            setModified( true );
+//                                //		
+//                                //		                            // redraw
+//                                //		                            build();
+//                                //		                            repaint();
+//                                //		                            
+//                                //		                            setCursorPickupItem();
+//                                //		                            //my_char.show_grid();
+//                                //		                        }
+//                            }
+//                        }
                     }
                 }
 
@@ -1575,29 +1590,28 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                             }
                             else
                             {
-                                setCursorNormal();
+//                                setCursorNormal();
+                                setCursorDropItem();
 
                                 // MBR: for now, disable dropping completely
-                                //		                        D2Item lDropItem = D2MouseItem.getItem();
+//                                D2Item lDropItem = D2ViewClipboard.getItem();
                                 //	// int lDropWidth = lDropItem.get_width();
                                 //	// int lDropHeight = lDropItem.get_height();
                                 //	
                                 //		                        boolean drop = false;
                                 //	
-                                //	                            if
-                                // (!iChar.checkCharPanel(lItemPanel.getPanel(),
-                                // 0, 0, lDropItem))
-                                //	                            {
-                                //	                                drop = true;
-                                //	                            }
-                                //		                        if (drop)
-                                //		                        {
-                                //		                        	setCursorDropItem();
-                                //		                        }
-                                //		                        else
-                                //		                        {
-                                //		                        	setCursorNormal();
-                                //		                        }
+//                                if (!iChar.checkCharPanel(lItemPanel.getPanel(), 0, 0, lDropItem))
+//                                	                            {
+//                                	                                drop = true;
+//                                	                            }
+//                                		                        if (drop)
+//                                		                        {
+//                                		                        	setCursorDropItem();
+//                                		                        }
+//                                		                        else
+//                                		                        {
+//                                		                        	setCursorNormal();
+//                                		                        }
                             }
                         }
                     }
@@ -1625,7 +1639,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
             int lHeight = lEmptyBackground.getHeight(D2CharCursorPainterPanel.this);
             
             iBackground = iFileManager.getGraphicsConfiguration().createCompatibleImage(lWidth, lHeight, Transparency.BITMASK);
-//            iBackground = new BufferedImage(lWidth, lHeight, BufferedImage.TYPE_3BYTE_BGR);
 
             Graphics2D lGraphics = (Graphics2D) iBackground.getGraphics();
 
@@ -1633,30 +1646,12 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
             if ( iCharacter != null )
             {
-	            for (int i = 0; i < iCharacter.getCharItemNr(); i++)
-	            {
-	                D2Item temp_item = iCharacter.getCharItem(i);
-	                Image lImage = D2ImageCache.getDC6Image(temp_item);
-	                int location = temp_item.get_location();
-	                if (location == 0)
-	                {
-	                    // do nothing
-	                }
-	                else if (location == 2)
-	                {
-	                    // do nothing
-	                }
-	                else
-	                // on the body
-	                {
-	                    int body_position = temp_item.get_body_position();
-	                    int w, h, wbias, hbias;
-	                    if (body_position == 0)
-	                    {
-	                        lGraphics.drawImage(lImage, CURSOR_X, CURSOR_Y, D2CharCursorPainterPanel.this);
-	                    }
-	                }
-	            }
+            	D2Item lCursorItem = iCharacter.getCursorItem();
+            	if ( lCursorItem != null )
+                {
+	                Image lImage = D2ImageCache.getDC6Image(lCursorItem);
+                    lGraphics.drawImage(lImage, CURSOR_X, CURSOR_Y, D2CharCursorPainterPanel.this);
+                }
             }
             repaint();
         }

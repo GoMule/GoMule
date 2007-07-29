@@ -393,10 +393,13 @@ public class D2ViewProject extends JPanel
             super(getCharStr(pFileName));
             iFileName = pFileName;
             
-            File lTest = new File(iFileName);
-            if ( !lTest.exists() || !lTest.isFile() || !lTest.canRead() || !lTest.canWrite() )
+            if ( !iFileName.toLowerCase().equals("all") )
             {
-                iForeGround = Color.red;
+	            File lTest = new File(iFileName);
+	            if ( !lTest.exists() || !lTest.isFile() || !lTest.canRead() || !lTest.canWrite() )
+	            {
+	                iForeGround = Color.red;
+	            }
             }
         }
         

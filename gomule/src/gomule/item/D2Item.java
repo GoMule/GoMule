@@ -22,6 +22,7 @@
 package gomule.item;
 
 import gomule.gui.*;
+import gomule.gui.D2ViewChar.*;
 import gomule.util.*;
 
 import java.io.*;
@@ -2443,6 +2444,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 		}
 	}
+	
+	public boolean isCursorItem()
+	{
+        if (location != 0 && location != 2 )
+        {
+            if ( body_position == 0 )
+            {
+//                System.err.println("location: " + location );
+                return true;
+            }
+        }
+        return false;
+	}
 
 	public int compareTo(Object pObject) {
 		if (pObject instanceof D2Item) {
@@ -2461,5 +2475,22 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 		return -1;
 	}
+	
+//	public boolean isCursorItem()
+//	{
+//	    short panel = get_panel();
+//	    
+//        switch (panel)
+//        {
+//        case 0: // equipped or on belt -> not cursor
+//        case D2Character.BODY_INV_CONTENT: // inventory
+//        case D2Character.BODY_CUBE_CONTENT: // cube
+//        case D2Character.BODY_STASH_CONTENT: // stash
+//            return false;
+//        }
+//	    
+//	    
+//	    return false;
+//	}
 
 }
