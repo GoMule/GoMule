@@ -35,7 +35,7 @@ import java.util.*;
  */
 public class D2Stash extends D2ItemListAdapter
 {
-    private String		iFileName;
+//    private String		iFileName;
     private ArrayList	iItems;
 
     private D2BitReader	iBR;
@@ -49,7 +49,7 @@ public class D2Stash extends D2ItemListAdapter
     
     public D2Stash(String pFileName) throws Exception
     {
-        iFileName = pFileName;
+        super(pFileName);
         if ( iFileName == null || !iFileName.toLowerCase().endsWith(".d2x") )
         {
             throw new Exception("Incorrect Stash file name");
@@ -208,7 +208,7 @@ public class D2Stash extends D2ItemListAdapter
         }
     }
     
-    public void save(D2Project pProject)
+    public void saveInternal(D2Project pProject)
     {
         // backup file
         D2Backup.backup(pProject, iFileName, iBR);

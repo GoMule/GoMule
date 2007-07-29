@@ -20,6 +20,7 @@
  ******************************************************************************/
 package gomule.gui;
 
+import gomule.d2s.*;
 import gomule.d2x.*;
 import gomule.item.*;
 import gomule.util.*;
@@ -52,6 +53,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
     private JTextArea     iItemText;
 
+    private JButton 	  iPickup;
+    private JButton       iDropOne;
+    private JButton       iDropAll;
+    
     // item types
     private JCheckBox     iTypeUnique;
     private JCheckBox     iTypeSet;
@@ -118,101 +123,97 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iContentPane = new JPanel();
         iContentPane.setLayout(new BorderLayout());
 
-        try
-        {
-            iStash = iFileManager.addItemList(iFileName, this);
-            
-            iStashFilter = new D2StashFilter();
-            iItemModel = new D2ItemModel();
-            iTable = new JTable(iItemModel);
-            
-            Font lFont = iTable.getTableHeader().getFont();
+        iStashFilter = new D2StashFilter();
+        iItemModel = new D2ItemModel();
+        iTable = new JTable(iItemModel);
+        
+        Font lFont = iTable.getTableHeader().getFont();
 //            iTable.getTableHeader().setFont( new Font(lFont.getName(), lFont.getStyle(), lFont.getSize()-2) );
-            iTable.getTableHeader().addMouseListener( new MouseAdapter() 
+        iTable.getTableHeader().addMouseListener( new MouseAdapter() 
+        {
+            public void mouseReleased(MouseEvent e) 
             {
-                public void mouseReleased(MouseEvent e) 
+                if ( e.getSource() instanceof JTableHeader )
                 {
-                    if ( e.getSource() instanceof JTableHeader )
+                    JTableHeader lHeader = (JTableHeader) e.getSource();
+                    int lHeaderCol = lHeader.columnAtPoint(new Point(e.getX(), e.getY()));
+                    
+                    lHeaderCol = lHeader.getColumnModel().getColumn(lHeaderCol).getModelIndex();
+                    
+                    if ( lHeaderCol != -1 )
                     {
-                        JTableHeader lHeader = (JTableHeader) e.getSource();
-                        int lHeaderCol = lHeader.columnAtPoint(new Point(e.getX(), e.getY()));
-                        
-                        lHeaderCol = lHeader.getColumnModel().getColumn(lHeaderCol).getModelIndex();
-                        
-                        if ( lHeaderCol != -1 )
-                        {
-                            iItemModel.sortCol(lHeaderCol);
-                        }
+                        iItemModel.sortCol(lHeaderCol);
                     }
                 }
-            });
-            
-            iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
-            iTable.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-            if ( iStash instanceof D2ItemListAll )
-            {
-                iTable.getColumnModel().getColumn(0).setPreferredWidth(180);
             }
-            else
-            {
-                iTable.getColumnModel().getColumn(0).setPreferredWidth(200);
-            }
-            iTable.getColumnModel().getColumn(1).setPreferredWidth(11);
-            iTable.getColumnModel().getColumn(2).setPreferredWidth(11);
-            iTable.getColumnModel().getColumn(3).setPreferredWidth(15);
-            if ( iStash instanceof D2ItemListAll )
-            {
-                iTable.getColumnModel().getColumn(4).setPreferredWidth(8);
-            }
-            JScrollPane lPane = new JScrollPane(iTable);
-            lPane.setPreferredSize(new Dimension(300, 100));
-            iContentPane.add(lPane, BorderLayout.WEST);
-
-            RandallPanel lButtonPanel = getButtonPanel();
-            JPanel lTypePanel = getTypePanel();
-            RandallPanel lCategoryPanel = getCategoryPanel();
-
-            iRequerementFilter = new RandallPanel();
-            iReqMaxLvl = new JTextField();
-            iReqMaxLvl.getDocument().addDocumentListener(iStashFilter);
-            iReqMaxStr = new JTextField();
-            iReqMaxStr.getDocument().addDocumentListener(iStashFilter);
-            iReqMaxDex = new JTextField();
-            iReqMaxDex.getDocument().addDocumentListener(iStashFilter);
-            
-            iRequerementFilter.addToPanel(new JLabel("MaxLvl"), 0, 0, 1, RandallPanel.NONE);
-            iRequerementFilter.addToPanel(iReqMaxLvl, 1, 0, 1, RandallPanel.HORIZONTAL);
-            iRequerementFilter.addToPanel(new JLabel("MaxStr"), 2, 0, 1, RandallPanel.NONE);
-            iRequerementFilter.addToPanel(iReqMaxStr, 3, 0, 1, RandallPanel.HORIZONTAL);
-            iRequerementFilter.addToPanel(new JLabel("MaxDex"), 4, 0, 1, RandallPanel.NONE);
-            iRequerementFilter.addToPanel(iReqMaxDex, 5, 0, 1, RandallPanel.HORIZONTAL);
-            
-            RandallPanel lTopPanel = new RandallPanel();
-            lTopPanel.addToPanel(lButtonPanel, 0, 0, 1, RandallPanel.HORIZONTAL);
-            lTopPanel.addToPanel(lTypePanel, 0, 1, 1, RandallPanel.HORIZONTAL);
-            lTopPanel.addToPanel(lCategoryPanel, 0, 2, 1, RandallPanel.HORIZONTAL);
-            lTopPanel.addToPanel(iRequerementFilter, 0, 3, 1, RandallPanel.HORIZONTAL);
-            
-
-            iContentPane.add(lTopPanel, BorderLayout.NORTH);
-
-            JPanel lItemPanel = new JPanel();
-            iItemText = new JTextArea();
-            JScrollPane lItemScroll = new JScrollPane(iItemText);
-            lItemPanel.setLayout(new BorderLayout());
-            lItemPanel.add(lItemScroll, BorderLayout.CENTER);
-            lItemPanel.setPreferredSize(new Dimension(250, 100));
-
-            iContentPane.add(lItemPanel, BorderLayout.CENTER);
-        }
-        catch (Exception pEx)
+        });
+        
+        iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
+        iTable.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        if ( iStash instanceof D2ItemListAll )
         {
-            D2FileManager.displayErrorDialog(pEx);
-            JTextArea lError = new JTextArea();
-            JScrollPane lScroll = new JScrollPane(lError);
-            lError.setText(pEx.getMessage());
-            iContentPane.add(lError, BorderLayout.CENTER);
+            iTable.getColumnModel().getColumn(0).setPreferredWidth(180);
         }
+        else
+        {
+            iTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+        }
+        iTable.getColumnModel().getColumn(1).setPreferredWidth(11);
+        iTable.getColumnModel().getColumn(2).setPreferredWidth(11);
+        iTable.getColumnModel().getColumn(3).setPreferredWidth(15);
+        if ( iStash instanceof D2ItemListAll )
+        {
+            iTable.getColumnModel().getColumn(4).setPreferredWidth(8);
+        }
+        JScrollPane lPane = new JScrollPane(iTable);
+        lPane.setPreferredSize(new Dimension(300, 100));
+        iContentPane.add(lPane, BorderLayout.WEST);
+
+        RandallPanel lButtonPanel = getButtonPanel();
+        JPanel lTypePanel = getTypePanel();
+        RandallPanel lCategoryPanel = getCategoryPanel();
+
+        iRequerementFilter = new RandallPanel();
+        iReqMaxLvl = new JTextField();
+        iReqMaxLvl.getDocument().addDocumentListener(iStashFilter);
+        iReqMaxStr = new JTextField();
+        iReqMaxStr.getDocument().addDocumentListener(iStashFilter);
+        iReqMaxDex = new JTextField();
+        iReqMaxDex.getDocument().addDocumentListener(iStashFilter);
+        
+        iRequerementFilter.addToPanel(new JLabel("MaxLvl"), 0, 0, 1, RandallPanel.NONE);
+        iRequerementFilter.addToPanel(iReqMaxLvl, 1, 0, 1, RandallPanel.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("MaxStr"), 2, 0, 1, RandallPanel.NONE);
+        iRequerementFilter.addToPanel(iReqMaxStr, 3, 0, 1, RandallPanel.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("MaxDex"), 4, 0, 1, RandallPanel.NONE);
+        iRequerementFilter.addToPanel(iReqMaxDex, 5, 0, 1, RandallPanel.HORIZONTAL);
+        
+        RandallPanel lTopPanel = new RandallPanel();
+        lTopPanel.addToPanel(lButtonPanel, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lTopPanel.addToPanel(lTypePanel, 0, 1, 1, RandallPanel.HORIZONTAL);
+        lTopPanel.addToPanel(lCategoryPanel, 0, 2, 1, RandallPanel.HORIZONTAL);
+        lTopPanel.addToPanel(iRequerementFilter, 0, 3, 1, RandallPanel.HORIZONTAL);
+        
+
+        iContentPane.add(lTopPanel, BorderLayout.NORTH);
+
+        JPanel lItemPanel = new JPanel();
+        iItemText = new JTextArea();
+        JScrollPane lItemScroll = new JScrollPane(iItemText);
+        lItemPanel.setLayout(new BorderLayout());
+        lItemPanel.add(lItemScroll, BorderLayout.CENTER);
+        lItemPanel.setPreferredSize(new Dimension(250, 100));
+
+        iContentPane.add(lItemPanel, BorderLayout.CENTER);
+//        }
+//        catch (Exception pEx)
+//        {
+//            D2FileManager.displayErrorDialog(pEx);
+//            JTextArea lError = new JTextArea();
+//            JScrollPane lScroll = new JScrollPane(lError);
+//            lError.setText(pEx.getMessage());
+//            iContentPane.add(lError, BorderLayout.CENTER);
+//        }
 
         setContentPane(iContentPane);
 
@@ -220,7 +221,9 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         setSize(650, 500);
         setVisible(true);
 
-        itemListChanged();
+//        itemListChanged();
+//        disconnect(null);
+        connect();
 
         if (iTable != null)
         {
@@ -242,6 +245,63 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     });
         }
     }
+    
+    public void connect()
+    {
+        try
+        {
+            iStash = iFileManager.addItemList(iFileName, this);
+            itemListChanged();
+            
+            if ( iStash instanceof D2Stash )
+            {
+	            iPickup.setEnabled(true);
+	            iDropOne.setEnabled(true);
+	            iDropAll.setEnabled(true);
+	            iDropOne.setVisible(true);
+	            iDropAll.setVisible(true);
+            }
+            else
+            {
+	            iPickup.setEnabled(true);
+	            iDropOne.setEnabled(false);
+	            iDropAll.setEnabled(false);
+	            iDropOne.setVisible(false);
+	            iDropAll.setVisible(false);
+            }
+        }
+        catch( Exception pEx )
+        {
+            disconnect(pEx);
+        }
+        
+    }
+    
+    public void disconnect(Exception pEx)
+    {
+        if ( iStash != null )
+        {
+            if ( iStash instanceof D2ItemListAll )
+            {
+                ArrayList lList = ((D2ItemListAll) iStash).getAllContainers();
+                for ( int i = 0 ; i < lList.size() ; i++ )
+                {
+                    D2ItemList lItemList = (D2ItemList) lList.get(i);
+                    iFileManager.removeItemList(lItemList.getFilename(), this);
+                }
+            }
+            else
+            {
+                iFileManager.removeItemList(iFileName, this);
+            }
+        }
+        
+        iStash = null;
+        iPickup.setEnabled(false);
+        iDropOne.setEnabled(false);
+        iDropAll.setEnabled(false);
+        itemListChanged();
+    }
 
     public boolean isHC()
     {
@@ -257,8 +317,8 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     {
         RandallPanel lButtonPanel = new RandallPanel(true);
 
-        JButton lPickup = new JButton("Pickup");
-        lPickup.addActionListener(new ActionListener()
+        iPickup = new JButton("Pickup");
+        iPickup.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent pEvent)
             {
@@ -289,46 +349,40 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 }
             }
         });
-        lButtonPanel.addToPanel(lPickup, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lButtonPanel.addToPanel(iPickup, 0, 0, 1, RandallPanel.HORIZONTAL);
 
-        if ( iStash instanceof D2Stash )
+        iDropOne = new JButton("Drop");
+        iDropOne.addActionListener(new ActionListener()
         {
-	        JButton lDropOne = new JButton("Drop");
-	        lDropOne.addActionListener(new ActionListener()
-	        {
-	            public void actionPerformed(ActionEvent pEvent)
-	            {
-	                ((D2Stash) iStash).addItem(D2ViewClipboard.removeItem());
-	            }
-	        });
-	        lButtonPanel.addToPanel(lDropOne, 1, 0, 1, RandallPanel.HORIZONTAL);
-        }
+            public void actionPerformed(ActionEvent pEvent)
+            {
+                ((D2Stash) iStash).addItem(D2ViewClipboard.removeItem());
+            }
+        });
+        lButtonPanel.addToPanel(iDropOne, 1, 0, 1, RandallPanel.HORIZONTAL);
 
-        if ( iStash instanceof D2Stash )
+        iDropAll = new JButton("Drop All");
+        iDropAll.addActionListener(new ActionListener()
         {
-	        JButton lDropAll = new JButton("Drop All");
-	        lDropAll.addActionListener(new ActionListener()
-	        {
-	            public void actionPerformed(ActionEvent pEvent)
-	            {
-                    try
-                    {
-                        iIgnoreItemListEvents = true;
-		                ArrayList lItemList = D2ViewClipboard.removeAllItems();
-		                while (lItemList.size() > 0)
-		                {
-		                    ((D2Stash) iStash).addItem((D2Item) lItemList.remove(0));
-		                }
-                    }
-                    finally
-                    {
-                        iIgnoreItemListEvents = false;
-                    }
-                    itemListChanged();
-	            }
-	        });
-	        lButtonPanel.addToPanel(lDropAll, 2, 0, 1, RandallPanel.HORIZONTAL);
-        }
+            public void actionPerformed(ActionEvent pEvent)
+            {
+                try
+                {
+                    iIgnoreItemListEvents = true;
+	                ArrayList lItemList = D2ViewClipboard.removeAllItems();
+	                while (lItemList.size() > 0)
+	                {
+	                    ((D2Stash) iStash).addItem((D2Item) lItemList.remove(0));
+	                }
+                }
+                finally
+                {
+                    iIgnoreItemListEvents = false;
+                }
+                itemListChanged();
+            }
+        });
+        lButtonPanel.addToPanel(iDropAll, 2, 0, 1, RandallPanel.HORIZONTAL);
 
         return lButtonPanel;
     }
@@ -598,7 +652,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         String lTitle = iFileName;
         if (iStash == null || iItemModel == null)
         {
-            lTitle += " (Error Reading File)";
+            lTitle += " (Disconnected)";
         }
         else
         {
@@ -678,198 +732,201 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 lMaxReqDex = getInteger(iReqMaxDex);
             }
                 
-            ArrayList lList = iStash.getItemList();
             iItems = new ArrayList();
-            for (int i = 0; i < lList.size(); i++)
+            if ( iStash != null )
             {
-                D2Item lItem = (D2Item) lList.get(i);
-                
-                boolean lAdd1 = false;
-                boolean lAdd2 = false;
-                
-                if (iTypeUnique == null)
-                {
-                    // initializing, all filters to default
-                    lAdd1 = true;
-                    lAdd2 = true;
-                }
-                else
-                {
-                    if (iTypeUnique.isSelected() && lItem.isUnique())
-                    {
-                        lAdd1 = true;
-                    }
-                    else if (iTypeSet.isSelected() && lItem.isSet())
-                    {
-                        lAdd1 = true;
-                    }
-                    else if (iTypeRuneWord.isSelected() && lItem.isRuneWord())
-                    {
-                        lAdd1 = true;
-                    }
-                    else if (iTypeRare.isSelected() && lItem.isRare())
-                    {
-                        lAdd1 = true;
-                    }
-                    else if (iTypeMagical.isSelected() && lItem.isMagical())
-                    {
-                        lAdd1 = true;
-                    }
-                    else if (iTypeCrafted.isSelected() && lItem.isCrafted())
-                    {
-                        lAdd1 = true;
-                    }
-                    else if (iTypeOther.isSelected() && !lItem.isUnique()
-                            && !lItem.isSet() && !lItem.isRuneWord()
-                            && !lItem.isRare() && !lItem.isMagical()
-                            && !lItem.isCrafted())
-                    {
-                        lAdd1 = true;
-                    }
-                    else if (!iTypeUnique.isSelected()
-                            && !iTypeSet.isSelected()
-                            && !iTypeRuneWord.isSelected()
-                            && !iTypeRare.isSelected()
-                            && !iTypeMagical.isSelected()
-                            && !iTypeCrafted.isSelected()
-                            && !iTypeOther.isSelected())
-                    {
-                        lAdd1 = true;
-                    }
-
-                    if (lAdd1)
-                    {
-                        if (iCatAll.isSelected())
-                        {
-                            lAdd2 = true;
-                        }
-                        else if (iCatArmor.isSelected() && lItem.isTypeArmor())
-                        {
-                            D2RadioButton lAll = (D2RadioButton) iArmorFilterList.get(iArmorFilterList.size()-1);
-                            if ( lAll.isSelected() )
-                            {
-                                lAdd2 = true;
-                            }
-                            
-                            for ( int j = 0 ; j < iArmorFilterList.size() - 1 ; j++ )
-                            {
-                                D2RadioButton lBtn = (D2RadioButton) iArmorFilterList.get(j);
-                                if ( lBtn.isSelected() && lItem.isBodyLocation( (D2BodyLocations) lBtn.getData() ) )
-                                {
-                                    lAdd2 = true;
-                                }
-                            }
-                        }
-                        else if (iCatWeapons.isSelected()
-                                && lItem.isTypeWeapon())
-                        {
-                            D2RadioButton lAll = (D2RadioButton) iWeaponFilterList.get(iWeaponFilterList.size()-1);
-                            if ( lAll.isSelected() )
-                            {
-                                lAdd2 = true;
-                            }
-                            
-                            for ( int j = 0 ; j < iWeaponFilterList.size() - 1 ; j++ )
-                            {
-                                D2RadioButton lBtn = (D2RadioButton) iWeaponFilterList.get(j);
-                                if ( lBtn.isSelected() && lItem.isWeaponType( (D2WeaponTypes) lBtn.getData() ) )
-                                {
-                                    lAdd2 = true;
-                                }
-                            }
-//                            lAdd2 = true;
-                        }
-                        else if (iCatSocket.isSelected()
-                                && lItem.isSocketFiller())
-                        {
-                            if ( iCatSocketAll.isSelected() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatSocketJewel.isSelected() && lItem.isJewel() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatSocketGem.isSelected() && lItem.isGem() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatSocketRune.isSelected() && lItem.isRune() )
-                            {
-                                lAdd2 = true;
-                            }
-                        }
-                        else if (iCatCharm.isSelected() && lItem.isCharm())
-                        {
-                            if ( iCatCharmAll.isSelected() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatCharmSmall.isSelected() && lItem.isCharmSmall() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatCharmLarge.isSelected() && lItem.isCharmLarge() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatCharmGrand.isSelected() && lItem.isCharmGrand() )
-                            {
-                                lAdd2 = true;
-                            }
-                        }
-                        else if (iCatMisc.isSelected() && lItem.isTypeMisc()
-                                && !lItem.isSocketFiller() && !lItem.isCharm())
-                        {
-                            if ( iCatMiscAll.isSelected() )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatMiscAmulet.isSelected() && lItem.isBodyLocation(D2BodyLocations.BODY_NECK) )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatMiscRing.isSelected() && lItem.isBodyLocation(D2BodyLocations.BODY_LRIN) )
-                            {
-                                lAdd2 = true;
-                            }
-                            else if ( iCatMiscOther.isSelected() && !lItem.isBodyLocation(D2BodyLocations.BODY_NECK) && !lItem.isBodyLocation(D2BodyLocations.BODY_LRIN) )
-                            {
-                                lAdd2 = true;
-                            }
-                        }
-                    }
-                }
-
-                if ( lAdd1 && lAdd2 )
-                {
-                    if ( lMaxReqLvl != -1 )
-                    {
-                        if ( lItem.getReqLvl() > lMaxReqLvl )
-                        {
-                            lAdd1 = false;
-                        }
-                    }
-                    if ( lMaxReqStr != -1 )
-                    {
-                        if ( lItem.getReqStr() > lMaxReqStr )
-                        {
-                            lAdd1 = false;
-                        }
-                    }
-                    if ( lMaxReqDex != -1 )
-                    {
-                        if ( lItem.getReqDex() > lMaxReqDex )
-                        {
-                            lAdd1 = false;
-                        }
-                    }
-                    
-                    if ( lAdd1 )
-                    {
-                        iItems.add(lItem);
-                    }
-                }
+	            ArrayList lList = iStash.getItemList();
+	            for (int i = 0; i < lList.size(); i++)
+	            {
+	                D2Item lItem = (D2Item) lList.get(i);
+	                
+	                boolean lAdd1 = false;
+	                boolean lAdd2 = false;
+	                
+	                if (iTypeUnique == null)
+	                {
+	                    // initializing, all filters to default
+	                    lAdd1 = true;
+	                    lAdd2 = true;
+	                }
+	                else
+	                {
+	                    if (iTypeUnique.isSelected() && lItem.isUnique())
+	                    {
+	                        lAdd1 = true;
+	                    }
+	                    else if (iTypeSet.isSelected() && lItem.isSet())
+	                    {
+	                        lAdd1 = true;
+	                    }
+	                    else if (iTypeRuneWord.isSelected() && lItem.isRuneWord())
+	                    {
+	                        lAdd1 = true;
+	                    }
+	                    else if (iTypeRare.isSelected() && lItem.isRare())
+	                    {
+	                        lAdd1 = true;
+	                    }
+	                    else if (iTypeMagical.isSelected() && lItem.isMagical())
+	                    {
+	                        lAdd1 = true;
+	                    }
+	                    else if (iTypeCrafted.isSelected() && lItem.isCrafted())
+	                    {
+	                        lAdd1 = true;
+	                    }
+	                    else if (iTypeOther.isSelected() && !lItem.isUnique()
+	                            && !lItem.isSet() && !lItem.isRuneWord()
+	                            && !lItem.isRare() && !lItem.isMagical()
+	                            && !lItem.isCrafted())
+	                    {
+	                        lAdd1 = true;
+	                    }
+	                    else if (!iTypeUnique.isSelected()
+	                            && !iTypeSet.isSelected()
+	                            && !iTypeRuneWord.isSelected()
+	                            && !iTypeRare.isSelected()
+	                            && !iTypeMagical.isSelected()
+	                            && !iTypeCrafted.isSelected()
+	                            && !iTypeOther.isSelected())
+	                    {
+	                        lAdd1 = true;
+	                    }
+	
+	                    if (lAdd1)
+	                    {
+	                        if (iCatAll.isSelected())
+	                        {
+	                            lAdd2 = true;
+	                        }
+	                        else if (iCatArmor.isSelected() && lItem.isTypeArmor())
+	                        {
+	                            D2RadioButton lAll = (D2RadioButton) iArmorFilterList.get(iArmorFilterList.size()-1);
+	                            if ( lAll.isSelected() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            
+	                            for ( int j = 0 ; j < iArmorFilterList.size() - 1 ; j++ )
+	                            {
+	                                D2RadioButton lBtn = (D2RadioButton) iArmorFilterList.get(j);
+	                                if ( lBtn.isSelected() && lItem.isBodyLocation( (D2BodyLocations) lBtn.getData() ) )
+	                                {
+	                                    lAdd2 = true;
+	                                }
+	                            }
+	                        }
+	                        else if (iCatWeapons.isSelected()
+	                                && lItem.isTypeWeapon())
+	                        {
+	                            D2RadioButton lAll = (D2RadioButton) iWeaponFilterList.get(iWeaponFilterList.size()-1);
+	                            if ( lAll.isSelected() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            
+	                            for ( int j = 0 ; j < iWeaponFilterList.size() - 1 ; j++ )
+	                            {
+	                                D2RadioButton lBtn = (D2RadioButton) iWeaponFilterList.get(j);
+	                                if ( lBtn.isSelected() && lItem.isWeaponType( (D2WeaponTypes) lBtn.getData() ) )
+	                                {
+	                                    lAdd2 = true;
+	                                }
+	                            }
+	//                            lAdd2 = true;
+	                        }
+	                        else if (iCatSocket.isSelected()
+	                                && lItem.isSocketFiller())
+	                        {
+	                            if ( iCatSocketAll.isSelected() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            else if ( iCatSocketJewel.isSelected() && lItem.isJewel() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            else if ( iCatSocketGem.isSelected() && lItem.isGem() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            else if ( iCatSocketRune.isSelected() && lItem.isRune() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                        }
+	                        else if (iCatCharm.isSelected() && lItem.isCharm())
+	                        {
+	                            if ( iCatCharmAll.isSelected() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            else if ( iCatCharmSmall.isSelected() && lItem.isCharmSmall() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            else if ( iCatCharmLarge.isSelected() && lItem.isCharmLarge() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            else if ( iCatCharmGrand.isSelected() && lItem.isCharmGrand() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                        }
+	                        else if (iCatMisc.isSelected() && lItem.isTypeMisc()
+	                                && !lItem.isSocketFiller() && !lItem.isCharm())
+	                        {
+	                            if ( iCatMiscAll.isSelected() )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            else if ( iCatMiscAmulet.isSelected() && lItem.isBodyLocation(D2BodyLocations.BODY_NECK) )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            else if ( iCatMiscRing.isSelected() && lItem.isBodyLocation(D2BodyLocations.BODY_LRIN) )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                            else if ( iCatMiscOther.isSelected() && !lItem.isBodyLocation(D2BodyLocations.BODY_NECK) && !lItem.isBodyLocation(D2BodyLocations.BODY_LRIN) )
+	                            {
+	                                lAdd2 = true;
+	                            }
+	                        }
+	                    }
+	                }
+	
+	                if ( lAdd1 && lAdd2 )
+	                {
+	                    if ( lMaxReqLvl != -1 )
+	                    {
+	                        if ( lItem.getReqLvl() > lMaxReqLvl )
+	                        {
+	                            lAdd1 = false;
+	                        }
+	                    }
+	                    if ( lMaxReqStr != -1 )
+	                    {
+	                        if ( lItem.getReqStr() > lMaxReqStr )
+	                        {
+	                            lAdd1 = false;
+	                        }
+	                    }
+	                    if ( lMaxReqDex != -1 )
+	                    {
+	                        if ( lItem.getReqDex() > lMaxReqDex )
+	                        {
+	                            lAdd1 = false;
+	                        }
+	                    }
+	                    
+	                    if ( lAdd1 )
+	                    {
+	                        iItems.add(lItem);
+	                    }
+	                }
+	            }
             }
             sort();
         }
@@ -1118,23 +1175,22 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     
     public void closeView()
     {
-        if ( iStash != null )
-        {
-            if ( iStash instanceof D2ItemListAll )
-            {
-                ArrayList lList = ((D2ItemListAll) iStash).getAllContainers();
-                for ( int i = 0 ; i < lList.size() ; i++ )
-                {
-                    D2ItemList lItemList = (D2ItemList) lList.get(i);
-                    iFileManager.removeItemList(lItemList.getFilename(), this);
-                }
-            }
-            else
-            {
-                iFileManager.removeItemList(iFileName, this);
-            }
-        }
+        disconnect(null);
+        
         iFileManager.removeFromOpenWindows(this);
     }
 
+    public void resetCharacter(D2Character pChar)
+    {
+        throw new RuntimeException("Internal error: wrong calling");
+    }
+
+    public void resetStash(D2Stash pStash)
+    {
+        iIgnoreItemListEvents = false;
+        iStash = pStash;
+        itemListChanged();
+    }
+
+    
 }

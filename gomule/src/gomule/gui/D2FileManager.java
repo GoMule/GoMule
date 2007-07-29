@@ -26,6 +26,7 @@ import gomule.d2x.*;
 import gomule.util.*;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
@@ -41,7 +42,7 @@ import randall.util.*;
  */ 
 public class D2FileManager extends JFrame
 {
-    private static final String  CURRENT_VERSION = "R0.16";
+    private static final String  CURRENT_VERSION = "R0.18";
 
     private HashMap				 iItemLists = new HashMap();
     
@@ -61,6 +62,8 @@ public class D2FileManager extends JFrame
 
     private D2ViewClipboard      iClipboard;
     private D2ViewStash          iViewAll;
+    
+    private boolean				 iIgnoreCheckAll = false;
 
     public static D2FileManager getIntance()
     {
@@ -98,7 +101,8 @@ public class D2FileManager extends JFrame
 
         setContentPane(iContentPane);
 
-        setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        Dimension lSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(lSize.width, lSize.height - 50 );
         setTitle("GoMule " + CURRENT_VERSION);
 
         try
@@ -112,7 +116,16 @@ public class D2FileManager extends JFrame
                 {
                     closeListener();
                 }
+//                public void windowDeactivated(WindowEvent e) 
+//                {
+//                    saveAll();
+//                }
+                public void windowActivated(WindowEvent e) 
+                {
+                    checkAll(false);
+                }
             });
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
         catch (Exception pEx)
         {
@@ -212,6 +225,17 @@ public class D2FileManager extends JFrame
             }
         });
         iToolbar.add(lSaveAll);
+
+        JButton lCancelAll = new JButton(D2ImageCache.getIcon("cancel.gif"));
+        lCancelAll.setToolTipText("Cancel (reload all)");
+        lCancelAll.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent e)
+            {
+                cancelAll();
+            }
+        });
+        iToolbar.add(lCancelAll);
 
         iToolbar.addSeparator();
 
@@ -390,8 +414,148 @@ public class D2FileManager extends JFrame
         {
             iProject.saveProject();
         }
-        iClipboard.saveView();
         saveAllItemLists();
+    }
+    
+    public void saveAllItemLists()
+    {
+        checkAll(false);
+
+        iClipboard.saveView();
+        Iterator lIterator = iItemLists.keySet().iterator();
+        while ( lIterator.hasNext() )
+        {
+            String lFileName = (String) lIterator.next();
+            D2ItemList lList = getItemList(lFileName);
+            if ( lList.isModified() )
+            {
+                lList.save(iProject);
+            }
+        }
+    }
+    
+    public void cancelAll()
+    {
+        checkAll(true);
+    }
+
+    private void checkAll(boolean pCancel)
+    {
+        if ( iIgnoreCheckAll )
+        {
+            return;
+        }
+        try
+        {
+	        iIgnoreCheckAll = true;
+	        boolean lChanges = pCancel;
+	        boolean lModifiedChanges = pCancel;
+	//        return true;
+	//        boolean lSomethingChanged = true;
+	        D2ItemList lClipboardStash = iClipboard.getItemLists();
+	
+	        if ( !lClipboardStash.checkTimestamp() )
+	        {
+	            lChanges = true;
+	            if ( iClipboard.isModified() )
+	            {
+	                lModifiedChanges = true;
+	            }
+	        }
+	        
+	        Iterator lIterator = iItemLists.keySet().iterator();
+	        while ( lIterator.hasNext() )
+	        {
+	            String lFileName = (String) lIterator.next();
+	            D2ItemList lList = (D2ItemList) iItemLists.get(lFileName);
+	            if ( !(lList instanceof D2ItemListAll) && !lList.checkTimestamp() )
+	            {
+	                lChanges = true;
+	                if ( lList.isModified() )
+	                {
+	                    lModifiedChanges = true;
+	                }
+	            }
+	        }
+	        
+	        if ( lChanges )
+	        {
+	            if ( pCancel )
+	            {
+	                displayTextDialog("Info", "Reloading on request" );
+	            }
+	            else if ( lModifiedChanges )
+	            {
+	                displayTextDialog("Info", "Changes on file system detected (also changed in GoMule), reloading File System changed files or all files modified in GoMule" );
+	            }
+	            else
+	            {
+	                displayTextDialog("Info", "Changes on file system detected (not changed in GoMule), reloading File System changed files" );
+	            }
+	        }
+	        
+	        if ( lChanges )
+	        {
+		        if ( !lClipboardStash.checkTimestamp() || ( lModifiedChanges && lClipboardStash.isModified() ) )
+		        {
+		            try
+		            {
+		                iClipboard.setProject(iProject);
+		            }
+		            catch ( Exception pEx )
+		            {
+		                displayErrorDialog( pEx );
+		            }
+		        }
+	
+		        for ( int i = 0 ; i < iOpenWindows.size() ; i++ )
+		        {
+		            D2ItemContainer lContainer = (D2ItemContainer) iOpenWindows.get(i);
+		            D2ItemList lList = lContainer.getItemLists();
+		            if ( lList != iViewAll )
+		            {
+		                if ( !lList.checkTimestamp() || ( lModifiedChanges && lList.isModified() ) )
+		                {
+				            String lFileName = lList.getFilename();
+		                    lContainer.disconnect(null);
+		                    if ( iViewAll != null && iViewAll.getItemLists() instanceof D2ItemListAll )
+		                    {
+		                        ((D2ItemListAll) iViewAll.getItemLists()).disconnect( lFileName );
+		                    }
+		                    
+		                    lContainer.connect();
+		                    if ( iViewAll != null && iViewAll.getItemLists() instanceof D2ItemListAll )
+		                    {
+		                        ((D2ItemListAll) iViewAll.getItemLists()).connect( lFileName );
+		                    }
+			            }
+		            }
+		        }
+	        }
+        }
+        catch ( Exception pEx )
+        {
+            pEx.printStackTrace();
+        }
+        finally
+        {
+            iIgnoreCheckAll = false;
+        }
+    }
+    
+    private void handleLoadError(String pFileName, Exception pEx)
+    {
+        // close this view & all view
+        for ( int i = 0 ; i < iOpenWindows.size() ; i++ )
+        {
+            D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
+            
+            if ( lItemContainer.getFileName().equalsIgnoreCase(pFileName) || lItemContainer.getFileName().toLowerCase().equals("all") )
+            {
+                lItemContainer.closeView();
+            }
+        }
+        displayErrorDialog( pEx );
     }
 
     private JFileChooser getCharDialog()
@@ -642,26 +806,12 @@ public class D2FileManager extends JFrame
         if ( !lList.hasD2ItemListListener() )
         {
             System.err.println("Remove file: " + pFileName );
-            saveAll();
+//            saveAll();
             iItemLists.remove(pFileName);
             iViewProject.notifyItemListClosed(pFileName);
         }
     }
     
-    public void saveAllItemLists()
-    {
-        Iterator lIterator = iItemLists.keySet().iterator();
-        while ( lIterator.hasNext() )
-        {
-            String lFileName = (String) lIterator.next();
-            D2ItemList lList = getItemList(lFileName);
-            if ( lList.isModified() )
-            {
-                lList.save(iProject);
-            }
-        }
-    }
-
     public static void displayErrorDialog(Exception pException)
     {
         displayErrorDialog(iCurrent, pException);
@@ -670,21 +820,6 @@ public class D2FileManager extends JFrame
     public static void displayErrorDialog(Window pParent, Exception pException)
     {
         pException.printStackTrace();
-        JDialog lDialog;
-        if (pParent instanceof JFrame)
-        {
-            lDialog = new JDialog((JFrame) pParent, "Error");
-        }
-        else
-        {
-            lDialog = new JDialog((JDialog) pParent, "Error");
-        }
-        RandallPanel lPanel = new RandallPanel();
-        JTextArea lTextArea = new JTextArea();
-        JScrollPane lScroll = new JScrollPane(lTextArea);
-
-        lScroll.setPreferredSize(new Dimension(640, 480));
-        lPanel.addToPanel(lScroll, 0, 0, 1, RandallPanel.BOTH);
 
         String lText = "Error\n\n" + pException.getMessage() + "\n";
 
@@ -694,7 +829,38 @@ public class D2FileManager extends JFrame
             lText += "\tat " + trace[i] + "\n";
         }
 
-        lTextArea.setText(lText);
+
+        displayTextDialog( pParent, "Error", lText );
+    }
+
+    public static void displayTextDialog(String pTitle, String pText)
+    {
+        displayTextDialog(iCurrent, pTitle, pText);
+    }
+    
+    public static void displayTextDialog(Window pParent, String pTitle, String pText)
+    {
+        JDialog lDialog;
+        if (pParent instanceof JFrame)
+        {
+            lDialog = new JDialog((JFrame) pParent, pTitle, true);
+        }
+        else
+        {
+            lDialog = new JDialog((JDialog) pParent, pTitle, true);
+        }
+        RandallPanel lPanel = new RandallPanel();
+        JTextArea lTextArea = new JTextArea();
+        JScrollPane lScroll = new JScrollPane(lTextArea);
+
+        lScroll.setPreferredSize(new Dimension(640, 480));
+        lPanel.addToPanel(lScroll, 0, 0, 1, RandallPanel.BOTH);
+
+        lTextArea.setText(pText);
+        if ( pText.length() > 1 )
+        {
+            lTextArea.setCaretPosition(0);
+        }
         lTextArea.setEditable(false);
 
         lDialog.setContentPane(lPanel);

@@ -36,4 +36,7 @@ public interface D2ItemList
     public boolean isHC();
     
     public void fullDump(PrintWriter pWriter);
+    
+    public void initTimestamp();
+    public boolean checkTimestamp();
 }

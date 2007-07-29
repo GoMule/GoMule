@@ -20,6 +20,9 @@
  ******************************************************************************/
 package gomule.gui;
 
+import gomule.d2s.*;
+import gomule.d2x.*;
+
 import java.util.*;
 
 
@@ -38,4 +41,7 @@ public interface D2ItemContainer
     public boolean isModified();
     
     public D2ItemList getItemLists();
+    
+    public void connect();
+    public void disconnect(Exception pEx);
 }

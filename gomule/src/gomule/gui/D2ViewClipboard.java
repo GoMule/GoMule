@@ -36,21 +36,21 @@ import randall.util.*;
 
 public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, D2ItemListListener
 {
-    private static final int   GRID_SIZE = 28;
+    private static final int   		GRID_SIZE = 28;
 
-    private D2FileManager      iFileManager;
-    private D2ItemModel        iItemModel;
-    private JTable             iTable;
-    private RandallPanel       iContentPane;
+    private D2FileManager      		iFileManager;
+    private D2ItemModel        		iItemModel;
+    private JTable             		iTable;
+    private RandallPanel      		iContentPane;
 
-    private static D2ViewClipboard iMouseItem;
+    private static D2ViewClipboard 	iMouseItem;
 
-    private ArrayList          iItems;
+    private ArrayList          		iItems;
 
-    private String			   iFileName;
-    private D2Stash            iStash;
+    private String			   		iFileName;
+    private D2Stash   				iStash;
 
-    private JTextField         iBank;
+    private JTextField         		iBank;
 
     public static D2ViewClipboard getInstance(D2FileManager pFileManager) throws Exception
     {
@@ -229,6 +229,11 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
 
     public void setProject(D2Project pProject) throws Exception
     {
+        if ( iStash != null )
+        {
+            iStash.removeD2ItemListListener(this);
+            iStash = null;
+        }
         iFileName = pProject.getProjectDir() + File.separator + "Clipboard.d2x";
         iStash = new D2Stash(iFileName);
         iStash.addD2ItemListListener(this);
@@ -245,6 +250,10 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
         }
         
         iBank.setText(Integer.toString(pProject.getBankValue()));
+        if (iItemModel != null)
+        {
+            itemListChanged();
+        }
     }
     
     public static void refreshBank(D2Project pProject)
@@ -380,6 +389,16 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
     private void fireTableChanged()
     {
         iItemModel.fireTableChanged();
+    }
+    
+    public void connect()
+    {
+        throw new RuntimeException("Internal error: wrong calling");
+    }
+
+    public void disconnect(Exception pEx)
+    {
+        throw new RuntimeException("Internal error: wrong calling");
     }
 
 }

@@ -6,6 +6,9 @@
  */
 package gomule.gui;
 
+import gomule.util.*;
+
+import java.io.*;
 import java.util.*;
 
 /**
@@ -16,8 +19,47 @@ import java.util.*;
  */
 public abstract class D2ItemListAdapter implements D2ItemList
 {
+    protected String	iFileName;
+    
+    private long		iTimestamp;
+    
     private ArrayList	iListeners = new ArrayList();
     private boolean 	iModified;
+    
+    protected D2ItemListAdapter(String pFileName)
+    {
+        iFileName = pFileName;
+        initTimestamp();
+    }
+    
+    public final void save(D2Project pProject)
+    {
+        saveInternal(pProject);
+        initTimestamp();
+    }
+    
+    protected abstract void saveInternal(D2Project pProject);
+    
+    public void initTimestamp()
+    {
+        iTimestamp = (new File( iFileName )).lastModified();
+    }
+    
+    public boolean checkTimestamp()
+    {
+        long lTimestamp = (new File( iFileName )).lastModified();
+        return iTimestamp == lTimestamp;
+    }
+    
+    public Object getItemListInfo()
+    {
+        return iListeners;
+    }
+    
+    public void putItemListInfo(Object pItemListInfo)
+    {
+        iListeners = (ArrayList) pItemListInfo; 
+    }
     
     protected void setModified(boolean pModified)
     {

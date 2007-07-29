@@ -52,7 +52,7 @@ public class D2ItemListAll implements D2ItemList
         fireD2ItemListEvent();
     }
     
-    public void addFileName(String pFileName)
+    public void connect(String pFileName)
     {
         try
         {
@@ -72,7 +72,7 @@ public class D2ItemListAll implements D2ItemList
         }
     }
     
-    public void removeFileName(String pFileName)
+    public void disconnect(String pFileName)
     {
         try
         {
@@ -292,6 +292,16 @@ public class D2ItemListAll implements D2ItemList
             lItemList = (D2ItemList) iList.get(i);
             lItemList.fullDump( pWriter );
         }
+    }
+    
+    public void initTimestamp()
+    {
+        throw new RuntimeException("Internal error: wrong calling");
+    }
+
+    public boolean checkTimestamp()
+    {
+        throw new RuntimeException("Internal error: wrong calling");
     }
 
 }

@@ -55,7 +55,7 @@ public class D2Character extends D2ItemListAdapter
     public static final int BODY_RARM2         = 21;
     public static final int BODY_LARM2         = 22;
 
-    private String          iFileName;
+//    private String          iFileName;
     private D2BitReader     iReader;
     private ArrayList       iCharItems;
     private ArrayList       iMercItems;
@@ -91,7 +91,7 @@ public class D2Character extends D2ItemListAdapter
     
     public D2Character(String pFileName) throws Exception
     {
-        iFileName = pFileName;
+        super( pFileName );
         if ( iFileName == null || !iFileName.toLowerCase().endsWith(".d2s") )
         {
             throw new Exception("Incorrect Character file name");
@@ -1118,7 +1118,7 @@ public class D2Character extends D2ItemListAdapter
         return -1;
     }
     
-    public void save(D2Project pProject)
+    public void saveInternal(D2Project pProject)
     {
         // backup file
         D2Backup.backup(pProject, iFileName, iReader);
