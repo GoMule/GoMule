@@ -150,18 +150,18 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         
         iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
         iTable.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        if ( iStash instanceof D2ItemListAll )
+        if ( isStash() )
         {
-            iTable.getColumnModel().getColumn(0).setPreferredWidth(180);
+            iTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         }
         else
         {
-            iTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+            iTable.getColumnModel().getColumn(0).setPreferredWidth(180);
         }
         iTable.getColumnModel().getColumn(1).setPreferredWidth(11);
         iTable.getColumnModel().getColumn(2).setPreferredWidth(11);
         iTable.getColumnModel().getColumn(3).setPreferredWidth(15);
-        if ( iStash instanceof D2ItemListAll )
+        if ( !isStash() )
         {
             iTable.getColumnModel().getColumn(4).setPreferredWidth(8);
         }
@@ -246,6 +246,11 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         }
     }
     
+    public boolean isStash()
+    {
+        return !"all".equalsIgnoreCase( iFileName );
+    }
+    
     public void connect()
     {
         try
@@ -253,7 +258,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             iStash = iFileManager.addItemList(iFileName, this);
             itemListChanged();
             
-            if ( iStash instanceof D2Stash )
+            if ( isStash() )
             {
 	            iPickup.setEnabled(true);
 	            iDropOne.setEnabled(true);
@@ -269,6 +274,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 	            iDropOne.setVisible(false);
 	            iDropAll.setVisible(false);
             }
+            iTable.setModel( iItemModel );
         }
         catch( Exception pEx )
         {
@@ -281,7 +287,11 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     {
         if ( iStash != null )
         {
-            if ( iStash instanceof D2ItemListAll )
+            if ( isStash() )
+            {
+                iFileManager.removeItemList(iFileName, this);
+            }
+            else
             {
                 ArrayList lList = ((D2ItemListAll) iStash).getAllContainers();
                 for ( int i = 0 ; i < lList.size() ; i++ )
@@ -289,10 +299,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     D2ItemList lItemList = (D2ItemList) lList.get(i);
                     iFileManager.removeItemList(lItemList.getFilename(), this);
                 }
-            }
-            else
-            {
-                iFileManager.removeItemList(iFileName, this);
             }
         }
         
@@ -986,11 +992,11 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         public int getColumnCount()
         {
-            if ( iStash instanceof D2ItemListAll )
+            if ( isStash() )
             {
-                return 5;
+                return 4;
             }
-            return 4;
+            return 5;
         }
 
         public String getColumnName(int pCol)
