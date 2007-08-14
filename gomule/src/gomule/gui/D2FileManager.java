@@ -488,11 +488,11 @@ public class D2FileManager extends JFrame
 	            }
 	            else if ( lModifiedChanges )
 	            {
-	                displayTextDialog("Info", "Changes on file system detected (also changed in GoMule), reloading File System changed files or all files modified in GoMule" );
+	                displayTextDialog("Info", "Changes on file system detected, reloading files." );
 	            }
 	            else
 	            {
-	                displayTextDialog("Info", "Changes on file system detected (not changed in GoMule), reloading File System changed files" );
+	                displayTextDialog("Info", "Changes on file system detected, reloading files." );
 	            }
 	        }
 	        
@@ -855,7 +855,10 @@ public class D2FileManager extends JFrame
         JTextArea lTextArea = new JTextArea();
         JScrollPane lScroll = new JScrollPane(lTextArea);
 
-        lScroll.setPreferredSize(new Dimension(640, 480));
+        if ( pTitle.equalsIgnoreCase("error") )
+        {
+            lScroll.setPreferredSize(new Dimension(640, 480));
+        }
         lPanel.addToPanel(lScroll, 0, 0, 1, RandallPanel.BOTH);
 
         lTextArea.setText(pText);
@@ -867,7 +870,7 @@ public class D2FileManager extends JFrame
 
         lDialog.setContentPane(lPanel);
         lDialog.pack();
-        lDialog.setLocation(200, 100);
+        lDialog.setLocationRelativeTo(null);
         lDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         lDialog.show();
     }

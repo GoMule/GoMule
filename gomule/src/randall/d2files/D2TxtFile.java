@@ -154,7 +154,7 @@ public class D2TxtFile
                 if (lSkipExpansion && lSplit.get(0).equals("Expansion"))
                 {
                     // skip
-                    System.err.println("Skip: " + lLine);
+//                    System.err.println("Skip: " + lLine);
                 }
                 else
                 {
