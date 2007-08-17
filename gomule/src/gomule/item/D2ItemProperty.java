@@ -141,11 +141,17 @@ public class D2ItemProperty
     public int getRealValue(){
     	return (int)((PropValue) iProperties.get(FIRST)).iValue;
     }
+    public int getRealValueTwo(){
+    	return (int)((PropValue) iProperties.get(SECOND)).iValue;
+    }
     
     public void setRealValue(int newiValue){
     	((PropValue) iProperties.get(FIRST)).iValue = newiValue;
     }
 
+    public void setRealValueTwo(int newiValue){
+    	((PropValue) iProperties.get(SECOND)).iValue = newiValue;
+    }
     public String getValueInternal()
     {
         try

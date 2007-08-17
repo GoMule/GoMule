@@ -80,5 +80,9 @@ public class D2TxtFileItemProperties
     {
         return iTxtFile.getValue(iRowNr, "transtbl");
     }
+    public int getRowNum()
+    {
+        return iRowNr;
+    }
     
 }

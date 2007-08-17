@@ -52,6 +52,15 @@ public class D2TxtFile
     public static D2TxtFile  GEMS;
     public static Properties GOMULE_PROPS;
     public static D2TxtFile PROPS;
+    
+    /**
+     * DROP CALC
+     */
+    public static D2TxtFile MONSTATS;
+    public static D2TxtFile TCS;
+    public static D2TxtFile LEVELS;
+    public static D2TxtFile SUPUNIQ;
+    
     //    public static D2TxtFile PROPERTIES;
 
     private String           iFileName;
@@ -77,6 +86,10 @@ public class D2TxtFile
         SKILLS = new D2TxtFile("Skills");
         GEMS = new D2TxtFile("Gems");
         PROPS = new D2TxtFile("Properties");
+        MONSTATS = new D2TxtFile("MonStats");
+        TCS = new D2TxtFile("TreasureClassEx");
+        LEVELS = new D2TxtFile("Levels");
+        SUPUNIQ = new D2TxtFile("SuperUniques");
 
         GOMULE_PROPS = new Properties();
         try
@@ -224,6 +237,27 @@ public class D2TxtFile
         }
 
         return null;
+    }
+    
+    public ArrayList searchColumnsMultipleHits(String pCol, String pText)
+    {
+    	ArrayList hits = new ArrayList();
+        int lColNr = iHeader.indexOf(pCol);
+
+        if (lColNr != -1)
+        {
+            for (int i = 0; i < iData.size(); i++)
+            {
+            	if(!((ArrayList)iData.get(i)).isEmpty()){
+                if (((ArrayList) iData.get(i)).get(lColNr).equals(pText))
+                {
+                     hits.add(new D2TxtFileItemProperties(this, i));
+                }
+            	}
+            }
+        }
+
+        return hits;
     }
 
     public D2TxtFileItemProperties searchRuneWord(ArrayList pList)
