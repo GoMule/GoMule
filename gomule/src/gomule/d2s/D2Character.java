@@ -88,7 +88,19 @@ public class D2Character extends D2ItemListAdapter
     
     private int				iStats[] = new int[16];
     private int				iGF; 
-    private int				iIF; 
+    private int				iIF;
+	private String iMercName = " ";
+	private String iMercRace = " ";
+	private String iMercType = " ";
+	private int iMercLevel;
+	private long iMercExp;
+	private boolean iMercDead = false; 
+	private int iMercStr;
+	private int iMercDex;
+	private int iMercHP;
+	private long iMercDef;
+	private int iMercRes;
+	
     
     public D2Character(String pFileName) throws Exception
     {
@@ -162,7 +174,7 @@ public class D2Character extends D2ItemListAdapter
     {
         iReader.set_byte_pos(4);
         long lVersion = iReader.read(32);
-        //        System.err.println("Version: " + lVersion );
+                System.err.println("Version: " + lVersion );
         if (lVersion != 96)
         {
             throw new Exception("Incorrect Character version: " + lVersion);
@@ -250,6 +262,30 @@ public class D2Character extends D2ItemListAdapter
 
 //        System.err.println("Test Woo: " + iReader.findNextFlag("Woo!", 0) );
 //        System.err.println("Test W4: " + iReader.findNextFlag("W4", 0) );
+        iReader.set_byte_pos(177);
+        //MERC INFO: 0 IF HAS EVER HAD A MERC
+//        System.out.println(iReader.read(32));
+        if(iReader.read(8) == 1){
+        	iMercDead = true;
+        }
+        
+        iReader.skipBits(8);
+        
+        if(iReader.read(32) != 0){
+        	iHasMerc = true;
+        	iReader.skipBits(16);
+        	setMercType(iReader.read(16));
+        	iReader.skipBits(-32);
+        	setMercName(iReader.read(16));
+        	iReader.skipBits(16);
+        	iMercExp = iReader.read(32);
+        	setMercLevel();
+        	System.out.println(iMercExp);
+        	generateMercStats();
+        }else{
+        	iReader.skipBits(64);
+        }
+        
         
         int lWoo = iReader.findNextFlag("Woo!", 0);
         if ( lWoo == -1 )
@@ -353,9 +389,84 @@ public class D2Character extends D2ItemListAdapter
         iMerc = new boolean[13];
         clearGrid();
         readItems( iIF );
+        System.out.println("AFTER ITEMS: "+iReader.get_byte_pos());
     }
     
-    public String getCharName()
+    private void generateMercStats() {
+		
+    	D2TxtFileItemProperties hireCol = null;
+    	ArrayList hireArr = D2TxtFile.HIRE.searchColumnsMultipleHits("SubType", iMercType);
+    	
+    	for(int x = 0;x<hireArr.size();x =x+1){
+    	
+    		if(((D2TxtFileItemProperties)hireArr.get(x)).get("Version").equals("100")){
+    			hireCol = (D2TxtFileItemProperties)hireArr.get(x);
+    			break;
+    		}
+    	}
+    //MATHS ARGH"GJ:LIJGODISH!
+    	iMercStr = (int)Math.ceil((Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercDex = (int)Math.ceil((Integer.parseInt(hireCol.get("Dex"))+ ((Double.parseDouble(hireCol.get("Dex/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercHP =  (int)Math.ceil((Integer.parseInt(hireCol.get("HP"))+ ((Double.parseDouble(hireCol.get("HP/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercDef = (long)(Integer.parseInt(hireCol.get("Defense"))+ (Integer.parseInt(hireCol.get("Def/Lvl"))*(iMercLevel - Integer.parseInt(hireCol.get("Level")))));
+    	iMercRes = (int)Math.ceil((Integer.parseInt(hireCol.get("Resist"))+ ((Double.parseDouble(hireCol.get("Resist/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+		
+	}
+
+	private void setMercLevel() {
+    	
+    	D2TxtFileItemProperties hireCol = (D2TxtFile.HIRE.searchColumns("SubType", iMercType));
+    	int xpPLev = Integer.parseInt(hireCol.get("Exp/Lvl"));
+    	long xpOut = 0;
+    	int lev = 0;
+    	
+    	do{
+    		xpOut = xpPLev * lev*lev*(lev+1);    		
+    		if(xpOut > iMercExp){
+    			lev = lev -1;
+    			break;
+    		}else{
+    			lev = lev+1;
+    		}
+    	}while (1==1);
+
+    	iMercLevel = lev;
+    
+	}
+
+	private void setMercType(long bitsIn) {
+		System.out.println("MERC TYPE: "+ bitsIn);
+		D2TxtFileItemProperties hireCol = (D2TxtFile.HIRE.searchColumns("Id", Long.toString(bitsIn)));
+		iMercRace = (hireCol.get("Hireling"));
+		iMercType = hireCol.get("SubType");
+		
+		System.out.println("RACE: "+iMercRace + "\n" + "TYPE: " + iMercType);
+				
+	}
+
+	private void setMercName(long bitsIn) {
+//		System.out.println("MERC NAME: "+bitsIn);
+		D2TxtFileItemProperties hireCol = (D2TxtFile.HIRE.searchColumns("Hireling", iMercRace));
+		String nameStr = hireCol.get("NameFirst");
+//		System.out.println("MERC NAME: "+nameStr);
+		
+		int curNum = Integer.parseInt(nameStr.substring(nameStr.length() - 2, nameStr.length()));
+		nameStr = nameStr.substring(0, nameStr.length() - 2);
+		curNum = curNum + (int)bitsIn;
+		
+		
+		if(curNum < 10){
+			nameStr = nameStr + "0" + curNum;
+		}else{
+			nameStr = nameStr + curNum;
+		}
+		
+		iMercName = D2TblFile.getString(nameStr);
+		
+		
+	}
+
+	public String getCharName()
     {
         return iCharName;
     }
@@ -1449,5 +1560,61 @@ public class D2Character extends D2ItemListAdapter
         pWriter.println( "Finished: " + iFileName );
         pWriter.println();
     }
+
+	public String getMercName() {
+		// TODO Auto-generated method stub
+		return iMercName;
+	}
+
+	public String getMercType() {
+		// TODO Auto-generated method stub
+		return iMercType;
+	}
+
+	public long getMercExp() {
+		// TODO Auto-generated method stub
+		return iMercExp;
+	}
+
+	public String getMercRace() {
+		// TODO Auto-generated method stub
+		return iMercRace;
+	}
+
+	public int getMercLevel() {
+		// TODO Auto-generated method stub
+		return iMercLevel;
+	}
+
+	public boolean getMercDead() {
+		// TODO Auto-generated method stub
+		return iMercDead;
+	}
+
+	public int getMercStr() {
+		// TODO Auto-generated method stub
+		return iMercStr;
+	}
+
+	public int getMercDex() {
+		// TODO Auto-generated method stub
+		return iMercDex;
+	}
+
+	public int getMercHP() {
+		// TODO Auto-generated method stub
+		return iMercHP;
+	}
+
+	public long getMercDef() {
+		// TODO Auto-generated method stub
+		return iMercDef;
+	}
+
+	public int getMercRes() {
+		// TODO Auto-generated method stub
+		return iMercRes;
+	}
+
     
 }

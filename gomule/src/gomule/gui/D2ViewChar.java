@@ -98,6 +98,18 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     private JTextField               iTransferFree;
     
     private JButton					 iGoldTransferBtns[];
+    
+	private JLabel iMercName = new JLabel("");
+	private JLabel iMercRace = new JLabel("");
+	private JLabel iMercType = new JLabel("");
+	private JLabel iMercExp = new JLabel("");
+	private JLabel iMercLevel = new JLabel("");
+	private JLabel iMercDead = new JLabel(""); 
+	private JLabel iMercStr = new JLabel("");
+	private JLabel iMercDex = new JLabel("");
+	private JLabel iMercHP = new JLabel("");
+	private JLabel iMercDef = new JLabel("");
+	private JLabel iMercRes = new JLabel("");
 
     public D2ViewChar(D2FileManager pMainFrame, String pFileName)
     {
@@ -136,7 +148,48 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         JPanel lMercPanel = new JPanel();
         lMercPanel.setLayout(new BorderLayout());
         iMercPainter = new D2MercPainterPanel();
-        lMercPanel.add(iMercPainter, BorderLayout.CENTER);
+        
+        Box mercMainBox = Box.createHorizontalBox();
+        Box mercStatsBox = Box.createHorizontalBox();
+        Box mercLabelBox = Box.createVerticalBox();
+        Box mercValueBox = Box.createVerticalBox();
+        
+        mercMainBox.add(iMercPainter);
+        mercMainBox.add(mercStatsBox);
+        mercStatsBox.add(mercLabelBox);
+        mercStatsBox.add(Box.createRigidArea(new Dimension(10,0)));
+        mercStatsBox.add(mercValueBox);
+        
+        mercLabelBox.add(new JLabel("Name: "));
+        mercLabelBox.add(new JLabel("Race: "));
+        mercLabelBox.add(new JLabel("Type: "));
+        mercLabelBox.add(new JLabel("Experience: "));
+        mercLabelBox.add(new JLabel("Level:"));
+        mercLabelBox.add(new JLabel("Dead?: "));
+        mercLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
+        mercLabelBox.add(new JLabel("Strength: "));
+        mercLabelBox.add(new JLabel("Dexterity: "));
+        mercLabelBox.add(new JLabel("HP: "));
+        mercLabelBox.add(new JLabel("Defense: "));
+        mercLabelBox.add(new JLabel("Resistance: "));
+        mercLabelBox.add(Box.createRigidArea(new Dimension(0,190)));
+        
+        mercValueBox.add(iMercName);
+        mercValueBox.add(iMercRace);
+        mercValueBox.add(iMercType);
+        mercValueBox.add(iMercExp);
+        mercValueBox.add(iMercLevel);
+        mercValueBox.add(iMercDead);
+        mercValueBox.add(Box.createRigidArea(new Dimension(0,10)));
+        mercValueBox.add(iMercStr);
+        mercValueBox.add(iMercDex);
+        mercValueBox.add(iMercHP);
+        mercValueBox.add(iMercDef);
+        mercValueBox.add(iMercRes);
+        mercValueBox.add(Box.createRigidArea(new Dimension(0,190)));
+        
+        
+        lMercPanel.add(mercMainBox);    
         lTabs.addTab("Mercenary", lMercPanel);
         iMercPainter.build();
 
@@ -312,6 +365,20 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         try
         {
 	        iCharacter = (D2Character) iFileManager.addItemList(iFileName, this);
+	        
+	    	iMercName.setText(iCharacter.getMercName());
+	    	iMercRace.setText(iCharacter.getMercRace());
+	    	iMercType.setText(iCharacter.getMercType());
+	    	iMercExp.setText(Long.toString(iCharacter.getMercExp()));
+	    	iMercLevel.setText(Integer.toString(iCharacter.getMercLevel()));
+	    	iMercDead.setText(Boolean.toString(iCharacter.getMercDead())); 
+	    	
+	    	iMercStr.setText(Integer.toString(iCharacter.getMercStr()));
+	    	iMercDex.setText(Integer.toString(iCharacter.getMercDex()));
+	    	iMercHP.setText(Integer.toString(iCharacter.getMercHP()));
+	    	iMercDef.setText(Long.toString(iCharacter.getMercDef()));
+	    	iMercRes.setText(Integer.toString(iCharacter.getMercRes()));
+
 	        
 	        iGold.setText(Integer.toString(iCharacter.getGold()));
 	        iGoldMax.setText(Integer.toString(iCharacter.getGoldMax()));

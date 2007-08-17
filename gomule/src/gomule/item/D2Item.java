@@ -1578,7 +1578,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 							+ ((D2ItemProperty) allProps.get(y))
 							.getRealValueTwo();
 			            }
-						System.out.println("PROPERTY TO COMBINE FOUND: VAL: "+ ((D2ItemProperty) allProps.get(x)).getiProp() + ", ITEM: "+this.iItemName);
+//						System.out.println("PROPERTY TO COMBINE FOUND: VAL: "+ ((D2ItemProperty) allProps.get(x)).getiProp() + ", ITEM: "+this.iItemName);
 						tempProps.add(new Integer(y));
 					}
 				}
@@ -1808,7 +1808,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 				
 			
 		if(resistanceKeys.size() == 0){
-			System.out.println(iItemName + " HAS HAD RESISTANCES COMBINED");
+//			System.out.println(iItemName + " HAS HAD RESISTANCES COMBINED");
 		D2ItemProperty lProperty = new D2ItemProperty(1337,iCharLvl, iItemName);
 		D2TxtFileItemProperties lItemStatCost2 = null;
 		lProperty.set(1337, lItemStatCost2, 0,smallestRes);
@@ -1821,7 +1821,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 		
 		if(statKeys.size() == 0){
-			System.out.println(iItemName + " HAS HAD STATS COMBINED");
+//			System.out.println(iItemName + " HAS HAD STATS COMBINED");
 			D2ItemProperty lProperty = new D2ItemProperty(1338,iCharLvl, iItemName);
 			D2TxtFileItemProperties lItemStatCost2 = null;
 			lProperty.set(1338, lItemStatCost2, 0,smallestStat);
@@ -1834,7 +1834,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 		
 		if(maxResistanceKeys.size() == 0){
-			System.out.println(iItemName + " HAS HAD MAX RESISTANCES COMBINED");
+//			System.out.println(iItemName + " HAS HAD MAX RESISTANCES COMBINED");
 			D2ItemProperty lProperty = new D2ItemProperty(1339,iCharLvl, iItemName);
 			D2TxtFileItemProperties lItemStatCost2 = null;
 			lProperty.set(1339, lItemStatCost2, 0,smallestMaxRes);
@@ -1981,13 +1981,13 @@ public class D2Item implements Comparable, D2ItemInterface {
 			iReqDex = iReqDex + ((int)Math.floor(iReqDex*((double)value/(double)100)));
 //			iReqDex = (int)Math.floor((iReqDex +(((double)iReqDex/(double)100)*value)));
 			
-			System.out.println(iItemName + "HAS HAD DEXTERITY CHANGED");
+//			System.out.println(iItemName + "HAS HAD DEXTERITY CHANGED");
 		}
 		
 		if(getReqStr() != -1){
 //			iReqStr = (int)(iReqStr +(((double)iReqStr/(double)100)*value));
 			iReqStr = iReqStr + ((int)Math.floor(iReqStr*((double)value/(double)100)));
-			System.out.println(iItemName + " HAS HAD STRENGTH CHANGED");
+//			System.out.println(iItemName + " HAS HAD STRENGTH CHANGED");
 		}
 	}
 

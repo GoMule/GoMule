@@ -52,6 +52,7 @@ public class D2TxtFile
     public static D2TxtFile  GEMS;
     public static Properties GOMULE_PROPS;
     public static D2TxtFile PROPS;
+    public static D2TxtFile HIRE;
     
     /**
      * DROP CALC
@@ -90,6 +91,7 @@ public class D2TxtFile
         TCS = new D2TxtFile("TreasureClassEx");
         LEVELS = new D2TxtFile("Levels");
         SUPUNIQ = new D2TxtFile("SuperUniques");
+        HIRE = new D2TxtFile("Hireling");
 
         GOMULE_PROPS = new Properties();
         try
