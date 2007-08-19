@@ -567,15 +567,15 @@ public class D2Character extends D2ItemListAdapter
     		}else{
     			if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
     				//ALL RESISTANCES
-    				statArray[39] = statArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
-    				statArray[41] = statArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
-    				statArray[43] = statArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
-    				statArray[45] = statArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[39] = statArray[39] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[41] = statArray[41] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[43] = statArray[43] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[45] = statArray[45] - ((D2ItemProperty)bla.get(y)).getRealValue();
     				
     			}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
     				//ALL STATS
-    				statArray[0] = statArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
-    				statArray[2] = statArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[0] = statArray[0] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[2] = statArray[2] - ((D2ItemProperty)bla.get(y)).getRealValue();
     			}
     		}     
         }
