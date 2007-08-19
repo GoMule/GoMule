@@ -58,7 +58,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private ArrayList iSocketedItems;
 
-	private ArrayList iRuneWordProps;
+	private ArrayList iRuneWordProps = new ArrayList();
 
 	// general item data
 	private int flags;
@@ -2559,6 +2559,20 @@ public class D2Item implements Comparable, D2ItemInterface {
 			return iItemName.compareTo(lItemName);
 		}
 		return -1;
+	}
+	
+	public ArrayList getAllProps(){
+		
+		ArrayList out = new ArrayList(iProperties);
+		
+		out.addAll(iRuneWordProps);
+		out.addAll(iGemProps);
+		
+		return out;
+	}
+
+	public int getiDef() {
+		return (int)iDef;
 	}
 	
 //	public boolean isCursorItem()

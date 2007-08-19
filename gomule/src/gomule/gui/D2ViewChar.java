@@ -28,6 +28,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.text.JTextComponent;
 
 import randall.util.*;
 
@@ -109,7 +110,11 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private JLabel iMercDex = new JLabel("");
 	private JLabel iMercHP = new JLabel("");
 	private JLabel iMercDef = new JLabel("");
-	private JLabel iMercRes = new JLabel("");
+	private JLabel iMercAR = new JLabel("");
+	private JLabel iMercFireRes = new JLabel("");
+	private JLabel iMercLightRes = new JLabel("");
+	private JLabel iMercColdRes = new JLabel("");
+	private JLabel iMercPoisRes = new JLabel("");
 
     public D2ViewChar(D2FileManager pMainFrame, String pFileName)
     {
@@ -167,12 +172,18 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         mercLabelBox.add(new JLabel("Level:"));
         mercLabelBox.add(new JLabel("Dead?: "));
         mercLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
+        mercLabelBox.add(new JLabel(" "));
         mercLabelBox.add(new JLabel("Strength: "));
         mercLabelBox.add(new JLabel("Dexterity: "));
         mercLabelBox.add(new JLabel("HP: "));
         mercLabelBox.add(new JLabel("Defense: "));
-        mercLabelBox.add(new JLabel("Resistance: "));
-        mercLabelBox.add(Box.createRigidArea(new Dimension(0,190)));
+        mercLabelBox.add(new JLabel("AR: "));
+        mercLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
+        mercLabelBox.add(new JLabel("Fire: "));
+        mercLabelBox.add(new JLabel("Lightning: "));
+        mercLabelBox.add(new JLabel("Cold: "));
+        mercLabelBox.add(new JLabel("Poision: "));
+        mercLabelBox.add(Box.createRigidArea(new Dimension(0,120)));
         
         mercValueBox.add(iMercName);
         mercValueBox.add(iMercRace);
@@ -181,12 +192,18 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         mercValueBox.add(iMercLevel);
         mercValueBox.add(iMercDead);
         mercValueBox.add(Box.createRigidArea(new Dimension(0,10)));
+        mercValueBox.add(new JLabel("Naked/Gear"));
         mercValueBox.add(iMercStr);
         mercValueBox.add(iMercDex);
         mercValueBox.add(iMercHP);
         mercValueBox.add(iMercDef);
-        mercValueBox.add(iMercRes);
-        mercValueBox.add(Box.createRigidArea(new Dimension(0,190)));
+        mercValueBox.add(iMercAR);
+        mercValueBox.add(Box.createRigidArea(new Dimension(0,10)));
+        mercValueBox.add(iMercFireRes);
+        mercValueBox.add(iMercLightRes);
+        mercValueBox.add(iMercColdRes);
+        mercValueBox.add(iMercPoisRes);
+        mercValueBox.add(Box.createRigidArea(new Dimension(0,120)));
         
         
         lMercPanel.add(mercMainBox);    
@@ -356,6 +373,27 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         //        setModified(true);
     }
     
+    public void paintStats(){
+    	iMercName.setText(iCharacter.getMercName());
+    	iMercRace.setText(iCharacter.getMercRace());
+    	iMercType.setText(iCharacter.getMercType());
+    	iMercExp.setText(Long.toString(iCharacter.getMercExp()));
+    	iMercLevel.setText(Integer.toString(iCharacter.getMercLevel()));
+    	iMercDead.setText(Boolean.toString(iCharacter.getMercDead())); 
+    	
+    	iMercStr.setText(Integer.toString(iCharacter.getMercInitStr())+"/"+Integer.toString(iCharacter.getMercStr()));
+    	iMercDex.setText(Integer.toString(iCharacter.getMercInitDex())+"/"+Integer.toString(iCharacter.getMercDex()));
+    	iMercHP.setText(Integer.toString(iCharacter.getMercInitHP())+"/"+Integer.toString(iCharacter.getMercHP()));
+    	iMercDef.setText(Long.toString(iCharacter.getMercInitDef())+"/"+Long.toString(iCharacter.getMercDef()));
+    	iMercAR.setText(Integer.toString(iCharacter.getMercInitAR())+"/"+Integer.toString(iCharacter.getMercAR()));
+    	iMercFireRes.setText(Integer.toString(iCharacter.getMercInitFireRes())+"/"+Integer.toString(iCharacter.getMercFireRes()));
+    	iMercLightRes.setText(Integer.toString(iCharacter.getMercInitLightRes())+"/"+Integer.toString(iCharacter.getMercLightRes()));
+    	iMercColdRes.setText(Integer.toString(iCharacter.getMercInitColdRes())+"/"+Integer.toString(iCharacter.getMercColdRes()));
+    	iMercPoisRes.setText(Integer.toString(iCharacter.getMercInitPoisRes())+"/"+Integer.toString(iCharacter.getMercPoisRes()));
+    	
+    	
+    }
+    
     public void connect()
     {
         if ( iCharacter != null )
@@ -366,19 +404,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         {
 	        iCharacter = (D2Character) iFileManager.addItemList(iFileName, this);
 	        
-	    	iMercName.setText(iCharacter.getMercName());
-	    	iMercRace.setText(iCharacter.getMercRace());
-	    	iMercType.setText(iCharacter.getMercType());
-	    	iMercExp.setText(Long.toString(iCharacter.getMercExp()));
-	    	iMercLevel.setText(Integer.toString(iCharacter.getMercLevel()));
-	    	iMercDead.setText(Boolean.toString(iCharacter.getMercDead())); 
-	    	
-	    	iMercStr.setText(Integer.toString(iCharacter.getMercStr()));
-	    	iMercDex.setText(Integer.toString(iCharacter.getMercDex()));
-	    	iMercHP.setText(Integer.toString(iCharacter.getMercHP()));
-	    	iMercDef.setText(Long.toString(iCharacter.getMercDef()));
-	    	iMercRes.setText(Integer.toString(iCharacter.getMercRes()));
 
+	        paintStats();
 	        
 	        iGold.setText(Integer.toString(iCharacter.getGold()));
 	        iGoldMax.setText(Integer.toString(iCharacter.getGoldMax()));
@@ -396,6 +423,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         catch ( Exception pEx )
         {
             disconnect(pEx);
+            pEx.printStackTrace();
         }
     }
     
@@ -980,7 +1008,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                     // move the item to a new charcter, if
                                     // needed
                                     iCharacter.addCharItem(D2ViewClipboard.removeItem());
-
+                                   
                                     // redraw
 //                                    build();
 //                                    repaint();
@@ -1285,10 +1313,16 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                             // if there is an item to grab, grab it
                             if (lItemPanel.isItem())
                             {
+                            	
+
                                 D2Item lTemp = lItemPanel.getItem();
+
                                 iCharacter.unmarkMercGrid(lTemp);
                                 iCharacter.removeMercItem(lItemPanel.getItemIndex());
                                 D2ViewClipboard.addItem(lTemp);
+                            	iCharacter.updateMercStats("P", lTemp);
+                            	paintStats();
+
                                 setCursorDropItem();
 
                                 // redraw
@@ -1335,7 +1369,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                     // redraw
 //                                    build();
 //                                    repaint();
-
+                                    iCharacter.updateMercStats("D", lDropItem);
+                                    paintStats();
                                     setCursorPickupItem();
                                     //my_char.show_grid();
                                 }

@@ -95,12 +95,25 @@ public class D2Character extends D2ItemListAdapter
 	private int iMercLevel;
 	private long iMercExp;
 	private boolean iMercDead = false; 
+	private int iMercInitStr;
+	private int iMercInitDex;
+	private int iMercInitHP;
+	private long iMercInitDef;
+	private int iMercInitFireRes;
+	private int iMercInitColdRes;
+	private int iMercInitLightRes;
+	private int iMercInitPoisRes;
 	private int iMercStr;
 	private int iMercDex;
 	private int iMercHP;
 	private long iMercDef;
-	private int iMercRes;
-	
+	private int iMercAR;
+	private int iMercFireRes;
+	private int iMercColdRes;
+	private int iMercPoisRes;
+	private int iMercLightRes;
+	public int[] statArray = new int[338];
+	private int iMercInitAR;
     
     public D2Character(String pFileName) throws Exception
     {
@@ -141,6 +154,14 @@ public class D2Character extends D2ItemListAdapter
     public int getNrItems()
     {
         return iCharItems.size() + iMercItems.size();
+    }
+    
+    public boolean itemContainsProp(int pProp, D2Item pItem){
+    	
+//    	if(pItem.get)
+    	
+    	return true;
+    	
     }
     
     public boolean containsItem(D2Item pItem)
@@ -280,12 +301,13 @@ public class D2Character extends D2ItemListAdapter
         	iReader.skipBits(16);
         	iMercExp = iReader.read(32);
         	setMercLevel();
-        	System.out.println(iMercExp);
+//        	System.out.println(iMercExp);
         	generateMercStats();
         }else{
         	iReader.skipBits(64);
         }
         
+
         
         int lWoo = iReader.findNextFlag("Woo!", 0);
         if ( lWoo == -1 )
@@ -389,7 +411,12 @@ public class D2Character extends D2ItemListAdapter
         iMerc = new boolean[13];
         clearGrid();
         readItems( iIF );
-        System.out.println("AFTER ITEMS: "+iReader.get_byte_pos());
+        
+        
+        for(int x = 0;x<iMercItems.size();x=x+1){
+    	updateMercStats("D", (D2Item)iMercItems.get(x));
+        }
+
     }
     
     private void generateMercStats() {
@@ -398,18 +425,25 @@ public class D2Character extends D2ItemListAdapter
     	ArrayList hireArr = D2TxtFile.HIRE.searchColumnsMultipleHits("SubType", iMercType);
     	
     	for(int x = 0;x<hireArr.size();x =x+1){
-    	
-    		if(((D2TxtFileItemProperties)hireArr.get(x)).get("Version").equals("100")){
+//			System.out.println(Integer.parseInt(((D2TxtFileItemProperties)hireArr.get(x)).get("Level")));
+    		if(((D2TxtFileItemProperties)hireArr.get(x)).get("Version").equals("100") && Integer.parseInt(((D2TxtFileItemProperties)hireArr.get(x)).get("Level")) <= iMercLevel){
+
     			hireCol = (D2TxtFileItemProperties)hireArr.get(x);
-    			break;
-    		}
+
+    	}
     	}
     //MATHS ARGH"GJ:LIJGODISH!
-    	iMercStr = (int)Math.ceil((Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-    	iMercDex = (int)Math.ceil((Integer.parseInt(hireCol.get("Dex"))+ ((Double.parseDouble(hireCol.get("Dex/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-    	iMercHP =  (int)Math.ceil((Integer.parseInt(hireCol.get("HP"))+ ((Double.parseDouble(hireCol.get("HP/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-    	iMercDef = (long)(Integer.parseInt(hireCol.get("Defense"))+ (Integer.parseInt(hireCol.get("Def/Lvl"))*(iMercLevel - Integer.parseInt(hireCol.get("Level")))));
-    	iMercRes = (int)Math.ceil((Integer.parseInt(hireCol.get("Resist"))+ ((Double.parseDouble(hireCol.get("Resist/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	//System.out.println("STR: "+(Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercInitStr = (int)Math.floor((Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercInitDex = (int)Math.floor((Integer.parseInt(hireCol.get("Dex"))+ ((Double.parseDouble(hireCol.get("Dex/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercInitHP =  (int)Math.floor((Integer.parseInt(hireCol.get("HP"))+ ((Double.parseDouble(hireCol.get("HP/Lvl")))*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercInitDef = (long)(Integer.parseInt(hireCol.get("Defense"))+ (Integer.parseInt(hireCol.get("Def/Lvl"))*(iMercLevel - Integer.parseInt(hireCol.get("Level")))));
+    	iMercInitFireRes = (int)Math.floor((Integer.parseInt(hireCol.get("Resist"))+ ((Double.parseDouble(hireCol.get("Resist/Lvl"))/(double)4)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercInitAR = (int)Math.floor((Integer.parseInt(hireCol.get("AR"))+ ((Double.parseDouble(hireCol.get("AR/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercInitColdRes = iMercInitFireRes;
+    	iMercInitLightRes = iMercInitFireRes;
+    	iMercInitPoisRes = iMercInitFireRes;
+    	
 		
 	}
 
@@ -435,12 +469,12 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	private void setMercType(long bitsIn) {
-		System.out.println("MERC TYPE: "+ bitsIn);
+//		System.out.println("MERC TYPE: "+ bitsIn);
 		D2TxtFileItemProperties hireCol = (D2TxtFile.HIRE.searchColumns("Id", Long.toString(bitsIn)));
 		iMercRace = (hireCol.get("Hireling"));
 		iMercType = hireCol.get("SubType");
 		
-		System.out.println("RACE: "+iMercRace + "\n" + "TYPE: " + iMercType);
+//		System.out.println("RACE: "+iMercRace + "\n" + "TYPE: " + iMercType);
 				
 	}
 
@@ -497,8 +531,86 @@ public class D2Character extends D2ItemListAdapter
         }
         return "<none>";
     }
+    
+    
+    public void updateMercStats(String string, D2Item pItem){
+    	
+//    	statArray = new int[338];
+    	
+        if(string.equals("D")){
+            ArrayList bla = pItem.getAllProps();
+        	for(int y = 0;y<bla.size();y=y+1){
+        		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+        			statArray[((D2ItemProperty)bla.get(y)).getiProp()] = statArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        		}else{
+        			if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
+        				//ALL RESISTANCES
+        				statArray[39] = statArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				statArray[41] = statArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				statArray[43] = statArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				statArray[45] = statArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				
+        			}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
+        				//ALL STATS
+        				statArray[0] = statArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				statArray[2] = statArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        			}
+        		}        	
+    }
+        	
+        }else{
+            ArrayList bla = pItem.getAllProps();
+        	for(int y = 0;y<bla.size();y=y+1){
+        		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+        			statArray[((D2ItemProperty)bla.get(y)).getiProp()] = statArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
+        		
+    		}else{
+    			if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
+    				//ALL RESISTANCES
+    				statArray[39] = statArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[41] = statArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[43] = statArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[45] = statArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
+    				
+    			}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
+    				//ALL STATS
+    				statArray[0] = statArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
+    				statArray[2] = statArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
+    			}
+    		}     
+        }
+        }
+        
+        
+    	iMercStr = iMercInitStr +  (statArray[220]*iMercLevel) + statArray[0];
+    	iMercDex = iMercInitDex +  (statArray[221]*iMercLevel)+ statArray[2];
+    	iMercHP = ((int)Math.floor(((double)(iMercInitHP + statArray[7])/(double)100) * statArray[76]))+(iMercInitHP + statArray[7])+(statArray[216]*iMercLevel);
+    	iMercDef = (int)Math.floor(((double)(iMercInitDef + (calcArmor()) + (statArray[214] * iMercLevel))/(double)100)* (statArray[215] * iMercLevel)) +  iMercInitDef + (calcArmor()) + (statArray[214] * iMercLevel)  ;
+    	iMercAR = (int)Math.floor(((double)(iMercInitAR + (statArray[19]) + (statArray[224] * iMercLevel))/(double)100)* (statArray[225] * iMercLevel)) +  iMercInitAR + (statArray[19]) + (statArray[224] * iMercLevel)  ;
+    	iMercFireRes = iMercInitFireRes + statArray[39];
+    	iMercLightRes = iMercInitLightRes + statArray[41];
+    	iMercColdRes = iMercInitColdRes + statArray[43];
+    	iMercPoisRes = iMercInitPoisRes + statArray[45];
+    	
+    }
+    
 
-    // read in all items:
+    private long calcArmor() {
+		
+    	int out = 0;
+    	
+    	for(int y = 0;y<iMercItems.size();y=y+1){
+    		if(((D2Item)iMercItems.get(y)).isTypeArmor()){
+    			out = out + ((D2Item)iMercItems.get(y)).getiDef();
+    		}
+    	}
+    	
+    	
+		return out;
+	}
+
+
+	// read in all items:
     // find the first "JM" flag in the file
     // the byte immediately following it
     // indicates the number of items
@@ -1611,9 +1723,74 @@ public class D2Character extends D2ItemListAdapter
 		return iMercDef;
 	}
 
-	public int getMercRes() {
+	public int getMercAR() {
 		// TODO Auto-generated method stub
-		return iMercRes;
+		return iMercAR;
+	}
+	
+	public int getMercFireRes() {
+		// TODO Auto-generated method stub
+		return iMercFireRes;
+	}
+	
+	public int getMercColdRes() {
+		// TODO Auto-generated method stub
+		return iMercColdRes;
+	}
+	
+	public int getMercLightRes() {
+		// TODO Auto-generated method stub
+		return iMercLightRes;
+	}
+	
+	public int getMercPoisRes() {
+		// TODO Auto-generated method stub
+		return iMercPoisRes;
+	}
+	
+	public int getMercInitStr() {
+		// TODO Auto-generated method stub
+		return iMercInitStr;
+	}
+
+	public int getMercInitDex() {
+		// TODO Auto-generated method stub
+		return iMercInitDex;
+	}
+
+	public int getMercInitHP() {
+		// TODO Auto-generated method stub
+		return iMercInitHP;
+	}
+
+	public long getMercInitDef() {
+		// TODO Auto-generated method stub
+		return iMercInitDef;
+	}
+
+	public int getMercInitAR() {
+		// TODO Auto-generated method stub
+		return iMercInitAR;
+	}
+	
+	public int getMercInitFireRes() {
+		// TODO Auto-generated method stub
+		return iMercInitFireRes;
+	}
+	
+	public int getMercInitColdRes() {
+		// TODO Auto-generated method stub
+		return iMercInitColdRes;
+	}
+	
+	public int getMercInitLightRes() {
+		// TODO Auto-generated method stub
+		return iMercInitLightRes;
+	}
+	
+	public int getMercInitPoisRes() {
+		// TODO Auto-generated method stub
+		return iMercInitPoisRes;
 	}
 
     
