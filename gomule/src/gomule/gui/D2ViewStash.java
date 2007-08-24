@@ -109,6 +109,11 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         
         addInternalFrameListener(new InternalFrameAdapter()
         {
+//            public void internalFrameOpened(InternalFrameEvent e) 
+//            {
+//                System.err.println("internalFrameOpened()");
+//                iTable.requestFocus();
+//            }
             public void internalFrameClosing(InternalFrameEvent e)
             {
                 iFileManager.saveAll();
@@ -126,6 +131,28 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iStashFilter = new D2StashFilter();
         iItemModel = new D2ItemModel();
         iTable = new JTable(iItemModel);
+        iTable.addKeyListener(new KeyAdapter()
+        {
+            public void keyReleased(KeyEvent e) 
+            {
+                if ( e.getKeyCode() == KeyEvent.VK_Z )
+                {
+                    int lNew = iTable.getSelectedRow() + 1;
+                    if ( lNew < iTable.getRowCount() )
+                    {
+                        iTable.setRowSelectionInterval(lNew, lNew);
+                    }
+                }
+                else if ( e.getKeyCode() == KeyEvent.VK_A )
+                {
+                    int lNew = iTable.getSelectedRow() -1;
+                    if ( lNew >= 0 )
+                    {
+                        iTable.setRowSelectionInterval(lNew, lNew);
+                    }
+                }
+            }
+        });
         
         Font lFont = iTable.getTableHeader().getFont();
 //            iTable.getTableHeader().setFont( new Font(lFont.getName(), lFont.getStyle(), lFont.getSize()-2) );
@@ -244,6 +271,17 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                         }
                     });
         }
+        if ( iTable.getRowCount() > 0 )
+        {
+            iTable.setRowSelectionInterval(0,0);
+        }
+    }
+    
+    public void activateView()
+    {
+        toFront();
+        requestFocusInWindow();
+        iTable.requestFocus();
     }
     
     public boolean isStash()

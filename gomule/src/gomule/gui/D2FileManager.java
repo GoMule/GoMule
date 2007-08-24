@@ -710,15 +710,17 @@ public class D2FileManager extends JFrame
         if (lExisting != null)
         {
             lStashView = ((D2ViewStash) lExisting);
-            lStashView.toFront();
         }
         else
         {
             lStashView = new D2ViewStash(D2FileManager.this, pStashName);
             lStashView.setLocation(100, 100);
             addToOpenWindows(lStashView);
-            lStashView.toFront();
         }
+        lStashView.activateView();
+//        lStashView.toFront();
+//        lStashView.requestFocus();
+//        lStashView.requestFocusInWindow();
         iProject.addStash(pStashName);
 //        iViewProject.refreshTreeModel(false, true);
 
