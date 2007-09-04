@@ -636,6 +636,10 @@ public class D2ItemProperty
             	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
             	return "+" + lValue1.iValue + "% to all Maximum Resistances";
             }
+            
+//            if(iProp == 9){
+//            	System.out.println("BLA");
+//            }
 
             PropValue lValue1 = (PropValue) iProperties.get(FIRST);
 //            PropValue lValue2 = (PropValue) iProperties.get(SECOND);

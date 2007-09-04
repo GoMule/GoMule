@@ -114,6 +114,26 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private JLabel iMercLightRes = new JLabel("");
 	private JLabel iMercColdRes = new JLabel("");
 	private JLabel iMercPoisRes = new JLabel("");
+	
+	private JLabel iCharName = new JLabel("");
+	private JLabel iCharClass = new JLabel("");
+	private JLabel iCharExp = new JLabel("");
+	private JLabel iCharLevel = new JLabel("");
+	private JLabel iCharDead = new JLabel(""); 
+	private JLabel iCharStr = new JLabel("");
+	private JLabel iCharDex = new JLabel("");
+	private JLabel iCharNrg = new JLabel("");
+	private JLabel iCharVit = new JLabel("");
+	private JLabel iCharHP = new JLabel("");
+	private JLabel iCharMana = new JLabel("");
+	private JLabel iCharStam = new JLabel("");
+	private JLabel iCharDef = new JLabel("");
+	private JLabel iCharAR = new JLabel("");
+	private JLabel iCharFireRes = new JLabel("");
+	private JLabel iCharLightRes = new JLabel("");
+	private JLabel iCharColdRes = new JLabel("");
+	private JLabel iCharPoisRes = new JLabel("");
+
 
     public D2ViewChar(D2FileManager pMainFrame, String pFileName)
     {
@@ -140,7 +160,68 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         lTabs.addTab("Character", lCharPanel);
         setContentPane(lTabs);
         iCharPainter.build();
-
+        
+        JPanel lStatPanel = new JPanel();
+        lStatPanel.setLayout(new BorderLayout());
+        lTabs.addTab("Stats", lStatPanel);
+        Box charMainBox = Box.createHorizontalBox();
+        Box charStatsBox = Box.createHorizontalBox();
+        Box charLabelBox = Box.createVerticalBox();
+        Box charValueBox = Box.createVerticalBox();
+        
+        charMainBox.add(charStatsBox);
+        charStatsBox.add(charLabelBox);
+        charStatsBox.add(Box.createRigidArea(new Dimension(10,0)));
+        charStatsBox.add(charValueBox);
+        lStatPanel.add(charMainBox);
+        
+        charLabelBox.add(new JLabel("Name: "));
+        charLabelBox.add(new JLabel("Class: "));
+        charLabelBox.add(new JLabel("Experience: "));
+        charLabelBox.add(new JLabel("Level:"));
+        charLabelBox.add(new JLabel("NOTIMP: "));
+        charLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
+        charLabelBox.add(new JLabel(" "));
+        charLabelBox.add(new JLabel("Strength: "));
+        charLabelBox.add(new JLabel("Dexterity: "));
+        charLabelBox.add(new JLabel("Vitality: "));
+        charLabelBox.add(new JLabel("Energy: "));
+        charLabelBox.add(new JLabel("HP: "));
+        charLabelBox.add(new JLabel("Mana: "));
+        charLabelBox.add(new JLabel("Stamina: "));
+        charLabelBox.add(new JLabel("Defense: "));
+        charLabelBox.add(new JLabel("AR: "));
+        charLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
+        charLabelBox.add(new JLabel("Fire: "));
+        charLabelBox.add(new JLabel("Lightning: "));
+        charLabelBox.add(new JLabel("Cold: "));
+        charLabelBox.add(new JLabel("Poision: "));
+        charLabelBox.add(Box.createRigidArea(new Dimension(0,120)));
+        
+        charValueBox.add(iCharName);
+        charValueBox.add(iCharClass);
+        charValueBox.add(iCharExp);
+        charValueBox.add(iCharLevel);
+        charValueBox.add(iCharDead);
+        charValueBox.add(Box.createRigidArea(new Dimension(0,10)));
+        charValueBox.add(new JLabel("Naked/Gear"));
+        charValueBox.add(iCharStr);
+        charValueBox.add(iCharDex);
+        charValueBox.add(iCharVit);
+        charValueBox.add(iCharNrg);
+        charValueBox.add(iCharHP);
+        charValueBox.add(iCharMana);
+        charValueBox.add(iCharStam);
+        charValueBox.add(iCharDef);
+        charValueBox.add(iCharAR);
+        charValueBox.add(Box.createRigidArea(new Dimension(0,10)));
+        charValueBox.add(iCharFireRes);
+        charValueBox.add(iCharLightRes);
+        charValueBox.add(iCharColdRes);
+        charValueBox.add(iCharPoisRes);
+        charValueBox.add(Box.createRigidArea(new Dimension(0,120)));
+        
+        
         JPanel lCursorPanel = new JPanel();
         lCursorPanel.setLayout(new BorderLayout());
         iCharCursorPainter = new D2CharCursorPainterPanel();
@@ -208,6 +289,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         lMercPanel.add(mercMainBox);    
         lTabs.addTab("Mercenary", lMercPanel);
         iMercPainter.build();
+        
+
 
         ButtonGroup lConnectGroup = new ButtonGroup();
 
@@ -372,7 +455,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         //        setModified(true);
     }
     
-    public void paintStats(){
+    public void paintMercStats(){
     	iMercName.setText(iCharacter.getMercName());
     	iMercRace.setText(iCharacter.getMercRace());
     	iMercType.setText(iCharacter.getMercType());
@@ -393,6 +476,31 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     	
     }
     
+    public void paintCharStats() {
+    	iCharName.setText(iCharacter.getCharName());
+    	iCharClass.setText(iCharacter.getCharClass());
+    	iCharExp.setText(Long.toString(iCharacter.getCharExp()));
+    	iCharLevel.setText(Integer.toString(iCharacter.getCharLevel()));
+    	iCharDead.setText(Boolean.toString(iCharacter.getCharDead())); 
+    	
+    	iCharStr.setText(Integer.toString(iCharacter.getCharInitStr())+"/"+Integer.toString(iCharacter.getCharStr()));
+    	iCharDex.setText(Integer.toString(iCharacter.getCharInitDex())+"/"+Integer.toString(iCharacter.getCharDex()));
+    	iCharNrg.setText(Integer.toString(iCharacter.getCharInitNrg())+"/"+Integer.toString(iCharacter.getCharNrg()));
+    	iCharVit.setText(Integer.toString(iCharacter.getCharInitVit())+"/"+Integer.toString(iCharacter.getCharVit()));
+    	iCharMana.setText(Integer.toString(iCharacter.getCharInitMana())+"/"+Integer.toString(iCharacter.getCharMana()));
+    	iCharHP.setText(Integer.toString(iCharacter.getCharInitHP())+"/"+Integer.toString(iCharacter.getCharHP()));
+    	iCharStam.setText(Integer.toString(iCharacter.getCharInitStam())+"/"+Integer.toString(iCharacter.getCharStam()));
+
+    	iCharDef.setText(Long.toString(iCharacter.getCharInitDef())+"/"+Long.toString(iCharacter.getCharDef()));
+    	iCharAR.setText(Integer.toString(iCharacter.getCharInitAR())+"/"+Integer.toString(iCharacter.getCharAR()));
+    	iCharFireRes.setText(Integer.toString(iCharacter.getCharInitFireRes())+"/"+Integer.toString(iCharacter.getCharFireRes()));
+    	iCharLightRes.setText(Integer.toString(iCharacter.getCharInitLightRes())+"/"+Integer.toString(iCharacter.getCharLightRes()));
+    	iCharColdRes.setText(Integer.toString(iCharacter.getCharInitColdRes())+"/"+Integer.toString(iCharacter.getCharColdRes()));
+    	iCharPoisRes.setText(Integer.toString(iCharacter.getCharInitPoisRes())+"/"+Integer.toString(iCharacter.getCharPoisRes()));
+    	
+		
+	}
+    
     public void connect()
     {
         if ( iCharacter != null )
@@ -404,7 +512,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	        iCharacter = (D2Character) iFileManager.addItemList(iFileName, this);
 	        
 
-	        paintStats();
+	        paintMercStats();
+	        paintCharStats();
 	        
 	        iGold.setText(Integer.toString(iCharacter.getGold()));
 	        iGoldMax.setText(Integer.toString(iCharacter.getGoldMax()));
@@ -931,6 +1040,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                 iCharacter.removeCharItem(lItemPanel.getItemIndex());
                                 D2ViewClipboard.addItem(lTemp);
                                 setCursorDropItem();
+                            	iCharacter.updateCharStats("P", lTemp);
+                            	paintCharStats();
 
 //                                // redraw
 //                                build();
@@ -1024,6 +1135,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 //                                    repaint();
 
                                     setCursorPickupItem();
+                                	iCharacter.updateCharStats("D", lDropItem);
+                                	paintCharStats();
                                     //my_char.show_grid();
                                 }
                             }
@@ -1031,7 +1144,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                     }
                 }
 
-                public void mouseEntered(MouseEvent e)
+
+
+				public void mouseEntered(MouseEvent e)
                 {
                     setCursorNormal();
                 }
@@ -1331,7 +1446,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                 iCharacter.removeMercItem(lItemPanel.getItemIndex());
                                 D2ViewClipboard.addItem(lTemp);
                             	iCharacter.updateMercStats("P", lTemp);
-                            	paintStats();
+                            	paintMercStats();
 
                                 setCursorDropItem();
 
@@ -1380,7 +1495,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 //                                    build();
 //                                    repaint();
                                     iCharacter.updateMercStats("D", lDropItem);
-                                    paintStats();
+                                    paintMercStats();
                                     setCursorPickupItem();
                                     //my_char.show_grid();
                                 }

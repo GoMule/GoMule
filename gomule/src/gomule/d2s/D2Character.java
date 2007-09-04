@@ -86,7 +86,14 @@ public class D2Character extends D2ItemListAdapter
     private String          iTitleString;
     private long			iCharLevel;
     
-    private int				iStats[] = new int[16];
+    //16 is DEF
+    //17 AR
+    //18 FR
+    ///19 CR
+    //20 LR
+    //21 PR
+    private int				iInitStats[] = new int[22];
+    private int				iCharStats[] = new int[22];
     private int				iGF; 
     private int				iIF;
 	private String iMercName = " ";
@@ -112,8 +119,11 @@ public class D2Character extends D2ItemListAdapter
 	private int iMercColdRes;
 	private int iMercPoisRes;
 	private int iMercLightRes;
-	public int[] statArray = new int[338];
+	public int[] mercStatArray = new int[338];
+	public int[] charStatArray = new int[338];
+	
 	private int iMercInitAR;
+	private String iCharClass;
     
     public D2Character(String pFileName) throws Exception
     {
@@ -278,7 +288,7 @@ public class D2Character extends D2ItemListAdapter
         {
             throw new Exception("Invalid char level: " + iCharLevel + " (should be between 1-99)");
         }
-
+        iCharClass =  getCharacterCode((int) lCharCode);
         iTitleString = " Lvl " + iCharLevel + " " + getCharacterCode((int) lCharCode);
 
 //        System.err.println("Test Woo: " + iReader.findNextFlag("Woo!", 0) );
@@ -384,7 +394,7 @@ public class D2Character extends D2ItemListAdapter
                 int lBits = Integer.parseInt( lItemStatCost.get("CSvBits") );
                 int lValue = lReader.getCounterInt(lBits);
 //                System.err.println( "" + lItemStatCost.get("Stat") + ": " + lValue + "("+lBits+")");
-                iStats[lID] = lValue;
+                iInitStats[lID] = lValue;
             }
         }
         
@@ -416,7 +426,109 @@ public class D2Character extends D2ItemListAdapter
         for(int x = 0;x<iMercItems.size();x=x+1){
     	updateMercStats("D", (D2Item)iMercItems.get(x));
         }
+        
+        generateCharStats();
+        
+        for(int x = 0;x<iCharItems.size();x=x+1){
+        	if(((D2Item)iCharItems.get(x)).isEquipped()){
+        	updateCharStats("D", (D2Item)iCharItems.get(x));
+        	}
+            }
 
+    }
+    
+    private void generateCharStats(){
+    	
+    	
+    	
+    	
+
+    	
+    	
+    	
+    	//NEED TO GENERATE 
+        //16 is DEF
+        //17 AR
+        //18 FR
+        ///19 CR
+        //20 LR
+        //21 PR
+    	
+    	//DEAL WITH XP (?)
+    	//DEAL WITH LIFE AND MANA AND STAMINA
+
+    	
+    	
+    	iInitStats[16] = (int)(Math.floor((double)iInitStats[2]/(double)4));
+    	iInitStats[17] = ((iInitStats[2] * 5) - 35) + getARClassBonus(); 
+    	
+    	
+    	
+    	for(int i = 0;i<iInitStats.length;i=i+1){
+    		iCharStats[i] = iInitStats[i];
+    	}
+    	
+    	int[] manaHpStam = setHPManaStam();
+    	iInitStats[7] =manaHpStam[0];
+    	iInitStats[9] = manaHpStam[1];
+    	iInitStats[11] = manaHpStam[2];
+    	
+    }
+    
+    public int getARClassBonus(){
+    	if(getCharClass().equals("Barbarian") || getCharClass().equals("Paladin")){
+    		return 20;
+    	}else if(getCharClass().equals("Assasin")){
+    		return 15;
+    	}else if(getCharClass().equals("Amazon")|| getCharClass().equals("Druid")){
+    		return 5;
+    	}else if(getCharClass().equals("Necromancer")){
+    		return -10;
+    	}else if(getCharClass().equals("Sorceress")){
+    		return -15;
+    	}else{
+    		return 99999999;
+    	}
+    }
+    
+    public int[] setHPManaStam(){
+    	
+    	//HEALTH - MANA - STAM
+    	int[] out = new int[3];
+    	
+    	
+    	if(getCharClass().equals("Barbarian")){
+    		out[0] = (4*(iCharStats[3]-25))+(2*(int)(iCharLevel-1)) + 55;
+    		out[2] = (1*(iCharStats[3]-25))+(1*(int)(iCharLevel-1)) + 92;
+    		out[1] = (1*(iCharStats[1]-10))+(1*(int)(iCharLevel-1)) + 10;
+    	}else if(getCharClass().equals("Paladin")){
+    		out[0] = (3*(iCharStats[3]-25))+(2*(int)(iCharLevel-1)) + 55;
+    		out[2] = (1*(iCharStats[3]-25))+(1*(int)(iCharLevel-1)) + 89;
+    		out[1] = ((int)(Math.floor(1.5*(iCharStats[1]-15))))+((int)(Math.floor(1.5*(int)(iCharLevel-1)))) + 15;
+    	}else if(getCharClass().equals("Assasin")){
+    		out[0] = (3*(iCharStats[3]-20))+(2*(int)(iCharLevel-1)) + 50;
+    		out[2] = ((int)Math.floor(1.5*(iCharStats[3]-20)))+(1*(int)(iCharLevel-1)) + 95;
+    		out[1] = ((int)Math.floor(1.5*(iCharStats[1]-25)))+((int)Math.floor(1.5*(int)(iCharLevel-1))) + 25;
+    	}else if(getCharClass().equals("Amazon")){
+    		out[0] = (3*(iCharStats[3]-20))+(2*(int)(iCharLevel-1)) + 50;
+    		out[2] = (1*(iCharStats[3]-20))+(1*(int)(iCharLevel-1)) + 84;
+    		out[1] = ((int)Math.floor(1.5*(iCharStats[1]-15)))+((int)Math.floor(1.5*(int)(iCharLevel-1))) + 15;
+    	}else if(getCharClass().equals("Druid")){
+    		out[0] = (2*(iCharStats[3]-25))+((int)(Math.floor(1.5*(int)(iCharLevel-1)))) + 55;
+    		out[2] = (1*(iCharStats[3]-25))+(1*(int)(iCharLevel-1)) + 84;
+    		out[1] = (2*(iCharStats[1]-20))+(2*(int)(iCharLevel-1)) + 20;
+    	}else if(getCharClass().equals("Necromancer")){
+    		out[0] = (2*(iCharStats[3]-15))+((int)Math.floor(1.5*(int)(iCharLevel-1))) + 45;
+    		out[2] = (1*(iCharStats[3]-15))+(1*(int)(iCharLevel-1)) + 79;
+    		out[1] = (2*(iCharStats[1]-25))+(2*(int)(iCharLevel-1)) + 25;
+    	}else if(getCharClass().equals("Sorceress")){
+    		out[0] = (2*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 50;
+    		out[2] = (1*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 74;
+    		out[1] = (2*(iCharStats[1]-35))+(2*(int)(iCharLevel-1)) + 35;
+    	}
+    	
+    	return out;
+    	
     }
     
     private void generateMercStats() {
@@ -434,15 +546,15 @@ public class D2Character extends D2ItemListAdapter
     	}
     //MATHS ARGH"GJ:LIJGODISH!
     	//System.out.println("STR: "+(Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-    	iMercInitStr = (int)Math.floor((Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-    	iMercInitDex = (int)Math.floor((Integer.parseInt(hireCol.get("Dex"))+ ((Double.parseDouble(hireCol.get("Dex/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-    	iMercInitHP =  (int)Math.floor((Integer.parseInt(hireCol.get("HP"))+ ((Double.parseDouble(hireCol.get("HP/Lvl")))*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-    	iMercInitDef = (long)(Integer.parseInt(hireCol.get("Defense"))+ (Integer.parseInt(hireCol.get("Def/Lvl"))*(iMercLevel - Integer.parseInt(hireCol.get("Level")))));
-    	iMercInitFireRes = (int)Math.floor((Integer.parseInt(hireCol.get("Resist"))+ ((Double.parseDouble(hireCol.get("Resist/Lvl"))/(double)4)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-    	iMercInitAR = (int)Math.floor((Integer.parseInt(hireCol.get("AR"))+ ((Double.parseDouble(hireCol.get("AR/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-    	iMercInitColdRes = iMercInitFireRes;
-    	iMercInitLightRes = iMercInitFireRes;
-    	iMercInitPoisRes = iMercInitFireRes;
+    	iMercStr = iMercInitStr = (int)Math.floor((Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercDex = iMercInitDex = (int)Math.floor((Integer.parseInt(hireCol.get("Dex"))+ ((Double.parseDouble(hireCol.get("Dex/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercHP = iMercInitHP =  (int)Math.floor((Integer.parseInt(hireCol.get("HP"))+ ((Double.parseDouble(hireCol.get("HP/Lvl")))*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercDef =iMercInitDef = (long)(Integer.parseInt(hireCol.get("Defense"))+ (Integer.parseInt(hireCol.get("Def/Lvl"))*(iMercLevel - Integer.parseInt(hireCol.get("Level")))));
+    	iMercFireRes = iMercInitFireRes = (int)Math.floor((Integer.parseInt(hireCol.get("Resist"))+ ((Double.parseDouble(hireCol.get("Resist/Lvl"))/(double)4)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercAR = iMercInitAR = (int)Math.floor((Integer.parseInt(hireCol.get("AR"))+ ((Double.parseDouble(hireCol.get("AR/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+    	iMercColdRes = iMercInitColdRes = iMercInitFireRes;
+    	iMercLightRes = iMercInitLightRes = iMercInitFireRes;
+    	iMercPoisRes = iMercInitPoisRes = iMercInitFireRes;
     	
 		
 	}
@@ -507,6 +619,7 @@ public class D2Character extends D2ItemListAdapter
 
     public String getTitleString()
     {
+
         return iTitleString;
     }
 
@@ -533,27 +646,28 @@ public class D2Character extends D2ItemListAdapter
     }
     
     
-    public void updateMercStats(String string, D2Item pItem){
+    public void updateCharStats(String string, D2Item pItem){
     	
-//    	statArray = new int[338];
     	
         if(string.equals("D")){
             ArrayList bla = pItem.getAllProps();
         	for(int y = 0;y<bla.size();y=y+1){
         		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
-        			statArray[((D2ItemProperty)bla.get(y)).getiProp()] = statArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        			charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
         		}else{
         			if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
         				//ALL RESISTANCES
-        				statArray[39] = statArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
-        				statArray[41] = statArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
-        				statArray[43] = statArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
-        				statArray[45] = statArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				charStatArray[39] = charStatArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				charStatArray[41] = charStatArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				charStatArray[43] = charStatArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				charStatArray[45] = charStatArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
         				
         			}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
         				//ALL STATS
-        				statArray[0] = statArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
-        				statArray[2] = statArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				charStatArray[0] = charStatArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				charStatArray[1] = charStatArray[1] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				charStatArray[2] = charStatArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				charStatArray[3] = charStatArray[3] + ((D2ItemProperty)bla.get(y)).getRealValue();
         			}
         		}        	
     }
@@ -562,46 +676,158 @@ public class D2Character extends D2ItemListAdapter
             ArrayList bla = pItem.getAllProps();
         	for(int y = 0;y<bla.size();y=y+1){
         		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
-        			statArray[((D2ItemProperty)bla.get(y)).getiProp()] = statArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
+        			charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
         		
     		}else{
     			if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
     				//ALL RESISTANCES
-    				statArray[39] = statArray[39] - ((D2ItemProperty)bla.get(y)).getRealValue();
-    				statArray[41] = statArray[41] - ((D2ItemProperty)bla.get(y)).getRealValue();
-    				statArray[43] = statArray[43] - ((D2ItemProperty)bla.get(y)).getRealValue();
-    				statArray[45] = statArray[45] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				charStatArray[39] = charStatArray[39] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				charStatArray[41] = charStatArray[41] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				charStatArray[43] = charStatArray[43] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				charStatArray[45] = charStatArray[45] - ((D2ItemProperty)bla.get(y)).getRealValue();
     				
     			}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
     				//ALL STATS
-    				statArray[0] = statArray[0] - ((D2ItemProperty)bla.get(y)).getRealValue();
-    				statArray[2] = statArray[2] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				charStatArray[0] = charStatArray[0] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				charStatArray[1] = charStatArray[1] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				charStatArray[2] = charStatArray[2] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				charStatArray[3] = charStatArray[3] - ((D2ItemProperty)bla.get(y)).getRealValue();
     			}
     		}     
         }
         }
         
         
-    	iMercStr = iMercInitStr +  (statArray[220]*iMercLevel) + statArray[0];
-    	iMercDex = iMercInitDex +  (statArray[221]*iMercLevel)+ statArray[2];
-    	iMercHP = ((int)Math.floor(((double)(iMercInitHP + statArray[7])/(double)100) * statArray[76]))+(iMercInitHP + statArray[7])+(statArray[216]*iMercLevel);
-    	iMercDef = (int)Math.floor(((double)(iMercInitDef + (calcArmor()) + (statArray[214] * iMercLevel))/(double)100)* (statArray[215] * iMercLevel)) +  iMercInitDef + (calcArmor()) + (statArray[214] * iMercLevel)  ;
-    	iMercAR = (int)Math.floor(((double)(iMercInitAR + (statArray[19]) + (statArray[224] * iMercLevel))/(double)100)* (statArray[225] * iMercLevel)) +  iMercInitAR + (statArray[19]) + (statArray[224] * iMercLevel)  ;
-    	iMercFireRes = iMercInitFireRes + statArray[39];
-    	iMercLightRes = iMercInitLightRes + statArray[41];
-    	iMercColdRes = iMercInitColdRes + statArray[43];
-    	iMercPoisRes = iMercInitPoisRes + statArray[45];
+        iCharStats[0] = iInitStats[0] +  (charStatArray[220]*(int)iCharLevel) + charStatArray[0];
+        iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
+        iCharStats[1] = iInitStats[1] +  (charStatArray[222]*(int)iCharLevel)+ charStatArray[1];
+        iCharStats[3] = iInitStats[3] +  (charStatArray[223]*(int)iCharLevel)+ charStatArray[3];
+//        iCharStats[7] = ((int)Math.floor(((double)(iInitStats[7] + charStatArray[7])/(double)100) * charStatArray[76]))+(iInitStats[7] + charStatArray[7])+(charStatArray[216]*(int)iCharLevel);
+        
+        int[] manaHpStam = setHPManaStam();
+        
+//        iCharStats[7] =(manaHpStam[0] + charStatArray[7])+(charStatArray[216]*(int)iCharLevel);
+        iCharStats[7] = ((int)Math.floor(((double)(manaHpStam[0] + charStatArray[7])/(double)100) * charStatArray[76]))+(manaHpStam[0] + charStatArray[7])+(charStatArray[216]*(int)iCharLevel);
+//        iCharStats
+        iCharStats[9] = ((int)Math.floor(((double)(manaHpStam[1] + charStatArray[9])/(double)100) * charStatArray[77]))+(manaHpStam[1] + charStatArray[9])+(charStatArray[217]*(int)iCharLevel);
+        iCharStats[11] = (manaHpStam[2] + charStatArray[11])+(charStatArray[242]*(int)iCharLevel);
+
+//        iInitStats[16] =
+        iCharStats[16] = ( (int)(Math.floor((double)iCharStats[2]/(double)4))) + calcCharArmor();
+//       System.out.println("DEXARM: "+ ( (int)(Math.floor((double)iCharStats[2]/(double)4))));
+//       System.out.println("ARM: " + calcCharArmor());
+//       System.out.println()
+//        iCharStats[16] = (int) ((int)Math.floor(((double)(iInitStats[16] + (calcCharArmor()) + (charStatArray[214] * iCharLevel))/(double)100)*(charStatArray[215] * iCharLevel)) +  iInitStats[16] + (calcCharArmor()) + (charStatArray[214] * iCharLevel))  ;
+    	
+     
+        
+//        iCharStats[17] = (int)Math.floor(((double)(iMercInitAR + (charStatArray[19]) + (charStatArray[224] * iMercLevel))/(double)100)* (charStatArray[225] * iMercLevel)) +  iMercInitAR + (charStatArray[19]) + (charStatArray[224] * iMercLevel)  ;
+        iCharStats[18] = iInitStats[18] + charStatArray[39];
+        iCharStats[19] = iInitStats[19] + charStatArray[41];
+        iCharStats[20] = iInitStats[20] + charStatArray[43];
+        iCharStats[21] = iInitStats[21] + charStatArray[45];
+    	    	
+    	    	
+//    	iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
+//    	iCharStats[16] = (int)calcCharArmor() + (int)(Math.floor((double)iCharStats[2]/(double)4));
+        //16 is DEF
+        //17 AR
+        //18 FR
+        ///19 CR
+        //20 LR
+        //21 PR
+    		
+    		
+    }
+    
+    public void updateMercStats(String string, D2Item pItem){
+    	
+//    	statArray = new int[338];
+    	
+        if(string.equals("D")){
+            ArrayList bla = pItem.getAllProps();
+        	for(int y = 0;y<bla.size();y=y+1){
+        		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+        			mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        		}else{
+        			if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
+        				//ALL RESISTANCES
+        				mercStatArray[39] = mercStatArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				mercStatArray[41] = mercStatArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				mercStatArray[43] = mercStatArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				mercStatArray[45] = mercStatArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				
+        			}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
+        				//ALL STATS
+        				mercStatArray[0] = mercStatArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        				mercStatArray[2] = mercStatArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        			}
+        		}        	
+    }
+        	
+        }else{
+            ArrayList bla = pItem.getAllProps();
+        	for(int y = 0;y<bla.size();y=y+1){
+        		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+        			mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
+        		
+    		}else{
+    			if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
+    				//ALL RESISTANCES
+    				mercStatArray[39] = mercStatArray[39] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				mercStatArray[41] = mercStatArray[41] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				mercStatArray[43] = mercStatArray[43] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				mercStatArray[45] = mercStatArray[45] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				
+    			}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
+    				//ALL STATS
+    				mercStatArray[0] = mercStatArray[0] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    				mercStatArray[2] = mercStatArray[2] - ((D2ItemProperty)bla.get(y)).getRealValue();
+    			}
+    		}     
+        }
+        }
+        
+        
+    	iMercStr = iMercInitStr +  (mercStatArray[220]*iMercLevel) + mercStatArray[0];
+    	iMercDex = iMercInitDex +  (mercStatArray[221]*iMercLevel)+ mercStatArray[2];
+    	iMercHP = ((int)Math.floor(((double)(iMercInitHP + mercStatArray[7])/(double)100) * mercStatArray[76]))+(iMercInitHP + mercStatArray[7])+(mercStatArray[216]*iMercLevel);
+    	iMercDef = (int)Math.floor(((double)(iMercInitDef + (calcMercArmor()) + (mercStatArray[214] * iMercLevel))/(double)100)*(mercStatArray[215] * iMercLevel)) +  iMercInitDef + (calcMercArmor()) + (mercStatArray[214] * iMercLevel)  ;
+    	iMercAR = (int)Math.floor(((double)(iMercInitAR + (mercStatArray[19]) + (mercStatArray[224] * iMercLevel))/(double)100)* (mercStatArray[225] * iMercLevel)) +  iMercInitAR + (mercStatArray[19]) + (mercStatArray[224] * iMercLevel)  ;
+    	iMercFireRes = iMercInitFireRes + mercStatArray[39];
+    	iMercLightRes = iMercInitLightRes + mercStatArray[41];
+    	iMercColdRes = iMercInitColdRes + mercStatArray[43];
+    	iMercPoisRes = iMercInitPoisRes + mercStatArray[45];
     	
     }
     
 
-    private long calcArmor() {
+    private long calcMercArmor() {
 		
     	int out = 0;
     	
     	for(int y = 0;y<iMercItems.size();y=y+1){
     		if(((D2Item)iMercItems.get(y)).isTypeArmor()){
     			out = out + ((D2Item)iMercItems.get(y)).getiDef();
+    		}
+    	}
+    	
+    	
+		return out;
+	}
+    
+    private int calcCharArmor() {
+    	
+    	
+    	
+    	int out = 0;
+    	
+    	for(int y = 0;y<iCharItems.size();y=y+1){
+    		if(((D2Item)iCharItems.get(y)).isTypeArmor()){
+    			if(((D2Item)iCharItems.get(y)).isEquipped()){
+    			out = out + ((D2Item)iCharItems.get(y)).getiDef();
+//    			System.out.println("ITEML: "+ ((D2Item)iCharItems.get(y)).getiDef());
+    			}
     		}
     	}
     	
@@ -1522,7 +1748,7 @@ public class D2Character extends D2ItemListAdapter
     
     public int getGold()
     {
-        return iStats[14];
+        return iInitStats[14];
     }
     
     public int getGoldMax()
@@ -1540,13 +1766,13 @@ public class D2Character extends D2ItemListAdapter
         {
             throw new Exception("gold must be smaller than max" + getGoldMax() );
         }
-        iStats[14] = pGold;
+        iInitStats[14] = pGold;
         setModified(true);
     }
 
     public int getGoldBank()
     {
-        return iStats[15];
+        return iInitStats[15];
     }
 
     public void setGoldBank(int pGoldBank) throws Exception
@@ -1559,7 +1785,7 @@ public class D2Character extends D2ItemListAdapter
         {
             throw new Exception("gold must be smaller than max" + getGoldBankMax() );
         }
-        iStats[15] = pGoldBank;
+        iInitStats[15] = pGoldBank;
         setModified(true);
     }
     
@@ -1601,14 +1827,14 @@ public class D2Character extends D2ItemListAdapter
         D2FileWriter lWriter = new D2FileWriter();
         lWriter.setCounterInt(8, 103);
         lWriter.setCounterInt(8, 102);
-        for (int lStatNr = 0; lStatNr < iStats.length; lStatNr++)
+        for (int lStatNr = 0; lStatNr < 16; lStatNr++)
         {
-            if (iStats[lStatNr] != 0)
+            if (iInitStats[lStatNr] != 0)
             {
                 lWriter.setCounterInt(9, lStatNr);
                 D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST.getRow(lStatNr);
                 int lBits = Integer.parseInt(lItemStatCost.get("CSvBits"));
-                lWriter.setCounterInt(lBits, iStats[lStatNr]);
+                lWriter.setCounterInt(lBits, iInitStats[lStatNr]);
             }
         }
         lWriter.setCounterInt(9, 0x1FF);
@@ -1791,6 +2017,164 @@ public class D2Character extends D2ItemListAdapter
 	public int getMercInitPoisRes() {
 		// TODO Auto-generated method stub
 		return iMercInitPoisRes;
+	}
+
+	public String getCharClass() {
+		// TODO Auto-generated method stub
+		return iCharClass;
+	}
+	
+	public long getCharExp() {
+		// TODO Auto-generated method stub
+		return iInitStats[13];
+	}
+
+	public boolean getCharDead() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public int getCharStr() {
+		// TODO Auto-generated method stub
+		return iCharStats[0];
+	}
+
+	public int getCharDex() {
+		// TODO Auto-generated method stub
+		return iCharStats[2];
+	}
+	public int getCharNrg() {
+		// TODO Auto-generated method stub
+		return iCharStats[1];
+	}
+	
+	public int getCharVit() {
+		// TODO Auto-generated method stub
+		return iCharStats[3];
+	}
+	
+	public int getCharRemStat() {
+		// TODO Auto-generated method stub
+		return iCharStats[4];
+	}
+	
+	public int getCharRemSkill() {
+		// TODO Auto-generated method stub
+		return iCharStats[5];
+	}
+	
+	public int getCharMana() {
+		// TODO Auto-generated method stub
+		return iCharStats[9];
+	}
+	public int getCharStam() {
+		// TODO Auto-generated method stub
+		return iCharStats[11];
+	}
+
+	public int getCharHP() {
+		// TODO Auto-generated method stub
+		return iCharStats[7];
+	}
+
+	public long getCharDef() {
+		// TODO Auto-generated method stub
+		return iCharStats[16];
+	}
+
+	public int getCharAR() {
+		// TODO Auto-generated method stub
+		return iCharStats[17];
+	}
+	
+	public int getCharFireRes() {
+		// TODO Auto-generated method stub
+		return iCharStats[18];
+	}
+	
+	public int getCharColdRes() {
+		// TODO Auto-generated method stub
+		return iCharStats[19];
+	}
+	
+	public int getCharLightRes() {
+		// TODO Auto-generated method stub
+		return iCharStats[20];
+	}
+	
+	public int getCharPoisRes() {
+		// TODO Auto-generated method stub
+		return iCharStats[21];
+	}
+	
+	public int getCharInitStr() {
+		// TODO Auto-generated method stub
+		return iInitStats[0];
+	}
+
+	public int getCharInitDex() {
+		// TODO Auto-generated method stub
+		return iInitStats[2];
+	}
+	
+	public int getCharInitNrg() {
+		// TODO Auto-generated method stub
+		return iInitStats[1];
+	}
+	
+	public int getCharInitVit() {
+		// TODO Auto-generated method stub
+		return iInitStats[3];
+	}
+	
+	public int getCharInitMana() {
+		// TODO Auto-generated method stub
+		return iInitStats[9];
+	}
+	
+	public int getCharInitStam() {
+		// TODO Auto-generated method stub
+		return iInitStats[11];
+	}
+
+	public int getCharInitHP() {
+		// TODO Auto-generated method stub
+		return iInitStats[7];
+	}
+
+	public long getCharInitDef() {
+		// TODO Auto-generated method stub
+		return iInitStats[16];
+	}
+
+	public int getCharInitAR() {
+		// TODO Auto-generated method stub
+		return iInitStats[17];
+	}
+	
+	public int getCharInitFireRes() {
+		// TODO Auto-generated method stub
+		return iInitStats[18];
+	}
+	
+	public int getCharInitColdRes() {
+		// TODO Auto-generated method stub
+		return iInitStats[19];
+	}
+	
+	public int getCharInitLightRes() {
+		// TODO Auto-generated method stub
+		return iInitStats[20];
+	}
+	
+	public int getCharInitPoisRes() {
+		// TODO Auto-generated method stub
+		return iInitStats[21];
+	}
+
+	public int getCharLevel() {
+		// TODO Auto-generated method stub
+		return (int)iCharLevel;
 	}
 
     

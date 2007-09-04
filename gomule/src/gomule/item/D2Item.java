@@ -55,6 +55,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private ArrayList iSet4;
 
 	private ArrayList iSet5;
+	
+	private ArrayList iSetProps = new ArrayList();
 
 	private ArrayList iSocketedItems;
 
@@ -163,6 +165,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private boolean iJewel;
 
+	private boolean iEquipped = false;
+	
 	private boolean iGem;
 
 	private boolean iStackable = false;
@@ -233,6 +237,16 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private int iReqStr = -1;
 
 	private int iReqDex = -1;
+
+	private long lSet1;
+
+	private long lSet2;
+
+	private long lSet3;
+
+	private long lSet4;
+
+	private long lSet5;
 
 	// private int iPossibleItemLength = 0;
 
@@ -944,11 +958,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 			// System.err.println("Nr Sockets: " + lNrSockets );
 		}
 
-		long lSet1 = 0;
-		long lSet2 = 0;
-		long lSet3 = 0;
-		long lSet4 = 0;
-		long lSet5 = 0;
+		lSet1 = 0;
+		lSet2 = 0;
+		lSet3 = 0;
+		lSet4 = 0;
+		lSet5 = 0;
 
 		if (quality == 5) {
 			lSet1 = pFile.read(1);
@@ -995,6 +1009,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private String getExStr() {
 		return " (" + iItemName + ", " + iFP + ")";
 	}
+	
 
 	private void readPropertiesPots(D2BitReader pfile, ArrayList pProperties) {
 
@@ -1304,6 +1319,149 @@ public class D2Item implements Comparable, D2ItemInterface {
 		int Dur = 0;
 		int PlusDur = 0;
 
+		if(isSet()){
+			if (lSet1 == 1) {
+				for (int x = 0; x < iSet1.size(); x = x + 1) {
+					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 16) {
+						ENDef = ENDef
+						+ ((D2ItemProperty) iSet1.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 31) {
+						Def = Def
+						+ ((D2ItemProperty) iSet1.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 75) {
+						Dur = Dur
+						+ ((D2ItemProperty) iSet1.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 73) {
+						PlusDur = PlusDur
+						+ ((D2ItemProperty) iSet1.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 214) {
+						Def = Def
+						+ (int) Math.floor((((D2ItemProperty) iSet1
+								.get(x)).getRealValue() * 0.125)
+								* iCharLvl);
+					}
+				}
+			}
+			if (lSet2 == 1) {
+				for (int x = 0; x < iSet2.size(); x = x + 1) {
+					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 16) {
+						ENDef = ENDef
+						+ ((D2ItemProperty) iSet2.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 31) {
+						Def = Def
+						+ ((D2ItemProperty) iSet2.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 75) {
+						Dur = Dur
+						+ ((D2ItemProperty) iSet2.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 73) {
+						PlusDur = PlusDur
+						+ ((D2ItemProperty) iSet2.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 214) {
+						Def = Def
+						+ (int) Math.floor((((D2ItemProperty) iSet2
+								.get(x)).getRealValue() * 0.125)
+								* iCharLvl);
+					}
+				}
+			}
+			if (lSet3 == 1) {
+				for (int x = 0; x < iSet3.size(); x = x + 1) {
+					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 16) {
+						ENDef = ENDef
+						+ ((D2ItemProperty) iSet3.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 31) {
+						Def = Def
+						+ ((D2ItemProperty) iSet3.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 75) {
+						Dur = Dur
+						+ ((D2ItemProperty) iSet3.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 73) {
+						PlusDur = PlusDur
+						+ ((D2ItemProperty) iSet3.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 214) {
+						Def = Def
+						+ (int) Math.floor((((D2ItemProperty) iSet3
+								.get(x)).getRealValue() * 0.125)
+								* iCharLvl);
+					}
+				}
+			}
+			if (lSet4 == 1) {
+				for (int x = 0; x < iSet4.size(); x = x + 1) {
+					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 16) {
+						ENDef = ENDef
+						+ ((D2ItemProperty) iSet4.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 31) {
+						Def = Def
+						+ ((D2ItemProperty) iSet4.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 75) {
+						Dur = Dur
+						+ ((D2ItemProperty) iSet4.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 73) {
+						PlusDur = PlusDur
+						+ ((D2ItemProperty) iSet4.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 214) {
+						Def = Def
+						+ (int) Math.floor((((D2ItemProperty) iSet4
+								.get(x)).getRealValue() * 0.125)
+								* iCharLvl);
+					}
+				}
+			}
+			if (lSet5 == 1) {
+				for (int x = 0; x < iSet5.size(); x = x + 1) {
+					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 16) {
+						ENDef = ENDef
+						+ ((D2ItemProperty) iSet5.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 31) {
+						Def = Def
+						+ ((D2ItemProperty) iSet5.get(x)).getRealValue();
+					}
+					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 75) {
+						Dur = Dur
+						+ ((D2ItemProperty) iSet5.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 73) {
+						PlusDur = PlusDur
+						+ ((D2ItemProperty) iSet5.get(x))
+						.getRealValue();
+					}
+					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 214) {
+						Def = Def
+						+ (int) Math.floor((((D2ItemProperty) iSet5
+								.get(x)).getRealValue() * 0.125)
+								* iCharLvl);
+					}
+				}
+			}
+		}
+		
 		if (isSocketed()) {
 
 			if (isRuneWord()) {
@@ -2573,6 +2731,44 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	public int getiDef() {
 		return (int)iDef;
+	}
+
+	public boolean isEquipped() {
+		// TODO Auto-generated method stub
+		
+		if(get_location() == 1){
+		return true;
+		}else if(get_panel() == 1 && isCharm()){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public void setSetProps(int numItems){
+		if(numItems == 0){
+			iSetProps.clear();
+		}else if(numItems == 1){
+			iSetProps.addAll(iSet1);
+		}else if(numItems == 2){
+			iSetProps.addAll(iSet1);
+			iSetProps.addAll(iSet2);
+		}else if(numItems == 3){
+			iSetProps.addAll(iSet1);
+			iSetProps.addAll(iSet2);
+			iSetProps.addAll(iSet3);
+		}else if(numItems == 4){
+			iSetProps.addAll(iSet1);
+			iSetProps.addAll(iSet2);
+			iSetProps.addAll(iSet3);
+			iSetProps.addAll(iSet4);
+		}else if(numItems == 5){
+			iSetProps.addAll(iSet1);
+			iSetProps.addAll(iSet2);
+			iSetProps.addAll(iSet3);
+			iSetProps.addAll(iSet4);
+			iSetProps.addAll(iSet5);
+		}
 	}
 	
 //	public boolean isCursorItem()
