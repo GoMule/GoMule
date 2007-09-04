@@ -81,6 +81,9 @@ public class D2FileManager extends JFrame
         D2TxtFile.readAllFiles("d2111");
         D2TblFile.readAllFiles("d2111");
 
+//        D2TxtFile.readAllFiles("d2Median");
+//        D2TblFile.readAllFiles("d2Median");
+        
         createToolbar();
 
         iOpenWindows = new ArrayList();

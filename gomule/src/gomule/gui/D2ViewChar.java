@@ -28,7 +28,6 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.text.JTextComponent;
 
 import randall.util.*;
 
@@ -436,7 +435,18 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         
         iCharacter = null;
         
-        iMessage.setText("Character disconnected");
+        String lText = "Character disconnected";
+        
+        if ( pEx != null )
+        {
+            lText += "\n";
+	        StackTraceElement trace[] = pEx.getStackTrace();
+	        for (int i = 0; i < trace.length; i++)
+	        {
+	            lText += "\tat " + trace[i] + "\n";
+	        }
+        }
+        iMessage.setText(lText);
         
         iGold.setText("");
         iGoldMax.setText("");
