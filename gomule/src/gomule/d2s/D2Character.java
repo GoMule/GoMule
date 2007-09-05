@@ -124,6 +124,7 @@ public class D2Character extends D2ItemListAdapter
 	
 	private int iMercInitAR;
 	private String iCharClass;
+	private ArrayList equippedSetItems = new ArrayList();
     
     public D2Character(String pFileName) throws Exception
     {
@@ -422,6 +423,15 @@ public class D2Character extends D2ItemListAdapter
         clearGrid();
         readItems( iIF );
         
+//        for(int x = 0;x<iCharItems.size();x=x+1){
+//        	if(((D2Item)iCharItems.get(x)).isEquipped() && ((D2Item)iCharItems.get(x)).isSet()){
+//            		equippedSetItems.add(iCharItems.get(x));
+//        	}
+//            }
+//        
+//        if(equippedSetItems.size() > 0){
+//        setSetProps();
+//        }
         
         for(int x = 0;x<iMercItems.size();x=x+1){
     	updateMercStats("D", (D2Item)iMercItems.get(x));
@@ -431,13 +441,49 @@ public class D2Character extends D2ItemListAdapter
         
         for(int x = 0;x<iCharItems.size();x=x+1){
         	if(((D2Item)iCharItems.get(x)).isEquipped()){
+
+//        		if(((D2Item)iCharItems.get(x)).isSet()){
+//            		System.out.print("NAME: " + ((D2Item)iCharItems.get(x)).getName());
+//            		System.out.println(" ID: " + ((D2Item)iCharItems.get(x)).getSetID());
+//            		equippedSetItems.add(iCharItems.get(x));
+//        		}
         	updateCharStats("D", (D2Item)iCharItems.get(x));
         	}
             }
 
     }
     
-    private void generateCharStats(){
+    private void setSetProps() {
+		
+    	int counter = 0;
+    	ArrayList itemsToMod = new ArrayList();
+    	ArrayList equippedSetItems = new ArrayList(); 
+    	equippedSetItems.addAll(this.equippedSetItems);
+    	
+    	for(int x = 0;x<equippedSetItems.size();x=x+1){
+    		 D2Item thisSetItem = ((D2Item)equippedSetItems.get(x));
+    		 itemsToMod.clear();
+    		 counter = 1;
+    		 itemsToMod.add(thisSetItem);
+    		 equippedSetItems.remove(x);
+    		 x=x-1;
+    		 for(int y = x+1;y<equippedSetItems.size();y=y+1){
+    			 if(!((D2Item)equippedSetItems.get(y)).equals(thisSetItem)){
+    				 if(((D2Item)equippedSetItems.get(y)).getSetName().equals(thisSetItem.getSetName())){
+    					 counter = counter +1;
+    					 itemsToMod.add((D2Item)equippedSetItems.get(y));
+    		    		 equippedSetItems.remove(y);
+    		    		 y=y-1;
+    				 }
+    			 }
+    		 }
+    		for(int z = 0;z<itemsToMod.size();z=z+1){
+    			((D2Item)itemsToMod.get(z)).setSetProps(counter);
+    		}
+    	 }
+	}
+
+	private void generateCharStats(){
     	
     	
     	
@@ -648,6 +694,25 @@ public class D2Character extends D2ItemListAdapter
     
     public void updateCharStats(String string, D2Item pItem){
     	
+    	if(pItem.isSet()){
+    		equippedSetItems.clear();
+        for(int x = 0;x<iCharItems.size();x=x+1){
+        	if(((D2Item)iCharItems.get(x)).isEquipped() && ((D2Item)iCharItems.get(x)).isSet()){
+            		equippedSetItems.add(iCharItems.get(x));
+        	}
+            }
+//    		 if(string.equals("D")){
+//    			 equippedSetItems.add(pItem);
+//    		 }else{
+//    			 equippedSetItems.remove(pItem);
+//    		 }
+    		 
+    		 
+
+    	        if(equippedSetItems.size() > 0){
+    	            setSetProps();
+    	            }
+    	}
     	
         if(string.equals("D")){
             ArrayList bla = pItem.getAllProps();

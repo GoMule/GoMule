@@ -46,15 +46,15 @@ import randall.flavie.*;
 public class D2Item implements Comparable, D2ItemInterface {
 	private ArrayList iProperties = new ArrayList();
 
-	private ArrayList iSet1;
+	private ArrayList iSet1 = new ArrayList();
 
-	private ArrayList iSet2;
+	private ArrayList iSet2 = new ArrayList();
 
-	private ArrayList iSet3;
+	private ArrayList iSet3 = new ArrayList();
 
-	private ArrayList iSet4;
+	private ArrayList iSet4 = new ArrayList();
 
-	private ArrayList iSet5;
+	private ArrayList iSet5 = new ArrayList();
 	
 	private ArrayList iSetProps = new ArrayList();
 
@@ -196,6 +196,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private long iMaxDur;
 
 	private long iDef;
+	
+	private long iInitDef;
 
 	private long iMinDmg;
 
@@ -247,6 +249,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private long lSet4;
 
 	private long lSet5;
+
+	private String iSetName;
 
 	// private int iPossibleItemLength = 0;
 
@@ -732,6 +736,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 			D2TxtFileItemProperties lSet = D2TxtFile.SETITEMS.getRow(set_id);
 			iItemName = D2TblFile.getString(lSet.get("index"));
+			iSetName = D2TblFile.getString(lSet.get("set"));
 
 			int lSetReq = getReq(lSet.get("lvl req"));
 			if (lSetReq != -1) {
@@ -883,7 +888,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (isTypeArmor()) {
 			// pFile.read(1);
 			iDef = (pFile.read(11) - 10); // -10 ???
-
+			iInitDef = iDef;
 			iMaxDur = pFile.read(8);
 
 			if (iMaxDur != 0) {
@@ -1314,152 +1319,42 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private void applyEDef() {
 
+		iDef = 0;
 		int ENDef = 0;
 		int Def = 0;
 		int Dur = 0;
 		int PlusDur = 0;
 
 		if(isSet()){
-			if (lSet1 == 1) {
-				for (int x = 0; x < iSet1.size(); x = x + 1) {
-					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 16) {
+			
+				for (int x = 0; x < iSetProps.size(); x = x + 1) {
+					if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
 						ENDef = ENDef
-						+ ((D2ItemProperty) iSet1.get(x)).getRealValue();
+						+ ((D2ItemProperty) iSetProps.get(x)).getRealValue();
 					}
-					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 31) {
+					if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
 						Def = Def
-						+ ((D2ItemProperty) iSet1.get(x)).getRealValue();
+						+ ((D2ItemProperty) iSetProps.get(x)).getRealValue();
 					}
-					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 75) {
+					if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 75) {
 						Dur = Dur
-						+ ((D2ItemProperty) iSet1.get(x))
+						+ ((D2ItemProperty) iSetProps.get(x))
 						.getRealValue();
 					}
-					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 73) {
+					if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 73) {
 						PlusDur = PlusDur
-						+ ((D2ItemProperty) iSet1.get(x))
+						+ ((D2ItemProperty) iSetProps.get(x))
 						.getRealValue();
 					}
-					if (((D2ItemProperty) iSet1.get(x)).getiProp() == 214) {
+					if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
 						Def = Def
-						+ (int) Math.floor((((D2ItemProperty) iSet1
+						+ (int) Math.floor((((D2ItemProperty) iSetProps
 								.get(x)).getRealValue() * 0.125)
 								* iCharLvl);
 					}
 				}
-			}
-			if (lSet2 == 1) {
-				for (int x = 0; x < iSet2.size(); x = x + 1) {
-					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 16) {
-						ENDef = ENDef
-						+ ((D2ItemProperty) iSet2.get(x)).getRealValue();
-					}
-					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 31) {
-						Def = Def
-						+ ((D2ItemProperty) iSet2.get(x)).getRealValue();
-					}
-					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 75) {
-						Dur = Dur
-						+ ((D2ItemProperty) iSet2.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 73) {
-						PlusDur = PlusDur
-						+ ((D2ItemProperty) iSet2.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iSet2.get(x)).getiProp() == 214) {
-						Def = Def
-						+ (int) Math.floor((((D2ItemProperty) iSet2
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
-					}
-				}
-			}
-			if (lSet3 == 1) {
-				for (int x = 0; x < iSet3.size(); x = x + 1) {
-					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 16) {
-						ENDef = ENDef
-						+ ((D2ItemProperty) iSet3.get(x)).getRealValue();
-					}
-					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 31) {
-						Def = Def
-						+ ((D2ItemProperty) iSet3.get(x)).getRealValue();
-					}
-					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 75) {
-						Dur = Dur
-						+ ((D2ItemProperty) iSet3.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 73) {
-						PlusDur = PlusDur
-						+ ((D2ItemProperty) iSet3.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iSet3.get(x)).getiProp() == 214) {
-						Def = Def
-						+ (int) Math.floor((((D2ItemProperty) iSet3
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
-					}
-				}
-			}
-			if (lSet4 == 1) {
-				for (int x = 0; x < iSet4.size(); x = x + 1) {
-					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 16) {
-						ENDef = ENDef
-						+ ((D2ItemProperty) iSet4.get(x)).getRealValue();
-					}
-					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 31) {
-						Def = Def
-						+ ((D2ItemProperty) iSet4.get(x)).getRealValue();
-					}
-					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 75) {
-						Dur = Dur
-						+ ((D2ItemProperty) iSet4.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 73) {
-						PlusDur = PlusDur
-						+ ((D2ItemProperty) iSet4.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iSet4.get(x)).getiProp() == 214) {
-						Def = Def
-						+ (int) Math.floor((((D2ItemProperty) iSet4
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
-					}
-				}
-			}
-			if (lSet5 == 1) {
-				for (int x = 0; x < iSet5.size(); x = x + 1) {
-					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 16) {
-						ENDef = ENDef
-						+ ((D2ItemProperty) iSet5.get(x)).getRealValue();
-					}
-					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 31) {
-						Def = Def
-						+ ((D2ItemProperty) iSet5.get(x)).getRealValue();
-					}
-					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 75) {
-						Dur = Dur
-						+ ((D2ItemProperty) iSet5.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 73) {
-						PlusDur = PlusDur
-						+ ((D2ItemProperty) iSet5.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iSet5.get(x)).getiProp() == 214) {
-						Def = Def
-						+ (int) Math.floor((((D2ItemProperty) iSet5
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
-					}
-				}
-			}
+			
+
 		}
 		
 		if (isSocketed()) {
@@ -1553,8 +1448,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 						* iCharLvl);
 			}
 		}
-		iDef = (long) Math.floor((((double) iDef / (double) 100) * ENDef)
-				+ (iDef + Def));
+		iDef = (long) Math.floor((((double) iInitDef / (double) 100) * ENDef)
+				+ (iInitDef + Def));
 		iMaxDur = (long) Math.floor((((double) iMaxDur / (double) 100) * Dur)
 				+ (iMaxDur+PlusDur));
 
@@ -2499,11 +2394,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 		    lReturn .addAll( getProperties("Armor: ", (ArrayList) iGemProps.get(1)) );
 		    lReturn .addAll( getProperties("Shields: ", (ArrayList) iGemProps.get(2)) );
 		}
-		lReturn .addAll( getProperties("Set (1 item): ", iSet1) );
-		lReturn .addAll( getProperties("Set (2 items): ", iSet2) );
-		lReturn .addAll( getProperties("Set (3 items): ", iSet3) );
-		lReturn .addAll( getProperties("Set (4 items): ", iSet4) );
-		lReturn .addAll( getProperties("Set (5 items): ", iSet5) );
+		if(iSet1.size()>0)lReturn .addAll( getProperties("Set (2 item): ", iSet1) );
+		if(iSet2.size()>0)lReturn .addAll( getProperties("Set (3 items): ", iSet2) );
+		if(iSet3.size()>0)lReturn .addAll( getProperties("Set (4 items): ", iSet3) );
+		if(iSet4.size()>0)lReturn .addAll( getProperties("Set (5 items): ", iSet4) );
+		if(iSet5.size()>0)lReturn .addAll( getProperties("Set (?? items): ", iSet5) );
 
 		if (iRuneWord) {
 		    lReturn .addAll( getProperties(null, iRuneWordProps) );
@@ -2746,29 +2641,44 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 	
 	public void setSetProps(int numItems){
-		if(numItems == 0){
+		iSetProps.clear();
+		/*if(numItems == 0){
 			iSetProps.clear();
 		}else if(numItems == 1){
+			iSetProps.clear();
+		}else*/ if(numItems == 2){
 			iSetProps.addAll(iSet1);
-		}else if(numItems == 2){
-			iSetProps.addAll(iSet1);
-			iSetProps.addAll(iSet2);
 		}else if(numItems == 3){
 			iSetProps.addAll(iSet1);
 			iSetProps.addAll(iSet2);
-			iSetProps.addAll(iSet3);
 		}else if(numItems == 4){
 			iSetProps.addAll(iSet1);
 			iSetProps.addAll(iSet2);
 			iSetProps.addAll(iSet3);
-			iSetProps.addAll(iSet4);
 		}else if(numItems == 5){
 			iSetProps.addAll(iSet1);
 			iSetProps.addAll(iSet2);
 			iSetProps.addAll(iSet3);
 			iSetProps.addAll(iSet4);
-			iSetProps.addAll(iSet5);
 		}
+		for(int x =0;x<iSetProps.size();x=x+1){
+		System.out.println(numItems + "  VAL: "+((D2ItemProperty)iSetProps.get(x)).getValue());
+		}
+		
+		
+			if (isTypeArmor()) {
+				applyEDef();
+		
+		}
+	}
+	
+	public int getSetID(){
+		return (int)set_id;
+	}
+
+	public String getSetName() {
+		// TODO Auto-generated method stub
+		return iSetName;
 	}
 	
 //	public boolean isCursorItem()
