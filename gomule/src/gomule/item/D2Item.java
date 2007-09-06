@@ -56,6 +56,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private ArrayList iSet5 = new ArrayList();
 	
+	private ArrayList iFullSet = new ArrayList();
+	
 	private ArrayList iSetProps = new ArrayList();
 
 	private ArrayList iSocketedItems;
@@ -251,6 +253,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private long lSet5;
 
 	private String iSetName;
+
+	private int setSize;
 
 	// private int iPossibleItemLength = 0;
 
@@ -737,7 +741,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 			D2TxtFileItemProperties lSet = D2TxtFile.SETITEMS.getRow(set_id);
 			iItemName = D2TblFile.getString(lSet.get("index"));
 			iSetName = D2TblFile.getString(lSet.get("set"));
-
+			
+			setSize = (D2TxtFile.SETITEMS.searchColumnsMultipleHits("set", iSetName)).size();
+			
 			int lSetReq = getReq(lSet.get("lvl req"));
 			if (lSetReq != -1) {
 				iReqLvl = lSetReq;
@@ -2620,6 +2626,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		
 		out.addAll(iRuneWordProps);
 		out.addAll(iGemProps);
+		out.addAll(iSetProps);
 		
 		return out;
 	}
@@ -2679,6 +2686,16 @@ public class D2Item implements Comparable, D2ItemInterface {
 	public String getSetName() {
 		// TODO Auto-generated method stub
 		return iSetName;
+	}
+
+	public boolean statModding() {
+		
+		if(iJewel || iGem || iRune){
+			return false;
+		}else{
+		
+		return true;
+		}
 	}
 	
 //	public boolean isCursorItem()

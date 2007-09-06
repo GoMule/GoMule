@@ -125,6 +125,7 @@ public class D2Character extends D2ItemListAdapter
 	private int iMercInitAR;
 	private String iCharClass;
 	private ArrayList equippedSetItems = new ArrayList();
+	private int[] iReadStats = new int[16];
     
     public D2Character(String pFileName) throws Exception
     {
@@ -395,7 +396,7 @@ public class D2Character extends D2ItemListAdapter
                 int lBits = Integer.parseInt( lItemStatCost.get("CSvBits") );
                 int lValue = lReader.getCounterInt(lBits);
 //                System.err.println( "" + lItemStatCost.get("Stat") + ": " + lValue + "("+lBits+")");
-                iInitStats[lID] = lValue;
+                iReadStats[lID] = lValue;
             }
         }
         
@@ -480,6 +481,10 @@ public class D2Character extends D2ItemListAdapter
     		for(int z = 0;z<itemsToMod.size();z=z+1){
     			((D2Item)itemsToMod.get(z)).setSetProps(counter);
     		}
+    		
+//    		if(counter == thisSetItem.getFullSetNum()){
+//    			BLABLALBLALBLBLDgioklao;sidhFU
+//    		}
     	 }
 	}
 
@@ -568,7 +573,7 @@ public class D2Character extends D2ItemListAdapter
     		out[2] = (1*(iCharStats[3]-15))+(1*(int)(iCharLevel-1)) + 79;
     		out[1] = (2*(iCharStats[1]-25))+(2*(int)(iCharLevel-1)) + 25;
     	}else if(getCharClass().equals("Sorceress")){
-    		out[0] = (2*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 50;
+    		out[0] = (2*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 40;
     		out[2] = (1*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 74;
     		out[1] = (2*(iCharStats[1]-35))+(2*(int)(iCharLevel-1)) + 35;
     	}
@@ -1813,7 +1818,7 @@ public class D2Character extends D2ItemListAdapter
     
     public int getGold()
     {
-        return iInitStats[14];
+        return iReadStats[14];
     }
     
     public int getGoldMax()
@@ -1831,13 +1836,13 @@ public class D2Character extends D2ItemListAdapter
         {
             throw new Exception("gold must be smaller than max" + getGoldMax() );
         }
-        iInitStats[14] = pGold;
+        iReadStats[14] = pGold;
         setModified(true);
     }
 
     public int getGoldBank()
     {
-        return iInitStats[15];
+        return iReadStats[15];
     }
 
     public void setGoldBank(int pGoldBank) throws Exception
@@ -1850,7 +1855,7 @@ public class D2Character extends D2ItemListAdapter
         {
             throw new Exception("gold must be smaller than max" + getGoldBankMax() );
         }
-        iInitStats[15] = pGoldBank;
+        iReadStats[15] = pGoldBank;
         setModified(true);
     }
     
@@ -1892,16 +1897,22 @@ public class D2Character extends D2ItemListAdapter
         D2FileWriter lWriter = new D2FileWriter();
         lWriter.setCounterInt(8, 103);
         lWriter.setCounterInt(8, 102);
-        for (int lStatNr = 0; lStatNr < 16; lStatNr++)
+        for (int lStatNr = 0; lStatNr < iReadStats.length; lStatNr++)
         {
-            if (iInitStats[lStatNr] != 0)
+            if (iReadStats[lStatNr] != 0)
             {
                 lWriter.setCounterInt(9, lStatNr);
                 D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST.getRow(lStatNr);
                 int lBits = Integer.parseInt(lItemStatCost.get("CSvBits"));
-                lWriter.setCounterInt(lBits, iInitStats[lStatNr]);
+                lWriter.setCounterInt(lBits, iReadStats[lStatNr]);
             }
         }
+        
+        for(int x = 0; x< iReadStats.length;x=x+1){
+        	  iInitStats[x] = iReadStats[x];
+        }
+        
+      
         lWriter.setCounterInt(9, 0x1FF);
         return lWriter.getCurrentContent();
     }

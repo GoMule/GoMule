@@ -1040,8 +1040,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                 iCharacter.removeCharItem(lItemPanel.getItemIndex());
                                 D2ViewClipboard.addItem(lTemp);
                                 setCursorDropItem();
+                                if(lTemp.statModding()){
                             	iCharacter.updateCharStats("P", lTemp);
                             	paintCharStats();
+                                }
 
 //                                // redraw
 //                                build();
@@ -1135,8 +1137,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 //                                    repaint();
 
                                     setCursorPickupItem();
+                                    if(lDropItem.statModding()){
                                 	iCharacter.updateCharStats("D", lDropItem);
                                 	paintCharStats();
+                                    }
                                     //my_char.show_grid();
                                 }
                             }
@@ -1445,9 +1449,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                 iCharacter.unmarkMercGrid(lTemp);
                                 iCharacter.removeMercItem(lItemPanel.getItemIndex());
                                 D2ViewClipboard.addItem(lTemp);
+                                if(lTemp.statModding()){
                             	iCharacter.updateMercStats("P", lTemp);
                             	paintMercStats();
-
+                                }
                                 setCursorDropItem();
 
                                 // redraw
@@ -1494,8 +1499,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                                     // redraw
 //                                    build();
 //                                    repaint();
+                                    if(lDropItem.statModding()){
                                     iCharacter.updateMercStats("D", lDropItem);
                                     paintMercStats();
+                                    }
                                     setCursorPickupItem();
                                     //my_char.show_grid();
                                 }
