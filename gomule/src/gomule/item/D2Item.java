@@ -984,6 +984,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 
 		readProperties(pFile, iProperties);
+		
+		cleanUpProperties();
 
 		if (quality == 5) {
 			if (lSet1 == 1) {
@@ -1015,6 +1017,57 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		}
 
+	}
+
+	private void cleanUpProperties() {
+		
+		for(int x = 0;x<iProperties.size();x=x+1){
+			if(((D2ItemProperty)iProperties.get(x)).getiProp() == 160||((D2ItemProperty)iProperties.get(x)).getiProp() == 159){
+				iProperties.remove(x);
+				x = x-1;
+			}
+			if(((D2ItemProperty)iProperties.get(x)).getiProp() == 23 || ((D2ItemProperty)iProperties.get(x)).getiProp() == 24){
+				cleanUp2HMax();
+			}
+		}
+	}
+
+	private void cleanUp2HMax() {
+		
+		ArrayList cleanArr = new ArrayList();
+		
+		for(int x = 0;x<iProperties.size();x=x+1){
+			cleanArr.add(new Integer(((D2ItemProperty)iProperties.get(x)).getiProp()));
+			
+		}
+		
+		if(cleanArr.contains(new Integer(24)) && cleanArr.contains(new Integer(22))){
+			iProperties.remove(cleanArr.indexOf(new Integer (24)));
+			cleanArr.remove(new Integer(24));
+			}
+		if(cleanArr.contains(new Integer(23)) && cleanArr.contains(new Integer(21))){
+			iProperties.remove(cleanArr.indexOf(new Integer (23)));
+			cleanArr.remove(new Integer(23));
+		}
+		
+		if(cleanArr.contains(new Integer(23))){		
+			D2ItemProperty lProperty = new D2ItemProperty(21, iCharLvl,iItemName);
+			lProperty.set(21, ((D2ItemProperty)iProperties.get(cleanArr.indexOf(new Integer(23)))).getItemStatCost(),((D2ItemProperty)iProperties.get(cleanArr.indexOf(new Integer(23)))).getBitSet() , ((D2ItemProperty)iProperties.get(cleanArr.indexOf(new Integer(23)))).getRealValue());
+			iProperties.remove(cleanArr.indexOf(new Integer(23)));
+			iProperties.add(cleanArr.indexOf(new Integer(23)), lProperty);
+			
+
+			
+		}
+		
+		if(cleanArr.contains(new Integer(24))){
+			D2ItemProperty lProperty = new D2ItemProperty(22, iCharLvl,iItemName);
+			lProperty.set(22, ((D2ItemProperty)iProperties.get(cleanArr.indexOf(new Integer(24)))).getItemStatCost(),((D2ItemProperty)iProperties.get(cleanArr.indexOf(new Integer(24)))).getBitSet() , ((D2ItemProperty)iProperties.get(cleanArr.indexOf(new Integer(24)))).getRealValue());
+			iProperties.remove(cleanArr.indexOf(new Integer(24)));
+			iProperties.add(cleanArr.indexOf(new Integer(24)), lProperty);
+		}
+		
+		
 	}
 
 	private String getExStr() {
@@ -1243,6 +1296,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		int lProp = (int) pFile.read(9);
 
 		while (lProp != 511) {
+			
 			D2ItemProperty lProperty = new D2ItemProperty(lProp, iCharLvl,
 					iItemName);
 			pProperties.add(lProperty);

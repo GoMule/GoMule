@@ -133,6 +133,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private JLabel iCharLightRes = new JLabel("");
 	private JLabel iCharColdRes = new JLabel("");
 	private JLabel iCharPoisRes = new JLabel("");
+	private JLabel iCharMF = new JLabel("");
 
 
     public D2ViewChar(D2FileManager pMainFrame, String pFileName)
@@ -196,7 +197,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         charLabelBox.add(new JLabel("Lightning: "));
         charLabelBox.add(new JLabel("Cold: "));
         charLabelBox.add(new JLabel("Poision: "));
-        charLabelBox.add(Box.createRigidArea(new Dimension(0,120)));
+        charLabelBox.add(new JLabel("MF: "));
+        charLabelBox.add(Box.createRigidArea(new Dimension(0,50)));
         
         charValueBox.add(iCharName);
         charValueBox.add(iCharClass);
@@ -219,7 +221,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         charValueBox.add(iCharLightRes);
         charValueBox.add(iCharColdRes);
         charValueBox.add(iCharPoisRes);
-        charValueBox.add(Box.createRigidArea(new Dimension(0,120)));
+        charValueBox.add(iCharMF);
+        charValueBox.add(Box.createRigidArea(new Dimension(0,50)));
         
         
         JPanel lCursorPanel = new JPanel();
@@ -497,7 +500,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     	iCharLightRes.setText(Integer.toString(iCharacter.getCharInitLightRes())+"/"+Integer.toString(iCharacter.getCharLightRes()));
     	iCharColdRes.setText(Integer.toString(iCharacter.getCharInitColdRes())+"/"+Integer.toString(iCharacter.getCharColdRes()));
     	iCharPoisRes.setText(Integer.toString(iCharacter.getCharInitPoisRes())+"/"+Integer.toString(iCharacter.getCharPoisRes()));
-    	
+    	iCharMF.setText(Integer.toString(iCharacter.getCharMF()));
 		
 	}
     

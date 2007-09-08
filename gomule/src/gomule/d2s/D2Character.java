@@ -92,8 +92,9 @@ public class D2Character extends D2ItemListAdapter
     ///19 CR
     //20 LR
     //21 PR
-    private int				iInitStats[] = new int[22];
-    private int				iCharStats[] = new int[22];
+    //22 MF
+    private int				iInitStats[] = new int[23];
+    private int				iCharStats[] = new int[23];
     private int				iGF; 
     private int				iIF;
 	private String iMercName = " ";
@@ -721,7 +722,15 @@ public class D2Character extends D2ItemListAdapter
     	
         if(string.equals("D")){
             ArrayList bla = pItem.getAllProps();
+            
+            
+            
         	for(int y = 0;y<bla.size();y=y+1){
+        		
+//        		if(((D2ItemProperty)bla.get(y)).getiProp() == 80){
+//        			System.out.println(pItem.getName());
+//        		}
+        		
         		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
         			charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
         		}else{
@@ -777,9 +786,9 @@ public class D2Character extends D2ItemListAdapter
         int[] manaHpStam = setHPManaStam();
         
 //        iCharStats[7] =(manaHpStam[0] + charStatArray[7])+(charStatArray[216]*(int)iCharLevel);
-        iCharStats[7] = ((int)Math.floor(((double)(manaHpStam[0] + charStatArray[7])/(double)100) * charStatArray[76]))+(manaHpStam[0] + charStatArray[7])+(charStatArray[216]*(int)iCharLevel);
+        iCharStats[7] = ((int)Math.floor(((double)(manaHpStam[0] + charStatArray[7])/(double)100) * charStatArray[76]))+(manaHpStam[0] + charStatArray[7])+ (int)Math.floor((charStatArray[216] * 0.125)*(int)iCharLevel);
 //        iCharStats
-        iCharStats[9] = ((int)Math.floor(((double)(manaHpStam[1] + charStatArray[9])/(double)100) * charStatArray[77]))+(manaHpStam[1] + charStatArray[9])+(charStatArray[217]*(int)iCharLevel);
+        iCharStats[9] = ((int)Math.floor(((double)(manaHpStam[1] + charStatArray[9])/(double)100) * charStatArray[77]))+(manaHpStam[1] + charStatArray[9])+(int)Math.floor((charStatArray[217]* 0.125)*(int)iCharLevel);
         iCharStats[11] = (manaHpStam[2] + charStatArray[11])+(charStatArray[242]*(int)iCharLevel);
 
 //        iInitStats[16] =
@@ -796,7 +805,7 @@ public class D2Character extends D2ItemListAdapter
         iCharStats[19] = iInitStats[19] + charStatArray[41];
         iCharStats[20] = iInitStats[20] + charStatArray[43];
         iCharStats[21] = iInitStats[21] + charStatArray[45];
-    	    	
+    	iCharStats[22] = charStatArray[80];
     	    	
 //    	iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
 //    	iCharStats[16] = (int)calcCharArmor() + (int)(Math.floor((double)iCharStats[2]/(double)4));
@@ -2251,6 +2260,10 @@ public class D2Character extends D2ItemListAdapter
 	public int getCharLevel() {
 		// TODO Auto-generated method stub
 		return (int)iCharLevel;
+	}
+	
+	public int getCharMF(){
+		return iCharStats[22];
 	}
 
     

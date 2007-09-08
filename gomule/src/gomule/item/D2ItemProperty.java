@@ -148,6 +148,10 @@ public class D2ItemProperty
     public void setRealValue(int newiValue){
     	((PropValue) iProperties.get(FIRST)).iValue = newiValue;
     }
+    
+    public long getpCharLvl(){
+    	return this.iCharLvl;
+    }
 
     public void setRealValueTwo(int newiValue){
     	((PropValue) iProperties.get(SECOND)).iValue = newiValue;
@@ -158,8 +162,13 @@ public class D2ItemProperty
         {
             // the do not display properties
         	//ADDED 140 DUE TO GOREFOOT - NEEDS DOUBLE CHECK.
-        	if (iProp == 23 || iProp == 24 || iProp == 159 || iProp == 160 || iProp == 140)
+        	if (iProp == 140)
             {
+        		
+        		if (iProp == 23 || iProp == 24 || iProp == 159 || iProp == 160){
+        			System.out.println(this.iItemName + "     " + this.iProp);
+        		}
+        		
                 iNoValue = true;
                 return null;
             }
@@ -171,6 +180,20 @@ public class D2ItemProperty
         		return l17.iValue + "% Enhanced Damage";
         		
         	}
+        	
+    		if (iProp == 24 ||iProp == 160){
+    			
+        		PropValue lProp = (PropValue) iProperties.get(FIRST);
+        		
+        		return "+" +lProp.iValue + " to IMP Maximum Damage";
+    		}
+    		
+    		if (iProp == 23 ||  iProp == 159 ){
+    			
+        		PropValue lProp = (PropValue) iProperties.get(FIRST);
+        		
+        		return "+" +lProp.iValue + " to IMP Minimum Damage";
+    		}
         	
         	if(iProp == 26){
         		PropValue l26 = (PropValue) iProperties.get(FIRST);
