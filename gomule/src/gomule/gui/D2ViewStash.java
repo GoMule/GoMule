@@ -27,6 +27,7 @@ import gomule.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -43,6 +44,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     private D2FileManager iFileManager;
     private D2ItemList    iStash;
     private String        iFileName;
+    private String        iStashName;
 
     private D2StashFilter iStashFilter;
     private boolean		  iIgnoreItemListEvents;
@@ -105,7 +107,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
     public D2ViewStash(D2FileManager pMainFrame, String pFileName)
     {
-        super(pFileName, true, true, false, true);
+        super( pFileName, true, true, false, true);
         
         addInternalFrameListener(new InternalFrameAdapter()
         {
@@ -124,6 +126,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         
         iFileManager = pMainFrame;
         iFileName = pFileName;
+        iStashName = getStashName( iFileName );
 
         iContentPane = new JPanel();
         iContentPane.setLayout(new BorderLayout());
@@ -275,6 +278,12 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         {
             iTable.setRowSelectionInterval(0,0);
         }
+    }
+    
+    public static String getStashName(String pFileName)
+    {
+        ArrayList lList = RandallUtil.split(pFileName, File.separator, true);
+        return (String) lList.get(lList.size()-1);
     }
     
     public void activateView()
@@ -693,7 +702,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             return;
         }
         iItemModel.refreshData();
-        String lTitle = iFileName;
+        String lTitle = iStashName;
         if (iStash == null || iItemModel == null)
         {
             lTitle += " (Disconnected)";
