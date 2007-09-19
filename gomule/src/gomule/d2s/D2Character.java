@@ -115,13 +115,18 @@ public class D2Character extends D2ItemListAdapter
 	private int iMercDex;
 	private int iMercHP;
 	private long iMercDef;
+	private int testCounter = 0;
+	private boolean fullChanged = false;
 	private int iMercAR;
 	private int iMercFireRes;
 	private int iMercColdRes;
 	private int iMercPoisRes;
 	private int iMercLightRes;
 	public int[] mercStatArray = new int[338];
-	public int[] charStatArray = new int[338];
+	public int[] charStatArray = new int[339];
+	private ArrayList partialSetProps = new ArrayList();
+	private ArrayList fullSetProps = new ArrayList();
+	private int iCurWepSlot = 1;
 	
 	private int iMercInitAR;
 	private String iCharClass;
@@ -441,6 +446,19 @@ public class D2Character extends D2ItemListAdapter
         
         generateCharStats();
         
+//    	System.out.println(weaponSlot);
+//    	
+//    	if(weaponSlot == 1){
+//    	
+//    	if(pItem.get_body_position() == 4 || pItem.get_body_position() == 5 ){
+//    		System.out.println(pItem.getName());
+//    	}
+//    	}else{
+//        	if(pItem.get_body_position() == 11 || pItem.get_body_position() == 12 ){
+//        		System.out.println(pItem.getName());
+//        	}
+//    	}
+        
         for(int x = 0;x<iCharItems.size();x=x+1){
         	if(((D2Item)iCharItems.get(x)).isEquipped()){
 
@@ -449,7 +467,13 @@ public class D2Character extends D2ItemListAdapter
 //            		System.out.println(" ID: " + ((D2Item)iCharItems.get(x)).getSetID());
 //            		equippedSetItems.add(iCharItems.get(x));
 //        		}
+//        		System.out.println(((D2Item)iCharItems.get(x)).getName()+" , " + ((D2Item)iCharItems.get(x)).get_panel() + " , " + ((D2Item)iCharItems.get(x)).get_row()+" , " + ((D2Item)iCharItems.get(x)).get_col());
+        		if(((D2Item)iCharItems.get(x)).get_body_position() != 11 &&((D2Item)iCharItems.get(x)).get_body_position() != 12 ){
+//        			if(pItem.get_body_position() == 4 || pItem.get_body_position() == 5 ){
+        			
+        			
         	updateCharStats("D", (D2Item)iCharItems.get(x));
+        		}
         	}
             }
 
@@ -457,13 +481,16 @@ public class D2Character extends D2ItemListAdapter
     
     private void setSetProps() {
 		
+    	    	
     	int counter = 0;
     	ArrayList itemsToMod = new ArrayList();
     	ArrayList equippedSetItems = new ArrayList(); 
     	equippedSetItems.addAll(this.equippedSetItems);
-    	
+    	partialSetProps.clear();
+    	fullSetProps.clear();
     	for(int x = 0;x<equippedSetItems.size();x=x+1){
     		 D2Item thisSetItem = ((D2Item)equippedSetItems.get(x));
+
     		 itemsToMod.clear();
     		 counter = 1;
     		 itemsToMod.add(thisSetItem);
@@ -483,10 +510,164 @@ public class D2Character extends D2ItemListAdapter
     			((D2Item)itemsToMod.get(z)).setSetProps(counter);
     		}
     		
+    		if(itemsToMod.size() > 0 ){
+    			
+//    			System.out.println(thisSetItem.getName());
+    			if(counter == thisSetItem.getSetSize()){
+    				setFullSet(thisSetItem);
+    			}
+    			
+    			setPartialSet(counter, thisSetItem);
+    			
+    		}
+    		
 //    		if(counter == thisSetItem.getFullSetNum()){
 //    			BLABLALBLALBLBLDgioklao;sidhFU
 //    		}
     	 }
+    	
+    	
+    	
+    	
+	}
+
+	private void setPartialSet(int counter, D2Item thisSetItem) {
+		
+		D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSetItem.getSetName());
+		
+		int replaceChar = 2;
+		
+		String[] replaceStr = new String[4];
+		String codeStr;
+		while(replaceChar < counter +1){
+			
+			replaceStr[0] = "PCode" + replaceChar + "a";
+			replaceStr[1] = "PParam" + replaceChar + "a";
+			replaceStr[2] = "PMin" + replaceChar + "a";
+			replaceStr[3] = "PMax" + replaceChar + "a";
+			 codeStr = setRow.get(replaceStr[0]);
+			if(codeStr.equals("")){
+				break;
+			}
+			//System.out.println((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0]))).get(pKey));
+			
+			String[] propStats = {
+					(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat1"))).get("ID")//,
+				//	(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat2"))).get("ID"),
+				//	(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat3"))).get("ID"),
+				//	(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat4"))).get("ID")
+					};
+
+				
+
+				
+				D2ItemProperty lProperty = new D2ItemProperty(Integer.parseInt(propStats[0]), (long)thisSetItem.getReqLvl(),
+						thisSetItem.getName());
+				
+				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
+				.getRow(lProperty.getPropNrs()[0]);
+				
+				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long.parseLong(setRow.get(replaceStr[2])));
+				
+				
+				if( setRow.get(replaceStr[0]).equals("res-all")){
+					lProperty = new D2ItemProperty(1337,
+							(long)thisSetItem.getReqLvl(), thisSetItem.getName());
+					lProperty.set(1337, lItemStatCost, 0, Long
+							.parseLong(setRow.get(replaceStr[3])));
+				}
+				if (! setRow.get(replaceStr[3]).equals("")) {
+					lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
+							.parseLong( setRow.get(replaceStr[3])));
+				}
+
+				if (! setRow.get(replaceStr[1]).equals("")) {
+
+					lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
+							.parseLong( setRow.get(replaceStr[1])));
+				}
+				
+				
+				partialSetProps.add(lProperty);
+				
+//				System.out.println(lProperty.getValue());
+				
+			replaceChar = replaceChar +1;
+		}
+		
+	}
+
+	private void setFullSet(D2Item thisSetItem) {
+		
+
+D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSetItem.getSetName());
+		
+		int replaceChar = 1;
+		
+		String[] replaceStr = new String[4];
+		String codeStr = "";
+		
+		while(replaceStr.length == 4){
+			
+			replaceStr[0] = "FCode" + replaceChar;
+			replaceStr[1] = "FParam" + replaceChar;
+			replaceStr[2] = "FMin" + replaceChar;
+			replaceStr[3] = "FMax" + replaceChar;
+			codeStr= setRow.get(replaceStr[0]);
+			
+			if(codeStr.equals("")){
+				break;
+			}
+			 
+//			 System.out.println(codeStr);
+			
+			//System.out.println((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0]))).get(pKey));
+			
+			String[] propStats = {
+					(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat1"))).get("ID")//,
+				//	(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat2"))).get("ID"),
+				//	(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat3"))).get("ID"),
+				//	(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat4"))).get("ID")
+					};
+
+				
+
+				
+				D2ItemProperty lProperty = new D2ItemProperty(Integer.parseInt(propStats[0]), (long)thisSetItem.getReqLvl(),
+						thisSetItem.getName());
+				
+				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
+				.getRow(lProperty.getPropNrs()[0]);
+				
+				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long.parseLong(setRow.get(replaceStr[2])));
+				
+				
+				if( setRow.get(replaceStr[0]).equals("res-all")){
+					lProperty = new D2ItemProperty(1337,
+							(long)thisSetItem.getReqLvl(), thisSetItem.getName());
+					lProperty.set(1337, lItemStatCost, 0, Long
+							.parseLong(setRow.get(replaceStr[3])));
+				}
+				if (! setRow.get(replaceStr[3]).equals("")) {
+					lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
+							.parseLong( setRow.get(replaceStr[3])));
+				}
+
+				if (! setRow.get(replaceStr[1]).equals("")) {
+
+					lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
+							.parseLong( setRow.get(replaceStr[1])));
+				}
+				
+				
+				fullSetProps.add(lProperty);
+				
+//				System.out.println("FULL: " + lProperty.getValue());
+				
+			replaceChar = replaceChar +1;
+			
+		}
+		
 	}
 
 	private void generateCharStats(){
@@ -574,6 +755,7 @@ public class D2Character extends D2ItemListAdapter
     		out[2] = (1*(iCharStats[3]-15))+(1*(int)(iCharLevel-1)) + 79;
     		out[1] = (2*(iCharStats[1]-25))+(2*(int)(iCharLevel-1)) + 25;
     	}else if(getCharClass().equals("Sorceress")){
+    		
     		out[0] = (2*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 40;
     		out[2] = (1*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 74;
     		out[1] = (2*(iCharStats[1]-35))+(2*(int)(iCharLevel-1)) + 35;
@@ -700,7 +882,52 @@ public class D2Character extends D2ItemListAdapter
     
     public void updateCharStats(String string, D2Item pItem){
     	
-    	if(pItem.isSet()){
+//    	iWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlot
+//    	iCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlot
+    	
+
+    	
+    	if(! pItem.isEquipped()){
+    		return;
+    	}
+    	
+
+
+    	
+    	if(partialSetProps.size() > 0  || fullSetProps.size() > 0){
+    		
+    		ArrayList set = new ArrayList();
+    		
+    		set.addAll(partialSetProps);
+    		set.addAll(fullSetProps);
+    		
+    		for(int y = 0;y<set.size();y=y+1){
+    			
+    		
+    		if(((D2ItemProperty)set.get(y)).getiProp() < 340){
+    			charStatArray[((D2ItemProperty)set.get(y)).getiProp()] = charStatArray[((D2ItemProperty)set.get(y)).getiProp()] - ((D2ItemProperty)set.get(y)).getRealValue();
+    		}else{
+    			if(((D2ItemProperty)set.get(y)).getiProp() == 1337){
+    				//ALL RESISTANCES
+    				charStatArray[39] = charStatArray[39] - ((D2ItemProperty)set.get(y)).getRealValue();
+    				charStatArray[41] = charStatArray[41] - ((D2ItemProperty)set.get(y)).getRealValue();
+    				charStatArray[43] = charStatArray[43] - ((D2ItemProperty)set.get(y)).getRealValue();
+    				charStatArray[45] = charStatArray[45] - ((D2ItemProperty)set.get(y)).getRealValue();
+    				
+    			}else if(((D2ItemProperty)set.get(y)).getiProp() == 1338){
+    				//ALL STATS
+    				charStatArray[0] = charStatArray[0] - ((D2ItemProperty)set.get(y)).getRealValue();
+    				charStatArray[1] = charStatArray[1] - ((D2ItemProperty)set.get(y)).getRealValue();
+    				charStatArray[2] = charStatArray[2] - ((D2ItemProperty)set.get(y)).getRealValue();
+    				charStatArray[3] = charStatArray[3] - ((D2ItemProperty)set.get(y)).getRealValue();
+    			}
+    		} 
+    		
+    		}
+    		
+    	}
+    	
+//    	if(pItem.isSet()){
     		equippedSetItems.clear();
         for(int x = 0;x<iCharItems.size();x=x+1){
         	if(((D2Item)iCharItems.get(x)).isEquipped() && ((D2Item)iCharItems.get(x)).isSet()){
@@ -718,10 +945,20 @@ public class D2Character extends D2ItemListAdapter
     	        if(equippedSetItems.size() > 0){
     	            setSetProps();
     	            }
-    	}
-    	
+//    	}
+//    	07773913719
         if(string.equals("D")){
+        	if(pItem.isTypeArmor()){
+        		charStatArray[338] = charStatArray[338] + pItem.getiDef();
+        	}
+        	
             ArrayList bla = pItem.getAllProps();
+//            System.out.println(testCounter);
+//            testCounter = testCounter +1;
+            bla.addAll(partialSetProps);
+            bla.addAll(fullSetProps);
+//            
+            
             
             
             
@@ -752,7 +989,46 @@ public class D2Character extends D2ItemListAdapter
     }
         	
         }else{
+        	if(pItem.isTypeArmor()){
+        		charStatArray[338] = charStatArray[338] - pItem.getiDef();
+        	}
+        	
+        	if(partialSetProps.size() > 0  || fullSetProps.size() > 0){
+        		
+        		ArrayList set = new ArrayList();
+        		
+        		set.addAll(partialSetProps);
+        		set.addAll(fullSetProps);
+        		
+        		for(int y = 0;y<set.size();y=y+1){
+        			
+        		
+        		if(((D2ItemProperty)set.get(y)).getiProp() < 340){
+        			charStatArray[((D2ItemProperty)set.get(y)).getiProp()] = charStatArray[((D2ItemProperty)set.get(y)).getiProp()] + ((D2ItemProperty)set.get(y)).getRealValue();
+        		}else{
+        			if(((D2ItemProperty)set.get(y)).getiProp() == 1337){
+        				//ALL RESISTANCES
+        				charStatArray[39] = charStatArray[39] + ((D2ItemProperty)set.get(y)).getRealValue();
+        				charStatArray[41] = charStatArray[41] + ((D2ItemProperty)set.get(y)).getRealValue();
+        				charStatArray[43] = charStatArray[43] + ((D2ItemProperty)set.get(y)).getRealValue();
+        				charStatArray[45] = charStatArray[45] + ((D2ItemProperty)set.get(y)).getRealValue();
+        				
+        			}else if(((D2ItemProperty)set.get(y)).getiProp() == 1338){
+        				//ALL STATS
+        				charStatArray[0] = charStatArray[0] + ((D2ItemProperty)set.get(y)).getRealValue();
+        				charStatArray[1] = charStatArray[1] + ((D2ItemProperty)set.get(y)).getRealValue();
+        				charStatArray[2] = charStatArray[2] + ((D2ItemProperty)set.get(y)).getRealValue();
+        				charStatArray[3] = charStatArray[3] + ((D2ItemProperty)set.get(y)).getRealValue();
+        			}
+        		} 
+        		
+        		}
+        		
+        	}
+        	
             ArrayList bla = pItem.getAllProps();
+//            bla.addAll(partialSetProps);
+//            bla.addAll(fullSetProps);
         	for(int y = 0;y<bla.size();y=y+1){
         		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
         			charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
@@ -786,13 +1062,22 @@ public class D2Character extends D2ItemListAdapter
         int[] manaHpStam = setHPManaStam();
         
 //        iCharStats[7] =(manaHpStam[0] + charStatArray[7])+(charStatArray[216]*(int)iCharLevel);
+        
+//        System.out.println("LIFE: " +(manaHpStam[1] + charStatArray[9]/*+ (int)Math.floor((charStatArray[217] * 0.125)*(int)iCharLevel)*/));
+//        System.out.println("CHAR STAT ARRAY: ")
         iCharStats[7] = ((int)Math.floor(((double)(manaHpStam[0] + charStatArray[7])/(double)100) * charStatArray[76]))+(manaHpStam[0] + charStatArray[7])+ (int)Math.floor((charStatArray[216] * 0.125)*(int)iCharLevel);
 //        iCharStats
+        
+//        OFF ARMOR DEF
         iCharStats[9] = ((int)Math.floor(((double)(manaHpStam[1] + charStatArray[9])/(double)100) * charStatArray[77]))+(manaHpStam[1] + charStatArray[9])+(int)Math.floor((charStatArray[217]* 0.125)*(int)iCharLevel);
         iCharStats[11] = (manaHpStam[2] + charStatArray[11])+(charStatArray[242]*(int)iCharLevel);
 
+//        Sorceress: (1 * 85 + 2 * 311 + 19 + 177) * (1 + 0/100) + 2 * 54 + 127
+
+//        Sorceress: (1 * 85 + 2 * 311 + 19 + (50)) * (1 + 0/100) + 2 * 54 + 127
+//(1 * 85 + 2 * 311 + 19 + (50)) * (1 + 0/100) + 2 * 52 + 127
 //        iInitStats[16] =
-        iCharStats[16] = ( (int)(Math.floor((double)iCharStats[2]/(double)4))) + calcCharArmor();
+        iCharStats[16] = ( (int)(Math.floor((double)iCharStats[2]/(double)4))) + charStatArray[338];
 //       System.out.println("DEXARM: "+ ( (int)(Math.floor((double)iCharStats[2]/(double)4))));
 //       System.out.println("ARM: " + calcCharArmor());
 //       System.out.println()
@@ -809,12 +1094,21 @@ public class D2Character extends D2ItemListAdapter
     	    	
 //    	iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
 //    	iCharStats[16] = (int)calcCharArmor() + (int)(Math.floor((double)iCharStats[2]/(double)4));
+    	
         //16 is DEF
         //17 AR
         //18 FR
         ///19 CR
         //20 LR
         //21 PR
+    	
+//    	System.out.println("START");
+//    	
+//    	for(int x = 0;x<partialSetProps.size();x=x+1){
+//    		
+//    		
+//    		System.out.println(((D2ItemProperty)partialSetProps.get(x)).getValue());
+//    	}
     		
     		
     }

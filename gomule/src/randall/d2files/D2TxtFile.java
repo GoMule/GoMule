@@ -53,6 +53,7 @@ public class D2TxtFile
     public static Properties GOMULE_PROPS;
     public static D2TxtFile PROPS;
     public static D2TxtFile HIRE;
+    public static D2TxtFile FULLSET;
     
     /**
      * DROP CALC
@@ -92,6 +93,7 @@ public class D2TxtFile
         LEVELS = new D2TxtFile("Levels");
         SUPUNIQ = new D2TxtFile("SuperUniques");
         HIRE = new D2TxtFile("Hireling");
+        FULLSET = new D2TxtFile("Sets");
 
         GOMULE_PROPS = new Properties();
         try

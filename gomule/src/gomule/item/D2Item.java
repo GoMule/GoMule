@@ -740,7 +740,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 			D2TxtFileItemProperties lSet = D2TxtFile.SETITEMS.getRow(set_id);
 			iItemName = D2TblFile.getString(lSet.get("index"));
-			iSetName = D2TblFile.getString(lSet.get("set"));
+			iSetName = lSet.get("set");
 			
 			setSize = (D2TxtFile.SETITEMS.searchColumnsMultipleHits("set", iSetName)).size();
 			
@@ -2707,7 +2707,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 			iSetProps.clear();
 		}else if(numItems == 1){
 			iSetProps.clear();
-		}else*/ if(numItems == 2){
+			
+			
+		}else*/
+		
+		if(numItems == 2){
 			iSetProps.addAll(iSet1);
 		}else if(numItems == 3){
 			iSetProps.addAll(iSet1);
@@ -2722,9 +2726,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 			iSetProps.addAll(iSet3);
 			iSetProps.addAll(iSet4);
 		}
-		for(int x =0;x<iSetProps.size();x=x+1){
-		System.out.println(numItems + "  VAL: "+((D2ItemProperty)iSetProps.get(x)).getValue());
-		}
+//		for(int x =0;x<iSetProps.size();x=x+1){
+//		System.out.println(numItems + "  VAL: "+((D2ItemProperty)iSetProps.get(x)).getValue());
+//		}
 		
 		
 			if (isTypeArmor()) {
@@ -2733,8 +2737,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 	}
 	
+
+
 	public int getSetID(){
 		return (int)set_id;
+	}
+	
+
+	public int getSetSize(){
+		return setSize;
 	}
 
 	public String getSetName() {
