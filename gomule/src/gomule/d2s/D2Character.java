@@ -123,7 +123,7 @@ public class D2Character extends D2ItemListAdapter
 	private int iMercPoisRes;
 	private int iMercLightRes;
 	public int[] mercStatArray = new int[338];
-	public int[] charStatArray = new int[339];
+	public int[] charStatArray = new int[340];
 	private ArrayList partialSetProps = new ArrayList();
 	private ArrayList fullSetProps = new ArrayList();
 	private int iCurWepSlot = 1;
@@ -894,6 +894,8 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
 
 
     	
+    	
+    	
     	if(partialSetProps.size() > 0  || fullSetProps.size() > 0){
     		
     		ArrayList set = new ArrayList();
@@ -902,6 +904,15 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
     		set.addAll(fullSetProps);
     		
     		for(int y = 0;y<set.size();y=y+1){
+    			
+    			if(!pItem.isTypeArmor()){
+    			if(((D2ItemProperty)set.get(y)).getiProp() == 31){   				
+    				charStatArray[338] = charStatArray[338] - ((D2ItemProperty)set.get(y)).getRealValue();
+    			}
+    			if(((D2ItemProperty)set.get(y)).getiProp() == 16){
+    				charStatArray[339] = charStatArray[339] - ((D2ItemProperty)set.get(y)).getRealValue();
+    			}
+    			}
     			
     		
     		if(((D2ItemProperty)set.get(y)).getiProp() < 340){
@@ -968,6 +979,16 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
 //        			System.out.println(pItem.getName());
 //        		}
         		
+    			if(!pItem.isTypeArmor()){
+        			if(((D2ItemProperty)bla.get(y)).getiProp() == 31){   				
+        				charStatArray[338] = charStatArray[338] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        			}
+        			if(((D2ItemProperty)bla.get(y)).getiProp() == 16){
+        				charStatArray[339] = charStatArray[339] + ((D2ItemProperty)bla.get(y)).getRealValue();
+        			}
+        			}
+        		
+
         		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
         			charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
         		}else{
@@ -1002,6 +1023,14 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
         		
         		for(int y = 0;y<set.size();y=y+1){
         			
+        			if(!pItem.isTypeArmor()){
+            			if(((D2ItemProperty)set.get(y)).getiProp() == 31){   				
+            				charStatArray[338] = charStatArray[338] + ((D2ItemProperty)set.get(y)).getRealValue();
+            			}
+            			if(((D2ItemProperty)set.get(y)).getiProp() == 16){
+            				charStatArray[339] = charStatArray[339] + ((D2ItemProperty)set.get(y)).getRealValue();
+            			}
+            			}
         		
         		if(((D2ItemProperty)set.get(y)).getiProp() < 340){
         			charStatArray[((D2ItemProperty)set.get(y)).getiProp()] = charStatArray[((D2ItemProperty)set.get(y)).getiProp()] + ((D2ItemProperty)set.get(y)).getRealValue();
@@ -1030,6 +1059,16 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
 //            bla.addAll(partialSetProps);
 //            bla.addAll(fullSetProps);
         	for(int y = 0;y<bla.size();y=y+1){
+        		
+    			if(!pItem.isTypeArmor()){
+        			if(((D2ItemProperty)bla.get(y)).getiProp() == 31){   				
+        				charStatArray[338] = charStatArray[338] - ((D2ItemProperty)bla.get(y)).getRealValue();
+        			}
+        			if(((D2ItemProperty)bla.get(y)).getiProp() == 16){
+        				charStatArray[339] = charStatArray[339] - ((D2ItemProperty)bla.get(y)).getRealValue();
+        			}
+        			}
+        		
         		if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
         			charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
         		
@@ -1077,7 +1116,7 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
 //        Sorceress: (1 * 85 + 2 * 311 + 19 + (50)) * (1 + 0/100) + 2 * 54 + 127
 //(1 * 85 + 2 * 311 + 19 + (50)) * (1 + 0/100) + 2 * 52 + 127
 //        iInitStats[16] =
-        iCharStats[16] = ( (int)(Math.floor((double)iCharStats[2]/(double)4))) + charStatArray[338];
+        iCharStats[16] = (int)(Math.floor((((double)((int)(Math.floor((double)iCharStats[2]/(double)4))) + charStatArray[338])/(double)100)*charStatArray[339])) + (((int)(Math.floor((double)iCharStats[2]/(double)4))) + charStatArray[338]);
 //       System.out.println("DEXARM: "+ ( (int)(Math.floor((double)iCharStats[2]/(double)4))));
 //       System.out.println("ARM: " + calcCharArmor());
 //       System.out.println()
