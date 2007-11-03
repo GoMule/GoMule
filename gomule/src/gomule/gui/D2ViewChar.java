@@ -28,6 +28,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.text.JTextComponent;
 
 import randall.util.*;
 
@@ -88,6 +89,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     private D2FileManager            iFileManager;
 
     private int                      iWeaponSlot      = 1;
+    private int						 iSkillSlot = 0;
 
     private JTextField               iGold;
     private JTextField               iGoldBank;
@@ -134,6 +136,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private JLabel iCharColdRes = new JLabel("");
 	private JLabel iCharPoisRes = new JLabel("");
 	private JLabel iCharMF = new JLabel("");
+	private JLabel iCharFRW = new JLabel("");
+	private D2SkillPainterPanel lQuestPanel;
+	private D2SkillPainterPanel lSkillPanel;
 
 
     public D2ViewChar(D2FileManager pMainFrame, String pFileName)
@@ -166,15 +171,23 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         lStatPanel.setLayout(new BorderLayout());
         lTabs.addTab("Stats", lStatPanel);
         Box charMainBox = Box.createHorizontalBox();
+        Box charMainBox2 = Box.createHorizontalBox();
+//        charMainBox.setLayout(new )
         Box charStatsBox = Box.createHorizontalBox();
         Box charLabelBox = Box.createVerticalBox();
         Box charValueBox = Box.createVerticalBox();
         
+        lSkillPanel = new D2SkillPainterPanel();
+       
         charMainBox.add(charStatsBox);
+//        charMainBox.add(Box.createRigidArea(new Dimension(80,0)));
+        charMainBox2.add(lSkillPanel);
+        
         charStatsBox.add(charLabelBox);
         charStatsBox.add(Box.createRigidArea(new Dimension(10,0)));
         charStatsBox.add(charValueBox);
-        lStatPanel.add(charMainBox);
+        lStatPanel.add(charMainBox, BorderLayout.LINE_START);
+        lStatPanel.add(charMainBox2, BorderLayout.LINE_END);
         
         charLabelBox.add(new JLabel("Name: "));
         charLabelBox.add(new JLabel("Class: "));
@@ -198,6 +211,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         charLabelBox.add(new JLabel("Cold: "));
         charLabelBox.add(new JLabel("Poision: "));
         charLabelBox.add(new JLabel("MF: "));
+        charLabelBox.add(new JLabel("FR/W: "));
         charLabelBox.add(Box.createRigidArea(new Dimension(0,50)));
         
         charValueBox.add(iCharName);
@@ -222,6 +236,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         charValueBox.add(iCharColdRes);
         charValueBox.add(iCharPoisRes);
         charValueBox.add(iCharMF);
+        charValueBox.add(iCharFRW);
         charValueBox.add(Box.createRigidArea(new Dimension(0,50)));
         
         
@@ -480,7 +495,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     }
     
     public void paintCharStats() {
-    	iCharName.setText(iCharacter.getCharName());
+    	
+    	String nStr = iCharacter.getCharName();
+//    	for(int x = 0;x<17 + (14-iCharacter.getCharName().length());x=x+1){
+//    		nStr = nStr + "_";
+//    		System.out.println(x);
+//    	}
+		iCharName.setText(nStr);
     	iCharClass.setText(iCharacter.getCharClass());
     	iCharExp.setText(Long.toString(iCharacter.getCharExp()));
     	iCharLevel.setText(Integer.toString(iCharacter.getCharLevel()));
@@ -500,7 +521,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     	iCharLightRes.setText(Integer.toString(iCharacter.getCharInitLightRes())+"/"+Integer.toString(iCharacter.getCharLightRes()));
     	iCharColdRes.setText(Integer.toString(iCharacter.getCharInitColdRes())+"/"+Integer.toString(iCharacter.getCharColdRes()));
     	iCharPoisRes.setText(Integer.toString(iCharacter.getCharInitPoisRes())+"/"+Integer.toString(iCharacter.getCharPoisRes()));
+    	
+    	iCharFireRes.setText(Integer.toString(iCharacter.getCharFireRes())+"/"+Integer.toString(iCharacter.getCharFireRes()-40)+"/"+Integer.toString(iCharacter.getCharFireRes()-100));
+    	iCharLightRes.setText(Integer.toString(iCharacter.getCharLightRes())+"/"+Integer.toString(iCharacter.getCharLightRes()-40)+"/"+Integer.toString(iCharacter.getCharLightRes()-100));
+    	iCharColdRes.setText(Integer.toString(iCharacter.getCharColdRes())+"/"+Integer.toString(iCharacter.getCharColdRes()-40)+"/"+Integer.toString(iCharacter.getCharColdRes()-100));
+    	iCharPoisRes.setText(Integer.toString(iCharacter.getCharPoisRes())+"/"+Integer.toString(iCharacter.getCharPoisRes()-40)+"/"+Integer.toString(iCharacter.getCharPoisRes()-100));
+    	
+    	
     	iCharMF.setText(Integer.toString(iCharacter.getCharMF()));
+    	iCharFRW.setText(Integer.toString(iCharacter.getCharFRW()));
 		
 	}
     
@@ -517,6 +546,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	        paintMercStats();
 	        paintCharStats();
+	        lSkillPanel.build();
 	        
 	        iGold.setText(Integer.toString(iCharacter.getGold()));
 	        iGoldMax.setText(Integer.toString(iCharacter.getGoldMax()));
@@ -1719,6 +1749,317 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
             Graphics2D lGraphics = (Graphics2D) pGraphics;
 
             lGraphics.drawImage(iBackground, 0, 0, D2MercPainterPanel.this);
+        }
+    }
+    
+    class D2SkillPainterPanel extends JPanel
+    {
+        private Image iBackground;
+		private Image lEmptyBackground;
+
+        public D2SkillPainterPanel()
+        {
+            setSize(284, 383);
+            Dimension lSize = new Dimension(284, 383);
+            setPreferredSize(lSize);
+//            this.build();
+            
+            addMouseListener(new MouseAdapter()
+            {
+                public void mouseReleased(MouseEvent pEvent)
+                {
+                    if ( iCharacter == null )
+                    {
+                        return;
+                    }
+                    //                    System.err.println("Mouse Clicked: " + pEvent.getX() + ",
+                    // " + pEvent.getY() );
+                    if (pEvent.getButton() == MouseEvent.BUTTON1 /*
+                                                                  * &&
+                                                                  * pEvent.getClickCount() ==
+                                                                  * 1
+                                                                  */)
+                    {
+                        int lX = pEvent.getX();
+                        int lY = pEvent.getY();
+                        if ((lX >= 208 && lX <= 283)  && (lY >= 300 && lY <= 388))
+                        {
+                            setSkillSlot(0);
+                        }
+                        else if ((lX >= 208 && lX <= 283) && (lY >= 201 && lY <= 291))
+                        {
+                        	setSkillSlot(1);
+                        }else if ((lX >= 208 && lX <= 283) && (lY >= 100 && lY <= 192))
+                        {
+                        	setSkillSlot(2);
+                        }
+                        // determine where the mouse click is
+                    }
+                }
+
+
+
+				private void setSkillSlot(int i) {
+
+					iSkillSlot = i;
+					build();
+				}
+
+
+
+				public void mouseEntered(MouseEvent e)
+                {
+                    setCursorNormal();
+                }
+
+                public void mouseExited(MouseEvent e)
+                {
+                    setCursorNormal();
+                }
+            });
+            
+//            addMouseMotionListener(new MouseMotionAdapter()
+//            {
+//            public void mouseMoved(MouseEvent pEvent)
+//            {
+//            	System.out.println(pEvent.getX()  + " , " + pEvent.getY());
+//            }
+//            });
+        }
+
+        public void build()
+        {
+        	
+        	
+        	switch((int)iCharacter.getCharCode()){
+        	
+
+            case 0:
+    			switch(iSkillSlot){
+    			case 0:
+    				 lEmptyBackground = D2ImageCache.getImage("AmaArr.png");
+    				break;
+    			case 1:
+    				 lEmptyBackground = D2ImageCache.getImage("AmaPass.png");
+    				break;
+    			case 2:
+    				 lEmptyBackground = D2ImageCache.getImage("AmaJav.png");
+    				break;
+    			
+    			}
+//                 cClass = "ama"; 
+                 break;
+            case 1:
+    			switch(iSkillSlot){
+    			case 0:
+    				 lEmptyBackground = D2ImageCache.getImage("SorFir.png");
+    				break;
+    			case 1:
+    				 lEmptyBackground = D2ImageCache.getImage("SorLig.png");
+    				break;
+    			case 2:
+    				 lEmptyBackground = D2ImageCache.getImage("SorCol.png");
+    				break;
+    			
+    			}
+//            	cClass = "sor";
+            	break;
+            case 2:
+    			switch(iSkillSlot){
+    			case 0:
+    				 lEmptyBackground = D2ImageCache.getImage("NecCur.png");
+    				break;
+    			case 1:
+    				 lEmptyBackground = D2ImageCache.getImage("NecPoi.png");
+    				break;
+    			case 2:
+    				 lEmptyBackground = D2ImageCache.getImage("NecSum.png");
+    				break;
+    			
+    			}
+//            	cClass = "nec";
+            	break;
+            case 3:
+    			switch(iSkillSlot){
+    			case 0:
+    				 lEmptyBackground = D2ImageCache.getImage("PalCom.png");
+    				break;
+    			case 1:
+    				 lEmptyBackground = D2ImageCache.getImage("PalOff.png");
+    				break;
+    			case 2:
+    				 lEmptyBackground = D2ImageCache.getImage("PalDef.png");
+    				break;
+    			
+    			}
+//            	cClass = "pal";
+            	break;
+            case 4:
+    			switch(iSkillSlot){
+    			case 0:
+    				 lEmptyBackground = D2ImageCache.getImage("BarCom.png");
+    				break;
+    			case 1:
+    				 lEmptyBackground = D2ImageCache.getImage("BarMas.png");
+    				break;
+    			case 2:
+    				 lEmptyBackground = D2ImageCache.getImage("BarWar.png");
+    				break;
+    			
+    			}
+//            	cClass = "bar";
+            	break;
+            case 5:
+    			switch(iSkillSlot){
+    			case 0:
+    				 lEmptyBackground = D2ImageCache.getImage("DruSum.png");
+    				break;
+    			case 1:
+    				 lEmptyBackground = D2ImageCache.getImage("DruSha.png");
+    				break;
+    			case 2:
+    				 lEmptyBackground = D2ImageCache.getImage("DruEle.png");
+    				break;
+    			
+    			}
+//            	cClass = "dru";
+            	break;
+            case 6:
+    			switch(iSkillSlot){
+    			case 0:
+    				 lEmptyBackground = D2ImageCache.getImage("AssTra.png");
+    				break;
+    			case 1:
+    				 lEmptyBackground = D2ImageCache.getImage("AssSha.png");
+    				break;
+    			case 2:
+    				 lEmptyBackground = D2ImageCache.getImage("AssMar.png");
+    				break;
+    			
+    			}
+//            	cClass = "ass";
+            	break;
+
+        	
+        	}
+        	
+
+        	
+//            lEmptyBackground = D2ImageCache.getImage("AmaArr.png");
+
+            int lWidth = lEmptyBackground.getWidth(D2SkillPainterPanel.this);
+            int lHeight = lEmptyBackground.getHeight(D2SkillPainterPanel.this);
+            
+            iBackground = iFileManager.getGraphicsConfiguration().createCompatibleImage(lWidth, lHeight, Transparency.BITMASK);
+//            iBackground = new BufferedImage(lEmptyBackground.getWidth(lWidth, lHeight, BufferedImage.TYPE_3BYTE_BGR);
+
+            Graphics2D lGraphics = (Graphics2D) iBackground.getGraphics();
+
+            lGraphics.drawImage(lEmptyBackground, 0, 0, D2SkillPainterPanel.this);
+            
+            if(iCharacter != null){
+            drawText(lGraphics, iSkillSlot);
+            
+            }
+//            if ( iCharacter != null )
+//            {
+//	            for (int i = 0; i < iCharacter.getMercItemNr(); i++)
+//	            {
+//	                D2Item temp_item = iCharacter.getMercItem(i);
+//	                Image lImage = D2ImageCache.getDC6Image(temp_item);
+//	                int location = temp_item.get_location();
+//	                // on the body
+//	                {
+//	                    int body_position = temp_item.get_body_position();
+//	                    int w, h, wbias, hbias;
+//	                    switch (body_position)
+//	                    {
+//	                    // head (assume 2x2)
+//	                    case 1:
+//	                        lGraphics.drawImage(lImage, HEAD_X, HEAD_Y, D2SkillPainterPanel.this);
+//	                        break;
+//	                    case 3:
+//	                        // body (assume 2x3
+//	                        lGraphics.drawImage(lImage, BODY_X, BODY_Y, D2SkillPainterPanel.this);
+//	                        break;
+//	                    // right arm (give the whole 2x4)
+//	                    // biases are to center non-2x4 items
+//	                    case 4:
+//	                        if ((iWeaponSlot == 1 && body_position == 4) || (iWeaponSlot == 2 && body_position == 11))
+//	                        {
+//	                            w = temp_item.get_width();
+//	                            h = temp_item.get_height();
+//	                            wbias = 0;
+//	                            hbias = 0;
+//	                            if (w == 1)
+//	                                wbias += GRID_SIZE / 2;
+//	                            if (h == 3)
+//	                                hbias += GRID_SIZE / 2;
+//	                            else if (h == 2)
+//	                                hbias += GRID_SIZE;
+//	                            lGraphics.drawImage(lImage, R_ARM_X + wbias, R_ARM_Y + hbias, D2SkillPainterPanel.this);
+//	                        }
+//	                        break;
+//	                    // left arm (give the whole 2x4)
+//	                    case 5:
+//	                        if ((iWeaponSlot == 1 && body_position == 5) || (iWeaponSlot == 2 && body_position == 12))
+//	                        {
+//	                            w = temp_item.get_width();
+//	                            h = temp_item.get_height();
+//	                            wbias = 0;
+//	                            hbias = 0;
+//	                            if (w == 1)
+//	                                wbias += GRID_SIZE / 2;
+//	                            if (h == 3)
+//	                                hbias += GRID_SIZE / 2;
+//	                            else if (h == 2)
+//	                                hbias += GRID_SIZE;
+//	                            lGraphics.drawImage(lImage, L_ARM_X + wbias, L_ARM_Y + hbias, D2SkillPainterPanel.this);
+//	                        }
+//	                        break;
+//	                    }
+//	                }
+//	            }
+//            }
+            repaint();
+        }
+
+        private void drawText(Graphics2D lGraphics, int skillSlot) {
+        	
+        	
+			switch(iSkillSlot){
+			case 0:
+	        	lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
+	        	for(int x = 0;x<10;x=x+1){
+	        		lGraphics.drawString(iCharacter.getSkillListA().get(x).toString(),iCharacter.getSkillLocs()[x].x , iCharacter.getSkillLocs()[x].y);
+	        	}
+				break;
+			case 1:
+	        	lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
+	        	for(int x = 0;x<10;x=x+1){
+	        		lGraphics.drawString(iCharacter.getSkillListB().get(x).toString(),iCharacter.getSkillLocs()[x+10].x , iCharacter.getSkillLocs()[x+10].y);
+	        	}
+				break;
+			case 2:
+	        	lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
+	        	for(int x = 0;x<10;x=x+1){
+	        		lGraphics.drawString(iCharacter.getSkillListC().get(x).toString(),iCharacter.getSkillLocs()[x+20].x , iCharacter.getSkillLocs()[x+20].y);
+//	        		lGraphics.drawString(iCharacter.getSkillListB().get(x).toString(),iCharacter.getSkillLocs()[x+10].x , iCharacter.getSkillLocs()[x+10].y);
+	        	}
+				break;
+			
+			}
+        	
+
+        	
+		}
+
+		public void paint(Graphics pGraphics)
+        {
+            super.paint(pGraphics);
+            Graphics2D lGraphics = (Graphics2D) pGraphics;
+
+            lGraphics.drawImage(iBackground, 0, 0, D2SkillPainterPanel.this);
         }
     }
 

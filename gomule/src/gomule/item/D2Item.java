@@ -1041,6 +1041,21 @@ public class D2Item implements Comparable, D2ItemInterface {
 			
 		}
 		
+		
+		
+		if(cleanArr.contains(new Integer(24)) && cleanArr.contains(new Integer(22))&& cleanArr.contains(new Integer(160))){
+			iProperties.remove(cleanArr.indexOf(new Integer (160)));
+			cleanArr.remove(new Integer(160));
+			iProperties.remove(cleanArr.indexOf(new Integer (24)));
+			cleanArr.remove(new Integer(24));
+			}
+		if(cleanArr.contains(new Integer(23)) && cleanArr.contains(new Integer(21))&& cleanArr.contains(new Integer(159))){
+			iProperties.remove(cleanArr.indexOf(new Integer (159)));
+			cleanArr.remove(new Integer(159));
+			iProperties.remove(cleanArr.indexOf(new Integer (23)));
+			cleanArr.remove(new Integer(23));
+		}
+		
 		if(cleanArr.contains(new Integer(24)) && cleanArr.contains(new Integer(22))){
 			iProperties.remove(cleanArr.indexOf(new Integer (24)));
 			cleanArr.remove(new Integer(24));
@@ -1055,9 +1070,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 			lProperty.set(21, ((D2ItemProperty)iProperties.get(cleanArr.indexOf(new Integer(23)))).getItemStatCost(),((D2ItemProperty)iProperties.get(cleanArr.indexOf(new Integer(23)))).getBitSet() , ((D2ItemProperty)iProperties.get(cleanArr.indexOf(new Integer(23)))).getRealValue());
 			iProperties.remove(cleanArr.indexOf(new Integer(23)));
 			iProperties.add(cleanArr.indexOf(new Integer(23)), lProperty);
-			
-
-			
 		}
 		
 		if(cleanArr.contains(new Integer(24))){

@@ -25,6 +25,7 @@ import gomule.gui.*;
 import gomule.item.*;
 import gomule.util.*;
 
+import java.awt.Point;
 import java.io.*;
 import java.util.*;
 
@@ -85,6 +86,10 @@ public class D2Character extends D2ItemListAdapter
     private String			iCharName;
     private String          iTitleString;
     private long			iCharLevel;
+    private ArrayList			iCharSkillsA = new ArrayList();
+    private ArrayList			iCharSkillsB = new ArrayList();
+    private ArrayList			iCharSkillsC = new ArrayList();
+    private Point[] iSkillLocs = new Point[30];
     
     //16 is DEF
     //17 AR
@@ -93,8 +98,9 @@ public class D2Character extends D2ItemListAdapter
     //20 LR
     //21 PR
     //22 MF
-    private int				iInitStats[] = new int[23];
-    private int				iCharStats[] = new int[23];
+    //23 F/RW
+    private int				iInitStats[] = new int[24];
+    private int				iCharStats[] = new int[24];
     private int				iGF; 
     private int				iIF;
 	private String iMercName = " ";
@@ -132,6 +138,7 @@ public class D2Character extends D2ItemListAdapter
 	private String iCharClass;
 	private ArrayList equippedSetItems = new ArrayList();
 	private int[] iReadStats = new int[16];
+	private long lCharCode;
     
     public D2Character(String pFileName) throws Exception
     {
@@ -285,7 +292,7 @@ public class D2Character extends D2ItemListAdapter
         //        System.err.println("Char Title (?): " + lCharTitle );
 
         iReader.set_byte_pos(40);
-        long lCharCode = iReader.read(8);
+        lCharCode = iReader.read(8);
         //        System.err.println("Char Class: " + getCharacterCode((int) lCharCode)
         // );
 
@@ -375,6 +382,7 @@ public class D2Character extends D2ItemListAdapter
         // (it can read integers unaligned to bytes which is needed here) 
         iReader.set_byte_pos(iGF);
         byte lInitialBytes[] = iReader.get_bytes(iIF - iGF);
+//        System.out.println(iIF - iGF);
         D2FileReader lReader = new D2FileReader(lInitialBytes);
         if ( lReader.getCounterInt(8) != 103 )
         {
@@ -420,6 +428,14 @@ public class D2Character extends D2ItemListAdapter
                 throw new Exception("Stats writer check at reading: incorrect byte at nr: " + i);
             }
         }
+        
+        
+        readSkills();
+        
+        
+        
+//        System.out.println(iReader.getByte());
+       
         
         iStashGrid = new boolean[8][6];
         iInventoryGrid = new boolean[4][10];
@@ -479,7 +495,336 @@ public class D2Character extends D2ItemListAdapter
 
     }
     
-    private void setSetProps() {
+    private void readSkills() {
+		
+    	String cClass = "";
+    	
+    	switch((int)lCharCode){
+    	
+
+        case 0:
+             cClass = "ama";
+             
+             break;
+        case 1:
+        	cClass = "sor";
+        	break;
+        case 2:
+        	cClass = "nec";
+        	break;
+        case 3:
+        	cClass = "pal";
+        	break;
+        case 4:
+        	cClass = "bar";
+        	break;
+        case 5:
+        	cClass = "dru";
+        	break;
+        case 6:
+        	cClass = "ass";
+        	break;
+
+    	
+    	}
+    	
+//    	System.out.println(cClass);
+    	generateSkillLocs();
+    	D2TxtFileItemProperties initRow = D2TxtFile.SKILLS.searchColumns("charclass", cClass);
+    	System.out.println(initRow.get("skill"));
+    	
+    	iReader.set_byte_pos(iIF);
+      byte skillInitialBytes[] = iReader.get_bytes(32);
+      D2FileReader skillReader = new D2FileReader(skillInitialBytes);
+     skillReader.getCounterInt(8);
+     skillReader.getCounterInt(8);
+     int tree = 0;
+     for(int x =0;x<30;x=x+1){
+    	 tree = Integer.parseInt((D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(initRow.getRowNum() + x).get("skilldesc"))).get("SkillPage"));
+//    	 System.out.println(tree);
+    	 switch (tree){
+    	 
+    	 case 1:
+    		 iCharSkillsA.add(new Integer(skillReader.getCounterInt(8)));
+//    		 iCharSkillsA.add(new Integer(20));
+
+    		 break;
+    		 
+    	 case 2:
+    		 iCharSkillsB.add(new Integer(skillReader.getCounterInt(8)));
+//    		 iCharSkillsB.add(new Integer(20));
+    		 break;
+    		 
+    	 case 3:
+    		 iCharSkillsC.add(new Integer(skillReader.getCounterInt(8)));
+//    		 iCharSkillsC.add(new Integer(20));
+    		 break;
+    	 
+    	 }
+    	 
+//      System.out.println(skillReader.getCounterInt(8) + " , " + tree);
+     }
+     	
+		
+	}
+
+	private void generateSkillLocs() {
+		
+    	switch((int)lCharCode){
+    	
+
+        case 0:
+//          cClass = "ama";
+            iSkillLocs[0] = new Point(112,64);
+            iSkillLocs[1] = new Point(173,64); 
+            iSkillLocs[2] = new Point(50,125); 
+            iSkillLocs[3] = new Point(112,125); 
+            iSkillLocs[4] = new Point(173,187); 
+            iSkillLocs[5] = new Point(50,248); 
+            iSkillLocs[6] = new Point(112,248); 
+            iSkillLocs[7] = new Point(112,307); 
+            iSkillLocs[8] = new Point(173,307); 
+            iSkillLocs[9] = new Point(50,370);
+            
+            iSkillLocs[10] = new Point(50,64); 
+            iSkillLocs[11] = new Point(173,64); 
+            iSkillLocs[12] = new Point(112,125); 
+            iSkillLocs[13] = new Point(50,187); 
+            iSkillLocs[14] = new Point(112,187); 
+            iSkillLocs[15] = new Point(173,248); 
+            iSkillLocs[16] = new Point(50,307); 
+            iSkillLocs[17] = new Point(112,307); 
+            iSkillLocs[18] = new Point(50,370); 
+            iSkillLocs[19] = new Point(173,370); 
+              
+            iSkillLocs[20] = new Point(50,64); 
+            iSkillLocs[21] = new Point(112,125); 
+            iSkillLocs[22] = new Point(173,125); 
+            iSkillLocs[23] = new Point(50,187); 
+            iSkillLocs[24] = new Point(173,187); 
+            iSkillLocs[25] = new Point(112,248); 
+            iSkillLocs[26] = new Point(173,248); 
+            iSkillLocs[27] = new Point(50,307); 
+            iSkillLocs[28] = new Point(112,370); 
+            iSkillLocs[29] = new Point(173,370); 
+             break;
+        case 1:
+//        	cClass = "sor";
+            iSkillLocs[0] = new Point(112,64);
+            iSkillLocs[1] = new Point(173,64); 
+            iSkillLocs[2] = new Point(50,125); 
+            iSkillLocs[3] = new Point(50,187);
+            iSkillLocs[4] = new Point(112,187);
+            iSkillLocs[5] = new Point(50,248); 
+            iSkillLocs[6] = new Point(173,248); 
+            iSkillLocs[7] = new Point(112,307); 
+            iSkillLocs[8] = new Point(112,370); 
+            iSkillLocs[9] = new Point(173,370); 
+            
+            iSkillLocs[10] = new Point(112,64); 
+            iSkillLocs[11] = new Point(50,125); 
+            iSkillLocs[12] = new Point(173,125); 
+            iSkillLocs[13] = new Point(50,187); 
+            iSkillLocs[14] = new Point(112,187); 
+            iSkillLocs[15] = new Point(112,248); 
+            iSkillLocs[16] = new Point(173,248); 
+            iSkillLocs[17] = new Point(50,307); 
+            iSkillLocs[18] = new Point(173,307); 
+            iSkillLocs[19] = new Point(112,370); 
+              
+            iSkillLocs[20] = new Point(112,64); 
+            iSkillLocs[21] = new Point(173,64); 
+            iSkillLocs[22] = new Point(50,125); 
+            iSkillLocs[23] = new Point(112,125); 
+            iSkillLocs[24] = new Point(173,187); 
+            iSkillLocs[25] = new Point(112,248); 
+            iSkillLocs[26] = new Point(50,307); 
+            iSkillLocs[27] = new Point(173,307); 
+            iSkillLocs[28] = new Point(50,370); 
+            iSkillLocs[29] = new Point(112,370); 
+        	break;
+        case 2:
+//        	cClass = "nec";
+            iSkillLocs[0] = new Point(112,64);
+            iSkillLocs[1] = new Point(50,125); 
+            iSkillLocs[2] = new Point(173,125); 
+            iSkillLocs[3] = new Point(112,187);
+            iSkillLocs[4] = new Point(173,187);
+            iSkillLocs[5] = new Point(50,248); 
+            iSkillLocs[6] = new Point(112,248); 
+            iSkillLocs[7] = new Point(50,307); 
+            iSkillLocs[8] = new Point(173,307); 
+            iSkillLocs[9] = new Point(112,370); 
+            
+            iSkillLocs[10] = new Point(112,64); 
+            iSkillLocs[11] = new Point(173,64); 
+            iSkillLocs[12] = new Point(50,125); 
+            iSkillLocs[13] = new Point(112,125); 
+            iSkillLocs[14] = new Point(173,187); 
+            iSkillLocs[15] = new Point(50,248); 
+            iSkillLocs[16] = new Point(112,248); 
+            iSkillLocs[17] = new Point(173,307); 
+            iSkillLocs[18] = new Point(50,370); 
+            iSkillLocs[19] = new Point(112,370); 
+              
+            iSkillLocs[20] = new Point(50,64); 
+            iSkillLocs[21] = new Point(173,64); 
+            iSkillLocs[22] = new Point(112,125); 
+            iSkillLocs[23] = new Point(50,187); 
+            iSkillLocs[24] = new Point(173,187); 
+            iSkillLocs[25] = new Point(112,248); 
+            iSkillLocs[26] = new Point(50,307); 
+            iSkillLocs[27] = new Point(112,307); 
+            iSkillLocs[28] = new Point(112,370); 
+            iSkillLocs[29] = new Point(173,370); 
+        	break;
+        case 3:
+//        	cClass = "pal";
+            iSkillLocs[0] = new Point(50,64);
+            iSkillLocs[1] = new Point(173,64); 
+            iSkillLocs[2] = new Point(112,125); 
+            iSkillLocs[3] = new Point(50,187);
+            iSkillLocs[4] = new Point(173,187);
+            iSkillLocs[5] = new Point(50,248); 
+            iSkillLocs[6] = new Point(112,248); 
+            iSkillLocs[7] = new Point(50,307); 
+            iSkillLocs[8] = new Point(173,307); 
+            iSkillLocs[9] = new Point(112,370); 
+            
+            iSkillLocs[10] = new Point(50,64); 
+            iSkillLocs[11] = new Point(112,125); 
+            iSkillLocs[12] = new Point(173,125); 
+            iSkillLocs[13] = new Point(50,187); 
+            iSkillLocs[14] = new Point(50,248); 
+            iSkillLocs[15] = new Point(112,248); 
+            iSkillLocs[16] = new Point(112,307); 
+            iSkillLocs[17] = new Point(173,307); 
+            iSkillLocs[18] = new Point(50,370); 
+            iSkillLocs[19] = new Point(173,370); 
+              
+            iSkillLocs[20] = new Point(50,64); 
+            iSkillLocs[21] = new Point(173,64); 
+            iSkillLocs[22] = new Point(112,125); 
+            iSkillLocs[23] = new Point(173,125); 
+            iSkillLocs[24] = new Point(50,187); 
+            iSkillLocs[25] = new Point(173,187); 
+            iSkillLocs[26] = new Point(112,248); 
+            iSkillLocs[27] = new Point(50,307); 
+            iSkillLocs[28] = new Point(112,370); 
+            iSkillLocs[29] = new Point(173,370); 
+        	break;
+        case 4:
+//        	cClass = "bar";
+            iSkillLocs[0] = new Point(112,64);
+            iSkillLocs[1] = new Point(50,125); 
+            iSkillLocs[2] = new Point(173,125); 
+            iSkillLocs[3] = new Point(112,187);
+            iSkillLocs[4] = new Point(173,187);
+            iSkillLocs[5] = new Point(50,248); 
+            iSkillLocs[6] = new Point(112,248); 
+            iSkillLocs[7] = new Point(173,307); 
+            iSkillLocs[8] = new Point(50,370); 
+            iSkillLocs[9] = new Point(112,370); 
+            
+            iSkillLocs[10] = new Point(50,64); 
+            iSkillLocs[11] = new Point(112,64); 
+            iSkillLocs[12] = new Point(173,64); 
+            iSkillLocs[13] = new Point(50,125); 
+            iSkillLocs[14] = new Point(112,125); 
+            iSkillLocs[15] = new Point(173,125); 
+            iSkillLocs[16] = new Point(50,187); 
+            iSkillLocs[17] = new Point(173,248); 
+            iSkillLocs[18] = new Point(50,307); 
+            iSkillLocs[19] = new Point(173,370); 
+              
+            iSkillLocs[20] = new Point(50,64); 
+            iSkillLocs[21] = new Point(173,64); 
+            iSkillLocs[22] = new Point(50,125); 
+            iSkillLocs[23] = new Point(112,125); 
+            iSkillLocs[24] = new Point(173,187); 
+            iSkillLocs[25] = new Point(50,248); 
+            iSkillLocs[26] = new Point(112,307); 
+            iSkillLocs[27] = new Point(173,307); 
+            iSkillLocs[28] = new Point(50,370); 
+            iSkillLocs[29] = new Point(112,370); 
+        	break;
+        case 5:
+//        	cClass = "dru";
+            iSkillLocs[0] = new Point(112,64);
+            iSkillLocs[1] = new Point(173,64); 
+            iSkillLocs[2] = new Point(50,125); 
+            iSkillLocs[3] = new Point(112,125);
+            iSkillLocs[4] = new Point(173,187);
+            iSkillLocs[5] = new Point(50,248); 
+            iSkillLocs[6] = new Point(112,248); 
+            iSkillLocs[7] = new Point(173,307); 
+            iSkillLocs[8] = new Point(50,370); 
+            iSkillLocs[9] = new Point(112,370); 
+            
+            iSkillLocs[10] = new Point(50,64); 
+            iSkillLocs[11] = new Point(112,64); 
+            iSkillLocs[12] = new Point(173,125); 
+            iSkillLocs[13] = new Point(50,187); 
+            iSkillLocs[14] = new Point(173,187); 
+            iSkillLocs[15] = new Point(50,248); 
+            iSkillLocs[16] = new Point(112,248); 
+            iSkillLocs[17] = new Point(112,307); 
+            iSkillLocs[18] = new Point(173,307); 
+            iSkillLocs[19] = new Point(50,370); 
+              
+            iSkillLocs[20] = new Point(50,64); 
+            iSkillLocs[21] = new Point(50,125); 
+            iSkillLocs[22] = new Point(173,125); 
+            iSkillLocs[23] = new Point(50,187); 
+            iSkillLocs[24] = new Point(173,187); 
+            iSkillLocs[25] = new Point(112,248); 
+            iSkillLocs[26] = new Point(50,307); 
+            iSkillLocs[27] = new Point(112,307); 
+            iSkillLocs[28] = new Point(50,370); 
+            iSkillLocs[29] = new Point(112,370); 
+        	break;
+        case 6:
+//        	cClass = "ass";
+            iSkillLocs[0] = new Point(112,64);
+            iSkillLocs[1] = new Point(50,125); 
+            iSkillLocs[2] = new Point(173,125); 
+            iSkillLocs[3] = new Point(50,187);
+            iSkillLocs[4] = new Point(112,187);
+            iSkillLocs[5] = new Point(173,248); 
+            iSkillLocs[6] = new Point(50,307); 
+            iSkillLocs[7] = new Point(112,307); 
+            iSkillLocs[8] = new Point(50,370); 
+            iSkillLocs[9] = new Point(173,370); 
+            
+            iSkillLocs[10] = new Point(112,64); 
+            iSkillLocs[11] = new Point(173,64); 
+            iSkillLocs[12] = new Point(50,125); 
+            iSkillLocs[13] = new Point(112,187); 
+            iSkillLocs[14] = new Point(173,187); 
+            iSkillLocs[15] = new Point(50,248); 
+            iSkillLocs[16] = new Point(112,248); 
+            iSkillLocs[17] = new Point(173,307); 
+            iSkillLocs[18] = new Point(50,370); 
+            iSkillLocs[19] = new Point(112,370); 
+              
+            iSkillLocs[20] = new Point(112,64); 
+            iSkillLocs[21] = new Point(173,64); 
+            iSkillLocs[22] = new Point(50,125); 
+            iSkillLocs[23] = new Point(173,125); 
+            iSkillLocs[24] = new Point(112,187); 
+            iSkillLocs[25] = new Point(50,248); 
+            iSkillLocs[26] = new Point(173,248); 
+            iSkillLocs[27] = new Point(50,307); 
+            iSkillLocs[28] = new Point(173,307); 
+            iSkillLocs[29] = new Point(112,370); 
+        	break;
+
+    	
+    	}
+		
+	}
+
+	private void setSetProps() {
 		
     	    	
     	int counter = 0;
@@ -1130,6 +1475,7 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
         iCharStats[20] = iInitStats[20] + charStatArray[43];
         iCharStats[21] = iInitStats[21] + charStatArray[45];
     	iCharStats[22] = charStatArray[80];
+    	iCharStats[23] = charStatArray[96];
     	    	
 //    	iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
 //    	iCharStats[16] = (int)calcCharArmor() + (int)(Math.floor((double)iCharStats[2]/(double)4));
@@ -2289,6 +2635,22 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
         return iHC;
     }
     
+    public Point[] getSkillLocs(){
+    	return iSkillLocs;
+    }
+    
+    public ArrayList getSkillListA(){
+    	return iCharSkillsA;
+    }
+    
+    public ArrayList getSkillListB(){
+    	return iCharSkillsB;
+    }
+    
+    public ArrayList getSkillListC(){
+    	return iCharSkillsC;
+    }
+    
     public void fullDump(PrintWriter pWriter)
     {
         pWriter.println( iFileName );
@@ -2597,6 +2959,17 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
 	
 	public int getCharMF(){
 		return iCharStats[22];
+	}
+	public int getCharFRW(){
+		return iCharStats[23];
+	}
+	public int getCharSkillRem(){
+		return iInitStats[5];
+	}
+
+	public int getCharCode() {
+		// TODO Auto-generated method stub
+		return (int)lCharCode;
 	}
 
     
