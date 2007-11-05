@@ -998,9 +998,9 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
 							.parseLong( setRow.get(replaceStr[3])));
 				}
 
-				if (! setRow.get(replaceStr[1]).equals("")) {
+				if (! setRow.get(replaceStr[1]).equals("") && !setRow.get(replaceStr[1]).equals("fullsetgeneric")&& !setRow.get(replaceStr[1]).equals("monsterset")) {
+					lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long  
 
-					lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
 							.parseLong( setRow.get(replaceStr[1])));
 				}
 				

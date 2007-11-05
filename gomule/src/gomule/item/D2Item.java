@@ -332,13 +332,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 	// whether the item is an ear
 	private void read_item(D2BitReader pFile, int pos) throws Exception {
 		pFile.skipBytes(2);
-//		pFile.skipBits(5);
-//		long unknown1 = pFile.read(3);
-//		pFile.skipBits(4);
-//		long unknown2 = pFile.read(2);
-//		pFile.skipBits(4);
-//		long unknown3 = pFile.read(2);
-		
 		flags = (int) pFile.unflip(pFile.read(32), 32); // 4 bytes
 
 		iSocketed = check_flag(12); // 12
@@ -424,15 +417,46 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	// read ear related data from the bytes
 	private void read_ear(D2BitReader pFile) { // br.getFileContent()
-		height = 1;
-		width = 1;
-		iItemName = "? Ear (?)";
 
-		pFile.read(3); // Ear Class
-		pFile.read(7); // Ear Lvl
-		for (int i = 0; i < 18; i++) {
-			pFile.read(7); // name
-		}
+		
+
+//		getCharacterCode((int)
+ // Ear Class TRANSLATE TO CLASS! CORRECT
+		int eClass = (int)pFile.read(3);
+
+		
+		int eLevel = (int)(pFile.read(7)); // Ear Lvl CORRECT
+
+        StringBuffer lCharName = new StringBuffer();
+        for (int i = 0; i < 18; i++)
+//        while(1==1)
+        {
+            long lChar = pFile.read(7);
+            if (lChar != 0)
+            {
+                lCharName.append((char) lChar);
+            }else{
+            	break;
+            }
+        }
+		iItemType = D2TxtFile.search("ear");
+		height = Short.parseShort(iItemType.get("invheight"));
+		width = Short.parseShort(iItemType.get("invwidth"));
+		image_file = iItemType.get("invfile");
+		name = iItemType.get("name");
+		iBaseItemName=iItemName = lCharName.toString() + "'s Ear";
+		
+		D2ItemProperty lProperty = new D2ItemProperty(1340, iCharLvl,iItemName);
+		lProperty.set(1340, new D2TxtFileItemProperties(null, 0) ,0 , eClass);
+		lProperty.set(1340, new D2TxtFileItemProperties(null, 0) ,0 , eLevel);
+		iProperties.add(lProperty);
+		
+//		iProperties.add(arg0)
+//        System.out.println(lCharName.toString());
+
+//		for (int i = 0; i < 18; i++) {
+//			pFile.read(7); // name
+//		}
 	}
 
 	// read non ear data from the bytes,

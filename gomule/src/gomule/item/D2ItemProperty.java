@@ -660,6 +660,41 @@ public class D2ItemProperty
             	return "+" + lValue1.iValue + "% to all Maximum Resistances";
             }
             
+            if(iProp == 1340){
+            	/**
+            	 * MY OWN PROPERTY FOR EARS!
+            	 * 
+            	 */
+            	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+            	PropValue lValue2 = (PropValue) iProperties.get(SECOND);
+            	String eClass="";
+            	switch((int)lValue1.iValue){
+                case 0:
+                	eClass = "Amazon";
+                     break;
+                case 1:
+                	eClass = "Sorceress";
+                	break;
+                case 2:
+                	eClass = "Necromancer";
+                	break;
+                case 3:
+                	eClass = "Paladin";
+                	break;
+                case 4:
+                	eClass = "Barbarian";
+                	break;
+                case 5:
+                	eClass = "Druid";
+                	break;
+                case 6:
+                	eClass = "Assassin";
+                	break;
+            	}
+//            	
+            	return "Level " + lValue2.iValue + " " + eClass;
+            }
+            
 //            if(iProp == 9){
 //            	System.out.println("BLA");
 //            }

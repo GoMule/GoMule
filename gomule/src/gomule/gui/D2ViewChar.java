@@ -44,6 +44,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     private D2Character         	 iCharacter;
 
     private JTextArea				 iMessage;
+    private JTextArea				 CJT = new JTextArea();
+    private JTextArea				 MJT = new JTextArea();
     
     private static final int         BG_WIDTH         = 550;
     private static final int         BG_HEIGHT        = 383;
@@ -179,7 +181,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         
         lSkillPanel = new D2SkillPainterPanel();
        
-        charMainBox.add(charStatsBox);
+//        charMainBox.add(charStatsBox);
+        
+        CJT.setEditable(false);
+        float[] bGrey = new float[3];
+        bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
+        CJT.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
+        CJT.setFont( new Font( "Monospaced", Font.TRUETYPE_FONT, 11 ));
+        charMainBox.add(CJT);
 //        charMainBox.add(Box.createRigidArea(new Dimension(80,0)));
         charMainBox2.add(lSkillPanel);
         
@@ -253,12 +262,20 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         iMercPainter = new D2MercPainterPanel();
         
         Box mercMainBox = Box.createHorizontalBox();
+        Box mercMainBox2 = Box.createHorizontalBox();
         Box mercStatsBox = Box.createHorizontalBox();
         Box mercLabelBox = Box.createVerticalBox();
         Box mercValueBox = Box.createVerticalBox();
         
-        mercMainBox.add(iMercPainter);
-        mercMainBox.add(mercStatsBox);
+        MJT.setEditable(false);
+        bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
+        MJT.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
+        MJT.setFont( new Font( "Monospaced", Font.TRUETYPE_FONT, 11 ));
+       
+        
+        mercMainBox2.add(iMercPainter);
+//        mercMainBox.add(mercStatsBox);
+        mercMainBox.add(MJT);
         mercStatsBox.add(mercLabelBox);
         mercStatsBox.add(Box.createRigidArea(new Dimension(10,0)));
         mercStatsBox.add(mercValueBox);
@@ -304,7 +321,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         mercValueBox.add(Box.createRigidArea(new Dimension(0,120)));
         
         
-        lMercPanel.add(mercMainBox);    
+//        lMercPanel.add(mercMainBox);
+        lMercPanel.add(mercMainBox, BorderLayout.LINE_START);
+        lMercPanel.add(mercMainBox2, BorderLayout.LINE_END);
         lTabs.addTab("Mercenary", lMercPanel);
         iMercPainter.build();
         
@@ -474,62 +493,97 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     }
     
     public void paintMercStats(){
-    	iMercName.setText(iCharacter.getMercName());
-    	iMercRace.setText(iCharacter.getMercRace());
-    	iMercType.setText(iCharacter.getMercType());
-    	iMercExp.setText(Long.toString(iCharacter.getMercExp()));
-    	iMercLevel.setText(Integer.toString(iCharacter.getMercLevel()));
-    	iMercDead.setText(Boolean.toString(iCharacter.getMercDead())); 
     	
-    	iMercStr.setText(Integer.toString(iCharacter.getMercInitStr())+"/"+Integer.toString(iCharacter.getMercStr()));
-    	iMercDex.setText(Integer.toString(iCharacter.getMercInitDex())+"/"+Integer.toString(iCharacter.getMercDex()));
-    	iMercHP.setText(Integer.toString(iCharacter.getMercInitHP())+"/"+Integer.toString(iCharacter.getMercHP()));
-    	iMercDef.setText(Long.toString(iCharacter.getMercInitDef())+"/"+Long.toString(iCharacter.getMercDef()));
-    	iMercAR.setText(Integer.toString(iCharacter.getMercInitAR())+"/"+Integer.toString(iCharacter.getMercAR()));
-    	iMercFireRes.setText(Integer.toString(iCharacter.getMercInitFireRes())+"/"+Integer.toString(iCharacter.getMercFireRes()));
-    	iMercLightRes.setText(Integer.toString(iCharacter.getMercInitLightRes())+"/"+Integer.toString(iCharacter.getMercLightRes()));
-    	iMercColdRes.setText(Integer.toString(iCharacter.getMercInitColdRes())+"/"+Integer.toString(iCharacter.getMercColdRes()));
-    	iMercPoisRes.setText(Integer.toString(iCharacter.getMercInitPoisRes())+"/"+Integer.toString(iCharacter.getMercPoisRes()));
+    	String combinedString = 
+        	"Name:       " + iCharacter.getMercName() + "\n"+
+        	"Race:       " + iCharacter.getMercRace() + "\n"+
+        	"Type:       " + iCharacter.getMercType() + "\n"+
+        	"Experience: " + iCharacter.getMercExp() + "\n"+
+        	"Level:      " + iCharacter.getMercLevel() + "\n"+
+        	"Dead?:      " + iCharacter.getMercDead() + "\n"+ "\n"+"            Naked/Gear" + "\n"+
+        	"Strength:   " + iCharacter.getMercInitStr()+"/"+iCharacter.getMercStr() + "\n"+
+        	"Dexterity:  " + iCharacter.getMercInitDex()+"/"+iCharacter.getMercDex() + "\n"+
+        	"HP:         " + iCharacter.getMercInitHP()+"/"+iCharacter.getMercHP() + "\n"+
+        	"Defense:    " +iCharacter.getMercInitDef()+"/"+iCharacter.getMercDef() + "\n"+
+        	"AR:         " + iCharacter.getMercInitAR()+"/"+iCharacter.getMercAR() + "\n"+ "\n"+
+        	"Fire:       " + iCharacter.getMercFireRes()+"/"+(iCharacter.getMercFireRes()-40) +"/"+(iCharacter.getMercFireRes()-100) + "\n"+
+        	"Lightning:  " + iCharacter.getMercLightRes()+"/"+(iCharacter.getMercLightRes()-40) +"/"+(iCharacter.getMercLightRes()-100) + "\n"+
+        	"Cold:       " + iCharacter.getMercColdRes()+"/"+(iCharacter.getMercColdRes()-40) +"/"+(iCharacter.getMercColdRes()-100) + "\n"+
+        	"Poision:    " + iCharacter.getMercPoisRes()+"/"+(iCharacter.getMercPoisRes()-40) +"/"+(iCharacter.getMercPoisRes()-100);
+        	
+        	MJT.setText(combinedString);
+    	
+//    	iMercName.setText(iCharacter.getMercName());
+//    	iMercRace.setText(iCharacter.getMercRace());
+//    	iMercType.setText(iCharacter.getMercType());
+//    	iMercExp.setText(Long.toString(iCharacter.getMercExp()));
+//    	iMercLevel.setText(Integer.toString(iCharacter.getMercLevel()));
+//    	iMercDead.setText(Boolean.toString(iCharacter.getMercDead())); 
+//    	
+//    	iMercStr.setText(Integer.toString(iCharacter.getMercInitStr())+"/"+Integer.toString(iCharacter.getMercStr()));
+//    	iMercDex.setText(Integer.toString(iCharacter.getMercInitDex())+"/"+Integer.toString(iCharacter.getMercDex()));
+//    	iMercHP.setText(Integer.toString(iCharacter.getMercInitHP())+"/"+Integer.toString(iCharacter.getMercHP()));
+//    	iMercDef.setText(Long.toString(iCharacter.getMercInitDef())+"/"+Long.toString(iCharacter.getMercDef()));
+//    	iMercAR.setText(Integer.toString(iCharacter.getMercInitAR())+"/"+Integer.toString(iCharacter.getMercAR()));
+//    	iMercFireRes.setText(Integer.toString(iCharacter.getMercInitFireRes())+"/"+Integer.toString(iCharacter.getMercFireRes()));
+//    	iMercLightRes.setText(Integer.toString(iCharacter.getMercInitLightRes())+"/"+Integer.toString(iCharacter.getMercLightRes()));
+//    	iMercColdRes.setText(Integer.toString(iCharacter.getMercInitColdRes())+"/"+Integer.toString(iCharacter.getMercColdRes()));
+//    	iMercPoisRes.setText(Integer.toString(iCharacter.getMercInitPoisRes())+"/"+Integer.toString(iCharacter.getMercPoisRes()));
     	
     	
     }
     
     public void paintCharStats() {
     	
-    	String nStr = iCharacter.getCharName();
-//    	for(int x = 0;x<17 + (14-iCharacter.getCharName().length());x=x+1){
-//    		nStr = nStr + "_";
-//    		System.out.println(x);
-//    	}
-		iCharName.setText(nStr);
-    	iCharClass.setText(iCharacter.getCharClass());
-    	iCharExp.setText(Long.toString(iCharacter.getCharExp()));
-    	iCharLevel.setText(Integer.toString(iCharacter.getCharLevel()));
-    	iCharDead.setText(Boolean.toString(iCharacter.getCharDead())); 
+    	String combinedString = 
+    	"Name:       " + iCharacter.getCharName() + "\n"+
+    	"Class:      " + iCharacter.getCharClass() + "\n"+
+    	"Experience: " + iCharacter.getCharExp() + "\n"+
+    	"Level:      " + iCharacter.getCharLevel() + "\n"+
+    	"NOTIMP:     " + iCharacter.getCharDead() + "\n"+ "\n"+"            Naked/Gear" + "\n"+
+    	"Strength:   " + iCharacter.getCharInitStr()+"/"+iCharacter.getCharStr() + "\n"+
+    	"Dexterity:  " + iCharacter.getCharInitDex()+"/"+iCharacter.getCharDex() + "\n"+
+    	"Vitality:   " + iCharacter.getCharInitVit()+"/"+iCharacter.getCharVit() + "\n"+
+    	"Energy:     " + iCharacter.getCharInitNrg()+"/"+iCharacter.getCharNrg() + "\n"+
+    	"HP:         " + iCharacter.getCharInitHP()+"/"+iCharacter.getCharHP() + "\n"+
+    	"Mana:       " + iCharacter.getCharInitMana()+"/"+iCharacter.getCharMana() + "\n"+
+    	"Stamina:    " + iCharacter.getCharInitStam()+"/"+iCharacter.getCharStam() + "\n"+
+    	"Defense:    " +iCharacter.getCharInitDef()+"/"+iCharacter.getCharDef() + "\n"+
+    	"AR:         " + iCharacter.getCharInitAR()+"/"+iCharacter.getCharAR() + "\n"+ "\n"+
+    	"Fire:       " + iCharacter.getCharFireRes()+"/"+(iCharacter.getCharFireRes()-40) +"/"+(iCharacter.getCharFireRes()-100) + "\n"+
+    	"Lightning:  " + iCharacter.getCharLightRes()+"/"+(iCharacter.getCharLightRes()-40) +"/"+(iCharacter.getCharLightRes()-100) + "\n"+
+    	"Cold:       " + iCharacter.getCharColdRes()+"/"+(iCharacter.getCharColdRes()-40) +"/"+(iCharacter.getCharColdRes()-100) + "\n"+
+    	"Poision:    " + iCharacter.getCharPoisRes()+"/"+(iCharacter.getCharPoisRes()-40) +"/"+(iCharacter.getCharPoisRes()-100) + "\n"+"\n"+
+    	"MF:         " + iCharacter.getCharMF() + "\n"+
+    	"FR/W:       " +iCharacter.getCharFRW();
     	
-    	iCharStr.setText(Integer.toString(iCharacter.getCharInitStr())+"/"+Integer.toString(iCharacter.getCharStr()));
-    	iCharDex.setText(Integer.toString(iCharacter.getCharInitDex())+"/"+Integer.toString(iCharacter.getCharDex()));
-    	iCharNrg.setText(Integer.toString(iCharacter.getCharInitNrg())+"/"+Integer.toString(iCharacter.getCharNrg()));
-    	iCharVit.setText(Integer.toString(iCharacter.getCharInitVit())+"/"+Integer.toString(iCharacter.getCharVit()));
-    	iCharMana.setText(Integer.toString(iCharacter.getCharInitMana())+"/"+Integer.toString(iCharacter.getCharMana()));
-    	iCharHP.setText(Integer.toString(iCharacter.getCharInitHP())+"/"+Integer.toString(iCharacter.getCharHP()));
-    	iCharStam.setText(Integer.toString(iCharacter.getCharInitStam())+"/"+Integer.toString(iCharacter.getCharStam()));
-
-    	iCharDef.setText(Long.toString(iCharacter.getCharInitDef())+"/"+Long.toString(iCharacter.getCharDef()));
-    	iCharAR.setText(Integer.toString(iCharacter.getCharInitAR())+"/"+Integer.toString(iCharacter.getCharAR()));
-    	iCharFireRes.setText(Integer.toString(iCharacter.getCharInitFireRes())+"/"+Integer.toString(iCharacter.getCharFireRes()));
-    	iCharLightRes.setText(Integer.toString(iCharacter.getCharInitLightRes())+"/"+Integer.toString(iCharacter.getCharLightRes()));
-    	iCharColdRes.setText(Integer.toString(iCharacter.getCharInitColdRes())+"/"+Integer.toString(iCharacter.getCharColdRes()));
-    	iCharPoisRes.setText(Integer.toString(iCharacter.getCharInitPoisRes())+"/"+Integer.toString(iCharacter.getCharPoisRes()));
+    	CJT.setText(combinedString);
     	
-    	iCharFireRes.setText(Integer.toString(iCharacter.getCharFireRes())+"/"+Integer.toString(iCharacter.getCharFireRes()-40)+"/"+Integer.toString(iCharacter.getCharFireRes()-100));
-    	iCharLightRes.setText(Integer.toString(iCharacter.getCharLightRes())+"/"+Integer.toString(iCharacter.getCharLightRes()-40)+"/"+Integer.toString(iCharacter.getCharLightRes()-100));
-    	iCharColdRes.setText(Integer.toString(iCharacter.getCharColdRes())+"/"+Integer.toString(iCharacter.getCharColdRes()-40)+"/"+Integer.toString(iCharacter.getCharColdRes()-100));
-    	iCharPoisRes.setText(Integer.toString(iCharacter.getCharPoisRes())+"/"+Integer.toString(iCharacter.getCharPoisRes()-40)+"/"+Integer.toString(iCharacter.getCharPoisRes()-100));
-    	
-    	
-    	iCharMF.setText(Integer.toString(iCharacter.getCharMF()));
-    	iCharFRW.setText(Integer.toString(iCharacter.getCharFRW()));
+//		iCharName.setText(iCharacter.getCharName());
+//    	iCharClass.setText(iCharacter.getCharClass());
+//    	iCharExp.setText(Long.toString(iCharacter.getCharExp()));
+//    	iCharLevel.setText(Integer.toString(iCharacter.getCharLevel()));
+//    	iCharDead.setText(Boolean.toString(iCharacter.getCharDead())); 
+//    	
+//    	iCharStr.setText(Integer.toString(iCharacter.getCharInitStr())+"/"+Integer.toString(iCharacter.getCharStr()));
+//    	iCharDex.setText(Integer.toString(iCharacter.getCharInitDex())+"/"+Integer.toString(iCharacter.getCharDex()));
+//    	iCharNrg.setText(Integer.toString(iCharacter.getCharInitNrg())+"/"+Integer.toString(iCharacter.getCharNrg()));
+//    	iCharVit.setText(Integer.toString(iCharacter.getCharInitVit())+"/"+Integer.toString(iCharacter.getCharVit()));
+//    	iCharMana.setText(Integer.toString(iCharacter.getCharInitMana())+"/"+Integer.toString(iCharacter.getCharMana()));
+//    	iCharHP.setText(Integer.toString(iCharacter.getCharInitHP())+"/"+Integer.toString(iCharacter.getCharHP()));
+//    	iCharStam.setText(Integer.toString(iCharacter.getCharInitStam())+"/"+Integer.toString(iCharacter.getCharStam()));
+//
+//    	iCharDef.setText(Long.toString(iCharacter.getCharInitDef())+"/"+Long.toString(iCharacter.getCharDef()));
+//    	iCharAR.setText(Integer.toString(iCharacter.getCharInitAR())+"/"+Integer.toString(iCharacter.getCharAR()));
+//	
+//    	iCharFireRes.setText(Integer.toString(iCharacter.getCharFireRes())+"/"+Integer.toString(iCharacter.getCharFireRes()-40)+"/"+Integer.toString(iCharacter.getCharFireRes()-100));
+//    	iCharLightRes.setText(Integer.toString(iCharacter.getCharLightRes())+"/"+Integer.toString(iCharacter.getCharLightRes()-40)+"/"+Integer.toString(iCharacter.getCharLightRes()-100));
+//    	iCharColdRes.setText(Integer.toString(iCharacter.getCharColdRes())+"/"+Integer.toString(iCharacter.getCharColdRes()-40)+"/"+Integer.toString(iCharacter.getCharColdRes()-100));
+//    	iCharPoisRes.setText(Integer.toString(iCharacter.getCharPoisRes())+"/"+Integer.toString(iCharacter.getCharPoisRes()-40)+"/"+Integer.toString(iCharacter.getCharPoisRes()-100));
+//    	
+//    	
+//    	iCharMF.setText(Integer.toString(iCharacter.getCharMF()));
+//    	iCharFRW.setText(Integer.toString(iCharacter.getCharFRW()));
 		
 	}
     
