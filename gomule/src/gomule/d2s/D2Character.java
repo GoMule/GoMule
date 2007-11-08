@@ -139,6 +139,7 @@ public class D2Character extends D2ItemListAdapter
 	private ArrayList equippedSetItems = new ArrayList();
 	private int[] iReadStats = new int[16];
 	private long lCharCode;
+	private int lWoo;
     
     public D2Character(String pFileName) throws Exception
     {
@@ -334,7 +335,7 @@ public class D2Character extends D2ItemListAdapter
         
 
         
-        int lWoo = iReader.findNextFlag("Woo!", 0);
+        lWoo = iReader.findNextFlag("Woo!", 0);
         if ( lWoo == -1 )
         {
             throw new Exception("Error: Act Quests block not found");
@@ -377,7 +378,7 @@ public class D2Character extends D2ItemListAdapter
         {
             throw new Exception("Error: Stats / Skills not correct");
         }
-
+        readQuests();
         // now copy the block into the Flavie bitreader 
         // (it can read integers unaligned to bytes which is needed here) 
         iReader.set_byte_pos(iGF);
@@ -495,7 +496,21 @@ public class D2Character extends D2ItemListAdapter
 
     }
     
-    private void readSkills() {
+    private void readQuests() {
+		
+
+    	iReader.set_byte_pos(lWoo);
+    	
+    	System.out.println((char)iReader.read(8));
+    	System.out.println((char)iReader.read(8));
+    	System.out.println((char)iReader.read(8));
+    	System.out.println((char)iReader.read(8));
+    	
+    	
+		
+	}
+
+	private void readSkills() {
 		
     	String cClass = "";
     	

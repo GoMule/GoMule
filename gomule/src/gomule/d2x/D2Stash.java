@@ -165,6 +165,8 @@ public class D2Stash extends D2ItemListAdapter
 	        if ( lVersionNr == 96 )
 	        {
 	            readItems(lNumItems);
+	        }else{
+	        	throw new Exception("Stash Version Incorrect!");
 	        }
 	    }
     }
