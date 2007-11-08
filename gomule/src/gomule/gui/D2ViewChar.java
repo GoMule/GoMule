@@ -103,42 +103,42 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     
     private JButton					 iGoldTransferBtns[];
     
-	private JLabel iMercName = new JLabel("");
-	private JLabel iMercRace = new JLabel("");
-	private JLabel iMercType = new JLabel("");
-	private JLabel iMercExp = new JLabel("");
-	private JLabel iMercLevel = new JLabel("");
-	private JLabel iMercDead = new JLabel(""); 
-	private JLabel iMercStr = new JLabel("");
-	private JLabel iMercDex = new JLabel("");
-	private JLabel iMercHP = new JLabel("");
-	private JLabel iMercDef = new JLabel("");
-	private JLabel iMercAR = new JLabel("");
-	private JLabel iMercFireRes = new JLabel("");
-	private JLabel iMercLightRes = new JLabel("");
-	private JLabel iMercColdRes = new JLabel("");
-	private JLabel iMercPoisRes = new JLabel("");
-	
-	private JLabel iCharName = new JLabel("");
-	private JLabel iCharClass = new JLabel("");
-	private JLabel iCharExp = new JLabel("");
-	private JLabel iCharLevel = new JLabel("");
-	private JLabel iCharDead = new JLabel(""); 
-	private JLabel iCharStr = new JLabel("");
-	private JLabel iCharDex = new JLabel("");
-	private JLabel iCharNrg = new JLabel("");
-	private JLabel iCharVit = new JLabel("");
-	private JLabel iCharHP = new JLabel("");
-	private JLabel iCharMana = new JLabel("");
-	private JLabel iCharStam = new JLabel("");
-	private JLabel iCharDef = new JLabel("");
-	private JLabel iCharAR = new JLabel("");
-	private JLabel iCharFireRes = new JLabel("");
-	private JLabel iCharLightRes = new JLabel("");
-	private JLabel iCharColdRes = new JLabel("");
-	private JLabel iCharPoisRes = new JLabel("");
-	private JLabel iCharMF = new JLabel("");
-	private JLabel iCharFRW = new JLabel("");
+//	private JLabel iMercName = new JLabel("");
+//	private JLabel iMercRace = new JLabel("");
+//	private JLabel iMercType = new JLabel("");
+//	private JLabel iMercExp = new JLabel("");
+//	private JLabel iMercLevel = new JLabel("");
+//	private JLabel iMercDead = new JLabel(""); 
+//	private JLabel iMercStr = new JLabel("");
+//	private JLabel iMercDex = new JLabel("");
+//	private JLabel iMercHP = new JLabel("");
+//	private JLabel iMercDef = new JLabel("");
+//	private JLabel iMercAR = new JLabel("");
+//	private JLabel iMercFireRes = new JLabel("");
+//	private JLabel iMercLightRes = new JLabel("");
+//	private JLabel iMercColdRes = new JLabel("");
+//	private JLabel iMercPoisRes = new JLabel("");
+//	
+//	private JLabel iCharName = new JLabel("");
+//	private JLabel iCharClass = new JLabel("");
+//	private JLabel iCharExp = new JLabel("");
+//	private JLabel iCharLevel = new JLabel("");
+//	private JLabel iCharDead = new JLabel(""); 
+//	private JLabel iCharStr = new JLabel("");
+//	private JLabel iCharDex = new JLabel("");
+//	private JLabel iCharNrg = new JLabel("");
+//	private JLabel iCharVit = new JLabel("");
+//	private JLabel iCharHP = new JLabel("");
+//	private JLabel iCharMana = new JLabel("");
+//	private JLabel iCharStam = new JLabel("");
+//	private JLabel iCharDef = new JLabel("");
+//	private JLabel iCharAR = new JLabel("");
+//	private JLabel iCharFireRes = new JLabel("");
+//	private JLabel iCharLightRes = new JLabel("");
+//	private JLabel iCharColdRes = new JLabel("");
+//	private JLabel iCharPoisRes = new JLabel("");
+//	private JLabel iCharMF = new JLabel("");
+//	private JLabel iCharFRW = new JLabel("");
 	private D2SkillPainterPanel lQuestPanel;
 	private D2SkillPainterPanel lSkillPanel;
 
@@ -198,55 +198,55 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         lStatPanel.add(charMainBox, BorderLayout.LINE_START);
         lStatPanel.add(charMainBox2, BorderLayout.LINE_END);
         
-        charLabelBox.add(new JLabel("Name: "));
-        charLabelBox.add(new JLabel("Class: "));
-        charLabelBox.add(new JLabel("Experience: "));
-        charLabelBox.add(new JLabel("Level:"));
-        charLabelBox.add(new JLabel("NOTIMP: "));
-        charLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
-        charLabelBox.add(new JLabel(" "));
-        charLabelBox.add(new JLabel("Strength: "));
-        charLabelBox.add(new JLabel("Dexterity: "));
-        charLabelBox.add(new JLabel("Vitality: "));
-        charLabelBox.add(new JLabel("Energy: "));
-        charLabelBox.add(new JLabel("HP: "));
-        charLabelBox.add(new JLabel("Mana: "));
-        charLabelBox.add(new JLabel("Stamina: "));
-        charLabelBox.add(new JLabel("Defense: "));
-        charLabelBox.add(new JLabel("AR: "));
-        charLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
-        charLabelBox.add(new JLabel("Fire: "));
-        charLabelBox.add(new JLabel("Lightning: "));
-        charLabelBox.add(new JLabel("Cold: "));
-        charLabelBox.add(new JLabel("Poision: "));
-        charLabelBox.add(new JLabel("MF: "));
-        charLabelBox.add(new JLabel("FR/W: "));
-        charLabelBox.add(Box.createRigidArea(new Dimension(0,50)));
-        
-        charValueBox.add(iCharName);
-        charValueBox.add(iCharClass);
-        charValueBox.add(iCharExp);
-        charValueBox.add(iCharLevel);
-        charValueBox.add(iCharDead);
-        charValueBox.add(Box.createRigidArea(new Dimension(0,10)));
-        charValueBox.add(new JLabel("Naked/Gear"));
-        charValueBox.add(iCharStr);
-        charValueBox.add(iCharDex);
-        charValueBox.add(iCharVit);
-        charValueBox.add(iCharNrg);
-        charValueBox.add(iCharHP);
-        charValueBox.add(iCharMana);
-        charValueBox.add(iCharStam);
-        charValueBox.add(iCharDef);
-        charValueBox.add(iCharAR);
-        charValueBox.add(Box.createRigidArea(new Dimension(0,10)));
-        charValueBox.add(iCharFireRes);
-        charValueBox.add(iCharLightRes);
-        charValueBox.add(iCharColdRes);
-        charValueBox.add(iCharPoisRes);
-        charValueBox.add(iCharMF);
-        charValueBox.add(iCharFRW);
-        charValueBox.add(Box.createRigidArea(new Dimension(0,50)));
+//        charLabelBox.add(new JLabel("Name: "));
+//        charLabelBox.add(new JLabel("Class: "));
+//        charLabelBox.add(new JLabel("Experience: "));
+//        charLabelBox.add(new JLabel("Level:"));
+//        charLabelBox.add(new JLabel("NOTIMP: "));
+//        charLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
+//        charLabelBox.add(new JLabel(" "));
+//        charLabelBox.add(new JLabel("Strength: "));
+//        charLabelBox.add(new JLabel("Dexterity: "));
+//        charLabelBox.add(new JLabel("Vitality: "));
+//        charLabelBox.add(new JLabel("Energy: "));
+//        charLabelBox.add(new JLabel("HP: "));
+//        charLabelBox.add(new JLabel("Mana: "));
+//        charLabelBox.add(new JLabel("Stamina: "));
+//        charLabelBox.add(new JLabel("Defense: "));
+//        charLabelBox.add(new JLabel("AR: "));
+//        charLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
+//        charLabelBox.add(new JLabel("Fire: "));
+//        charLabelBox.add(new JLabel("Lightning: "));
+//        charLabelBox.add(new JLabel("Cold: "));
+//        charLabelBox.add(new JLabel("Poision: "));
+//        charLabelBox.add(new JLabel("MF: "));
+//        charLabelBox.add(new JLabel("FR/W: "));
+//        charLabelBox.add(Box.createRigidArea(new Dimension(0,50)));
+//        
+//        charValueBox.add(iCharName);
+//        charValueBox.add(iCharClass);
+//        charValueBox.add(iCharExp);
+//        charValueBox.add(iCharLevel);
+//        charValueBox.add(iCharDead);
+//        charValueBox.add(Box.createRigidArea(new Dimension(0,10)));
+//        charValueBox.add(new JLabel("Naked/Gear"));
+//        charValueBox.add(iCharStr);
+//        charValueBox.add(iCharDex);
+//        charValueBox.add(iCharVit);
+//        charValueBox.add(iCharNrg);
+//        charValueBox.add(iCharHP);
+//        charValueBox.add(iCharMana);
+//        charValueBox.add(iCharStam);
+//        charValueBox.add(iCharDef);
+//        charValueBox.add(iCharAR);
+//        charValueBox.add(Box.createRigidArea(new Dimension(0,10)));
+//        charValueBox.add(iCharFireRes);
+//        charValueBox.add(iCharLightRes);
+//        charValueBox.add(iCharColdRes);
+//        charValueBox.add(iCharPoisRes);
+//        charValueBox.add(iCharMF);
+//        charValueBox.add(iCharFRW);
+//        charValueBox.add(Box.createRigidArea(new Dimension(0,50)));
         
         
         JPanel lCursorPanel = new JPanel();
@@ -280,45 +280,45 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         mercStatsBox.add(Box.createRigidArea(new Dimension(10,0)));
         mercStatsBox.add(mercValueBox);
         
-        mercLabelBox.add(new JLabel("Name: "));
-        mercLabelBox.add(new JLabel("Race: "));
-        mercLabelBox.add(new JLabel("Type: "));
-        mercLabelBox.add(new JLabel("Experience: "));
-        mercLabelBox.add(new JLabel("Level:"));
-        mercLabelBox.add(new JLabel("Dead?: "));
-        mercLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
-        mercLabelBox.add(new JLabel(" "));
-        mercLabelBox.add(new JLabel("Strength: "));
-        mercLabelBox.add(new JLabel("Dexterity: "));
-        mercLabelBox.add(new JLabel("HP: "));
-        mercLabelBox.add(new JLabel("Defense: "));
-        mercLabelBox.add(new JLabel("AR: "));
-        mercLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
-        mercLabelBox.add(new JLabel("Fire: "));
-        mercLabelBox.add(new JLabel("Lightning: "));
-        mercLabelBox.add(new JLabel("Cold: "));
-        mercLabelBox.add(new JLabel("Poision: "));
-        mercLabelBox.add(Box.createRigidArea(new Dimension(0,120)));
-        
-        mercValueBox.add(iMercName);
-        mercValueBox.add(iMercRace);
-        mercValueBox.add(iMercType);
-        mercValueBox.add(iMercExp);
-        mercValueBox.add(iMercLevel);
-        mercValueBox.add(iMercDead);
-        mercValueBox.add(Box.createRigidArea(new Dimension(0,10)));
-        mercValueBox.add(new JLabel("Naked/Gear"));
-        mercValueBox.add(iMercStr);
-        mercValueBox.add(iMercDex);
-        mercValueBox.add(iMercHP);
-        mercValueBox.add(iMercDef);
-        mercValueBox.add(iMercAR);
-        mercValueBox.add(Box.createRigidArea(new Dimension(0,10)));
-        mercValueBox.add(iMercFireRes);
-        mercValueBox.add(iMercLightRes);
-        mercValueBox.add(iMercColdRes);
-        mercValueBox.add(iMercPoisRes);
-        mercValueBox.add(Box.createRigidArea(new Dimension(0,120)));
+//        mercLabelBox.add(new JLabel("Name: "));
+//        mercLabelBox.add(new JLabel("Race: "));
+//        mercLabelBox.add(new JLabel("Type: "));
+//        mercLabelBox.add(new JLabel("Experience: "));
+//        mercLabelBox.add(new JLabel("Level:"));
+//        mercLabelBox.add(new JLabel("Dead?: "));
+//        mercLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
+//        mercLabelBox.add(new JLabel(" "));
+//        mercLabelBox.add(new JLabel("Strength: "));
+//        mercLabelBox.add(new JLabel("Dexterity: "));
+//        mercLabelBox.add(new JLabel("HP: "));
+//        mercLabelBox.add(new JLabel("Defense: "));
+//        mercLabelBox.add(new JLabel("AR: "));
+//        mercLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
+//        mercLabelBox.add(new JLabel("Fire: "));
+//        mercLabelBox.add(new JLabel("Lightning: "));
+//        mercLabelBox.add(new JLabel("Cold: "));
+//        mercLabelBox.add(new JLabel("Poision: "));
+//        mercLabelBox.add(Box.createRigidArea(new Dimension(0,120)));
+//        
+//        mercValueBox.add(iMercName);
+//        mercValueBox.add(iMercRace);
+//        mercValueBox.add(iMercType);
+//        mercValueBox.add(iMercExp);
+//        mercValueBox.add(iMercLevel);
+//        mercValueBox.add(iMercDead);
+//        mercValueBox.add(Box.createRigidArea(new Dimension(0,10)));
+//        mercValueBox.add(new JLabel("Naked/Gear"));
+//        mercValueBox.add(iMercStr);
+//        mercValueBox.add(iMercDex);
+//        mercValueBox.add(iMercHP);
+//        mercValueBox.add(iMercDef);
+//        mercValueBox.add(iMercAR);
+//        mercValueBox.add(Box.createRigidArea(new Dimension(0,10)));
+//        mercValueBox.add(iMercFireRes);
+//        mercValueBox.add(iMercLightRes);
+//        mercValueBox.add(iMercColdRes);
+//        mercValueBox.add(iMercPoisRes);
+//        mercValueBox.add(Box.createRigidArea(new Dimension(0,120)));
         
         
 //        lMercPanel.add(mercMainBox);
@@ -509,7 +509,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         	"Fire:       " + iCharacter.getMercFireRes()+"/"+(iCharacter.getMercFireRes()-40) +"/"+(iCharacter.getMercFireRes()-100) + "\n"+
         	"Lightning:  " + iCharacter.getMercLightRes()+"/"+(iCharacter.getMercLightRes()-40) +"/"+(iCharacter.getMercLightRes()-100) + "\n"+
         	"Cold:       " + iCharacter.getMercColdRes()+"/"+(iCharacter.getMercColdRes()-40) +"/"+(iCharacter.getMercColdRes()-100) + "\n"+
-        	"Poision:    " + iCharacter.getMercPoisRes()+"/"+(iCharacter.getMercPoisRes()-40) +"/"+(iCharacter.getMercPoisRes()-100);
+        	"Poison:    " + iCharacter.getMercPoisRes()+"/"+(iCharacter.getMercPoisRes()-40) +"/"+(iCharacter.getMercPoisRes()-100);
         	
         	MJT.setText(combinedString);
     	
@@ -553,7 +553,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     	"Fire:       " + iCharacter.getCharFireRes()+"/"+(iCharacter.getCharFireRes()-40) +"/"+(iCharacter.getCharFireRes()-100) + "\n"+
     	"Lightning:  " + iCharacter.getCharLightRes()+"/"+(iCharacter.getCharLightRes()-40) +"/"+(iCharacter.getCharLightRes()-100) + "\n"+
     	"Cold:       " + iCharacter.getCharColdRes()+"/"+(iCharacter.getCharColdRes()-40) +"/"+(iCharacter.getCharColdRes()-100) + "\n"+
-    	"Poision:    " + iCharacter.getCharPoisRes()+"/"+(iCharacter.getCharPoisRes()-40) +"/"+(iCharacter.getCharPoisRes()-100) + "\n"+"\n"+
+    	"Poison:    " + iCharacter.getCharPoisRes()+"/"+(iCharacter.getCharPoisRes()-40) +"/"+(iCharacter.getCharPoisRes()-100) + "\n"+"\n"+
     	"MF:         " + iCharacter.getCharMF() + "\n"+
     	"FR/W:       " +iCharacter.getCharFRW();
     	

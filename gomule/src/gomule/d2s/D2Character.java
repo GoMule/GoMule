@@ -94,8 +94,8 @@ public class D2Character extends D2ItemListAdapter
     //16 is DEF
     //17 AR
     //18 FR
-    ///19 CR
-    //20 LR
+    ///19 LR
+    //20 CR
     //21 PR
     //22 MF
     //23 F/RW
@@ -878,6 +878,10 @@ public class D2Character extends D2ItemListAdapter
 
 	private void setPartialSet(int counter, D2Item thisSetItem) {
 		
+		if(counter > 5){
+			counter = 5;
+		}
+		
 		D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSetItem.getSetName());
 		
 		int replaceChar = 2;
@@ -960,7 +964,7 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
 			replaceStr[3] = "FMax" + replaceChar;
 			codeStr= setRow.get(replaceStr[0]);
 			
-			if(codeStr.equals("")){
+			if(codeStr.equals("") || codeStr.equals("lifesteal")){
 				break;
 			}
 			 
@@ -998,7 +1002,7 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
 							.parseLong( setRow.get(replaceStr[3])));
 				}
 
-				if (! setRow.get(replaceStr[1]).equals("") && !setRow.get(replaceStr[1]).equals("fullsetgeneric")&& !setRow.get(replaceStr[1]).equals("monsterset")) {
+				if (! setRow.get(replaceStr[1]).equals("") && !setRow.get(replaceStr[1]).equals("fullsetgeneric")&& !setRow.get(replaceStr[1]).equals("monsterset") && !setRow.get(replaceStr[1]).equals("Fire Mastery")) {
 					lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long  
 
 							.parseLong( setRow.get(replaceStr[1])));
@@ -1122,6 +1126,28 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
     			hireCol = (D2TxtFileItemProperties)hireArr.get(x);
 
     	}
+    	}
+    	
+    	if(hireCol == null){
+    		
+        	for(int x = 0;x<hireArr.size();x =x+1){
+        		if(((D2TxtFileItemProperties)hireArr.get(x)).get("Version").equals("100") && Integer.parseInt(((D2TxtFileItemProperties)hireArr.get(x)).get("Level")) > iMercLevel){
+
+        			hireCol = (D2TxtFileItemProperties)hireArr.get(x);
+        			break;
+        	}
+    		
+        	}
+//    		iMercStr = iMercInitStr = (int)Math.floor((Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//        	iMercDex = iMercInitDex = (int)Math.floor((Integer.parseInt(hireCol.get("Dex"))+ ((Double.parseDouble(hireCol.get("Dex/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//        	iMercHP = iMercInitHP =  (int)Math.floor((Integer.parseInt(hireCol.get("HP"))+ ((Double.parseDouble(hireCol.get("HP/Lvl")))*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//        	iMercDef =iMercInitDef = (long)(Integer.parseInt(hireCol.get("Defense"))+ (Integer.parseInt(hireCol.get("Def/Lvl"))*(iMercLevel - Integer.parseInt(hireCol.get("Level")))));
+//        	iMercFireRes = iMercInitFireRes = (int)Math.floor((Integer.parseInt(hireCol.get("Resist"))+ ((Double.parseDouble(hireCol.get("Resist/Lvl"))/(double)4)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//        	iMercAR = iMercInitAR = (int)Math.floor((Integer.parseInt(hireCol.get("AR"))+ ((Double.parseDouble(hireCol.get("AR/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//        	iMercColdRes = iMercInitColdRes = iMercInitFireRes;
+//        	iMercLightRes = iMercInitLightRes = iMercInitFireRes;
+//        	iMercPoisRes = iMercInitPoisRes = iMercInitFireRes;
+        	
     	}
     //MATHS ARGH"GJ:LIJGODISH!
     	//System.out.println("STR: "+(Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
@@ -2874,12 +2900,12 @@ D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSet
 	
 	public int getCharColdRes() {
 		// TODO Auto-generated method stub
-		return iCharStats[19];
+		return iCharStats[20];
 	}
 	
 	public int getCharLightRes() {
-		// TODO Auto-generated method stub
-		return iCharStats[20];
+		// TODO Auto-generated method stu
+		return iCharStats[19];
 	}
 	
 	public int getCharPoisRes() {
