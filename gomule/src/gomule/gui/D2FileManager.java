@@ -42,7 +42,7 @@ import randall.util.*;
  */ 
 public class D2FileManager extends JFrame
 {
-    private static final String  CURRENT_VERSION = "R0.18";
+    private static final String  CURRENT_VERSION = "R0.19";
 
     private HashMap				 iItemLists = new HashMap();
     
