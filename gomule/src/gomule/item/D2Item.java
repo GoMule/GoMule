@@ -260,6 +260,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	public D2Item(String pFileName, D2BitReader pFile, int pPos, long pCharLvl)
 	throws Exception {
+		boolean end = false;
 		iFileName = pFileName;
 		iIsChar = iFileName.endsWith(".d2s");
 		iCharLvl = pCharLvl;
@@ -274,14 +275,30 @@ public class D2Item implements Comparable, D2ItemInterface {
 			int lLengthToNextJM = lNextJMPos - pPos;
 
 			if (lLengthToNextJM < 0) {
-				int lNextKFPos = pFile.findNextFlag("kf", pFile.get_byte_pos());
-				if (lNextKFPos >= 0) {
-					lLengthToNextJM = lNextKFPos - pPos;
-				} else {
+				int lNextKFPos = pFile.findNextFlag("kf",pFile.get_byte_pos());
+				int lNextJFPos = pFile.findNextFlag("jf",pFile.get_byte_pos());
+				if (lNextJFPos >= 0 ) {
+					
+					lLengthToNextJM = lNextJFPos - pPos;			
+
+				}else if(lNextKFPos >= 0){
+					lLengthToNextJM = lNextKFPos - pPos;					
+				}
+				
+				
+				else {
 					// last item (for stash only)
 					lLengthToNextJM = pFile.get_length() - pPos;
 				}
+			} else if((lNextJMPos > pFile.findNextFlag("kf",pFile.get_byte_pos())) && (pPos < pFile.findNextFlag("kf",pFile.get_byte_pos()))){
+				lLengthToNextJM = pFile.findNextFlag("kf",pFile.get_byte_pos()) - pPos;
+			} else if((lNextJMPos > pFile.findNextFlag("jf",pFile.get_byte_pos())) && (pPos < pFile.findNextFlag("jf",pFile.get_byte_pos()))){
+				
+				lLengthToNextJM = pFile.findNextFlag("jf",pFile.get_byte_pos()) - pPos;
+				
 			}
+			
+			
 			// pFile.findNextFlag("kf", pFile.get_byte_pos()) - pPos;
 			int lDiff = ((lLengthToNextJM * 8) - lCurrentReadLength);
 			if (lDiff > 7) {
@@ -293,6 +310,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 				// lLengthToNextJM*8 + ": " + lDiff);
 			}
 
+//			if (end) {
+//				return;
+//			}
+			
 			// System.err.println("Current read length: " + lCurrentReadLength +
 			// " - " + lLengthToNextJM );
 

@@ -146,6 +146,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private D2QuestPainterPanel lQuestPanel;
 	private D2SkillPainterPanel lSkillPanel;
 	private D2WayPainterPanel lWayPanel;
+	private D2DeathPainterPanel iDeathPainter;
 
 
 	public D2ViewChar(D2FileManager pMainFrame, String pFileName)
@@ -161,6 +162,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			}
 		});
 
+		ToolTipManager.sharedInstance().setDismissDelay(40000);
+		ToolTipManager.sharedInstance().setInitialDelay(300);
+		
 		iFileManager = pMainFrame;
 		iFileName = pFileName;
 
@@ -270,9 +274,27 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		JPanel lCursorPanel = new JPanel();
 		lCursorPanel.setLayout(new BorderLayout());
 		iCharCursorPainter = new D2CharCursorPainterPanel();
-		lCursorPanel.add(new JLabel("Only for item retrieval, no items can be put here"), BorderLayout.NORTH);
-		lCursorPanel.add(iCharCursorPainter, BorderLayout.CENTER);
-		lTabs.addTab("Cursor", lCursorPanel);
+		lCursorPanel.add(new JLabel("For item viewing, no items can be put or removed from here"), BorderLayout.NORTH);
+
+		iDeathPainter= new D2DeathPainterPanel();
+		lCursorPanel.add(iDeathPainter, BorderLayout.WEST);
+		Box B1 = Box.createHorizontalBox();
+		Box B2 = Box.createHorizontalBox();
+		
+		Box V1 = Box.createVerticalBox();
+		
+		B2.add(new JLabel("Cursor:"));
+		B2.add(Box.createRigidArea(new Dimension(40,0)));
+		V1.add(B2);
+		V1.add(B1);
+		B1.add(iCharCursorPainter);
+		B1.add(Box.createRigidArea(new Dimension(40, 0)));
+		lCursorPanel.add(V1, BorderLayout.EAST);
+		
+//		lCursorPanel.add(Box.createRigidArea(new Dimension(10, 0)), BorderLayout.EAST);
+		
+		
+		lTabs.addTab("Corpse", lCursorPanel);
 		iCharCursorPainter.build();
 
 		JPanel lMercPanel = new JPanel();
@@ -343,7 +365,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		lMercPanel.add(mercMainBox, BorderLayout.LINE_START);
 		lMercPanel.add(mercMainBox2, BorderLayout.LINE_END);
 		lTabs.addTab("Mercenary", lMercPanel);
-		iMercPainter.build();
+		
 
 
 
@@ -855,6 +877,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			iMercPainter.build();
 		}
 		iCharCursorPainter.build();
+		iDeathPainter.build();
 
 
 	}
@@ -881,11 +904,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		private int     iPanel;
 		private int     iRow;
 		private int     iCol;
+		private boolean iIsCorpse;
 
-		public D2ItemPanel(MouseEvent pEvent, boolean pIsChar, boolean pIsCursor)
+		public D2ItemPanel(MouseEvent pEvent, boolean pIsChar, boolean pIsCursor, boolean pIsCorpse)
 		{
 			iIsChar = pIsChar;
 			iIsCursor = pIsCursor;
+			iIsCorpse = pIsCorpse;
 			int x = pEvent.getX();
 			int y = pEvent.getY();
 
@@ -918,6 +943,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			{
 				return iCharacter.checkCharPanel(iPanel, iRow, iCol, null);
 			}
+			if(iIsCorpse)
+			{
+				return iCharacter.checkCorpsePanel(iPanel,iRow, iCol, null);
+			}
 			return iCharacter.checkMercPanel(iPanel, iRow, iCol, null);
 		}
 
@@ -926,6 +955,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			if (iIsChar)
 			{
 				return iCharacter.getCharItemIndex(iPanel, iRow, iCol);
+			}
+			if (iIsCorpse)
+			{
+				return iCharacter.getCorpseItemIndex(iPanel, iRow, iCol);
 			}
 			return iCharacter.getMercItemIndex(iPanel, iRow, iCol);
 		}
@@ -939,6 +972,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			if ( iIsChar )
 			{
 				return iCharacter.getCharItem(iCharacter.getCharItemIndex(iPanel, iRow, iCol));
+			}
+			if(iIsCorpse){
+				return iCharacter.getCorpseItem(iCharacter.getCorpseItemIndex(iPanel, iRow, iCol));
 			}
 			return iCharacter.getMercItem(iCharacter.getMercItemIndex(iPanel, iRow, iCol));
 		}
@@ -979,14 +1015,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			{
 				return D2Character.BODY_HEAD;
 			}
-			if (iIsChar && x >= NECK_X && x < NECK_X + 1 * GRID_SIZE + 1 * GRID_SPACER && y >= NECK_Y && y < NECK_Y + 1 * GRID_SIZE + 1 * GRID_SPACER)
+			if ((iIsChar || iIsCorpse) && x >= NECK_X && x < NECK_X + 1 * GRID_SIZE + 1 * GRID_SPACER && y >= NECK_Y && y < NECK_Y + 1 * GRID_SIZE + 1 * GRID_SPACER)
 			{
 				return D2Character.BODY_NECK;
 			}
 			// merc & char
 			if (x >= L_ARM_X && x < L_ARM_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= L_ARM_Y && y < L_ARM_Y + 4 * GRID_SIZE + 4 * GRID_SPACER)
 			{
-				if (!iIsChar || iWeaponSlot == 1)
+				if ((!iIsChar && !iIsCorpse) || iWeaponSlot == 1)
 				{
 					// merc
 					return D2Character.BODY_LARM;
@@ -996,10 +1032,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					return D2Character.BODY_LARM2;
 				}
 			}
+			
+			if((!iIsChar && !iIsCorpse) && x>= 258 && x<=314 && y>=223 && y<= 335){
+				return 1337;
+			}
+			
 			// merc & char
 			if (x >= R_ARM_X && x < R_ARM_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= R_ARM_Y && y < R_ARM_Y + 4 * GRID_SIZE + 4 * GRID_SPACER)
 			{
-				if (!iIsChar || iWeaponSlot == 1)
+				if ((!iIsChar && !iIsCorpse)  || iWeaponSlot == 1)
 				{
 					// merc
 					return D2Character.BODY_RARM;
@@ -1014,23 +1055,23 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			{
 				return D2Character.BODY_TORSO;
 			}
-			if (iIsChar && x >= GLOVES_X && x < GLOVES_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= GLOVES_Y && y < GLOVES_Y + 2 * GRID_SIZE + 2 * GRID_SPACER)
+			if ((iIsChar || iIsCorpse)  && x >= GLOVES_X && x < GLOVES_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= GLOVES_Y && y < GLOVES_Y + 2 * GRID_SIZE + 2 * GRID_SPACER)
 			{
 				return D2Character.BODY_GLOVES;
 			}
-			if (iIsChar && x >= BELT_X && x < BELT_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= BELT_Y && y < BELT_Y + 1 * GRID_SIZE + 1 * GRID_SPACER)
+			if ((iIsChar || iIsCorpse)  && x >= BELT_X && x < BELT_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= BELT_Y && y < BELT_Y + 1 * GRID_SIZE + 1 * GRID_SPACER)
 			{
 				return D2Character.BODY_BELT;
 			}
-			if (iIsChar && x >= BOOTS_X && x < BOOTS_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= BOOTS_Y && y < BOOTS_Y + 2 * GRID_SIZE + 2 * GRID_SPACER)
+			if ((iIsChar || iIsCorpse)  && x >= BOOTS_X && x < BOOTS_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= BOOTS_Y && y < BOOTS_Y + 2 * GRID_SIZE + 2 * GRID_SPACER)
 			{
 				return D2Character.BODY_BOOTS;
 			}
-			if (iIsChar && x >= L_RING_X && x < L_RING_X + 1 * GRID_SIZE + 1 * GRID_SPACER && y >= L_RING_Y && y < L_RING_Y + 1 * GRID_SIZE + 1 * GRID_SPACER)
+			if ((iIsChar || iIsCorpse)  && x >= L_RING_X && x < L_RING_X + 1 * GRID_SIZE + 1 * GRID_SPACER && y >= L_RING_Y && y < L_RING_Y + 1 * GRID_SIZE + 1 * GRID_SPACER)
 			{
 				return D2Character.BODY_LRING;
 			}
-			if (iIsChar && x >= R_RING_X && x < R_RING_X + 1 * GRID_SIZE + 1 * GRID_SPACER && y >= R_RING_Y && y < R_RING_Y + 1 * GRID_SIZE + 1 * GRID_SPACER)
+			if ((iIsChar || iIsCorpse)  && x >= R_RING_X && x < R_RING_X + 1 * GRID_SIZE + 1 * GRID_SPACER && y >= R_RING_Y && y < R_RING_Y + 1 * GRID_SIZE + 1 * GRID_SPACER)
 			{
 				return D2Character.BODY_RRING;
 			}
@@ -1136,7 +1177,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							setWeaponSlot(2);
 						}
 						// determine where the mouse click is
-						D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, false);
+						D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, false, false);
 						if (lItemPanel.getPanel() != -1)
 						{
 							// if there is an item to grab, grab it
@@ -1278,7 +1319,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					//            	    restoreSubcomponentFocus();
 					D2Item lCurrentMouse = null;
 
-					D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, false);
+					D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, false, false);
 					if (lItemPanel.getPanel() != -1)
 					{
 						if (lItemPanel.isItem())
@@ -1587,7 +1628,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					 */)
 					{
 						// determine where the mouse click is
-						D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, false, false);
+						D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, false, false, false);
+						if(lItemPanel.getPanel() == 1337){
+							return;
+						}
 						if (lItemPanel.getPanel() != -1)
 						{
 							// if there is an item to grab, grab it
@@ -1683,7 +1727,16 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					//            	    restoreSubcomponentFocus();
 					D2Item lCurrentMouse = null;
 
-					D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, false, false);
+					D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, false, false, false);
+					
+					if(lItemPanel.getPanel() == 1337){
+						if(iCharacter.getGolemItem() == null){
+							return;
+						}
+						D2MercPainterPanel.this.setToolTipText(iCharacter.getGolemItem().toStringHtml());
+						return;
+					}
+					
 					if (lItemPanel.getPanel() != -1)
 					{
 						if (lItemPanel.isItem())
@@ -1742,8 +1795,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 		public void build()
 		{
-			Image lEmptyBackground = D2ImageCache.getImage("merc.jpg");
 
+			Image lEmptyBackground;
+			if(iCharacter != null && iCharacter.getCharClass().equals("Necromancer")){
+			lEmptyBackground = D2ImageCache.getImage("merc.jpg");
+			}else{
+			lEmptyBackground = D2ImageCache.getImage("merc2.jpg");
+			}
 			int lWidth = lEmptyBackground.getWidth(D2MercPainterPanel.this);
 			int lHeight = lEmptyBackground.getHeight(D2MercPainterPanel.this);
 
@@ -1813,6 +1871,16 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 					}
 				}
+				
+				//Paint golem item
+				
+				if(iCharacter.getGolemItem() != null){
+					D2Item temp_item = iCharacter.getGolemItem();
+					Image lImage = D2ImageCache.getDC6Image(temp_item);
+					lGraphics.drawImage(lImage, 273, 225, D2MercPainterPanel.this);
+					
+				}
+				
 			}
 			repaint();
 		}
@@ -1826,6 +1894,263 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		}
 	}
 
+	class D2DeathPainterPanel extends JPanel
+	{
+		private Image iBackground;
+
+		public D2DeathPainterPanel()
+		{
+			setSize(318, 247);
+			Dimension lSize = new Dimension(318, 247);
+			setPreferredSize(lSize);
+
+			addMouseListener(new MouseAdapter()
+			{
+				public void mouseReleased(MouseEvent pEvent)
+				{
+					if ( iCharacter == null )
+					{
+						return;
+					}
+					//                    System.err.println("Mouse Clicked: " + pEvent.getX() + ",
+							// " + pEvent.getY() );
+					if (pEvent.getButton() == MouseEvent.BUTTON1 /*
+					 * &&
+					 * pEvent.getClickCount() ==
+					 * 1
+					 */)
+					{
+						int lX = pEvent.getX();
+						int lY = pEvent.getY();
+						if (((lX >= 16 && lX <= 45) || (lX >= 247 && lX <= 276)) && (lY >= 24 && lY <= 44))
+						{
+							setWeaponSlot(1);
+						}
+						else if (((lX >= 51 && lX <= 80) || (lX >= 282 && lX <= 311)) && (lY >= 24 && lY <= 44))
+						{
+							setWeaponSlot(2);
+						}
+					
+
+					}
+				}
+
+				public void mouseEntered(MouseEvent e)
+				{
+					setCursorNormal();
+				}
+
+				public void mouseExited(MouseEvent e)
+				{
+					setCursorNormal();
+				}
+			});
+			addMouseMotionListener(new MouseMotionAdapter()
+			{
+				public void mouseMoved(MouseEvent pEvent)
+				{
+					if ( iCharacter == null )
+					{
+						return;
+					}
+					//            	    restoreSubcomponentFocus();
+					D2Item lCurrentMouse = null;
+
+					D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, false, false, true);
+					if (lItemPanel.getPanel() != -1)
+					{
+						if (lItemPanel.isItem())
+						{
+							lCurrentMouse = lItemPanel.getItem();
+						}
+
+					}
+					else
+					{
+						setCursorNormal();
+					}
+					if (lCurrentMouse == null)
+					{
+						D2DeathPainterPanel.this.setToolTipText(null);
+					}
+					else
+					{
+						D2DeathPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml());
+					}
+				}
+			});
+		}
+
+		public void setWeaponSlot(int pWeaponSlot)
+		{
+			iWeaponSlot = pWeaponSlot;
+			build();
+		}
+
+		public void build()
+		{
+			Image lEmptyBackground;
+			if (iWeaponSlot == 1)
+			{
+				lEmptyBackground = D2ImageCache.getImage("dead.jpg");
+			}
+			else
+			{
+				lEmptyBackground = D2ImageCache.getImage("dead2.jpg");
+			}
+
+			int lWidth = lEmptyBackground.getWidth(D2DeathPainterPanel.this);
+			int lHeight = lEmptyBackground.getHeight(D2DeathPainterPanel.this);
+
+			iBackground = iFileManager.getGraphicsConfiguration().createCompatibleImage(lWidth, lHeight, Transparency.BITMASK);
+//			iBackground = new BufferedImage(lWidth, lHeight, BufferedImage.TYPE_3BYTE_BGR);
+
+			Graphics2D lGraphics = (Graphics2D) iBackground.getGraphics();
+
+			lGraphics.drawImage(lEmptyBackground, 0, 0, D2DeathPainterPanel.this);
+
+			if ( iCharacter != null )
+			{
+				for (int i = 0; i < iCharacter.getCorpseItemNr(); i++)
+				{
+					D2Item temp_item = iCharacter.getCorpseItem(i);
+					Image lImage = D2ImageCache.getDC6Image(temp_item);
+					int location = temp_item.get_location();
+					// on one of the grids
+					// these items have varying height and width
+					// and a variable position, indexed from the
+					// top left
+					if (location == 0)
+					{
+						int panel = temp_item.get_panel();
+						int x = temp_item.get_col();
+						int y = temp_item.get_row();
+						int w = temp_item.get_width();
+						int h = temp_item.get_height();
+						switch (panel)
+						{
+						// in the inventory
+						case 1:
+							//                    	System.err.println("Item loc 0 - 1 - " +
+									// temp_item.get_name() + " - " + temp_item.get_image()
+							// );
+							lGraphics.drawImage(lImage, INV_X + x * GRID_SIZE + x * GRID_SPACER, INV_Y + y * GRID_SIZE + y * GRID_SPACER, D2DeathPainterPanel.this);
+							break;
+							// in the cube
+						case 4:
+							lGraphics.drawImage(lImage, CUBE_X + x * GRID_SIZE + x * GRID_SPACER, CUBE_Y + y * GRID_SIZE + y * GRID_SPACER, D2DeathPainterPanel.this);
+							break;
+							// in the stash
+						case 5:
+							lGraphics.drawImage(lImage, STASH_X + x * GRID_SIZE + x * GRID_SPACER, STASH_Y + y * GRID_SIZE + y * GRID_SPACER, D2DeathPainterPanel.this);
+							break;
+						}
+					}
+					// on the belt
+					// belt row and col is indexed from the top
+					// left, but this displays them from the
+					// bottom right (so the 0th row items get
+					// placed in the bottom belt row)
+					// these items can all be assumed to be 1x1
+					else if (location == 2)
+					{
+						int x = temp_item.get_col();
+						int y = x / 4;
+						x = x % 4;
+						lGraphics.drawImage(lImage, BELT_GRID_X + x * GRID_SIZE + x * GRID_SPACER, BELT_GRID_Y + (3 - y) * GRID_SIZE + (3 - y) * GRID_SPACER, D2DeathPainterPanel.this);
+					}
+					// on the body
+					else
+					{
+						int body_position = temp_item.get_body_position();
+						int w, h, wbias, hbias;
+						switch (body_position)
+						{
+						// head (assume 2x2)
+						case 1:
+							lGraphics.drawImage(lImage, HEAD_X, HEAD_Y, D2DeathPainterPanel.this);
+							break;
+							// neck / amulet (assume 1x1)
+						case 2:
+							lGraphics.drawImage(lImage, NECK_X, NECK_Y, D2DeathPainterPanel.this);
+							break;
+						case 3:
+							// body (assume 2x3
+									lGraphics.drawImage(lImage, BODY_X, BODY_Y, D2DeathPainterPanel.this);
+									break;
+									// right arm (give the whole 2x4)
+									// biases are to center non-2x4 items
+						case 4:
+						case 11:
+							if ((iWeaponSlot == 1 && body_position == 4) || (iWeaponSlot == 2 && body_position == 11))
+							{
+								w = temp_item.get_width();
+								h = temp_item.get_height();
+								wbias = 0;
+								hbias = 0;
+								if (w == 1)
+									wbias += GRID_SIZE / 2;
+								if (h == 3)
+									hbias += GRID_SIZE / 2;
+								else if (h == 2)
+									hbias += GRID_SIZE;
+								lGraphics.drawImage(lImage, R_ARM_X + wbias, R_ARM_Y + hbias, D2DeathPainterPanel.this);
+							}
+							break;
+							// left arm (give the whole 2x4)
+						case 5:
+						case 12:
+							if ((iWeaponSlot == 1 && body_position == 5) || (iWeaponSlot == 2 && body_position == 12))
+							{
+								w = temp_item.get_width();
+								h = temp_item.get_height();
+								wbias = 0;
+								hbias = 0;
+								if (w == 1)
+									wbias += GRID_SIZE / 2;
+								if (h == 3)
+									hbias += GRID_SIZE / 2;
+								else if (h == 2)
+									hbias += GRID_SIZE;
+								lGraphics.drawImage(lImage, L_ARM_X + wbias, L_ARM_Y + hbias, D2DeathPainterPanel.this);
+							}
+							break;
+							// left ring (assume 1x1)
+						case 6:
+							lGraphics.drawImage(lImage, L_RING_X, L_RING_Y, D2DeathPainterPanel.this);
+							break;
+							// right ring (assume 1x1)
+						case 7:
+							lGraphics.drawImage(lImage, R_RING_X, R_RING_Y, D2DeathPainterPanel.this);
+							break;
+							// belt (assume 2x1)
+						case 8:
+							lGraphics.drawImage(lImage, BELT_X, BELT_Y, D2DeathPainterPanel.this);
+							break;
+						case 9:
+							// boots (assume 2x2)
+							lGraphics.drawImage(lImage, BOOTS_X, BOOTS_Y, D2DeathPainterPanel.this);
+							break;
+							// gloves (assume 2x2)
+						case 10:
+							lGraphics.drawImage(lImage, GLOVES_X, GLOVES_Y, D2DeathPainterPanel.this);
+							break;
+						}
+					}
+				}
+			}
+			repaint();
+		}
+
+		public void paint(Graphics pGraphics)
+		{
+			super.paint(pGraphics);
+			Graphics2D lGraphics = (Graphics2D) pGraphics;
+
+			lGraphics.drawImage(iBackground, 0, 0, D2DeathPainterPanel.this);
+		}
+	}
+	
 	class D2SkillPainterPanel extends JPanel
 	{
 		private Image iBackground;
@@ -2342,6 +2667,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 		}
 	}
+	
+	
 
 	class D2WayPainterPanel extends JPanel
 	{
@@ -2584,7 +2911,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					 */)
 					{
 						// determine where the mouse click is
-						D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, true);
+						D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, true, false);
 						if (lItemPanel.getPanel() != -1)
 						{
 							// if there is an item to grab, grab it
@@ -2686,7 +3013,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					//            	    restoreSubcomponentFocus();
 					D2Item lCurrentMouse = null;
 
-					D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, true);
+					D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, true, false);
 					if (lItemPanel.getPanel() != -1)
 					{
 						if (lItemPanel.isItem())

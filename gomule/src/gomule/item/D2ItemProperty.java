@@ -166,7 +166,7 @@ public class D2ItemProperty
             {
         		
         		if (iProp == 23 || iProp == 24 || iProp == 159 || iProp == 160){
-        			System.out.println(this.iItemName + "     " + this.iProp);
+//        			System.out.println(this.iItemName + "     " + this.iProp);
         		}
         		
                 iNoValue = true;
@@ -539,6 +539,18 @@ public class D2ItemProperty
                 D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.searchColumns("skilldesc", lDesc);
                 return iValue.replaceFirst("%s", D2TblFile.getString(lSkill.get("str name")));
             }
+            
+            if(iProp == 333 || iProp == 334 || iProp == 335 || iProp == 336){
+                PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+              String lNiceString = D2TblFile.getString(lValue1.iItemStatCost.get("descstrpos"));
+              
+              return "-" + lValue1.iValue + "% " + lNiceString;
+              
+            }
+            		
+            		
+            		
+
             
             if (iProp == 204)
             {

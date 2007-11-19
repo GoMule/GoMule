@@ -55,6 +55,7 @@ public class D2Character extends D2ItemListAdapter
 	public static final int BODY_GLOVES        = 20;
 	public static final int BODY_RARM2         = 21;
 	public static final int BODY_LARM2         = 22;
+	public static final int GOLEM_SLOT = 23;
 
 //	private String          iFileName;
 	private D2BitReader     iReader;
@@ -69,6 +70,7 @@ public class D2Character extends D2ItemListAdapter
 	private boolean[]       iEquipped;
 
 	private boolean[]       iMerc;
+	private boolean[]       iCorpse;
 
 	//    private int itemlist_start;
 	//    private int itemlist_end;
@@ -145,7 +147,11 @@ public class D2Character extends D2ItemListAdapter
 	private int lWoo;
 	private int iWS;
 	private int hpCounter;
-
+	private int iKF;
+	private D2Item golemItem;
+	private int iItemEnd;
+	private int iJF;
+	private ArrayList iCorpseItems = new ArrayList();
 
 	public D2Character(String pFileName) throws Exception
 	{
@@ -384,6 +390,23 @@ public class D2Character extends D2ItemListAdapter
 			throw new Exception("Error: Skills block not found");
 		}
 		
+		iJF = iReader.findNextFlag("jf", iIF);
+		if ( iJF == -1 )
+		{
+			
+			System.out.println("WTF is going on. Looks like it might be classic? USE WITH CARE!");
+//			throw new Exception("Error: No merc block! WTF?");
+		}
+		
+		iKF = iReader.findNextFlag("kf", iIF);
+		if ( iKF != -1 )
+		{
+			readGolem();
+//			throw new Exception("Error: Golem block not found");
+		}
+		
+		
+		
 
 
 //		System.err.println("Test: " + lWoo + " - " + lW4 + " - " + iGF + " - " + iIF );
@@ -459,8 +482,10 @@ public class D2Character extends D2ItemListAdapter
 		iCubeGrid = new boolean[4][3];
 		iEquipped = new boolean[13];
 		iMerc = new boolean[13];
+		iCorpse = new boolean[13];
 		clearGrid();
 		readItems( iIF );
+		readCorpse();
 
 //		for(int x = 0;x<iCharItems.size();x=x+1){
 //		if(((D2Item)iCharItems.get(x)).isEquipped() && ((D2Item)iCharItems.get(x)).isSet()){
@@ -509,6 +534,86 @@ public class D2Character extends D2ItemListAdapter
 			}
 		}
 
+	}
+
+	private void readCorpse() throws Exception {
+//		iReader.set_byte_pos(iIF);
+//		int golemPoint = iReader.findNextFlag("kfJM", 0);
+//		System.out.println(golemPoint);
+		
+//		System.out.println(iBetweenItems.length);
+		
+				int corpseStart = iReader.findNextFlag("JM", iItemEnd+2);
+		
+		if(corpseStart < 0 || corpseStart > iKF || corpseStart > iJF){
+			
+			return;
+		}
+		
+		
+		
+		
+		iReader.set_byte_pos(corpseStart);
+		
+		iReader.skipBytes(2);
+		int num_items = (int) (iReader.read(8));
+		
+		int lLastItemEnd = iReader.get_byte_pos();
+
+		for (int i = 0; i < num_items; i++)
+		{
+			int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
+			if (lItemStart == -1)
+			{
+				throw new Exception("Corpse item " + (i + 1) + " not found.");
+			}
+
+			D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
+
+			lLastItemEnd = lItemStart + lItem.getItemLength();
+			if ( lItem.isCursorItem() )
+			{
+				if ( iCharCursorItem != null )
+				{
+					throw new Exception("Double cursor item found");
+				}
+				iCharCursorItem = lItem;
+			}
+			else
+			{
+				addCorpseItem(lItem);
+				markCorpseGrid(lItem);
+			}
+		}
+		
+		
+	}
+
+	private void readGolem() throws Exception {
+		
+		iReader.set_byte_pos(iKF);
+
+		iReader.skipBytes(2);
+		
+
+		switch((int)iReader.read(8)){
+		
+		case 0:
+			golemItem = null;
+			return;		
+		}
+		
+		int lItemStart = iReader.findNextFlag("JM", iKF);
+		if (lItemStart == -1)
+		{
+			
+				throw new Exception("Golem item not found.");
+
+		}
+
+		golemItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
+
+		
 	}
 
 	private void readWaypoints() {
@@ -685,7 +790,7 @@ public class D2Character extends D2ItemListAdapter
 //		System.out.println(cClass);
 		generateSkillLocs();
 		D2TxtFileItemProperties initRow = D2TxtFile.SKILLS.searchColumns("charclass", cClass);
-		System.out.println(initRow.get("skill"));
+//		System.out.println(initRow.get("skill"));
 
 		iReader.set_byte_pos(iIF);
 		byte skillInitialBytes[] = iReader.get_bytes(32);
@@ -1836,7 +1941,7 @@ public class D2Character extends D2ItemListAdapter
 				markCharGrid(lItem);
 			}
 		}
-
+		iItemEnd = lCharEnd;
 		//        System.err.println("Read Char: " + lCharStart + " - " + lCharEnd );
 
 		int lMercStart = -1;
@@ -1941,6 +2046,10 @@ public class D2Character extends D2ItemListAdapter
 		for (int i = 0; i < iMerc.length; i++)
 		{
 			iMerc[i] = false;
+		}
+		for (int i = 0; i < iCorpse.length; i++)
+		{
+			iCorpse[i] = false;
 		}
 		for (int i = 0; i < 4; i++)
 		{
@@ -2090,6 +2199,44 @@ public class D2Character extends D2ItemListAdapter
 		return true;
 	}
 
+	public boolean markCorpseGrid(D2Item i)
+	{
+		short panel = i.get_panel();
+		// pre-declarations because java scopes
+		// switches strangely
+		int row, col, width, height, j, k;
+		switch (panel)
+		{
+		case 0: // equipped or on belt
+			int location = (int) i.get_location();
+			// on the belt
+			if (location == 2)
+			{
+
+			}
+			// in a socket, not handled yet
+			else if (location == 6)
+			{
+
+			}
+			// not on the belt
+			else
+			{
+				int body_position = (int) i.get_body_position();
+				if (iCorpse[body_position] == true)
+				{
+					return false;
+				}
+				else
+				{
+					iCorpse[body_position] = true;
+				}
+			}
+			break;
+		}
+		return true;
+	}
+	
 	public boolean unmarkCharGrid(D2Item i)
 	{
 		short panel = i.get_panel();
@@ -2203,6 +2350,13 @@ public class D2Character extends D2ItemListAdapter
 		pItem.setCharLvl(iCharLevel);
 		setModified(true);
 	}
+	
+	public void addCorpseItem(D2Item pItem)
+	{
+		iCorpseItems .add(pItem);
+		pItem.setCharLvl(iCharLevel);
+		setModified(true);
+	}
 
 	// insert an item into the vector
 	public void addMercItem(D2Item pItem)
@@ -2240,10 +2394,20 @@ public class D2Character extends D2ItemListAdapter
 	{
 		return (D2Item) iMercItems.get(i);
 	}
+	
+	public D2Item getCorpseItem(int i)
+	{
+		return (D2Item) iCorpseItems.get(i);
+	}
 
 	public int getMercItemNr()
 	{
 		return iMercItems.size();
+	}
+	
+	public int getCorpseItemNr()
+	{
+		return iCorpseItems.size();
 	}
 
 	public boolean checkCharGrid(int panel, int x, int y, D2Item pItem)
@@ -2301,6 +2465,140 @@ public class D2Character extends D2ItemListAdapter
 		return true;
 	}
 
+	public boolean checkCorpsePanel(int panel, int x, int y, D2Item pItem)
+	{
+		if (panel >= 10)
+		{
+			if (pItem == null)
+			{
+				return iCorpse[panel - 10];
+			}
+			if (iCorpse[panel - 10])
+			{
+				return true;
+			}
+			switch (panel)
+			{
+			case BODY_HEAD:
+				// head
+				if (pItem.isBodyLocation(D2BodyLocations.BODY_HEAD) )
+				{
+					return false;
+				}
+				break;
+			case BODY_NECK:
+				// neck
+				if (pItem.isBodyLocation(D2BodyLocations.BODY_NECK) )
+				{
+					return false;
+				}
+				break;
+			case BODY_LARM:
+			case BODY_LARM2:
+				// neck
+				if (pItem.isBodyLArm())
+				{
+					return false;
+				}
+				break;
+			case BODY_TORSO:
+				// neck
+				if (pItem.isBodyLocation(D2BodyLocations.BODY_TORS) )
+				{
+					return false;
+				}
+				break;
+			case BODY_RARM:
+			case BODY_RARM2:
+				// neck
+				if (pItem.isBodyLocation(D2BodyLocations.BODY_RARM) )
+				{
+					return false;
+				}
+				break;
+			case BODY_GLOVES:
+				// neck
+				if (pItem.isBodyLocation(D2BodyLocations.BODY_GLOV) )
+				{
+					return false;
+				}
+				break;
+			case BODY_RRING:
+				// neck
+				if (pItem.isBodyRRin())
+				{
+					return false;
+				}
+				break;
+			case BODY_BELT:
+				// neck
+				if ( pItem.isBodyLocation(D2BodyLocations.BODY_BELT) )
+				{
+					return false;
+				}
+				break;
+			case BODY_LRING:
+				// neck
+				if (pItem.isBodyLocation(D2BodyLocations.BODY_LRIN) )
+				{
+					return false;
+				}
+				break;
+			case BODY_BOOTS:
+				// neck
+				if (pItem.isBodyLocation(D2BodyLocations.BODY_FEET) )
+				{
+					return false;
+				}
+				break;
+			case BODY_CURSOR:
+				// allow all type of items on the cursor
+				return false;
+			}
+			return true;
+		}
+		switch (panel)
+		{
+		case BODY_INV_CONTENT:
+			if (y >= 0 && y < iInventoryGrid.length)
+			{
+				if (x >= 0 && x < iInventoryGrid[y].length)
+				{
+					return iInventoryGrid[y][x];
+				}
+			}
+			return false;
+		case BODY_BELT_CONTENT:
+			if (y >= 0 && y < iBeltGrid.length)
+			{
+				if (x >= 0 && x < iBeltGrid[y].length)
+				{
+					return iBeltGrid[y][x];
+				}
+			}
+			return false;
+		case BODY_CUBE_CONTENT:
+			if (y >= 0 && y < iCubeGrid.length)
+			{
+				if (x >= 0 && x < iCubeGrid[y].length)
+				{
+					return iCubeGrid[y][x];
+				}
+			}
+			return false;
+		case BODY_STASH_CONTENT:
+			if (y >= 0 && y < iStashGrid.length)
+			{
+				if (x >= 0 && x < iStashGrid[y].length)
+				{
+					return iStashGrid[y][x];
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+	
 	public boolean checkCharPanel(int panel, int x, int y, D2Item pItem)
 	{
 		if (panel >= 10)
@@ -2519,6 +2817,54 @@ public class D2Character extends D2ItemListAdapter
 			for (int i = 0; i < iCharItems.size(); i++)
 			{
 				D2Item temp_item = (D2Item) iCharItems.get(i);
+				if (temp_item.get_panel() == panel)
+				{
+					int row = temp_item.get_col();
+					int col = temp_item.get_row();
+					if (x >= row && x <= row + temp_item.get_width() - 1 && y >= col && y <= col + temp_item.get_height() - 1)
+						return i;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	public int getCorpseItemIndex(int panel, int x, int y)
+	{
+		if (panel == BODY_BELT_CONTENT)
+		{
+			for (int i = 0; i < iCorpseItems.size(); i++)
+			{
+				D2Item temp_item = (D2Item) iCorpseItems.get(i);
+				if (temp_item.get_location() == panel)
+				{
+					if (temp_item.get_col() == 4 * y + x)
+						return i;
+				}
+			}
+		}
+		else if (panel >= 10)
+		{
+			for (int i = 0; i < iCorpseItems.size(); i++)
+			{
+				D2Item temp_item = (D2Item) iCorpseItems.get(i);
+				if (temp_item.get_location() != 0 && temp_item.get_location() != 2)
+				{
+					if (temp_item.get_panel() == 0)
+					{
+						if (temp_item.get_body_position() == panel - 10)
+						{
+							return i;
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < iCorpseItems.size(); i++)
+			{
+				D2Item temp_item = (D2Item) iCorpseItems.get(i);
 				if (temp_item.get_panel() == panel)
 				{
 					int row = temp_item.get_col();
@@ -3172,6 +3518,10 @@ public class D2Character extends D2ItemListAdapter
 	
 	public String[][] getWaypoints(){
 		return iWaypoints;
+	}
+
+	public D2Item getGolemItem() {
+		return golemItem;
 	}
 	
 
