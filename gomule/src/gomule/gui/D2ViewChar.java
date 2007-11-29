@@ -595,7 +595,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			"Cold:       " + iCharacter.getCharColdRes()+"/"+(iCharacter.getCharColdRes()-40) +"/"+(iCharacter.getCharColdRes()-100) + "\n"+
 			"Poison:    " + iCharacter.getCharPoisRes()+"/"+(iCharacter.getCharPoisRes()-40) +"/"+(iCharacter.getCharPoisRes()-100) + "\n"+"\n"+
 			"MF:         " + iCharacter.getCharMF() + "\n"+
-			"FR/W:       " +iCharacter.getCharFRW();
+			"FR/W:       " +iCharacter.getCharFRW()+ "\n"+
+			"FCR:       " +iCharacter.getCharFCR();
 
 		CJT.setText(combinedString);
 

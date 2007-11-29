@@ -104,8 +104,9 @@ public class D2Character extends D2ItemListAdapter
 	//21 PR
 	//22 MF
 	//23 F/RW
-	private int				iInitStats[] = new int[24];
-	private int				iCharStats[] = new int[24];
+	//24 FCR
+	private int				iInitStats[] = new int[25];
+	private int				iCharStats[] = new int[25];
 	private int				iGF; 
 	private int				iIF;
 	private String iMercName = " ";
@@ -1775,6 +1776,7 @@ public class D2Character extends D2ItemListAdapter
 		iCharStats[21] = iInitStats[21] + charStatArray[45];
 		iCharStats[22] = charStatArray[80];
 		iCharStats[23] = charStatArray[96];
+		iCharStats[24] = charStatArray[105];
 
 //		iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
 //		iCharStats[16] = (int)calcCharArmor() + (int)(Math.floor((double)iCharStats[2]/(double)4));
@@ -3502,6 +3504,9 @@ public class D2Character extends D2ItemListAdapter
 	}
 	public int getCharFRW(){
 		return iCharStats[23];
+	}
+	public int getCharFCR(){
+		return iCharStats[24];
 	}
 	public int getCharSkillRem(){
 		return iInitStats[5];

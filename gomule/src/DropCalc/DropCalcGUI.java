@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.Box;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -20,7 +21,9 @@ public class DropCalcGUI extends JFrame{
 	 JTextArea monOutput = new JTextArea();
 	  JScrollPane scrollingArea = new JScrollPane(monOutput);
 	  ArrayList monTypeKey = new ArrayList();
-	
+	  private MonDiff selectedMon;
+	  JButton bla = new JButton("Stupid");
+	  
 	public DropCalcGUI(){
 		
 	final DropCalc DC = new DropCalc();
@@ -63,7 +66,7 @@ public class DropCalcGUI extends JFrame{
 			case(1):
 			{
 				for(int x = 0; x< DC.mainMinMonArray.size();x=x+1){
-					mainMonList.addItem(((MonDiff)DC.mainMinMonArray.get(x)).getRealName()+"--"+((MonDiff)DC.mainMinMonArray.get(x)).getName());
+					mainMonList.addItem(((MonDiff)DC.mainMinMonArray.get(x)).getRealName()+ " (" + ((MonDiff)DC.mainMinMonArray.get(x)).getBoss() + ") " +"--"+((MonDiff)DC.mainMinMonArray.get(x)).getName());
 					}
 				break;
 			}
@@ -104,11 +107,13 @@ public class DropCalcGUI extends JFrame{
 	
 	mainMonList.addActionListener(new ActionListener() {
 
+		
+
 		public void actionPerformed(ActionEvent arg0) {
 			
 			if(mainMonList.getItemCount() != 0 ){
 			
-			MonDiff selectedMon = null;
+			
 			System.out.println(monTypeList.getSelectedIndex());
 			switch(monTypeList.getSelectedIndex()){
 			
@@ -145,18 +150,43 @@ public class DropCalcGUI extends JFrame{
 			}
 			
 			
-			ArrayList selectedTCs = new ArrayList();
-			monOutput.setText("");
-
-				DC.lookupBASETCReturnATOMICTCS(selectedMon, 1);
-				for(int x = 0;x<selectedMon.getAreas().size();x=x+1){
-					for(int y = 0;y<((ArrayList)selectedMon.getFinalProbs().get(x)).size();y=y+1){
-					monOutput.setText(monOutput.getText() + selectedMon.getName() + "--"+ selectedMon.getRealName() + "--" + selectedMon.getLevels().get(x)+"--"+ selectedMon.getAreas().get(x) + "--"+selectedMon.getRealInitTC().get(x) +"--"+ ((ArrayList)selectedMon.getFinalTCs().get(x)).get(y) +"--"+((ArrayList)selectedMon.getFinalProbs().get(x)).get(y) + "\n");
-					}
-				}
+//			ArrayList selectedTCs = new ArrayList();
+//			monOutput.setText("");
+//
+//				DC.lookupBASETCReturnATOMICTCS(selectedMon, 1);
+//				System.out.println("SIZE: "+((ArrayList)selectedMon.getFinalProbs().get(0)).size());
+//				for(int x = 0;x<selectedMon.getAreas().size();x=x+1){
+//					for(int y = 0;y<((ArrayList)selectedMon.getFinalProbs().get(x)).size();y=y+1){
+//					monOutput.setText(monOutput.getText() + selectedMon.getName() + "--"+ selectedMon.getRealName() + "--" + selectedMon.getLevels().get(x)+"--"+ selectedMon.getAreas().get(x) + "--"+selectedMon.getRealInitTC().get(x) +"--"+ ((ArrayList)selectedMon.getFinalTCs().get(x)).get(y) +"--"+((ArrayList)selectedMon.getFinalProbs().get(x)).get(y) + "\n");
+//					}
+//				}
 			}
 		}
 	});
+	
+	
+	bla.addActionListener(new ActionListener() {
+
+		public void actionPerformed(ActionEvent arg0) {
+			
+	ArrayList selectedTCs = new ArrayList();
+	monOutput.setText("");
+
+		DC.lookupBASETCReturnATOMICTCS(selectedMon, 1);
+		for(int x = 0;x<selectedMon.getAreas().size();x=x+1){
+			for(int y = 0;y<((ArrayList)selectedMon.getFinalProbs().get(x)).size();y=y+1){
+				if(selectedMon.getType().equals("MIN")){
+					monOutput.setText(monOutput.getText() + selectedMon.getName() + " (" + selectedMon.getBoss() + ") " + "--"+ selectedMon.getRealName() + "--" + selectedMon.getLevels().get(x)+"--"+ selectedMon.getAreas().get(x) + "--"+selectedMon.getRealInitTC().get(x) +"--"+ ((ArrayList)selectedMon.getFinalTCs().get(x)).get(y) +"--"+((ArrayList)selectedMon.getFinalProbs().get(x)).get(y) + "\n");
+					
+					
+				}else{
+			monOutput.setText(monOutput.getText() + selectedMon.getName() + "--"+ selectedMon.getRealName() + "--" + selectedMon.getLevels().get(x)+"--"+ selectedMon.getAreas().get(x) + "--"+selectedMon.getRealInitTC().get(x) +"--"+ ((ArrayList)selectedMon.getFinalTCs().get(x)).get(y) +"--"+((ArrayList)selectedMon.getFinalProbs().get(x)).get(y) + "\n");
+			}
+			}
+		}
+		}
+		});
+	
 	
 	addWindowListener(new WindowAdapter() {
 		public void windowClosing(WindowEvent e) {
@@ -168,6 +198,7 @@ public class DropCalcGUI extends JFrame{
 	v1.add(monTypeList);
 	v1.add(mainMonList);
 	v1.add(scrollingArea);
+	v1.add(bla);
 	
 //	this.getContentPane().add(monOutput);
 	this.getContentPane().add(v1);

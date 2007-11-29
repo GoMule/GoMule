@@ -1,6 +1,7 @@
 package DropCalc;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
@@ -12,6 +13,8 @@ public class MonDiff {
 	String monDiff;
 	String monName;
 	String classOfMon;
+	String SUID;
+	String minionBoss;
 	ArrayList initTC = new ArrayList();
 	ArrayList monAreas = new ArrayList();
 	ArrayList levelArr = new ArrayList();
@@ -22,13 +25,29 @@ public class MonDiff {
 		this.monID = monID;
 		this.monDiff = monDiff;
 		this.classOfMon = classOfMon;
-		if(!classOfMon.equals("SUPUNIQ")){
+		if(classOfMon.equals("MIN")){
+			
+			if(D2TxtFile.SUPUNIQ.searchColumns("Name", monID) != null){
+				this.minionBoss = monID;
+				this.monID = D2TxtFile.SUPUNIQ.searchColumns("Name", monID).get("Class");	
+			}else{
+				this.minionBoss = monID;
+			}
+			
+			this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.monID).get("NameStr"));
+			this.monAreas = findLocsMonster(this.monID);
+			this.levelArr = lookupMONSTERReturnLVL();
+			this.initTC = getInitTC();
+			
+			
+		}else if(!classOfMon.equals("SUPUNIQ")){
 			this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", monID).get("NameStr"));
 			this.monAreas = findLocsMonster(monID);
 			this.levelArr = lookupMONSTERReturnLVL();
 			this.initTC = getInitTC();
 		}else{
-			this.monName =D2TblFile.getString(D2TxtFile.SUPUNIQ.searchColumns("Class", monID).get("Name"));
+			this.SUID = D2TxtFile.SUPUNIQ.searchColumns("Name", monID).get("Class");
+			this.monName =D2TblFile.getString(monID);
 			this.monAreas = findLocsMonster(monID);
 			this.levelArr = lookupMONSTERReturnLVL();
 			this.initTC = getInitTC();
@@ -41,8 +60,26 @@ public class MonDiff {
 		String header = "TreasureClass1";
 		if(classOfMon.equals("CHAMP")){
 			header = "TreasureClass2";
-		}else if(classOfMon.equals("UNIQ") || classOfMon.equals("SUPUNIQ")){
+		}else if(classOfMon.equals("UNIQ")){
 			header = "TreasureClass3";
+		}else if(classOfMon.equals("SUPUNIQ")){
+			header = "TC";
+			ArrayList tcArr = new ArrayList();
+			for(int x = 0;x<levelArr.size();x=x+1){
+			
+			if(this.getDiff().equals("NORMAL")){
+			 initTC = D2TxtFile.SUPUNIQ.searchColumns("Name", monID).get(header);
+			}else if (this.getDiff().equals("NIGHTMARE")){
+				initTC = D2TxtFile.SUPUNIQ.searchColumns("Name", monID).get(header+"(N)");
+				initTC = bumpTC(initTC, ((Integer)levelArr.get(x)).intValue());
+			}else{
+				initTC = D2TxtFile.SUPUNIQ.searchColumns("Name", monID).get(header+"(H)");
+				initTC = bumpTC(initTC, ((Integer)levelArr.get(x)).intValue());
+			}
+			tcArr.add(initTC);
+			}
+			
+			return tcArr;
 		}
 		ArrayList tcArr = new ArrayList();
 		for(int x = 0;x<levelArr.size();x=x+1){
@@ -67,6 +104,9 @@ public class MonDiff {
 		
 		
 		D2TxtFileItemProperties initTCRow = D2TxtFile.TCS.searchColumns("Treasure Class", initTC);
+		if(initTCRow == null){
+			return initTC;
+		}
 //		System.out.println(initTC);
 		if(initTCRow.get("level").equals("") || Integer.parseInt(initTCRow.get("level")) > lvl){
 			return initTC;
@@ -145,9 +185,13 @@ public class MonDiff {
 				lvlArray.add(new Integer(Integer.parseInt(D2TxtFile.MONSTATS.searchColumns("Id", monID).get("Level"))+2));
 			}else if(classOfMon.equals("REG")){
 				lvlArray.add(new Integer(D2TxtFile.MONSTATS.searchColumns("Id", monID).get("Level")));
-			}else if(classOfMon.equals("UNIQ")){
+			}else if(classOfMon.equals("UNIQ") || classOfMon.equals("MIN")){
 				lvlArray.add(new Integer(Integer.parseInt(D2TxtFile.MONSTATS.searchColumns("Id", monID).get("Level"))+3));
-			}else{
+			}else if(classOfMon.equals("SUPUNIQ")){
+				
+				lvlArray.add(new Integer(Integer.parseInt(D2TxtFile.MONSTATS.searchColumns("Id", SUID).get("Level"))+3));
+			}
+			else{
 				lvlArray.add(new Integer(D2TxtFile.MONSTATS.searchColumns("Id", monID).get("Level")));
 			}
 		}else if (monDiff.equals("NIGHTMARE")){
@@ -155,9 +199,9 @@ public class MonDiff {
 				lvlArray.add(new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("LevelName", (String)monAreas.get(x)).get("MonLvl2Ex"))+2)) ;
 			}else if(classOfMon.equals("REG")){
 				lvlArray.add(new Integer(D2TxtFile.LEVELS.searchColumns("LevelName", (String)monAreas.get(x)).get("MonLvl2Ex"))) ;
-			}else if(classOfMon.equals("UNIQ")){
+			}else if(classOfMon.equals("UNIQ") || classOfMon.equals("SUPUNIQ") || classOfMon.equals("MIN")){
 				lvlArray.add(new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("LevelName", (String)monAreas.get(x)).get("MonLvl2Ex"))+3)) ;
-				}
+			}
 			else{
 				lvlArray.add(new Integer(D2TxtFile.LEVELS.searchColumns("LevelName", (String)monAreas.get(x)).get("MonLvl2Ex"))) ;
 				}
@@ -168,7 +212,7 @@ public class MonDiff {
 				lvlArray.add(new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("LevelName", (String)monAreas.get(x)).get("MonLvl3Ex"))+2));
 }else if(classOfMon.equals("REG")){
 				lvlArray.add(new Integer(D2TxtFile.LEVELS.searchColumns("LevelName", (String)monAreas.get(x)).get("MonLvl3Ex")));
-}else if(classOfMon.equals("UNIQ")){
+}else if(classOfMon.equals("UNIQ")||classOfMon.equals("SUPUNIQ") || classOfMon.equals("MIN")){
 	lvlArray.add(new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("LevelName", (String)monAreas.get(x)).get("MonLvl3Ex"))+3));
 }else{
 				lvlArray.add(new Integer(D2TxtFile.LEVELS.searchColumns("LevelName", (String)monAreas.get(x)).get("MonLvl3Ex")));
@@ -226,13 +270,22 @@ public class MonDiff {
 	private ArrayList findLocsMonster(String monStr){
 		ArrayList locsOut = new ArrayList();
 		
-		if(classOfMon.equals("BOSS")){
+		if(classOfMon.equals("MIN")){
+		if(D2TxtFile.SUPUNIQ.searchColumns("Name", minionBoss) != null){
+			
+			locsOut =  dealWithSU("AREA", 1);
+			if(locsOut.size() > 0){
+				return locsOut;
+			}		
+			
+		}
+		}else if(classOfMon.equals("BOSS")){
 			locsOut =  dealWithBoss("AREA");
 			if(locsOut.size() > 0){
 				return locsOut;
 			}
 		}else if(classOfMon.equals("SUPUNIQ")){
-			locsOut =  dealWithSU("AREA");
+			locsOut =  dealWithSU("AREA", 0);
 			if(locsOut.size() > 0){
 				return locsOut;
 			}
@@ -270,80 +323,89 @@ public class MonDiff {
 		return locsOut;
 	}
 	
-	private ArrayList dealWithSU(String choice) {
+	private ArrayList dealWithSU(String choice, int i) {
 
 
 		ArrayList lvlArr = new ArrayList();
 		ArrayList uniqIDs = new ArrayList();
-		
-		uniqIDs.add("fallenshaman1");
-		uniqIDs.add("skeleton1");
-		uniqIDs.add("cr_archer1");
-		uniqIDs.add("fallen2");
-		uniqIDs.add("brute2");
-		uniqIDs.add("corruptrogue3");
-		uniqIDs.add("bighead2");
-		uniqIDs.add("quillrat4");
-		uniqIDs.add("skmage_pois3");
-		uniqIDs.add("pantherwoman1");
-		uniqIDs.add("clawviper3");
-		uniqIDs.add("scarab2");
-		uniqIDs.add("mummy2");
-		uniqIDs.add("maggotqueen1");
-		uniqIDs.add("sandraider3");
-		uniqIDs.add("zombie5");
-		uniqIDs.add("unraveler3");
-		uniqIDs.add("smith");
-		uniqIDs.add("arach4");
-		uniqIDs.add("fetishshaman4");
-		uniqIDs.add("thornhulk3");
-		uniqIDs.add("corruptrogue5");
-		uniqIDs.add("batdemon3");
-		uniqIDs.add("councilmember1");
-		uniqIDs.add("councilmember2");
-		uniqIDs.add("councilmember3");
-		uniqIDs.add("councilmember1");
-		uniqIDs.add("councilmember2");
-		uniqIDs.add("councilmember3");
-		uniqIDs.add("megademon3");
-		uniqIDs.add("willowisp3");
-		uniqIDs.add("vilemother2");
-		uniqIDs.add("regurgitator2");
-		uniqIDs.add("megademon3");
-		uniqIDs.add("doomknight3");
-		uniqIDs.add("fingermage3");
-		uniqIDs.add("hellbovine");
-		uniqIDs.add("zombie1");
-		uniqIDs.add("hephasto");
-		uniqIDs.add("overseer1");
-		uniqIDs.add("ancientbarb1");
-		uniqIDs.add("ancientbarb2");
-		uniqIDs.add("ancientbarb3");
-		uniqIDs.add("bloodlord3");
-		uniqIDs.add("reanimatedhorde2");
-		uniqIDs.add("imp3");
-		uniqIDs.add("minion1");
-		uniqIDs.add("deathmauler1");
-		uniqIDs.add("siegebeast3");
-		uniqIDs.add("reanimatedhorde5");
-		uniqIDs.add("frozenhorror1");
-		uniqIDs.add("succubus4");
-		uniqIDs.add("succubuswitch2");
-		uniqIDs.add("overseer3");
-		uniqIDs.add("imp5");
-		uniqIDs.add("deathmauler5");
-		uniqIDs.add("snowyeti4");
-		uniqIDs.add("fallenshaman5");
-		uniqIDs.add("unraveler5");
-		uniqIDs.add("baalhighpriest");
-		uniqIDs.add("venomlord");
-		uniqIDs.add("baalminion1");
+		HashMap areaSUPair = new HashMap();
+
 		
 		
 
 		if(choice.equals("AREA")){
 
-				
+			areaSUPair.put("Bishibosh", "Cold Plains");
+			areaSUPair.put("Bonebreak","Crypt");
+			areaSUPair.put("Coldcrow","Cave Level 1");
+			areaSUPair.put("Rakanishu","Stony Field");
+			areaSUPair.put("Treehead WoodFist","Dark Wood");
+			areaSUPair.put("Griswold","Tristram");
+			areaSUPair.put("The Countess","Tower Cellar Level 5");
+			areaSUPair.put("Pitspawn Fouldog","Jail Level 2");
+			areaSUPair.put("Flamespike the Crawler","Moo Moo Farm");
+			areaSUPair.put("Boneash","Cathedral");
+			areaSUPair.put("Radament","Sewers Level 3");
+			areaSUPair.put("Bloodwitch the Wild","Halls of the Dead Level 3");
+			areaSUPair.put("Fangskin","Claw Viper Temple Level 2");
+			areaSUPair.put("Beetleburst","Far Oasis");
+			areaSUPair.put("Leatherarm","Stony Tomb Level 2");
+			areaSUPair.put("Coldworm the Burrower","Maggot Lair Level 3");
+			areaSUPair.put("Fire Eye","Palace Cellar Level 3");
+			areaSUPair.put("Dark Elder","Lost City");
+			areaSUPair.put("The Summoner","Arcane Sanctuary");
+			areaSUPair.put("Ancient Kaa the Soulless","Tal Rasha's Tomb");
+			areaSUPair.put("The Smith","Barracks");
+			areaSUPair.put("Web Mage the Burning","Spider Cavern");
+			areaSUPair.put("Witch Doctor Endugu","Flayer Dungeon Level 3");
+			areaSUPair.put("Stormtree","Lower Kurast");
+			areaSUPair.put("Sarina the Battlemaid","Ruined Temple");
+			areaSUPair.put("Icehawk Riftwing","Sewers Level 1");
+			areaSUPair.put("Ismail Vilehand","Travincal");
+			areaSUPair.put("Geleb Flamefinger","Travincal");
+			areaSUPair.put("Bremm Sparkfist","Durance of Hate Level 3");
+			areaSUPair.put("Toorc Icefist","Travincal");
+			areaSUPair.put("Wyand Voidfinger","Durance of Hate Level 3");
+			areaSUPair.put("Maffer Dragonhand","Durance of Hate Level 3");
+			areaSUPair.put("Winged Death","Moo Moo Farm");
+			areaSUPair.put("The Tormentor","Moo Moo Farm");
+			areaSUPair.put("Taintbreeder","Moo Moo Farm");
+			areaSUPair.put("Riftwraith the Cannibal","Moo Moo Farm");
+			areaSUPair.put("Infector of Souls","Chaos Sanctum");
+			areaSUPair.put("Lord De Seis","Chaos Sanctum");
+			areaSUPair.put("Grand Vizier of Chaos","Chaos Sanctum");
+			areaSUPair.put("The Cow King","Moo Moo Farm");
+			areaSUPair.put("Corpsefire","Den of Evil");
+			areaSUPair.put("The Feature Creep","River of Flame");
+			areaSUPair.put("Siege Boss","Bloody Foothills");
+			areaSUPair.put("Ancient Barbarian 1","Rocky Summit");
+			areaSUPair.put("Ancient Barbarian 2","Rocky Summit");
+			areaSUPair.put("Ancient Barbarian 3","Rocky Summit");
+			areaSUPair.put("Axe Dweller","Moo Moo Farm");
+			areaSUPair.put("Bonesaw Breaker","Crystalized Cavern Level 2");
+			areaSUPair.put("Dac Farren","Bloody Foothills");
+			areaSUPair.put("Megaflow Rectifier","Rigid Highlands");
+			areaSUPair.put("Eyeback Unleashed","Rigid Highlands");
+			areaSUPair.put("Threash Socket","Arreat Plateau");
+			areaSUPair.put("Pindleskin","Nihlathaks Temple");
+			areaSUPair.put("Snapchip Shatter","Glacial Caves Level 2");
+			areaSUPair.put("Anodized Elite","Moo Moo Farm");
+			areaSUPair.put("Vinvear Molech","Moo Moo Farm");
+			areaSUPair.put("Sharp Tooth Sayer","Rigid Highlands");
+			areaSUPair.put("Magma Torquer","Moo Moo Farm");
+			areaSUPair.put("Blaze Ripper","Moo Moo Farm");
+			areaSUPair.put("Frozenstein","Cellar of Pity");
+			areaSUPair.put("Nihlathak","Halls of Vaught");
+			areaSUPair.put("Baal Subject 1","Throne of Destruction");
+			areaSUPair.put("Baal Subject 2","Throne of Destruction");
+			areaSUPair.put("Baal Subject 3","Throne of Destruction");
+			areaSUPair.put("Baal Subject 4","Throne of Destruction");
+			areaSUPair.put("Baal Subject 5","Throne of Destruction");
+				if(i==1){
+					lvlArr.add(areaSUPair.get(this.minionBoss));
+				}else{
+			lvlArr.add(areaSUPair.get(this.monID));
+				}
 		}
 		return lvlArr;
 		
@@ -441,12 +503,16 @@ public class MonDiff {
 	    }
 
 	public void setFinals(ArrayList allTCS) {
+		
+		
+		
 		ArrayList temp1 = new ArrayList();
 		ArrayList temp2 = new ArrayList();
 		for(int x = 0;x<allTCS.size();x=x+1){
 			
 		temp1.addAll(((ProbTCRow)allTCS.get(x)).getTC());
-		temp2.addAll(((ProbTCRow)allTCS.get(x)).getProb());		
+		temp2.addAll(((ProbTCRow)allTCS.get(x)).getProb());
+		
 		}
 		
 		finalTCs.add(temp1);
@@ -463,6 +529,11 @@ public class MonDiff {
 		this.finalTCs.clear();
 		this.initTC = getInitTC();
 		
+	}
+
+	public String getBoss() {
+		// TODO Auto-generated method stub
+		return this.minionBoss;
 	}
 	
 }

@@ -25,6 +25,8 @@ public class DropCalc {
 		
 
 
+	
+		
 		
 //		D2TxtFile.readAllFiles("d2111");
 		new DropCalc();
@@ -38,6 +40,7 @@ public class DropCalc {
 	public DropCalc(){
 		D2TxtFile.readAllFiles("d2111");
 		D2TblFile.readAllFiles("d2111");
+		System.out.println(D2TblFile.getString("Echo Chamber"));
 		populateArrays();
 			
 		System.out.println("By jove!");
@@ -95,6 +98,10 @@ public class DropCalc {
 		
 		for(int x = 0; x < D2TxtFile.MONSTATS.getRowSize();x=x+1){
 
+			if(D2TxtFile.MONSTATS.getRow(x).get("Id").equals("quillrat6")){
+				System.out.println();
+			}
+			
 			if(D2TxtFile.MONSTATS.getRow(x).get("enabled").equals("1")&& D2TxtFile.MONSTATS.getRow(x).get("killable").equals("1") && !D2TxtFile.MONSTATS.getRow(x).get("TreasureClass1").equals("")){
 				mainRegMonArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NORMAL", "REG"));
 				if(((MonDiff)mainRegMonArray.get(mainRegMonArray.size()-1)).getAreas().size() < 1){
@@ -113,9 +120,7 @@ public class DropCalc {
 					mainRegMonArray.remove(mainRegMonArray.size()-1);
 				}
 				
-				mainMinMonArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NORMAL", "MIN"));
-				mainMinMonArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NIGHTMARE", "MIN"));
-				mainMinMonArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "HELL", "MIN"));
+
 				
 				mainChampMonArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NORMAL", "CHAMP"));
 				if(((MonDiff)mainChampMonArray.get(mainChampMonArray.size()-1)).getAreas().size() < 1){
@@ -133,24 +138,42 @@ public class DropCalc {
 					mainChampMonArray.remove(mainChampMonArray.size()-1);
 				}
 				
+				
+				if(!D2TxtFile.MONSTATS.getRow(x).get("MaxGrp").equals("0")){
+					mainMinMonArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NORMAL", "MIN"));
+					
+					if(((MonDiff)mainMinMonArray.get(mainMinMonArray.size()-1)).getAreas().size() < 1){
+						mainMinMonArray.remove(mainMinMonArray.size()-1);
+					}
+					
+					mainMinMonArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NIGHTMARE", "MIN"));
+					
+					if(((MonDiff)mainMinMonArray.get(mainMinMonArray.size()-1)).getAreas().size() < 1){
+						mainMinMonArray.remove(mainMinMonArray.size()-1);
+					}
+					
+					mainMinMonArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "HELL", "MIN"));
+					
+					if(((MonDiff)mainMinMonArray.get(mainMinMonArray.size()-1)).getAreas().size() < 1){
+						mainMinMonArray.remove(mainMinMonArray.size()-1);
+					}
+				}
+				
+				
 				mainUniqArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NORMAL", "UNIQ"));
 				if(((MonDiff)mainUniqArray.get(mainUniqArray.size()-1)).getAreas().size() < 1){
-//					System.out.println(((MonDiff)mainUniqArray.get(mainUniqArray.size()-1)).getName());
 					mainUniqArray.remove(mainUniqArray.size()-1);
 				}
 				mainUniqArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NIGHTMARE", "UNIQ"));
 				if(((MonDiff)mainUniqArray.get(mainUniqArray.size()-1)).getAreas().size() < 1){
-//					System.out.println(((MonDiff)mainUniqArray.get(mainUniqArray.size()-1)).getName());
 					mainUniqArray.remove(mainUniqArray.size()-1);
 				}
 				mainUniqArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "HELL", "UNIQ"));
 				if(((MonDiff)mainUniqArray.get(mainUniqArray.size()-1)).getAreas().size() < 1){
-//					System.out.println(((MonDiff)mainUniqArray.get(mainUniqArray.size()-1)).getName());
 					mainUniqArray.remove(mainUniqArray.size()-1);
 				}
-//				mainSupUniqArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NORMAL", "SUPUNIQ"));
-//				mainSupUniqArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NIGHTMARE", "SUPUNIQ"));
-//				mainSupUniqArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "HELL", "SUPUNIQ"));
+				
+				
 				
 				if(D2TxtFile.MONSTATS.getRow(x).get("boss").equals("1")){
 				mainBossArray.add(new MonDiff(D2TxtFile.MONSTATS.getRow(x).get("Id"), "NORMAL", "BOSS"));
@@ -166,9 +189,20 @@ public class DropCalc {
 		for(int x = 0 ;x<D2TxtFile.SUPUNIQ.getRowSize();x=x+1){
 			
 			if(!D2TxtFile.SUPUNIQ.getRow(x).get("Class").equals("") && !SuBossCross.contains(D2TxtFile.SUPUNIQ.getRow(x).get("Name"))){
-				mainSupUniqArray.add(new MonDiff(D2TxtFile.SUPUNIQ.getRow(x).get("Class"), "NORMAL", "SUPUNIQ"));
-				mainSupUniqArray.add(new MonDiff(D2TxtFile.SUPUNIQ.getRow(x).get("Class"), "NIGHTMARE", "SUPUNIQ"));
-				mainSupUniqArray.add(new MonDiff(D2TxtFile.SUPUNIQ.getRow(x).get("Class"), "HELL", "SUPUNIQ"));
+				mainSupUniqArray.add(new MonDiff(D2TxtFile.SUPUNIQ.getRow(x).get("Name"), "NORMAL", "SUPUNIQ"));
+				mainSupUniqArray.add(new MonDiff(D2TxtFile.SUPUNIQ.getRow(x).get("Name"), "NIGHTMARE", "SUPUNIQ"));
+				mainSupUniqArray.add(new MonDiff(D2TxtFile.SUPUNIQ.getRow(x).get("Name"), "HELL", "SUPUNIQ"));
+				
+				if(!D2TxtFile.SUPUNIQ.getRow(x).get("MaxGrp").equals("0")){
+					if(D2TxtFile.SUPUNIQ.getRow(x).get("Name") != null){
+					mainMinMonArray.add(new MonDiff(D2TxtFile.SUPUNIQ.getRow(x).get("Name"), "NORMAL", "MIN"));
+					mainMinMonArray.add(new MonDiff(D2TxtFile.SUPUNIQ.getRow(x).get("Name"), "NIGHTMARE", "MIN"));
+					mainMinMonArray.add(new MonDiff(D2TxtFile.SUPUNIQ.getRow(x).get("Name"), "HELL", "MIN"));
+					
+					
+					}
+				}
+				
 			}
 		}
 		
@@ -364,7 +398,7 @@ public class DropCalc {
 //		System.out.println(tcQuery+" , "+TCROW.getTC());
 		allTCS.add(lookupTCReturnSUBATOMICTCROW((String)selectedMon.getRealInitTC().get(t)));
 		System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
-		if(selectedMon.getType().equals("CHAMP") || selectedMon.getType().equals("UNIQ") || selectedMon.getID().equals("griswold")){
+		if(selectedMon.getType().equals("CHAMP") || selectedMon.getType().equals("UNIQ")|| selectedMon.getType().equals("SUPUNIQ") || selectedMon.getID().equals("griswold")){
 		allTCS.add(lookupTCReturnSUBATOMICTCROW(((String)((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(0))));
 		System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
 		}else if(selectedMon.getID().equals("duriel")){
@@ -373,16 +407,22 @@ public class DropCalc {
 			System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
 			selectedMon.setInitTC(t, ((String)((ProbTCRow)allTCS.get(0)).getTC().get(1)));
 			allTCS.remove(0);
+			
+			
 		
 		}
 		
-		if(selectedMon.getType().equals("CHAMP") || selectedMon.getType().equals("REG") ||selectedMon.getType().equals("BOSS") ){
-			if(!selectedMon.getID().equals("griswold")){
+		if(selectedMon.getType().equals("CHAMP") || selectedMon.getType().equals("REG") ||selectedMon.getType().equals("BOSS") || selectedMon.getType().equals("SUPUNIQ") || selectedMon.getType().equals("MIN")){
+			if(!selectedMon.getID().equals("griswold") && !selectedMon.getType().equals("SUPUNIQ")){
 			allTCS.add(lookupTCReturnSUBATOMICTCROW(((String)((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(1))));
 			System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
 			}
 			else{
+				if(((String)((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(0)).contains("gld")){
+					allTCS.add(lookupTCReturnSUBATOMICTCROW(((String)((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(1))));
+				}else{
 				allTCS.add(lookupTCReturnSUBATOMICTCROW(((String)((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(0))));
+				}
 				System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
 			}
 			if(selectedMon.getID().equals("duriel")){
@@ -430,6 +470,11 @@ public class DropCalc {
 
 		
 		if(picks < 0){
+			
+			
+				
+				
+			
 			((ProbTCRow)allTCS.get(1)).setTotProb(((ProbTCRow)allTCS.get(1)).getTotProb()) ;
 			constructTCPairs((ProbTCRow)allTCS.get(1));
 			if(selectedMon.getType().equals("CHAMP") || selectedMon.getType().equals("REG") ){
@@ -437,6 +482,7 @@ public class DropCalc {
 			}else{
 				counter =  (((Double)((ProbTCRow)allTCS.get(1)).getProb().get(0)).doubleValue());
 			}
+			
 			f=2;
 		}else{
 			System.out.println(Integer.parseInt(D2TxtFile.TCS.searchColumns("Treasure Class", (String)selectedMon.getRealInitTC().get(t)).get("NoDrop")));
@@ -489,6 +535,7 @@ public class DropCalc {
 //		atomicTCSWep.addAll(atomicTCSArm);
 		
 		selectedMon.setFinals(allTCS);
+		System.out.println(selectedMon.getFinalProbs().get(0));
 		/**
 		 * APPLY PICKS...
 		 * 
@@ -501,12 +548,19 @@ public class DropCalc {
 				picks = picks -1;
 			}
 				for(int y = 0;y< ((ArrayList)selectedMon.getFinalProbs().get(t)).size();y=y+1){
-//					System.out.println(((ArrayList)selectedMon.getFinalProbs().get(t)).get(y));
-//					System.out.println((1- ((Double)((ArrayList)selectedMon.getFinalProbs().get(t)).get(y)).doubleValue()));
-//					System.out.println(1-(Math.pow((1- ((Double)((ArrayList)selectedMon.getFinalProbs().get(t)).get(y)).doubleValue()), picks -1)));
-					((ArrayList)selectedMon.getFinalProbs().get(t)).set(y,new Double(1-(Math.pow((1- ((Double)((ArrayList)selectedMon.getFinalProbs().get(t)).get(y)).doubleValue()), picks))));
+				((ArrayList)selectedMon.getFinalProbs().get(t)).set(y,new Double(1-(Math.pow((1- ((Double)((ArrayList)selectedMon.getFinalProbs().get(t)).get(y)).doubleValue()), picks))));
 				}
-			
+//				System.out.println(((ArrayList)selectedMon.getFinalProbs().get(t)).get(y));
+//				System.out.println((1- ((Double)((ArrayList)selectedMon.getFinalProbs().get(t)).get(y)).doubleValue()));
+//				System.out.println(1-(Math.pow((1- ((Double)((ArrayList)selectedMon.getFinalProbs().get(t)).get(y)).doubleValue()), picks -1)));
+
+		}
+		
+		if(picks == -4 && selectedMon.getType().equals("SUPUNIQ")){
+			int pow = Integer.parseInt(D2TxtFile.TCS.searchColumns("Treasure Class",(String)selectedMon.getRealInitTC().get(t)).get("Prob1"));
+			for(int y = 0;y< ((ArrayList)selectedMon.getFinalProbs().get(t)).size();y=y+1){
+				((ArrayList)selectedMon.getFinalProbs().get(t)).set(y,new Double(1-(Math.pow((1- ((Double)((ArrayList)selectedMon.getFinalProbs().get(t)).get(y)).doubleValue()), pow ))));
+				}
 		}
 		
 		}
