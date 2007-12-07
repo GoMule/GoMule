@@ -67,6 +67,7 @@ public class D2ProjectSettingsDialog extends JDialog
     private JTextField           iFlavieOutputData;
     private JTextField           iFlavieOutputStyle;
     private JTextField           iFlavieOutputTitle;
+    private JCheckBox            iSetProps;
     private JCheckBox            iFlavieCountAll;
     private JCheckBox            iFlavieCountStash;
     private JCheckBox            iFlavieCountChar;
@@ -283,6 +284,17 @@ public class D2ProjectSettingsDialog extends JDialog
                 }
             }
         });
+        
+        iSetProps = new JCheckBox("Show Sockets Separately");
+        iSetProps.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent pEvent)
+            {
+                iProject.setDisProps(iSetProps.isSelected());
+            }
+        });
+        
+        
         iFlavieCountAll = new JCheckBox("All");
         iFlavieCountAll.addActionListener(new ActionListener()
         {
@@ -334,8 +346,11 @@ public class D2ProjectSettingsDialog extends JDialog
         lBackupPanel.addToPanel(iBackupDay, 1, 0, 1, RandallPanel.HORIZONTAL);
         lBackupPanel.addToPanel(iBackupWeek, 2, 0, 1, RandallPanel.HORIZONTAL);
         lBackupPanel.addToPanel(iBackupMonth, 3, 0, 1, RandallPanel.HORIZONTAL);
+        lBackupPanel.addToPanel(iSetProps, 0, 1, 1, RandallPanel.HORIZONTAL);
         iContent.addToPanel(lBackupPanel, 0, 30, 3, RandallPanel.HORIZONTAL);
 
+        
+        
         RandallPanel lColorPanel = new RandallPanel();
         
         RandallPanel lFlaviePanel = new RandallPanel(true);
@@ -357,6 +372,7 @@ public class D2ProjectSettingsDialog extends JDialog
         lFlaviePanel.addToPanel(iFlavieCountChar, 1, 32, 1, RandallPanel.HORIZONTAL);
         lFlaviePanel.addToPanel(iFlavieCountEthereal, 1, 33, 1, RandallPanel.HORIZONTAL);
 
+        
         iContent.addToPanel(lFlaviePanel, 0, 50, 3, RandallPanel.HORIZONTAL);
 
         iContent.finishDefaultPanel();
@@ -396,6 +412,12 @@ public class D2ProjectSettingsDialog extends JDialog
         iFlavieOutputTitle.setText(iProject.getReportTitle());
         iFlavieOutputData.setText(iProject.getDataName());
         iFlavieOutputStyle.setText(iProject.getStyleName());
+        
+        if(iProject.getDisProps() == 1){
+        iSetProps.setSelected(true);
+        }else{
+        	 iSetProps.setSelected(false);
+        }
         
         iFlavieCountAll.setSelected(iProject.isCountAll());
         iFlavieCountStash.setSelected(iProject.isCountStash());

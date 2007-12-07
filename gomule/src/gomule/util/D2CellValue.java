@@ -25,7 +25,7 @@ public class D2CellValue
     public D2CellValue(Object pValue, D2Item pItem, D2Project pProject)
     {
         iValue = pValue;
-        iForeground = pProject.getItemColor(pItem); 
+        iForeground = pItem.getItemColor();
     }
     
     public D2CellValue(Object pValue, String pTooltip, D2Item pItem, D2Project pProject)

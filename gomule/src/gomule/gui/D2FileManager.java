@@ -42,7 +42,7 @@ import randall.util.*;
  */ 
 public class D2FileManager extends JFrame
 {
-    private static final String  CURRENT_VERSION = "R0.19";
+    private static final String  CURRENT_VERSION = "R0.20";
 
     private HashMap				 iItemLists = new HashMap();
     
@@ -65,6 +65,12 @@ public class D2FileManager extends JFrame
     
     private boolean				 iIgnoreCheckAll = false;
 
+	private JMenuBar D2JMenu;
+
+	private JMenu file;
+
+	private JMenu edit;
+
     public static D2FileManager getIntance()
     {
         if (iCurrent == null)
@@ -85,7 +91,9 @@ public class D2FileManager extends JFrame
 //        D2TblFile.readAllFiles("d2Median");
         
         createToolbar();
-
+//        createMenuSystem();
+      
+        
         iOpenWindows = new ArrayList();
 
         iContentPane = new JPanel();
@@ -165,6 +173,40 @@ public class D2FileManager extends JFrame
         iBtnProjectSelection.setText(iProject.getProjectName());
         iViewProject.setProject(pProject);
     }
+    
+    public void createMenuSystem(){
+    	
+    	D2JMenu = new JMenuBar();
+    	setJMenuBar(D2JMenu);
+    	
+    	
+    	
+    	file = new JMenu("File");
+    	edit = new JMenu("Edit");
+    	
+    	
+    	
+    	JMenuItem openCh = new JMenuItem("Open Char");
+    	JMenuItem openSt = new JMenuItem("Open Stash");
+    	JMenuItem saveAll = new JMenuItem("Save All");
+    	
+    	file.add(openCh);
+    	file.add(openSt);
+    	file.addSeparator();
+    	file.add(saveAll);
+    	
+    	JMenuItem pref = new JMenuItem("Preferences");
+    	pref.addActionListener(new D2MenuListener());
+    	edit.add(pref);
+    
+    	
+    	D2JMenu.add(file);
+
+    	D2JMenu.add(edit);
+    	
+    }
+
+    
 
     private void createToolbar()
     {
@@ -879,5 +921,19 @@ public class D2FileManager extends JFrame
         lDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         lDialog.show();
     }
+    
+    class D2MenuListener implements ActionListener{
+
+		public void actionPerformed(ActionEvent arg0) {
+			
+			RandallPanel prefWindow =  new RandallPanel();
+			
+		}
+
+    	
+
+    }
 
 }
+
+

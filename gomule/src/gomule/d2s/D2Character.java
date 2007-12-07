@@ -91,6 +91,9 @@ public class D2Character extends D2ItemListAdapter
 	private String			iCharName;
 	private String          iTitleString;
 	private long			iCharLevel;
+	private ArrayList			iCharInitSkillsA = new ArrayList();
+	private ArrayList			iCharInitSkillsB = new ArrayList();
+	private ArrayList			iCharInitSkillsC = new ArrayList();
 	private ArrayList			iCharSkillsA = new ArrayList();
 	private ArrayList			iCharSkillsB = new ArrayList();
 	private ArrayList			iCharSkillsC = new ArrayList();
@@ -105,8 +108,12 @@ public class D2Character extends D2ItemListAdapter
 	//22 MF
 	//23 F/RW
 	//24 FCR
-	private int				iInitStats[] = new int[25];
-	private int				iCharStats[] = new int[25];
+	//25 IAS
+	//26 FHR
+	//27 GF
+	//28 is plus all skills
+	private int				iInitStats[] = new int[29];
+	private int				iCharStats[] = new int[29];
 	private int				iGF; 
 	private int				iIF;
 	private String iMercName = " ";
@@ -140,6 +147,7 @@ public class D2Character extends D2ItemListAdapter
 	private ArrayList fullSetProps = new ArrayList();
 	private int iCurWepSlot = 1;
 
+	private ArrayList plusSkillArr = new ArrayList();
 	private int iMercInitAR;
 	private String iCharClass;
 	private ArrayList equippedSetItems = new ArrayList();
@@ -153,6 +161,7 @@ public class D2Character extends D2ItemListAdapter
 	private int iItemEnd;
 	private int iJF;
 	private ArrayList iCorpseItems = new ArrayList();
+	private String cClass;
 
 	public D2Character(String pFileName) throws Exception
 	{
@@ -307,6 +316,36 @@ public class D2Character extends D2ItemListAdapter
 
 		iReader.set_byte_pos(40);
 		lCharCode = iReader.read(8);
+		
+		switch((int)lCharCode){
+
+
+		case 0:
+			cClass = "ama";
+
+			break;
+		case 1:
+			cClass = "sor";
+			break;
+		case 2:
+			cClass = "nec";
+			break;
+		case 3:
+			cClass = "pal";
+			break;
+		case 4:
+			cClass = "bar";
+			break;
+		case 5:
+			cClass = "dru";
+			break;
+		case 6:
+			cClass = "ass";
+			break;
+
+
+		}
+		
 		//        System.err.println("Char Class: " + getCharacterCode((int) lCharCode)
 		// );
 
@@ -357,7 +396,7 @@ public class D2Character extends D2ItemListAdapter
 		{
 			System.err.println("Warning: Act Quests block not on expected position");
 		}
-		
+
 		iWS = iReader.findNextFlag("WS", lWoo);
 		if ( iWS == -1 )
 		{
@@ -390,24 +429,24 @@ public class D2Character extends D2ItemListAdapter
 		{
 			throw new Exception("Error: Skills block not found");
 		}
-		
+
 		iJF = iReader.findNextFlag("jf", iIF);
 		if ( iJF == -1 )
 		{
-			
+
 			System.out.println("WTF is going on. Looks like it might be classic? USE WITH CARE!");
 //			throw new Exception("Error: No merc block! WTF?");
 		}
-		
+
 		iKF = iReader.findNextFlag("kf", iIF);
 		if ( iKF != -1 )
 		{
 			readGolem();
 //			throw new Exception("Error: Golem block not found");
 		}
-		
-		
-		
+
+
+
 
 
 //		System.err.println("Test: " + lWoo + " - " + lW4 + " - " + iGF + " - " + iIF );
@@ -541,24 +580,24 @@ public class D2Character extends D2ItemListAdapter
 //		iReader.set_byte_pos(iIF);
 //		int golemPoint = iReader.findNextFlag("kfJM", 0);
 //		System.out.println(golemPoint);
-		
+
 //		System.out.println(iBetweenItems.length);
-		
-				int corpseStart = iReader.findNextFlag("JM", iItemEnd+2);
-		
+
+		int corpseStart = iReader.findNextFlag("JM", iItemEnd+2);
+
 		if(corpseStart < 0 || corpseStart > iKF || corpseStart > iJF){
-			
+
 			return;
 		}
-		
-		
-		
-		
+
+
+
+
 		iReader.set_byte_pos(corpseStart);
-		
+
 		iReader.skipBytes(2);
 		int num_items = (int) (iReader.read(8));
-		
+
 		int lLastItemEnd = iReader.get_byte_pos();
 
 		for (int i = 0; i < num_items; i++)
@@ -586,103 +625,103 @@ public class D2Character extends D2ItemListAdapter
 				markCorpseGrid(lItem);
 			}
 		}
-		
-		
+
+
 	}
 
 	private void readGolem() throws Exception {
-		
+
 		iReader.set_byte_pos(iKF);
 
 		iReader.skipBytes(2);
-		
+
 
 		switch((int)iReader.read(8)){
-		
+
 		case 0:
 			golemItem = null;
 			return;		
 		}
-		
+
 		int lItemStart = iReader.findNextFlag("JM", iKF);
 		if (lItemStart == -1)
 		{
-			
-				throw new Exception("Golem item not found.");
+
+			throw new Exception("Golem item not found.");
 
 		}
 
 		golemItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
 
-		
+
 	}
 
 	private void readWaypoints() {
-		
+
 
 		for(int y= 0;y<iWaypoints.length;y=y+1){
 			for(int u=0;u<iWaypoints[y].length;u=u+1){
 				iWaypoints[y][u] = "";
 			}
 		}
-		
+
 		iReader.set_byte_pos(iWS);
-		
-		
+
+
 		iReader.skipBytes(10);
-		
+
 		for(int f = 0;f<3;f=f+1){
-		for(int y = 0;y<3;y=y+1){
-		for(int x = 0;x<9;x=x+1){
-			if(iReader.read(1) == 1){
-			iWaypoints[f][y] = iWaypoints[f][y] + 1;
-			}else{
-				iWaypoints[f][y] = iWaypoints[f][y] + 0;
+			for(int y = 0;y<3;y=y+1){
+				for(int x = 0;x<9;x=x+1){
+					if(iReader.read(1) == 1){
+						iWaypoints[f][y] = iWaypoints[f][y] + 1;
+					}else{
+						iWaypoints[f][y] = iWaypoints[f][y] + 0;
+					}
+				}
 			}
-		}
-		}
-		
-		
-		for(int x = 0;x<3;x=x+1){
-			if(iReader.read(1) == 1){
-			iWaypoints[f][3] = iWaypoints[f][3] + 1;
-			}else{
-				iWaypoints[f][3] = iWaypoints[f][3] + 0;
+
+
+			for(int x = 0;x<3;x=x+1){
+				if(iReader.read(1) == 1){
+					iWaypoints[f][3] = iWaypoints[f][3] + 1;
+				}else{
+					iWaypoints[f][3] = iWaypoints[f][3] + 0;
+				}
 			}
+
+			for(int x = 0;x<9;x=x+1){
+				if(iReader.read(1) == 1){
+					iWaypoints[f][4] = iWaypoints[f][4] + 1;
+				}else{
+					iWaypoints[f][4] = iWaypoints[f][4] + 0;
+				}
+			}
+			iReader.skipBits(1);
+			iReader.skipBytes(19);
 		}
 
-		for(int x = 0;x<9;x=x+1){
-			if(iReader.read(1) == 1){
-			iWaypoints[f][4] = iWaypoints[f][4] + 1;
-			}else{
-				iWaypoints[f][4] = iWaypoints[f][4] + 0;
-			}
-		}
-		iReader.skipBits(1);
-		iReader.skipBytes(19);
-		}
-		
 //		for(int x = 0;x<9;x=x+1){
-//			System.out.print(iReader.read(1));
+//		System.out.print(iReader.read(1));
 //		}
-//		
+
 //		System.out.println();
-//		
+
 //		for(int x = 0;x<9;x=x+1){
-//			System.out.print(iReader.read(1));
+//		System.out.print(iReader.read(1));
 //		}
 //		System.out.println();
-//		
+
 //		for(int x = 0;x<9;x=x+1){
-//			System.out.print(iReader.read(1));
+//		System.out.print(iReader.read(1));
 //		}
 //		System.out.println();
 //		for(int x = 0;x<3;x=x+1){
-//			System.out.print(iReader.read(1));
+//		System.out.print(iReader.read(1));
 //		}
 //		System.out.println();
 //		for(int x = 0;x<9;x=x+1){
-//			System.out.print(iReader.read(1));
+//		System.out.print(iReader.read(1));
 //		}
 //		System.out.println();
 //		iReader.skipBits(1);
@@ -690,10 +729,10 @@ public class D2Character extends D2ItemListAdapter
 //		System.out.println(iReader.read(8));
 //		System.out.println(iReader.read(8));
 //		for(int x = 0;x<9;x=x+1){
-//			System.out.print(iReader.read(1));
+//		System.out.print(iReader.read(1));
 //		}
 		System.out.println();
-//		
+
 	}
 
 	private void readQuests() {
@@ -805,18 +844,18 @@ public class D2Character extends D2ItemListAdapter
 			switch (tree){
 
 			case 1:
-				iCharSkillsA.add(new Integer(skillReader.getCounterInt(8)));
+				iCharInitSkillsA.add(new Integer(skillReader.getCounterInt(8)));
 //				iCharSkillsA.add(new Integer(20));
 
 				break;
 
 			case 2:
-				iCharSkillsB.add(new Integer(skillReader.getCounterInt(8)));
+				iCharInitSkillsB.add(new Integer(skillReader.getCounterInt(8)));
 //				iCharSkillsB.add(new Integer(20));
 				break;
 
 			case 3:
-				iCharSkillsC.add(new Integer(skillReader.getCounterInt(8)));
+				iCharInitSkillsC.add(new Integer(skillReader.getCounterInt(8)));
 //				iCharSkillsC.add(new Integer(20));
 				break;
 
@@ -825,7 +864,7 @@ public class D2Character extends D2ItemListAdapter
 //			System.out.println(skillReader.getCounterInt(8) + " , " + tree);
 		}
 
-
+		resetSkills();
 	}
 
 	private void generateSkillLocs() {
@@ -1284,21 +1323,21 @@ public class D2Character extends D2ItemListAdapter
 
 		int resCounter = 0;
 		hpCounter = 0;
-		
+
 		for(int x = 0;x<3;x=x+1){
 			if(iQuests[x][4].charAt(2) == '1'){
-					resCounter = resCounter + 1;
+				resCounter = resCounter + 1;
 			}
 			if(iQuests[x][2].charAt(0) == '1'){
-					hpCounter = hpCounter +1;
+				hpCounter = hpCounter +1;
 			}
 		}
-		
+
 
 		charStatArray[39] = resCounter*10;
-			charStatArray[41] =resCounter*10; 
-			charStatArray[43] =resCounter*10; 
-			charStatArray[45] =resCounter*10;
+		charStatArray[41] =resCounter*10; 
+		charStatArray[43] =resCounter*10; 
+		charStatArray[45] =resCounter*10;
 
 
 
@@ -1527,19 +1566,9 @@ public class D2Character extends D2ItemListAdapter
 
 	public void updateCharStats(String string, D2Item pItem){
 
-//		iWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlotiWeaponSlot
-//		iCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlotiCurWepSlot
-
-
-
 		if(! pItem.isEquipped()){
 			return;
 		}
-
-
-
-
-
 
 		if(partialSetProps.size() > 0  || fullSetProps.size() > 0){
 
@@ -1561,6 +1590,10 @@ public class D2Character extends D2ItemListAdapter
 
 
 				if(((D2ItemProperty)set.get(y)).getiProp() < 340){
+
+					if(((D2ItemProperty)set.get(y)).getiProp() == 188 || ((D2ItemProperty)set.get(y)).getiProp() == 97||((D2ItemProperty)set.get(y)).getiProp() == 126||((D2ItemProperty)set.get(y)).getiProp() == 107||((D2ItemProperty)set.get(y)).getiProp() == 83||((D2ItemProperty)set.get(y)).getiProp() == 127){
+						plusSkillArr.remove(((D2ItemProperty)set.get(y)));
+					}
 					charStatArray[((D2ItemProperty)set.get(y)).getiProp()] = charStatArray[((D2ItemProperty)set.get(y)).getiProp()] - ((D2ItemProperty)set.get(y)).getRealValue();
 				}else{
 					if(((D2ItemProperty)set.get(y)).getiProp() == 1337){
@@ -1635,6 +1668,10 @@ public class D2Character extends D2ItemListAdapter
 
 
 				if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+					if(((D2ItemProperty)bla.get(y)).getiProp() == 188 || ((D2ItemProperty)bla.get(y)).getiProp() == 97||((D2ItemProperty)bla.get(y)).getiProp() == 126||((D2ItemProperty)bla.get(y)).getiProp() == 107||((D2ItemProperty)bla.get(y)).getiProp() == 83||((D2ItemProperty)bla.get(y)).getiProp() == 127){
+
+						plusSkillArr.add(((D2ItemProperty)bla.get(y)));
+					}
 					charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
 				}else{
 					if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
@@ -1678,6 +1715,9 @@ public class D2Character extends D2ItemListAdapter
 					}
 
 					if(((D2ItemProperty)set.get(y)).getiProp() < 340){
+						if(((D2ItemProperty)set.get(y)).getiProp() == 188 || ((D2ItemProperty)set.get(y)).getiProp() == 97||((D2ItemProperty)set.get(y)).getiProp() == 126||((D2ItemProperty)set.get(y)).getiProp() == 107||((D2ItemProperty)set.get(y)).getiProp() == 83||((D2ItemProperty)set.get(y)).getiProp() == 127){
+							plusSkillArr.add(((D2ItemProperty)set.get(y)));
+						}
 						charStatArray[((D2ItemProperty)set.get(y)).getiProp()] = charStatArray[((D2ItemProperty)set.get(y)).getiProp()] + ((D2ItemProperty)set.get(y)).getRealValue();
 					}else{
 						if(((D2ItemProperty)set.get(y)).getiProp() == 1337){
@@ -1715,6 +1755,9 @@ public class D2Character extends D2ItemListAdapter
 				}
 
 				if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+					if(((D2ItemProperty)bla.get(y)).getiProp() == 188 || ((D2ItemProperty)bla.get(y)).getiProp() == 97||((D2ItemProperty)bla.get(y)).getiProp() == 126||((D2ItemProperty)bla.get(y)).getiProp() == 107||((D2ItemProperty)bla.get(y)).getiProp() == 83||((D2ItemProperty)bla.get(y)).getiProp() == 127){
+						plusSkillArr.remove(((D2ItemProperty)bla.get(y)));
+					}
 					charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
 
 				}else{
@@ -1777,6 +1820,10 @@ public class D2Character extends D2ItemListAdapter
 		iCharStats[22] = charStatArray[80];
 		iCharStats[23] = charStatArray[96];
 		iCharStats[24] = charStatArray[105];
+		iCharStats[25] = charStatArray[93];
+		iCharStats[26] = charStatArray[99];
+		iCharStats[27] = charStatArray[79];
+		iCharStats[28] = charStatArray[127];
 
 //		iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
 //		iCharStats[16] = (int)calcCharArmor() + (int)(Math.floor((double)iCharStats[2]/(double)4));
@@ -1795,7 +1842,232 @@ public class D2Character extends D2ItemListAdapter
 
 //		System.out.println(((D2ItemProperty)partialSetProps.get(x)).getValue());
 //		}
+		dealWithSkills();
 
+
+
+	}
+
+	private void dealWithSkills() {
+
+		resetSkills();
+//		System.out.println(iCharacter.getPlusAllSkills());
+//		System.out.println(iCharacter.getPlusSkills().size());
+		for(int x = 0;x<getPlusSkills().size();x=x+1){
+//			188, 126, 97, 107, 83, 127
+			int val = 0;
+			int ID = (((D2ItemProperty)getPlusSkills().get(x)).getRealValue());
+			if(((D2ItemProperty)getPlusSkills().get(x)).getiProp()!=127){
+			val = (((D2ItemProperty)getPlusSkills().get(x)).getRealValueTwo());
+			}
+			switch(((D2ItemProperty)getPlusSkills().get(x)).getiProp()){
+
+			
+			case(127):
+				//TO ALL SKILLS
+				
+				for(int t = 0;t<10;t=t+1){
+					incrementSkills('A',ID, t, 'N');
+					incrementSkills('B',ID, t, 'N');
+					incrementSkills('C',ID, t, 'N');
+				
+				}
+				
+				
+				break;
+			
+			case(83):
+				//TO ALL CLASS SKILLS
+				
+				if(ID == this.getCharCode()){
+				for(int t = 0;t<10;t=t+1){
+					incrementSkills('A',val, t, 'N');
+					incrementSkills('B',val, t, 'N');
+					incrementSkills('C',val, t, 'N');
+				}
+				}
+				
+				
+				break;
+			
+			case(97):
+				//NON CLASS SKILL
+				//IGNORE I GUESS....
+			D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow(ID);
+			
+			if(!D2TxtFile.SKILLS.getRow(ID).get("charclass").equals(cClass)){
+			continue;
+			}
+			
+			String page = lSkill.get("SkillPage");
+			int counter = 0;
+			for(int z = ID;z> -1;z=z-1){
+				if(D2TxtFile.SKILLS.getRow(z).get("charclass").equals(cClass)){
+				if(D2TxtFile.SKILL_DESC.getRow(z).get("SkillPage").equals(page)){
+					counter = counter + 1;
+				}
+				}
+			}
+			switch(Integer.parseInt(page)){
+
+			case 1:
+
+				incrementSkills('A',val, counter-1, 'Y');
+
+
+				break;
+
+			case 2:
+
+				incrementSkills('B',val, counter-1, 'Y');
+
+				break;
+
+			case 3:
+
+				incrementSkills('C',val, counter-1, 'Y');
+
+				break;
+
+			}
+
+			break;
+
+
+			case(107):
+				//SINGLE SKILL
+			lSkill = D2TxtFile.SKILL_DESC.getRow(ID);
+			
+			if(!D2TxtFile.SKILLS.getRow(ID).get("charclass").equals(cClass)){
+			continue;
+			}
+			
+			page = lSkill.get("SkillPage");
+			counter = 0;
+			for(int z = ID;z> -1;z=z-1){
+				if(D2TxtFile.SKILLS.getRow(z).get("charclass").equals(cClass)){
+				if(D2TxtFile.SKILL_DESC.getRow(z).get("SkillPage").equals(page)){
+					counter = counter + 1;
+				}
+				}
+			}
+			switch(Integer.parseInt(page)){
+
+			case 1:
+
+				incrementSkills('A',val, counter-1, 'Y');
+
+
+				break;
+
+			case 2:
+
+				incrementSkills('B',val, counter-1, 'Y');
+
+				break;
+
+			case 3:
+
+				incrementSkills('C',val, counter-1, 'Y');
+
+				break;
+
+			}
+
+			break;
+
+			case(126):
+				//ELEM SKILL
+			
+//				sorc fire tree
+//				amazon fire arrow skills
+//				assassins fire claw skill and 3 fire trap skills, (excludes dsentry and phoenix strike)
+//				necro corpse explosion, (not sure about fire golem, probably works)
+//				druid firestorm, fissure, molten boulder, volcano, and armmegeddon.
+//				barb no skills with fire
+//				paladin holy fire skill (not sure on this one, probably does)
+				
+
+				switch((int)lCharCode){
+
+
+				case 0:
+//					cClass = "ama";
+					incrementSkills('A',val, 1, 'N');
+					incrementSkills('A',val, 4, 'N');
+					incrementSkills('A',val, 8, 'N');
+					break;
+				case 1:
+//					cClass = "sor";
+					for(int t = 0;t<10;t=t+1){
+						incrementSkills('A',val, t, 'N');
+					}
+					break;
+				case 2:
+					incrementSkills('B',val, 3, 'N');
+					incrementSkills('C',val, 8, 'N');
+//					cClass = "nec";
+					break;
+				case 3:
+					incrementSkills('B',val, 1, 'N');
+//					cClass = "pal";
+					break;
+				case 5:
+					incrementSkills('B',val, 6, 'N');
+					incrementSkills('C',val, 0, 'N');
+					incrementSkills('C',val, 1, 'N');
+					incrementSkills('C',val, 3, 'N');
+					incrementSkills('C',val, 6, 'N');
+					incrementSkills('C',val, 8, 'N');
+					
+//					cClass = "dru";
+					break;
+				case 6:
+					incrementSkills('C',val, 2, 'N');
+					incrementSkills('C',val, 6, 'N');
+					
+					incrementSkills('A',val, 0, 'N');
+					incrementSkills('A',val, 4, 'N');
+					incrementSkills('A',val, 7, 'N');
+//					cClass = "ass";
+					break;
+
+
+				}
+				
+				break;
+
+			case(188):
+				//SKILL TREE
+//				for(int t = 0;t<10;t=t+1){
+//					incrementSkills('A',val, t);
+//				}
+				
+				int selector = ID-(this.getCharCode() * 8);
+			
+				switch(selector){
+				
+				case 0:
+					for(int t = 0;t<10;t=t+1){
+					incrementSkills('A',val, t, 'N');
+					}
+					break;
+				case 1:
+					for(int t = 0;t<10;t=t+1){
+					incrementSkills('B',val, t, 'N');
+				}
+				case 2:
+					for(int t = 0;t<10;t=t+1){
+					incrementSkills('C',val, t, 'N');
+				}
+				
+				}
+				
+				break;
+
+			}
+
+		}
 
 	}
 
@@ -2238,7 +2510,7 @@ public class D2Character extends D2ItemListAdapter
 		}
 		return true;
 	}
-	
+
 	public boolean unmarkCharGrid(D2Item i)
 	{
 		short panel = i.get_panel();
@@ -2352,7 +2624,7 @@ public class D2Character extends D2ItemListAdapter
 		pItem.setCharLvl(iCharLevel);
 		setModified(true);
 	}
-	
+
 	public void addCorpseItem(D2Item pItem)
 	{
 		iCorpseItems .add(pItem);
@@ -2396,7 +2668,7 @@ public class D2Character extends D2ItemListAdapter
 	{
 		return (D2Item) iMercItems.get(i);
 	}
-	
+
 	public D2Item getCorpseItem(int i)
 	{
 		return (D2Item) iCorpseItems.get(i);
@@ -2406,7 +2678,7 @@ public class D2Character extends D2ItemListAdapter
 	{
 		return iMercItems.size();
 	}
-	
+
 	public int getCorpseItemNr()
 	{
 		return iCorpseItems.size();
@@ -2600,7 +2872,7 @@ public class D2Character extends D2ItemListAdapter
 		}
 		return true;
 	}
-	
+
 	public boolean checkCharPanel(int panel, int x, int y, D2Item pItem)
 	{
 		if (panel >= 10)
@@ -2830,7 +3102,7 @@ public class D2Character extends D2ItemListAdapter
 		}
 		return -1;
 	}
-	
+
 	public int getCorpseItemIndex(int panel, int x, int y)
 	{
 		if (panel == BODY_BELT_CONTENT)
@@ -3192,6 +3464,18 @@ public class D2Character extends D2ItemListAdapter
 	public ArrayList getSkillListC(){
 		return iCharSkillsC;
 	}
+	
+	public ArrayList getInitSkillListA(){
+		return iCharInitSkillsA;
+	}
+
+	public ArrayList getInitSkillListB(){
+		return iCharInitSkillsB;
+	}
+
+	public ArrayList getInitSkillListC(){
+		return iCharInitSkillsC;
+	}
 
 	public void fullDump(PrintWriter pWriter)
 	{
@@ -3219,6 +3503,79 @@ public class D2Character extends D2ItemListAdapter
 		}
 		pWriter.println( "Finished: " + iFileName );
 		pWriter.println();
+	}
+
+
+	public String fullDumpStr()
+	{
+
+		String out = "";
+		String[] skillStrArr = new String[3];
+		skillStrArr[0] ="\n";
+		skillStrArr[1] ="\n";
+		skillStrArr[2] ="\n";
+		
+//		out = out + ( iFileName + "\n" );
+//		out = out + ( "Level: " + iCharLevel +"\n");
+//		out = out + ("\n");
+		Iterator[] it = {iCharInitSkillsA.iterator(),iCharInitSkillsB.iterator(),iCharInitSkillsC.iterator(),iCharSkillsA.iterator(),iCharSkillsB.iterator(),iCharSkillsC.iterator()};
+		
+		ArrayList skillArr = D2TxtFile.SKILLS.searchColumnsMultipleHits("charclass", cClass);
+		for(int x = 0;x<skillArr.size();x=x+1){
+			
+			int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties)skillArr.get(x)).get("Id")))).get("SkillPage"));
+			
+			switch(page){
+			
+			case 1:
+				skillStrArr[0] = skillStrArr[0] + ((D2TxtFileItemProperties)skillArr.get(x)).get("skill") + ": " +  it[0].next() + "/" + it[3].next() + "\n";
+//				System.out.println(((D2TxtFileItemProperties)skillArr.get(x)).get("skill"));
+				break;
+				
+			case 2:
+				skillStrArr[1] = skillStrArr[1] + ((D2TxtFileItemProperties)skillArr.get(x)).get("skill") + " : " +  it[1].next()+ "/" + it[4].next() + "\n";
+//				System.out.println(((D2TxtFileItemProperties)skillArr.get(x)).get("skill"));
+				break;
+				
+			case 3:
+				skillStrArr[2] = skillStrArr[2] + ((D2TxtFileItemProperties)skillArr.get(x)).get("skill") + " : " +  it[2].next() + "/" + it[5].next()+ "\n";
+//				System.out.println(iCharSkillsC.get(x));
+				break;
+				
+			}
+			
+		}
+		
+		out = out + skillStrArr[0] + skillStrArr[1]+skillStrArr[2] + "\n";
+
+		if ( iCharItems != null )
+		{
+			for ( int i = 0 ; i < iCharItems.size() ; i++ )
+			{
+				D2Item lItem = (D2Item) iCharItems.get(i);
+				out = out + lItem.toString(1);
+				out = out + ("\n");
+				out = out + ("\n");
+			}
+		}
+		
+		
+		out = out + ("Mercenary:"+"\n");
+		out = out + ("\n");
+		
+		if ( iMercItems != null )
+		{
+			
+			for ( int i = 0 ; i < iMercItems.size() ; i++ )
+			{
+				D2Item lItem = (D2Item) iMercItems.get(i);
+				out = out + lItem.toString(1);
+				out = out + ("\n");
+				out = out + ("\n");
+			}
+		}
+
+		return out;
 	}
 
 	public String getMercName() {
@@ -3502,6 +3859,19 @@ public class D2Character extends D2ItemListAdapter
 	public int getCharMF(){
 		return iCharStats[22];
 	}
+
+	public int getCharGF(){
+		return iCharStats[27];
+	}
+
+	public int getCharFHR(){
+		return iCharStats[26];
+	}
+
+	public int getCharIAS(){
+		return iCharStats[25];
+	}
+
 	public int getCharFRW(){
 		return iCharStats[23];
 	}
@@ -3520,14 +3890,84 @@ public class D2Character extends D2ItemListAdapter
 	public String[][] getQuests(){
 		return iQuests;
 	}
-	
+
 	public String[][] getWaypoints(){
 		return iWaypoints;
+	}
+
+
+	public int getPlusAllSkills(){
+		return iCharStats[28];
+	}
+
+
+	public ArrayList getPlusSkills(){
+		return plusSkillArr;
 	}
 
 	public D2Item getGolemItem() {
 		return golemItem;
 	}
-	
+
+	public void incrementSkills(char c, int val, int i, char ch) {
+
+
+		switch(ch){
+		case 'Y':
+			switch(c){
+			case('A'):
+				
+				iCharSkillsA.set(i, new Integer(((Integer)iCharSkillsA.get(i)).intValue() + val));
+				
+			break;
+			case('B'):
+				
+				iCharSkillsB.set(i, new Integer(((Integer)iCharSkillsB.get(i)).intValue() + val));
+				
+			break;
+			case('C'):
+				
+				iCharSkillsC.set(i, new Integer(((Integer)iCharSkillsC.get(i)).intValue() + val));
+				
+			break;
+			}
+			break;
+			
+		case 'N':
+			switch(c){
+			case('A'):
+				if(!iCharSkillsA.get(i).equals(new Integer(0))){
+				iCharSkillsA.set(i, new Integer(((Integer)iCharSkillsA.get(i)).intValue() + val));
+				}
+			break;
+			case('B'):
+				if(!iCharSkillsB.get(i).equals(new Integer(0))){
+				iCharSkillsB.set(i, new Integer(((Integer)iCharSkillsB.get(i)).intValue() + val));
+				}
+			break;
+			case('C'):
+				if(!iCharSkillsC.get(i).equals(new Integer(0))){
+				iCharSkillsC.set(i, new Integer(((Integer)iCharSkillsC.get(i)).intValue() + val));
+				}
+			break;
+			}
+			break;
+		}
+		
+
+
+
+	}
+
+	public void resetSkills(){
+		iCharSkillsA.clear();
+		iCharSkillsB.clear();
+		iCharSkillsC.clear();
+		
+		iCharSkillsA.addAll(iCharInitSkillsA);
+		iCharSkillsB.addAll(iCharInitSkillsB);
+		iCharSkillsC.addAll(iCharInitSkillsC);
+	}
+
 
 }

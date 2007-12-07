@@ -73,6 +73,8 @@ public class D2Project
     private boolean iCountChar;
     private boolean iCountEthereal;
 
+	private int lDisplyProps;
+
     public D2Project(D2FileManager pFileManager, String pProjectName)
     {
         iFileManager = pFileManager;
@@ -159,6 +161,7 @@ public class D2Project
         {
             iBank = 0;
             iType = TYPE_BOTH;
+            lDisplyProps = 0;
             iBackup = BACKUP_WEEK;
             iReportName = "Report";
             iReportTitle = "Flavie Report";
@@ -202,6 +205,7 @@ public class D2Project
 	        }
 	        
 	        String lBackup = lLoadProperties.getProperty("backup");
+	        lDisplyProps = Integer.parseInt(lLoadProperties.getProperty("propDisplay"));
 	        iBackup = BACKUP_WEEK;
 	        if (lBackup != null)
 	        {
@@ -271,6 +275,20 @@ public class D2Project
         return iBackup;
     }
 
+    public int getDisProps()
+    {
+        return lDisplyProps;
+    }
+    
+    public void setDisProps(boolean pDisplayProps)
+    {
+    	if(pDisplayProps == true){
+       lDisplyProps =  1;
+    	}else{
+    		 lDisplyProps =  0;
+    	}
+    }
+    
     public void setBackup(int pBackup)
     {
         iBackup = pBackup;
@@ -402,6 +420,7 @@ public class D2Project
         lSaveProperties.put("countStash", getStringFromBoolean(iCountStash) );
         lSaveProperties.put("countChar", getStringFromBoolean(iCountChar) );
         lSaveProperties.put("countEthereal", getStringFromBoolean(iCountEthereal) );
+        lSaveProperties.put("propDisplay", Integer.toString(lDisplyProps) );
 
         try
         { // iFile.getCanonicalPath()
@@ -552,6 +571,10 @@ public class D2Project
         iStyleName = pStyleName;
     }
     
+    public int getDisplayProps(){
+    	return lDisplyProps;
+    }
+    
     public Color getItemColor(D2Item pItem)
     {
         if ( pItem.isUnique() )
@@ -564,7 +587,7 @@ public class D2Project
         }
         if ( pItem.isRare() )
         {
-            return Color.black;
+            return Color.yellow.brighter();
         }
         if ( pItem.isMagical() )
         {
@@ -572,7 +595,7 @@ public class D2Project
         }
         if ( pItem.isCrafted() )
         {
-            return Color.orange;
+            return new Color(255,140,0);
         }
         if ( pItem.isEthereal() || pItem.isSocketed() )
         {

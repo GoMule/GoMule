@@ -104,6 +104,21 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     private JTextField	  iReqMaxLvl;
     private JTextField	  iReqMaxStr;
     private JTextField	  iReqMaxDex;
+	private JButton iDelete;
+	private JCheckBox iTypeSocketed;
+	private RandallPanel iSockFilter;
+	private JCheckBox iCatSock1;
+	private JCheckBox iCatSock2;
+	private JCheckBox iCatSock3;
+	private JCheckBox iCatSock4;
+	private JCheckBox iCatSock5;
+	private JCheckBox iCatSock6;
+	private JCheckBox iCatSockAll;
+	private JCheckBox iQualNorm;
+	private JCheckBox iQualExce;
+	private AbstractButton iQualEli;
+	private AbstractButton iQualAll;
+	private JCheckBox iQualOther;
 
     public D2ViewStash(D2FileManager pMainFrame, String pFileName)
     {
@@ -201,6 +216,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         RandallPanel lButtonPanel = getButtonPanel();
         JPanel lTypePanel = getTypePanel();
+        JPanel lQualityPanel = getQualityPanel();
         RandallPanel lCategoryPanel = getCategoryPanel();
 
         iRequerementFilter = new RandallPanel();
@@ -220,9 +236,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         
         RandallPanel lTopPanel = new RandallPanel();
         lTopPanel.addToPanel(lButtonPanel, 0, 0, 1, RandallPanel.HORIZONTAL);
-        lTopPanel.addToPanel(lTypePanel, 0, 1, 1, RandallPanel.HORIZONTAL);
-        lTopPanel.addToPanel(lCategoryPanel, 0, 2, 1, RandallPanel.HORIZONTAL);
-        lTopPanel.addToPanel(iRequerementFilter, 0, 3, 1, RandallPanel.HORIZONTAL);
+        lTopPanel.addToPanel(lQualityPanel, 0, 1, 1, RandallPanel.HORIZONTAL);
+        lTopPanel.addToPanel(lTypePanel, 0, 2, 1, RandallPanel.HORIZONTAL);
+        lTopPanel.addToPanel(lCategoryPanel, 0, 3, 1, RandallPanel.HORIZONTAL);
+        lTopPanel.addToPanel(iRequerementFilter, 0, 4, 1, RandallPanel.HORIZONTAL);
         
 
         iContentPane.add(lTopPanel, BorderLayout.NORTH);
@@ -265,7 +282,8 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                             if (iTable.getSelectedRowCount() == 1)
                             {
                                 iItemText.setText(iItemModel.getItem(
-                                        iTable.getSelectedRow()).toString());
+                                        iTable.getSelectedRow()).toString(iFileManager.getProject().getDisProps()));
+                                iItemText.setCaretPosition(0);
                             }
                             else
                             {
@@ -371,6 +389,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         RandallPanel lButtonPanel = new RandallPanel(true);
 
         iPickup = new JButton("Pickup");
+        iDelete = new JButton("Delete");
         iPickup.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent pEvent)
@@ -436,6 +455,44 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             }
         });
         lButtonPanel.addToPanel(iDropAll, 2, 0, 1, RandallPanel.HORIZONTAL);
+        
+        iDelete.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent pEvent)
+            {
+                Vector lItemList = new Vector();
+
+                int lRows[] = iTable.getSelectedRows();
+
+                if (lRows.length > 0)
+                {
+                    for (int i = 0; i < lRows.length; i++)
+                    {
+                        lItemList.add(iItemModel.getItem(lRows[i]));
+                    }
+                    try
+                    {
+                        iIgnoreItemListEvents = true;
+                        for (int i = 0; i < lItemList.size(); i++)
+                        {				
+                       int check = JOptionPane.showConfirmDialog(null, "Delete " + ((D2Item) lItemList.get(i)).getName() + "?");
+                        
+						if(check == 0){
+                            iStash.removeItem((D2Item) lItemList.get(i));
+						}
+						}
+                        
+                    }
+                    finally
+                    {
+                        iIgnoreItemListEvents = false;
+                    }
+                    itemListChanged();
+                }
+            }
+        });
+        lButtonPanel.addToPanel(iDelete, 3, 0, 1, RandallPanel.HORIZONTAL);
+        
 
         return lButtonPanel;
     }
@@ -462,13 +519,45 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iTypeCrafted = new JCheckBox("Crafted");
         iTypeCrafted.addActionListener(iStashFilter);
         lTypePanel.addToPanel(iTypeCrafted, 5, 0, 1, RandallPanel.HORIZONTAL);
+        iTypeSocketed = new JCheckBox("Socketed");
+        iTypeSocketed.addActionListener(iStashFilter);
+        lTypePanel.addToPanel(iTypeSocketed, 6, 0, 1, RandallPanel.HORIZONTAL);
         iTypeOther = new JCheckBox("Other");
         iTypeOther.addActionListener(iStashFilter);
-        lTypePanel.addToPanel(iTypeOther, 6, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeOther, 7, 0, 1, RandallPanel.HORIZONTAL);
 
         return lTypePanel;
     }
 
+    
+    private RandallPanel getQualityPanel()
+    {
+        RandallPanel lQualPanel = new RandallPanel(true);
+
+        
+        
+        iQualNorm = new JCheckBox("Normal");
+        iQualNorm.addActionListener(iStashFilter);
+        lQualPanel.addToPanel(iQualNorm, 0, 0, 1, RandallPanel.HORIZONTAL);
+        iQualExce = new JCheckBox("Exceptional");
+        iQualExce.addActionListener(iStashFilter);
+        lQualPanel.addToPanel(iQualExce, 1, 0, 1, RandallPanel.HORIZONTAL);
+        iQualEli = new JCheckBox("Elite");
+        iQualEli.addActionListener(iStashFilter);
+        lQualPanel.addToPanel(iQualEli, 2, 0, 1, RandallPanel.HORIZONTAL);
+        iQualOther = new JCheckBox("Other");
+        iQualOther.addActionListener(iStashFilter);
+        lQualPanel.addToPanel(iQualOther, 3, 0, 1, RandallPanel.HORIZONTAL);
+        iQualAll = new JCheckBox("All");
+        iQualAll.addActionListener(iStashFilter);
+        lQualPanel.addToPanel(iQualAll, 4, 0, 1, RandallPanel.HORIZONTAL);
+        
+        iQualAll.setSelected(true);
+
+        return lQualPanel;
+    }
+
+    
     private RandallPanel getCategoryPanel()
     {
         RandallPanel lCategoryPanel = new RandallPanel();
@@ -541,6 +630,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iMiscFilter = getCategoriesMisc();
         iMiscFilter.setVisible(false);
         lCategories.addToPanel(iMiscFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
+        
+        iSockFilter = getCategoriesSock();
+        iSockFilter.setVisible(false);
+        lCategories.addToPanel(iSockFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
         
         return lCategories;
     }
@@ -694,6 +787,52 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         
         return lCategoriesMisc;
     }
+    
+    private RandallPanel getCategoriesSock()
+    {
+//        ButtonGroup lCatMiscBtnGroup = new ButtonGroup();
+        RandallPanel lCategoriesSock = new RandallPanel(true);
+        
+       
+        
+        iCatSock1 = new JCheckBox("1 Socket");
+        iCatSock1.addActionListener(iStashFilter);
+        lCategoriesSock.addToPanel(iCatSock1, 0, 0, 1, RandallPanel.HORIZONTAL);
+//        lCatMiscBtnGroup.add(iCatSock1);
+
+        iCatSock2 = new JCheckBox("2 Sockets");
+        iCatSock2.addActionListener(iStashFilter);
+        lCategoriesSock.addToPanel(iCatSock2, 1, 0, 1, RandallPanel.HORIZONTAL);
+//        lCatMiscBtnGroup.add(iCatSock2);
+        
+        iCatSock3 = new JCheckBox("3 Sockets");
+        iCatSock3.addActionListener(iStashFilter);
+        lCategoriesSock.addToPanel(iCatSock3, 2, 0, 1, RandallPanel.HORIZONTAL);
+//        lCatMiscBtnGroup.add(iCatSock3);
+        
+        iCatSock4 = new JCheckBox("4 Sockets");
+        iCatSock4.addActionListener(iStashFilter);
+        lCategoriesSock.addToPanel(iCatSock4, 3, 0, 1, RandallPanel.HORIZONTAL);
+//        lCatMiscBtnGroup.add(iCatSock4);
+        
+        iCatSock5 = new JCheckBox("5 Sockets");
+        iCatSock5.addActionListener(iStashFilter);
+        lCategoriesSock.addToPanel(iCatSock5, 4, 0, 1, RandallPanel.HORIZONTAL);
+//        lCatMiscBtnGroup.add(iCatSock5);
+        
+        iCatSock6 = new JCheckBox("6 Sockets");
+        iCatSock6.addActionListener(iStashFilter);
+        lCategoriesSock.addToPanel(iCatSock6, 5, 0, 1, RandallPanel.HORIZONTAL);
+//        lCatMiscBtnGroup.add(iCatSock6);
+        
+        iCatSockAll = new JCheckBox("All");
+        iCatSockAll.addActionListener(iStashFilter);
+        lCategoriesSock.addToPanel(iCatSockAll, 6, 0, 1, RandallPanel.HORIZONTAL);
+//        lCatMiscBtnGroup.add(iCatSockAll);
+        
+        iCatSockAll.setSelected(true);
+        return lCategoriesSock;
+    }
 
     public void itemListChanged()
     {
@@ -835,15 +974,121 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 	                    {
 	                        lAdd1 = true;
 	                    }
+	                    else if(iTypeSocketed.isSelected() && lItem.isSocketed() && !iTypeUnique.isSelected()
+	                            && !iTypeSet.isSelected()
+	                            && !iTypeRuneWord.isSelected()
+	                            && !iTypeRare.isSelected()
+	                            && !iTypeMagical.isSelected()
+	                            && !iTypeCrafted.isSelected()
+	                            && !iTypeOther.isSelected()){
+	                    	lAdd1 = true;
+	                    }
 	                    else if (!iTypeUnique.isSelected()
 	                            && !iTypeSet.isSelected()
 	                            && !iTypeRuneWord.isSelected()
 	                            && !iTypeRare.isSelected()
 	                            && !iTypeMagical.isSelected()
 	                            && !iTypeCrafted.isSelected()
-	                            && !iTypeOther.isSelected())
+	                            && !iTypeOther.isSelected()
+	                            && !iTypeSocketed.isSelected())
 	                    {
 	                        lAdd1 = true;
+	                    }
+	                    
+	                    
+	                
+	                    if(lItem.getItemQuality().equals("normal")){
+	                    	
+                    		if(!iQualNorm.isSelected() && !iQualAll.isSelected()){
+                    			lAdd1 = false;
+                    		}
+	                    	
+	                    }else if(lItem.getItemQuality().equals("exceptional")){
+	                    	
+                    		if(!iQualExce.isSelected() && !iQualAll.isSelected()){
+                    			lAdd1 = false;
+                    		}
+	                    	
+	                    }else if(lItem.getItemQuality().equals("elite")){
+	                    	
+	                    	
+                    		if(!iQualEli.isSelected() && !iQualAll.isSelected()){
+                    			lAdd1 = false;
+                    		}
+	                    	
+	                    }else if(lItem.getItemQuality().equals("none")){
+	                    	
+	                    	
+                    		if(!iQualOther.isSelected() && !iQualAll.isSelected()){
+                    			lAdd1 = false;
+                    		}
+	                    	
+	                    }
+	                    
+	                    
+	                    
+//	                    if(iQualNorm.isSelected()){
+//	                    	if(!lItem.getItemQuality().equals("normal")){
+//	                    		lAdd1 = false;
+//	                    	}
+//	                    }else
+//	                    if(iQualExce.isSelected()){
+//	                    	if(!lItem.getItemQuality().equals("exceptional")){
+//	                    		lAdd1 = false;
+//	                    	}
+//	                    }else
+//	                    if(iQualEli.isSelected()){
+//	                    	if(!lItem.getItemQuality().equals("elite")){
+//	                    		lAdd1 = false;
+//	                    	}
+//	                    }else
+//	                    if(iQualOther.isSelected()){
+//	                    	if(!lItem.getItemQuality().equals("none")){
+//	                    		lAdd1 = false;
+//	                    	}
+//	                    }
+	                    
+	                    if(iTypeSocketed.isSelected()){
+	                    	
+	                    	switch((int)lItem.getSocketNrTotal()){
+	                    	
+	                    	case 0:
+	                    		lAdd1 = false;
+	                    		break;
+	                    	case 1:
+	                    		if(!iCatSock1.isSelected() && !iCatSockAll.isSelected()){
+	                    			lAdd1 = false;
+	                    		}
+	                    		break;
+	                    	case 2:
+	                    		if(!iCatSock2.isSelected() && !iCatSockAll.isSelected()){
+	                    			lAdd1 = false;
+	                    		}
+	                    		break;
+	                    	case 3:
+	                    		if(!iCatSock3.isSelected() && !iCatSockAll.isSelected()){
+	                    			lAdd1 = false;
+	                    		}
+	                    		break;
+	                    	case 4:
+	                    		if(!iCatSock4.isSelected() && !iCatSockAll.isSelected()){
+	                    			lAdd1 = false;
+	                    		}
+	                    		break;
+	                    	case 5:
+	                    		if(!iCatSock5.isSelected() && !iCatSockAll.isSelected()){
+	                    			lAdd1 = false;
+	                    		}
+	                    		break;
+	                    	case 6:
+	                    		if(!iCatSock6.isSelected() && !iCatSockAll.isSelected()){
+	                    			lAdd1 = false;
+	                    		}
+	                    		break;
+	                    	
+	                    	}
+	                    	
+	                    	
 	                    }
 	
 	                    if (lAdd1)
@@ -1141,6 +1386,42 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     {
         public void actionPerformed(ActionEvent pEvent)
         {
+        	
+        	if((iCatSockAll.isSelected() && iCatSock1.isSelected()) || (iCatSockAll.isSelected() && iCatSock2.isSelected()) || (iCatSockAll.isSelected() && iCatSock3.isSelected()) || (iCatSockAll.isSelected() && iCatSock4.isSelected()) || (iCatSockAll.isSelected() && iCatSock5.isSelected()) || (iCatSockAll.isSelected() && iCatSock6.isSelected())){
+        		iCatSockAll.setSelected(false);
+        	}
+        	
+        	if(pEvent.getSource().equals(iCatSockAll)){
+        		if(!iCatSockAll.isSelected()){
+        			iCatSockAll.setSelected(true);
+        			iCatSock1.setSelected(false);
+        			iCatSock2.setSelected(false);
+        			iCatSock3.setSelected(false);
+        			iCatSock4.setSelected(false);
+        			iCatSock5.setSelected(false);
+        			iCatSock6.setSelected(false);
+        			
+        		}
+        	}
+        	
+        	
+        	if((iQualAll.isSelected() && iQualNorm.isSelected()) || (iQualAll.isSelected() && iQualExce.isSelected()) || (iQualAll.isSelected() && iQualEli.isSelected())|| (iQualAll.isSelected() && iQualOther.isSelected())){
+        		iQualAll.setSelected(false);
+        	}
+        	
+        	if(pEvent.getSource().equals(iQualAll)){
+        		if(!iQualAll.isSelected()){
+        			iQualAll.setSelected(true);
+        			iQualNorm.setSelected(false);
+        			iQualExce.setSelected(false);
+        			iQualOther.setSelected(false);
+        			iQualEli.setSelected(false);
+        			
+        			
+        		}
+        	}
+        	
+        	
             // change layout according to filters
             if ( iCatArmor.isSelected() )
             {
@@ -1186,6 +1467,15 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             {
                 iMiscFilter.setVisible(false);
             }
+            if ( iTypeSocketed.isSelected() )
+            {
+                iSockFilter.setVisible(true);
+            }
+            else
+            {
+            	iSockFilter.setVisible(false);
+            }
+            
 
             // activate filters
             itemListChanged();

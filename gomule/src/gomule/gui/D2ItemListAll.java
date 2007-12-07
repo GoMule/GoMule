@@ -290,7 +290,7 @@ public class D2ItemListAll implements D2ItemList
         for ( int i = 0 ; i < iList.size() ; i++ )
         {
             lItemList = (D2ItemList) iList.get(i);
-            lItemList.fullDump( pWriter );
+            lItemList.fullDump( pWriter);
         }
     }
     

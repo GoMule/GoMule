@@ -27,13 +27,17 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.text.JTextComponent;
+import javax.swing.text.html.HTMLEditorKit;
 
 import com.sun.org.apache.xalan.internal.xsltc.runtime.Hashtable;
 
+import randall.d2files.D2TxtFile;
+import randall.d2files.D2TxtFileItemProperties;
 import randall.util.*;
 
 /**
@@ -106,7 +110,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private JTextField               iTransferFree;
 
 	private JButton					 iGoldTransferBtns[];
-
+	private JTabbedPane lTabs = new JTabbedPane();
 //	private JLabel iMercName = new JLabel("");
 //private JLabel iMercRace = new JLabel("");
 //private JLabel iMercType = new JLabel("");
@@ -147,7 +151,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private D2SkillPainterPanel lSkillPanel;
 	private D2WayPainterPanel lWayPanel;
 	private D2DeathPainterPanel iDeathPainter;
-
+	private JTextPane lDump;
+	
+	private JPanel lDumpPanel;
+	private JPopupMenu rightClickItem;
+	private MouseEvent rightClickEvent;
+	private String combinedString;
+	private String combinedMercString;
 
 	public D2ViewChar(D2FileManager pMainFrame, String pFileName)
 	{
@@ -164,11 +174,12 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 		ToolTipManager.sharedInstance().setDismissDelay(40000);
 		ToolTipManager.sharedInstance().setInitialDelay(300);
+//		ToolTip
 		
 		iFileManager = pMainFrame;
 		iFileName = pFileName;
 
-		JTabbedPane lTabs = new JTabbedPane();
+		
 
 		JPanel lCharPanel = new JPanel();
 		lCharPanel.setLayout(new BorderLayout());
@@ -497,6 +508,27 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		lBankPanel.finishDefaultPanel();
 		lTabs.addTab("Bank", lBankPanel);
 
+		
+		lDumpPanel = new JPanel();
+		lDump = new JTextPane();
+		
+		JScrollPane dumpScroll = new JScrollPane(lDump);
+		dumpScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		dumpScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		lDumpPanel.add(dumpScroll);
+		HTMLEditorKit htmlEditor = new HTMLEditorKit();
+		lDump.setEditorKit(htmlEditor);
+		lDump.setPreferredSize(new Dimension(520,360));
+	
+		dumpScroll.setPreferredSize(new Dimension(520,360));
+		lDump.setAutoscrolls(false);
+		lDump.setVisible(true);
+//		lDump.setBounds(6,7,175,179);
+//		dumpScroll.setBounds(6,7,175,179);
+		lTabs.addTab("Dump", lDumpPanel);
+
+		lTabs.addMouseListener(new MyMouse());
+		
 		iMessage = new JTextArea();
 		JScrollPane lScroll = new JScrollPane(iMessage);
 		RandallPanel lMessagePanel = new RandallPanel();
@@ -523,6 +555,85 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		lTabs.addTab("Messages", lMessagePanel);
 		iMessage.setText("Nothing done, disconnected");
 
+		JMenuItem item;
+		JMenuItem item2;
+		rightClickItem = new JPopupMenu();
+		rightClickItem.add(item = new JMenuItem("Delete?"));
+		rightClickItem.add(item2 = new JMenuItem("View Item"));
+		rightClickItem.add(new JPopupMenu.Separator());
+		rightClickItem.add("Cancel");
+		
+		item.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent event) {      
+	          	        	
+	          if(event.getActionCommand().equals("Delete?")){
+	        	  
+	        	  
+	        	  
+					D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
+					if (lItemPanel.getPanel() != -1)
+					{
+						// if there is an item to grab, grab it
+						if (lItemPanel.isItem())
+						{
+							D2Item lTemp = lItemPanel.getItem();
+							
+							int check = JOptionPane.showConfirmDialog(null, "Delete " + lTemp.getName() + "?");
+							if(check == 0){
+							iCharacter.unmarkCharGrid(lTemp);
+							iCharacter.removeCharItem(lItemPanel.getItemIndex());
+							setCursorDropItem();
+							if(lTemp.statModding()){
+								iCharacter.updateCharStats("P", lTemp);
+								paintCharStats();
+							}
+							}
+						}
+					}
+	          }
+	          if(event.getActionCommand().equals("View Item")){
+	        	  
+	        	  
+	        	  
+	          }
+	          
+	        }
+	      });
+		
+		item2.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent event) {      
+	          	        	
+	          if(event.getActionCommand().equals("View Item")){
+	        	  D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
+					if (lItemPanel.getPanel() != -1)
+					{
+						// if there is an item to grab, grab it
+						if (lItemPanel.isItem())
+						{
+							D2Item lTemp = lItemPanel.getItem();
+							JFrame itemPanel = new JFrame();
+							JTextPane report = new JTextPane();
+							JScrollPane SP = new JScrollPane(report);
+							report.setBackground(Color.black);
+							HTMLEditorKit htmlEditor = new HTMLEditorKit();
+							report.setEditorKit(htmlEditor);
+							report.setText(lTemp.toStringHtml(0, 1));
+							report.setCaretPosition(0);
+							itemPanel.add( SP);
+							
+							itemPanel.setLocation((rightClickEvent.getComponent().getLocationOnScreen().x + rightClickEvent.getX()), (rightClickEvent.getComponent().getLocationOnScreen().y + rightClickEvent.getY()));
+							itemPanel.setSize(200,400);
+							itemPanel.setVisible(true);
+							itemPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+						}
+					}
+	        	  
+	        	  
+	          }
+	          
+	        }
+	      });
+		
 		pack();
 		setVisible(true);
 
@@ -534,7 +645,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	public void paintMercStats(){
 
-		String combinedString = 
+		combinedMercString = 
 			"Name:       " + iCharacter.getMercName() + "\n"+
 			"Race:       " + iCharacter.getMercRace() + "\n"+
 			"Type:       " + iCharacter.getMercType() + "\n"+
@@ -551,7 +662,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			"Cold:       " + iCharacter.getMercColdRes()+"/"+(iCharacter.getMercColdRes()-40) +"/"+(iCharacter.getMercColdRes()-100) + "\n"+
 			"Poison:    " + iCharacter.getMercPoisRes()+"/"+(iCharacter.getMercPoisRes()-40) +"/"+(iCharacter.getMercPoisRes()-100);
 
-		MJT.setText(combinedString);
+		MJT.setText(combinedMercString);
 
 //		iMercName.setText(iCharacter.getMercName());
 //		iMercRace.setText(iCharacter.getMercRace());
@@ -575,12 +686,12 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	public void paintCharStats() {
 
-		String combinedString = 
+		combinedString = 
 			"Name:       " + iCharacter.getCharName() + "\n"+
 			"Class:      " + iCharacter.getCharClass() + "\n"+
 			"Experience: " + iCharacter.getCharExp() + "\n"+
 			"Level:      " + iCharacter.getCharLevel() + "\n"+
-			"NOTIMP:     " + iCharacter.getCharDead() + "\n"+ "\n"+"            Naked/Gear" + "\n"+
+			/*"NOTIMP:     " + iCharacter.getCharDead() + "\n"+*/ "\n"+"            Naked/Gear" + "\n"+
 			"Strength:   " + iCharacter.getCharInitStr()+"/"+iCharacter.getCharStr() + "\n"+
 			"Dexterity:  " + iCharacter.getCharInitDex()+"/"+iCharacter.getCharDex() + "\n"+
 			"Vitality:   " + iCharacter.getCharInitVit()+"/"+iCharacter.getCharVit() + "\n"+
@@ -593,10 +704,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			"Fire:       " + iCharacter.getCharFireRes()+"/"+(iCharacter.getCharFireRes()-40) +"/"+(iCharacter.getCharFireRes()-100) + "\n"+
 			"Lightning:  " + iCharacter.getCharLightRes()+"/"+(iCharacter.getCharLightRes()-40) +"/"+(iCharacter.getCharLightRes()-100) + "\n"+
 			"Cold:       " + iCharacter.getCharColdRes()+"/"+(iCharacter.getCharColdRes()-40) +"/"+(iCharacter.getCharColdRes()-100) + "\n"+
-			"Poison:    " + iCharacter.getCharPoisRes()+"/"+(iCharacter.getCharPoisRes()-40) +"/"+(iCharacter.getCharPoisRes()-100) + "\n"+"\n"+
+			"Poison:     " + iCharacter.getCharPoisRes()+"/"+(iCharacter.getCharPoisRes()-40) +"/"+(iCharacter.getCharPoisRes()-100) + "\n"+"\n"+
 			"MF:         " + iCharacter.getCharMF() + "\n"+
+			"GF:         " +iCharacter.getCharGF()+ "\n"+
 			"FR/W:       " +iCharacter.getCharFRW()+ "\n"+
-			"FCR:       " +iCharacter.getCharFCR();
+			"FHR:        " +iCharacter.getCharFHR()+ "\n"+
+			"IAS:        " +iCharacter.getCharIAS()+ "\n"+
+			"FCR:        " +iCharacter.getCharFCR();
 
 		CJT.setText(combinedString);
 
@@ -626,6 +740,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 //		iCharMF.setText(Integer.toString(iCharacter.getCharMF()));
 //		iCharFRW.setText(Integer.toString(iCharacter.getCharFRW()));
 
+		lSkillPanel.build();
+		
 	}
 
 	public void connect()
@@ -898,6 +1014,18 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
+	class MyMouse extends MouseAdapter{
+		
+			public void mouseClicked(MouseEvent e){
+				
+				if(lTabs.getSelectedIndex() == 6){
+					dumpChar();
+				}
+				
+			}
+		
+	}
+	
 	class D2ItemPanel
 	{
 		private boolean iIsChar;
@@ -1140,7 +1268,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		}
 
 	}
-
+	
 	class D2CharPainterPanel extends JPanel
 	{
 		private Image iBackground;
@@ -1150,9 +1278,11 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			setSize(BG_WIDTH, BG_HEIGHT);
 			Dimension lSize = new Dimension(BG_WIDTH, BG_HEIGHT);
 			setPreferredSize(lSize);
-
+			
 			addMouseListener(new MouseAdapter()
 			{
+				
+
 				public void mouseReleased(MouseEvent pEvent)
 				{
 					if ( iCharacter == null )
@@ -1294,6 +1424,17 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 								}
 							}
 						}
+					}else if (pEvent.getButton() == MouseEvent.BUTTON3){
+						D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, false, false);
+						if (lItemPanel.getPanel() != -1)
+						{
+							if (lItemPanel.isItem())
+							{
+								
+						  rightClickItem.show(D2ViewChar.this, pEvent.getX(), pEvent.getY()+35);
+						  rightClickEvent = pEvent;
+							}
+						}
 					}
 				}
 
@@ -1381,7 +1522,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					}
 					else
 					{
-						D2CharPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml());
+						D2CharPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml(0, 0));
 					}
 				}
 			});
@@ -1638,6 +1779,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							// if there is an item to grab, grab it
 							if (lItemPanel.isItem())
 							{
+								
+								
 
 
 								D2Item lTemp = lItemPanel.getItem();
@@ -1734,7 +1877,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						if(iCharacter.getGolemItem() == null){
 							return;
 						}
-						D2MercPainterPanel.this.setToolTipText(iCharacter.getGolemItem().toStringHtml());
+						D2MercPainterPanel.this.setToolTipText(iCharacter.getGolemItem().toStringHtml(0, 0));
 						return;
 					}
 					
@@ -1788,7 +1931,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					}
 					else
 					{
-						D2MercPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml());
+						D2MercPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml(0, 0));
 					}
 				}
 			});
@@ -1976,7 +2119,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					}
 					else
 					{
-						D2DeathPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml());
+						D2DeathPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml(0, 0));
 					}
 				}
 			});
@@ -2201,6 +2344,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 				private void setSkillSlot(int i) {
 
+
+					
 					iSkillSlot = i;
 					build();
 				}
@@ -2425,27 +2570,49 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		}
 
 		private void drawText(Graphics2D lGraphics, int skillSlot) {
-
-
+			
 			switch(iSkillSlot){
 			case 0:
 				lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
 				for(int x = 0;x<10;x=x+1){
-					lGraphics.drawString(iCharacter.getSkillListA().get(x).toString(),iCharacter.getSkillLocs()[x].x , iCharacter.getSkillLocs()[x].y);
+					lGraphics.setColor(Color.white);
+					lGraphics.drawString(iCharacter.getInitSkillListA().get(x).toString() + "/",iCharacter.getSkillLocs()[x].x-10 , iCharacter.getSkillLocs()[x].y+2);
+					if(!iCharacter.getInitSkillListA().get(x).equals(iCharacter.getSkillListA().get(x))){
+						lGraphics.setColor(Color.orange.brighter());
+					}
+					lGraphics.drawString(iCharacter.getSkillListA().get(x).toString(),iCharacter.getSkillLocs()[x].x+11 , iCharacter.getSkillLocs()[x].y+2);
+					
 				}
 				break;
 			case 1:
 				lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
 				for(int x = 0;x<10;x=x+1){
-					lGraphics.drawString(iCharacter.getSkillListB().get(x).toString(),iCharacter.getSkillLocs()[x+10].x , iCharacter.getSkillLocs()[x+10].y);
+					lGraphics.setColor(Color.white);
+					lGraphics.drawString(iCharacter.getInitSkillListB().get(x).toString() + "/",iCharacter.getSkillLocs()[x+10].x-10 , iCharacter.getSkillLocs()[x+10].y+2);
+					
+					if(!iCharacter.getInitSkillListB().get(x).equals(iCharacter.getSkillListB().get(x))){
+						lGraphics.setColor(Color.orange.brighter());
+					}else{
+						lGraphics.setColor(Color.white);
+					}
+					lGraphics.drawString(iCharacter.getSkillListB().get(x).toString(),iCharacter.getSkillLocs()[x+10].x+11 , iCharacter.getSkillLocs()[x+10].y+2);
+					
 				}
 				break;
 			case 2:
 				lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
 				for(int x = 0;x<10;x=x+1){
-					lGraphics.drawString(iCharacter.getSkillListC().get(x).toString(),iCharacter.getSkillLocs()[x+20].x , iCharacter.getSkillLocs()[x+20].y);
-//					lGraphics.drawString(iCharacter.getSkillListB().get(x).toString(),iCharacter.getSkillLocs()[x+10].x , iCharacter.getSkillLocs()[x+10].y);
-				}
+					lGraphics.setColor(Color.white);
+					lGraphics.drawString(iCharacter.getInitSkillListC().get(x).toString() + "/",iCharacter.getSkillLocs()[x+20].x-10 , iCharacter.getSkillLocs()[x+20].y+2);
+					
+					if(!iCharacter.getInitSkillListC().get(x).equals(iCharacter.getSkillListC().get(x))){
+						lGraphics.setColor(Color.orange.brighter());
+					}else{
+						lGraphics.setColor(Color.white);
+					}
+					
+					lGraphics.drawString(iCharacter.getSkillListC().get(x).toString(),iCharacter.getSkillLocs()[x+20].x+11 , iCharacter.getSkillLocs()[x+20].y+2);
+}
 				break;
 
 			}
@@ -3069,7 +3236,7 @@ setCursorDropItem();
 					}
 					else
 					{
-						D2CharCursorPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml());
+						D2CharCursorPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml(0, 0));
 					}
 				}
 			});
@@ -3107,6 +3274,17 @@ setCursorDropItem();
 
 			lGraphics.drawImage(iBackground, 0, 0, D2CharCursorPainterPanel.this);
 		}
+	}
+
+	public void dumpChar() {
+		
+		String out = combinedString.replaceAll("\n", "<BR>");
+		String iChaString = iCharacter.fullDumpStr().replaceAll("\n", "<BR>");
+		String outMerc = combinedMercString.replaceAll("\n", "<BR>");
+		
+		lDump.setText("<code>" + out + "<br>" +iChaString + outMerc + "</code>");
+		lDump.setCaretPosition(0);
+		lDumpPanel.revalidate();
 	}
 
 }

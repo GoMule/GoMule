@@ -85,6 +85,7 @@ public class GoMule
     {
         try
         {
+        	
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
             if ( args != null )
             {
@@ -102,6 +103,11 @@ public class GoMule
             }
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+            
+           
+            
+            UIManager.put ("ToolTip.background", Color.black);
+            UIManager.put ("ToolTip.foreground", Color.white);
         }
         catch (Exception e)
         {

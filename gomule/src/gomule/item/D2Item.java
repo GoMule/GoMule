@@ -26,6 +26,7 @@ import gomule.gui.D2ViewChar.*;
 import gomule.item.D2ItemProperty.PropValue;
 import gomule.util.*;
 
+import java.awt.Color;
 import java.io.*;
 import java.util.*;
 
@@ -68,6 +69,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private int flags;
 
 	private short version;
+	
+	private String uberCode;
 
 	private short location;
 
@@ -256,6 +259,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private int setSize;
 
+	private String iItemQuality = "none";
+
 	// private int iPossibleItemLength = 0;
 
 	public D2Item(String pFileName, D2BitReader pFile, int pPos, long pCharLvl)
@@ -297,7 +302,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 				lLengthToNextJM = pFile.findNextFlag("jf",pFile.get_byte_pos()) - pPos;
 				
 			}
-			
 			
 			// pFile.findNextFlag("kf", pFile.get_byte_pos()) - pPos;
 			int lDiff = ((lLengthToNextJM * 8) - lCurrentReadLength);
@@ -515,11 +519,36 @@ public class D2Item implements Comparable, D2ItemInterface {
 		} else if (iTypeArmor) {
 			iReqLvl = getReq(iItemType.get("levelreq"));
 			iReqStr = getReq(iItemType.get("reqstr"));
+			
+			D2TxtFileItemProperties qualSearch = D2TxtFile.ARMOR.searchColumns("normcode", item_type);
+			iItemQuality = "normal";
+			if(qualSearch == null){
+				qualSearch = D2TxtFile.ARMOR.searchColumns("ubercode", item_type);
+				iItemQuality = "exceptional";
+				if(qualSearch == null){
+					qualSearch = D2TxtFile.ARMOR.searchColumns("ultracode", item_type);
+					iItemQuality = "elite";
+				}
+			}
+			
 		} else if (iTypeWeapon) {
 			iReqLvl = getReq(iItemType.get("levelreq"));
 			iReqStr = getReq(iItemType.get("reqstr"));
 			iReqDex = getReq(iItemType.get("reqdex"));
 
+			
+			D2TxtFileItemProperties qualSearch = D2TxtFile.WEAPONS.searchColumns("normcode", item_type);
+			iItemQuality = "normal";
+			if(qualSearch == null){
+				qualSearch = D2TxtFile.WEAPONS.searchColumns("ubercode", item_type);
+				iItemQuality = "exceptional";
+				if(qualSearch == null){
+					qualSearch = D2TxtFile.WEAPONS.searchColumns("ultracode", item_type);
+					iItemQuality = "elite";
+				}
+			}
+			
+			
 			// System.err.println("Weapon: " + item_type + " - " +
 			// iItemType.get("type") + " - " + iItemType.get("type2") + " - " +
 			// iItemType.get("code") );
@@ -677,6 +706,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 				iReqDex -= 10;
 			}
 		}
+	}
+
+	public String getItemQuality() {
+		// TODO Auto-generated method stub
+		return iItemQuality;
 	}
 
 	private int getReq(String pReq) {
@@ -2333,7 +2367,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	public long getSocketNrTotal() {
-		return iSocketNrFilled;
+		return iSocketNrTotal;
 	}
 
 	public byte[] get_bytes() {
@@ -2360,9 +2394,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return Short.toString(ilvl);
 	}
 
-	public String toString() 
+	public String toString(int disSepProp) 
 	{
-	    ArrayList lDump = getFullItemDump();
+	    ArrayList lDump = getFullItemDump(1, disSepProp);
 	    StringBuffer lReturn = new StringBuffer("");
 	    for ( int i = 0 ; i < lDump.size() ; i++ )
 	    {
@@ -2377,7 +2411,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	
 	public void toWriter(PrintWriter pWriter)
 	{
-	    ArrayList lDump = getFullItemDump();
+	    ArrayList lDump = getFullItemDump(1, 0);
 	    for ( int i = 0 ; i < lDump.size() ; i++ )
 	    {
 	        pWriter.println((String) lDump.get(i));
@@ -2385,9 +2419,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 	    pWriter.println();
 	}
 
-	public String toStringHtml() 
+	public String toStringHtml(int stash, int disSepProp) 
 	{
-	    ArrayList lDump = getFullItemDump();
+	    ArrayList lDump = getFullItemDump(stash, disSepProp);
 	    StringBuffer lReturn = new StringBuffer("<HTML>");
 	    for ( int i = 0 ; i < lDump.size() ; i++ )
 	    {
@@ -2436,16 +2470,42 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return iReqDex;
 	}
 
-	public ArrayList getFullItemDump() 
+	public ArrayList getFullItemDump(int stash, int disSepProp) 
 	{
 	    ArrayList lReturn = new ArrayList();
-		lReturn.add( iItemName );
-
+	    
+	    String base = Integer.toHexString(Color.white.getRGB());
+	    base = base.substring(2, base.length());
+	    
+	    String rgb = Integer.toHexString(getItemColor().getRGB());
+	    rgb = rgb.substring(2, rgb.length());
+//	    System.out.println(rgb);
+	    if(stash == 1){
+	    	
+			lReturn.add(iItemName);
+		    
+			if (!iBaseItemName.equals(iItemName)) 
+			{
+				lReturn.add(iBaseItemName);
+			}
+	    }else{
+	    	if(disSepProp == 1){
+	    		lReturn.add("<font face=\"Dialog\" size=\"3\" color=\"#" + base + "\">" + "<font color=\"#" + rgb + "\">" +iItemName+"</font>" );	
+	    	}else{
+		lReturn.add("<font color=\"#" + base + "\">" + "<font color=\"#" + rgb + "\">" +iItemName+"</font>" );
+	    	}
 		if (!iBaseItemName.equals(iItemName)) 
 		{
-			lReturn.add( iBaseItemName );
+			if(!isRuneWord()){
+			lReturn.add("<font color=\"#" + rgb + "\">" +iBaseItemName+"</font>");
+			}else{
+			    rgb = Integer.toHexString(Color.gray.getRGB());
+			    rgb = rgb.substring(2, rgb.length());
+			    lReturn.add("<font color=\"#" + rgb + "\">" +iBaseItemName+"</font>");
+				
+			}
 		}
-
+	    }
 		if (isTypeWeapon()) 
 		{
 			if (iWhichHand == 0) 
@@ -2543,9 +2603,77 @@ public class D2Item implements Comparable, D2ItemInterface {
 				}
 			}
 		}
+		
+		
+		if(disSepProp == 1){
+			
+			if(isSocketed()){
+				lReturn.add("");
+				if(stash == 1){
+					if(iSocketedItems != null){
+				for(int x = 0;x< iSocketedItems.size();x=x+1){
+					if(((D2Item)iSocketedItems.get(x)) != null){
+					lReturn.add(((D2Item)iSocketedItems.get(x)).toString(0) + "\n");
+					}
+					}
+				}
+				}else{
+					if(iSocketedItems != null){
+					for(int x = 0;x< iSocketedItems.size();x=x+1){
+						
+						lReturn.add(((D2Item)iSocketedItems.get(x)).toStringHtml(stash, 0));
+						}						
+					}
+				}
+				
+			}
+			
+		}
+		
+		
+	    if(stash == 0){
+	    	lReturn.add("</font>" );
+	    }
 
 		return lReturn;
 	}
+	
+    public Color getItemColor()
+    {
+        if ( isUnique() )
+        {
+//            return Color.yellow.darker().darker();
+        	return new Color(255, 222, 173);
+        }
+        if ( isSet() )
+        {
+            return Color.green.darker();
+        }
+        if ( isRare() )
+        {
+        	return Color.yellow.brighter();
+        }
+        if ( isMagical() )
+        {
+            return new Color(72 ,118 ,255);
+        }
+        if ( isRune() )
+        {
+            return Color.red;
+        }
+        if ( isCrafted() )
+        {
+            return Color.orange;
+        }
+        if(isRuneWord()){
+        	return new Color(255, 222, 173);
+        }
+        if ( isEthereal() || isSocketed() )
+        {
+            return Color.gray;
+        }
+        return Color.white;
+    }
 
 //	private String socketedGemHandler(D2Item lSocket) {
 //

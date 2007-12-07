@@ -42,6 +42,8 @@ public class D2CellStringRenderer extends DefaultTableCellRenderer
 
         Component lRenderer = super.getTableCellRendererComponent(pTable, lValue, pIsSelected, pHasFocus, pRow, pColumn);
         
+        lRenderer.setBackground(Color.DARK_GRAY.darker());
+        
         if ( lForeground != null )
         {
             lRenderer.setForeground(lForeground);
