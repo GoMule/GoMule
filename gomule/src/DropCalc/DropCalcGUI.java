@@ -184,7 +184,7 @@ public class DropCalcGUI extends JFrame{
 			}
 			}
 		}
-		}
+		System.out.println();		}
 		});
 	
 	
