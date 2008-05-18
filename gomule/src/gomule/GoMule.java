@@ -25,7 +25,11 @@ import gomule.gui.*;
 import gomule.item.*;
 
 import java.awt.*;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import javax.swing.*;
 
@@ -83,6 +87,26 @@ public class GoMule
 
     public static void main(String[] args)
     {
+    	
+////    	 the classpath
+//    	System.out.println( System.getProperty( "java.class.path" ) );
+//
+////    	 extension directories whose jars are included on the classpath
+//    	System.out.println( System.getProperty( "java.ext.dirs" ) );
+//
+////    	 low level classpath, includes system jars
+//    	System.out.println( System.getProperty( "java.library.path" ) );
+//
+////    	 character to separate (not terminate!) entries on the classpath, ; for Windows : for unix.
+//    	System.out.println( System.getProperty( "path.separator" ) );
+//      
+//    	try {
+//			System.out.println(new File(".").getCanonicalPath());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} 
+    	
         try
         {
         	

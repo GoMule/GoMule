@@ -1,6 +1,6 @@
 /*******************************************************************************
  * 
- * Copyright 2007 Andy Theuninck & Randall
+ * Copyright 2007 Andy Theuninck, Randall & Silospen
  * 
  * This file is part of gomule.
  * 
@@ -57,13 +57,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private ArrayList iSet5 = new ArrayList();
 	
-	private ArrayList iFullSet = new ArrayList();
-	
-	private ArrayList iSetProps = new ArrayList();
+	private ArrayList iSetProps;
 
 	private ArrayList iSocketedItems;
 
-	private ArrayList iRuneWordProps = new ArrayList();
+	private ArrayList iRuneWordProps;
 
 	// general item data
 	private int flags;
@@ -176,7 +174,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private boolean iStackable = false;
 	
-	private ArrayList iGemProps = new ArrayList();
+	private ArrayList iGemProps;
 
 	private boolean iRune;
 
@@ -579,7 +577,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		if (lHasRand == 1) { // GUID ???
 			//if (!check_flag(22)) {
-			if(iType.startsWith("rune") || iType.startsWith("gem") || !isTypeMisc()){
+			if(iType.startsWith("rune") || iType.startsWith("gem") || iType.startsWith("amu") || iType.startsWith("rin") || !isTypeMisc()){
 			hasGUID=true;
 						
 				 iGUID = "0x" + Integer.toHexString((int)  pFile.read(32)) +" 0x" + Integer.toHexString((int) pFile.read(32))+ " 0x" + Integer.toHexString((int) pFile.read(32));
@@ -599,6 +597,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if (iType2.equals("gem0") || iType2.equals("gem1")
 					|| iType2.equals("gem2") || iType2.equals("gem3")
 					|| iType2.equals("gem4")) {
+				iGemProps = new ArrayList();
 				readPropertiesGems(pFile, iGemProps);
 
 				iGem = true;
@@ -606,6 +605,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 
 		if (iType != null && iType2 != null && iType.startsWith("rune")) {
+			iGemProps = new ArrayList();
 			readPropertiesRunes(pFile, iGemProps);
 			iRune = true;
 
@@ -633,6 +633,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		int lLastItem = pFile.get_byte_pos();
 		if (iSocketNrFilled > 0) {
+			iGemProps = new ArrayList();
 			iSocketedItems = new ArrayList();
 			for (int i = 0; i < iSocketNrFilled; i++) {
 				int lStartNewItem = pFile.findNextFlag("JM", lLastItem);
@@ -1044,6 +1045,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 
 		if (iSocketed) {
+			iGemProps = new ArrayList();
 			iSocketNrTotal = pFile.read(4);
 			// System.err.println("Nr Sockets: " + lNrSockets );
 		}
@@ -1067,6 +1069,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		cleanUpProperties();
 
 		if (quality == 5) {
+			iSetProps = new ArrayList();
 			if (lSet1 == 1) {
 				iSet1 = new ArrayList();
 				readProperties(pFile, iSet1);
@@ -1287,6 +1290,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	
 
 	private void readPropertiesGems(D2BitReader pFile, ArrayList pProperties) {
+		
 		ArrayList wepProps = new ArrayList();
 		ArrayList armProps = new ArrayList();
 		ArrayList shiProps = new ArrayList();
@@ -1417,11 +1421,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 				for (int k = 0; k < lItemStatCostList.length; k++) {
 					if (!("".equals(lItemStatCostList[k]))) {
+						
 						int lBits = Integer.parseInt(lItemStatCostList[k]);
 						long lValue = pFile.read(lBits);
-						// System.err.println("Property " +
-						// lItemStatCost.get("Stat") + ": " + lValue + " - " +
-						// lItemStatCost.get("Save Add") + " - " + lBits);
+					//	 System.err.println("Property " +
+					//	 lItemStatCost.get("Stat") + ": " + lValue + " - " +
+					//	 lItemStatCost.get("Save Add") + " - " + lBits);
 						String lSaveAdd = lItemStatCost.get("Save Add");
 						if (lSaveAdd != null && !"".equals(lSaveAdd)) {
 							try {
@@ -1432,6 +1437,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 							}
 						}
 						lProperty.set(lRead[i], lItemStatCost, k, lValue);
+
 					}
 				}
 			}
@@ -2571,11 +2577,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 		    lReturn .addAll( getProperties("Armor: ", (ArrayList) iGemProps.get(1)) );
 		    lReturn .addAll( getProperties("Shields: ", (ArrayList) iGemProps.get(2)) );
 		}
-		if(iSet1.size()>0)lReturn .addAll( getProperties("Set (2 item): ", iSet1) );
-		if(iSet2.size()>0)lReturn .addAll( getProperties("Set (3 items): ", iSet2) );
-		if(iSet3.size()>0)lReturn .addAll( getProperties("Set (4 items): ", iSet3) );
-		if(iSet4.size()>0)lReturn .addAll( getProperties("Set (5 items): ", iSet4) );
-		if(iSet5.size()>0)lReturn .addAll( getProperties("Set (?? items): ", iSet5) );
+		
+		if(iSet1 != null && iSet1.size()>0)lReturn .addAll( getProperties("Set (2 item): ", iSet1) );
+		if(iSet2 != null && iSet2.size()>0)lReturn .addAll( getProperties("Set (3 items): ", iSet2) );
+		if(iSet3 != null && iSet3.size()>0)lReturn .addAll( getProperties("Set (4 items): ", iSet3) );
+		if(iSet4 != null && iSet4.size()>0)lReturn .addAll( getProperties("Set (5 items): ", iSet4) );
+		if(iSet5 != null && iSet5.size()>0)lReturn .addAll( getProperties("Set (?? items): ", iSet5) );
 
 		if (iRuneWord) {
 		    lReturn .addAll( getProperties(null, iRuneWordProps) );
@@ -2862,11 +2869,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 	public ArrayList getAllProps(){
 		
 		ArrayList out = new ArrayList(iProperties);
-		
+		if(iRuneWord){
 		out.addAll(iRuneWordProps);
+		}
+		if(iSocketed){
 		out.addAll(iGemProps);
+		}
+		if(iSet){
 		out.addAll(iSetProps);
-		
+		}
 		return out;
 	}
 

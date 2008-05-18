@@ -1,6 +1,6 @@
 /*******************************************************************************
  * 
- * Copyright 2007 Andy Theuninck & Randall
+ * Copyright 2007 Andy Theuninck, Randall & Silospen
  * 
  * This file is part of gomule.
  * 
@@ -246,7 +246,7 @@ public class D2Character extends D2ItemListAdapter
 		System.err.println("Version: " + lVersion );
 		if (lVersion != 96)
 		{
-			throw new Exception("Incorrect Character version: " + lVersion);
+			//throw new Exception("Incorrect Character version: " + lVersion);
 		}
 
 		iReader.set_byte_pos(8);
@@ -485,11 +485,20 @@ public class D2Character extends D2ItemListAdapter
 			}
 			else
 			{
+
 				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST.getRow(lID);
 				int lBits = Integer.parseInt( lItemStatCost.get("CSvBits") );
+				
+				if(lID == 13){
+//					System.err.println( "" + lItemStatCost.get("Stat") + ": " + lValue + "("+lBits+")");
+					System.out.println("");
+//					System.out.println(lReader.getCounterSi(lBits));
+				}
 				int lValue = lReader.getCounterInt(lBits);
-//				System.err.println( "" + lItemStatCost.get("Stat") + ": " + lValue + "("+lBits+")");
 				iReadStats[lID] = lValue;
+				if(lID == 13){
+					System.err.println( "" + lItemStatCost.get("Stat") + ": " + lValue + "("+lBits+")");
+				}
 			}
 		}
 
@@ -1817,7 +1826,9 @@ public class D2Character extends D2ItemListAdapter
 		iCharStats[19] = iInitStats[19] + charStatArray[41];
 		iCharStats[20] = iInitStats[20] + charStatArray[43];
 		iCharStats[21] = iInitStats[21] + charStatArray[45];
-		iCharStats[22] = charStatArray[80];
+		//242 is per level
+		//
+		iCharStats[22] = charStatArray[80]+ (int)Math.round((charStatArray[240] * 0.125) * (iCharLevel - 1));
 		iCharStats[23] = charStatArray[96];
 		iCharStats[24] = charStatArray[105];
 		iCharStats[25] = charStatArray[93];
@@ -2044,7 +2055,6 @@ public class D2Character extends D2ItemListAdapter
 //				}
 				
 				int selector = ID-(this.getCharCode() * 8);
-			
 				switch(selector){
 				
 				case 0:
@@ -2056,14 +2066,14 @@ public class D2Character extends D2ItemListAdapter
 					for(int t = 0;t<10;t=t+1){
 					incrementSkills('B',val, t, 'N');
 				}
+					break;
 				case 2:
 					for(int t = 0;t<10;t=t+1){
 					incrementSkills('C',val, t, 'N');
 				}
+					break;
 				
 				}
-				
-				break;
 
 			}
 

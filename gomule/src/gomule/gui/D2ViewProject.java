@@ -167,8 +167,9 @@ public class D2ViewProject extends JPanel
         {
             public void keyReleased(KeyEvent e) 
             {
-                if ( e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE )
+                if ( (e.getKeyCode() == KeyEvent.VK_DELETE || e.getKeyCode() == KeyEvent.VK_BACK_SPACE) && iTree.getSelectionCount() >0 )
                 {
+                	
 	                int lSelected[] = iTree.getSelectionRows();
 	                for ( int i = 0 ; i < lSelected.length ; i++ )
 	                {

@@ -859,6 +859,8 @@ public class D2FileManager extends JFrame
             iItemLists.remove(pFileName);
             iViewProject.notifyItemListClosed(pFileName);
         }
+        
+        System.gc();
     }
     
     public static void displayErrorDialog(Exception pException)

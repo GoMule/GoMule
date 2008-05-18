@@ -205,7 +205,16 @@ public class D2Project
 	        }
 	        
 	        String lBackup = lLoadProperties.getProperty("backup");
-	        lDisplyProps = Integer.parseInt(lLoadProperties.getProperty("propDisplay"));
+	        
+            try
+            {
+            	 lDisplyProps = Integer.parseInt(lLoadProperties.getProperty("propDisplay"));
+            }
+            catch (Exception pEx)
+            {
+            	lDisplyProps = 0;
+            }
+	       
 	        iBackup = BACKUP_WEEK;
 	        if (lBackup != null)
 	        {

@@ -69,8 +69,11 @@ public class D2TxtFile
     private ArrayList        iHeader;
     private ArrayList        iData;
 
+    
     public static void readAllFiles(String pMod)
     {
+
+    	
         sMod = pMod;
         MISC = new D2TxtFile("Misc");
         ARMOR = new D2TxtFile("armor");

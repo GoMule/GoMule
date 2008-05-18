@@ -1,6 +1,6 @@
 /*******************************************************************************
  * 
- * Copyright 2007 Randall
+ * Copyright 2007 Randall & Silospen
  * 
  * This file is part of gomule.
  * 
@@ -303,7 +303,9 @@ public class D2ItemProperty
                 return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name"));
                 }
                 else{
-                    String sClass = (D2TxtFile.SKILLS.searchColumns("skilldesc",lSkill.get("skilldesc"))).get("charclass");
+//                    String sClass = (D2TxtFile.SKILLS.searchColumns("skilldesc",lSkill.get("skilldesc"))).get("charclass");
+                	
+                	String sClass = D2TxtFile.SKILLS.getRow(lSkill.getRowNum()).get("charclass");
                     sClass = (sClass.charAt(0) + "").toUpperCase() + sClass.substring(1) + "Only";
                 	return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name")) + " " + D2TblFile.getString(sClass);
                 }

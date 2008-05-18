@@ -20,6 +20,7 @@
  ******************************************************************************/
 package randall.d2files;
 
+import gomule.d2s.HexDump;
 import gomule.gui.*;
 
 import java.io.*;
@@ -183,6 +184,58 @@ public class D2FileReader
 		}
 		
 		return lInt;
+	}
+	
+	public long getCounterSi(int pBitNr)
+	{
+		
+		int lInt = 0;
+		
+		boolean lIntCount[] = new boolean[pBitNr];
+		
+		for ( int i = 0 ; i < pBitNr ; i++ )
+		{
+			lIntCount[i] = getCounterBoolean();
+		}
+
+		short anUnsignedByte = 0;
+		char anUnsignedShort = 0;
+		long anUnsignedInt = 0;
+
+	        int firstByte = 0;
+	        int secondByte = 0;
+	        int thirdByte = 0;
+	        int fourthByte = 0;
+
+		byte buf[] = iBuffer;
+		// Check to make sure we have enough bytes
+		int index = 0;
+		HexDump.printHex(buf);
+		
+	        firstByte = (0x000000FF & ((int)buf[index]));
+		index++;
+		anUnsignedByte = (short)firstByte;
+
+	        firstByte = (0x000000FF & ((int)buf[index]));
+	        secondByte = (0x000000FF & ((int)buf[index+1]));
+		index = index+2;
+		anUnsignedShort  = (char) (firstByte << 8 | secondByte);
+
+	        firstByte = (0x000000FF & ((int)buf[index]));
+	        secondByte = (0x000000FF & ((int)buf[index+1]));
+	        thirdByte = (0x000000FF & ((int)buf[index+2]));
+	        fourthByte = (0x000000FF & ((int)buf[index+3]));
+	        index = index+4;
+		anUnsignedInt  = ((long) (firstByte << 24
+		                | secondByte << 16
+	                        | thirdByte << 8
+	                        | fourthByte))
+	                       & 0xFFFFFFFFL;
+		
+		
+		return anUnsignedInt;
+
+		
 	}
 	
 }

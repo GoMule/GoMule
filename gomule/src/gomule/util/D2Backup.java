@@ -79,7 +79,7 @@ public class D2Backup
 	        
 	        RandallUtil.checkDir(lBackupSubDir);
 	        
-	        pContent.save(lBackupName);
+	      //  pContent.save(lBackupName);
         }
         catch ( Exception pEx )
         {
