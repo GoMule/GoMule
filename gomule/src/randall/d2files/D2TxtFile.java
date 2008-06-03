@@ -1,6 +1,6 @@
 /*******************************************************************************
  * 
- * Copyright 2007 Randall
+ * Copyright 2007 Randall & Silospen
  * 
  * This file is part of gomule.
  * 
@@ -54,6 +54,7 @@ public class D2TxtFile
     public static D2TxtFile PROPS;
     public static D2TxtFile HIRE;
     public static D2TxtFile FULLSET;
+    public static D2TxtFile CHARSTATS;
     
     /**
      * DROP CALC
@@ -97,6 +98,7 @@ public class D2TxtFile
         SUPUNIQ = new D2TxtFile("SuperUniques");
         HIRE = new D2TxtFile("Hireling");
         FULLSET = new D2TxtFile("Sets");
+        CHARSTATS = new D2TxtFile("CharStats");
 
         GOMULE_PROPS = new Properties();
         try

@@ -34,6 +34,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
+import randall.d2files.D2TblFile;
+import randall.d2files.D2TxtFile;
 import randall.util.*;
 
 /**
@@ -114,11 +116,15 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 	private JCheckBox iCatSock5;
 	private JCheckBox iCatSock6;
 	private JCheckBox iCatSockAll;
+	
+	private JCheckBox iQualEth;
 	private JCheckBox iQualNorm;
 	private JCheckBox iQualExce;
 	private AbstractButton iQualEli;
 	private AbstractButton iQualAll;
 	private JCheckBox iQualOther;
+	
+	private JButton iCusFilter;
 
     public D2ViewStash(D2FileManager pMainFrame, String pFileName)
     {
@@ -227,6 +233,239 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iReqMaxStr.getDocument().addDocumentListener(iStashFilter);
         iReqMaxDex = new JTextField();
         iReqMaxDex.getDocument().addDocumentListener(iStashFilter);
+        iCusFilter = new JButton("Filter...");
+        
+        iCusFilter.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent pEvent)
+            {
+            	
+            	filterPopUp();
+            	
+//            	iItemModel.getItem(iTable.getSelectedRow()).getFullItemDump(0, 0);
+            	
+            	
+//                Vector lItemList = new Vector();
+//
+//                int lRows[] = iTable.getSelectedRows();
+//
+//                if (lRows.length > 0)
+//                {
+//                    for (int i = 0; i < lRows.length; i++)
+//                    {
+//                        lItemList.add(iItemModel.getItem(lRows[i]));
+//                    }
+//                    try
+//                    {
+//                        iIgnoreItemListEvents = true;
+//                        for (int i = 0; i < lItemList.size(); i++)
+//                        {
+//                            iStash.removeItem((D2Item) lItemList.get(i));
+//                            D2ViewClipboard.addItem((D2Item) lItemList.get(i));
+//                        }
+//                    }
+//                    finally
+//                    {
+//                        iIgnoreItemListEvents = false;
+//                    }
+//                    itemListChanged();
+//                }
+            }
+
+			private void filterPopUp() {
+				
+				
+				
+				final JFrame filterPanel = new JFrame();
+				filterPanel.setTitle("Item Filter");
+				filterPanel.setLocation((int)iContentPane.getLocationOnScreen().getX() + 600,(int)iContentPane.getLocationOnScreen().getY() + 100);
+				filterPanel.setSize(500,300);
+				filterPanel.setVisible(true);
+				filterPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				
+				Box hRoot = Box.createHorizontalBox();
+				Box vControl = Box.createVerticalBox();
+				Box hVal = Box.createHorizontalBox();
+				Box hButtons = Box.createHorizontalBox();
+				Box hLabel1 = Box.createHorizontalBox();
+				Box hLabel2 = Box.createHorizontalBox();
+				Box hLabel3 = Box.createHorizontalBox();
+							
+				final JTextField fStrIn = new JTextField();
+				final JTextField fNumIn = new JTextField();
+				final JRadioButton fMin = new JRadioButton("Min");
+				final JRadioButton fMax = new JRadioButton("Max");
+				JButton fOk = new JButton("Ok");
+				
+				fStrIn.setText(iItemModel.filterString);
+				fNumIn.setText(iItemModel.filterVal + "");
+				
+				if(iItemModel.filterMin){
+					fMin.setSelected(true);
+					fMax.setSelected(false);
+				}else{
+					fMax.setSelected(true);
+					fMin.setSelected(false);
+				}
+				
+				fMin.addActionListener(new ActionListener(){
+
+					public void actionPerformed(ActionEvent arg0) {
+						
+						if(fMax.isSelected()){
+							fMax.setSelected(false);
+						}
+						fMin.setSelected(true);
+						iItemModel.filterMin = true;
+					}
+					
+					
+				});
+				
+				fMax.addActionListener(new ActionListener(){
+
+					public void actionPerformed(ActionEvent arg0) {
+						
+						
+						if(fMin.isSelected()){
+							fMin.setSelected(false);
+						}
+						
+						fMax.setSelected(true);
+						iItemModel.filterMin = false;
+					}
+					
+					
+				});
+				
+				fOk.addActionListener(new ActionListener(){
+	            public void actionPerformed(ActionEvent pEvent)
+	            {
+				
+	            	iItemModel.filterString = fStrIn.getText();
+	            	try{
+	            	iItemModel.filterVal = Integer.parseInt(fNumIn.getText());
+	            	}catch(NumberFormatException e){
+	            		e.printStackTrace();
+	            		iItemModel.filterVal = 0;
+	            	}
+	            	
+					iItemModel.filterOn = true;
+//					iItemModel.filterString = "getting magic";
+//					iItemModel.filterVal = 10;
+					
+					iItemModel.refreshData();
+	            	
+	            	
+	            	filterPanel.dispose();
+	            	
+	            }
+				
+				});
+				
+				JButton fClear = new JButton("Clear");
+				
+				fClear.addActionListener(new ActionListener(){
+	            public void actionPerformed(ActionEvent pEvent)
+	            {
+				
+					iItemModel.filterOn = false;
+					iItemModel.filterString = "";
+					iItemModel.filterVal = 0;
+	            	
+	            }
+				
+				});
+				
+				JButton fCancel = new JButton("Cancel");
+				
+				fCancel.addActionListener(new ActionListener(){
+	            public void actionPerformed(ActionEvent pEvent)
+	            {
+				
+	            	filterPanel.dispose();
+	            	
+	            }
+				
+				});
+				
+				filterPanel.add(hRoot);
+//				hRoot.add(Box.createRigidArea(new Dimension(250,0)));
+				
+				
+				vControl.add(hLabel3);
+				hLabel3.add(new JLabel("The superfantastic finder machine."));
+				hLabel3.add(Box.createRigidArea(new Dimension(10,0)));
+				vControl.add(Box.createRigidArea(new Dimension(0,50)));
+				hLabel1.add(new JLabel("Filter String:"));
+				hLabel1.add(Box.createRigidArea(new Dimension(168,0)));
+				vControl.add(hLabel1);
+				hLabel2.add(new JLabel("Filter Value:"));
+				hLabel2.add(Box.createRigidArea(new Dimension(168,0)));
+				vControl.add(fStrIn);
+				vControl.add(Box.createRigidArea(new Dimension(0,25)));
+				vControl.add(hLabel2);
+				vControl.add(hVal);
+				vControl.add(Box.createRigidArea(new Dimension(0,50)));
+				vControl.add(hButtons);
+				vControl.add(Box.createRigidArea(new Dimension(0,50)));
+			
+				hVal.add(fNumIn);
+				hVal.add(fMin);
+				hVal.add(fMax);
+				
+				hButtons.add(fOk);
+				hButtons.add(fClear);
+				hButtons.add(fCancel);
+				
+//				ArrayList statList = new ArrayList();
+//				String statIn = D2TxtFile.ITEM_STAT_COST.getRow(0).get("descstrpos");
+//				statList.add((D2TblFile.getString(statIn)));
+//				int counter = 1;
+//				while(statIn != null){
+//					
+//					statIn = D2TxtFile.ITEM_STAT_COST.getRow(counter).get("descstrpos");
+//					counter ++;
+//					if((D2TblFile.getString(statIn)) != null){
+//						String statTemp = (D2TblFile.getString(statIn));
+//					
+////					if((statTemp).contains("%d")){
+////						statTemp = statTemp.split("%d")[statTemp.split("%d").length - 1];
+////						if((statTemp).contains("%s")){
+////							statTemp = statTemp.split("%s")[statTemp.split("%s").length - 1];
+////							
+////						}
+////					}
+//					System.out.println(statTemp);
+//					statList.add(statTemp);
+//					}
+//				}
+				
+//				Object[] statArr = statList.toArray();
+				
+				
+//				JList jstatList = new JList(statArr);
+////				jstatList.setSize(2500, 300);
+//				ScrollPane SP = new ScrollPane();
+//				SP.add(jstatList);
+//				
+////				jstatList.setPrototypeCellValue("333333333333333333333333333333");
+////				jstatList.setPreferredSize(new Dimension(250,300));
+//				SP.setPreferredSize(new Dimension(250,300));
+//				jstatList.validate();
+				Box lazy = Box.createVerticalBox();
+				
+				
+				
+				lazy.add(new JLabel("I'm too lazy to code"));
+				lazy.add(new JLabel("what should be here."));
+				
+				hRoot.add(lazy);
+				hRoot.add(Box.createRigidArea(new Dimension(100, 0)));
+				hRoot.add(vControl);
+			}
+        });
+        
         
         iRequerementFilter.addToPanel(new JLabel("MaxLvl"), 0, 0, 1, RandallPanel.NONE);
         iRequerementFilter.addToPanel(iReqMaxLvl, 1, 0, 1, RandallPanel.HORIZONTAL);
@@ -234,6 +473,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iRequerementFilter.addToPanel(iReqMaxStr, 3, 0, 1, RandallPanel.HORIZONTAL);
         iRequerementFilter.addToPanel(new JLabel("MaxDex"), 4, 0, 1, RandallPanel.NONE);
         iRequerementFilter.addToPanel(iReqMaxDex, 5, 0, 1, RandallPanel.HORIZONTAL);
+        iRequerementFilter.addToPanel(iCusFilter, 6, 0, 1, RandallPanel.HORIZONTAL);
         
         RandallPanel lTopPanel = new RandallPanel();
         lTopPanel.addToPanel(lButtonPanel, 0, 0, 1, RandallPanel.HORIZONTAL);
@@ -282,6 +522,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                         {
                             if (iTable.getSelectedRowCount() == 1)
                             {
+//                            	iItemModel.getItem(iTable.getSelectedRow()).conforms("resistances", 20);
                                 iItemText.setText(iItemModel.getItem(
                                         iTable.getSelectedRow()).toString(iFileManager.getProject().getDisProps()));
                                 iItemText.setCaretPosition(0);
@@ -537,6 +778,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         
         
+        iQualEth = new JCheckBox("Ethereal");
+        iQualEth.addActionListener(iStashFilter);
+        lQualPanel.addToPanel(iQualEth, 3, 0, 1, RandallPanel.HORIZONTAL);
+        
         iQualNorm = new JCheckBox("Normal");
         iQualNorm.addActionListener(iStashFilter);
         lQualPanel.addToPanel(iQualNorm, 0, 0, 1, RandallPanel.HORIZONTAL);
@@ -551,7 +796,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         lQualPanel.addToPanel(iQualOther, 3, 0, 1, RandallPanel.HORIZONTAL);
         iQualAll = new JCheckBox("All");
         iQualAll.addActionListener(iStashFilter);
-        lQualPanel.addToPanel(iQualAll, 4, 0, 1, RandallPanel.HORIZONTAL);
+        lQualPanel.addToPanel(iQualAll, 5, 0, 1, RandallPanel.HORIZONTAL);
         
         iQualAll.setSelected(true);
 
@@ -875,6 +1120,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         private ArrayList iSortList = new ArrayList();
 
         private final Object HEADER[] = new Object[] {new Object(), new Object(), new Object(), new Object(), new Object()};
+		private String filterString = "";
+		private int filterVal = 0;
+		private boolean filterOn = false;
+		private boolean filterMin = true;
         
         public D2ItemModel()
         {
@@ -996,6 +1245,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 	                        lAdd1 = true;
 	                    }
 	                    
+
 	                    
 	                
 	                    if(lItem.getItemQuality().equals("normal")){
@@ -1024,6 +1274,12 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     			lAdd1 = false;
                     		}
 	                    	
+	                    }
+	                    
+	                    if(!lItem.isEthereal()){
+	                    	if(iQualEth.isSelected()){
+	                    		lAdd1 = false;
+	                    	}
 	                    }
 	                    
 	                    
@@ -1197,7 +1453,15 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 	                }
 	
 	                if ( lAdd1 && lAdd2 )
-	                {
+	                {	                	
+						if(filterOn){
+	                	
+							if(!lItem.conforms(filterString, filterVal, filterMin )){
+								lAdd1 = false;
+							}
+							
+	                	}
+	                	
 	                    if ( lMaxReqLvl != -1 )
 	                    {
 	                        if ( lItem.getReqLvl() > lMaxReqLvl )
@@ -1417,6 +1681,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         			iQualExce.setSelected(false);
         			iQualOther.setSelected(false);
         			iQualEli.setSelected(false);
+        			iQualEth.setSelected(false);
         			
         			
         		}

@@ -294,7 +294,13 @@ public class D2ItemProperty
             {
                 PropValue lValue1 = (PropValue) iProperties.get(FIRST);
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
-
+                PropValue lValue3 = (PropValue) iProperties.get(THIRD);
+                
+                if(lValue3 != null){
+                	  lValue2 = lValue1;
+                	  lValue1 = lValue3;
+                }
+                
                 D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow((int) lValue1.iValue);
 
 //                System.out.println(lSkill.get("str name"));
@@ -524,6 +530,19 @@ public class D2ItemProperty
 //            }
 //            
             /**
+             * sockets
+             */
+            
+            if (iProp == 194)
+            {
+                PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+                
+                
+                return "Some Sockets (0 used)";
+               // return lValue1.iValue + " Sockets (0 used)";
+            }
+            
+            /**
              * CTC
              */
             if (iProp == 201||iProp == 197 ||iProp == 199 || iProp == 195||iProp == 198|| iProp == 196)
@@ -553,13 +572,21 @@ public class D2ItemProperty
             		
             		
 
-            
+            /**
+             * CHARGES?
+             */
             if (iProp == 204)
             {
                 PropValue lValue1 = (PropValue) iProperties.get(FIRST);
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
                 PropValue lValue3 = (PropValue) iProperties.get(THIRD);
                 PropValue lValue4 = (PropValue) iProperties.get(FOURTH);
+                
+                if(lValue4 == null){
+                	lValue4 = lValue2;
+                	lValue2 = lValue3;
+                	lValue3 = lValue4;
+                }
 
                 String lNiceString = D2TblFile.getString(lValue4.iItemStatCost.get("descstrpos"));
 
@@ -709,6 +736,26 @@ public class D2ItemProperty
             	return "Level " + lValue2.iValue + " " + eClass;
             }
             
+            if(iProp == 101010){
+            	PropValue lValue1 = (PropValue) iProperties.get(FIRST);
+            	if(lValue1.iValue == 0){
+            		return "Cold Elemental Dmg";
+            	}
+            	if(lValue1.iValue == 1){
+            		return "Fire Elemental Dmg";
+            	}
+            	if(lValue1.iValue == 2){
+            		return "Light Elemental Dmg";
+            	}
+            	if(lValue1.iValue == 3){
+            		return "Magic Dmg";
+            	}
+            	if(lValue1.iValue == 4){
+            		return "Poison Elemental Dmg";
+            	}
+            	
+            }
+            
 //            if(iProp == 9){
 //            	System.out.println("BLA");
 //            }
@@ -730,6 +777,10 @@ public class D2ItemProperty
                     if ("level_true".equals(lGoMuleProp))
                     {
                         return Long.toString(Math.round((lValue1.iValue * 0.125) * (iCharLvl))) + "% " + lNiceString+ " (Based on Char Lvl)";
+                    }
+                    if ("level_trueSing".equals(lGoMuleProp))
+                    {
+                        return Long.toString(Math.round((lValue1.iValue /2 ) * (iCharLvl))) + "% " + lNiceString+ " (Based on Char Lvl)";
                     }
                     if ("level_false".equals(lGoMuleProp))
                     {
@@ -797,6 +848,11 @@ public class D2ItemProperty
     public boolean hasNoValue()
     {
         return iNoValue;
+    }
+    
+    public String getItemName()
+    {
+        return this.iItemName;
     }
 
     public String getValue()

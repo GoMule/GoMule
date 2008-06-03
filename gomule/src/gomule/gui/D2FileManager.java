@@ -221,15 +221,26 @@ public class D2FileManager extends JFrame
 
         JButton lOpenD2S = new JButton(D2ImageCache.getIcon("open.gif"));
         lOpenD2S.setToolTipText("Open Character");
+
         lOpenD2S.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent e)
             {
-                openChar();
+                openChar(true);
             }
         });
         iToolbar.add(lOpenD2S);
 
+        JButton lAddD2S = new JButton(D2ImageCache.getIcon("add.gif"));
+        lAddD2S.setToolTipText("Add Character");
+        lAddD2S.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent e)
+            {
+                openChar(false);
+            }
+        });
+        iToolbar.add(lAddD2S);
         iToolbar.addSeparator();
 
         iToolbar.add(new JLabel("Stash"));
@@ -240,7 +251,7 @@ public class D2FileManager extends JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent e)
             {
-                newStash();
+                newStash(true);
             }
         });
         iToolbar.add(lNewD2X);
@@ -251,11 +262,22 @@ public class D2FileManager extends JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent e)
             {
-                openStash();
+                openStash(true);
             }
         });
         iToolbar.add(lOpenD2X);
 
+        JButton lAddD2X = new JButton(D2ImageCache.getIcon("add.gif"));
+        lAddD2X.setToolTipText("Add ATMA Stash");
+        lAddD2X.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent e)
+            {
+                openStash(false);
+            }
+        });
+        iToolbar.add(lAddD2X);
+        
         iToolbar.addSeparator();
 
         iToolbar.add(new JLabel("     "));
@@ -619,25 +641,30 @@ public class D2FileManager extends JFrame
     // throw up a dialog for picking d2s files
     // then open that character and add it to the
     // vector of character windows
-    public void openChar()
+    public void openChar(boolean load)
     {
         JFileChooser lCharChooser = getCharDialog();
+        lCharChooser.setMultiSelectionEnabled(true);
         if (lCharChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
-            java.io.File lFile = lCharChooser.getSelectedFile();
+//        	String[] fNamesOut = new String[lCharChooser.getSelectedFiles().length];
+        	for(int x = 0;x<lCharChooser.getSelectedFiles().length;x=x+1){
+            java.io.File lFile = lCharChooser.getSelectedFiles()[x];
+
             try
             {
                 String lFilename = lFile.getAbsolutePath();
-                openChar(lFilename);
+                openChar(lFilename, load);
             }
             catch (Exception pEx)
             {
                 D2FileManager.displayErrorDialog(pEx);
             }
         }
+        }
     }
 
-    public void openChar(String pCharName)
+    public void openChar(String pCharName, boolean load)
     {
         D2ItemContainer lExisting = null;
         for (int i = 0; i < iOpenWindows.size(); i++)
@@ -648,7 +675,7 @@ public class D2FileManager extends JFrame
                 lExisting = lItemContainer;
             }
         }
-
+        if(load){
         if (lExisting != null)
         {
             ((JInternalFrame) lExisting).toFront();
@@ -659,6 +686,7 @@ public class D2FileManager extends JFrame
             lCharView.setLocation(100, 100);
             addToOpenWindows(lCharView);
             lCharView.toFront();
+        }
         }
         iProject.addChar(pCharName);
     }
@@ -693,33 +721,79 @@ public class D2FileManager extends JFrame
         }
     }
 
-    public void openStash()
+    public void openStash(boolean load)
     {
         JFileChooser lStashChooser = getStashDialog();
+        lStashChooser.setMultiSelectionEnabled(true);
         if (lStashChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
         {
-            handleStash(lStashChooser);
+            handleStash(lStashChooser, load);
         }
     }
 
-    public void newStash()
+    public void newStash(boolean load)
     {
         JFileChooser lStashChooser = getStashDialog();
+        lStashChooser.setMultiSelectionEnabled(true);
         if (lStashChooser.showDialog(this, "New Stash") == JFileChooser.APPROVE_OPTION)
         {
-            String lFileName = handleStash(lStashChooser);
-            if (lFileName != null)
+            String[] lFileName = handleStash(lStashChooser, load);
+            for(int x = 0;x<lFileName.length;x=x+1){
+            if (lFileName[x] != null)
             {
-                D2ItemList lList = (D2ItemList) iItemLists.get(lFileName);
+                D2ItemList lList = (D2ItemList) iItemLists.get(lFileName[x]);
                 
                 lList.save(iProject);
+            }
             }
         }
     }
 
-    private String handleStash(JFileChooser pStashChooser)
+//    public void newStash()
+//    {
+//        JFileChooser lStashChooser = getStashDialog();
+//        if (lStashChooser.showDialog(this, "New Stash") == JFileChooser.APPROVE_OPTION)
+//        {
+//            String lFileName = handleStash(lStashChooser);
+//            if (lFileName != null)
+//            {
+//                D2ItemList lList = (D2ItemList) iItemLists.get(lFileName);
+//                
+//                lList.save(iProject);
+//            }
+//        }
+//    }
+    
+//    private String handleStash(JFileChooser pStashChooser)
+//    {
+//        java.io.File lFile = pStashChooser.getSelectedFile();
+//        try
+//        {
+//            String lFilename = lFile.getAbsolutePath();
+//            if (!lFilename.endsWith(".d2x"))
+//            {
+//                // force stash name to end with .d2x
+//                lFilename += ".d2x";
+//            }
+//
+//            openStash(lFilename);
+//            return lFilename;
+//        }
+//        catch (Exception pEx)
+//        {
+//            D2FileManager.displayErrorDialog(pEx);
+//            return null;
+//        }
+//    }
+    
+    private String[] handleStash(JFileChooser pStashChooser, boolean load)
     {
-        java.io.File lFile = pStashChooser.getSelectedFile();
+    	
+    	String[] fNamesOut = new String[pStashChooser.getSelectedFiles().length];
+
+
+    	for(int x = 0;x<pStashChooser.getSelectedFiles().length;x=x+1){
+        java.io.File lFile = pStashChooser.getSelectedFiles()[x];
         try
         {
             String lFilename = lFile.getAbsolutePath();
@@ -729,17 +803,19 @@ public class D2FileManager extends JFrame
                 lFilename += ".d2x";
             }
 
-            openStash(lFilename);
-            return lFilename;
+            openStash(lFilename, load);
+            fNamesOut[x] = lFilename;
         }
         catch (Exception pEx)
         {
             D2FileManager.displayErrorDialog(pEx);
-            return null;
+            fNamesOut[x] = null;
         }
+    	}
+		return fNamesOut;
     }
 
-    public void openStash(String pStashName)
+    public void openStash(String pStashName, boolean load)
     {
         D2ItemContainer lExisting = null;
         for (int i = 0; i < iOpenWindows.size(); i++)
@@ -752,6 +828,7 @@ public class D2FileManager extends JFrame
         }
 
         D2ViewStash lStashView;
+        if(load){
         if (lExisting != null)
         {
             lStashView = ((D2ViewStash) lExisting);
@@ -763,6 +840,7 @@ public class D2FileManager extends JFrame
             addToOpenWindows(lStashView);
         }
         lStashView.activateView();
+        }
 //        lStashView.toFront();
 //        lStashView.requestFocus();
 //        lStashView.requestFocusInWindow();

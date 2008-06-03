@@ -112,8 +112,9 @@ public class D2Character extends D2ItemListAdapter
 	//26 FHR
 	//27 GF
 	//28 is plus all skills
-	private int				iInitStats[] = new int[29];
-	private int				iCharStats[] = new int[29];
+	//29 is block
+	private int				iInitStats[] = new int[30];
+	private int				iCharStats[] = new int[30];
 	private int				iGF; 
 	private int				iIF;
 	private String iMercName = " ";
@@ -1366,7 +1367,7 @@ public class D2Character extends D2ItemListAdapter
 		iInitStats[16] = (int)(Math.floor((double)iInitStats[2]/(double)4));
 		iInitStats[17] = ((iInitStats[2] * 5) - 35) + getARClassBonus(); 
 
-
+		
 
 		for(int i = 0;i<iInitStats.length;i=i+1){
 			iCharStats[i] = iInitStats[i];
@@ -1630,6 +1631,7 @@ public class D2Character extends D2ItemListAdapter
 		for(int x = 0;x<iCharItems.size();x=x+1){
 			if(((D2Item)iCharItems.get(x)).isEquipped() && ((D2Item)iCharItems.get(x)).isSet()){
 				equippedSetItems.add(iCharItems.get(x));
+				
 			}
 		}
 //		if(string.equals("D")){
@@ -1648,6 +1650,11 @@ public class D2Character extends D2ItemListAdapter
 		if(string.equals("D")){
 			if(pItem.isTypeArmor()){
 				charStatArray[338] = charStatArray[338] + pItem.getiDef();
+			}
+			
+			if(pItem.isTypeArmor()&& (pItem.get_body_position()== 4 || pItem.get_body_position()== 5 || pItem.get_body_position()== 11 || pItem.get_body_position()== 12)){
+				charStatArray[20] = charStatArray[20] + pItem.getBlock();
+				
 			}
 
 			ArrayList bla = pItem.getAllProps();
@@ -1703,6 +1710,11 @@ public class D2Character extends D2ItemListAdapter
 		}else{
 			if(pItem.isTypeArmor()){
 				charStatArray[338] = charStatArray[338] - pItem.getiDef();
+			}
+			
+			if(pItem.isTypeArmor()&& (pItem.get_body_position()== 4 || pItem.get_body_position()== 5 || pItem.get_body_position()== 11 || pItem.get_body_position()== 12)){
+				charStatArray[20] = charStatArray[20] - pItem.getBlock();
+				
 			}
 
 			if(partialSetProps.size() > 0  || fullSetProps.size() > 0){
@@ -1835,7 +1847,9 @@ public class D2Character extends D2ItemListAdapter
 		iCharStats[26] = charStatArray[99];
 		iCharStats[27] = charStatArray[79];
 		iCharStats[28] = charStatArray[127];
-
+		iCharStats[29] = charStatArray[20] + Integer.parseInt(D2TxtFile.CHARSTATS.searchColumns("class", getCharClass()).get("BlockFactor"));
+		iCharStats[29] = (int) Math.floor((iCharStats[29] * (getCharDex() - 15))/(iCharLevel * 2));
+		
 //		iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
 //		iCharStats[16] = (int)calcCharArmor() + (int)(Math.floor((double)iCharStats[2]/(double)4));
 
@@ -1853,11 +1867,13 @@ public class D2Character extends D2ItemListAdapter
 
 //		System.out.println(((D2ItemProperty)partialSetProps.get(x)).getValue());
 //		}
+//		System.out.println(iCharStats[29]);
 		dealWithSkills();
 
 
 
 	}
+
 
 	private void dealWithSkills() {
 
@@ -3862,7 +3878,6 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public int getCharLevel() {
-		// TODO Auto-generated method stub
 		return (int)iCharLevel;
 	}
 
@@ -3887,6 +3902,24 @@ public class D2Character extends D2ItemListAdapter
 	}
 	public int getCharFCR(){
 		return iCharStats[24];
+	}
+	public int getCharBlock(int wepSw){
+		
+		for(int x = 0;x<iCharItems.size();x=x+1){
+			if(((D2Item)iCharItems.get(x)).isEquipped() && ((D2Item)iCharItems.get(x)).isTypeArmor()){
+					
+				if((((D2Item)iCharItems.get(x)).get_body_position()== 4 || ((D2Item)iCharItems.get(x)).get_body_position()== 5) && wepSw == 1){
+					return iCharStats[29];
+				}
+				
+				if((((D2Item)iCharItems.get(x)).get_body_position()== 11 || ((D2Item)iCharItems.get(x)).get_body_position()== 12) && wepSw == 2){
+					return iCharStats[29];
+				}
+				
+			}
+		}
+		
+		return 0;
 	}
 	public int getCharSkillRem(){
 		return iInitStats[5];

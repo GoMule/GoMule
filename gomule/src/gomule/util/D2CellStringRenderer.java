@@ -12,22 +12,30 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 /**
- * @author Marco
+ * @author Marco & Silospen
  * 
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
 public class D2CellStringRenderer extends DefaultTableCellRenderer
 {
+	
     public D2CellStringRenderer()
     {
+    	
+    	
+    	
     }
 
     public Component getTableCellRendererComponent(JTable pTable, Object pValue, boolean pIsSelected, boolean pHasFocus, int pRow, int pColumn)
     {
+    	
         Object lValue;
         Color lForeground = null;
         String lTooltip = null;
+        
+//              	System.out.println("yo");
+//        	super.setBackground(Color.black);
         
         if ( pValue instanceof D2CellValue )
         {
@@ -42,7 +50,11 @@ public class D2CellStringRenderer extends DefaultTableCellRenderer
 
         Component lRenderer = super.getTableCellRendererComponent(pTable, lValue, pIsSelected, pHasFocus, pRow, pColumn);
         
-        lRenderer.setBackground(Color.DARK_GRAY.darker());
+        lRenderer.setBackground(Color.DARK_GRAY);
+        if(pIsSelected){
+        	lRenderer.setBackground(Color.black);
+        }
+      //  lRenderer.setBackground(Color.black);
         
         if ( lForeground != null )
         {
@@ -58,6 +70,8 @@ public class D2CellStringRenderer extends DefaultTableCellRenderer
             ((D2CellStringRenderer) lRenderer).setToolTipText(lTooltip);
         }
 
+
+        
         return lRenderer;
     }
 

@@ -442,15 +442,15 @@ public class D2ViewProject extends JPanel
             {
                 // open All
 //                System.err.println("All view not done yet");
-                iFileManager.openStash("all");
+                iFileManager.openStash("all", true);
             }
             if ( iFileName.toLowerCase().endsWith(".d2s") )
             {
-                iFileManager.openChar(iFileName);
+                iFileManager.openChar(iFileName, true);
             }
             else if ( iFileName.toLowerCase().endsWith(".d2x") )
             {
-                iFileManager.openStash(iFileName);
+                iFileManager.openStash(iFileName, true);
             }
         }
         
