@@ -762,7 +762,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	public String getItemQuality() {
-		// TODO Auto-generated method stub
 		return iItemQuality;
 	}
 
@@ -1135,7 +1134,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		readProperties(pFile, iProperties);
 
-		cleanUpProperties();
+		
 
 		if (quality == 5) {
 			iSetProps = new ArrayList();
@@ -1167,7 +1166,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			// long lProp7 = pFile.read(9);
 
 		}
-		
+		cleanUpProperties();
 
 	}
 
@@ -1184,6 +1183,24 @@ public class D2Item implements Comparable, D2ItemInterface {
 				cleanUp2HMax();
 			}
 		}
+		
+		
+		if(isRuneWord()){
+		for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
+			if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 160
+					|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 159) {
+				iRuneWordProps.remove(x);
+				x = x - 1;
+			}
+			if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 23
+					|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 24) {
+				cleanUp2HMax();
+			}
+		}
+		
+		}
+		
+		
 	}
 
 	private void cleanUp2HMax() {
@@ -1248,6 +1265,72 @@ public class D2Item implements Comparable, D2ItemInterface {
 							.indexOf(new Integer(24)))).getRealValue());
 			iProperties.remove(cleanArr.indexOf(new Integer(24)));
 			iProperties.add(cleanArr.indexOf(new Integer(24)), lProperty);
+		}
+		
+		if(isRuneWord()){
+			
+			cleanArr = new ArrayList();
+
+			for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
+				cleanArr.add(new Integer(((D2ItemProperty) iRuneWordProps.get(x))
+						.getiProp()));
+
+			}
+
+			if (cleanArr.contains(new Integer(24))
+					&& cleanArr.contains(new Integer(22))
+					&& cleanArr.contains(new Integer(160))) {
+				iRuneWordProps.remove(cleanArr.indexOf(new Integer(160)));
+				cleanArr.remove(new Integer(160));
+				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
+				cleanArr.remove(new Integer(24));
+			}
+			if (cleanArr.contains(new Integer(23))
+					&& cleanArr.contains(new Integer(21))
+					&& cleanArr.contains(new Integer(159))) {
+				iRuneWordProps.remove(cleanArr.indexOf(new Integer(159)));
+				cleanArr.remove(new Integer(159));
+				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
+				cleanArr.remove(new Integer(23));
+			}
+
+			if (cleanArr.contains(new Integer(24))
+					&& cleanArr.contains(new Integer(22))) {
+				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
+				cleanArr.remove(new Integer(24));
+			}
+			if (cleanArr.contains(new Integer(23))
+					&& cleanArr.contains(new Integer(21))) {
+				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
+				cleanArr.remove(new Integer(23));
+			}
+
+			if (cleanArr.contains(new Integer(23))) {
+				D2ItemProperty lProperty = new D2ItemProperty(21, iCharLvl,
+						iItemName);
+				lProperty.set(21, ((D2ItemProperty) iRuneWordProps.get(cleanArr
+						.indexOf(new Integer(23)))).getItemStatCost(),
+						((D2ItemProperty) iRuneWordProps.get(cleanArr
+								.indexOf(new Integer(23)))).getBitSet(),
+						((D2ItemProperty) iRuneWordProps.get(cleanArr
+								.indexOf(new Integer(23)))).getRealValue());
+				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
+				iRuneWordProps.add(cleanArr.indexOf(new Integer(23)), lProperty);
+			}
+
+			if (cleanArr.contains(new Integer(24))) {
+				D2ItemProperty lProperty = new D2ItemProperty(22, iCharLvl,
+						iItemName);
+				lProperty.set(22, ((D2ItemProperty) iRuneWordProps.get(cleanArr
+						.indexOf(new Integer(24)))).getItemStatCost(),
+						((D2ItemProperty) iRuneWordProps.get(cleanArr
+								.indexOf(new Integer(24)))).getBitSet(),
+						((D2ItemProperty) iRuneWordProps.get(cleanArr
+								.indexOf(new Integer(24)))).getRealValue());
+				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
+				iRuneWordProps.add(cleanArr.indexOf(new Integer(24)), lProperty);
+			}
+			
 		}
 
 	}
@@ -2562,20 +2645,44 @@ public class D2Item implements Comparable, D2ItemInterface {
 		// System.out.println(rgb);
 		if (stash == 1) {
 
-			lReturn.add(iItemName);
+			if (personalization == null) {
+				lReturn.add(iItemName);
+			}else{
+				lReturn.add(personalization + "'s " + iItemName);
+			}
+			
 
 			if (!iBaseItemName.equals(iItemName)) {
 				lReturn.add(iBaseItemName);
 			}
 		} else {
 			if (disSepProp == 1) {
-				lReturn.add("<font face=\"Dialog\" size=\"3\" color=\"#" + base
-						+ "\">" + "<font color=\"#" + rgb + "\">" + iItemName
-						+ "</font>");
+				
+				if (personalization == null) {
+					lReturn.add("<font face=\"Dialog\" size=\"3\" color=\"#" + base
+							+ "\">" + "<font color=\"#" + rgb + "\">" + iItemName
+							+ "</font>");
+				}else{
+					
+					lReturn.add("<font face=\"Dialog\" size=\"3\" color=\"#" + base
+							+ "\">" + "<font color=\"#" + rgb + "\">" + personalization + "'s " + iItemName
+							+ "</font>");
+					
+				}
+				
+
 			} else {
-				lReturn.add("<font color=\"#" + base + "\">"
-						+ "<font color=\"#" + rgb + "\">" + iItemName
-						+ "</font>");
+				
+				if (personalization == null) {
+					lReturn.add("<font color=\"#" + base + "\">"
+							+ "<font color=\"#" + rgb + "\">" + iItemName
+							+ "</font>");
+				}else{
+					lReturn.add("<font color=\"#" + base + "\">"
+							+ "<font color=\"#" + rgb + "\">" + personalization + "'s " + iItemName
+							+ "</font>");
+				}
+				
 			}
 			if (!iBaseItemName.equals(iItemName)) {
 				if (!isRuneWord()) {
@@ -3686,12 +3793,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if(((String)dumpStr.get(x)).toLowerCase().contains(prop.toLowerCase())){
 //				System.out.println(dumpStr.get(x));
 				
+				if(pVal == -1337){
+					return true;
+				}
+				
 				Pattern pat = Pattern.compile("\\d+");
 				Matcher mat = pat.matcher((String)dumpStr.get(x));
 				
 				while(mat.find()){
 					
+
+					
 					if(min == true){
+						System.out.println(mat.group());
 					if(Integer.parseInt(mat.group()) >= pVal){
 						
 						return true;

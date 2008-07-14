@@ -42,7 +42,7 @@ import randall.util.*;
  */ 
 public class D2FileManager extends JFrame
 {
-    private static final String  CURRENT_VERSION = "R0.20";
+    private static final String  CURRENT_VERSION = "R0.21";
 
     private HashMap				 iItemLists = new HashMap();
     
@@ -719,6 +719,8 @@ public class D2FileManager extends JFrame
         {
             iViewAll = null;
         }
+        
+//        System.gc();
     }
 
     public void openStash(boolean load)
@@ -938,7 +940,7 @@ public class D2FileManager extends JFrame
             iViewProject.notifyItemListClosed(pFileName);
         }
         
-        System.gc();
+       // System.gc();
     }
     
     public static void displayErrorDialog(Exception pException)

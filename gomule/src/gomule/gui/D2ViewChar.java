@@ -25,8 +25,12 @@ import gomule.item.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.stream.FileImageInputStream;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.html.HTMLEditorKit;
@@ -202,7 +206,23 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		float[] bGrey = new float[3];
 		bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
 		CJT.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-		CJT.setFont( new Font( "Monospaced", Font.TRUETYPE_FONT, 11 ));
+//		if(System.getProperty("os.name").equals("Linux"))
+		Font f = null;
+		try {
+			FileInputStream fis = new FileInputStream(new File("resources" + File.separator +  "Courier_New.ttf"));
+			f = Font.createFont(Font.TRUETYPE_FONT, fis);
+		} catch (FontFormatException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+//		CJT.setFont( new Font( "Courier", Font.TRUETYPE_FONT, 11 ));
+//		System.out.println(f.getName());
+		f = f.deriveFont((float)11);
+		CJT.setFont(f);
 		charMainBox.add(CJT);
 //		charMainBox.add(Box.createRigidArea(new Dimension(80,0)));
 		charMainBox2.add(lSkillPanel);
@@ -316,7 +336,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		MJT.setEditable(false);
 		bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
 		MJT.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-		MJT.setFont( new Font( "Monospaced", Font.TRUETYPE_FONT, 11 ));
+		MJT.setFont( new Font( "Courier", Font.TRUETYPE_FONT, 11 ));
 
 
 		mercMainBox2.add(iMercPainter);
@@ -703,13 +723,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							
 							}
 							if(lTemp.isRare()){
+							
 							String rareRealName = lTemp.getPreSuf();
 							JTextPane rareName = new JTextPane();
+							JScrollPane scP = new JScrollPane(rareName);
 							rareName.setText("Your rare is a: " + rareRealName);
 							rareName.setCaretPosition(0);
 							rareName.setEditable(false);
 							rareName.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-							v1.add(rareName);
+							v1.add(scP);
 							h1.add( SP);
 							}
 							JFrame basePanel = new JFrame();
@@ -725,7 +747,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							
 
 							
-							basePanel.add(v1);
+							basePanel.getContentPane().add(v1);
 							}
 							catch(Exception e){
 								e.printStackTrace();
@@ -922,7 +944,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		}
 
 		itemListChanged();
-		System.gc();
+//		System.gc();
 	}
 
 	public void transferToChar(int pGoldTransfer)

@@ -152,7 +152,7 @@ public class D2Character extends D2ItemListAdapter
 	private int iMercInitAR;
 	private String iCharClass;
 	private ArrayList equippedSetItems = new ArrayList();
-	private int[] iReadStats = new int[16];
+	private long[] iReadStats = new long[16];
 	private long lCharCode;
 	private int lWoo;
 	private int iWS;
@@ -490,16 +490,29 @@ public class D2Character extends D2ItemListAdapter
 				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST.getRow(lID);
 				int lBits = Integer.parseInt( lItemStatCost.get("CSvBits") );
 				
-				if(lID == 13){
-//					System.err.println( "" + lItemStatCost.get("Stat") + ": " + lValue + "("+lBits+")");
-					System.out.println("");
-//					System.out.println(lReader.getCounterSi(lBits));
-				}
-				int lValue = lReader.getCounterInt(lBits);
+//				if(lID == 13){
+////					System.err.println( "" + lItemStatCost.get("Stat") + ": " + lValue + "("+lBits+")");
+////					System.out.println("");
+////					System.out.println(lReader.getCounterSi(lBits));
+////					String b1 = Integer.toBinaryString(lReader.getCounterInt(16));
+////					String b2 = Integer.toBinaryString(lReader.getCounterInt(16));
+////					
+////					b1 = b2 + b1;
+////					
+////					System.out.println(b1);
+////					System.out.println(Long.valueOf(b1, 2));
+//					
+//				}
+
+				
+				long lValue = lReader.getCounterLong(lBits);
+//				long lValue = lReader.getCounterInt(lBits);
+//				System.out.println(lValue);
 				iReadStats[lID] = lValue;
-				if(lID == 13){
-					System.err.println( "" + lItemStatCost.get("Stat") + ": " + lValue + "("+lBits+")");
-				}
+//				System.out.println("Val: " +lValue + ", " + lID);
+//				if(lID == 13){
+//					System.err.println( "" + lItemStatCost.get("Stat") + ": " + lValue + "("+lBits+")");
+//				}
 			}
 		}
 
@@ -1568,7 +1581,7 @@ public class D2Character extends D2ItemListAdapter
 		case 5:
 			return "Druid";
 		case 6:
-			return "Assasin";
+			return "Assassin";
 		}
 		return "<none>";
 	}
@@ -3346,7 +3359,7 @@ public class D2Character extends D2ItemListAdapter
 
 	public int getGold()
 	{
-		return iReadStats[14];
+		return (int)iReadStats[14];
 	}
 
 	public int getGoldMax()
@@ -3370,7 +3383,7 @@ public class D2Character extends D2ItemListAdapter
 
 	public int getGoldBank()
 	{
-		return iReadStats[15];
+		return (int)iReadStats[15];
 	}
 
 	public void setGoldBank(int pGoldBank) throws Exception
@@ -3432,12 +3445,12 @@ public class D2Character extends D2ItemListAdapter
 				lWriter.setCounterInt(9, lStatNr);
 				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST.getRow(lStatNr);
 				int lBits = Integer.parseInt(lItemStatCost.get("CSvBits"));
-				lWriter.setCounterInt(lBits, iReadStats[lStatNr]);
+				lWriter.setCounterInt(lBits, (int)iReadStats[lStatNr]);
 			}
 		}
 
 		for(int x = 0; x< iReadStats.length;x=x+1){
-			iInitStats[x] = iReadStats[x];
+			iInitStats[x] = (int)iReadStats[x];
 		}
 
 
@@ -3554,17 +3567,17 @@ public class D2Character extends D2ItemListAdapter
 			switch(page){
 			
 			case 1:
-				skillStrArr[0] = skillStrArr[0] + ((D2TxtFileItemProperties)skillArr.get(x)).get("skill") + ": " +  it[0].next() + "/" + it[3].next() + "\n";
+				skillStrArr[0] = skillStrArr[0] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name")) + ": " +  it[0].next() + "/" + it[3].next() + "\n";
 //				System.out.println(((D2TxtFileItemProperties)skillArr.get(x)).get("skill"));
 				break;
 				
 			case 2:
-				skillStrArr[1] = skillStrArr[1] + ((D2TxtFileItemProperties)skillArr.get(x)).get("skill") + " : " +  it[1].next()+ "/" + it[4].next() + "\n";
+				skillStrArr[1] = skillStrArr[1] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name")) + " : " +  it[1].next()+ "/" + it[4].next() + "\n";
 //				System.out.println(((D2TxtFileItemProperties)skillArr.get(x)).get("skill"));
 				break;
 				
 			case 3:
-				skillStrArr[2] = skillStrArr[2] + ((D2TxtFileItemProperties)skillArr.get(x)).get("skill") + " : " +  it[2].next() + "/" + it[5].next()+ "\n";
+				skillStrArr[2] = skillStrArr[2] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name"))  + " : " +  it[2].next() + "/" + it[5].next()+ "\n";
 //				System.out.println(iCharSkillsC.get(x));
 				break;
 				
@@ -3731,7 +3744,7 @@ public class D2Character extends D2ItemListAdapter
 
 	public long getCharExp() {
 		// TODO Auto-generated method stub
-		return iInitStats[13];
+		return iReadStats[13];
 	}
 
 	public boolean getCharDead() {

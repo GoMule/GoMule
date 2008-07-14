@@ -141,7 +141,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             {
                 iFileManager.saveAll();
                 closeView();
-                System.gc();
+//                System.gc();
             }
         });
 
@@ -278,7 +278,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 				
 				final JFrame filterPanel = new JFrame();
 				filterPanel.setTitle("Item Filter");
-				filterPanel.setLocation((int)iContentPane.getLocationOnScreen().getX() + 600,(int)iContentPane.getLocationOnScreen().getY() + 100);
+				filterPanel.setLocation((int)iContentPane.getLocationOnScreen().getX() + 100,(int)iContentPane.getLocationOnScreen().getY() + 100);
 				filterPanel.setSize(500,300);
 				filterPanel.setVisible(true);
 				filterPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -296,9 +296,13 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 				final JRadioButton fMin = new JRadioButton("Min");
 				final JRadioButton fMax = new JRadioButton("Max");
 				JButton fOk = new JButton("Ok");
-				
+				if(iItemModel.filterVal == -1337){
+					fNumIn.setText("");
+				}else{
+					fNumIn.setText(iItemModel.filterVal + "");
+				}
 				fStrIn.setText(iItemModel.filterString);
-				fNumIn.setText(iItemModel.filterVal + "");
+				
 				
 				if(iItemModel.filterMin){
 					fMin.setSelected(true);
@@ -344,20 +348,30 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 				
 	            	iItemModel.filterString = fStrIn.getText();
 	            	try{
+	            		if(fNumIn.getText().equals("")){
+	            		
+	            			iItemModel.filterVal = -1337;
+	            			
+	            		}else{
 	            	iItemModel.filterVal = Integer.parseInt(fNumIn.getText());
+	            		}
+	            		
+						iItemModel.filterOn = true;
+//						iItemModel.filterString = "getting magic";
+//						iItemModel.filterVal = 10;
+						
+						iItemModel.refreshData();
+		            	
+		            	
+		            	filterPanel.dispose();
+		            	
 	            	}catch(NumberFormatException e){
 	            		e.printStackTrace();
 	            		iItemModel.filterVal = 0;
+	            		fNumIn.setBackground(Color.red);
 	            	}
 	            	
-					iItemModel.filterOn = true;
-//					iItemModel.filterString = "getting magic";
-//					iItemModel.filterVal = 10;
-					
-					iItemModel.refreshData();
-	            	
-	            	
-	            	filterPanel.dispose();
+
 	            	
 	            }
 				
@@ -369,9 +383,18 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 	            public void actionPerformed(ActionEvent pEvent)
 	            {
 				
+	            	fNumIn.setBackground(Color.white);
 					iItemModel.filterOn = false;
 					iItemModel.filterString = "";
 					iItemModel.filterVal = 0;
+					
+	            	fStrIn.setText("");
+	            	
+	            	fNumIn.setText("");	            	
+					
+					iItemModel.refreshData();
+	            	
+					
 	            	
 	            }
 				
@@ -389,7 +412,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 				
 				});
 				
-				filterPanel.add(hRoot);
+				filterPanel.getContentPane().add(hRoot);
 //				hRoot.add(Box.createRigidArea(new Dimension(250,0)));
 				
 				
@@ -463,6 +486,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 				hRoot.add(lazy);
 				hRoot.add(Box.createRigidArea(new Dimension(100, 0)));
 				hRoot.add(vControl);
+				filterPanel.validate();
 			}
         });
         
@@ -1121,7 +1145,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         private final Object HEADER[] = new Object[] {new Object(), new Object(), new Object(), new Object(), new Object()};
 		private String filterString = "";
-		private int filterVal = 0;
+		private int filterVal = -1337;
 		private boolean filterOn = false;
 		private boolean filterMin = true;
         
