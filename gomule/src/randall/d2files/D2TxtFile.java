@@ -55,6 +55,7 @@ public class D2TxtFile
     public static D2TxtFile HIRE;
     public static D2TxtFile FULLSET;
     public static D2TxtFile CHARSTATS;
+    public static D2TxtFile AUTOMAGIC;
     
     /**
      * DROP CALC
@@ -99,7 +100,8 @@ public class D2TxtFile
         HIRE = new D2TxtFile("Hireling");
         FULLSET = new D2TxtFile("Sets");
         CHARSTATS = new D2TxtFile("CharStats");
-
+        AUTOMAGIC = new D2TxtFile("automagic");
+        
         GOMULE_PROPS = new Properties();
         try
         {

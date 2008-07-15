@@ -35,17 +35,17 @@ import java.util.regex.Pattern;
 import randall.d2files.*;
 import randall.flavie.*;
 
-// an item class
-// manages one item
-// keeps the a copy of the bytes representing
-// an item and a bitreader to manipulate them
-// also stores most data from the item in
+//an item class
+//manages one item
+//keeps the a copy of the bytes representing
+//an item and a bitreader to manipulate them
+//also stores most data from the item in
 
-// this class is NOT designed to edit items
-// any methods that allow the item's bytes
-// to be written only exist to facillitate
-// moving items. writing other item fields
-// is not supported by this class
+//this class is NOT designed to edit items
+//any methods that allow the item's bytes
+//to be written only exist to facillitate
+//moving items. writing other item fields
+//is not supported by this class
 public class D2Item implements Comparable, D2ItemInterface {
 	private ArrayList iProperties = new ArrayList();
 
@@ -97,7 +97,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private short gfx_num;
 
-	private short class_info;
+	private D2TxtFileItemProperties automod_info;
 
 	private short low_quality;
 
@@ -201,11 +201,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private long iMaxDur;
 
 	private long iDef;
-	
+
 	private long cBlock;
 
 	private long iBlock;
-	
+
 	private long iInitDef;
 
 	private long iMinDmg;
@@ -277,7 +277,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	// private int iPossibleItemLength = 0;
 
 	public D2Item(String pFileName, D2BitReader pFile, int pPos, long pCharLvl)
-			throws Exception {
+	throws Exception {
 		boolean end = false;
 		iFileName = pFileName;
 		iIsChar = iFileName.endsWith(".d2s");
@@ -311,15 +311,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 					.get_byte_pos()))
 					&& (pPos < pFile.findNextFlag("kf", pFile.get_byte_pos()))) {
 				lLengthToNextJM = pFile
-						.findNextFlag("kf", pFile.get_byte_pos())
-						- pPos;
+				.findNextFlag("kf", pFile.get_byte_pos())
+				- pPos;
 			} else if ((lNextJMPos > pFile.findNextFlag("jf", pFile
 					.get_byte_pos()))
 					&& (pPos < pFile.findNextFlag("jf", pFile.get_byte_pos()))) {
 
 				lLengthToNextJM = pFile
-						.findNextFlag("jf", pFile.get_byte_pos())
-						- pPos;
+				.findNextFlag("jf", pFile.get_byte_pos())
+				- pPos;
 
 			}
 
@@ -328,7 +328,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if (lDiff > 7) {
 				throw new D2ItemException(
 						"Item not read complete, missing bits: " + lDiff
-								+ getExStr());
+						+ getExStr());
 				// System.out.println("GRUMBLE GRUMBLE");
 				// System.err.println("Test: " + lCurrentReadLength + " - " +
 				// lLengthToNextJM*8 + ": " + lDiff);
@@ -402,9 +402,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (personalization == null) {
 			iItemNameNoPersonalising = iItemName;
 		}
-		
 
-		
+
+		applyReqLPlus();
+
 		if (isTypeWeapon()) {
 
 			if (iEthereal) {
@@ -418,7 +419,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 				D2ItemProperty lProperty = new D2ItemProperty(122, iCharLvl,
 						iItemName);
 				D2TxtFileItemProperties lItemStatCost2 = D2TxtFile.ITEM_STAT_COST
-						.getRow(122);
+				.getRow(122);
 				lProperty.set(122, lItemStatCost2, 0, 150);
 				iProperties.add(lProperty);
 			}
@@ -440,23 +441,23 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 
 		} else if (isTypeArmor()) {
-			
 
-			
+
+
 			if (isSocketed()) {
-				
+
 				combineProps();
-				
+
 			}
 			combineResists();
 			applyEDef();
-			
+
 			if(iType.equals("ashd")||iType.equals("shie")||iType.equals("head")){
-				
-			applyBlock();	
-				
+
+				applyBlock();	
+
 			}
-			
+
 			ArrayList lvlSkills = new ArrayList();
 			for (int x = 0; x < iProperties.size(); x = x + 1) {
 				if (((D2ItemProperty) iProperties.get(x)).getiProp() == 107
@@ -478,6 +479,17 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	}
 
+	private void applyReqLPlus() {
+
+		for (int x = 0; x < iProperties.size(); x = x + 1) {
+			if((((D2ItemProperty) iProperties.get(x)).getiProp())==92){
+				iReqLvl=iReqLvl+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+			}
+
+		}
+
+	}
+
 	// read ear related data from the bytes
 	private void read_ear(D2BitReader pFile) { // br.getFileContent()
 
@@ -489,7 +501,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		StringBuffer lCharName = new StringBuffer();
 		for (int i = 0; i < 18; i++)
-		// while(1==1)
+			// while(1==1)
 		{
 			long lChar = pFile.read(7);
 			if (lChar != 0) {
@@ -547,13 +559,13 @@ public class D2Item implements Comparable, D2ItemInterface {
 		iType = iItemType.get("type");
 		iType2 = iItemType.get("type2");
 
-		
+
 		//Shields - block chance.
 		if(iType.equals("ashd")||iType.equals("shie")||iType.equals("head")){
 			cBlock = Long.parseLong(iItemType.get("block"));
 //			System.out.println(cBlock);
 		}
-		
+
 		// Requerements
 		if (iTypeMisc) {
 			iReqLvl = getReq(iItemType.get("levelreq"));
@@ -581,7 +593,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			iReqDex = getReq(iItemType.get("reqdex"));
 
 			D2TxtFileItemProperties qualSearch = D2TxtFile.WEAPONS
-					.searchColumns("normcode", item_type);
+			.searchColumns("normcode", item_type);
 			iItemQuality = "normal";
 			if (qualSearch == null) {
 				qualSearch = D2TxtFile.WEAPONS.searchColumns("ubercode",
@@ -630,8 +642,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 				hasGUID = true;
 
 				iGUID = "0x" + Integer.toHexString((int) pFile.read(32))
-						+ " 0x" + Integer.toHexString((int) pFile.read(32))
-						+ " 0x" + Integer.toHexString((int) pFile.read(32));
+				+ " 0x" + Integer.toHexString((int) pFile.read(32))
+				+ " 0x" + Integer.toHexString((int) pFile.read(32));
 				// }
 				// pFile.read(32);
 			} else {
@@ -722,7 +734,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 
 			D2TxtFileItemProperties lRuneWord = D2TxtFile.RUNES
-					.searchRuneWord(lList);
+			.searchRuneWord(lList);
 			runeword_id = lRuneWord.getRowNum();
 			if (lRuneWord != null) {
 				// iItem += " Runeword found " + D2TblFile.getString(
@@ -808,7 +820,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 		// check class info flag
 		if (pFile.read(1) == 1) {
-			class_info = (short) pFile.read(11);
+			automod_info = D2TxtFile.AUTOMAGIC.getRow((int)pFile.read(11) -1);
+//			automod_info = D2TxtFile.AUTOMAGIC.getRow(0);
+//			System.out.println(automod_info.get("Name"));
+			
+			
 		}
 
 		// path determined by item quality
@@ -837,7 +853,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 
 			D2TxtFileItemProperties lPrefix = D2TxtFile.PREFIX
-					.getRow(magic_prefix);
+			.getRow(magic_prefix);
 			String lPreName = lPrefix.get("Name");
 			if (lPreName != null && !lPreName.equals("")) {
 				iItemName = D2TblFile.getString(lPreName) + " " + iItemName;
@@ -848,7 +864,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 
 			D2TxtFileItemProperties lSuffix = D2TxtFile.SUFFIX
-					.getRow(magic_suffix);
+			.getRow(magic_suffix);
 			String lSufName = lSuffix.get("Name");
 			if (lSufName != null && !lSufName.equals("")) {
 				iItemName = iItemName + " " + D2TblFile.getString(lSufName);
@@ -857,6 +873,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 					iReqLvl = lSufReq;
 				}
 			}
+			
+			applyAutomodLvl();
 			break;
 		}
 		case 5: // set item
@@ -884,6 +902,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			// {
 			// System.err.println("Set Lvl: " + iItemName + " - " + lSetReq );
 			// }
+			applyAutomodLvl();
 			break;
 		}
 		case 7: // unique item
@@ -896,7 +915,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 
 			D2TxtFileItemProperties lUnique = D2TxtFile.UNIQUES
-					.getRow(unique_id);
+			.getRow(unique_id);
 			String lNewName = D2TblFile.getString(lUnique.get("index"));
 			if (lNewName != null) {
 				iItemName = lNewName;
@@ -911,7 +930,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			// System.err.println("Unique Lvl: " + iItemName + " - " +
 			// lUniqueReq );
 			// }
-
+			applyAutomodLvl();
 			break;
 		}
 		case 6: // rare item
@@ -926,51 +945,56 @@ public class D2Item implements Comparable, D2ItemInterface {
 				iItemName = "Crafted " + iItemName;
 			}
 		}
-			{
-				rare_name_1 = (short) pFile.read(8);
-				rare_name_2 = (short) pFile.read(8);
-				D2TxtFileItemProperties lRareName1 = D2TxtFile.RAREPREFIX
-						.getRow(rare_name_1 - 156);
-				D2TxtFileItemProperties lRareName2 = D2TxtFile.RARESUFFIX
-						.getRow(rare_name_2 - 1);
-				iItemName = D2TblFile.getString(lRareName1.get("name")) + " "
-						+ D2TblFile.getString(lRareName2.get("name"));
+		applyAutomodLvl();
+			rare_name_1 = (short) pFile.read(8);
+			rare_name_2 = (short) pFile.read(8);
+			D2TxtFileItemProperties lRareName1 = D2TxtFile.RAREPREFIX
+			.getRow(rare_name_1 - 156);
+			D2TxtFileItemProperties lRareName2 = D2TxtFile.RARESUFFIX
+			.getRow(rare_name_2 - 1);
+			iItemName = D2TblFile.getString(lRareName1.get("name")) + " "
+			+ D2TblFile.getString(lRareName2.get("name"));
 
-				rare_prefixes = new short[3];
-				rare_suffixes = new short[3];
-				short pre_count = 0;
-				short suf_count = 0;
-				for (int i = 0; i < 3; i++) {
-					if (pFile.read(1) == 1) {
-						rare_prefixes[pre_count] = (short) pFile.read(11);
-						D2TxtFileItemProperties lPrefix = D2TxtFile.PREFIX
-								.getRow(rare_prefixes[pre_count]);
-						pre_count++;
-						String lPreName = lPrefix.get("Name");
-						if (lPreName != null && !lPreName.equals("")) {
-							int lPreReq = getReq(lPrefix.get("levelreq"));
-							if (lPreReq > iReqLvl) {
-								iReqLvl = lPreReq;
-							}
+			rare_prefixes = new short[3];
+			rare_suffixes = new short[3];
+			short pre_count = 0;
+			short suf_count = 0;
+			for (int i = 0; i < 3; i++) {
+				if (pFile.read(1) == 1) {
+					rare_prefixes[pre_count] = (short) pFile.read(11);
+					D2TxtFileItemProperties lPrefix = D2TxtFile.PREFIX
+					.getRow(rare_prefixes[pre_count]);
+					pre_count++;
+					String lPreName = lPrefix.get("Name");
+					if (lPreName != null && !lPreName.equals("")) {
+						int lPreReq = getReq(lPrefix.get("levelreq"));
+						if (lPreReq > iReqLvl) {
+							iReqLvl = lPreReq;
 						}
-
 					}
-					if (pFile.read(1) == 1) {
-						rare_suffixes[suf_count] = (short) pFile.read(11);
-						D2TxtFileItemProperties lSuffix = D2TxtFile.SUFFIX
-								.getRow(rare_suffixes[suf_count]);
-						suf_count++;
-						String lSufName = lSuffix.get("Name");
-						if (lSufName != null && !lSufName.equals("")) {
-							int lSufReq = getReq(lSuffix.get("levelreq"));
-							if (lSufReq > iReqLvl) {
-								iReqLvl = lSufReq;
-							}
+
+				}
+				if (pFile.read(1) == 1) {
+					rare_suffixes[suf_count] = (short) pFile.read(11);
+					D2TxtFileItemProperties lSuffix = D2TxtFile.SUFFIX
+					.getRow(rare_suffixes[suf_count]);
+					suf_count++;
+					String lSufName = lSuffix.get("Name");
+					if (lSufName != null && !lSufName.equals("")) {
+						int lSufReq = getReq(lSuffix.get("levelreq"));
+						if (lSufReq > iReqLvl) {
+							iReqLvl = lSufReq;
 						}
 					}
 				}
-				break;
 			}
+			
+//			System.out.println(pFile.read(1));
+			if(isCrafted()){
+				iReqLvl = 	iReqLvl + 10+(3* (suf_count + pre_count));
+			}
+			break;
+		
 		case 2: {
 			readTypes(pFile);
 			break;
@@ -1000,6 +1024,17 @@ public class D2Item implements Comparable, D2ItemInterface {
 				}
 			}
 		}
+	}
+
+	private void applyAutomodLvl() {
+		// modifies the level if the automod is higher
+		if(automod_info == null){
+			return;
+		}
+		if(Integer.parseInt(automod_info.get("levelreq")) > iReqLvl){
+			iReqLvl = Integer.parseInt(automod_info.get("levelreq"));
+		}
+		
 	}
 
 	// MBR: unknown, but should be according to file format
@@ -1053,11 +1088,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 
 			if ((D2TxtFile.WEAPONS.searchColumns("code", item_type)).get(
-					"1or2handed").equals("")
-					&& !iThrow) {
+			"1or2handed").equals("")
+			&& !iThrow) {
 
 				if ((D2TxtFile.WEAPONS.searchColumns("code", item_type)).get(
-						"2handed").equals("1")) {
+				"2handed").equals("1")) {
 					iWhichHand = 2;
 					iinitMinDmg = iMinDmg = Long.parseLong((D2TxtFile.WEAPONS
 							.searchColumns("code", item_type))
@@ -1077,11 +1112,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 				iWhichHand = 0;
 				if (iThrow) {
 					iinit2MinDmg = i2MinDmg = Long
-							.parseLong((D2TxtFile.WEAPONS.searchColumns("code",
-									item_type)).get("minmisdam"));
+					.parseLong((D2TxtFile.WEAPONS.searchColumns("code",
+							item_type)).get("minmisdam"));
 					iinit2MaxDmg = i2MaxDmg = Long
-							.parseLong((D2TxtFile.WEAPONS.searchColumns("code",
-									item_type)).get("maxmisdam"));
+					.parseLong((D2TxtFile.WEAPONS.searchColumns("code",
+							item_type)).get("maxmisdam"));
 				} else {
 					iinit2MinDmg = i2MinDmg = Long.parseLong((D2TxtFile.WEAPONS
 							.searchColumns("code", item_type))
@@ -1134,7 +1169,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		readProperties(pFile, iProperties);
 
-		
+
 
 		if (quality == 5) {
 			iSetProps = new ArrayList();
@@ -1183,24 +1218,24 @@ public class D2Item implements Comparable, D2ItemInterface {
 				cleanUp2HMax();
 			}
 		}
-		
-		
+
+
 		if(isRuneWord()){
-		for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
-			if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 160
-					|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 159) {
-				iRuneWordProps.remove(x);
-				x = x - 1;
+			for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
+				if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 160
+						|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 159) {
+					iRuneWordProps.remove(x);
+					x = x - 1;
+				}
+				if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 23
+						|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 24) {
+					cleanUp2HMax();
+				}
 			}
-			if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 23
-					|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 24) {
-				cleanUp2HMax();
-			}
+
 		}
-		
-		}
-		
-		
+
+
 	}
 
 	private void cleanUp2HMax() {
@@ -1248,8 +1283,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 					.indexOf(new Integer(23)))).getItemStatCost(),
 					((D2ItemProperty) iProperties.get(cleanArr
 							.indexOf(new Integer(23)))).getBitSet(),
-					((D2ItemProperty) iProperties.get(cleanArr
-							.indexOf(new Integer(23)))).getRealValue());
+							((D2ItemProperty) iProperties.get(cleanArr
+									.indexOf(new Integer(23)))).getRealValue());
 			iProperties.remove(cleanArr.indexOf(new Integer(23)));
 			iProperties.add(cleanArr.indexOf(new Integer(23)), lProperty);
 		}
@@ -1261,14 +1296,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 					.indexOf(new Integer(24)))).getItemStatCost(),
 					((D2ItemProperty) iProperties.get(cleanArr
 							.indexOf(new Integer(24)))).getBitSet(),
-					((D2ItemProperty) iProperties.get(cleanArr
-							.indexOf(new Integer(24)))).getRealValue());
+							((D2ItemProperty) iProperties.get(cleanArr
+									.indexOf(new Integer(24)))).getRealValue());
 			iProperties.remove(cleanArr.indexOf(new Integer(24)));
 			iProperties.add(cleanArr.indexOf(new Integer(24)), lProperty);
 		}
-		
+
 		if(isRuneWord()){
-			
+
 			cleanArr = new ArrayList();
 
 			for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
@@ -1312,8 +1347,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 						.indexOf(new Integer(23)))).getItemStatCost(),
 						((D2ItemProperty) iRuneWordProps.get(cleanArr
 								.indexOf(new Integer(23)))).getBitSet(),
-						((D2ItemProperty) iRuneWordProps.get(cleanArr
-								.indexOf(new Integer(23)))).getRealValue());
+								((D2ItemProperty) iRuneWordProps.get(cleanArr
+										.indexOf(new Integer(23)))).getRealValue());
 				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
 				iRuneWordProps.add(cleanArr.indexOf(new Integer(23)), lProperty);
 			}
@@ -1325,12 +1360,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 						.indexOf(new Integer(24)))).getItemStatCost(),
 						((D2ItemProperty) iRuneWordProps.get(cleanArr
 								.indexOf(new Integer(24)))).getBitSet(),
-						((D2ItemProperty) iRuneWordProps.get(cleanArr
-								.indexOf(new Integer(24)))).getRealValue());
+								((D2ItemProperty) iRuneWordProps.get(cleanArr
+										.indexOf(new Integer(24)))).getRealValue());
 				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
 				iRuneWordProps.add(cleanArr.indexOf(new Integer(24)), lProperty);
 			}
-			
+
 		}
 
 	}
@@ -1345,7 +1380,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		for (int x = 0; x < statsToRead.length; x = x + 1) {
 			String txtCheck = (D2TxtFile.MISC.searchColumns("code", item_type))
-					.get(statsToRead[x]);
+			.get(statsToRead[x]);
 
 			if (!txtCheck.equals("")) {
 
@@ -1358,12 +1393,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 				pProperties.add(lProperty);
 
 				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
-						.getRow(lProperty.getPropNrs()[0]);
+				.getRow(lProperty.getPropNrs()[0]);
 
 				lProperty.set(lProp, lItemStatCost, 0, Long
 						.parseLong(((D2TxtFile.MISC.searchColumns("code",
 								item_type)).get(statsToRead[x].replaceFirst(
-								"stat", "calc")))));
+										"stat", "calc")))));
 
 			}
 
@@ -1397,23 +1432,23 @@ public class D2Item implements Comparable, D2ItemInterface {
 									.searchColumns("code", (D2TxtFile.GEMS
 											.searchColumns("code", item_type))
 											.get(interestingSubProp[x][y])))
-									.get("stat1")))).get("ID"));
+											.get("stat1")))).get("ID"));
 					D2ItemProperty lProperty = new D2ItemProperty(lProp,
 							iCharLvl, iItemName);
 					D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
-							.getRow(lProperty.getPropNrs()[0]);
+					.getRow(lProperty.getPropNrs()[0]);
 
 					String runeParam = (D2TxtFile.GEMS.searchColumns("code",
 							item_type)).get(interestingSubProp[x][y]
-							.replaceFirst("Code", "Param"));
+							                                      .replaceFirst("Code", "Param"));
 
 					String runeMin = (D2TxtFile.GEMS.searchColumns("code",
 							item_type)).get(interestingSubProp[x][y]
-							.replaceFirst("Code", "Min"));
+							                                      .replaceFirst("Code", "Min"));
 
 					String runeMax = (D2TxtFile.GEMS.searchColumns("code",
 							item_type)).get(interestingSubProp[x][y]
-							.replaceFirst("Code", "Max"));
+							                                      .replaceFirst("Code", "Max"));
 
 					lProperty.set(lProp, lItemStatCost, 0, Long
 							.parseLong(runeMin));
@@ -1438,10 +1473,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 					}
 
 					if (interestingSubProp[x][0].split("Mod")[0]
-							.equals("weapon")) {
+					                                          .equals("weapon")) {
 						wepProps.add(lProperty);
 					} else if (interestingSubProp[x][0].split("Mod")[0]
-							.equals("helm")) {
+					                                                 .equals("helm")) {
 						armProps.add(lProperty);
 					} else {
 						shiProps.add(lProperty);
@@ -1475,15 +1510,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 					((D2TxtFile.PROPS.searchColumns("code", (D2TxtFile.GEMS
 							.searchColumns("code", item_type))
 							.get(interestingSubProp[x][0]))).get("stat1")),
-					((D2TxtFile.PROPS.searchColumns("code", (D2TxtFile.GEMS
-							.searchColumns("code", item_type))
-							.get(interestingSubProp[x][0]))).get("stat2")),
-					((D2TxtFile.PROPS.searchColumns("code", (D2TxtFile.GEMS
-							.searchColumns("code", item_type))
-							.get(interestingSubProp[x][0]))).get("stat3")),
-					((D2TxtFile.PROPS.searchColumns("code", (D2TxtFile.GEMS
-							.searchColumns("code", item_type))
-							.get(interestingSubProp[x][0]))).get("stat4")) };
+							((D2TxtFile.PROPS.searchColumns("code", (D2TxtFile.GEMS
+									.searchColumns("code", item_type))
+									.get(interestingSubProp[x][0]))).get("stat2")),
+									((D2TxtFile.PROPS.searchColumns("code", (D2TxtFile.GEMS
+											.searchColumns("code", item_type))
+											.get(interestingSubProp[x][0]))).get("stat3")),
+											((D2TxtFile.PROPS.searchColumns("code", (D2TxtFile.GEMS
+													.searchColumns("code", item_type))
+													.get(interestingSubProp[x][0]))).get("stat4")) };
 
 			for (int z = 0; z < propStats.length; z = z + 1) {
 				if (propStats[z].equals("")) {
@@ -1495,7 +1530,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 						iItemName);
 
 				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
-						.getRow(lProperty.getPropNrs()[0]);
+				.getRow(lProperty.getPropNrs()[0]);
 				for (int y = 0; y < interestingSubProp[x].length; y = y + 1) {
 
 					String txtCheck = (D2TxtFile.GEMS.searchColumns("code",
@@ -1507,35 +1542,35 @@ public class D2Item implements Comparable, D2ItemInterface {
 							lProperty = new D2ItemProperty(1337, iCharLvl,
 									iItemName);
 							lProperty
-									.set(
-											1337,
-											lItemStatCost,
-											0,
-											Long
-													.parseLong((D2TxtFile.GEMS
-															.searchColumns(
-																	"code",
-																	item_type))
-															.get(interestingSubProp[x][0]
-																	.replaceFirst(
-																			"Code",
-																			"Min"))));
+							.set(
+									1337,
+									lItemStatCost,
+									0,
+									Long
+									.parseLong((D2TxtFile.GEMS
+											.searchColumns(
+													"code",
+													item_type))
+													.get(interestingSubProp[x][0]
+													                           .replaceFirst(
+													                        		   "Code",
+													                           "Min"))));
 							z = propStats.length;
 						} else {
 							lProperty
-									.set(
-											lProp,
-											lItemStatCost,
-											0,
-											Long
-													.parseLong((D2TxtFile.GEMS
-															.searchColumns(
-																	"code",
-																	item_type))
-															.get(interestingSubProp[x][y]
-																	.replaceFirst(
-																			"Code",
-																			"Min"))));
+							.set(
+									lProp,
+									lItemStatCost,
+									0,
+									Long
+									.parseLong((D2TxtFile.GEMS
+											.searchColumns(
+													"code",
+													item_type))
+													.get(interestingSubProp[x][y]
+													                           .replaceFirst(
+													                        		   "Code",
+													                           "Min"))));
 						}
 
 					}
@@ -1546,7 +1581,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					D2ItemProperty lProperty2 = new D2ItemProperty(60,
 							iCharLvl, iItemName);
 					D2TxtFileItemProperties lItemStatCost2 = D2TxtFile.ITEM_STAT_COST
-							.getRow(lProperty.getPropNrs()[0] - 2);
+					.getRow(lProperty.getPropNrs()[0] - 2);
 					lProperty2.set(60, lItemStatCost2, 0, Long
 							.parseLong((D2TxtFile.GEMS.searchColumns("code",
 									item_type)).get("weaponMod2Min")));
@@ -1556,7 +1591,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 				if (interestingSubProp[x][0].split("Mod")[0].equals("weapon")) {
 					wepProps.add(lProperty);
 				} else if (interestingSubProp[x][0].split("Mod")[0]
-						.equals("helm")) {
+				                                                 .equals("helm")) {
 					armProps.add(lProperty);
 				} else {
 					shiProps.add(lProperty);
@@ -1583,7 +1618,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 			for (int i = 0; i < lRead.length; i++) {
 				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
-						.getRow(lRead[i]);
+				.getRow(lRead[i]);
 
 				String lItemStatCostList[];
 
@@ -1632,19 +1667,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private void applyEthDmg() {
 		iinitMinDmg = iMinDmg = (long) Math
-				.floor((((double) iMinDmg / (double) 100) * (double) 50)
-						+ iMinDmg);
+		.floor((((double) iMinDmg / (double) 100) * (double) 50)
+				+ iMinDmg);
 		iinitMaxDmg = iMaxDmg = (long) Math
-				.floor((((double) iMaxDmg / (double) 100) * (double) 50)
-						+ iMaxDmg);
+		.floor((((double) iMaxDmg / (double) 100) * (double) 50)
+				+ iMaxDmg);
 
 		if (iWhichHand == 0) {
 			iinit2MinDmg = i2MinDmg = (long) Math
-					.floor((((double) i2MinDmg / (double) 100) * (double) 50)
-							+ i2MinDmg);
+			.floor((((double) i2MinDmg / (double) 100) * (double) 50)
+					+ i2MinDmg);
 			iinit2MaxDmg = i2MaxDmg = (long) Math
-					.floor((((double) i2MaxDmg / (double) 100) * (double) 50)
-							+ i2MaxDmg);
+			.floor((((double) i2MaxDmg / (double) 100) * (double) 50)
+					+ i2MaxDmg);
 		}
 	}
 
@@ -1652,8 +1687,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 		for (int x = 0; x < skillArr.size(); x = x + 1) {
 
 			D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC
-					.getRow((int) ((D2ItemProperty) skillArr.get(x))
-							.getRealValue());
+			.getRow((int) ((D2ItemProperty) skillArr.get(x))
+					.getRealValue());
 
 			if (iReqLvl < Integer.parseInt(D2TxtFile.SKILLS.searchColumns(
 					"skilldesc", lSkill.get("skilldesc")).get("reqlevel"))) {
@@ -1667,9 +1702,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private void applyEDef() {
 
 
-		
-		
-		
+
+
+
 		iDef = 0;
 		int ENDef = 0;
 		int Def = 0;
@@ -1681,29 +1716,29 @@ public class D2Item implements Comparable, D2ItemInterface {
 			for (int x = 0; x < iSetProps.size(); x = x + 1) {
 				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
 					ENDef = ENDef
-							+ ((D2ItemProperty) iSetProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iSetProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
 					Def = Def
-							+ ((D2ItemProperty) iSetProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iSetProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 75) {
 					Dur = Dur
-							+ ((D2ItemProperty) iSetProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iSetProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 73) {
 					PlusDur = PlusDur
-							+ ((D2ItemProperty) iSetProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iSetProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
 					Def = Def
-							+ (int) Math.floor((((D2ItemProperty) iSetProps
-									.get(x)).getRealValue() * 0.125)
-									* iCharLvl);
+					+ (int) Math.floor((((D2ItemProperty) iSetProps
+							.get(x)).getRealValue() * 0.125)
+							* iCharLvl);
 				}
 			}
 
@@ -1716,30 +1751,30 @@ public class D2Item implements Comparable, D2ItemInterface {
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 16) {
 
 						ENDef = ENDef
-								+ ((D2ItemProperty) iRuneWordProps.get(x))
-										.getRealValue();
+						+ ((D2ItemProperty) iRuneWordProps.get(x))
+						.getRealValue();
 					}
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 31) {
 						Def = Def
-								+ ((D2ItemProperty) iRuneWordProps.get(x))
-										.getRealValue();
+						+ ((D2ItemProperty) iRuneWordProps.get(x))
+						.getRealValue();
 					}
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 75) {
 						Dur = Dur
-								+ ((D2ItemProperty) iRuneWordProps.get(x))
-										.getRealValue();
+						+ ((D2ItemProperty) iRuneWordProps.get(x))
+						.getRealValue();
 					}
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 73) {
 						PlusDur = PlusDur
-								+ ((D2ItemProperty) iRuneWordProps.get(x))
-										.getRealValue();
+						+ ((D2ItemProperty) iRuneWordProps.get(x))
+						.getRealValue();
 					}
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 214) {
 						Def = Def
-								+ (int) Math
-										.floor((((D2ItemProperty) iRuneWordProps
-												.get(x)).getRealValue() * 0.125)
-												* iCharLvl);
+						+ (int) Math
+						.floor((((D2ItemProperty) iRuneWordProps
+								.get(x)).getRealValue() * 0.125)
+								* iCharLvl);
 					}
 				}
 			}
@@ -1747,29 +1782,29 @@ public class D2Item implements Comparable, D2ItemInterface {
 			for (int x = 0; x < iGemProps.size(); x = x + 1) {
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 16) {
 					ENDef = ENDef
-							+ ((D2ItemProperty) iGemProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iGemProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 31) {
 					Def = Def
-							+ ((D2ItemProperty) iGemProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iGemProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 75) {
 					Dur = Dur
-							+ ((D2ItemProperty) iGemProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iGemProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 73) {
 					PlusDur = PlusDur
-							+ ((D2ItemProperty) iGemProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iGemProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 214) {
 					Def = Def
-							+ (int) Math.floor((((D2ItemProperty) iGemProps
-									.get(x)).getRealValue() * 0.125)
-									* iCharLvl);
+					+ (int) Math.floor((((D2ItemProperty) iGemProps
+							.get(x)).getRealValue() * 0.125)
+							* iCharLvl);
 				}
 			}
 
@@ -1777,25 +1812,25 @@ public class D2Item implements Comparable, D2ItemInterface {
 		for (int x = 0; x < iProperties.size(); x = x + 1) {
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 16) {
 				ENDef = ENDef
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 31) {
 				Def = Def
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 75) {
 				Dur = Dur
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 73) {
 				PlusDur = PlusDur
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
 				Def = Def
-						+ (int) Math.floor((((D2ItemProperty) iProperties
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
+				+ (int) Math.floor((((D2ItemProperty) iProperties
+						.get(x)).getRealValue() * 0.125)
+						* iCharLvl);
 			}
 		}
 		iDef = (long) Math.floor((((double) iInitDef / (double) 100) * ENDef)
@@ -1814,7 +1849,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			for (int x = 0; x < iSetProps.size(); x = x + 1) {
 				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 20) {
 					block = block + ((D2ItemProperty) iSetProps.get(x)).getRealValue();	
-					}
+				}
 			}
 
 		}
@@ -1845,7 +1880,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		iBlock = cBlock + block;
 
 	}
-	
+
 	private void applyEDmg() {
 
 		int ENDam = 0;
@@ -1859,32 +1894,32 @@ public class D2Item implements Comparable, D2ItemInterface {
 				for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 17) {
 						ENDam = ENDam
-								+ ((D2ItemProperty) iRuneWordProps.get(x))
-										.getRealValue();
+						+ ((D2ItemProperty) iRuneWordProps.get(x))
+						.getRealValue();
 					}
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 219) {
 						ENMaxDam = ENMaxDam
-								+ (int) Math
-										.floor((((D2ItemProperty) iRuneWordProps
-												.get(x)).getRealValue() * 0.125)
-												* iCharLvl);
+						+ (int) Math
+						.floor((((D2ItemProperty) iRuneWordProps
+								.get(x)).getRealValue() * 0.125)
+								* iCharLvl);
 					}
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 218) {
 						MaxDam = MaxDam
-								+ (int) Math
-										.floor((((D2ItemProperty) iRuneWordProps
-												.get(x)).getRealValue() * 0.125)
-												* iCharLvl);
+						+ (int) Math
+						.floor((((D2ItemProperty) iRuneWordProps
+								.get(x)).getRealValue() * 0.125)
+								* iCharLvl);
 					}
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 21) {
 						MinDam = MinDam
-								+ ((D2ItemProperty) iRuneWordProps.get(x))
-										.getRealValue();
+						+ ((D2ItemProperty) iRuneWordProps.get(x))
+						.getRealValue();
 					}
 					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 22) {
 						MaxDam = MaxDam
-								+ ((D2ItemProperty) iRuneWordProps.get(x))
-										.getRealValue();
+						+ ((D2ItemProperty) iRuneWordProps.get(x))
+						.getRealValue();
 					}
 				}
 			}
@@ -1892,30 +1927,30 @@ public class D2Item implements Comparable, D2ItemInterface {
 			for (int x = 0; x < iGemProps.size(); x = x + 1) {
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 17) {
 					ENDam = ENDam
-							+ ((D2ItemProperty) iGemProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iGemProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 21) {
 					MinDam = MinDam
-							+ ((D2ItemProperty) iGemProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iGemProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 22) {
 					MaxDam = MaxDam
-							+ ((D2ItemProperty) iGemProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iGemProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 219) {
 					ENMaxDam = ENMaxDam
-							+ (int) Math.floor((((D2ItemProperty) iGemProps
-									.get(x)).getRealValue() * 0.125)
-									* iCharLvl);
+					+ (int) Math.floor((((D2ItemProperty) iGemProps
+							.get(x)).getRealValue() * 0.125)
+							* iCharLvl);
 				}
 				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 218) {
 					MaxDam = MaxDam
-							+ (int) Math.floor((((D2ItemProperty) iGemProps
-									.get(x)).getRealValue() * 0.125)
-									* iCharLvl);
+					+ (int) Math.floor((((D2ItemProperty) iGemProps
+							.get(x)).getRealValue() * 0.125)
+							* iCharLvl);
 				}
 			}
 
@@ -1923,49 +1958,49 @@ public class D2Item implements Comparable, D2ItemInterface {
 		for (int x = 0; x < iProperties.size(); x = x + 1) {
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 17) {
 				ENDam = ENDam
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 21) {
 				MinDam = MinDam
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 22) {
 				MaxDam = MaxDam
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 219) {
 				ENMaxDam = ENMaxDam
-						+ (int) Math.floor((((D2ItemProperty) iProperties
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
+				+ (int) Math.floor((((D2ItemProperty) iProperties
+						.get(x)).getRealValue() * 0.125)
+						* iCharLvl);
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 218) {
 				MaxDam = MaxDam
-						+ (int) Math.floor((((D2ItemProperty) iProperties
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
+				+ (int) Math.floor((((D2ItemProperty) iProperties
+						.get(x)).getRealValue() * 0.125)
+						* iCharLvl);
 			}
 		}
 		iMinDmg = (long) Math.floor((((double) iMinDmg / (double) 100) * ENDam)
 				+ (iMinDmg + MinDam));
 		iMaxDmg = (long) Math
-				.floor((((double) iMaxDmg / (double) 100) * (ENDam + ENMaxDam))
-						+ (iMaxDmg + MaxDam));
+		.floor((((double) iMaxDmg / (double) 100) * (ENDam + ENMaxDam))
+				+ (iMaxDmg + MaxDam));
 
 		if (iWhichHand == 0) {
 			i2MinDmg = (long) Math
-					.floor((((double) i2MinDmg / (double) 100) * ENDam)
-							+ (i2MinDmg + MinDam));
+			.floor((((double) i2MinDmg / (double) 100) * ENDam)
+					+ (i2MinDmg + MinDam));
 			i2MaxDmg = (long) Math
-					.floor((((double) i2MaxDmg / (double) 100) * (ENDam + ENMaxDam))
-							+ (i2MaxDmg + MaxDam));
+			.floor((((double) i2MaxDmg / (double) 100) * (ENDam + ENMaxDam))
+					+ (i2MaxDmg + MaxDam));
 		}
 
 	}
 
 	// public ArrayList getAllProps(){
-	// if(null != propsList){
-	// int[] propsListOut = new int[propsList.size()];
+		// if(null != propsList){
+			// int[] propsListOut = new int[propsList.size()];
 	//		
 	// for(int x = 0;x<propsList.size();x=x+1){
 	// propsListOut[x] = ((D2ItemProperty)propsList.get(x)).getiProp();
@@ -1981,7 +2016,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private void combineProps() {
 
 
-		
+
 		ArrayList allProps = new ArrayList();
 		ArrayList maskProps = new ArrayList();
 		ArrayList tempProps = new ArrayList();
@@ -2023,23 +2058,23 @@ public class D2Item implements Comparable, D2ItemInterface {
 							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 198
 							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 204) {
 						counter = counter
-								+ ((D2ItemProperty) allProps.get(y))
-										.getRealValue();
+						+ ((D2ItemProperty) allProps.get(y))
+						.getRealValue();
 						if (((D2ItemProperty) allProps.get(x)).getiProp() == 48
 								|| ((D2ItemProperty) allProps.get(x))
-										.getiProp() == 50
+								.getiProp() == 50
 								|| ((D2ItemProperty) allProps.get(x))
-										.getiProp() == 52
+								.getiProp() == 52
 								|| ((D2ItemProperty) allProps.get(x))
-										.getiProp() == 54
+								.getiProp() == 54
 								|| ((D2ItemProperty) allProps.get(x))
-										.getiProp() == 57) {
+								.getiProp() == 57) {
 							counter2 = counter2
-									+ ((D2ItemProperty) allProps.get(y))
-											.getRealValueTwo();
+							+ ((D2ItemProperty) allProps.get(y))
+							.getRealValueTwo();
 						}
 						// System.out.println("PROPERTY TO COMBINE FOUND: VAL:"+ ((D2ItemProperty) allProps.get(x)).getiProp() + ", " + ((D2ItemProperty) allProps.get(x)).getRealValue() + ", " + ",ITEM: "+this.iItemName);
-						 tempProps.add(new Integer(y));
+						tempProps.add(new Integer(y));
 					}
 				}
 			}
@@ -2049,15 +2084,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 			if (counter != 0) {
 				((D2ItemProperty) allProps.get(x))
-						.setRealValue(((D2ItemProperty) allProps.get(x))
-								.getRealValue()
-								+ counter);
+				.setRealValue(((D2ItemProperty) allProps.get(x))
+						.getRealValue()
+						+ counter);
 			}
 			if (counter2 != 0) {
 				((D2ItemProperty) allProps.get(x))
-						.setRealValueTwo(((D2ItemProperty) allProps.get(x))
-								.getRealValueTwo()
-								+ counter2);
+				.setRealValueTwo(((D2ItemProperty) allProps.get(x))
+						.getRealValueTwo()
+						+ counter2);
 			}
 			counter = 0;
 			counter2 = 0;
@@ -2079,7 +2114,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private void combineResists() {
-		
+
 		ArrayList allProps = new ArrayList();
 		ArrayList maskProps = new ArrayList();
 		ArrayList tempProps = new ArrayList();
@@ -2191,19 +2226,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		if (maxResistanceKeys.size() == 0) {
 			smallestMaxRes = ((D2ItemProperty) tempMaxResProps.get(0))
-					.getRealValue();
+			.getRealValue();
 			for (int f = 1; f < tempMaxResProps.size(); f = f + 1) {
 				if (((D2ItemProperty) tempMaxResProps.get(f)).getRealValue() < smallestMaxRes) {
 					smallestMaxRes = ((D2ItemProperty) tempMaxResProps.get(f))
-							.getRealValue();
+					.getRealValue();
 				}
 			}
 
 			for (int f = 0; f < tempMaxResProps.size(); f = f + 1) {
 				((D2ItemProperty) tempMaxResProps.get(f))
-						.setRealValue(((D2ItemProperty) tempMaxResProps.get(f))
-								.getRealValue()
-								- smallestMaxRes);
+				.setRealValue(((D2ItemProperty) tempMaxResProps.get(f))
+						.getRealValue()
+						- smallestMaxRes);
 				if (((D2ItemProperty) tempMaxResProps.get(f)).getRealValue() == 0) {
 					maskProps.remove(allProps.indexOf(tempMaxResProps.get(f)));
 					allProps.remove(tempMaxResProps.get(f));
@@ -2216,15 +2251,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 			for (int f = 1; f < tempProps.size(); f = f + 1) {
 				if (((D2ItemProperty) tempProps.get(f)).getRealValue() < smallestRes) {
 					smallestRes = ((D2ItemProperty) tempProps.get(f))
-							.getRealValue();
+					.getRealValue();
 				}
 			}
 
 			for (int f = 0; f < tempProps.size(); f = f + 1) {
 				((D2ItemProperty) tempProps.get(f))
-						.setRealValue(((D2ItemProperty) tempProps.get(f))
-								.getRealValue()
-								- smallestRes);
+				.setRealValue(((D2ItemProperty) tempProps.get(f))
+						.getRealValue()
+						- smallestRes);
 				if (((D2ItemProperty) tempProps.get(f)).getRealValue() == 0) {
 					maskProps.remove(allProps.indexOf(tempProps.get(f)));
 					allProps.remove(tempProps.get(f));
@@ -2234,19 +2269,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		if (statKeys.size() == 0) {
 			smallestStat = ((D2ItemProperty) tempStatProps.get(0))
-					.getRealValue();
+			.getRealValue();
 			for (int f = 1; f < tempStatProps.size(); f = f + 1) {
 				if (((D2ItemProperty) tempStatProps.get(f)).getRealValue() < smallestStat) {
 					smallestStat = ((D2ItemProperty) tempStatProps.get(f))
-							.getRealValue();
+					.getRealValue();
 				}
 			}
 
 			for (int f = 0; f < tempStatProps.size(); f = f + 1) {
 				((D2ItemProperty) tempStatProps.get(f))
-						.setRealValue(((D2ItemProperty) tempStatProps.get(f))
-								.getRealValue()
-								- smallestStat);
+				.setRealValue(((D2ItemProperty) tempStatProps.get(f))
+						.getRealValue()
+						- smallestStat);
 				if (((D2ItemProperty) tempStatProps.get(f)).getRealValue() == 0) {
 					maskProps.remove(allProps.indexOf(tempStatProps.get(f)));
 					allProps.remove(tempStatProps.get(f));
@@ -2344,10 +2379,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private void modifyReqs(int value) {
+		System.out.println(iItemName);
 		if (getReqDex() != -1) {
-			iReqDex = iReqDex
-					+ ((int) Math.floor(iReqDex
-							* ((double) value / (double) 100)));
+			iReqDex = iReqDex + ((int)(iReqDex*((double) value / (double) 100)));
 			// iReqDex = (int)Math.floor((iReqDex
 			// +(((double)iReqDex/(double)100)*value)));
 
@@ -2357,8 +2391,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (getReqStr() != -1) {
 			// iReqStr = (int)(iReqStr +(((double)iReqStr/(double)100)*value));
 			iReqStr = iReqStr
-					+ ((int) Math.floor(iReqStr
-							* ((double) value / (double) 100)));
+			+ ((int) (iReqStr
+					* ((double) value / (double) 100)));
 			// System.out.println(iItemName + " HAS HAD STRENGTH CHANGED");
 		}
 	}
@@ -2608,11 +2642,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 					if (lText != null) {
 						if(((D2ItemProperty) pProperties.get(i)).getItemName().equals("Um Rune")){
 							if(this.iItemName.equals("Um Rune")){
-							//System.out.println(this.iItemName);
+								//System.out.println(this.iItemName);
 							}
 						}
-						
-						
+
+
 						lReturn.add(lText);
 					}
 				}
@@ -2650,29 +2684,29 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}else{
 				lReturn.add(personalization + "'s " + iItemName);
 			}
-			
+
 
 			if (!iBaseItemName.equals(iItemName)) {
 				lReturn.add(iBaseItemName);
 			}
 		} else {
 			if (disSepProp == 1) {
-				
+
 				if (personalization == null) {
 					lReturn.add("<font face=\"Dialog\" size=\"3\" color=\"#" + base
 							+ "\">" + "<font color=\"#" + rgb + "\">" + iItemName
 							+ "</font>");
 				}else{
-					
+
 					lReturn.add("<font face=\"Dialog\" size=\"3\" color=\"#" + base
 							+ "\">" + "<font color=\"#" + rgb + "\">" + personalization + "'s " + iItemName
 							+ "</font>");
-					
+
 				}
-				
+
 
 			} else {
-				
+
 				if (personalization == null) {
 					lReturn.add("<font color=\"#" + base + "\">"
 							+ "<font color=\"#" + rgb + "\">" + iItemName
@@ -2682,7 +2716,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 							+ "<font color=\"#" + rgb + "\">" + personalization + "'s " + iItemName
 							+ "</font>");
 				}
-				
+
 			}
 			if (!iBaseItemName.equals(iItemName)) {
 				if (!isRuneWord()) {
@@ -2702,35 +2736,35 @@ public class D2Item implements Comparable, D2ItemInterface {
 				if (iThrow) {
 					lReturn.add("Throw Damage: " + i2MinDmg + " - " + i2MaxDmg);
 					lReturn
-							.add("One Hand Damage: " + iMinDmg + " - "
-									+ iMaxDmg);
+					.add("One Hand Damage: " + iMinDmg + " - "
+							+ iMaxDmg);
 
 				} else {
 					lReturn
-							.add("One Hand Damage: " + iMinDmg + " - "
-									+ iMaxDmg);
+					.add("One Hand Damage: " + iMinDmg + " - "
+							+ iMaxDmg);
 					lReturn.add("Two Hand Damage: " + i2MinDmg + " - "
 							+ i2MaxDmg);
 				}
 			} else {
 				if (iWhichHand == 1) {
 					lReturn
-							.add("One Hand Damage: " + iMinDmg + " - "
-									+ iMaxDmg);
+					.add("One Hand Damage: " + iMinDmg + " - "
+							+ iMaxDmg);
 				} else {
 					lReturn
-							.add("Two Hand Damage: " + iMinDmg + " - "
-									+ iMaxDmg);
+					.add("Two Hand Damage: " + iMinDmg + " - "
+							+ iMaxDmg);
 				}
 			}
 		} else if (isTypeArmor()) {
 			lReturn.add("Defense: " + iDef);
 		}
-		
+
 		if(isTypeArmor()){
-		if(iType.equals("ashd")||iType.equals("shie")||iType.equals("head")){
-			lReturn.add("Chance to Block: " + iBlock);
-		}
+			if(iType.equals("ashd")||iType.equals("shie")||iType.equals("head")){
+				lReturn.add("Chance to Block: " + iBlock);
+			}
 		}
 
 		if (isTypeWeapon() || isTypeArmor()) {
@@ -3185,8 +3219,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 					break;
 				}
 
-//				 System.out.println(pRow.get("prop" + counter) + " -- " +
-//				 pRow.get("min" + counter) + "-" + pRow.get("max" + counter));
+//				System.out.println(pRow.get("prop" + counter) + " -- " +
+//				pRow.get("min" + counter) + "-" + pRow.get("max" + counter));
 
 				/*
 				 * int lProp = Integer.parseInt((D2TxtFile.ITEM_STAT_COST
@@ -3201,11 +3235,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 								"Stat",
 								(D2TxtFile.PROPS.searchColumns("code", pRow
 										.get(prop + counter)).get("stat1")))
-						.get("ID"));
+										.get("ID"));
 				if (pRow.get(prop + counter).equals("res-all")) {
 					lProp = 1337;
 				}
-				
+
 
 
 				if (lProp == 54 || lProp == 55 || lProp == 56) {
@@ -3218,7 +3252,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					if(pRow.get("prop" + counter).equals("dmg-cold")){
 						counter = counter + 1;
 					}else{
-					counter = counter + 3;
+						counter = counter + 3;
 					}
 					continue;
 				}
@@ -3233,7 +3267,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					if(pRow.get("prop" + counter).equals("dmg-fire")){
 						counter = counter + 1;
 					}else{
-					counter = counter + 2;
+						counter = counter + 2;
 					}
 					continue;
 				}
@@ -3248,7 +3282,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					if(pRow.get("prop" + counter).equals("dmg-ltng")){
 						counter = counter + 1;
 					}else{
-					counter = counter + 2;
+						counter = counter + 2;
 					}
 					continue;
 				}
@@ -3263,7 +3297,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					if(pRow.get("prop" + counter).equals("dmg-mag")){
 						counter = counter + 1;
 					}else{
-					counter = counter + 2;
+						counter = counter + 2;
 					}
 					continue;
 				}
@@ -3278,7 +3312,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					if(pRow.get("prop" + counter).equals("dmg-pois")){
 						counter = counter + 1;
 					}else{
-					counter = counter + 3;
+						counter = counter + 3;
 					}
 					continue;
 				}
@@ -3288,7 +3322,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 						iCharLvl, iItemName);
 
 				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
-						.getRow(lProperty.getPropNrs()[0]);
+				.getRow(lProperty.getPropNrs()[0]);
 
 				String pMin = pRow.get("min" + counter);
 				String pMax = pRow.get("max" + counter);
@@ -3299,42 +3333,42 @@ public class D2Item implements Comparable, D2ItemInterface {
 					pMax = pRow.get("T1Max" + counter);
 					pParam = pRow.get("T1Param" + counter);
 				}
-				
-				
+
+
 				if (pRow.get(prop + counter).equals("dmg-norm")) {
-					
-					 lProperty = new D2ItemProperty(21,
+
+					lProperty = new D2ItemProperty(21,
 							iCharLvl, iItemName);
 
-					 lItemStatCost = D2TxtFile.ITEM_STAT_COST
-							.getRow(lProperty.getPropNrs()[0]);
-					
-						lProperty.set(lPropTemp, lItemStatCost, 0, Long
-								.parseLong(pMin));
-						
-						outProp[0] = lProperty;
-						outProp[1] = lProperty;
-						outArrL.add(outProp);
-						
-						outProp = new D2ItemProperty[2];
-						
-						 lProperty = new D2ItemProperty(22,
-									iCharLvl, iItemName);
+					lItemStatCost = D2TxtFile.ITEM_STAT_COST
+					.getRow(lProperty.getPropNrs()[0]);
 
-							 lItemStatCost = D2TxtFile.ITEM_STAT_COST
-									.getRow(lProperty.getPropNrs()[0]);
-							
-								lProperty.set(lPropTemp, lItemStatCost, 0, Long
-										.parseLong(pMax));
-								
-								outProp[0] = lProperty;
-								outProp[1] = lProperty;
-								outArrL.add(outProp);
-								counter ++;
-								continue;
-					 
-					
-					
+					lProperty.set(lPropTemp, lItemStatCost, 0, Long
+							.parseLong(pMin));
+
+					outProp[0] = lProperty;
+					outProp[1] = lProperty;
+					outArrL.add(outProp);
+
+					outProp = new D2ItemProperty[2];
+
+					lProperty = new D2ItemProperty(22,
+							iCharLvl, iItemName);
+
+					lItemStatCost = D2TxtFile.ITEM_STAT_COST
+					.getRow(lProperty.getPropNrs()[0]);
+
+					lProperty.set(lPropTemp, lItemStatCost, 0, Long
+							.parseLong(pMax));
+
+					outProp[0] = lProperty;
+					outProp[1] = lProperty;
+					outArrL.add(outProp);
+					counter ++;
+					continue;
+
+
+
 				}
 
 				if (lPropTemp == 201 || lPropTemp == 197 || lPropTemp == 199
@@ -3348,7 +3382,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 					if (!pParam.equals("")) {
 						// if(lPropTemp==198){
-						
+
 						try {
 							lProperty.set(lPropTemp, lItemStatCost, 0, Long
 									.parseLong(D2TxtFile.SKILLS.searchColumns(
@@ -3383,8 +3417,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 								lProperty.set(lPropTemp, lItemStatCost, 0, Long
 										.parseLong(pParam));
 							}
-							
-							
+
+
 						} else {
 							lProperty.set(lPropTemp, lItemStatCost, 0, Long
 									.parseLong(pMin));
@@ -3404,17 +3438,17 @@ public class D2Item implements Comparable, D2ItemInterface {
 					}
 
 					if (!pParam.equals("")) {
-						
+
 						if (lPropTemp == 204 ||lPropTemp == 97) {
 							lProperty.set(lPropTemp, lItemStatCost, 0, Long
 									.parseLong(D2TxtFile.SKILLS.searchColumns(
 											"skill", pParam).get("Id")));
-							
+
 //							System.out.println(pParam);
 //							System.out.println(Long
-//									.parseLong(D2TxtFile.SKILLS.searchColumns(
-//											"skill", pParam).get("Id")));
-							
+//							.parseLong(D2TxtFile.SKILLS.searchColumns(
+//							"skill", pParam).get("Id")));
+
 						} else if (lPropTemp == 107) {
 							lProperty.set(lPropTemp, lItemStatCost, 0, Long
 									.parseLong(pMin));
@@ -3557,10 +3591,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 			} else if (x == 2) {
 				if (iThrow) {
 					outStr = outStr + "Throw Damage: " + tempProp.get(x)
-							+ " - ";
+					+ " - ";
 				} else {
 					outStr = outStr + "Two Hand Damage: " + tempProp.get(x)
-							+ " - ";
+					+ " - ";
 				}
 			} else if (x == 3) {
 				outStr = outStr + tempProp.get(x) + "\n";
@@ -3582,10 +3616,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 			} else if (x == 2) {
 				if (iThrow) {
 					outStr = outStr + "Throw Damage: " + tempProp.get(x)
-							+ " - ";
+					+ " - ";
 				} else {
 					outStr = outStr + "Two Hand Damage: " + tempProp.get(x)
-							+ " - ";
+					+ " - ";
 				}
 			} else if (x == 3) {
 				outStr = outStr + tempProp.get(x) + "\n";
@@ -3601,14 +3635,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (isUnique() || isSet()) {
 			return sortStats(getPerfectStringUS());
 		}else if(isRuneWord()){
-			
+
 			ArrayList perfArr = getPerfectStringUS();
 			for(int x = 0;x<iGemProps.size();x=x+1){
 				//D2ItemProperty[] tempP = {(D2ItemProperty)iGemProps.get(x),(D2ItemProperty)iGemProps.get(x)};
 				//perfArr.add(tempP);
 			}
-			
-			
+
+
 			return sortStats(perfArr);
 		}
 
@@ -3621,7 +3655,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		ArrayList outSorted = new ArrayList();
 		for (int x = 0; x < perfectStringUS.size(); x = x + 1) {
 			sortArr[x] = (((D2ItemProperty[]) perfectStringUS.get(x))[0])
-					.getiProp();
+			.getiProp();
 
 		}
 
@@ -3659,27 +3693,27 @@ public class D2Item implements Comparable, D2ItemInterface {
 		for (int x = 0; x < iProperties.size(); x = x + 1) {
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 17) {
 				ENDam = ENDam
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 21) {
 				MinDam = MinDam
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 22) {
 				MaxDam = MaxDam
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 219) {
 				ENMaxDam = ENMaxDam
-						+ (int) Math.floor((((D2ItemProperty) iProperties
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
+				+ (int) Math.floor((((D2ItemProperty) iProperties
+						.get(x)).getRealValue() * 0.125)
+						* iCharLvl);
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 218) {
 				MaxDam = MaxDam
-						+ (int) Math.floor((((D2ItemProperty) iProperties
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
+				+ (int) Math.floor((((D2ItemProperty) iProperties
+						.get(x)).getRealValue() * 0.125)
+						* iCharLvl);
 			}
 		}
 
@@ -3687,20 +3721,20 @@ public class D2Item implements Comparable, D2ItemInterface {
 				.floor((((double) iinitMinDmg / (double) 100) * ENDam)
 						+ (iinitMinDmg + MinDam))));
 		out
-				.add(String
-						.valueOf((long) Math
-								.floor((((double) iinitMaxDmg / (double) 100) * (ENDam + ENMaxDam))
-										+ (iinitMaxDmg + MaxDam))));
+		.add(String
+				.valueOf((long) Math
+						.floor((((double) iinitMaxDmg / (double) 100) * (ENDam + ENMaxDam))
+								+ (iinitMaxDmg + MaxDam))));
 
 		if (iWhichHand == 0) {
 			out.add(String.valueOf((long) Math
 					.floor((((double) iinit2MinDmg / (double) 100) * ENDam)
 							+ (iinit2MinDmg + MinDam))));
 			out
-					.add(String
-							.valueOf((long) Math
-									.floor((((double) iinit2MaxDmg / (double) 100) * (ENDam + ENMaxDam))
-											+ (iinit2MaxDmg + MaxDam))));
+			.add(String
+					.valueOf((long) Math
+							.floor((((double) iinit2MaxDmg / (double) 100) * (ENDam + ENMaxDam))
+									+ (iinit2MaxDmg + MaxDam))));
 		}
 
 		return out;
@@ -3717,19 +3751,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 			for (int x = 0; x < iSetProps.size(); x = x + 1) {
 				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
 					ENDef = ENDef
-							+ ((D2ItemProperty) iSetProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iSetProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
 					Def = Def
-							+ ((D2ItemProperty) iSetProps.get(x))
-									.getRealValue();
+					+ ((D2ItemProperty) iSetProps.get(x))
+					.getRealValue();
 				}
 				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
 					Def = Def
-							+ (int) Math.floor((((D2ItemProperty) iSetProps
-									.get(x)).getRealValue() * 0.125)
-									* iCharLvl);
+					+ (int) Math.floor((((D2ItemProperty) iSetProps
+							.get(x)).getRealValue() * 0.125)
+							* iCharLvl);
 				}
 			}
 
@@ -3738,17 +3772,17 @@ public class D2Item implements Comparable, D2ItemInterface {
 		for (int x = 0; x < iProperties.size(); x = x + 1) {
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 16) {
 				ENDef = ENDef
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 31) {
 				Def = Def
-						+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
 			}
 			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
 				Def = Def
-						+ (int) Math.floor((((D2ItemProperty) iProperties
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
+				+ (int) Math.floor((((D2ItemProperty) iProperties
+						.get(x)).getRealValue() * 0.125)
+						* iCharLvl);
 			}
 		}
 		return (int) Math.floor((((double) iInitDef / (double) 100) * ENDef)
@@ -3764,8 +3798,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if (rare_prefixes[x] > 1) {
 
 				retStr = retStr
-						+ D2TblFile.getString(D2TxtFile.PREFIX.getRow(
-								rare_prefixes[x]).get("Name")) + " ";
+				+ D2TblFile.getString(D2TxtFile.PREFIX.getRow(
+						rare_prefixes[x]).get("Name")) + " ";
 			}
 		}
 
@@ -3776,8 +3810,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if (rare_suffixes[x] > 1) {
 
 				retStr = retStr
-						+ D2TblFile.getString(D2TxtFile.SUFFIX.getRow(
-								rare_suffixes[x]).get("Name")) + " ";
+				+ D2TblFile.getString(D2TxtFile.SUFFIX.getRow(
+						rare_suffixes[x]).get("Name")) + " ";
 			}
 		}
 
@@ -3785,45 +3819,45 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	public boolean conforms(String prop, int pVal, boolean min) {
-		
+
 //		System.out.println();
 		ArrayList dumpStr = getFullItemDump(1, 0);
-		
+
 		for(int x = 0;x<dumpStr.size();x=x+1){
 			if(((String)dumpStr.get(x)).toLowerCase().contains(prop.toLowerCase())){
 //				System.out.println(dumpStr.get(x));
-				
+
 				if(pVal == -1337){
 					return true;
 				}
-				
+
 				Pattern pat = Pattern.compile("\\d+");
 				Matcher mat = pat.matcher((String)dumpStr.get(x));
-				
-				while(mat.find()){
-					
 
-					
+				while(mat.find()){
+
+
+
 					if(min == true){
 						System.out.println(mat.group());
-					if(Integer.parseInt(mat.group()) >= pVal){
-						
-						return true;
-					}
+						if(Integer.parseInt(mat.group()) >= pVal){
+
+							return true;
+						}
 					}else{
 						if(Integer.parseInt(mat.group()) <= pVal){
-							
+
 							return true;
 						}
 					}
 				}
-				
+
 			}
 		}
-		
-		
+
+
 //		for(int x = 0;x<)
-		
+
 		return false;
 	}
 
