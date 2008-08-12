@@ -22,20 +22,10 @@
 package gomule;
 
 import gomule.gui.*;
-import gomule.item.*;
-
 import java.awt.*;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
 
 import javax.swing.*;
-
-import com.sun.java.swing.plaf.windows.*;
-import com.sun.jndi.ldap.*;
-import com.sun.media.sound.*;
 
 public class GoMule
 {

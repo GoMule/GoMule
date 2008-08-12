@@ -73,13 +73,13 @@ public class D2Backup
 	        String lBackupDir = lPathName + File.separator + "GoMule.backup";
 	        String lBackupSubDir = lBackupDir + File.separator + lExtra1;
 	        
-	        String lNewFileName = lFileName.substring(0,lFileName.length()-4) + "." + lExtra2 + lFileName.substring( lFileName.length()-4 );
+	        String lNewFileName = lFileName.substring(0,lFileName.length()-4) + "." + lExtra2 + lFileName.substring( lFileName.length()-4 ) + ".org";
 	
 	        String lBackupName = lBackupSubDir + File.separator + lNewFileName;
 	        
 	        RandallUtil.checkDir(lBackupSubDir);
 	        
-	      //  pContent.save(lBackupName);
+	        pContent.save(lBackupName);
         }
         catch ( Exception pEx )
         {

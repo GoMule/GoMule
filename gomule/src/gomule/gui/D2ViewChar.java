@@ -109,9 +109,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private JButton					 iGoldTransferBtns[];
 	private JTabbedPane lTabs = new JTabbedPane();
 //	private JLabel iMercName = new JLabel("");
-//private JLabel iMercRace = new JLabel("");
-//private JLabel iMercType = new JLabel("");
-//private JLabel iMercExp = new JLabel("");
+//	private JLabel iMercRace = new JLabel("");
+//	private JLabel iMercType = new JLabel("");
+//	private JLabel iMercExp = new JLabel("");
 //	private JLabel iMercLevel = new JLabel("");
 //	private JLabel iMercDead = new JLabel(""); 
 //	private JLabel iMercStr = new JLabel("");
@@ -149,9 +149,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private D2WayPainterPanel lWayPanel;
 	private D2DeathPainterPanel iDeathPainter;
 	private JTextArea lDump;
-	
-	
-	
+
+
+
 	private JPanel lDumpPanel;
 	private JPopupMenu rightClickItem;
 	private MouseEvent rightClickEvent;
@@ -174,11 +174,11 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		ToolTipManager.sharedInstance().setDismissDelay(40000);
 		ToolTipManager.sharedInstance().setInitialDelay(300);
 //		ToolTip
-		
+
 		iFileManager = pMainFrame;
 		iFileName = pFileName;
 
-		
+
 
 		JPanel lCharPanel = new JPanel();
 		lCharPanel.setLayout(new BorderLayout());
@@ -218,7 +218,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 //		CJT.setFont( new Font( "Courier", Font.TRUETYPE_FONT, 11 ));
 //		System.out.println(f.getName());
 		f = f.deriveFont((float)11);
@@ -236,7 +236,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 
 		JPanel lQuestWPanel = new JPanel();
-		
+
 		lQuestWPanel.setLayout(new BorderLayout());
 		lQuestPanel = new D2QuestPainterPanel();
 		lWayPanel = new D2WayPainterPanel();
@@ -306,9 +306,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		lCursorPanel.add(iDeathPainter, BorderLayout.WEST);
 		Box B1 = Box.createHorizontalBox();
 		Box B2 = Box.createHorizontalBox();
-		
+
 		Box V1 = Box.createVerticalBox();
-		
+
 		B2.add(new JLabel("Cursor:"));
 		B2.add(Box.createRigidArea(new Dimension(40,0)));
 		V1.add(B2);
@@ -316,10 +316,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		B1.add(iCharCursorPainter);
 		B1.add(Box.createRigidArea(new Dimension(40, 0)));
 		lCursorPanel.add(V1, BorderLayout.EAST);
-		
+
 //		lCursorPanel.add(Box.createRigidArea(new Dimension(10, 0)), BorderLayout.EAST);
-		
-		
+
+
 		lTabs.addTab("Corpse", lCursorPanel);
 		iCharCursorPainter.build();
 
@@ -391,7 +391,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		lMercPanel.add(mercMainBox, BorderLayout.LINE_START);
 		lMercPanel.add(mercMainBox2, BorderLayout.LINE_END);
 		lTabs.addTab("Mercenary", lMercPanel);
-		
+
 
 
 
@@ -523,13 +523,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		lBankPanel.finishDefaultPanel();
 		lTabs.addTab("Bank", lBankPanel);
 
-		
+
 		lDumpPanel = new JPanel();
 		lDump = new JTextArea();
-		
-		
 
-		
+
+
+
 		JScrollPane dumpScroll = new JScrollPane(lDump);
 		dumpScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		dumpScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -538,7 +538,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 //		HTMLEditorKit htmlEditor = new HTMLEditorKit();
 //		lDump.setEditorKit(htmlEditor);
 		//lDump.setPreferredSize(new Dimension(520,360));
-	
+
 		dumpScroll.setPreferredSize(new Dimension(520,360));
 		lDump.setAutoscrolls(false);
 		lDump.setVisible(true);
@@ -547,7 +547,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		lTabs.addTab("Dump", lDumpPanel);
 
 		lTabs.addMouseListener(new MyMouse());
-		
+
 		iMessage = new JTextArea();
 		JScrollPane lScroll = new JScrollPane(iMessage);
 		RandallPanel lMessagePanel = new RandallPanel();
@@ -583,14 +583,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		rightClickItem.add(item3 = new JMenuItem("Extended Item Info"));
 		rightClickItem.add(new JPopupMenu.Separator());
 		rightClickItem.add("Cancel");
-		
+
 		item.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent event) {      
-	          	        	
-	          if(event.getActionCommand().equals("Delete?")){
-	        	  
-	        	  
-	        	  
+			public void actionPerformed(ActionEvent event) {      
+
+				if(event.getActionCommand().equals("Delete?")){
+
+
+
 					D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
 					if (lItemPanel.getPanel() != -1)
 					{
@@ -598,29 +598,29 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						if (lItemPanel.isItem())
 						{
 							D2Item lTemp = lItemPanel.getItem();
-							
+
 							int check = JOptionPane.showConfirmDialog(null, "Delete " + lTemp.getName() + "?");
 							if(check == 0){
-							iCharacter.unmarkCharGrid(lTemp);
-							iCharacter.removeCharItem(lItemPanel.getItemIndex());
-							setCursorDropItem();
-							if(lTemp.statModding()){
-								iCharacter.updateCharStats("P", lTemp);
-								paintCharStats();
-							}
+								iCharacter.unmarkCharGrid(lTemp);
+								iCharacter.removeCharItem(lItemPanel.getItemIndex());
+								setCursorDropItem();
+								if(lTemp.statModding()){
+									iCharacter.updateCharStats("P", lTemp);
+									paintCharStats();
+								}
 							}
 						}
 					}
-	          }
-	          
-	        }
-	      });
-		
+				}
+
+			}
+		});
+
 		item2.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent event) {      
-	          	        	
-	          if(event.getActionCommand().equals("View Item")){
-	        	  D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
+			public void actionPerformed(ActionEvent event) {      
+
+				if(event.getActionCommand().equals("View Item")){
+					D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
 					if (lItemPanel.getPanel() != -1)
 					{
 						// if there is an item to grab, grab it
@@ -637,25 +637,25 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							report.setText(lTemp.toString(1));
 							report.setCaretPosition(0);
 							itemPanel.add( SP);
-							
+
 							itemPanel.setLocation((rightClickEvent.getComponent().getLocationOnScreen().x + rightClickEvent.getX()), (rightClickEvent.getComponent().getLocationOnScreen().y + rightClickEvent.getY()));
 							itemPanel.setSize(200,400);
 							itemPanel.setVisible(true);
 							itemPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 						}
 					}
-	        	  
-	        	  
-	          }
-	          
-	        }
-	      });
-		
+
+
+				}
+
+			}
+		});
+
 		item3.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent event) {      
-	          	        	
-	          if(event.getActionCommand().equals("Extended Item Info")){
-	        	  D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
+			public void actionPerformed(ActionEvent event) {      
+
+				if(event.getActionCommand().equals("Extended Item Info")){
+					D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
 					if (lItemPanel.getPanel() != -1)
 					{
 						// if there is an item to grab, grab it
@@ -663,9 +663,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						{
 							D2Item lTemp = lItemPanel.getItem();
 							Box v1 = Box.createVerticalBox();
-							
+
 							Box h1 = Box.createHorizontalBox();
-							
+
 							JTextPane report = new JTextPane();
 							JScrollPane SP = new JScrollPane(report);
 							float[] bGrey = new float[3];
@@ -674,95 +674,95 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							report.setForeground(Color.black);
 							report.setText(lTemp.toString(1));
 							report.setCaretPosition(0);
-							
+
 							try{
-							if(lTemp.isUnique() || lTemp.isSet() || lTemp.isRuneWord()){
-							ArrayList perfect = lTemp.getPerfectString();
-							JTextPane reportBest = new JTextPane();
-							JScrollPane SPBest = new JScrollPane(reportBest);
-							reportBest.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-							reportBest.setForeground(Color.black);
-							String bestStr = "BEST:\n\n";
-							String[] perfDef = null;
-							if(lTemp.isTypeArmor()){
-								perfDef = lTemp.getPerfectDef(perfect);
-								bestStr = bestStr  + "Defense: " + perfDef[0] + "\n";
-								}else if(lTemp.isTypeWeapon()){
-									bestStr = bestStr  + lTemp.getPerfectDmg(perfect)[1];
+								if(lTemp.isUnique() || lTemp.isSet() || lTemp.isRuneWord()){
+									ArrayList perfect = lTemp.getPerfectString();
+									JTextPane reportBest = new JTextPane();
+									JScrollPane SPBest = new JScrollPane(reportBest);
+									reportBest.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
+									reportBest.setForeground(Color.black);
+									String bestStr = "BEST:\n\n";
+									String[] perfDef = null;
+									if(lTemp.isTypeArmor()){
+										perfDef = lTemp.getPerfectDef(perfect);
+										bestStr = bestStr  + "Defense: " + perfDef[0] + "\n";
+									}else if(lTemp.isTypeWeapon()){
+										bestStr = bestStr  + lTemp.getPerfectDmg(perfect)[1];
+									}
+
+									for(int x = 0;x<perfect.size();x=x+1){
+										bestStr = bestStr + (((D2ItemProperty[])perfect.get(x))[1].getValue()) + "\n";
+									}
+
+									reportBest.setText(bestStr);
+									reportBest.setCaretPosition(0);
+
+									JTextPane reportWorst = new JTextPane();
+									JScrollPane SPWorst = new JScrollPane(reportWorst);
+									reportWorst.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
+									reportWorst.setForeground(Color.black);
+									String WorstStr = "WORST:\n\n";
+
+									if(lTemp.isTypeArmor()){
+										WorstStr = WorstStr + "Defense: " + perfDef[1] + "\n";
+									}else if(lTemp.isTypeWeapon()){
+										WorstStr = WorstStr  + lTemp.getPerfectDmg(perfect)[0];
+									}
+
+									for(int x = 0;x<perfect.size();x=x+1){
+										WorstStr = WorstStr + (((D2ItemProperty[])perfect.get(x))[0].getValue()) + "\n";
+									}
+									reportWorst.setText(WorstStr);
+									reportWorst.setCaretPosition(0);
+
+
+									h1.add(SPWorst);
+									h1.add( SP);
+									h1.add(SPBest);
+
 								}
-							
-							for(int x = 0;x<perfect.size();x=x+1){
-							bestStr = bestStr + (((D2ItemProperty[])perfect.get(x))[1].getValue()) + "\n";
-							}
+								if(lTemp.isRare()){
 
-							reportBest.setText(bestStr);
-							reportBest.setCaretPosition(0);
-							
-							JTextPane reportWorst = new JTextPane();
-							JScrollPane SPWorst = new JScrollPane(reportWorst);
-							reportWorst.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-							reportWorst.setForeground(Color.black);
-							String WorstStr = "WORST:\n\n";
-							
-							if(lTemp.isTypeArmor()){
-								WorstStr = WorstStr + "Defense: " + perfDef[1] + "\n";
-							}else if(lTemp.isTypeWeapon()){
-								WorstStr = WorstStr  + lTemp.getPerfectDmg(perfect)[0];
-							}
-							
-							for(int x = 0;x<perfect.size();x=x+1){
-								WorstStr = WorstStr + (((D2ItemProperty[])perfect.get(x))[0].getValue()) + "\n";
-							}
-							reportWorst.setText(WorstStr);
-							reportWorst.setCaretPosition(0);
-							
+									String rareRealName = lTemp.getPreSuf();
+									JTextPane rareName = new JTextPane();
+									JScrollPane scP = new JScrollPane(rareName);
+									rareName.setText("Your rare is a: " + rareRealName);
+									rareName.setCaretPosition(0);
+									rareName.setEditable(false);
+									rareName.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
+									v1.add(scP);
+									h1.add( SP);
+								}
+								JFrame basePanel = new JFrame();
 
-							h1.add(SPWorst);
-							h1.add( SP);
-							h1.add(SPBest);
-							
-							}
-							if(lTemp.isRare()){
-							
-							String rareRealName = lTemp.getPreSuf();
-							JTextPane rareName = new JTextPane();
-							JScrollPane scP = new JScrollPane(rareName);
-							rareName.setText("Your rare is a: " + rareRealName);
-							rareName.setCaretPosition(0);
-							rareName.setEditable(false);
-							rareName.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-							v1.add(scP);
-							h1.add( SP);
-							}
-							JFrame basePanel = new JFrame();
-							
-							basePanel.setLocation((rightClickEvent.getComponent().getLocationOnScreen().x + rightClickEvent.getX()), (rightClickEvent.getComponent().getLocationOnScreen().y + rightClickEvent.getY()));
-							basePanel.setSize(800,300);
-							basePanel.setVisible(true);
-							basePanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-							
+								basePanel.setLocation((rightClickEvent.getComponent().getLocationOnScreen().x + rightClickEvent.getX()), (rightClickEvent.getComponent().getLocationOnScreen().y + rightClickEvent.getY()));
+								basePanel.setSize(800,300);
+								basePanel.setVisible(true);
+								basePanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-										
-							v1.add(h1);
-							
 
-							
-							basePanel.getContentPane().add(v1);
+
+								v1.add(h1);
+
+
+
+								basePanel.getContentPane().add(v1);
 							}
 							catch(Exception e){
 								e.printStackTrace();
 								System.err.println("Perfect strings suck.");
 							}
-							
+
 						}
 					}
-	        	  
-	        	  
-	          }
-	          
-	        }
-	      });
-		
+
+
+				}
+
+			}
+		});
+
 		pack();
 		setVisible(true);
 
@@ -871,7 +871,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 //		iCharFRW.setText(Integer.toString(iCharacter.getCharFRW()));
 
 		lSkillPanel.build();
-		
+
 	}
 
 	public void connect()
@@ -1146,17 +1146,17 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	}
 
 	class MyMouse extends MouseAdapter{
-		
-			public void mouseClicked(MouseEvent e){
-				
-				if(lTabs.getSelectedIndex() == 6){
-					dumpChar();
-				}
-				
+
+		public void mouseClicked(MouseEvent e){
+
+			if(lTabs.getSelectedIndex() == 6){
+				dumpChar();
 			}
-		
+
+		}
+
 	}
-	
+
 	class D2ItemPanel
 	{
 		private boolean iIsChar;
@@ -1292,11 +1292,11 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					return D2Character.BODY_LARM2;
 				}
 			}
-			
+
 			if((!iIsChar && !iIsCorpse) && x>= 258 && x<=314 && y>=223 && y<= 335){
 				return 1337;
 			}
-			
+
 			// merc & char
 			if (x >= R_ARM_X && x < R_ARM_X + 2 * GRID_SIZE + 2 * GRID_SPACER && y >= R_ARM_Y && y < R_ARM_Y + 4 * GRID_SIZE + 4 * GRID_SPACER)
 			{
@@ -1351,13 +1351,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 				switch (iPanel)
 				{
 				case 1: // inventory
-				iRow = (x - INV_X) / (GRID_SIZE + GRID_SPACER);
-				iCol = (y - INV_Y) / (GRID_SIZE + GRID_SPACER);
-				//                    if (iChar.check_panel(panel, row, col))
-				//                    {
-				//                        temp_item = iChar.get_item_index(panel, row, col);
-				//                    }
-				break;
+					iRow = (x - INV_X) / (GRID_SIZE + GRID_SPACER);
+					iCol = (y - INV_Y) / (GRID_SIZE + GRID_SPACER);
+					//                    if (iChar.check_panel(panel, row, col))
+					//                    {
+					//                        temp_item = iChar.get_item_index(panel, row, col);
+					//                    }
+					break;
 				case 2: // belted
 					iRow = (x - BELT_GRID_X) / (GRID_SIZE + GRID_SPACER);
 					iCol = 3 - ((y - BELT_GRID_Y) / (GRID_SIZE + GRID_SPACER));
@@ -1399,7 +1399,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		}
 
 	}
-	
+
 	class D2CharPainterPanel extends JPanel
 	{
 		private Image iBackground;
@@ -1409,10 +1409,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			setSize(BG_WIDTH, BG_HEIGHT);
 			Dimension lSize = new Dimension(BG_WIDTH, BG_HEIGHT);
 			setPreferredSize(lSize);
-			
+
 			addMouseListener(new MouseAdapter()
 			{
-				
+
 
 				public void mouseReleased(MouseEvent pEvent)
 				{
@@ -1421,7 +1421,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						return;
 					}
 					//                    System.err.println("Mouse Clicked: " + pEvent.getX() + ",
-							// " + pEvent.getY() );
+					// " + pEvent.getY() );
 					if (pEvent.getButton() == MouseEvent.BUTTON1 /*
 					 * &&
 					 * pEvent.getClickCount() ==
@@ -1446,6 +1446,28 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							if (lItemPanel.isItem())
 							{
 								D2Item lTemp = lItemPanel.getItem();
+
+								
+								/**Code to remove potions when belt is removed!
+								 * Thanks to Krikke.
+								 */
+								//System.out.println("isEquipped: " + lTemp.isEquipped() + " isABelt: " + lTemp.isABelt()); 
+								if (lTemp.isEquipped() && lTemp.isABelt())
+								{
+									for (int y=0;y<iCharacter.getBeltPotions().size();y++){
+										D2ViewClipboard.addItem((D2Item)iCharacter.getBeltPotions().get(y));
+										iCharacter.unmarkCharGrid((D2Item)iCharacter.getBeltPotions().get(y));
+									}
+									for (int i=0;i<4;i++) {
+										for (int j=1;j<4;j++) {
+											if (iCharacter.getCharItemIndex(2, i, j) != -1) {
+												iCharacter.removeCharItem(iCharacter.getCharItemIndex(2, i, j));
+											}
+										}
+									}
+								}
+
+
 								iCharacter.unmarkCharGrid(lTemp);
 								iCharacter.removeCharItem(lItemPanel.getItemIndex());
 								D2ViewClipboard.addItem(lTemp);
@@ -1456,8 +1478,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 								}
 
 //								// redraw
-//build();
-//repaint();
+//								build();
+//								repaint();
 							}
 							else if (D2ViewClipboard.getItem() != null)
 							{
@@ -1561,9 +1583,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						{
 							if (lItemPanel.isItem())
 							{
-								
-						  rightClickItem.show(D2ViewChar.this, pEvent.getX(), pEvent.getY()+35);
-						  rightClickEvent = pEvent;
+
+								rightClickItem.show(D2ViewChar.this, pEvent.getX(), pEvent.getY()+35);
+								rightClickEvent = pEvent;
 							}
 						}
 					}
@@ -1758,7 +1780,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						// in the inventory
 						case 1:
 							//                    	System.err.println("Item loc 0 - 1 - " +
-									// temp_item.get_name() + " - " + temp_item.get_image()
+							// temp_item.get_name() + " - " + temp_item.get_image()
 							// );
 							lGraphics.drawImage(lImage, INV_X + x * GRID_SIZE + x * GRID_SPACER, INV_Y + y * GRID_SIZE + y * GRID_SPACER, D2CharPainterPanel.this);
 							break;
@@ -1802,10 +1824,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							break;
 						case 3:
 							// body (assume 2x3
-									lGraphics.drawImage(lImage, BODY_X, BODY_Y, D2CharPainterPanel.this);
-									break;
-									// right arm (give the whole 2x4)
-									// biases are to center non-2x4 items
+							lGraphics.drawImage(lImage, BODY_X, BODY_Y, D2CharPainterPanel.this);
+							break;
+							// right arm (give the whole 2x4)
+							// biases are to center non-2x4 items
 						case 4:
 						case 11:
 							if ((iWeaponSlot == 1 && body_position == 4) || (iWeaponSlot == 2 && body_position == 11))
@@ -1896,7 +1918,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						return;
 					}
 					//                  System.err.println("Mouse Clicked: " + pEvent.getX() + ",
-							// " + pEvent.getY() );
+					// " + pEvent.getY() );
 					if (pEvent.getButton() == MouseEvent.BUTTON1 /*
 					 * &&
 					 * pEvent.getClickCount() ==
@@ -1913,8 +1935,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							// if there is an item to grab, grab it
 							if (lItemPanel.isItem())
 							{
-								
-								
+
+
 
 
 								D2Item lTemp = lItemPanel.getItem();
@@ -2006,7 +2028,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					D2Item lCurrentMouse = null;
 
 					D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, false, false, false);
-					
+
 					if(lItemPanel.getPanel() == 1337){
 						if(iCharacter.getGolemItem() == null){
 							return;
@@ -2014,7 +2036,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						D2MercPainterPanel.this.setToolTipText(iCharacter.getGolemItem().toStringHtml(0, 0));
 						return;
 					}
-					
+
 					if (lItemPanel.getPanel() != -1)
 					{
 						if (lItemPanel.isItem())
@@ -2076,9 +2098,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 			Image lEmptyBackground;
 			if(iCharacter != null && iCharacter.getCharClass().equals("Necromancer")){
-			lEmptyBackground = D2ImageCache.getImage("merc.jpg");
+				lEmptyBackground = D2ImageCache.getImage("merc.jpg");
 			}else{
-			lEmptyBackground = D2ImageCache.getImage("merc2.jpg");
+				lEmptyBackground = D2ImageCache.getImage("merc2.jpg");
 			}
 			int lWidth = lEmptyBackground.getWidth(D2MercPainterPanel.this);
 			int lHeight = lEmptyBackground.getHeight(D2MercPainterPanel.this);
@@ -2109,10 +2131,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							break;
 						case 3:
 							// body (assume 2x3
-									lGraphics.drawImage(lImage, BODY_X, BODY_Y, D2MercPainterPanel.this);
-									break;
-									// right arm (give the whole 2x4)
-									// biases are to center non-2x4 items
+							lGraphics.drawImage(lImage, BODY_X, BODY_Y, D2MercPainterPanel.this);
+							break;
+							// right arm (give the whole 2x4)
+							// biases are to center non-2x4 items
 						case 4:
 							if ((iWeaponSlot == 1 && body_position == 4) || (iWeaponSlot == 2 && body_position == 11))
 							{
@@ -2149,16 +2171,16 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 					}
 				}
-				
+
 				//Paint golem item
-				
+
 				if(iCharacter.getGolemItem() != null){
 					D2Item temp_item = iCharacter.getGolemItem();
 					Image lImage = D2ImageCache.getDC6Image(temp_item);
 					lGraphics.drawImage(lImage, 273, 225, D2MercPainterPanel.this);
-					
+
 				}
-				
+
 			}
 			repaint();
 		}
@@ -2191,7 +2213,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						return;
 					}
 					//                    System.err.println("Mouse Clicked: " + pEvent.getX() + ",
-							// " + pEvent.getY() );
+					// " + pEvent.getY() );
 					if (pEvent.getButton() == MouseEvent.BUTTON1 /*
 					 * &&
 					 * pEvent.getClickCount() ==
@@ -2208,7 +2230,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						{
 							setWeaponSlot(2);
 						}
-					
+
 
 					}
 				}
@@ -2310,7 +2332,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						// in the inventory
 						case 1:
 							//                    	System.err.println("Item loc 0 - 1 - " +
-									// temp_item.get_name() + " - " + temp_item.get_image()
+							// temp_item.get_name() + " - " + temp_item.get_image()
 							// );
 							lGraphics.drawImage(lImage, INV_X + x * GRID_SIZE + x * GRID_SPACER, INV_Y + y * GRID_SIZE + y * GRID_SPACER, D2DeathPainterPanel.this);
 							break;
@@ -2354,10 +2376,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							break;
 						case 3:
 							// body (assume 2x3
-									lGraphics.drawImage(lImage, BODY_X, BODY_Y, D2DeathPainterPanel.this);
-									break;
-									// right arm (give the whole 2x4)
-									// biases are to center non-2x4 items
+							lGraphics.drawImage(lImage, BODY_X, BODY_Y, D2DeathPainterPanel.this);
+							break;
+							// right arm (give the whole 2x4)
+							// biases are to center non-2x4 items
 						case 4:
 						case 11:
 							if ((iWeaponSlot == 1 && body_position == 4) || (iWeaponSlot == 2 && body_position == 11))
@@ -2428,7 +2450,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			lGraphics.drawImage(iBackground, 0, 0, D2DeathPainterPanel.this);
 		}
 	}
-	
+
 	class D2SkillPainterPanel extends JPanel
 	{
 		private Image iBackground;
@@ -2450,7 +2472,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						return;
 					}
 					//                    System.err.println("Mouse Clicked: " + pEvent.getX() + ",
-							// " + pEvent.getY() );
+					// " + pEvent.getY() );
 					if (pEvent.getButton() == MouseEvent.BUTTON1 /*
 					 * &&
 					 * pEvent.getClickCount() ==
@@ -2479,7 +2501,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 				private void setSkillSlot(int i) {
 
 
-					
+
 					iSkillSlot = i;
 					build();
 				}
@@ -2641,8 +2663,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 			}
 //			if ( iCharacter != null )
-//	{
-//	for (int i = 0; i < iCharacter.getMercItemNr(); i++)
+//			{
+//			for (int i = 0; i < iCharacter.getMercItemNr(); i++)
 //			{
 //			D2Item temp_item = iCharacter.getMercItem(i);
 //			Image lImage = D2ImageCache.getDC6Image(temp_item);
@@ -2704,7 +2726,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		}
 
 		private void drawText(Graphics2D lGraphics, int skillSlot) {
-			
+
 			switch(iSkillSlot){
 			case 0:
 				lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
@@ -2715,7 +2737,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						lGraphics.setColor(Color.orange.brighter());
 					}
 					lGraphics.drawString(iCharacter.getSkillListA().get(x).toString(),iCharacter.getSkillLocs()[x].x+11 , iCharacter.getSkillLocs()[x].y+2);
-					
+
 				}
 				break;
 			case 1:
@@ -2723,14 +2745,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 				for(int x = 0;x<10;x=x+1){
 					lGraphics.setColor(Color.white);
 					lGraphics.drawString(iCharacter.getInitSkillListB().get(x).toString() + "/",iCharacter.getSkillLocs()[x+10].x-10 , iCharacter.getSkillLocs()[x+10].y+2);
-					
+
 					if(!iCharacter.getInitSkillListB().get(x).equals(iCharacter.getSkillListB().get(x))){
 						lGraphics.setColor(Color.orange.brighter());
 					}else{
 						lGraphics.setColor(Color.white);
 					}
 					lGraphics.drawString(iCharacter.getSkillListB().get(x).toString(),iCharacter.getSkillLocs()[x+10].x+11 , iCharacter.getSkillLocs()[x+10].y+2);
-					
+
 				}
 				break;
 			case 2:
@@ -2738,15 +2760,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 				for(int x = 0;x<10;x=x+1){
 					lGraphics.setColor(Color.white);
 					lGraphics.drawString(iCharacter.getInitSkillListC().get(x).toString() + "/",iCharacter.getSkillLocs()[x+20].x-10 , iCharacter.getSkillLocs()[x+20].y+2);
-					
+
 					if(!iCharacter.getInitSkillListC().get(x).equals(iCharacter.getSkillListC().get(x))){
 						lGraphics.setColor(Color.orange.brighter());
 					}else{
 						lGraphics.setColor(Color.white);
 					}
-					
+
 					lGraphics.drawString(iCharacter.getSkillListC().get(x).toString(),iCharacter.getSkillLocs()[x+20].x+11 , iCharacter.getSkillLocs()[x+20].y+2);
-}
+				}
 				break;
 
 			}
@@ -2876,14 +2898,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			case 1:
 
 				for(int f = 0;f<3;f=f+1){
-				for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
-					if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-						
-						lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
+					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
+						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
+
+							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
+
+						}
 
 					}
-
-				}
 				}
 				break;
 			case 2:
@@ -2895,7 +2917,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 
 					}
-					}
+				}
 				break;
 			case 3:
 				for(int f = 0;f<3;f=f+1){
@@ -2906,7 +2928,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 
 					}
-					}
+				}
 			case 4:
 				for(int f = 0;f<3;f=f+1){
 					for(int y=0;y<3;y=y+1){
@@ -2916,7 +2938,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 
 					}
-					}
+				}
 				break;
 			case 5:
 				for(int f = 0;f<3;f=f+1){
@@ -2927,7 +2949,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 
 					}
-					}
+				}
 				break;
 			}
 
@@ -2969,8 +2991,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 		}
 	}
-	
-	
+
+
 
 	class D2WayPainterPanel extends JPanel
 	{
@@ -3078,14 +3100,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 
 			switch(questSlot){
-			
+
 			case 1:
-				
+
 				for(int f = 0;f<3;f=f+1){
 					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
 						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
 							if(f==0){
-							lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==1){
 								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==2){
@@ -3094,10 +3116,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 
 					}
-					}
-				
+				}
+
 //				for(int x = 0;x<iCharacter.getWaypoints().length;x=x+1){
-//					for(int y=0;y<iCharacter.getWaypoints()[x].length;x=x+1){
+//				for(int y=0;y<iCharacter.getWaypoints()[x].length;x=x+1){
 //				lGraphics.drawImage(tick, questLoc[x].x, questLoc[x].y, D2WayPainterPanel.this);
 //				lGraphics.drawImage(tick, questLoc[x].x+10, questLoc[x].y, D2WayPainterPanel.this);
 //				lGraphics.drawImage(tick, questLoc[x].x+20, questLoc[x].y, D2WayPainterPanel.this);
@@ -3109,7 +3131,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
 						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
 							if(f==0){
-							lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==1){
 								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==2){
@@ -3118,14 +3140,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 
 					}
-					}
+				}
 				break;
 			case 3:
 				for(int f = 0;f<3;f=f+1){
 					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
 						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
 							if(f==0){
-							lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==1){
 								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==2){
@@ -3134,14 +3156,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 
 					}
-					}
+				}
 				break;
 			case 4:
 				for(int f = 0;f<3;f=f+1){
 					for(int y=0;y<3;y=y+1){
 						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
 							if(f==0){
-							lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==1){
 								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==2){
@@ -3150,14 +3172,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 
 					}
-					}
+				}
 				break;
 			case 5:
 				for(int f = 0;f<3;f=f+1){
 					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
 						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
 							if(f==0){
-							lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==1){
 								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
 							}else if(f==2){
@@ -3166,7 +3188,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						}
 
 					}
-					}
+				}
 				break;
 
 			}
@@ -3205,7 +3227,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						return;
 					}
 					//                    System.err.println("Mouse Clicked: " + pEvent.getX() + ",
-							// " + pEvent.getY() );
+					// " + pEvent.getY() );
 					if (pEvent.getButton() == MouseEvent.BUTTON1 /*
 					 * &&
 					 * pEvent.getClickCount() ==
@@ -3336,27 +3358,27 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							else
 							{
 //								setCursorNormal();
-setCursorDropItem();
+								setCursorDropItem();
 
-// MBR: for now, disable dropping completely
-//D2Item lDropItem = D2ViewClipboard.getItem();
-//	// int lDropWidth = lDropItem.get_width();
-//	// int lDropHeight = lDropItem.get_height();
-//	
-//		                        boolean drop = false;
-//	
-//if (!iChar.checkCharPanel(lItemPanel.getPanel(), 0, 0, lDropItem))
-//{
-//drop = true;
-//}
-//if (drop)
-//{
-//setCursorDropItem();
-//}
-//else
-//{
-//setCursorNormal();
-//}
+//								MBR: for now, disable dropping completely
+//								D2Item lDropItem = D2ViewClipboard.getItem();
+//								// int lDropWidth = lDropItem.get_width();
+//								// int lDropHeight = lDropItem.get_height();
+
+//								boolean drop = false;
+
+//								if (!iChar.checkCharPanel(lItemPanel.getPanel(), 0, 0, lDropItem))
+//								{
+//								drop = true;
+//								}
+//								if (drop)
+//								{
+//								setCursorDropItem();
+//								}
+//								else
+//								{
+//								setCursorNormal();
+//								}
 							}
 						}
 					}
@@ -3411,14 +3433,14 @@ setCursorDropItem();
 	}
 
 	public void dumpChar() {
-		
-		
 
-		
+
+
+
 		String out = combinedString.replaceAll("<BR>", "\n");
 		String iChaString = iCharacter.fullDumpStr().replaceAll("<BR>", "\n");
 		String outMerc = combinedMercString.replaceAll("<BR>", "\n");
-		
+
 		lDump.setText(out + "\n" +iChaString + outMerc + "\n");
 		lDump.setCaretPosition(0);
 		lDumpPanel.revalidate();

@@ -2549,6 +2549,21 @@ public class D2Character extends D2ItemListAdapter
 		}
 		return true;
 	}
+	
+		public ArrayList getBeltPotions()
+		{
+			ArrayList lList = new ArrayList();
+			
+			for (int i=0;i<4;i++) {
+				for (int j=1;j<4;j++) {
+					int y = getCharItemIndex(2, i, j);
+					if (y != -1) {
+						lList.add((D2Item)iCharItems.get(y));
+					}
+				}
+			}
+			return lList;
+		}
 
 	public boolean unmarkCharGrid(D2Item i)
 	{

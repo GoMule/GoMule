@@ -107,6 +107,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     private JTextField	  iReqMaxStr;
     private JTextField	  iReqMaxDex;
 	private JButton iDelete;
+	private JButton iDeleteDups;
 	private JCheckBox iTypeSocketed;
 	private RandallPanel iSockFilter;
 	private JCheckBox iCatSock1;
@@ -656,6 +657,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         iPickup = new JButton("Pickup");
         iDelete = new JButton("Delete");
+        iDeleteDups = new JButton("Delete Dupes");
         iPickup.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent pEvent)
@@ -760,6 +762,52 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         lButtonPanel.addToPanel(iDelete, 3, 0, 1, RandallPanel.HORIZONTAL);
         
 
+        iDeleteDups.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent pEvent)
+            {
+            	
+              int check = JOptionPane.showConfirmDialog(null, "WARNING: WILL DELETE ALL DUAL FPS. CONTINUE?");
+              
+				if(check != 0){
+                  return;
+				}
+            	
+                HashMap lItemList = new HashMap();
+
+                    for (int i = 0; i < iTable.getRowCount(); i++)
+                    {
+                    	
+                        lItemList.put(iItemModel.getItem(i).getFingerprint(),iItemModel.getItem(i));
+                    }
+                    
+                    
+                    try
+                    {
+                        iIgnoreItemListEvents = true;
+                        
+                        for (int i = 0; i < iTable.getRowCount(); i++)
+                        {
+                        
+                            iStash.removeItem(iItemModel.getItem(i));
+                        }
+                        
+                        Iterator it = lItemList.keySet().iterator();
+                     while(it.hasNext()){
+                        	((D2Stash) iStash).addItem(((D2Item)lItemList.get(it.next())));
+                     }
+                        
+                    }
+                    finally
+                    {
+                        iIgnoreItemListEvents = false;
+                    }
+                    itemListChanged();
+                
+            }
+        });
+        lButtonPanel.addToPanel(iDeleteDups, 4, 0, 1, RandallPanel.HORIZONTAL);
+        
         return lButtonPanel;
     }
 

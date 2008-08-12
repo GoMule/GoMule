@@ -350,8 +350,13 @@ public class D2Item implements Comparable, D2ItemInterface {
 			pEx.printStackTrace();
 			throw new D2ItemException("Error: " + pEx.getMessage() + getExStr());
 		}
-		// System.err.println("Test: " + getItemName() + " - " + getItemLength()
-		// );
+		
+//		if(item_type != null && isTypeArmor()){
+//		System.out.println(Integer.parseInt(D2TxtFile.ARMOR.searchColumns("code", item_type).get("belt")));
+//		 System.err.println("Test: " + getItemName() + " - " + getItemLength()
+//		 );
+//		}
+		
 	}
 
 	public String getFileName() {
@@ -691,6 +696,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 		if ("1".equals(lItemType.get("Beltable"))) {
 			iBelt = true;
+			
 			readPropertiesPots(pFile, iProperties);
 		}
 
@@ -2379,7 +2385,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private void modifyReqs(int value) {
-		System.out.println(iItemName);
+//		System.out.println(iItemName);
 		if (getReqDex() != -1) {
 			iReqDex = iReqDex + ((int)(iReqDex*((double) value / (double) 100)));
 			// iReqDex = (int)Math.floor((iReqDex
@@ -3839,7 +3845,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 
 					if(min == true){
-						System.out.println(mat.group());
+//						System.out.println(mat.group());
 						if(Integer.parseInt(mat.group()) >= pVal){
 
 							return true;
@@ -3865,6 +3871,16 @@ public class D2Item implements Comparable, D2ItemInterface {
 		// TODO Auto-generated method stub
 		return (int)this.cBlock;
 	}
+	
+		public boolean isABelt() {
+				if ( iType.equals("belt") ) {
+					System.out.println(iItemName);
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
 
 	// public boolean isCursorItem()
 	// {
