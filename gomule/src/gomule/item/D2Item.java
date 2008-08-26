@@ -838,7 +838,36 @@ public class D2Item implements Comparable, D2ItemInterface {
 		case 1: // low quality item
 		{
 			low_quality = (short) pFile.read(3);
+			
+			switch(low_quality){
+			
+			case 0:
+			{
+				iItemName = "Crude " + iItemName;
+				break;
+			}
+			
+			case 1:
+			{
+				iItemName = "Cracked " + iItemName;
+				break;
+			}
+			
+			case 2:
+			{
+				iItemName = "Damaged " + iItemName;
+				break;
+			}
+			
+			case 3:
+			{
+				iItemName = "Low Quality " + iItemName;
+				break;
+			}
+			
+			}
 
+			
 			break;
 		}
 		case 3: // high quality item
