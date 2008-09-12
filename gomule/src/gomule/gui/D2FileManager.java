@@ -33,7 +33,7 @@ import java.util.*;
 import javax.swing.*;
 
 import randall.d2files.*;
-import randall.util.*;
+import randall.util.RandallPanel;
 
 /**
  * this class is the top-level administrative window. 

@@ -20,7 +20,8 @@
  ******************************************************************************/
 package randall.d2files;
 
-import gomule.gui.*;
+
+import gomule.gui.D2FileManager;
 
 import java.io.*;
 import java.util.*;

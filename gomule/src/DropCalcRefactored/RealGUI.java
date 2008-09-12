@@ -1,14 +1,15 @@
 package DropCalcRefactored;
 
-import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
-
+import java.util.HashMap;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -16,16 +17,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.JTableHeader;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
-import randall.d2files.D2TblFile;
-import randall.d2files.D2TxtFile;
 
-public class RealGUI extends JFrame{
+public class RealGUI extends JFrame {
 
+	private static final long serialVersionUID = -9041550034028154852L;
 	JComboBox nPlayers = new JComboBox();
 	JComboBox nGroup = new JComboBox();
 	JComboBox nSearch = new JComboBox();
@@ -33,7 +36,12 @@ public class RealGUI extends JFrame{
 	JComboBox nType = new JComboBox();
 	JComboBox nMonster = new JComboBox();
 	JComboBox nDiff = new JComboBox();
-	JTextArea oResult = new JTextArea();
+	JComboBox nMItem = new JComboBox();
+	JComboBox nMItemClass = new JComboBox();
+	JComboBox nMItemQual = new JComboBox();
+	JComboBox nMItemQual2 = new JComboBox();
+	DCTableModel DCTm = new DCTableModel();
+	JTable oResult = new JTable(new DCTableModel());
 	JScrollPane oScrollingArea = new JScrollPane(oResult);
 	JTextField nMF = new JTextField();
 	ArrayList  nClassKey = new ArrayList();
@@ -41,7 +49,12 @@ public class RealGUI extends JFrame{
 	JButton bClear = new JButton("Clear");
 	final DCNew DC = new DCNew();
 	ArrayList nMonsterKey = new ArrayList();
-
+	private JPanel pMonsters;
+	private Box hM2;
+	Box hMI1;
+	Box hMI2;
+	ArrayList nMItemKey = new ArrayList();
+	private Box vMonsters;
 	public RealGUI(){
 
 
@@ -64,6 +77,10 @@ public class RealGUI extends JFrame{
 		Box hP3 = Box.createHorizontalBox();
 		hP3.add(new JLabel("MF"));
 		hP3.add(nMF);
+
+		nMF.setDocument(new TextFieldLimiter(5));
+		nMF.setText("0");
+
 		Box hP4 = Box.createHorizontalBox();
 		hP4.add(bSearch);
 		hP4.add(Box.createRigidArea(new Dimension(3,0)));
@@ -97,8 +114,8 @@ public class RealGUI extends JFrame{
 		Box hS3 = Box.createHorizontalBox();
 		hS3.add(new JLabel("Difficulty"));
 		hS3.add(nDiff);
-		vSearch.add(hS1);
-		vSearch.add(Box.createRigidArea(new Dimension(0,8)));
+//		vSearch.add(hS1);
+//		vSearch.add(Box.createRigidArea(new Dimension(0,8)));
 		vSearch.add(hS2);
 		vSearch.add(Box.createRigidArea(new Dimension(0,8)));
 		vSearch.add(hS3);
@@ -128,20 +145,21 @@ public class RealGUI extends JFrame{
 		nDiff.addItem("Hell");
 		nDiff.setSelectedIndex(0);
 		//Monster information
-		JPanel pMonsters = new JPanel();
-		pMonsters.setBorder((new TitledBorder(null, ("Monsters"), 
+		pMonsters = new JPanel();
+		pMonsters.setBorder((new TitledBorder(null, ("Search"), 
 				TitledBorder.LEFT, TitledBorder.TOP)));
-		Box vMonsters = Box.createVerticalBox();
+		vMonsters = Box.createVerticalBox();
 		pMonsters.add(vMonsters);
 		Box hM1 = Box.createHorizontalBox();
 		hM1.add(new JLabel("Type"));
 		hM1.add(nType);
-		Box hM2 = Box.createHorizontalBox();
+		hM2 = Box.createHorizontalBox();
 		hM2.add(new JLabel("Monster"));
 		hM2.add(nMonster);
+
 		vMonsters.add(hM1);
 		vMonsters.add(Box.createRigidArea(new Dimension(0,8)));
-		vMonsters.add(hM2);
+
 		hSettings.add(pMonsters);
 
 		nType.addItem("Atomic TC");
@@ -149,11 +167,51 @@ public class RealGUI extends JFrame{
 		nType.setSelectedIndex(0);
 
 		refreshMonsterField();
-		//Item information
+		//Monster-Item information
+		nMItemQual.addItem("Base Item");
+		nMItemQual.addItem("Set Item");
+		nMItemQual.addItem("Unique Item");
+		nMItemQual.setSelectedIndex(0);
+		nMItemQual2.addItem("All");
+		nMItemQual2.addItem("Normal");
+		nMItemQual2.addItem("Exceptional");
+		nMItemQual2.addItem("Elite");
+		nMItemQual2.setSelectedIndex(0);
+		nMItemClass.addItem("Any");
+		nMItemClass.addItem("Weapon");
+		nMItemClass.addItem("Armor");
+		nMItemClass.setSelectedIndex(0);
+		hMI1 = Box.createHorizontalBox();
+		hMI2 = Box.createHorizontalBox();
+		vMonsters.add(hMI1);
+		vMonsters.add(Box.createRigidArea(new Dimension(0,8)));
+		vMonsters.add(hMI2);
+		vMonsters.add(Box.createRigidArea(new Dimension(0,8)));
+		vMonsters.add(hM2);
+		refreshMonsterItemField();
+//		pMItem = new JPanel();
+//		pMItem.setBorder((new TitledBorder(null, ("Monsters"), 
+//		TitledBorder.LEFT, TitledBorder.TOP)));
+//		Box vMItem = Box.createVerticalBox();
+//		pMItem.add(vMItem);
+//		Box hMI1 = Box.createHorizontalBox();
+//		hMI1.add(new JLabel("Type"));
+//		hMI1.add(nType);
+////		Box hMI2 = Box.createHorizontalBox();
+////		hMI2.add(new JLabel("Monster"));
+////		hMI2.add(nMonster);
+//		vMItem.add(hMI1);
+//		vMItem.add(Box.createRigidArea(new Dimension(0,8)));
+////		vMItem.add(hMI2);
+////		hSettings.add(pMItem);
+////		pMItem.setVisible(false);
 
 		//Results box
 		vMain.add(oScrollingArea);
-		oResult.setRows(29);
+//		oResult
+		oResult.setPreferredScrollableViewportSize(new Dimension(100, 500));
+//		oScrollingArea.getViewport().setBackground(Color.white);
+//		oResult.
 		//Other window stuff
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -170,10 +228,66 @@ public class RealGUI extends JFrame{
 
 	private void setupListeners() {
 
+
+		oResult.getTableHeader().addMouseListener( new MouseAdapter() 
+		{
+			public void mouseReleased(MouseEvent e) 
+			{
+				if ( e.getSource() instanceof JTableHeader )
+				{
+					JTableHeader lHeader = (JTableHeader) e.getSource();
+					int lHeaderCol = lHeader.getColumnModel().getColumn(lHeader.columnAtPoint(new Point(e.getX(), e.getY()))).getModelIndex();
+
+					if ( lHeaderCol != -1 && lHeader.getTable().getRowCount() > 0)
+					{
+						((DCTableModel)oResult.getModel()).sortCol(lHeaderCol);
+					}
+				}
+			}
+		});
+
+		nType.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+
+
+				refreshMonster(nType.getSelectedIndex());
+
+
+			}
+
+			private void refreshMonster(int selectedIndex) {
+
+
+				if(selectedIndex == 0){
+
+					hM2.removeAll();
+					hM2.add(new JLabel("Monster"));
+					hM2.add(nMonster);
+					hMI1.removeAll();
+					hMI2.removeAll();
+				}else{
+
+					hM2.removeAll();
+					hM2.add(new JLabel("Item"));
+					hM2.add(nMItem);
+					hMI1.add(new JLabel("Quality"));
+					hMI1.add(nMItemQual);
+					hMI2.add(new JLabel("Version"));
+					hMI2.add(nMItemQual2);
+
+				}
+
+//				pMonsters.validate();
+//				vMonsters.validate();
+				validate();
+
+			}});
+
 		nDiff.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				resetArrays();
+				resetMonsterArrays();
 				refreshMonsterField();
 
 			}});
@@ -181,8 +295,33 @@ public class RealGUI extends JFrame{
 		nClass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				resetArrays();
+				resetMonsterArrays();
 				refreshMonsterField();
+
+			}});
+
+		nMItemQual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				resetMonsterItemArrays();
+				refreshMonsterItemField();
+
+			}});
+		
+		nMItemQual2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				resetMonsterItemArrays();
+				refreshMonsterItemField();
+
+			}});
+
+		bClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+//				resetArrays();
+				resetDisplay();
+//				refreshMonsterField();
 
 			}});
 
@@ -190,26 +329,65 @@ public class RealGUI extends JFrame{
 
 			public void actionPerformed(ActionEvent arg0) {
 
-				long Stime = System.currentTimeMillis();
-				resetDisplay();
+//				long Stime = System.currentTimeMillis();
+//				resetDisplay();
 
-				Monster mSelected = ((Monster)nMonsterKey.get(nMonster.getSelectedIndex()));
-				mSelected.lookupBASETCReturnATOMICTCS(nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1);
-				String out = "";
-				for(int x = 0;x<mSelected.mTuples.size();x=x+1){
+//				System.out.println(nMF.getText().substring(0, 5));
 
-					Iterator TCIt = ((MonsterTuple)mSelected.mTuples.get(x)).getFinalTCs().keySet().iterator();
-					while(TCIt.hasNext()){
-						String tcArr = (String) TCIt.next();
-						MonsterTuple tSelected = ((MonsterTuple)mSelected.mTuples.get(x));
-						out = out  + (mSelected.getName() + "--"+ mSelected.getRealName() + "--" + tSelected.Level+"--"+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",tSelected.AreaName).get("LevelName")) + "--"+tSelected.initTC +"--"+ tcArr +"--"+tSelected.getFinalTCs().get(tcArr) + "\n");
+				if(nType.getSelectedIndex() == 0){
 
-					}
+					Monster mSelected = ((Monster)nMonsterKey.get(nMonster.getSelectedIndex()));
+//					System.out.println((nPlayers.getSelectedIndex()+ 1) + " -- "+ (nGroup.getSelectedIndex()+1));
+					mSelected.lookupBASETCReturnATOMICTCS(nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1);
+//					String out = "";
+//					for(int x = 0;x<mSelected.mTuples.size();x=x+1){
+
+//					Iterator TCIt = ((MonsterTuple)mSelected.mTuples.get(x)).getFinalTCs().keySet().iterator();
+//					while(TCIt.hasNext()){
+//					String tcArr = (String) TCIt.next();
+//					MonsterTuple tSelected = ((MonsterTuple)mSelected.mTuples.get(x));
+//					out = out  + (mSelected.getName() + "--"+ mSelected.getRealName() + "--" + tSelected.Level+"--"+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",tSelected.AreaName).get("LevelName")) + "--"+tSelected.initTC +"--"+ tcArr +"--"+tSelected.getFinalTCs().get(tcArr) + "\n");
+
+//					}
+//					}
+
+//					oResult.setText(out);
+
+					((DCTableModel)oResult.getModel()).refresh(mSelected.mTuples);
+
+				}else{
+//					long Stime = System.currentTimeMillis();
+//					System.out.println("START");
+					Item mISelected =(Item)nMItemKey.get(nMItem.getSelectedIndex());
+//					System.out.println(mISelected.ItemRarity);
+//					System.out.println(mISelected.TCProbSum);
+//					WhiteItem mISelected =(WhiteItem)nMItemKey.get(nMItem.getSelectedIndex());
+					HashMap mTuple = mISelected.getFinalProbSum(DC,nClass.getSelectedIndex(),Integer.parseInt(nMF.getText()),nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1);
+
+//					System.out.println("COMPLETED1: " + (System.currentTimeMillis() - Stime));
+//					String out = "";
+
+//					Iterator it = mTuple.keySet().iterator();
+//					Stime = System.currentTimeMillis();
+					((DCTableModel)oResult.getModel()).refresh(mTuple, nDiff.getSelectedIndex(), (String)nClassKey.get(nClass.getSelectedIndex()));
+//					while(it.hasNext()){
+
+//					MonsterTuple tSelected = (MonsterTuple) it.next();
+
+////					out = out  + (tSelected.getParent().getName() + "--"+ tSelected.getParent().getRealName() + "--" + tSelected.Level+"--"+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",tSelected.AreaName).get("LevelName")) + "--"+tSelected.initTC +"--"+ mISelected.getItemTC() +"--"+mTuple.get(tSelected) + "\n");
+//					out = out  + (tSelected.getParent().getName() + "\n");
+
+
+//					}
+
+//					System.out.println(mISelected.ItemTC);
+//					System.out.println(mISelected.getTCProbSum());
+//					oResult.setText(out);
+//					System.out.println("END: " + (System.currentTimeMillis() - Stime));
 				}
 
-				oResult.setText(out);
-				long ttime = System.currentTimeMillis();
-				System.out.println(ttime -Stime);
+
+
 			}});
 
 	}
@@ -217,16 +395,138 @@ public class RealGUI extends JFrame{
 
 
 
-	private void resetArrays(){
+	private void resetMonsterArrays(){
 		nMonster.removeAllItems();
 		nMonsterKey.clear();
 	}
 
+	private void resetMonsterItemArrays(){
+		nMItem.removeAllItems();
+		nMItemKey.clear();
+	}
+
 	private void resetDisplay(){
 
-		oResult.setText("");
-		((Monster)nMonsterKey.get(nMonster.getSelectedIndex())).clearFinal();
+		((DCTableModel)oResult.getModel()).reset();
+//		oResult.setText("");
+//		DCTm.fireTableDataChanged();
 
+	}
+
+	private void refreshMonsterItemField(){
+		switch(nMItemQual.getSelectedIndex()){
+		case 0:
+			switch(nMItemQual2.getSelectedIndex()){
+			
+			case 0:
+				for(int x  = 0;x<DC.regItemArray.size();x++){
+					nMItemKey.add(DC.regItemArray.get(x));
+					nMItem.addItem(((Item)DC.regItemArray.get(x)).getRealName());
+					
+				}
+				break;
+			case 1:
+				for(int x  = 0;x<DC.regItemArray.size();x++){
+					if(((Item)DC.regItemArray.get(x)).ItemQual == 0){
+					nMItemKey.add(DC.regItemArray.get(x));
+					nMItem.addItem(((Item)DC.regItemArray.get(x)).getRealName());
+					}
+				}
+				break;
+			case 2:
+				for(int x  = 0;x<DC.regItemArray.size();x++){
+					if(((Item)DC.regItemArray.get(x)).ItemQual == 1){
+					nMItemKey.add(DC.regItemArray.get(x));
+					nMItem.addItem(((Item)DC.regItemArray.get(x)).getRealName());
+					}
+				}
+				break;
+			case 3:
+				for(int x  = 0;x<DC.regItemArray.size();x++){
+					if(((Item)DC.regItemArray.get(x)).ItemQual == 2){
+					nMItemKey.add(DC.regItemArray.get(x));
+					nMItem.addItem(((Item)DC.regItemArray.get(x)).getRealName());
+					}
+				}
+				break;
+
+			}
+			break;
+		case 1:
+			switch(nMItemQual2.getSelectedIndex()){
+			
+			case 0:
+				for(int x  = 0;x<DC.setItemArray.size();x++){
+					nMItemKey.add(DC.setItemArray.get(x));
+					nMItem.addItem(((Item)DC.setItemArray.get(x)).getRealName());
+					
+				}
+				break;
+			case 1:
+				for(int x  = 0;x<DC.setItemArray.size();x++){
+					if(((Item)DC.setItemArray.get(x)).ItemQual == 0){
+					nMItemKey.add(DC.setItemArray.get(x));
+					nMItem.addItem(((Item)DC.setItemArray.get(x)).getRealName());
+					}
+				}
+				break;
+			case 2:
+				for(int x  = 0;x<DC.setItemArray.size();x++){
+					if(((Item)DC.setItemArray.get(x)).ItemQual == 1){
+					nMItemKey.add(DC.setItemArray.get(x));
+					nMItem.addItem(((Item)DC.setItemArray.get(x)).getRealName());
+					}
+				}
+				break;
+			case 3:
+				for(int x  = 0;x<DC.setItemArray.size();x++){
+					if(((Item)DC.setItemArray.get(x)).ItemQual == 2){
+					nMItemKey.add(DC.setItemArray.get(x));
+					nMItem.addItem(((Item)DC.setItemArray.get(x)).getRealName());
+					}
+				}
+				break;
+
+			}
+			break;
+		case 2:
+			switch(nMItemQual2.getSelectedIndex()){
+			
+			case 0:
+				for(int x  = 0;x<DC.uniqItemArray.size();x++){
+					nMItemKey.add(DC.uniqItemArray.get(x));
+					nMItem.addItem(((Item)DC.uniqItemArray.get(x)).getRealName());
+					
+				}
+				break;
+			case 1:
+				for(int x  = 0;x<DC.uniqItemArray.size();x++){
+					if(((Item)DC.uniqItemArray.get(x)).ItemQual == 0){
+					nMItemKey.add(DC.uniqItemArray.get(x));
+					nMItem.addItem(((Item)DC.uniqItemArray.get(x)).getRealName());
+					}
+				}
+				break;
+			case 2:
+				for(int x  = 0;x<DC.uniqItemArray.size();x++){
+					if(((Item)DC.uniqItemArray.get(x)).ItemQual == 1){
+					nMItemKey.add(DC.uniqItemArray.get(x));
+					nMItem.addItem(((Item)DC.uniqItemArray.get(x)).getRealName());
+					}
+				}
+				break;
+			case 3:
+				for(int x  = 0;x<DC.uniqItemArray.size();x++){
+					if(((Item)DC.uniqItemArray.get(x)).ItemQual == 2){
+					nMItemKey.add(DC.uniqItemArray.get(x));
+					nMItem.addItem(((Item)DC.uniqItemArray.get(x)).getRealName());
+					}
+				}
+				break;
+
+			}
+			break;
+		}
 	}
 
 	private void refreshMonsterField(){
@@ -238,14 +538,14 @@ public class RealGUI extends JFrame{
 			case 0:
 				for(int x = 0; x< DC.mainRegMonArray.size();x=x+1){
 					nMonsterKey.add(DC.mainRegMonArray.get(x));
-					nMonster.addItem((String)((Monster)DC.mainRegMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainRegMonArray.get(x)).getName());
+					nMonster.addItem((String)((Monster)DC.mainRegMonArray.get(x)).getRealName() + " (" + (String)((Monster)DC.mainRegMonArray.get(x)).getTinyDiff() + ")");
 				}
 				break;
 			case 1:
 				for(int x = 0; x< DC.mainRegMonArray.size();x=x+1){
 					if(((String)((Monster)DC.mainRegMonArray.get(x)).getName()).contains("NORMAL")){
 						nMonsterKey.add(DC.mainRegMonArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainRegMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainRegMonArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainRegMonArray.get(x)).getRealName() + " (" + (String)((Monster)DC.mainRegMonArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -253,7 +553,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainRegMonArray.size();x=x+1){
 					if(((String)((Monster)DC.mainRegMonArray.get(x)).getName()).contains("NIGHTMARE")){
 						nMonsterKey.add(DC.mainRegMonArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainRegMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainRegMonArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainRegMonArray.get(x)).getRealName() + " (" + (String)((Monster)DC.mainRegMonArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -261,7 +561,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainRegMonArray.size();x=x+1){
 					if(((String)((Monster)DC.mainRegMonArray.get(x)).getName()).contains("HELL")){		
 						nMonsterKey.add(DC.mainRegMonArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainRegMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainRegMonArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainRegMonArray.get(x)).getRealName() + " (" + (String)((Monster)DC.mainRegMonArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -272,14 +572,14 @@ public class RealGUI extends JFrame{
 			case 0:
 				for(int x = 0; x< DC.mainMinMonArray.size();x=x+1){
 					nMonsterKey.add(DC.mainMinMonArray.get(x));
-					nMonster.addItem((String)((Monster)DC.mainMinMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainMinMonArray.get(x)).getName());
+					nMonster.addItem((String)((Monster)DC.mainMinMonArray.get(x)).getRealName() + " - " + " (" + (String)((Monster)DC.mainMinMonArray.get(x)).getTinyDiff() + ")");
 				}
 				break;
 			case 1:
 				for(int x = 0; x< DC.mainMinMonArray.size();x=x+1){
 					if(((String)((Monster)DC.mainMinMonArray.get(x)).getName()).contains("NORMAL")){
 						nMonsterKey.add(DC.mainMinMonArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainMinMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainMinMonArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainMinMonArray.get(x)).getRealName() + " - " + " (" + (String)((Monster)DC.mainMinMonArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -287,7 +587,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainMinMonArray.size();x=x+1){
 					if(((String)((Monster)DC.mainMinMonArray.get(x)).getName()).contains("NIGHTMARE")){
 						nMonsterKey.add(DC.mainMinMonArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainMinMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainMinMonArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainMinMonArray.get(x)).getRealName() + " - " + " (" + (String)((Monster)DC.mainMinMonArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -295,7 +595,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainMinMonArray.size();x=x+1){
 					if(((String)((Monster)DC.mainMinMonArray.get(x)).getName()).contains("HELL")){	
 						nMonsterKey.add(DC.mainMinMonArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainMinMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainMinMonArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainMinMonArray.get(x)).getRealName() + " - " + " (" + (String)((Monster)DC.mainMinMonArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -306,14 +606,14 @@ public class RealGUI extends JFrame{
 			case 0:
 				for(int x = 0; x< DC.mainChampMonArray.size();x=x+1){
 					nMonsterKey.add(DC.mainChampMonArray.get(x));
-					nMonster.addItem((String)((Monster)DC.mainChampMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainChampMonArray.get(x)).getName());
+					nMonster.addItem((String)((Monster)DC.mainChampMonArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainChampMonArray.get(x)).getTinyDiff() + ")");
 				}
 				break;
 			case 1:
 				for(int x = 0; x< DC.mainChampMonArray.size();x=x+1){
 					if(((String)((Monster)DC.mainChampMonArray.get(x)).getName()).contains("NORMAL")){
 						nMonsterKey.add(DC.mainChampMonArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainChampMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainChampMonArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainChampMonArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainChampMonArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -321,7 +621,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainChampMonArray.size();x=x+1){
 					if(((String)((Monster)DC.mainChampMonArray.get(x)).getName()).contains("NIGHTMARE")){
 						nMonsterKey.add(DC.mainChampMonArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainChampMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainChampMonArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainChampMonArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainChampMonArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -329,7 +629,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainChampMonArray.size();x=x+1){
 					if(((String)((Monster)DC.mainChampMonArray.get(x)).getName()).contains("HELL")){		
 						nMonsterKey.add(DC.mainChampMonArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainChampMonArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainChampMonArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainChampMonArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainChampMonArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -340,14 +640,14 @@ public class RealGUI extends JFrame{
 			case 0:
 				for(int x = 0; x< DC.mainUniqArray.size();x=x+1){
 					nMonsterKey.add(DC.mainUniqArray.get(x));
-					nMonster.addItem((String)((Monster)DC.mainUniqArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainUniqArray.get(x)).getName());
+					nMonster.addItem((String)((Monster)DC.mainUniqArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainUniqArray.get(x)).getTinyDiff() + ")");
 				}
 				break;
 			case 1:
 				for(int x = 0; x< DC.mainUniqArray.size();x=x+1){
 					if(((String)((Monster)DC.mainUniqArray.get(x)).getName()).contains("NORMAL")){
 						nMonsterKey.add(DC.mainUniqArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainUniqArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainUniqArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainUniqArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainUniqArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -355,7 +655,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainUniqArray.size();x=x+1){
 					if(((String)((Monster)DC.mainUniqArray.get(x)).getName()).contains("NIGHTMARE")){
 						nMonsterKey.add(DC.mainUniqArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainUniqArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainUniqArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainUniqArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainUniqArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -363,7 +663,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainUniqArray.size();x=x+1){
 					if(((String)((Monster)DC.mainUniqArray.get(x)).getName()).contains("HELL")){		
 						nMonsterKey.add(DC.mainUniqArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainUniqArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainUniqArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainUniqArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainUniqArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -374,14 +674,14 @@ public class RealGUI extends JFrame{
 			case 0:
 				for(int x = 0; x< DC.mainSupUniqArray.size();x=x+1){
 					nMonsterKey.add(DC.mainSupUniqArray.get(x));
-					nMonster.addItem((String)((Monster)DC.mainSupUniqArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainSupUniqArray.get(x)).getName());
+					nMonster.addItem((String)((Monster)DC.mainSupUniqArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainSupUniqArray.get(x)).getTinyDiff() + ")");
 				}
 				break;
 			case 1:
 				for(int x = 0; x< DC.mainSupUniqArray.size();x=x+1){
 					if(((String)((Monster)DC.mainSupUniqArray.get(x)).getName()).contains("NORMAL")){
 						nMonsterKey.add(DC.mainSupUniqArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainSupUniqArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainSupUniqArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainSupUniqArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainSupUniqArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -389,7 +689,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainSupUniqArray.size();x=x+1){
 					if(((String)((Monster)DC.mainSupUniqArray.get(x)).getName()).contains("NIGHTMARE")){
 						nMonsterKey.add(DC.mainSupUniqArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainSupUniqArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainSupUniqArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainSupUniqArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainSupUniqArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -397,7 +697,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainSupUniqArray.size();x=x+1){
 					if(((String)((Monster)DC.mainSupUniqArray.get(x)).getName()).contains("HELL")){			
 						nMonsterKey.add(DC.mainSupUniqArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainSupUniqArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainSupUniqArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainSupUniqArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainSupUniqArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -408,14 +708,14 @@ public class RealGUI extends JFrame{
 			case 0:
 				for(int x = 0; x< DC.mainBossArray.size();x=x+1){
 					nMonsterKey.add(DC.mainBossArray.get(x));
-					nMonster.addItem((String)((Monster)DC.mainBossArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainBossArray.get(x)).getName());
+					nMonster.addItem((String)((Monster)DC.mainBossArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainBossArray.get(x)).getTinyDiff() + ")");
 				}
 				break;
 			case 1:
 				for(int x = 0; x< DC.mainBossArray.size();x=x+1){
 					if(((String)((Monster)DC.mainBossArray.get(x)).getName()).contains("NORMAL")){
 						nMonsterKey.add(DC.mainBossArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainBossArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainBossArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainBossArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainBossArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -423,7 +723,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainBossArray.size();x=x+1){
 					if(((String)((Monster)DC.mainBossArray.get(x)).getName()).contains("NIGHTMARE")){
 						nMonsterKey.add(DC.mainBossArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainBossArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainBossArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainBossArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainBossArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -431,7 +731,7 @@ public class RealGUI extends JFrame{
 				for(int x = 0; x< DC.mainBossArray.size();x=x+1){
 					if(((String)((Monster)DC.mainBossArray.get(x)).getName()).contains("HELL")){		
 						nMonsterKey.add(DC.mainBossArray.get(x));
-						nMonster.addItem((String)((Monster)DC.mainBossArray.get(x)).getRealName()+"--"+(String)((Monster)DC.mainBossArray.get(x)).getName());
+						nMonster.addItem((String)((Monster)DC.mainBossArray.get(x)).getRealName()+ " (" + (String)((Monster)DC.mainBossArray.get(x)).getTinyDiff() + ")");
 					}
 				}
 				break;
@@ -449,9 +749,37 @@ public class RealGUI extends JFrame{
 	public static void main(String [] args){
 
 
+
+
 		RealGUI RG = new RealGUI();
-		
-		RG.DC.findMonstersTC(87);
+
+//		System.out.println(D2TblFile.getString("Cow King's Horns"));
+
+//		D2TxtFileItemProperties ratioRow = D2TxtFile.ITEMRATIO.getRow(0);
+//		System.out.println(ratioRow.get("Function"));
+
+//		for(int x = 3;x<88;x=x+3){
+//		System.out.println(x);
+//		RG.DC.findMonstersTC(x);
+//		}
+
+////		RG.DC.findMonstersTC(87);
+//		System.out.println("RAWR");
+	}
+
+	class TextFieldLimiter extends PlainDocument
+	{
+		int maxChar = -1;
+		public TextFieldLimiter(int len){maxChar = len;}
+		public void insertString(int offs, String str, AttributeSet a) throws BadLocationException
+		{
+			if (str != null && maxChar > 0 && this.getLength() + str.length() > maxChar)
+			{
+				java.awt.Toolkit.getDefaultToolkit().beep();
+				return;
+			}
+			super.insertString(offs, str, a);
+		}
 	}
 
 }

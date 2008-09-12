@@ -1,31 +1,67 @@
 package DropCalcRefactored;
 
+import java.awt.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 import randall.d2files.D2TxtFileItemProperties;
 
 public class MonsterTuple {
 
+	Monster mParent;
 	String AreaName;
+	String RealAreaName;
 	int Level;
 	String initTC;
+	String calcd = "";
+	int mUqual;
+	int mSqual;
 
 	//SO FOR EVERY INIT TC THERE IS A SETOF FINAL TCS MAPPED TO A SET OF FINAL TC PROBs
 	HashMap finalTCs = new HashMap();
 
-	public MonsterTuple(String AreaName, Integer level, String initTC){
+	public MonsterTuple(String AreaName, Integer level, String initTC, Monster mParent){
+		this.mParent = mParent;
 		this.AreaName = AreaName;
 		this.Level = level.intValue();
 		this.initTC = initTC;
+		this.RealAreaName = D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",AreaName).get("LevelName"));
+		setQualities();
+	}
+
+	private void setQualities() {
+
+
+		D2TxtFileItemProperties qRow = D2TxtFile.TCS.searchColumns("Treasure Class", initTC);
+
+		if(qRow != null){
+
+			if(qRow.get("Unique").equals("")){
+				mUqual = 0;
+			}
+
+			if(qRow.get("Set").equals("")){
+				mSqual = 0;
+			}
+
+		}else{
+			mUqual = 0;
+			mSqual = 0;
+		}
+
+
 
 	}
 
+	public int getUqual() {
+		return mUqual;
+	}
+
 	public String getInitTC() {
-		// TODO Auto-generated method stub
 		return initTC;
 	}
 
@@ -74,6 +110,8 @@ public class MonsterTuple {
 
 	public ProbTCRow lookupTCReturnSUBATOMICTCROW(String tcQuery){
 
+
+
 		D2TxtFileItemProperties initTCRow = D2TxtFile.TCS.searchColumns("Treasure Class", tcQuery);
 		String selector = "Item1";
 		String probSelector = "Prob1";
@@ -96,7 +134,15 @@ public class MonsterTuple {
 				selector = selector.substring(0, selector.length() - 1) + (new Integer(x+1)); 
 				probSelector = probSelector.substring(0, probSelector.length() - 1) + (new Integer(x+1)); 
 			}
+			if(!initTCRow.get("Unique").equals("")){
+				mUqual = Integer.parseInt(initTCRow.get("Unique"));
+			}
+
+			if(!initTCRow.get("Set").equals("")){
+				mSqual = Integer.parseInt(initTCRow.get("Set"));
+			}
 		}
+
 
 
 
@@ -133,7 +179,11 @@ public class MonsterTuple {
 
 	public void lookupBASETCReturnATOMICTCS(Monster mon, int nPlayers, int nplayersParty) {
 
+		if(calcd.equals(nPlayers+","+nplayersParty)){
+			return;
+		}
 
+		mon.clearFinal(this);
 
 //		nPlayers = 1;
 
@@ -182,7 +232,7 @@ public class MonsterTuple {
 				}else{
 					allTCS.add(lookupTCReturnSUBATOMICTCROW(((String)((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(0))));
 				}
-			//////	System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
+				//////	System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
 			}
 			if(mon.getID().equals("duriel")){
 //				allTCS.remove(0);
@@ -195,7 +245,7 @@ public class MonsterTuple {
 
 		}else{
 			allTCS.add(lookupTCReturnSUBATOMICTCROW(((String)((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(0))));
-		///////	System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
+			///////	System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
 		}
 
 //		System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().size() - 1));
@@ -203,7 +253,7 @@ public class MonsterTuple {
 
 			do{
 				allTCS.add(lookupTCReturnSUBATOMICTCROW((String) ((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().size() - 1)));
-		////////		System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
+				////////		System.out.println(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC());
 //				System.out.println(((String)((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().size() - 1)).indexOf("Equip"));
 			}while(((String)((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().get(((ProbTCRow)allTCS.get(allTCS.size()-1)).getTC().size() - 1)).indexOf("Equip") !=-1);
 
@@ -246,7 +296,7 @@ public class MonsterTuple {
 			//nPlayers = (int) Math.round(nPlayers/(double)2);
 			int noDrop = Integer.parseInt(D2TxtFile.TCS.searchColumns("Treasure Class", this.getInitTC()).get("NoDrop"));
 
-		////////	System.out.println(noDrop);
+			////////	System.out.println(noDrop);
 			if(nPlayers>1){
 				//1 + (players -1)/2 + (groupsize - 1)/2
 
@@ -268,7 +318,12 @@ public class MonsterTuple {
 
 			constructTCPairs((ProbTCRow)allTCS.get(0));
 
-			counter =  (((Double)((ProbTCRow)allTCS.get(0)).getProb().get(1)).doubleValue());
+			//BOSS QUEST DROPS TAKE FROM 0th ENTRY
+			if(mon.getType().equals("BOSSQ")){
+			counter =  (((Double)((ProbTCRow)allTCS.get(0)).getProb().get(0)).doubleValue());
+			}else{
+				counter =  (((Double)((ProbTCRow)allTCS.get(0)).getProb().get(1)).doubleValue());
+			}
 			f=1;
 		}
 
@@ -283,7 +338,7 @@ public class MonsterTuple {
 			if(!((String)((ProbTCRow)allTCS.get(x)).getTC().get(0)).equals("gld")){
 				constructTCPairs((ProbTCRow)allTCS.get(x));
 				if(x == 4){
-	///////				System.out.println();
+					///////				System.out.println();
 				}
 				multiplyOut((ProbTCRow)allTCS.get(x), counter);
 				if(((String)((ProbTCRow)allTCS.get(x)).getTC().get(((ProbTCRow)allTCS.get(x)).getTC().size() -1 )).indexOf("Equip") != -1){
@@ -337,7 +392,7 @@ public class MonsterTuple {
 
 			}
 //			}
-//		System.out.println(((ArrayList)selectedMon.getFinalProbs().get(t)).get(y));
+//			System.out.println(((ArrayList)selectedMon.getFinalProbs().get(t)).get(y));
 //			System.out.println((1- ((Double)((ArrayList)selectedMon.getFinalProbs().get(t)).get(y)).doubleValue()));
 //			System.out.println(1-(Math.pow((1- ((Double)((ArrayList)selectedMon.getFinalProbs().get(t)).get(y)).doubleValue()), picks -1)));
 
@@ -353,11 +408,25 @@ public class MonsterTuple {
 			}
 		}
 
+		calcd = nPlayers+","+nplayersParty;
+
 	}
 
 	private void setInitTC(String string) {
 		this.initTC = string;
 
+	}
+
+	public Monster getParent() {
+		return this.mParent;
+	}
+
+	public String getArLvlName(){
+		return this.RealAreaName + " (mlvl " + this.Level + ")";
+	}
+
+	public int getSqual() {
+		return mSqual;
 	}
 
 

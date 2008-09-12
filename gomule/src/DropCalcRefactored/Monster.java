@@ -13,11 +13,13 @@ public class Monster {
 
 	String monID;
 	String monDiff;
+	String tinyDiff;
 	String monName;
 	String classOfMon;
 	ArrayList mTuples;
 	String SUID;
 	String minionBoss;
+	boolean isQuest = false;
 
 	public Monster(String monID, String monDiff, String classOfMon){
 //		if(monID.equals("))
@@ -25,37 +27,45 @@ public class Monster {
 		this.monDiff = monDiff;
 		this.classOfMon = classOfMon;
 
+		if(monDiff.equals("NORMAL")){
+			tinyDiff = "N";
+		}else if(monDiff.equals("NIGHTMARE")){
+			tinyDiff = "NM";
+		}else if(monDiff.equals("HELL")){
+			tinyDiff = "H";
+		}
+
 		if(classOfMon.equals("MIN")||classOfMon.equals("MINSEC")){
 
 			if(D2TxtFile.SUPUNIQ.searchColumns("Name", monID) != null){
-				
+
 				if(D2TxtFile.MONSTATS.searchColumns("Id",D2TxtFile.SUPUNIQ.searchColumns("Name", monID).get("Class")).get("boss").equals("1")){
 					this.minionBoss = monID;
 					setUpBossMinionTuples(D2TxtFile.MONSTATS.searchColumns("Id",D2TxtFile.SUPUNIQ.searchColumns("Name", monID).get("Class")).get("minion1"));
 					this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.monID).get("NameStr"));
 				}else{
-				this.minionBoss = monID;
-				this.monID = D2TxtFile.SUPUNIQ.searchColumns("Name", monID).get("Class");	
-				this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.monID).get("NameStr"));
-				setUpTuples();
+					this.minionBoss = monID;
+					this.monID = D2TxtFile.SUPUNIQ.searchColumns("Name", monID).get("Class");	
+					this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.monID).get("NameStr"));
+					setUpTuples();
 				}
 			}else{
 				if(D2TxtFile.MONSTATS.searchColumns("Id", monID).get("minion1").equals( "")){
-				this.minionBoss = monID;
-				this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.monID).get("NameStr"));
-				setUpTuples();
+					this.minionBoss = monID;
+					this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.monID).get("NameStr"));
+					setUpTuples();
 				}else{
 					if(classOfMon.equals("MINSEC")){
 						this.minionBoss = monID;
 						this.classOfMon = "MIN";
-						
+
 						setUpMinionTuples(D2TxtFile.MONSTATS.searchColumns("Id", monID).get("minion2"));
 						this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.monID).get("NameStr"));
 					}else{
-				this.minionBoss = monID;
-				
-				setUpMinionTuples(D2TxtFile.MONSTATS.searchColumns("Id", monID).get("minion1"));
-				this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.monID).get("NameStr"));
+						this.minionBoss = monID;
+
+						setUpMinionTuples(D2TxtFile.MONSTATS.searchColumns("Id", monID).get("minion1"));
+						this.monName =D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.monID).get("NameStr"));
 					}
 				}
 
@@ -80,14 +90,18 @@ public class Monster {
 //		enterMonLevel();
 //		this.initTC = getInitTC();
 
+
+
 	}
+
+
 
 	private void setUpBossMinionTuples(String newID) {
 		mTuples = new ArrayList();
 		this.monID = this.monID.toLowerCase();
 		this.classOfMon = "BOSS";
 		HashMap areas = findLocsMonster();
-		
+
 		enterMonLevel(areas);
 		this.classOfMon = "MIN";
 		this.monID = newID;
@@ -95,9 +109,9 @@ public class Monster {
 
 		mTuples = createTuples(areas, initTCs);
 
-		
+
 	}
-	
+
 	private void setUpMinionTuples(String newID) {
 		mTuples = new ArrayList();
 
@@ -108,7 +122,7 @@ public class Monster {
 
 		mTuples = createTuples(areas, initTCs);
 
-		
+
 	}
 
 	private void setUpTuples() {
@@ -118,7 +132,7 @@ public class Monster {
 
 		enterMonLevel(areas);
 //		if(monID.equals("unraveler4") && classOfMon.equals("REG")){
-//			System.out.println(areas);
+//		System.out.println(areas);
 //		}
 		ArrayList initTCs = getInitTC(areas);
 
@@ -133,7 +147,7 @@ public class Monster {
 		int counter = 0;
 		while(it.hasNext()){
 			String area = (String) it.next();
-			tOut.add(new MonsterTuple(area, (Integer)areas.get(area), (String)initTCs.get(counter)));
+			tOut.add(new MonsterTuple(area, (Integer)areas.get(area), (String)initTCs.get(counter), this));
 
 			counter = counter +1;
 		}
@@ -149,6 +163,10 @@ public class Monster {
 			header = "TreasureClass2";
 		}else if(classOfMon.equals("UNIQ")){
 			header = "TreasureClass3";
+		}else if(classOfMon.equals("BOSSQ")){
+			header = "TreasureClass4";
+			isQuest = true;
+//			this.classOfMon = "BOSS";
 		}else if(classOfMon.equals("SUPUNIQ")){
 
 			header = "TC";
@@ -224,7 +242,7 @@ public class Monster {
 
 	public void enterMonLevel(HashMap monLvlAreas){
 
-		if(classOfMon.equals("BOSS")){
+		if(classOfMon.startsWith("BOSS")){
 			dealWithBoss("LEVEL", monLvlAreas);
 			return;
 		}
@@ -325,8 +343,34 @@ public class Monster {
 				monLvlAreas.put("Act 5 - World Stone", new Integer(0));
 				return;
 			}
+			else if(monID.equals("putriddefiler1")){
+				monLvlAreas.put("Act 5 - Temple 2", new Integer(0));
+				monLvlAreas.put("Act 5 - Temple Boss", new Integer(0));
+
+				return;
+			}
+			else if(monID.equals("putriddefiler2")){
+				monLvlAreas.put("Act 5 - Baal Temple 1", new Integer(0));
+				monLvlAreas.put("Act 5 - Temple Boss", new Integer(0));
+
+				return;
+			}
+			else if(monID.equals("putriddefiler3")){
+				monLvlAreas.put("Act 5 - Baal Temple 1", new Integer(0));
+				monLvlAreas.put("Act 5 - Baal Temple 3", new Integer(0));
+				return;
+			}
+			else if(monID.equals("putriddefiler4")){
+				monLvlAreas.put("Act 5 - Baal Temple 3", new Integer(0));
+				return;
+			}
+			else if(monID.equals("putriddefiler5")){
+				monLvlAreas.put("Act 5 - Baal Temple 3", new Integer(0));
+				return;
+			}
 		}else{
 
+			for(int x = 0;x<monLvlAreas.size();x++){
 			String selector = "Level";
 			if(monDiff.equals("HELL")){
 				selector = selector + "(H)";   
@@ -334,8 +378,13 @@ public class Monster {
 				selector = selector + "(N)";   
 			}
 //			WHY DID I DO THIS? THIS IS WHY THE DEFILERS DON"T WORK.
-			if(!monID.equals("diabloclone")&&!monID.equals("putriddefiler1")&&!monID.equals("putriddefiler2")&&!monID.equals("putriddefiler3")&&!monID.equals("putriddefiler4")&&!monID.equals("putriddefiler5")){
-				monLvlAreas.put(monLvlAreas.keySet().toArray()[0],new Integer(D2TxtFile.MONSTATS.searchColumns("Id", monID).get(selector)));
+			if(!monID.equals("diabloclone")){
+//			if(!monID.equals("diabloclone")&&!monID.equals("putriddefiler2")&&!monID.equals("putriddefiler3")&&!monID.equals("putriddefiler4")&&!monID.equals("putriddefiler5")){
+//				if(!monID.equals("diabloclone")&&!monID.equals("putriddefiler1")&&!monID.equals("putriddefiler2")&&!monID.equals("putriddefiler3")&&!monID.equals("putriddefiler4")&&!monID.equals("putriddefiler5")){
+
+
+				monLvlAreas.put(monLvlAreas.keySet().toArray()[x],new Integer(D2TxtFile.MONSTATS.searchColumns("Id", monID).get(selector)));
+			}
 			}
 			return;
 
@@ -362,7 +411,14 @@ public class Monster {
 	}
 
 	public String getRealName(){
-		return this.monName;
+		if(classOfMon.equals("MIN")){
+			return this.monName + " (" + this.getRealBossName() + ") " + this.monID ;
+		}
+		if(isQuest){
+		return this.monName  + " (Q) - " +  this.monID;
+		}else{
+			return this.monName  + " - " +  this.monID;
+		}
 	}
 
 	private void dealWithSU(int i, HashMap lvlArr) {
@@ -458,7 +514,7 @@ public class Monster {
 				return monLvlAreas;
 
 			}
-		}else if(classOfMon.equals("BOSS")){
+		}else if(classOfMon.startsWith("BOSS")){
 			dealWithBoss("AREA", monLvlAreas);
 			return monLvlAreas;
 
@@ -542,13 +598,45 @@ public class Monster {
 		// TODO Auto-generated method stub
 		return minionBoss;
 	}
-	
+
 	public String getRealBossName(){
 		if(D2TxtFile.SUPUNIQ.searchColumns("Name", minionBoss) == null){
 			return D2TblFile.getString(D2TxtFile.MONSTATS.searchColumns("Id", this.minionBoss).get("NameStr"));
 		}
 		return D2TblFile.getString( getBoss());
 	}
+
+	public String getTinyDiff() {
+
+
+
+
+		return tinyDiff;
+	}
+
+
+
+	public void clearFinal(MonsterTuple tuple) {
+
+
+
+		((MonsterTuple)mTuples.get(mTuples.indexOf(tuple))).getFinalTCs().clear();
+
+
+
+
+
+	}
+
+
+
+//	public String getBossRealName() {
+//	// TODO Auto-generated method stub
+//	return D2TblFile.getString(getBoss());
+//	}
+
+
+
 }
 
 

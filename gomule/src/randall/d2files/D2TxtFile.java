@@ -20,7 +20,8 @@
  ******************************************************************************/
 package randall.d2files;
 
-import gomule.gui.*;
+
+import gomule.gui.D2FileManager;
 
 import java.io.*;
 import java.util.*;
@@ -64,6 +65,7 @@ public class D2TxtFile
     public static D2TxtFile TCS;
     public static D2TxtFile LEVELS;
     public static D2TxtFile SUPUNIQ;
+    public static D2TxtFile ITEMRATIO;
     
     //    public static D2TxtFile PROPERTIES;
 
@@ -101,6 +103,7 @@ public class D2TxtFile
         FULLSET = new D2TxtFile("Sets");
         CHARSTATS = new D2TxtFile("CharStats");
         AUTOMAGIC = new D2TxtFile("automagic");
+        ITEMRATIO = new D2TxtFile("ItemRatio");
         
         GOMULE_PROPS = new Properties();
         try
