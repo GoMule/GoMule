@@ -1,4 +1,4 @@
-package DropCalc;
+package gomule.dropCalc;
 
 import java.util.ArrayList;
 

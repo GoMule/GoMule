@@ -1,4 +1,4 @@
-package DropCalcRefactored;
+package gomule.dropCalc.gui;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

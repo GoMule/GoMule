@@ -1,4 +1,4 @@
-package DropCalcRefactored;
+package gomule.dropCalc;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -12,13 +12,13 @@ public class CalcWriter {
 	
 	
 	public CalcWriter(String fileName){
-		this.fileName = fileName;
-		try {
-			Bw = new BufferedWriter(new FileWriter(fileName));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		this.fileName = fileName;
+//		try {
+//			Bw = new BufferedWriter(new FileWriter(fileName));
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		
 	}

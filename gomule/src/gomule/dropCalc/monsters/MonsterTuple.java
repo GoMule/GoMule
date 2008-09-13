@@ -1,4 +1,6 @@
-package DropCalcRefactored;
+package gomule.dropCalc.monsters;
+
+import gomule.dropCalc.ProbTCRow;
 
 import java.awt.Component;
 import java.math.BigDecimal;
@@ -427,6 +429,10 @@ public class MonsterTuple {
 
 	public int getSqual() {
 		return mSqual;
+	}
+
+	public int getLevel() {
+		return Level;
 	}
 
 

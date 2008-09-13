@@ -1,4 +1,4 @@
-package DropCalcRefactored;
+package gomule.dropCalc.monsters;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -628,6 +628,39 @@ public class Monster {
 
 	}
 
+
+
+	public ArrayList getmTuples() {
+		return this.mTuples;
+	}
+
+	public String getMonName(){
+		return monName;
+	}
+
+
+
+	public String getSUID() {
+		return SUID;
+	}
+
+
+
+	public String getMonID() {
+		return monID;
+	}
+
+
+
+	public String getClassOfMon() {
+		return classOfMon;
+	}
+
+
+
+	public String getMonDiff() {
+		return monDiff;
+	}
 
 
 //	public String getBossRealName() {

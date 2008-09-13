@@ -1,4 +1,11 @@
-package DropCalcRefactored;
+package gomule.dropCalc;
+
+import gomule.dropCalc.items.Item;
+import gomule.dropCalc.items.SetItem;
+import gomule.dropCalc.items.UniqItem;
+import gomule.dropCalc.items.WhiteItem;
+import gomule.dropCalc.monsters.Monster;
+import gomule.dropCalc.monsters.MonsterTuple;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +66,7 @@ public class DCNew {
 		CW.writeData(TC+",");
 		for(int x = 0;x< mainRegMonArray.size();x=x+1){
 			((Monster)mainRegMonArray.get(x)).lookupBASETCReturnATOMICTCS(1, 1);
-			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -73,7 +80,7 @@ public class DCNew {
 
 		for(int x = 0;x< mainMinMonArray.size();x=x+1){
 			((Monster)mainMinMonArray.get(x)).lookupBASETCReturnATOMICTCS(1, 1);
-			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -87,7 +94,7 @@ public class DCNew {
 		
 		for(int x = 0;x< mainChampMonArray.size();x=x+1){
 			((Monster)mainChampMonArray.get(x)).lookupBASETCReturnATOMICTCS(1, 1);
-			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -101,7 +108,7 @@ public class DCNew {
 		
 		for(int x = 0;x< mainUniqArray.size();x=x+1){
 			((Monster)mainUniqArray.get(x)).lookupBASETCReturnATOMICTCS(1, 1);
-			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -114,11 +121,11 @@ public class DCNew {
 		}
 		
 		for(int x = 0;x< mainSupUniqArray.size();x=x+1){
-			if(((Monster)mainSupUniqArray.get(x)).monName.equals("Fangskin") || ((Monster)mainSupUniqArray.get(x)).SUID.startsWith("ancientbarb")){
+			if(((Monster)mainSupUniqArray.get(x)).getMonName().equals("Fangskin") || ((Monster)mainSupUniqArray.get(x)).getSUID().startsWith("ancientbarb")){
 				continue;
 			}
 			((Monster)mainSupUniqArray.get(x)).lookupBASETCReturnATOMICTCS(1, 1);
-			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -132,7 +139,7 @@ public class DCNew {
 		
 		for(int x = 0;x< mainBossArray.size();x=x+1){
 			((Monster)mainBossArray.get(x)).lookupBASETCReturnATOMICTCS(1, 1);
-			ArrayList mTuples = ((Monster)mainBossArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainBossArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -166,7 +173,7 @@ public class DCNew {
 		
 		for(int x = 0;x< mainRegMonArray.size();x=x+1){
 			((Monster)mainRegMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
@@ -186,7 +193,7 @@ public class DCNew {
 
 		for(int x = 0;x< mainMinMonArray.size();x=x+1){
 			((Monster)mainMinMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -203,7 +210,7 @@ public class DCNew {
 		case 2:
 		for(int x = 0;x< mainChampMonArray.size();x=x+1){
 			((Monster)mainChampMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -220,7 +227,7 @@ public class DCNew {
 		case 3:
 		for(int x = 0;x< mainUniqArray.size();x=x+1){
 			((Monster)mainUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -236,11 +243,11 @@ public class DCNew {
 		break;
 		case 4:
 		for(int x = 0;x< mainSupUniqArray.size();x=x+1){
-			if(((Monster)mainSupUniqArray.get(x)).monName.equals("Fangskin") || ((Monster)mainSupUniqArray.get(x)).SUID.startsWith("ancientbarb")){
+			if(((Monster)mainSupUniqArray.get(x)).getMonName().equals("Fangskin") || ((Monster)mainSupUniqArray.get(x)).getSUID().startsWith("ancientbarb")){
 				continue;
 			}
 			((Monster)mainSupUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -257,7 +264,7 @@ public class DCNew {
 		case 5:
 		for(int x = 0;x< mainBossArray.size();x=x+1){
 			((Monster)mainBossArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainBossArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainBossArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -296,14 +303,14 @@ public class DCNew {
 		
 		for(int x = 0;x< mainRegMonArray.size();x=x+1){
 			((Monster)mainRegMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
 //					System.out.println(D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," +((Monster)mainRegMonArray.get(x)).monName + ","+ ((Monster)mainRegMonArray.get(x)).monDiff+ "," +((Monster)mainRegMonArray.get(x)).monName + ","+ ((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d);
 //					System.out.print("0-" + x+"-"+y +",");
 //					CW.writeData("0-" + x+"-"+y +",");
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 				}
 			}
 		}
@@ -316,7 +323,7 @@ public class DCNew {
 
 		for(int x = 0;x< mainMinMonArray.size();x=x+1){
 			((Monster)mainMinMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -325,7 +332,7 @@ public class DCNew {
 //					CW.writeData("1-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
@@ -333,7 +340,7 @@ public class DCNew {
 		case 2:
 		for(int x = 0;x< mainChampMonArray.size();x=x+1){
 			((Monster)mainChampMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -342,7 +349,7 @@ public class DCNew {
 //					CW.writeData("2-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
@@ -350,7 +357,7 @@ public class DCNew {
 		case 3:
 		for(int x = 0;x< mainUniqArray.size();x=x+1){
 			((Monster)mainUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -359,18 +366,18 @@ public class DCNew {
 //					CW.writeData("3-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
 		break;
 		case 4:
 		for(int x = 0;x< mainSupUniqArray.size();x=x+1){
-			if(((Monster)mainSupUniqArray.get(x)).monName.equals("Fangskin") || ((Monster)mainSupUniqArray.get(x)).SUID.startsWith("ancientbarb")){
+			if(((Monster)mainSupUniqArray.get(x)).getMonName().equals("Fangskin") || ((Monster)mainSupUniqArray.get(x)).getSUID().startsWith("ancientbarb")){
 				continue;
 			}
 			((Monster)mainSupUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -379,7 +386,7 @@ public class DCNew {
 //					CW.writeData("4-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
@@ -387,7 +394,7 @@ public class DCNew {
 		case 5:
 		for(int x = 0;x< mainBossArray.size();x=x+1){
 			((Monster)mainBossArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainBossArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainBossArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -396,7 +403,7 @@ public class DCNew {
 //					CW.writeData("5-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
@@ -426,19 +433,19 @@ public class DCNew {
 		
 		for(int x = 0;x< mainRegMonArray.size();x=x+1){
 			if(item.getRealName().toLowerCase().contains("cow")){
-				if(!(((Monster)mainRegMonArray.get(x)).monID).equals("hellbovine")){
+				if(!(((Monster)mainRegMonArray.get(x)).getMonID()).equals("hellbovine")){
 					continue;
 				}
 			}
 			((Monster)mainRegMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
 //					System.out.println(D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," +((Monster)mainRegMonArray.get(x)).monName + ","+ ((Monster)mainRegMonArray.get(x)).monDiff+ "," +((Monster)mainRegMonArray.get(x)).monName + ","+ ((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d);
 //					System.out.print("0-" + x+"-"+y +",");
 //					CW.writeData("0-" + x+"-"+y +",");
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * (1 - getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * (1 - getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 				}
 			}
 		}
@@ -452,12 +459,12 @@ public class DCNew {
 		for(int x = 0;x< mainMinMonArray.size();x=x+1){
 			if(item.getRealName().toLowerCase().contains("cow")){
 				
-				if(!(((Monster)mainMinMonArray.get(x)).monID).equals("hellbovine")){
+				if(!(((Monster)mainMinMonArray.get(x)).getMonID()).equals("hellbovine")){
 					continue;
 				}
 			}
 			((Monster)mainMinMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -466,7 +473,7 @@ public class DCNew {
 //					CW.writeData("1-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
@@ -474,12 +481,12 @@ public class DCNew {
 		case 2:
 		for(int x = 0;x< mainChampMonArray.size();x=x+1){
 			if(item.getRealName().toLowerCase().contains("cow")){
-				if(!(((Monster)mainChampMonArray.get(x)).monID).equals("hellbovine")){
+				if(!(((Monster)mainChampMonArray.get(x)).getMonID()).equals("hellbovine")){
 					continue;
 				}
 			}
 			((Monster)mainChampMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -488,7 +495,7 @@ public class DCNew {
 //					CW.writeData("2-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
@@ -496,12 +503,12 @@ public class DCNew {
 		case 3:
 		for(int x = 0;x< mainUniqArray.size();x=x+1){
 			if(item.getRealName().toLowerCase().contains("cow")){
-				if(!(((Monster)mainUniqArray.get(x)).monID).equals("hellbovine")){
+				if(!(((Monster)mainUniqArray.get(x)).getMonID()).equals("hellbovine")){
 					continue;
 				}
 			}
 			((Monster)mainUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -510,7 +517,7 @@ public class DCNew {
 //					CW.writeData("3-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
@@ -518,15 +525,15 @@ public class DCNew {
 		case 4:
 		for(int x = 0;x< mainSupUniqArray.size();x=x+1){
 			if(item.getRealName().toLowerCase().contains("cow")){
-				if(!(((Monster)mainSupUniqArray.get(x)).monID).equals("The Cow King")){
+				if(!(((Monster)mainSupUniqArray.get(x)).getMonID()).equals("The Cow King")){
 					continue;
 				}
 			}
-			if(((Monster)mainSupUniqArray.get(x)).monName.equals("Fangskin") || ((Monster)mainSupUniqArray.get(x)).SUID.startsWith("ancientbarb")){
+			if(((Monster)mainSupUniqArray.get(x)).getMonName().equals("Fangskin") || ((Monster)mainSupUniqArray.get(x)).getSUID().startsWith("ancientbarb")){
 				continue;
 			}
 			((Monster)mainSupUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -535,7 +542,7 @@ public class DCNew {
 //					CW.writeData("4-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
@@ -543,12 +550,12 @@ public class DCNew {
 		case 5:
 		for(int x = 0;x< mainBossArray.size();x=x+1){
 			if(item.getRealName().toLowerCase().contains("cow")){
-				if(!(((Monster)mainBossArray.get(x)).monID).equals("hellbovine")){
+				if(!(((Monster)mainBossArray.get(x)).getMonID()).equals("hellbovine")){
 					continue;
 				}
 			}
 			((Monster)mainBossArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup);
-			ArrayList mTuples = ((Monster)mainBossArray.get(x)).mTuples;
+			ArrayList mTuples = ((Monster)mainBossArray.get(x)).getmTuples();
 
 			for(int y = 0;y<mTuples.size();y=y+1){
 
@@ -557,7 +564,7 @@ public class DCNew {
 //					CW.writeData("5-" + x+"-"+y +",");
 //					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
 //					monsterTCList.add(mTuples.get(y));
-					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).Level, MF,((MonsterTuple)mTuples.get(y)))));
+					monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQualityUniq(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y))) * getQualitySet(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)))));
 					}
 			}
 		}
@@ -919,6 +926,42 @@ public class DCNew {
 		return ((double)128)/dChance;
 
 
+	}
+
+	public ArrayList getRegItemArray() {
+		return regItemArray;
+	}
+
+	public ArrayList getSetItemArray() {
+		return setItemArray;
+	}
+
+	public ArrayList getUniqItemArray() {
+		return uniqItemArray;
+	}
+
+	public ArrayList getMainRegMonArray() {
+		return mainRegMonArray;
+	}
+
+	public ArrayList getMainMinMonArray() {
+		return mainMinMonArray;
+	}
+
+	public ArrayList getMainChampMonArray() {
+		return mainChampMonArray;
+	}
+
+	public ArrayList getMainUniqArray() {
+		return mainUniqArray;
+	}
+
+	public ArrayList getMainSupUniqArray() {
+		return mainSupUniqArray;
+	}
+
+	public ArrayList getMainBossArray() {
+		return mainBossArray;
 	}
 }
 

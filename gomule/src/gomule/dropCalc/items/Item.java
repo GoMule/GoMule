@@ -1,4 +1,6 @@
-package DropCalcRefactored;
+package gomule.dropCalc.items;
+
+import gomule.dropCalc.DCNew;
 
 import java.util.HashMap;
 
@@ -179,6 +181,13 @@ public class Item {
 	public boolean isClassSpec() {
 		
 		return iClassSpec;
+	}
+
+
+
+
+	public int getItemQual() {
+		return ItemQual;
 	}
 
 

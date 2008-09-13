@@ -1,4 +1,4 @@
-package DropCalcRefactored;
+package gomule.dropCalc;
 
 public class ProbTCPair {
 

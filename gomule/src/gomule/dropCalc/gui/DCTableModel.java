@@ -1,5 +1,6 @@
-package DropCalcRefactored;
+package gomule.dropCalc.gui;
 
+import gomule.dropCalc.monsters.MonsterTuple;
 import gomule.gui.D2ItemListAll;
 import gomule.item.D2Item;
 
@@ -60,25 +61,25 @@ public class DCTableModel extends AbstractTableModel{
 
 			switch(nDiff){
 			case 0:
-				if(tSelected.getParent().classOfMon.startsWith(classKey)){
+				if(tSelected.getParent().getClassOfMon().startsWith(classKey)){
 				tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getTinyDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
 				}
 				break;
 
 			case 1:
-				if(tSelected.getParent().classOfMon.startsWith(classKey) && tSelected.getParent().monDiff.equals("NORMAL")){
+				if(tSelected.getParent().getClassOfMon().startsWith(classKey) && tSelected.getParent().getMonDiff().equals("NORMAL")){
 					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getTinyDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
 					}
 				break;
 
 			case 2:
-				if(tSelected.getParent().classOfMon.startsWith(classKey) && tSelected.getParent().monDiff.equals("NIGHTMARE")){
+				if(tSelected.getParent().getClassOfMon().startsWith(classKey) && tSelected.getParent().getMonDiff().equals("NIGHTMARE")){
 					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getTinyDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
 					}
 				break;
 
 			case 3:
-				if(tSelected.getParent().classOfMon.startsWith(classKey) && tSelected.getParent().monDiff.equals("HELL")){
+				if(tSelected.getParent().getClassOfMon().startsWith(classKey) && tSelected.getParent().getMonDiff().equals("HELL")){
 					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getTinyDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
 					}
 				break;
@@ -103,7 +104,7 @@ public class DCTableModel extends AbstractTableModel{
 			while(TCIt.hasNext()){
 
 				String tcArr = (String) TCIt.next();				
-				tmRows.add(new OutputRow(tcArr,tSelected.getArLvlName(),tSelected.finalTCs.get(tcArr)));
+				tmRows.add(new OutputRow(tcArr,tSelected.getArLvlName(),tSelected.getFinalTCs().get(tcArr)));
 
 			}
 		}

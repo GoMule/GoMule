@@ -1,8 +1,10 @@
-package DropCalcRefactored;
+package gomule.dropCalc.items;
+
+import gomule.dropCalc.DCNew;
+import gomule.dropCalc.monsters.MonsterTuple;
 
 import java.util.HashMap;
 
-import DropCalc.DropCalc;
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFileItemProperties;
 
