@@ -291,17 +291,21 @@ public class MonsterTuple {
 			
 			if(((String)getLastRow(miscTCS).getTC().get(getLastRow(miscTCS).getTC().size()-1)).contains("Runes") && ((String)getLastRow(miscTCS).getTC().get(getLastRow(miscTCS).getTC().size()-2)).contains("Runes")){
 				ArrayList runesArr1 = new ArrayList();
-				runesArr1.addAll(miscTCS);
 				ArrayList runesArr2 = new ArrayList();
-				runesArr2.addAll(miscTCS);
+				for(int x = 0 ;x<miscTCS.size();x++){
+					runesArr1.add(new ProbTCRow((ProbTCRow)miscTCS.get(x)));
+					runesArr2.add(new ProbTCRow((ProbTCRow)miscTCS.get(x)));
+				}
 				
 				parseRuneTree(runesArr1,getLastRow(miscTCS).getTC().size()-1, keyRow);
 				parseRuneTree(runesArr2,getLastRow(miscTCS).getTC().size()-2, keyRow);
+				miscTCS.addAll(runesArr1);
+				miscTCS.addAll(runesArr2);
+
 			}
 		}
 
 
-		
 
 		this.setFinalTrueMiscTCs(miscTCS);
 		/**
@@ -389,13 +393,27 @@ public class MonsterTuple {
 		}
 
 
-		
-		
+//		if()
+		constructTCPairs((ProbTCRow)runesArr.get(1));
+		multiplyOut((ProbTCRow)runesArr.get(1), miscCounter);
+		miscCounter =  ((((Double)((ProbTCRow)runesArr.get(1)).getProb().get(key))).doubleValue());
+		f++;
 //		if()
 		
 		for(int x = f; x< runesArr.size();x=x+1){
 
-			
+			constructTCPairs((ProbTCRow)runesArr.get(x));
+			multiplyOut((ProbTCRow)runesArr.get(x), miscCounter);
+
+			if(((String)((ProbTCRow)runesArr.get(x)).getTC().get(0)).contains("Equip")){
+				miscCounter =  ((((Double)((ProbTCRow)runesArr.get(x)).getProb().get(1))).doubleValue());
+
+			}else{
+			miscCounter =  ((((Double)((ProbTCRow)runesArr.get(x)).getProb().get(0))).doubleValue());
+
+			}
+
+
 
 		}
 		

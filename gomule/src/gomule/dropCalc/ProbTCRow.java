@@ -2,6 +2,8 @@ package gomule.dropCalc;
 
 import java.util.ArrayList;
 
+import com.sun.xml.internal.bind.v2.runtime.output.Pcdata;
+
 public class ProbTCRow {
 
 	ArrayList TC;
@@ -12,6 +14,18 @@ public class ProbTCRow {
 		this.Prob = Prob;
 		this.TC = TC;
 		this.totProb = sum(Prob);
+		
+	}
+	
+	public ProbTCRow(ProbTCRow ptcR){
+		this.Prob = new ArrayList();
+		this.TC = new ArrayList();
+		
+		for(int x = 0;x<ptcR.getProb().size();x++){
+			Prob.add(new Double(((Double)ptcR.getProb().get(x)).doubleValue()));
+			TC.add(new String(((String)ptcR.getTC().get(x))));
+		}
+		this.totProb = ptcR.totProb;
 		
 	}
 	
