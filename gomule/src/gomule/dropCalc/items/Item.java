@@ -2,6 +2,7 @@ package gomule.dropCalc.items;
 
 import gomule.dropCalc.DCNew;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import randall.d2files.D2TblFile;
@@ -21,17 +22,25 @@ public class Item {
 	int BaseQLvl;
 	int TCProbSum;
 	boolean iClassSpec;
+	/**
+	 * 0 = Normal
+	 * 1 = Uniq
+	 * 2 = Set
+	 */
+	int iNUS;
 	
 	/**
 	 * 0 = Norm
 	 * 1 = Excep
 	 * 2 = Elite
+	 * 3 = Misc	
 	 */
 	int ItemQual;
 	
 	/**
 	 * 0 = Wep
 	 * 1 = Arm
+	 * 2 = Misc
 	 */
 	int ItemClass;
 
@@ -84,10 +93,15 @@ public class Item {
 		if(IPointer == null){
 			IPointer = D2TxtFile.ARMOR.searchColumns("code", ItemCode);
 			this.ItemClass = 1;
+			if(IPointer == null){
+				IPointer = D2TxtFile.MISC.searchColumns("code", ItemCode);
+				this.ItemClass = 2;
+			}
 		}
 		ItemType = IPointer.get("type");
 		BaseQLvl = Integer.parseInt(IPointer.get("level"));
 		
+		if(ItemClass != 2){
 		if(IPointer.get("normcode").equals(ItemCode)){
 			ItemQual = 0;
 		}else if(IPointer.get("ubercode").equals(ItemCode)){
@@ -95,12 +109,17 @@ public class Item {
 		}else if(IPointer.get("ultracode").equals(ItemCode)){
 			ItemQual = 2;
 		}
+		}else{
+			ItemQual = 3;
+		}
 		
 		
 	}
 
 	protected int getRarity(String ItemType) {
-
+//		if(ItemClass == 2 && ItemCode.equals("rin")){
+//			return Integer.parseInt(D2TxtFile.UNIQUES.searchColumns("code", ItemCode).get("rarity"));
+//		}
 		return Integer.parseInt(D2TxtFile.ITEM_TYPES.searchColumns("Code", ItemType).get("Rarity"));
 
 	}
@@ -150,6 +169,10 @@ public class Item {
 	public int getqLvl(){
 		return ItemQLvl;
 	}
+	
+	public int getBaseqLvl(){
+		return BaseQLvl;
+	}
 
 	public boolean setClassSpec(){
 
@@ -188,6 +211,29 @@ public class Item {
 
 	public int getItemQual() {
 		return ItemQual;
+	}
+
+
+
+
+	public int getiNUS() {
+		return iNUS;
+	}
+
+
+
+
+	public String getItemCode() {
+		return ItemCode;
+		
+	}
+
+
+
+
+	public D2TxtFileItemProperties getItemRow() {
+		// TODO Auto-generated method stub
+		return ItemRow;
 	}
 
 

@@ -18,6 +18,7 @@ public class WhiteItem extends Item {
 		getTC();
 		this.ItemName = ItemRow.get("name");
 		this.ItemQLvl = Integer.parseInt(ItemRow.get("level"));
+		this.iNUS = 0;
 
 	}
 
@@ -51,17 +52,16 @@ public class WhiteItem extends Item {
 		switch(ItemClass){
 		case 0:
 
-			mDrops = DC.findMonstersTC("weap" + this.ItemTC, (double)ItemRarity/(double)this.getTCProbSum(), monSelection,nPlayers,nGroup);
+			mDrops = DC.findMonstersTCGeneral("weap" + this.ItemTC, (double)ItemRarity/(double)this.getTCProbSum(), monSelection,this ,MF,nPlayers,nGroup);
 			
 			break;
 
 		case 1:
 
-			mDrops = DC.findMonstersTC("armo" + this.ItemTC,(double)ItemRarity/(double)this.getTCProbSum(), monSelection,nPlayers,nGroup);
-			
+			mDrops = DC.findMonstersTCGeneral("armo" + this.ItemTC, (double)ItemRarity/(double)this.getTCProbSum(), monSelection,this ,MF,nPlayers,nGroup);
+					
 			break;
 		}
-		
 		return mDrops;
 		
 	}

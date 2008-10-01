@@ -17,6 +17,7 @@ public class SetItem extends Item {
 		this.ItemName = ItemRow.get("index");
 		this.ItemQLvl = Integer.parseInt(ItemRow.get("lvl"));
 		this.iClassSpec = setClassSpec();
+		iNUS = 2;
 	}
 
 
@@ -25,14 +26,23 @@ public class SetItem extends Item {
 		switch(ItemClass){
 		case 0:
 
-			mDrops = DC.findMonstersTC("weap" + this.ItemTC, (double)ItemRarity/(double)this.getTCProbSum(), monSelection, this, MF,  nPlayers,  nGroup);
+			mDrops = DC.findMonstersTCGeneral("weap" + this.ItemTC, (double)ItemRarity/(double)this.getTCProbSum(), monSelection, this, MF,  nPlayers,  nGroup);
 
 			break;
 
 		case 1:
 
-			mDrops = DC.findMonstersTC("armo" + this.ItemTC,(double)ItemRarity/(double)this.getTCProbSum(), monSelection, this, MF, nPlayers, nGroup);
+			mDrops = DC.findMonstersTCGeneral("armo" + this.ItemTC,(double)ItemRarity/(double)this.getTCProbSum(), monSelection, this, MF, nPlayers, nGroup);
 
+			break;
+			
+		case 2:
+
+
+
+//			if(ItemCode.equals("rin") || ItemCode.equals("amu") ){
+				mDrops = DC.findMonstersTCMisc(monSelection, this, MF, nPlayers, nGroup);
+//			}
 			break;
 		}
 

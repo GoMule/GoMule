@@ -1,26 +1,21 @@
 package gomule.dropCalc.gui;
 
 import gomule.dropCalc.monsters.MonsterTuple;
-import gomule.gui.D2ItemListAll;
-import gomule.item.D2Item;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
-
-import randall.d2files.D2TblFile;
-import randall.d2files.D2TxtFile;
 
 public class DCTableModel extends AbstractTableModel{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6556329099541788418L;
 
 	/**
 	 * Getting an ArrayList of MonsterTuples
@@ -50,7 +45,7 @@ public class DCTableModel extends AbstractTableModel{
 		return 3;
 	}
 
-	public void refresh(HashMap iItems, int nDiff, String classKey){
+	public void refresh(HashMap iItems, int nDiff, int classKey){
 		type = 1;
 		tmRows = new ArrayList();
 
@@ -61,26 +56,26 @@ public class DCTableModel extends AbstractTableModel{
 
 			switch(nDiff){
 			case 0:
-				if(tSelected.getParent().getClassOfMon().startsWith(classKey)){
-				tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getTinyDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
+				if(tSelected.getParent().getClassOfMon() == classKey){
+				tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
 				}
 				break;
 
 			case 1:
-				if(tSelected.getParent().getClassOfMon().startsWith(classKey) && tSelected.getParent().getMonDiff().equals("NORMAL")){
-					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getTinyDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
+				if(tSelected.getParent().getClassOfMon()== classKey && tSelected.getParent().getMonDiff().equals("N")){
+					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
 					}
 				break;
 
 			case 2:
-				if(tSelected.getParent().getClassOfMon().startsWith(classKey) && tSelected.getParent().getMonDiff().equals("NIGHTMARE")){
-					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getTinyDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
+				if(tSelected.getParent().getClassOfMon()== classKey && tSelected.getParent().getMonDiff().equals("NM")){
+					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
 					}
 				break;
 
 			case 3:
-				if(tSelected.getParent().getClassOfMon().startsWith(classKey) && tSelected.getParent().getMonDiff().equals("HELL")){
-					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getTinyDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
+				if(tSelected.getParent().getClassOfMon()== classKey && tSelected.getParent().getMonDiff().equals("H")){
+					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
 					}
 				break;
 			}
