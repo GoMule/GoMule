@@ -42,7 +42,7 @@ import randall.util.RandallPanel;
  */ 
 public class D2FileManager extends JFrame
 {
-    private static final String  CURRENT_VERSION = "R0.21";
+    private static final String  CURRENT_VERSION = "R0.22";
 
     private HashMap				 iItemLists = new HashMap();
     
@@ -293,8 +293,23 @@ public class D2FileManager extends JFrame
         });
         iToolbar.add(lSaveAll);
 
-        iToolbar.add(new JLabel("     "));
-        
+
+    	
+        JButton lDropCalc = new JButton(D2ImageCache.getIcon("dc.gif"));
+        lDropCalc.setToolTipText("Run Drop Calculator");
+        lDropCalc.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent e)
+            {
+            	try {
+            	    Process child = Runtime.getRuntime().exec("java -jar DropCalc.jar");
+            	} catch (IOException ee) {
+            	}
+                
+            }
+        });
+        iToolbar.add(lDropCalc);
+    	
         JButton lCancelAll = new JButton(D2ImageCache.getIcon("cancel.gif"));
         lCancelAll.setToolTipText("Cancel (reload all)");
         lCancelAll.addActionListener(new java.awt.event.ActionListener()

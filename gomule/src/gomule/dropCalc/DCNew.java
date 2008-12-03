@@ -1,3 +1,23 @@
+/*******************************************************************************
+ * 
+ * Copyright 2008 Silospen
+ * 
+ * This file is part of gomule.
+ * 
+ * gomule is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * gomule is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * gomlue; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
+ * Fifth Floor, Boston, MA 02110-1301 USA
+ *  
+ ******************************************************************************/
 package gomule.dropCalc;
 
 import gomule.dropCalc.items.Item;
@@ -62,107 +82,107 @@ public class DCNew {
 
 	}
 
-	public void writeMonstersTC(int TC, int nPlayers, int nGroup){
-
-
-		/**
-		 * 0:Reg
-		 * 1:Min
-		 * 2:Champ
-		 * 3:Unique
-		 * 4:Superunique
-		 * 5:Boss
-		 */
-		CW.writeData(TC+",");
-		for(int x = 0;x< mainRegMonArray.size();x=x+1){
-			((Monster)mainRegMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
-			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).getmTuples();
-
-			for(int y = 0;y<mTuples.size();y=y+1){
-
-				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
-//					System.out.println(D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," +((Monster)mainRegMonArray.get(x)).monName);
-//					System.out.print("0-" + x+"-"+y +",");
-					CW.writeData("0-" + x+"-"+y +",");
-				}
-			}
-		}
-
-		for(int x = 0;x< mainMinMonArray.size();x=x+1){
-			((Monster)mainMinMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
-			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).getmTuples();
-
-			for(int y = 0;y<mTuples.size();y=y+1){
-
-				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
-//					System.out.print("1-" + x+"-"+y +",");
-					CW.writeData("1-" + x+"-"+y +",");
-//					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
-				}
-			}
-		}
-
-		for(int x = 0;x< mainChampMonArray.size();x=x+1){
-			((Monster)mainChampMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
-			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).getmTuples();
-
-			for(int y = 0;y<mTuples.size();y=y+1){
-
-				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
-//					System.out.print("2-" + x+"-"+y +",");
-					CW.writeData("2-" + x+"-"+y +",");
-//					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
-				}
-			}
-		}
-
-		for(int x = 0;x< mainUniqArray.size();x=x+1){
-			((Monster)mainUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
-			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).getmTuples();
-
-			for(int y = 0;y<mTuples.size();y=y+1){
-
-				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
-//					System.out.print("3-" + x+"-"+y +",");
-					CW.writeData("3-" + x+"-"+y +",");
-//					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
-				}
-			}
-		}
-
-		for(int x = 0;x< mainSupUniqArray.size();x=x+1){
-			if(((Monster)mainSupUniqArray.get(x)).getMonName().equals("Fangskin") || ((SuperUnique)mainSupUniqArray.get(x)).getSUID().startsWith("ancientbarb")){
-				continue;
-			}
-			((Monster)mainSupUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
-			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).getmTuples();
-
-			for(int y = 0;y<mTuples.size();y=y+1){
-
-				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
-//					System.out.print("4-" + x+"-"+y +",");
-					CW.writeData("4-" + x+"-"+y +",");
-//					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
-				}
-			}
-		}
-
-		for(int x = 0;x< mainBossArray.size();x=x+1){
-			((Monster)mainBossArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
-			ArrayList mTuples = ((Monster)mainBossArray.get(x)).getmTuples();
-
-			for(int y = 0;y<mTuples.size();y=y+1){
-
-				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
-//					System.out.print("5-" + x+"-"+y +",");
-					CW.writeData("5-" + x+"-"+y +",");
-//					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
-				}
-			}
-		}
-
-		CW.writeData("\n");
-	}
+//	public void writeMonstersTC(int TC, int nPlayers, int nGroup){
+//
+//
+//		/**
+//		 * 0:Reg
+//		 * 1:Min
+//		 * 2:Champ
+//		 * 3:Unique
+//		 * 4:Superunique
+//		 * 5:Boss
+//		 */
+//		CW.writeData(TC+",");
+//		for(int x = 0;x< mainRegMonArray.size();x=x+1){
+//			((Monster)mainRegMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
+//			ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).getmTuples();
+//
+//			for(int y = 0;y<mTuples.size();y=y+1){
+//
+//				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
+////					System.out.println(D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," +((Monster)mainRegMonArray.get(x)).monName);
+////					System.out.print("0-" + x+"-"+y +",");
+//					CW.writeData("0-" + x+"-"+y +",");
+//				}
+//			}
+//		}
+//
+//		for(int x = 0;x< mainMinMonArray.size();x=x+1){
+//			((Monster)mainMinMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
+//			ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).getmTuples();
+//
+//			for(int y = 0;y<mTuples.size();y=y+1){
+//
+//				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
+////					System.out.print("1-" + x+"-"+y +",");
+//					CW.writeData("1-" + x+"-"+y +",");
+////					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
+//				}
+//			}
+//		}
+//
+//		for(int x = 0;x< mainChampMonArray.size();x=x+1){
+//			((Monster)mainChampMonArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
+//			ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).getmTuples();
+//
+//			for(int y = 0;y<mTuples.size();y=y+1){
+//
+//				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
+////					System.out.print("2-" + x+"-"+y +",");
+//					CW.writeData("2-" + x+"-"+y +",");
+////					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
+//				}
+//			}
+//		}
+//
+//		for(int x = 0;x< mainUniqArray.size();x=x+1){
+//			((Monster)mainUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
+//			ArrayList mTuples = ((Monster)mainUniqArray.get(x)).getmTuples();
+//
+//			for(int y = 0;y<mTuples.size();y=y+1){
+//
+//				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
+////					System.out.print("3-" + x+"-"+y +",");
+//					CW.writeData("3-" + x+"-"+y +",");
+////					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
+//				}
+//			}
+//		}
+//
+//		for(int x = 0;x< mainSupUniqArray.size();x=x+1){
+//			if(((Monster)mainSupUniqArray.get(x)).getMonName().equals("Fangskin") || ((SuperUnique)mainSupUniqArray.get(x)).getSUID().startsWith("ancientbarb")){
+//				continue;
+//			}
+//			((Monster)mainSupUniqArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
+//			ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).getmTuples();
+//
+//			for(int y = 0;y<mTuples.size();y=y+1){
+//
+//				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
+////					System.out.print("4-" + x+"-"+y +",");
+//					CW.writeData("4-" + x+"-"+y +",");
+////					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
+//				}
+//			}
+//		}
+//
+//		for(int x = 0;x< mainBossArray.size();x=x+1){
+//			((Monster)mainBossArray.get(x)).lookupBASETCReturnATOMICTCS(nPlayers,nGroup,-1);
+//			ArrayList mTuples = ((Monster)mainBossArray.get(x)).getmTuples();
+//
+//			for(int y = 0;y<mTuples.size();y=y+1){
+//
+//				if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("armo" + TC) || ((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey("weap" + TC)){
+////					System.out.print("5-" + x+"-"+y +",");
+//					CW.writeData("5-" + x+"-"+y +",");
+////					System.out.println(((Monster)mainMinMonArray.get(x)).monName+ "," +((Monster)mainMinMonArray.get(x)).getRealBossName() + ","+ D2TblFile.getString(D2TxtFile.LEVELS.searchColumns("Name",((MonsterTuple)mTuples.get(y)).AreaName).get("LevelName"))+ "," + ((Monster)mainMinMonArray.get(x)).monDiff);
+//				}
+//			}
+//		}
+//
+//		CW.writeData("\n");
+//	}
 
 //	public HashMap findMonstersTC(String key, double d, int monSelection, int nPlayers, int nGroup){
 
@@ -268,7 +288,7 @@ public class DCNew {
 //	return monsterTCList;
 //	}
 
-	public HashMap findMonstersTCGeneral(String key, double d, int monSelection, Item item, int MF, int nPlayers, int nGroup){
+	public HashMap findMonstersTCGeneral(String key, double d, int monSelection, Item item, int MF, int nPlayers, int nGroup, int QRecursions, boolean sevP){
 
 		//SHOULD BE HASHMAP?
 		HashMap monsterTCList = new HashMap();
@@ -294,10 +314,10 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0);
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0, sevP);
 
 					if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
-						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
+						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
 					}
 				}
 			}
@@ -312,9 +332,9 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0);
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0, sevP);
 					if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
-						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
+						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
 					}
 				}
 			}
@@ -327,9 +347,9 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0);
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0, sevP);
 					if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
-						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
+						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
 					}
 				}
 			}
@@ -342,9 +362,9 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0);
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0, sevP);
 					if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
-						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
+						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
 					}
 				}
 			}
@@ -360,7 +380,7 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1));
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true), sevP);
 					if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
 						monsterTCList.put(mTuples.get(y),((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key));
 					}
@@ -375,7 +395,7 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1));
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,d * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true), sevP);
 					if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
 						monsterTCList.put(mTuples.get(y),((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key));
 					}
@@ -405,7 +425,7 @@ public class DCNew {
 //	case 0:
 
 //	for(int x = 0;x< mainRegMonArray.size();x=x+1){
-//	if(item.getRealName().toLowerCase().contains("cow")){
+//	if(item.getRealName().toLowerCase().indexOf("cow")){
 //	if(!(((Monster)mainRegMonArray.get(x)).getMonID()).equals("hellbovine")){
 //	continue;
 //	}
@@ -424,7 +444,7 @@ public class DCNew {
 //	case 1:
 
 //	for(int x = 0;x< mainMinMonArray.size();x=x+1){
-//	if(item.getRealName().toLowerCase().contains("cow")){
+//	if(item.getRealName().toLowerCase().indexOf("cow")){
 
 //	if(!(((Monster)mainMinMonArray.get(x)).getMonID()).equals("hellbovine")){
 //	continue;
@@ -443,7 +463,7 @@ public class DCNew {
 //	break;
 //	case 2:
 //	for(int x = 0;x< mainChampMonArray.size();x=x+1){
-//	if(item.getRealName().toLowerCase().contains("cow")){
+//	if(item.getRealName().toLowerCase().indexOf("cow")){
 //	if(!(((Monster)mainChampMonArray.get(x)).getMonID()).equals("hellbovine")){
 //	continue;
 //	}
@@ -461,7 +481,7 @@ public class DCNew {
 //	break;
 //	case 3:
 //	for(int x = 0;x< mainUniqArray.size();x=x+1){
-//	if(item.getRealName().toLowerCase().contains("cow")){
+//	if(item.getRealName().toLowerCase().indexOf("cow")){
 //	if(!(((Monster)mainUniqArray.get(x)).getMonID()).equals("hellbovine")){
 //	continue;
 //	}
@@ -479,7 +499,7 @@ public class DCNew {
 //	break;
 //	case 4:
 //	for(int x = 0;x< mainSupUniqArray.size();x=x+1){
-//	if(item.getRealName().toLowerCase().contains("cow")){
+//	if(item.getRealName().toLowerCase().indexOf("cow")){
 //	if(!(((Monster)mainSupUniqArray.get(x)).getMonID()).equals("The Cow King")){
 //	continue;
 //	}
@@ -500,7 +520,7 @@ public class DCNew {
 //	break;
 //	case 5:
 //	for(int x = 0;x< mainBossArray.size();x=x+1){
-//	if(item.getRealName().toLowerCase().contains("cow")){
+//	if(item.getRealName().toLowerCase().indexOf("cow")){
 //	if(!(((Monster)mainBossArray.get(x)).getMonID()).equals("hellbovine")){
 //	continue;
 //	}
@@ -549,9 +569,9 @@ public class DCNew {
 			setItemArray.add(new SetItem(D2TxtFile.SETITEMS.getRow(x)));
 //			}
 		}
-		
+
 		for(int x = 0;x<D2TxtFile.MISC.getRowSize();x++){
-			if(D2TxtFile.MISC.getRow(x).get("type").equals("rune")){
+			if(D2TxtFile.MISC.getRow(x).get("code").startsWith("cm") ||D2TxtFile.MISC.getRow(x).get("type").equals("jewl") ||D2TxtFile.MISC.getRow(x).get("type").equals("rune") || D2TxtFile.MISC.getRow(x).get("code").equals("amu") || D2TxtFile.MISC.getRow(x).get("code").equals("rin") || !D2TxtFile.MISC.getRow(x).get("type2").equals("")){
 				miscItemArray.add(new MiscItem(D2TxtFile.MISC.getRow(x)));
 			}
 		}
@@ -657,7 +677,7 @@ public class DCNew {
 
 
 
-			if(uniqueCheck.contains(D2TxtFile.MONSTATS.getRow(x).get("Id"))){
+			if(uniqueCheck.indexOf(D2TxtFile.MONSTATS.getRow(x).get("Id"))!=-1){
 				continue;
 			}
 			uniqueCheck.add(D2TxtFile.MONSTATS.getRow(x).get("Id"));
@@ -710,7 +730,7 @@ public class DCNew {
 
 		for(int x = 0 ;x<D2TxtFile.SUPUNIQ.getRowSize();x=x+1){
 
-			if(!D2TxtFile.SUPUNIQ.getRow(x).get("Class").equals("") && !SuBossCross.contains(D2TxtFile.SUPUNIQ.getRow(x).get("Name"))){
+			if(!D2TxtFile.SUPUNIQ.getRow(x).get("Class").equals("") && SuBossCross.indexOf(D2TxtFile.SUPUNIQ.getRow(x).get("Name"))==-1){
 				mainSupUniqArray.add(new SuperUnique(D2TxtFile.SUPUNIQ.getRow(x), "N", 4,0));
 				mainSupUniqArray.add(new SuperUnique(D2TxtFile.SUPUNIQ.getRow(x), "NM", 4,0));
 				mainSupUniqArray.add(new SuperUnique(D2TxtFile.SUPUNIQ.getRow(x), "H", 4,0));
@@ -723,7 +743,7 @@ public class DCNew {
 
 					}
 				}
-			}else if(!D2TxtFile.SUPUNIQ.getRow(x).get("Class").equals("") && SuBossCross.contains(D2TxtFile.SUPUNIQ.getRow(x).get("Name"))){
+			}else if(!D2TxtFile.SUPUNIQ.getRow(x).get("Class").equals("") && SuBossCross.indexOf(D2TxtFile.SUPUNIQ.getRow(x).get("Name"))!=-1){
 				if(!D2TxtFile.SUPUNIQ.getRow(x).get("MaxGrp").equals("0")){
 
 					if(D2TxtFile.SUPUNIQ.getRow(x).get("Name") != null){
@@ -866,7 +886,7 @@ public class DCNew {
 
 ////	All items have rarity 3 except class-specific items have rarity 1
 ////	, assassin claws have rarity 2, and wands, staves and sceptres (rods) have rarity 1.
-////	if(mon.getParent().getName().contains("andariel") && mon.getParent().getMonDiff().equals("NM")){
+////	if(mon.getParent().getName().indexOf("andariel") && mon.getParent().getMonDiff().equals("NM")){
 ////	if(!((Boss)mon.getParent()).getQuest()){
 
 ////	System.out.println(mon.getParent().getName() + "  -  "+ "  -  "+((Boss)mon.getParent()).getQuest());
@@ -891,7 +911,7 @@ public class DCNew {
 //	}
 
 //	dChance = dChance - (dChance * mon.getUqual()/1024);
-////	if(mon.getParent().getName().contains("andariel") && mon.getParent().getMonDiff().equals("NM")){
+////	if(mon.getParent().getName().indexOf("andariel") && mon.getParent().getMonDiff().equals("NM")){
 ////	if(!((Boss)mon.getParent()).getQuest()){
 
 ////	System.out.println(mon.getParent().getName() + "  -  "+((double)128)/dChance+ "  -  "+((Boss)mon.getParent()).getQuest());
@@ -925,6 +945,9 @@ public class DCNew {
 		case 2:
 			list = D2TxtFile.SETITEMS.searchColumnsMultipleHits("item", item.getItemCode());
 			break;
+
+		case 0:
+			return 1;
 		}
 
 		double count = 0;
@@ -939,13 +962,16 @@ public class DCNew {
 
 	}
 
-	public double getQuality(Item item, int ilvl, int MF, MonsterTuple mon, int recursions) {
+	public double getQuality(Item item, int ilvl, int MF, MonsterTuple mon, int recursions, boolean end) {
 
 
 		String qual = "";
 
 		switch(recursions){
 
+		case -2:
+			return 1;
+		
 		case -1:
 			return 1;
 
@@ -956,6 +982,13 @@ public class DCNew {
 		case 1:
 			qual = "Set";
 			break;
+
+		case 2:
+			qual = "Rare";
+			break;
+		case 3:
+			qual = "Magic";
+			break;
 		}
 
 		double outChance;
@@ -965,6 +998,8 @@ public class DCNew {
 		}else{
 			ratioRow = D2TxtFile.ITEMRATIO.getRow(2);
 		}
+
+
 
 		int dChance = (Integer.parseInt(ratioRow.get(qual)) - (((ilvl - item.getBaseqLvl()))/(Integer.parseInt(ratioRow.get(qual+"Divisor"))))) * 128;
 		int eMF = ((MF * 250))/((MF + 250));
@@ -979,11 +1014,19 @@ public class DCNew {
 
 		outChance = (double)128/(double)dChance;
 
-		if(recursions == 0){
+//		System.out.println(qual + " - " + outChance);
+		
+		if(!end){
 			return outChance;
 		}
-		outChance = outChance * (1-getQuality(item, ilvl, MF, mon, recursions - 1));
+		
+		for(int x = recursions -1;x>-1;x--){
+		outChance = outChance * (1-getQuality(item, ilvl, MF, mon, x, false));
 
+		}
+		
+//		System.out.println(qual + " - " + outChance);
+		
 		return outChance;
 
 //		return ((double)128)/(double)dChance;
@@ -1055,8 +1098,8 @@ public class DCNew {
 		return mainBossArray;
 	}
 
-	
-	public HashMap findMonstersTCTrueMisc(int monSelection, Item item, int MF, int nPlayers, int nGroup) {
+
+	public HashMap findMonstersTCTrueMisc(int monSelection, Item item, int MF, int nPlayers, int nGroup, int QRecursions, boolean sevP) {
 
 		HashMap monsterTCList = new HashMap();
 
@@ -1069,35 +1112,10 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnTrueMiscTCS(nPlayers, nGroup,0,item,this,MF);
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnTrueMiscTCS(nPlayers, nGroup,0,item,this,MF, sevP);
 
-					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey(item.getItemCode())){
-						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue() * generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
-					}
-				}
-			}
-
-		}
-		return monsterTCList;
-	}
-	
-	public HashMap findMonstersTCMisc(int monSelection, Item item, int MF, int nPlayers, int nGroup) {
-
-		HashMap monsterTCList = new HashMap();
-
-		switch (monSelection){
-
-		case 0:
-			for(int x = 0;x< mainRegMonArray.size();x=x+1){
-				ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).getmTuples();
-				for(int y = 0;y<mTuples.size();y=y+1){
-					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
-						continue;
-					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,0,item,this,MF);
-
-					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey(item.getItemCode())){
-						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue() * generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
+					if(((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().containsKey(item.getItemCode())){
+						monsterTCList.put(mTuples.get(y),(Double)((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().get(item.getItemCode()));
 					}
 				}
 			}
@@ -1109,16 +1127,124 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					if(((MonsterTuple)mTuples.get(y)).getInitTC().contains("Council")){
-						((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,generateRarityList((MonsterTuple)mTuples.get(y), item),item,this,MF);
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnTrueMiscTCS(nPlayers, nGroup,0,item,this,MF, sevP);
+
+					if(((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().containsKey(item.getItemCode())){
+						monsterTCList.put(mTuples.get(y), ((Double)((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().get(item.getItemCode())));
+					}
+				}
+			}
+			break;
+		case 2:
+			for(int x = 0;x< mainChampMonArray.size();x=x+1){
+				ArrayList mTuples = ((Monster)mainChampMonArray.get(x)).getmTuples();
+				for(int y = 0;y<mTuples.size();y=y+1){
+					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
+						continue;
+					}
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnTrueMiscTCS(nPlayers, nGroup,0,item,this,MF, sevP);
+
+					if(((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().containsKey(item.getItemCode())){
+						monsterTCList.put(mTuples.get(y), ((Double)((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().get(item.getItemCode())));
+					}
+				}
+			}
+			break;
+		case 3:
+			for(int x = 0;x< mainUniqArray.size();x=x+1){
+				ArrayList mTuples = ((Monster)mainUniqArray.get(x)).getmTuples();
+				for(int y = 0;y<mTuples.size();y=y+1){
+					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
+						continue;
+					}
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnTrueMiscTCS(nPlayers, nGroup,0,item,this,MF, sevP);
+
+					if(((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().containsKey(item.getItemCode())){
+						monsterTCList.put(mTuples.get(y), ((Double)((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().get(item.getItemCode())));
+					}
+				}
+			}
+			break;
+		case 4:
+			for(int x = 0;x< mainSupUniqArray.size();x=x+1){
+				if(((Monster)mainSupUniqArray.get(x)).getMonName().equals("Fangskin") || ((SuperUnique)mainSupUniqArray.get(x)).getSUID().startsWith("ancientbarb")){
+					continue;
+				}
+				ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).getmTuples();
+				for(int y = 0;y<mTuples.size();y=y+1){
+					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
+						continue;
+					}
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnTrueMiscTCS(nPlayers, nGroup,0,item,this,MF, sevP);
+//					System.out.println(((MonsterTuple)mTuples.get(y)).getParent().getRealName());
+					if(((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().containsKey(item.getItemCode())){
+						monsterTCList.put(mTuples.get(y), ((Double)((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().get(item.getItemCode())));
+					}
+				}
+			}
+			break;
+		case 5:
+			for(int x = 0;x< mainBossArray.size();x=x+1){
+				ArrayList mTuples = ((Monster)mainBossArray.get(x)).getmTuples();
+				for(int y = 0;y<mTuples.size();y=y+1){
+					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
+						continue;
+					}
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnTrueMiscTCS(nPlayers, nGroup,0,item,this,MF, sevP);
+
+					if(((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().containsKey(item.getItemCode())){
+						monsterTCList.put(mTuples.get(y), ((Double)((MonsterTuple)mTuples.get(y)).getFinalTrueMiscTCs().get(item.getItemCode())));
+					}
+				}
+			}
+			break;
+		}
+		return monsterTCList;
+	}
+
+	public HashMap findMonstersTCMisc(int monSelection, Item item, int MF, int nPlayers, int nGroup, int QRecursions, boolean sevP) {
+
+		HashMap monsterTCList = new HashMap();
+
+		switch (monSelection){
+
+		case 0:
+			for(int x = 0;x< mainRegMonArray.size();x=x+1){
+
+				ArrayList mTuples = ((Monster)mainRegMonArray.get(x)).getmTuples();
+				for(int y = 0;y<mTuples.size();y=y+1){
+
+					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
+						continue;
+					}
+
+
+
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,0,item,this,MF,QRecursions, sevP);
+
+					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey(item.getItemCode())){
+						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue() * generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
+					}
+				}
+			}
+			break;
+		case 1:
+			for(int x = 0;x< mainMinMonArray.size();x=x+1){
+				ArrayList mTuples = ((Monster)mainMinMonArray.get(x)).getmTuples();
+				for(int y = 0;y<mTuples.size();y=y+1){
+					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
+						continue;
+					}
+					if(((MonsterTuple)mTuples.get(y)).getInitTC().indexOf("Council")!=-1){
+						((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,generateRarityList((MonsterTuple)mTuples.get(y), item),item,this,MF,QRecursions, sevP);
 					}else{
-						((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,0,item,this,MF);
+						((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,0,item,this,MF,QRecursions, sevP);
 
 					}
 //					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("rin") || ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("amu")|| ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("jew") ){
 					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey(item.getItemCode())){
-						if(!((MonsterTuple)mTuples.get(y)).getInitTC().contains("Council")){
-							monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue() * generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
+						if(((MonsterTuple)mTuples.get(y)).getInitTC().indexOf("Council") == -1){
+							monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue() * generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
 						}else{
 							monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue()));
 
@@ -1135,11 +1261,11 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,0,item,this,MF);
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,0,item,this,MF,QRecursions, sevP);
 					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey(item.getItemCode())){
-//					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("rin") || ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("amu")|| ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("jew") ){
-						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue() * generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
-//					}
+//						if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("rin") || ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("amu")|| ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("jew") ){
+						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue() * generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
+//						}
 					}
 				}
 			}
@@ -1151,18 +1277,18 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,0,item,this,MF);
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,0,item,this,MF,QRecursions, sevP);
 					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey(item.getItemCode())){
-//					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("rin") || ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("amu")|| ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("jew") ){
-						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue() * generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
-//					}
+//						if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("rin") || ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("amu")|| ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("jew") ){
+						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue() * generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
+//						}
 					}
 				}
 			}
 			break;
 		case 4:
 			for(int x = 0;x< mainSupUniqArray.size();x=x+1){
-				if(((Monster)mainSupUniqArray.get(x)).getMonName().equals("The Countess") ||((Monster)mainSupUniqArray.get(x)).getMonName().equals("Fangskin") || ((SuperUnique)mainSupUniqArray.get(x)).getSUID().startsWith("ancientbarb")){
+				if(((Monster)mainSupUniqArray.get(x)).getMonName().equals("Fangskin") || ((SuperUnique)mainSupUniqArray.get(x)).getSUID().startsWith("ancientbarb")){
 					continue;
 				}
 				ArrayList mTuples = ((Monster)mainSupUniqArray.get(x)).getmTuples();
@@ -1171,13 +1297,13 @@ public class DCNew {
 						continue;
 					}
 
-//					System.out.println("RARITY: " + generateRarityList((MonsterTuple)mTuples.get(y), item) + " , QUALITY: " + getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1) + " , TOTAL: " + (generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), item.getiNUS() - 1)));
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,(generateRarityList((MonsterTuple)mTuples.get(y), item)),item,this,MF);
+//					System.out.println("RARITY: " + generateRarityList((MonsterTuple)mTuples.get(y), item) + " , QUALITY: " + getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions) + " , TOTAL: " + (generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions)));
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,(generateRarityList((MonsterTuple)mTuples.get(y), item)),item,this,MF,QRecursions, sevP);
 
 //					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("rin") || ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("amu")|| ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("jew") ){
 					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey(item.getItemCode())){
 						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue()));
-//					}
+//						}
 					}
 				}
 			}
@@ -1189,11 +1315,11 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
-					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,(generateRarityList((MonsterTuple)mTuples.get(y), item)),item,this,MF);
+					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,(generateRarityList((MonsterTuple)mTuples.get(y), item)),item,this,MF,QRecursions, sevP);
 					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey(item.getItemCode())){
-//					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("rin") || ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("amu")|| ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("jew") ){
+//						if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("rin") || ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("amu")|| ((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey("jew") ){
 						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue()));
-//					}
+//						}
 					}
 				}
 			}

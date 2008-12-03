@@ -3250,7 +3250,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			outProp = new D2ItemProperty[2];
 			if (!pRow.get(prop + counter).equals("")) {
 
-				if (pRow.get(prop + counter).contains("*")) {
+				if (pRow.get(prop + counter).indexOf("*") != -1) {
 					break;
 				}
 

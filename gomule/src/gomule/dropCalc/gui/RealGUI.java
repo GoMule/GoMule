@@ -1,3 +1,23 @@
+/*******************************************************************************
+ * 
+ * Copyright 2008 Silospen
+ * 
+ * This file is part of gomule.
+ * 
+ * gomule is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * gomule is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * gomlue; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
+ * Fifth Floor, Boston, MA 02110-1301 USA
+ *  
+ ******************************************************************************/
 package gomule.dropCalc.gui;
 
 import gomule.dropCalc.DCNew;
@@ -15,9 +35,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -31,7 +54,7 @@ import javax.swing.text.PlainDocument;
 public class RealGUI extends JFrame {
 
 	private static final long serialVersionUID = -9041550034028154852L;
-//	JMenuBar menuBar = new JMenuBar();
+	JMenuBar menuBar = new JMenuBar();
 	JComboBox nPlayers = new JComboBox();
 	JComboBox nGroup = new JComboBox();
 	JComboBox nSearch = new JComboBox();
@@ -57,15 +80,23 @@ public class RealGUI extends JFrame {
 	Box hMI2;
 	ArrayList nMItemKey = new ArrayList();
 	private Box vMonsters;
-//	private JCheckBoxMenuItem cbMenuItem;
+	private JCheckBoxMenuItem cbMenuItem;
+	private JCheckBoxMenuItem cbDec;
+	private JCheckBoxMenuItem cbRat;
 	public RealGUI(){
 
 
-//		this.setJMenuBar(menuBar);
-//		JMenu menu = new JMenu("Options");
-//		menuBar.add(menu);
-//		cbMenuItem = new JCheckBoxMenuItem("Use 7 picks");
-//		menu.add(cbMenuItem);
+		this.setJMenuBar(menuBar);
+		JMenu menu = new JMenu("Options");
+		menuBar.add(menu);
+		cbMenuItem = new JCheckBoxMenuItem("Use 7 picks");
+		cbDec = new JCheckBoxMenuItem("Decimal Mode");
+		cbRat = new JCheckBoxMenuItem("Odds Mode");
+		menu.add(cbMenuItem);
+		menu.addSeparator();
+		menu.add(cbDec);
+		menu.add(cbRat);
+		cbDec.setSelected(true);
 
 
 		Box vMain = Box.createVerticalBox();
@@ -173,14 +204,20 @@ public class RealGUI extends JFrame {
 		refreshMonsterField();
 		//Monster-Item information
 		nMItemQual.addItem("Base Item");
-		nMItemQual.addItem("Set Item");
 		nMItemQual.addItem("Unique Item");
-		nMItemQual.addItem("Misc Item");
+		nMItemQual.addItem("Set Item");
+		nMItemQual.addItem("Rare Item");
+		nMItemQual.addItem("Magic Item");
+//		nMItemQual.addItem("Superior Item");
+//		nMItemQual.addItem("White Item");
+//		nMItemQual.addItem("Crude Item");
+		
 		nMItemQual.setSelectedIndex(0);
 		nMItemQual2.addItem("All");
 		nMItemQual2.addItem("Normal");
 		nMItemQual2.addItem("Exceptional");
 		nMItemQual2.addItem("Elite");
+		nMItemQual2.addItem("Misc");
 		nMItemQual2.setSelectedIndex(0);
 		nMItemClass.addItem("Any");
 		nMItemClass.addItem("Weapon");
@@ -252,6 +289,57 @@ public class RealGUI extends JFrame {
 			}
 		});
 
+		
+		
+		
+		cbDec.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				
+				if(cbRat.isSelected()){
+					cbRat.setSelected(false);
+				}else{
+					cbDec.setSelected(true);
+				}
+				
+				
+				
+//				System.out.println(cbRat.isSelected());
+//				System.out.println(cbDec.isSelected());
+//
+//				if(!cbDec.isSelected()){
+//					cbDec.setSelected(true);
+//					cbRat.setSelected(false);
+//				}else{
+//					cbRat.setSelected(true);
+//					cbDec.setSelected(false);
+//				}
+
+			}});
+		
+		cbRat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				
+				if(cbDec.isSelected()){
+					cbDec.setSelected(false);
+				}else{
+					cbRat.setSelected(true);
+				}
+				
+//				System.out.println(cbRat.isSelected());
+//				System.out.println(cbDec.isSelected());
+//
+//				if(!cbRat.isSelected()){
+//					cbRat.setSelected(true);
+//					cbDec.setSelected(false);
+//				}else{
+//					cbDec.setSelected(true);
+//					cbRat.setSelected(false);
+//				}
+
+			}});
+		
 		nType.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -339,15 +427,15 @@ public class RealGUI extends JFrame {
 				if(nType.getSelectedIndex() == 0){
 
 					Monster mSelected = ((Monster)nMonsterKey.get(nMonster.getSelectedIndex()));
-					mSelected.lookupBASETCReturnATOMICTCS(nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1,0);
+					mSelected.lookupBASETCReturnATOMICTCS(nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1,0,cbMenuItem.isSelected());
 
 
-					((DCTableModel)oResult.getModel()).refresh(mSelected.getmTuples());
+					((DCTableModel)oResult.getModel()).refresh(mSelected.getmTuples(),cbDec.isSelected());
 
 				}else{
 					Item mISelected =(Item)nMItemKey.get(nMItem.getSelectedIndex());
-					HashMap mTuple = mISelected.getFinalProbSum(DC,nClass.getSelectedIndex(),Integer.parseInt(nMF.getText()),nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1);
-					((DCTableModel)oResult.getModel()).refresh(mTuple, nDiff.getSelectedIndex(), nClass.getSelectedIndex());
+					HashMap mTuple = mISelected.getFinalProbSum(DC,nClass.getSelectedIndex(),Integer.parseInt(nMF.getText()),nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1, nMItemQual.getSelectedIndex() - 1,cbMenuItem.isSelected());
+					((DCTableModel)oResult.getModel()).refresh(mTuple, nDiff.getSelectedIndex(), nClass.getSelectedIndex(),cbDec.isSelected());
 
 				}
 			}});
@@ -384,8 +472,14 @@ public class RealGUI extends JFrame {
 				for(int x  = 0;x<DC.getRegItemArray().size();x++){
 					nMItemKey.add(DC.getRegItemArray().get(x));
 					nMItem.addItem(((Item)DC.getRegItemArray().get(x)).getRealName());
+				}
+				for(int x  = 0;x<DC.getMiscItemArray().size();x++){
+					nMItemKey.add(DC.getMiscItemArray().get(x));
+					nMItem.addItem(((Item)DC.getMiscItemArray().get(x)).getRealName());
 
 				}
+
+
 				break;
 			case 1:
 				for(int x  = 0;x<DC.getRegItemArray().size();x++){
@@ -411,10 +505,17 @@ public class RealGUI extends JFrame {
 					}
 				}
 				break;
+			case 4:
+				for(int x  = 0;x<DC.getMiscItemArray().size();x++){
+					nMItemKey.add(DC.getMiscItemArray().get(x));
+					nMItem.addItem(((Item)DC.getMiscItemArray().get(x)).getRealName());
+
+				}
+				break;
 
 			}
 			break;
-		case 1:
+		case 2:
 			switch(nMItemQual2.getSelectedIndex()){
 
 			case 0:
@@ -448,10 +549,17 @@ public class RealGUI extends JFrame {
 					}
 				}
 				break;
-
+			case 4:
+				for(int x  = 0;x<DC.getSetItemArray().size();x++){
+					if(((Item)DC.getSetItemArray().get(x)).getItemQual() == 3){
+						nMItemKey.add(DC.getSetItemArray().get(x));
+						nMItem.addItem(((Item)DC.getSetItemArray().get(x)).getRealName());
+					}
+				}
+				break;
 			}
 			break;
-		case 2:
+		case 1:
 			switch(nMItemQual2.getSelectedIndex()){
 
 			case 0:
@@ -485,13 +593,63 @@ public class RealGUI extends JFrame {
 					}
 				}
 				break;
-
+			case 4:
+				for(int x  = 0;x<DC.getUniqItemArray().size();x++){
+					if(((Item)DC.getUniqItemArray().get(x)).getItemQual() == 3){
+						nMItemKey.add(DC.getUniqItemArray().get(x));
+						nMItem.addItem(((Item)DC.getUniqItemArray().get(x)).getRealName());
+					}
+				}
+				break;
 			}
 			break;
-		case 3:
-			for(int x  = 0;x<DC.getMiscItemArray().size();x++){
-				nMItemKey.add(DC.getMiscItemArray().get(x));
-				nMItem.addItem(((Item)DC.getMiscItemArray().get(x)).getRealName());
+		default:
+			switch(nMItemQual2.getSelectedIndex()){
+
+			case 0:
+				for(int x  = 0;x<DC.getRegItemArray().size();x++){
+					nMItemKey.add(DC.getRegItemArray().get(x));
+					nMItem.addItem(((Item)DC.getRegItemArray().get(x)).getRealName());
+				}
+				for(int x  = 0;x<DC.getMiscItemArray().size();x++){
+					nMItemKey.add(DC.getMiscItemArray().get(x));
+					nMItem.addItem(((Item)DC.getMiscItemArray().get(x)).getRealName());
+
+				}
+
+
+				break;
+			case 1:
+				for(int x  = 0;x<DC.getRegItemArray().size();x++){
+					if(((Item)DC.getRegItemArray().get(x)).getItemQual() == 0){
+						nMItemKey.add(DC.getRegItemArray().get(x));
+						nMItem.addItem(((Item)DC.getRegItemArray().get(x)).getRealName());
+					}
+				}
+				break;
+			case 2:
+				for(int x  = 0;x<DC.getRegItemArray().size();x++){
+					if(((Item)DC.getRegItemArray().get(x)).getItemQual() == 1){
+						nMItemKey.add(DC.getRegItemArray().get(x));
+						nMItem.addItem(((Item)DC.getRegItemArray().get(x)).getRealName());
+					}
+				}
+				break;
+			case 3:
+				for(int x  = 0;x<DC.getRegItemArray().size();x++){
+					if(((Item)DC.getRegItemArray().get(x)).getItemQual() == 2){
+						nMItemKey.add(DC.getRegItemArray().get(x));
+						nMItem.addItem(((Item)DC.getRegItemArray().get(x)).getRealName());
+					}
+				}
+				break;
+			case 4:
+				for(int x  = 0;x<DC.getMiscItemArray().size();x++){
+					nMItemKey.add(DC.getMiscItemArray().get(x));
+					nMItem.addItem(((Item)DC.getMiscItemArray().get(x)).getRealName());
+
+				}
+				break;
 
 			}
 			break;

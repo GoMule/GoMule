@@ -24,6 +24,7 @@ package gomule;
 import gomule.gui.*;
 import java.awt.*;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -96,6 +97,8 @@ public class GoMule
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		} 
+    	
+
     	
         try
         {

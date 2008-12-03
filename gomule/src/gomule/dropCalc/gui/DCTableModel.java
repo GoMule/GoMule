@@ -1,3 +1,23 @@
+/*******************************************************************************
+ * 
+ * Copyright 2008 Silospen
+ * 
+ * This file is part of gomule.
+ * 
+ * gomule is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ * 
+ * gomule is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with
+ * gomlue; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
+ * Fifth Floor, Boston, MA 02110-1301 USA
+ *  
+ ******************************************************************************/
 package gomule.dropCalc.gui;
 
 import gomule.dropCalc.monsters.MonsterTuple;
@@ -30,6 +50,7 @@ public class DCTableModel extends AbstractTableModel{
 	public ArrayList iTableModelListeners = new ArrayList();
 	public int type = 0;
 	public int iSelected = 2;
+	public boolean dec = true;
 	public DCTableModel(){
 //		iItems.put("RAWR", );
 //		this.setValueAt(iItems.get(0), 0, 0);
@@ -45,7 +66,8 @@ public class DCTableModel extends AbstractTableModel{
 		return 3;
 	}
 
-	public void refresh(HashMap iItems, int nDiff, int classKey){
+	public void refresh(HashMap iItems, int nDiff, int classKey, boolean dec){
+		this.dec = dec;
 		type = 1;
 		tmRows = new ArrayList();
 
@@ -87,7 +109,8 @@ public class DCTableModel extends AbstractTableModel{
 		sortCol(iSelected);
 	}
 
-	public void refresh(ArrayList mTuples){
+	public void refresh(ArrayList mTuples, boolean dec){
+		this.dec = dec;
 		type = 0;
 		tmRows = new ArrayList();
 
@@ -156,7 +179,7 @@ public class DCTableModel extends AbstractTableModel{
 		case 1:
 			return ((OutputRow)tmRows.get(row)).getC1();
 		case 2:
-			return ((OutputRow)tmRows.get(row)).getStrC2();
+			return ((OutputRow)tmRows.get(row)).getStrC2(dec);
 		default:
 			return new String("");
 		}
