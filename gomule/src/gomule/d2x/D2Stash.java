@@ -154,7 +154,7 @@ public class D2Stash extends D2ItemListAdapter
         
 	    long lCalculated = calculateAtmaCheckSum();
 
-	    if ( lOriginal == lCalculated )
+	   if ( lOriginal == lCalculated )
 	    {
 		    iBR.set_byte_pos(3);
 	        

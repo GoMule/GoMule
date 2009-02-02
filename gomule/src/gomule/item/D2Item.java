@@ -400,6 +400,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		// flag 17 is an ear
 		if (!check_flag(17)) {
+			
 			readExtend(pFile);
 		} else {
 			read_ear(pFile);
@@ -1058,6 +1059,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 					personalization += c;
 				}
 			}
+			if(lNotEnded == true){
+				 pFile.read(7);
+			}
 		}
 	}
 
@@ -1201,7 +1205,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			lSet4 = pFile.read(1);
 			lSet5 = pFile.read(1);
 		}
-
+		//System.out.println(iItemName + ", " + iFP + "," + pFile.get_byte_pos());
 		readProperties(pFile, iProperties);
 
 
@@ -1673,14 +1677,16 @@ public class D2Item implements Comparable, D2ItemInterface {
 							lItemStatCost.get("Save Bits") };
 				}
 
+				
+				
 				for (int k = 0; k < lItemStatCostList.length; k++) {
 					if (!("".equals(lItemStatCostList[k]))) {
 
 						int lBits = Integer.parseInt(lItemStatCostList[k]);
 						long lValue = pFile.read(lBits);
-						// System.err.println("Property " +
-						// lItemStatCost.get("Stat") + ": " + lValue + " - " +
-						// lItemStatCost.get("Save Add") + " - " + lBits);
+//						 System.err.println("Property " +
+//						 lItemStatCost.get("Stat") + ": " + lValue + " - " +
+//						 lItemStatCost.get("Save Add") + " - " + lBits);
 						String lSaveAdd = lItemStatCost.get("Save Add");
 						if (lSaveAdd != null && !"".equals(lSaveAdd)) {
 							try {
