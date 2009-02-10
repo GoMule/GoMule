@@ -1,5 +1,7 @@
 package gomule.item;
 
+import java.util.HashMap;
+
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 import randall.d2files.D2TxtFileItemProperties;
@@ -28,7 +30,7 @@ public class D2Prop {
 
 
 
-	public int[] getPropNrs() {
+	public int[] getPropVals() {
 		
 		return pVals;
 	}
@@ -39,13 +41,12 @@ public class D2Prop {
 	}
 
 
+
+	
 	public String generateDisplay() {
 		
-		//Throw damage seems to be an error on some items??
-		if(pNum == 159 || pNum == 160){
-			return "";
-		}
-		
+
+
 		int oFunc = 0;
 		if( D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descfunc") != null && ! D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descfunc").equals("")){
 			oFunc = Integer.parseInt( D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descfunc"));
@@ -246,6 +247,9 @@ public class D2Prop {
 		return "Unrecognized property: " + this.pNum;
 	}
 	
+
+
+
 	public String getSkillTree(int lSkillNr){
 		
         switch (lSkillNr)
