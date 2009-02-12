@@ -47,7 +47,7 @@ import randall.flavie.*;
 //moving items. writing other item fields
 //is not supported by this class
 public class D2Item implements Comparable, D2ItemInterface {
-	private ArrayList iProperties = new ArrayList();
+//	private ArrayList iProperties = new ArrayList();
 
 	private D2PropCollection iProps = new D2PropCollection();
 
@@ -412,7 +412,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 
 
-		applyReqLPlus();
+//		applyReqLPlus();
 
 		if (isTypeWeapon()) {
 
@@ -420,33 +420,36 @@ public class D2Item implements Comparable, D2ItemInterface {
 				applyEthDmg();
 			}
 
-			if (iType.equals("club") || iType.equals("scep")
-					|| iType.equals("mace") || iType.equals("hamm"))
-
-			{
-				D2ItemProperty lProperty = new D2ItemProperty(122, iCharLvl,
-						iItemName);
-				D2TxtFileItemProperties lItemStatCost2 = D2TxtFile.ITEM_STAT_COST
-				.getRow(122);
-				lProperty.set(122, lItemStatCost2, 0, 150);
-				iProperties.add(lProperty);
-			}
+//			if (iType.equals("club") || iType.equals("scep")
+//					|| iType.equals("mace") || iType.equals("hamm"))
+//
+//			{
+//				D2ItemProperty lProperty = new D2ItemProperty(122, iCharLvl,
+//						iItemName);
+//				D2TxtFileItemProperties lItemStatCost2 = D2TxtFile.ITEM_STAT_COST
+//				.getRow(122);
+//				lProperty.set(122, lItemStatCost2, 0, 150);
+//				iProperties.add(lProperty);
+//			}
 
 			if (isSocketed()) {
-				combineProps();
+//				combineProps();
 			}
-			combineResists();
-			applyEDmg();
-			ArrayList lvlSkills = new ArrayList();
-			for (int x = 0; x < iProperties.size(); x = x + 1) {
-				if (((D2ItemProperty) iProperties.get(x)).getiProp() == 107
-						|| ((D2ItemProperty) iProperties.get(x)).getiProp() == 97) {
-					lvlSkills.add(iProperties.get(x));
-				}
-			}
-			if (lvlSkills.size() > 0) {
-				modifyLvl(lvlSkills);
-			}
+//			combineResists();
+//			applyEDmg();
+			
+//			ArrayList lvlSkills = new ArrayList();
+			
+//			for (int x = 0; x < iProperties.size(); x = x + 1) {
+//				if (((D2ItemProperty) iProperties.get(x)).getiProp() == 107
+//						|| ((D2ItemProperty) iProperties.get(x)).getiProp() == 97) {
+//					lvlSkills.add(iProperties.get(x));
+//				}
+//			}
+//			if (lvlSkills.size() > 0) {
+//				modifyLvl(lvlSkills);
+//			}
+			
 
 		} else if (isTypeArmor()) {
 
@@ -454,49 +457,49 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 			if (isSocketed()) {
 
-				combineProps();
+//				combineProps();
 
 			}
-			combineResists();
-			applyEDef();
+//			combineResists();
+//			applyEDef();
 
 			if(iType.equals("ashd")||iType.equals("shie")||iType.equals("head")){
 
-				applyBlock();	
+//				applyBlock();	
 
 			}
 
-			ArrayList lvlSkills = new ArrayList();
-			for (int x = 0; x < iProperties.size(); x = x + 1) {
-				if (((D2ItemProperty) iProperties.get(x)).getiProp() == 107
-						|| ((D2ItemProperty) iProperties.get(x)).getiProp() == 97) {
-					lvlSkills.add(iProperties.get(x));
-				}
-			}
-			if (lvlSkills.size() > 0) {
-				modifyLvl(lvlSkills);
-			}
+//			ArrayList lvlSkills = new ArrayList();
+//			for (int x = 0; x < iProperties.size(); x = x + 1) {
+//				if (((D2ItemProperty) iProperties.get(x)).getiProp() == 107
+//						|| ((D2ItemProperty) iProperties.get(x)).getiProp() == 97) {
+//					lvlSkills.add(iProperties.get(x));
+//				}
+//			}
+//			if (lvlSkills.size() > 0) {
+//				modifyLvl(lvlSkills);
+//			}
 
 		} else {
 			if (isRare() || isCrafted()) {
-				combineProps();
-				combineResists();
+//				combineProps();
+//				combineResists();
 			}
 		}
 
 
 	}
 
-	private void applyReqLPlus() {
-
-		for (int x = 0; x < iProperties.size(); x = x + 1) {
-			if((((D2ItemProperty) iProperties.get(x)).getiProp())==92){
-				iReqLvl=iReqLvl+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-
-		}
-
-	}
+//	private void applyReqLPlus() {
+//
+//		for (int x = 0; x < iProperties.size(); x = x + 1) {
+//			if((((D2ItemProperty) iProperties.get(x)).getiProp())==92){
+//				iReqLvl=iReqLvl+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//			}
+//
+//		}
+//
+//	}
 
 	// read ear related data from the bytes
 	private void read_ear(D2BitReader pFile) { // br.getFileContent()
@@ -528,7 +531,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		D2ItemProperty lProperty = new D2ItemProperty(1340, iCharLvl, iItemName);
 		lProperty.set(1340, new D2TxtFileItemProperties(null, 0), 0, eClass);
 		lProperty.set(1340, new D2TxtFileItemProperties(null, 0), 0, eLevel);
-		iProperties.add(lProperty);
+//		iProperties.add(lProperty);
 
 		// iProperties.add(arg0)
 		// System.out.println(lCharName.toString());
@@ -700,7 +703,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if ("1".equals(lItemType.get("Beltable"))) {
 			iBelt = true;
 
-			readPropertiesPots(pFile, iProperties);
+			readPropertiesPots(pFile);
 		}
 
 		int lLastItem = pFile.get_byte_pos();
@@ -728,7 +731,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 						}
 					}
 				} else {
-					iGemProps.addAll((ArrayList) lSocket.iProperties);
+//					iGemProps.addAll((ArrayList) lSocket.iProperties);
 				}
 				if (lSocket.iReqLvl > iReqLvl) {
 					iReqLvl = lSocket.iReqLvl;
@@ -1209,7 +1212,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 //		System.out.println(iItemName + ", " + iFP + "," + pFile.get_byte_pos());
 //		readProperties(pFile, iProperties);
-		readPropertiesNew(pFile, iProperties);
+		readPropertiesNew(pFile);
 
 
 		if (quality == 5) {
@@ -1242,181 +1245,184 @@ public class D2Item implements Comparable, D2ItemInterface {
 			// long lProp7 = pFile.read(9);
 
 		}
-		cleanUpProperties();
+//		cleanUpProperties();
 
 	}
 
 
-	private void cleanUpProperties() {
+//	private void cleanUpProperties() {
+//
+//		
+//		//THROW DAMAGE AND 2H MIN/MAX DAMAGE
+//		
+////		for (int x = 0; x < iProperties.size(); x = x + 1) {
+////			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 160
+////					|| ((D2ItemProperty) iProperties.get(x)).getiProp() == 159) {
+////				iProperties.remove(x);
+////				x = x - 1;
+////			}
+////			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 23
+////					|| ((D2ItemProperty) iProperties.get(x)).getiProp() == 24) {
+////				cleanUp2HMax();
+////			}
+////		}
+//
+////
+////		if(isRuneWord()){
+////			for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
+////				if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 160
+////						|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 159) {
+////					iRuneWordProps.remove(x);
+////					x = x - 1;
+////				}
+////				if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 23
+////						|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 24) {
+////					cleanUp2HMax();
+////				}
+////			}
+////
+////		}
+////
+//
+//	}
 
-		for (int x = 0; x < iProperties.size(); x = x + 1) {
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 160
-					|| ((D2ItemProperty) iProperties.get(x)).getiProp() == 159) {
-				iProperties.remove(x);
-				x = x - 1;
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 23
-					|| ((D2ItemProperty) iProperties.get(x)).getiProp() == 24) {
-				cleanUp2HMax();
-			}
-		}
-
-
-		if(isRuneWord()){
-			for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
-				if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 160
-						|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 159) {
-					iRuneWordProps.remove(x);
-					x = x - 1;
-				}
-				if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 23
-						|| ((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 24) {
-					cleanUp2HMax();
-				}
-			}
-
-		}
-
-
-	}
-
-	private void cleanUp2HMax() {
-
-		ArrayList cleanArr = new ArrayList();
-
-		for (int x = 0; x < iProperties.size(); x = x + 1) {
-			cleanArr.add(new Integer(((D2ItemProperty) iProperties.get(x))
-					.getiProp()));
-
-		}
-
-		if (cleanArr.contains(new Integer(24))
-				&& cleanArr.contains(new Integer(22))
-				&& cleanArr.contains(new Integer(160))) {
-			iProperties.remove(cleanArr.indexOf(new Integer(160)));
-			cleanArr.remove(new Integer(160));
-			iProperties.remove(cleanArr.indexOf(new Integer(24)));
-			cleanArr.remove(new Integer(24));
-		}
-		if (cleanArr.contains(new Integer(23))
-				&& cleanArr.contains(new Integer(21))
-				&& cleanArr.contains(new Integer(159))) {
-			iProperties.remove(cleanArr.indexOf(new Integer(159)));
-			cleanArr.remove(new Integer(159));
-			iProperties.remove(cleanArr.indexOf(new Integer(23)));
-			cleanArr.remove(new Integer(23));
-		}
-
-		if (cleanArr.contains(new Integer(24))
-				&& cleanArr.contains(new Integer(22))) {
-			iProperties.remove(cleanArr.indexOf(new Integer(24)));
-			cleanArr.remove(new Integer(24));
-		}
-		if (cleanArr.contains(new Integer(23))
-				&& cleanArr.contains(new Integer(21))) {
-			iProperties.remove(cleanArr.indexOf(new Integer(23)));
-			cleanArr.remove(new Integer(23));
-		}
-
-		if (cleanArr.contains(new Integer(23))) {
-			D2ItemProperty lProperty = new D2ItemProperty(21, iCharLvl,
-					iItemName);
-			lProperty.set(21, ((D2ItemProperty) iProperties.get(cleanArr
-					.indexOf(new Integer(23)))).getItemStatCost(),
-					((D2ItemProperty) iProperties.get(cleanArr
-							.indexOf(new Integer(23)))).getBitSet(),
-							((D2ItemProperty) iProperties.get(cleanArr
-									.indexOf(new Integer(23)))).getRealValue());
-			iProperties.remove(cleanArr.indexOf(new Integer(23)));
-			iProperties.add(cleanArr.indexOf(new Integer(23)), lProperty);
-		}
-
-		if (cleanArr.contains(new Integer(24))) {
-			D2ItemProperty lProperty = new D2ItemProperty(22, iCharLvl,
-					iItemName);
-			lProperty.set(22, ((D2ItemProperty) iProperties.get(cleanArr
-					.indexOf(new Integer(24)))).getItemStatCost(),
-					((D2ItemProperty) iProperties.get(cleanArr
-							.indexOf(new Integer(24)))).getBitSet(),
-							((D2ItemProperty) iProperties.get(cleanArr
-									.indexOf(new Integer(24)))).getRealValue());
-			iProperties.remove(cleanArr.indexOf(new Integer(24)));
-			iProperties.add(cleanArr.indexOf(new Integer(24)), lProperty);
-		}
-
-		if(isRuneWord()){
-
-			cleanArr = new ArrayList();
-
-			for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
-				cleanArr.add(new Integer(((D2ItemProperty) iRuneWordProps.get(x))
-						.getiProp()));
-
-			}
-
-			if (cleanArr.contains(new Integer(24))
-					&& cleanArr.contains(new Integer(22))
-					&& cleanArr.contains(new Integer(160))) {
-				iRuneWordProps.remove(cleanArr.indexOf(new Integer(160)));
-				cleanArr.remove(new Integer(160));
-				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
-				cleanArr.remove(new Integer(24));
-			}
-			if (cleanArr.contains(new Integer(23))
-					&& cleanArr.contains(new Integer(21))
-					&& cleanArr.contains(new Integer(159))) {
-				iRuneWordProps.remove(cleanArr.indexOf(new Integer(159)));
-				cleanArr.remove(new Integer(159));
-				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
-				cleanArr.remove(new Integer(23));
-			}
-
-			if (cleanArr.contains(new Integer(24))
-					&& cleanArr.contains(new Integer(22))) {
-				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
-				cleanArr.remove(new Integer(24));
-			}
-			if (cleanArr.contains(new Integer(23))
-					&& cleanArr.contains(new Integer(21))) {
-				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
-				cleanArr.remove(new Integer(23));
-			}
-
-			if (cleanArr.contains(new Integer(23))) {
-				D2ItemProperty lProperty = new D2ItemProperty(21, iCharLvl,
-						iItemName);
-				lProperty.set(21, ((D2ItemProperty) iRuneWordProps.get(cleanArr
-						.indexOf(new Integer(23)))).getItemStatCost(),
-						((D2ItemProperty) iRuneWordProps.get(cleanArr
-								.indexOf(new Integer(23)))).getBitSet(),
-								((D2ItemProperty) iRuneWordProps.get(cleanArr
-										.indexOf(new Integer(23)))).getRealValue());
-				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
-				iRuneWordProps.add(cleanArr.indexOf(new Integer(23)), lProperty);
-			}
-
-			if (cleanArr.contains(new Integer(24))) {
-				D2ItemProperty lProperty = new D2ItemProperty(22, iCharLvl,
-						iItemName);
-				lProperty.set(22, ((D2ItemProperty) iRuneWordProps.get(cleanArr
-						.indexOf(new Integer(24)))).getItemStatCost(),
-						((D2ItemProperty) iRuneWordProps.get(cleanArr
-								.indexOf(new Integer(24)))).getBitSet(),
-								((D2ItemProperty) iRuneWordProps.get(cleanArr
-										.indexOf(new Integer(24)))).getRealValue());
-				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
-				iRuneWordProps.add(cleanArr.indexOf(new Integer(24)), lProperty);
-			}
-
-		}
-
-	}
+//	private void cleanUp2HMax() {
+//
+//		ArrayList cleanArr = new ArrayList();
+//
+//		for (int x = 0; x < iProperties.size(); x = x + 1) {
+//			cleanArr.add(new Integer(((D2ItemProperty) iProperties.get(x))
+//					.getiProp()));
+//
+//		}
+//
+//		if (cleanArr.contains(new Integer(24))
+//				&& cleanArr.contains(new Integer(22))
+//				&& cleanArr.contains(new Integer(160))) {
+//			iProperties.remove(cleanArr.indexOf(new Integer(160)));
+//			cleanArr.remove(new Integer(160));
+//			iProperties.remove(cleanArr.indexOf(new Integer(24)));
+//			cleanArr.remove(new Integer(24));
+//		}
+//		if (cleanArr.contains(new Integer(23))
+//				&& cleanArr.contains(new Integer(21))
+//				&& cleanArr.contains(new Integer(159))) {
+//			iProperties.remove(cleanArr.indexOf(new Integer(159)));
+//			cleanArr.remove(new Integer(159));
+//			iProperties.remove(cleanArr.indexOf(new Integer(23)));
+//			cleanArr.remove(new Integer(23));
+//		}
+//
+//		if (cleanArr.contains(new Integer(24))
+//				&& cleanArr.contains(new Integer(22))) {
+//			iProperties.remove(cleanArr.indexOf(new Integer(24)));
+//			cleanArr.remove(new Integer(24));
+//		}
+//		if (cleanArr.contains(new Integer(23))
+//				&& cleanArr.contains(new Integer(21))) {
+//			iProperties.remove(cleanArr.indexOf(new Integer(23)));
+//			cleanArr.remove(new Integer(23));
+//		}
+//
+//		if (cleanArr.contains(new Integer(23))) {
+//			D2ItemProperty lProperty = new D2ItemProperty(21, iCharLvl,
+//					iItemName);
+//			lProperty.set(21, ((D2ItemProperty) iProperties.get(cleanArr
+//					.indexOf(new Integer(23)))).getItemStatCost(),
+//					((D2ItemProperty) iProperties.get(cleanArr
+//							.indexOf(new Integer(23)))).getBitSet(),
+//							((D2ItemProperty) iProperties.get(cleanArr
+//									.indexOf(new Integer(23)))).getRealValue());
+//			iProperties.remove(cleanArr.indexOf(new Integer(23)));
+//			iProperties.add(cleanArr.indexOf(new Integer(23)), lProperty);
+//		}
+//
+//		if (cleanArr.contains(new Integer(24))) {
+//			D2ItemProperty lProperty = new D2ItemProperty(22, iCharLvl,
+//					iItemName);
+//			lProperty.set(22, ((D2ItemProperty) iProperties.get(cleanArr
+//					.indexOf(new Integer(24)))).getItemStatCost(),
+//					((D2ItemProperty) iProperties.get(cleanArr
+//							.indexOf(new Integer(24)))).getBitSet(),
+//							((D2ItemProperty) iProperties.get(cleanArr
+//									.indexOf(new Integer(24)))).getRealValue());
+//			iProperties.remove(cleanArr.indexOf(new Integer(24)));
+//			iProperties.add(cleanArr.indexOf(new Integer(24)), lProperty);
+//		}
+//
+//		if(isRuneWord()){
+//
+//			cleanArr = new ArrayList();
+//
+//			for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
+//				cleanArr.add(new Integer(((D2ItemProperty) iRuneWordProps.get(x))
+//						.getiProp()));
+//
+//			}
+//
+//			if (cleanArr.contains(new Integer(24))
+//					&& cleanArr.contains(new Integer(22))
+//					&& cleanArr.contains(new Integer(160))) {
+//				iRuneWordProps.remove(cleanArr.indexOf(new Integer(160)));
+//				cleanArr.remove(new Integer(160));
+//				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
+//				cleanArr.remove(new Integer(24));
+//			}
+//			if (cleanArr.contains(new Integer(23))
+//					&& cleanArr.contains(new Integer(21))
+//					&& cleanArr.contains(new Integer(159))) {
+//				iRuneWordProps.remove(cleanArr.indexOf(new Integer(159)));
+//				cleanArr.remove(new Integer(159));
+//				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
+//				cleanArr.remove(new Integer(23));
+//			}
+//
+//			if (cleanArr.contains(new Integer(24))
+//					&& cleanArr.contains(new Integer(22))) {
+//				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
+//				cleanArr.remove(new Integer(24));
+//			}
+//			if (cleanArr.contains(new Integer(23))
+//					&& cleanArr.contains(new Integer(21))) {
+//				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
+//				cleanArr.remove(new Integer(23));
+//			}
+//
+//			if (cleanArr.contains(new Integer(23))) {
+//				D2ItemProperty lProperty = new D2ItemProperty(21, iCharLvl,
+//						iItemName);
+//				lProperty.set(21, ((D2ItemProperty) iRuneWordProps.get(cleanArr
+//						.indexOf(new Integer(23)))).getItemStatCost(),
+//						((D2ItemProperty) iRuneWordProps.get(cleanArr
+//								.indexOf(new Integer(23)))).getBitSet(),
+//								((D2ItemProperty) iRuneWordProps.get(cleanArr
+//										.indexOf(new Integer(23)))).getRealValue());
+//				iRuneWordProps.remove(cleanArr.indexOf(new Integer(23)));
+//				iRuneWordProps.add(cleanArr.indexOf(new Integer(23)), lProperty);
+//			}
+//
+//			if (cleanArr.contains(new Integer(24))) {
+//				D2ItemProperty lProperty = new D2ItemProperty(22, iCharLvl,
+//						iItemName);
+//				lProperty.set(22, ((D2ItemProperty) iRuneWordProps.get(cleanArr
+//						.indexOf(new Integer(24)))).getItemStatCost(),
+//						((D2ItemProperty) iRuneWordProps.get(cleanArr
+//								.indexOf(new Integer(24)))).getBitSet(),
+//								((D2ItemProperty) iRuneWordProps.get(cleanArr
+//										.indexOf(new Integer(24)))).getRealValue());
+//				iRuneWordProps.remove(cleanArr.indexOf(new Integer(24)));
+//				iRuneWordProps.add(cleanArr.indexOf(new Integer(24)), lProperty);
+//			}
+//
+//		}
+//
+//	}
 
 	private String getExStr() {
 		return " (" + iItemName + ", " + iFP + ")";
 	}
 
-	private void readPropertiesPots(D2BitReader pfile, ArrayList pProperties) {
+	private void readPropertiesPots(D2BitReader pfile) {
 
 		String[] statsToRead = { "stat1", "stat2" };
 
@@ -1432,7 +1438,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 				D2ItemProperty lProperty = new D2ItemProperty(lProp, iCharLvl,
 						iItemName);
 
-				pProperties.add(lProperty);
+//				iProperties.add(lProperty);
 
 				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
 				.getRow(lProperty.getPropNrs()[0]);
@@ -1711,7 +1717,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	}
 
-	private void readPropertiesNew(D2BitReader pFile, ArrayList pProperties) {
+	private void readPropertiesNew(D2BitReader pFile) {
 
 
 		int rootProp = (int) pFile.read(9);
@@ -1808,304 +1814,304 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 	}
 
-	private void applyEDef() {
+//	private void applyEDef() {
+//
+//
+//
+//
+//
+//		iDef = 0;
+//		int ENDef = 0;
+//		int Def = 0;
+//		int Dur = 0;
+//		int PlusDur = 0;
+//
+//		if (isSet()) {
+//
+//			for (int x = 0; x < iSetProps.size(); x = x + 1) {
+//				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
+//					ENDef = ENDef
+//					+ ((D2ItemProperty) iSetProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
+//					Def = Def
+//					+ ((D2ItemProperty) iSetProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 75) {
+//					Dur = Dur
+//					+ ((D2ItemProperty) iSetProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 73) {
+//					PlusDur = PlusDur
+//					+ ((D2ItemProperty) iSetProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
+//					Def = Def
+//					+ (int) Math.floor((((D2ItemProperty) iSetProps
+//							.get(x)).getRealValue() * 0.125)
+//							* iCharLvl);
+//				}
+//			}
+//
+//		}
+//
+//		if (isSocketed()) {
+//
+//			if (isRuneWord()) {
+//				for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 16) {
+//
+//						ENDef = ENDef
+//						+ ((D2ItemProperty) iRuneWordProps.get(x))
+//						.getRealValue();
+//					}
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 31) {
+//						Def = Def
+//						+ ((D2ItemProperty) iRuneWordProps.get(x))
+//						.getRealValue();
+//					}
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 75) {
+//						Dur = Dur
+//						+ ((D2ItemProperty) iRuneWordProps.get(x))
+//						.getRealValue();
+//					}
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 73) {
+//						PlusDur = PlusDur
+//						+ ((D2ItemProperty) iRuneWordProps.get(x))
+//						.getRealValue();
+//					}
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 214) {
+//						Def = Def
+//						+ (int) Math
+//						.floor((((D2ItemProperty) iRuneWordProps
+//								.get(x)).getRealValue() * 0.125)
+//								* iCharLvl);
+//					}
+//				}
+//			}
+//
+//			for (int x = 0; x < iGemProps.size(); x = x + 1) {
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 16) {
+//					ENDef = ENDef
+//					+ ((D2ItemProperty) iGemProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 31) {
+//					Def = Def
+//					+ ((D2ItemProperty) iGemProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 75) {
+//					Dur = Dur
+//					+ ((D2ItemProperty) iGemProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 73) {
+//					PlusDur = PlusDur
+//					+ ((D2ItemProperty) iGemProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 214) {
+//					Def = Def
+//					+ (int) Math.floor((((D2ItemProperty) iGemProps
+//							.get(x)).getRealValue() * 0.125)
+//							* iCharLvl);
+//				}
+//			}
+//
+//		}
+//		for (int x = 0; x < iProperties.size(); x = x + 1) {
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 16) {
+//				ENDef = ENDef
+//				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//			}
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 31) {
+//				Def = Def
+//				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//			}
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 75) {
+//				Dur = Dur
+//				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//			}
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 73) {
+//				PlusDur = PlusDur
+//				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//			}
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
+//				Def = Def
+//				+ (int) Math.floor((((D2ItemProperty) iProperties
+//						.get(x)).getRealValue() * 0.125)
+//						* iCharLvl);
+//			}
+//		}
+//		iDef = (long) Math.floor((((double) iInitDef / (double) 100) * ENDef)
+//				+ (iInitDef + Def));
+//		iMaxDur = (long) Math.floor((((double) iMaxDur / (double) 100) * Dur)
+//				+ (iMaxDur + PlusDur));
+//
+//	}
 
+//	private void applyBlock() {	
+//
+//		int block = 0;
+//
+//		if (isSet()) {
+//
+//			for (int x = 0; x < iSetProps.size(); x = x + 1) {
+//				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 20) {
+//					block = block + ((D2ItemProperty) iSetProps.get(x)).getRealValue();	
+//				}
+//			}
+//
+//		}
+//
+//		if (isSocketed()) {
+//
+//			if (isRuneWord()) {
+//				for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 20) {
+//						block = block + ((D2ItemProperty) iRuneWordProps.get(x)).getRealValue();	
+//					}
+//				}
+//			}
+//
+//			for (int x = 0; x < iGemProps.size(); x = x + 1) {
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 20) {
+//					block = block + ((D2ItemProperty) iGemProps.get(x)).getRealValue();	
+//				}
+//			}
+//
+//		}
+//		for (int x = 0; x < iProperties.size(); x = x + 1) {
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 20) {
+//				block = block + ((D2ItemProperty) iProperties.get(x)).getRealValue();	
+//			}
+//		}
+//
+//		iBlock = cBlock + block;
+//
+//	}
 
-
-
-
-		iDef = 0;
-		int ENDef = 0;
-		int Def = 0;
-		int Dur = 0;
-		int PlusDur = 0;
-
-		if (isSet()) {
-
-			for (int x = 0; x < iSetProps.size(); x = x + 1) {
-				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
-					ENDef = ENDef
-					+ ((D2ItemProperty) iSetProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
-					Def = Def
-					+ ((D2ItemProperty) iSetProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 75) {
-					Dur = Dur
-					+ ((D2ItemProperty) iSetProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 73) {
-					PlusDur = PlusDur
-					+ ((D2ItemProperty) iSetProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
-					Def = Def
-					+ (int) Math.floor((((D2ItemProperty) iSetProps
-							.get(x)).getRealValue() * 0.125)
-							* iCharLvl);
-				}
-			}
-
-		}
-
-		if (isSocketed()) {
-
-			if (isRuneWord()) {
-				for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 16) {
-
-						ENDef = ENDef
-						+ ((D2ItemProperty) iRuneWordProps.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 31) {
-						Def = Def
-						+ ((D2ItemProperty) iRuneWordProps.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 75) {
-						Dur = Dur
-						+ ((D2ItemProperty) iRuneWordProps.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 73) {
-						PlusDur = PlusDur
-						+ ((D2ItemProperty) iRuneWordProps.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 214) {
-						Def = Def
-						+ (int) Math
-						.floor((((D2ItemProperty) iRuneWordProps
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
-					}
-				}
-			}
-
-			for (int x = 0; x < iGemProps.size(); x = x + 1) {
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 16) {
-					ENDef = ENDef
-					+ ((D2ItemProperty) iGemProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 31) {
-					Def = Def
-					+ ((D2ItemProperty) iGemProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 75) {
-					Dur = Dur
-					+ ((D2ItemProperty) iGemProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 73) {
-					PlusDur = PlusDur
-					+ ((D2ItemProperty) iGemProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 214) {
-					Def = Def
-					+ (int) Math.floor((((D2ItemProperty) iGemProps
-							.get(x)).getRealValue() * 0.125)
-							* iCharLvl);
-				}
-			}
-
-		}
-		for (int x = 0; x < iProperties.size(); x = x + 1) {
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 16) {
-				ENDef = ENDef
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 31) {
-				Def = Def
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 75) {
-				Dur = Dur
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 73) {
-				PlusDur = PlusDur
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
-				Def = Def
-				+ (int) Math.floor((((D2ItemProperty) iProperties
-						.get(x)).getRealValue() * 0.125)
-						* iCharLvl);
-			}
-		}
-		iDef = (long) Math.floor((((double) iInitDef / (double) 100) * ENDef)
-				+ (iInitDef + Def));
-		iMaxDur = (long) Math.floor((((double) iMaxDur / (double) 100) * Dur)
-				+ (iMaxDur + PlusDur));
-
-	}
-
-	private void applyBlock() {	
-
-		int block = 0;
-
-		if (isSet()) {
-
-			for (int x = 0; x < iSetProps.size(); x = x + 1) {
-				if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 20) {
-					block = block + ((D2ItemProperty) iSetProps.get(x)).getRealValue();	
-				}
-			}
-
-		}
-
-		if (isSocketed()) {
-
-			if (isRuneWord()) {
-				for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 20) {
-						block = block + ((D2ItemProperty) iRuneWordProps.get(x)).getRealValue();	
-					}
-				}
-			}
-
-			for (int x = 0; x < iGemProps.size(); x = x + 1) {
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 20) {
-					block = block + ((D2ItemProperty) iGemProps.get(x)).getRealValue();	
-				}
-			}
-
-		}
-		for (int x = 0; x < iProperties.size(); x = x + 1) {
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 20) {
-				block = block + ((D2ItemProperty) iProperties.get(x)).getRealValue();	
-			}
-		}
-
-		iBlock = cBlock + block;
-
-	}
-
-	private void applyEDmg() {
-
-		int ENDam = 0;
-		int ENMaxDam = 0;
-		int MinDam = 0;
-		int MaxDam = 0;
-
-		if (isSocketed()) {
-
-			if (isRuneWord()) {
-				for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 17) {
-						ENDam = ENDam
-						+ ((D2ItemProperty) iRuneWordProps.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 219) {
-						ENMaxDam = ENMaxDam
-						+ (int) Math
-						.floor((((D2ItemProperty) iRuneWordProps
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
-					}
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 218) {
-						MaxDam = MaxDam
-						+ (int) Math
-						.floor((((D2ItemProperty) iRuneWordProps
-								.get(x)).getRealValue() * 0.125)
-								* iCharLvl);
-					}
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 21) {
-						MinDam = MinDam
-						+ ((D2ItemProperty) iRuneWordProps.get(x))
-						.getRealValue();
-					}
-					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 22) {
-						MaxDam = MaxDam
-						+ ((D2ItemProperty) iRuneWordProps.get(x))
-						.getRealValue();
-					}
-				}
-			}
-
-			for (int x = 0; x < iGemProps.size(); x = x + 1) {
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 17) {
-					ENDam = ENDam
-					+ ((D2ItemProperty) iGemProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 21) {
-					MinDam = MinDam
-					+ ((D2ItemProperty) iGemProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 22) {
-					MaxDam = MaxDam
-					+ ((D2ItemProperty) iGemProps.get(x))
-					.getRealValue();
-				}
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 219) {
-					ENMaxDam = ENMaxDam
-					+ (int) Math.floor((((D2ItemProperty) iGemProps
-							.get(x)).getRealValue() * 0.125)
-							* iCharLvl);
-				}
-				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 218) {
-					MaxDam = MaxDam
-					+ (int) Math.floor((((D2ItemProperty) iGemProps
-							.get(x)).getRealValue() * 0.125)
-							* iCharLvl);
-				}
-			}
-
-		}
-		for (int x = 0; x < iProperties.size(); x = x + 1) {
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 17) {
-				ENDam = ENDam
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 21) {
-				MinDam = MinDam
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 22) {
-				MaxDam = MaxDam
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 219) {
-				ENMaxDam = ENMaxDam
-				+ (int) Math.floor((((D2ItemProperty) iProperties
-						.get(x)).getRealValue() * 0.125)
-						* iCharLvl);
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 218) {
-				MaxDam = MaxDam
-				+ (int) Math.floor((((D2ItemProperty) iProperties
-						.get(x)).getRealValue() * 0.125)
-						* iCharLvl);
-			}
-		}
-		iMinDmg = (long) Math.floor((((double) iMinDmg / (double) 100) * ENDam)
-				+ (iMinDmg + MinDam));
-		iMaxDmg = (long) Math
-		.floor((((double) iMaxDmg / (double) 100) * (ENDam + ENMaxDam))
-				+ (iMaxDmg + MaxDam));
-
-		if (iWhichHand == 0) {
-			i2MinDmg = (long) Math
-			.floor((((double) i2MinDmg / (double) 100) * ENDam)
-					+ (i2MinDmg + MinDam));
-			i2MaxDmg = (long) Math
-			.floor((((double) i2MaxDmg / (double) 100) * (ENDam + ENMaxDam))
-					+ (i2MaxDmg + MaxDam));
-		}
-
-	}
+//	private void applyEDmg() {
+//
+//		int ENDam = 0;
+//		int ENMaxDam = 0;
+//		int MinDam = 0;
+//		int MaxDam = 0;
+//
+//		if (isSocketed()) {
+//
+//			if (isRuneWord()) {
+//				for (int x = 0; x < iRuneWordProps.size(); x = x + 1) {
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 17) {
+//						ENDam = ENDam
+//						+ ((D2ItemProperty) iRuneWordProps.get(x))
+//						.getRealValue();
+//					}
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 219) {
+//						ENMaxDam = ENMaxDam
+//						+ (int) Math
+//						.floor((((D2ItemProperty) iRuneWordProps
+//								.get(x)).getRealValue() * 0.125)
+//								* iCharLvl);
+//					}
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 218) {
+//						MaxDam = MaxDam
+//						+ (int) Math
+//						.floor((((D2ItemProperty) iRuneWordProps
+//								.get(x)).getRealValue() * 0.125)
+//								* iCharLvl);
+//					}
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 21) {
+//						MinDam = MinDam
+//						+ ((D2ItemProperty) iRuneWordProps.get(x))
+//						.getRealValue();
+//					}
+//					if (((D2ItemProperty) iRuneWordProps.get(x)).getiProp() == 22) {
+//						MaxDam = MaxDam
+//						+ ((D2ItemProperty) iRuneWordProps.get(x))
+//						.getRealValue();
+//					}
+//				}
+//			}
+//
+//			for (int x = 0; x < iGemProps.size(); x = x + 1) {
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 17) {
+//					ENDam = ENDam
+//					+ ((D2ItemProperty) iGemProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 21) {
+//					MinDam = MinDam
+//					+ ((D2ItemProperty) iGemProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 22) {
+//					MaxDam = MaxDam
+//					+ ((D2ItemProperty) iGemProps.get(x))
+//					.getRealValue();
+//				}
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 219) {
+//					ENMaxDam = ENMaxDam
+//					+ (int) Math.floor((((D2ItemProperty) iGemProps
+//							.get(x)).getRealValue() * 0.125)
+//							* iCharLvl);
+//				}
+//				if (((D2ItemProperty) iGemProps.get(x)).getiProp() == 218) {
+//					MaxDam = MaxDam
+//					+ (int) Math.floor((((D2ItemProperty) iGemProps
+//							.get(x)).getRealValue() * 0.125)
+//							* iCharLvl);
+//				}
+//			}
+//
+//		}
+//		for (int x = 0; x < iProperties.size(); x = x + 1) {
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 17) {
+//				ENDam = ENDam
+//				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//			}
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 21) {
+//				MinDam = MinDam
+//				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//			}
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 22) {
+//				MaxDam = MaxDam
+//				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//			}
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 219) {
+//				ENMaxDam = ENMaxDam
+//				+ (int) Math.floor((((D2ItemProperty) iProperties
+//						.get(x)).getRealValue() * 0.125)
+//						* iCharLvl);
+//			}
+//			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 218) {
+//				MaxDam = MaxDam
+//				+ (int) Math.floor((((D2ItemProperty) iProperties
+//						.get(x)).getRealValue() * 0.125)
+//						* iCharLvl);
+//			}
+//		}
+//		iMinDmg = (long) Math.floor((((double) iMinDmg / (double) 100) * ENDam)
+//				+ (iMinDmg + MinDam));
+//		iMaxDmg = (long) Math
+//		.floor((((double) iMaxDmg / (double) 100) * (ENDam + ENMaxDam))
+//				+ (iMaxDmg + MaxDam));
+//
+//		if (iWhichHand == 0) {
+//			i2MinDmg = (long) Math
+//			.floor((((double) i2MinDmg / (double) 100) * ENDam)
+//					+ (i2MinDmg + MinDam));
+//			i2MaxDmg = (long) Math
+//			.floor((((double) i2MaxDmg / (double) 100) * (ENDam + ENMaxDam))
+//					+ (i2MaxDmg + MaxDam));
+//		}
+//
+//	}
 
 	// public ArrayList getAllProps(){
 	// if(null != propsList){
@@ -2122,370 +2128,370 @@ public class D2Item implements Comparable, D2ItemInterface {
 	// }
 	// }
 
-	private void combineProps() {
+//	private void combineProps() {
+//
+//
+//
+//		ArrayList allProps = new ArrayList();
+//		ArrayList maskProps = new ArrayList();
+//		ArrayList tempProps = new ArrayList();
+//		int counter = 0;
+//		int counter2 = 0;
+//
+//		if (null != iRuneWordProps) {
+//			for (int a = 0; a < iRuneWordProps.size(); a = a + 1) {
+//				maskProps.add("0");
+//			}
+//			allProps.addAll(iRuneWordProps);
+//			iRuneWordProps.clear();
+//		}
+//		if (null != iGemProps) {
+//			for (int a = 0; a < iGemProps.size(); a = a + 1) {
+//				maskProps.add("1");
+//			}
+//			allProps.addAll(iGemProps);
+//			iGemProps.clear();
+//		}
+//		if (null != iProperties) {
+//			for (int a = 0; a < iProperties.size(); a = a + 1) {
+//				maskProps.add("2");
+//			}
+//			allProps.addAll(iProperties);
+//			iProperties.clear();
+//		}
+//
+//		for (int x = 0; x < allProps.size(); x = x + 1) {
+//			for (int y = 0; y < allProps.size(); y = y + 1) {
+//				if (((D2ItemProperty) allProps.get(x)).getiProp() == ((D2ItemProperty) allProps
+//						.get(y)).getiProp()) {
+//					if (!((D2ItemProperty) allProps.get(x))
+//							.equals((D2ItemProperty) allProps.get(y))
+//							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 107
+//							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 97
+//							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 188
+//							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 201
+//							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 198
+//							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 204) {
+//						counter = counter
+//						+ ((D2ItemProperty) allProps.get(y))
+//						.getRealValue();
+//						if (((D2ItemProperty) allProps.get(x)).getiProp() == 48
+//								|| ((D2ItemProperty) allProps.get(x))
+//								.getiProp() == 50
+//								|| ((D2ItemProperty) allProps.get(x))
+//								.getiProp() == 52
+//								|| ((D2ItemProperty) allProps.get(x))
+//								.getiProp() == 54
+//								|| ((D2ItemProperty) allProps.get(x))
+//								.getiProp() == 57) {
+//							counter2 = counter2
+//							+ ((D2ItemProperty) allProps.get(y))
+//							.getRealValueTwo();
+//						}
+//						// System.out.println("PROPERTY TO COMBINE FOUND: VAL:"+ ((D2ItemProperty) allProps.get(x)).getiProp() + ", " + ((D2ItemProperty) allProps.get(x)).getRealValue() + ", " + ",ITEM: "+this.iItemName);
+//						tempProps.add(new Integer(y));
+//					}
+//				}
+//			}
+//			for (int b = 0; b < tempProps.size(); b = b + 1) {
+//				allProps.remove(((Integer) tempProps.get(b)).intValue() - b);
+//				maskProps.remove(((Integer) tempProps.get(b)).intValue() - b);
+//			}
+//			if (counter != 0) {
+//				((D2ItemProperty) allProps.get(x))
+//				.setRealValue(((D2ItemProperty) allProps.get(x))
+//						.getRealValue()
+//						+ counter);
+//			}
+//			if (counter2 != 0) {
+//				((D2ItemProperty) allProps.get(x))
+//				.setRealValueTwo(((D2ItemProperty) allProps.get(x))
+//						.getRealValueTwo()
+//						+ counter2);
+//			}
+//			counter = 0;
+//			counter2 = 0;
+//			tempProps.clear();
+//		}
+//
+//		for (int c = 0; c < maskProps.size(); c = c + 1) {
+//			if (maskProps.get(c).equals("0")) {
+//				iRuneWordProps.add(allProps.get(c));
+//			} else if (maskProps.get(c).equals("1")) {
+//				iGemProps.add(allProps.get(c));
+//			} else if (maskProps.get(c).equals("2")) {
+//				iProperties.add(allProps.get(c));
+//			}
+//		}
+//		if(iItemName.startsWith("Chain")){
+////			System.out.println(((D2ItemProperty)iGemProps.get(1)).getRealValue());
+//		}
+//	}
 
-
-
-		ArrayList allProps = new ArrayList();
-		ArrayList maskProps = new ArrayList();
-		ArrayList tempProps = new ArrayList();
-		int counter = 0;
-		int counter2 = 0;
-
-		if (null != iRuneWordProps) {
-			for (int a = 0; a < iRuneWordProps.size(); a = a + 1) {
-				maskProps.add("0");
-			}
-			allProps.addAll(iRuneWordProps);
-			iRuneWordProps.clear();
-		}
-		if (null != iGemProps) {
-			for (int a = 0; a < iGemProps.size(); a = a + 1) {
-				maskProps.add("1");
-			}
-			allProps.addAll(iGemProps);
-			iGemProps.clear();
-		}
-		if (null != iProperties) {
-			for (int a = 0; a < iProperties.size(); a = a + 1) {
-				maskProps.add("2");
-			}
-			allProps.addAll(iProperties);
-			iProperties.clear();
-		}
-
-		for (int x = 0; x < allProps.size(); x = x + 1) {
-			for (int y = 0; y < allProps.size(); y = y + 1) {
-				if (((D2ItemProperty) allProps.get(x)).getiProp() == ((D2ItemProperty) allProps
-						.get(y)).getiProp()) {
-					if (!((D2ItemProperty) allProps.get(x))
-							.equals((D2ItemProperty) allProps.get(y))
-							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 107
-							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 97
-							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 188
-							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 201
-							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 198
-							&& ((D2ItemProperty) allProps.get(x)).getiProp() != 204) {
-						counter = counter
-						+ ((D2ItemProperty) allProps.get(y))
-						.getRealValue();
-						if (((D2ItemProperty) allProps.get(x)).getiProp() == 48
-								|| ((D2ItemProperty) allProps.get(x))
-								.getiProp() == 50
-								|| ((D2ItemProperty) allProps.get(x))
-								.getiProp() == 52
-								|| ((D2ItemProperty) allProps.get(x))
-								.getiProp() == 54
-								|| ((D2ItemProperty) allProps.get(x))
-								.getiProp() == 57) {
-							counter2 = counter2
-							+ ((D2ItemProperty) allProps.get(y))
-							.getRealValueTwo();
-						}
-						// System.out.println("PROPERTY TO COMBINE FOUND: VAL:"+ ((D2ItemProperty) allProps.get(x)).getiProp() + ", " + ((D2ItemProperty) allProps.get(x)).getRealValue() + ", " + ",ITEM: "+this.iItemName);
-						tempProps.add(new Integer(y));
-					}
-				}
-			}
-			for (int b = 0; b < tempProps.size(); b = b + 1) {
-				allProps.remove(((Integer) tempProps.get(b)).intValue() - b);
-				maskProps.remove(((Integer) tempProps.get(b)).intValue() - b);
-			}
-			if (counter != 0) {
-				((D2ItemProperty) allProps.get(x))
-				.setRealValue(((D2ItemProperty) allProps.get(x))
-						.getRealValue()
-						+ counter);
-			}
-			if (counter2 != 0) {
-				((D2ItemProperty) allProps.get(x))
-				.setRealValueTwo(((D2ItemProperty) allProps.get(x))
-						.getRealValueTwo()
-						+ counter2);
-			}
-			counter = 0;
-			counter2 = 0;
-			tempProps.clear();
-		}
-
-		for (int c = 0; c < maskProps.size(); c = c + 1) {
-			if (maskProps.get(c).equals("0")) {
-				iRuneWordProps.add(allProps.get(c));
-			} else if (maskProps.get(c).equals("1")) {
-				iGemProps.add(allProps.get(c));
-			} else if (maskProps.get(c).equals("2")) {
-				iProperties.add(allProps.get(c));
-			}
-		}
-		if(iItemName.startsWith("Chain")){
-//			System.out.println(((D2ItemProperty)iGemProps.get(1)).getRealValue());
-		}
-	}
-
-	private void combineResists() {
-
-		ArrayList allProps = new ArrayList();
-		ArrayList maskProps = new ArrayList();
-		ArrayList tempProps = new ArrayList();
-		ArrayList tempStatProps = new ArrayList();
-		ArrayList tempMaxResProps = new ArrayList();
-		ArrayList maxResistanceKeys = new ArrayList();
-		ArrayList resistanceKeys = new ArrayList();
-		ArrayList statKeys = new ArrayList();
-		resistanceKeys.add(new Integer(39));
-		resistanceKeys.add(new Integer(41));
-		resistanceKeys.add(new Integer(43));
-		resistanceKeys.add(new Integer(45));
-
-		maxResistanceKeys.add(new Integer(40));
-		maxResistanceKeys.add(new Integer(42));
-		maxResistanceKeys.add(new Integer(44));
-		maxResistanceKeys.add(new Integer(46));
-
-		statKeys.add(new Integer(0));
-		statKeys.add(new Integer(1));
-		statKeys.add(new Integer(2));
-		statKeys.add(new Integer(3));
-
-		int smallestRes = 0;
-		int smallestMaxRes = 0;
-		int smallestStat = 0;
-
-		if (null != iRuneWordProps) {
-			for (int a = 0; a < iRuneWordProps.size(); a = a + 1) {
-				maskProps.add("0");
-			}
-			allProps.addAll(iRuneWordProps);
-			iRuneWordProps.clear();
-		}
-		if (null != iGemProps) {
-			if (!isGem() && !isRune()) {
-				for (int a = 0; a < iGemProps.size(); a = a + 1) {
-					maskProps.add("1");
-				}
-				allProps.addAll(iGemProps);
-				iGemProps.clear();
-			} else {
-				for (int a = 0; a < ((ArrayList) iGemProps.get(2)).size(); a = a + 1) {
-					maskProps.add("1");
-				}
-				allProps.addAll(((ArrayList) iGemProps.get(2)));
-				((ArrayList) iGemProps.get(2)).clear();
-			}
-
-		}
-		if (null != iProperties) {
-			for (int a = 0; a < iProperties.size(); a = a + 1) {
-				maskProps.add("2");
-			}
-			allProps.addAll(iProperties);
-			iProperties.clear();
-		}
-
-		for (int x = 0; x < allProps.size(); x = x + 1) {
-			// CHECK REQUIREMENTS FIRST
-			if (((D2ItemProperty) allProps.get(x)).getiProp() == 91) {
-				modifyReqs(((D2ItemProperty) allProps.get(x)).getRealValue());
-			}
-			// ...
-			if (resistanceKeys.contains(new Integer(((D2ItemProperty) allProps
-					.get(x)).getiProp()))) {
-				resistanceKeys.remove(new Integer(((D2ItemProperty) allProps
-						.get(x)).getiProp()));
-				tempProps.add(((D2ItemProperty) allProps.get(x)));
-				for (int y = 0; y < allProps.size(); y = y + 1) {
-					if (resistanceKeys.contains(new Integer(
-							((D2ItemProperty) allProps.get(y)).getiProp()))) {
-						resistanceKeys.remove(new Integer(
-								((D2ItemProperty) allProps.get(y)).getiProp()));
-						tempProps.add(((D2ItemProperty) allProps.get(y)));
-					}
-				}
-			}
-			if (maxResistanceKeys.contains(new Integer(
-					((D2ItemProperty) allProps.get(x)).getiProp()))) {
-				maxResistanceKeys.remove(new Integer(((D2ItemProperty) allProps
-						.get(x)).getiProp()));
-				tempMaxResProps.add(((D2ItemProperty) allProps.get(x)));
-				for (int y = 0; y < allProps.size(); y = y + 1) {
-					if (maxResistanceKeys.contains(new Integer(
-							((D2ItemProperty) allProps.get(y)).getiProp()))) {
-						maxResistanceKeys.remove(new Integer(
-								((D2ItemProperty) allProps.get(y)).getiProp()));
-						tempMaxResProps.add(((D2ItemProperty) allProps.get(y)));
-					}
-				}
-			}
-
-			if (statKeys.contains(new Integer(
-					((D2ItemProperty) allProps.get(x)).getiProp()))) {
-				statKeys.remove(new Integer(((D2ItemProperty) allProps.get(x))
-						.getiProp()));
-				tempStatProps.add(((D2ItemProperty) allProps.get(x)));
-				for (int y = 0; y < allProps.size(); y = y + 1) {
-					if (statKeys.contains(new Integer(
-							((D2ItemProperty) allProps.get(y)).getiProp()))) {
-						statKeys.remove(new Integer(((D2ItemProperty) allProps
-								.get(y)).getiProp()));
-						tempStatProps.add(((D2ItemProperty) allProps.get(y)));
-					}
-				}
-			}
-		}
-
-		if (maxResistanceKeys.size() == 0) {
-			smallestMaxRes = ((D2ItemProperty) tempMaxResProps.get(0))
-			.getRealValue();
-			for (int f = 1; f < tempMaxResProps.size(); f = f + 1) {
-				if (((D2ItemProperty) tempMaxResProps.get(f)).getRealValue() < smallestMaxRes) {
-					smallestMaxRes = ((D2ItemProperty) tempMaxResProps.get(f))
-					.getRealValue();
-				}
-			}
-
-			for (int f = 0; f < tempMaxResProps.size(); f = f + 1) {
-				((D2ItemProperty) tempMaxResProps.get(f))
-				.setRealValue(((D2ItemProperty) tempMaxResProps.get(f))
-						.getRealValue()
-						- smallestMaxRes);
-				if (((D2ItemProperty) tempMaxResProps.get(f)).getRealValue() == 0) {
-					maskProps.remove(allProps.indexOf(tempMaxResProps.get(f)));
-					allProps.remove(tempMaxResProps.get(f));
-				}
-			}
-		}
-
-		if (resistanceKeys.size() == 0) {
-			smallestRes = ((D2ItemProperty) tempProps.get(0)).getRealValue();
-			for (int f = 1; f < tempProps.size(); f = f + 1) {
-				if (((D2ItemProperty) tempProps.get(f)).getRealValue() < smallestRes) {
-					smallestRes = ((D2ItemProperty) tempProps.get(f))
-					.getRealValue();
-				}
-			}
-
-			for (int f = 0; f < tempProps.size(); f = f + 1) {
-				((D2ItemProperty) tempProps.get(f))
-				.setRealValue(((D2ItemProperty) tempProps.get(f))
-						.getRealValue()
-						- smallestRes);
-				if (((D2ItemProperty) tempProps.get(f)).getRealValue() == 0) {
-					maskProps.remove(allProps.indexOf(tempProps.get(f)));
-					allProps.remove(tempProps.get(f));
-				}
-			}
-		}
-
-		if (statKeys.size() == 0) {
-			smallestStat = ((D2ItemProperty) tempStatProps.get(0))
-			.getRealValue();
-			for (int f = 1; f < tempStatProps.size(); f = f + 1) {
-				if (((D2ItemProperty) tempStatProps.get(f)).getRealValue() < smallestStat) {
-					smallestStat = ((D2ItemProperty) tempStatProps.get(f))
-					.getRealValue();
-				}
-			}
-
-			for (int f = 0; f < tempStatProps.size(); f = f + 1) {
-				((D2ItemProperty) tempStatProps.get(f))
-				.setRealValue(((D2ItemProperty) tempStatProps.get(f))
-						.getRealValue()
-						- smallestStat);
-				if (((D2ItemProperty) tempStatProps.get(f)).getRealValue() == 0) {
-					maskProps.remove(allProps.indexOf(tempStatProps.get(f)));
-					allProps.remove(tempStatProps.get(f));
-				}
-			}
-		}
-
-		// for (int b = 0; b < tempProps.size(); b = b + 1) {
-		// allProps.remove(((Integer) tempProps.get(b)).intValue() -b);
-		// maskProps.remove(((Integer) tempProps.get(b)).intValue() - b);
-		// }
-		// if (counter != 0) {
-		// ((D2ItemProperty) allProps.get(x))
-		// .setRealValue(((D2ItemProperty) allProps.get(x))
-		// .getRealValue()
-		// + counter);
-		// }
-		// counter = 0;
-		// tempProps.clear();
-		// }
-		//
-		if (!isGem() && !isRune()) {
-			for (int c = 0; c < maskProps.size(); c = c + 1) {
-				if (maskProps.get(c).equals("0")) {
-					iRuneWordProps.add(allProps.get(c));
-				} else if (maskProps.get(c).equals("1")) {
-					iGemProps.add(allProps.get(c));
-				} else if (maskProps.get(c).equals("2")) {
-					iProperties.add(allProps.get(c));
-				}
-			}
-
-		} else {
-
-			for (int c = 0; c < maskProps.size(); c = c + 1) {
-				if (maskProps.get(c).equals("0")) {
-					iRuneWordProps.add(allProps.get(c));
-				} else if (maskProps.get(c).equals("1")) {
-					((ArrayList) iGemProps.get(2)).add(allProps.get(c));
-				} else if (maskProps.get(c).equals("2")) {
-					iProperties.add(allProps.get(c));
-				}
-
-			}
-		}
-
-		if (resistanceKeys.size() == 0) {
-			// System.out.println(iItemName + " HAS HAD RESISTANCES COMBINED");
-
-			D2ItemProperty lProperty = new D2ItemProperty(1337, iCharLvl,
-					iItemName);
-
-			D2TxtFileItemProperties lItemStatCost2 = null;
-			lProperty.set(1337, lItemStatCost2, 0, smallestRes);
-			if (!isGem() && !isRune()) {
-				iProperties.add(lProperty);
-
-				combineProps();
-
-			} else {
-				((ArrayList) iGemProps.get(2)).add(lProperty);
-			}
-		}
-
-		if (statKeys.size() == 0) {
-			// System.out.println(iItemName + " HAS HAD STATS COMBINED");
-			D2ItemProperty lProperty = new D2ItemProperty(1338, iCharLvl,
-					iItemName);
-			D2TxtFileItemProperties lItemStatCost2 = null;
-			lProperty.set(1338, lItemStatCost2, 0, smallestStat);
-			if (!isGem() && !isRune()) {
-				iProperties.add(lProperty);
-				combineProps();
-			} else {
-				((ArrayList) iGemProps.get(2)).add(lProperty);
-			}
-		}
-
-		if (maxResistanceKeys.size() == 0) {
-			// System.out.println(iItemName + " HAS HAD MAX RESISTANCES
-			// COMBINED");
-			D2ItemProperty lProperty = new D2ItemProperty(1339, iCharLvl,
-					iItemName);
-			D2TxtFileItemProperties lItemStatCost2 = null;
-			lProperty.set(1339, lItemStatCost2, 0, smallestMaxRes);
-			if (!isGem() && !isRune()) {
-				iProperties.add(lProperty);
-				combineProps();
-			} else {
-				((ArrayList) iGemProps.get(2)).add(lProperty);
-			}
-		}
-
-
-	}
+//	private void combineResists() {
+//
+//		ArrayList allProps = new ArrayList();
+//		ArrayList maskProps = new ArrayList();
+//		ArrayList tempProps = new ArrayList();
+//		ArrayList tempStatProps = new ArrayList();
+//		ArrayList tempMaxResProps = new ArrayList();
+//		ArrayList maxResistanceKeys = new ArrayList();
+//		ArrayList resistanceKeys = new ArrayList();
+//		ArrayList statKeys = new ArrayList();
+//		resistanceKeys.add(new Integer(39));
+//		resistanceKeys.add(new Integer(41));
+//		resistanceKeys.add(new Integer(43));
+//		resistanceKeys.add(new Integer(45));
+//
+//		maxResistanceKeys.add(new Integer(40));
+//		maxResistanceKeys.add(new Integer(42));
+//		maxResistanceKeys.add(new Integer(44));
+//		maxResistanceKeys.add(new Integer(46));
+//
+//		statKeys.add(new Integer(0));
+//		statKeys.add(new Integer(1));
+//		statKeys.add(new Integer(2));
+//		statKeys.add(new Integer(3));
+//
+//		int smallestRes = 0;
+//		int smallestMaxRes = 0;
+//		int smallestStat = 0;
+//
+//		if (null != iRuneWordProps) {
+//			for (int a = 0; a < iRuneWordProps.size(); a = a + 1) {
+//				maskProps.add("0");
+//			}
+//			allProps.addAll(iRuneWordProps);
+//			iRuneWordProps.clear();
+//		}
+//		if (null != iGemProps) {
+//			if (!isGem() && !isRune()) {
+//				for (int a = 0; a < iGemProps.size(); a = a + 1) {
+//					maskProps.add("1");
+//				}
+//				allProps.addAll(iGemProps);
+//				iGemProps.clear();
+//			} else {
+//				for (int a = 0; a < ((ArrayList) iGemProps.get(2)).size(); a = a + 1) {
+//					maskProps.add("1");
+//				}
+//				allProps.addAll(((ArrayList) iGemProps.get(2)));
+//				((ArrayList) iGemProps.get(2)).clear();
+//			}
+//
+//		}
+//		if (null != iProperties) {
+//			for (int a = 0; a < iProperties.size(); a = a + 1) {
+//				maskProps.add("2");
+//			}
+//			allProps.addAll(iProperties);
+//			iProperties.clear();
+//		}
+//
+//		for (int x = 0; x < allProps.size(); x = x + 1) {
+//			// CHECK REQUIREMENTS FIRST
+//			if (((D2ItemProperty) allProps.get(x)).getiProp() == 91) {
+//				modifyReqs(((D2ItemProperty) allProps.get(x)).getRealValue());
+//			}
+//			// ...
+//			if (resistanceKeys.contains(new Integer(((D2ItemProperty) allProps
+//					.get(x)).getiProp()))) {
+//				resistanceKeys.remove(new Integer(((D2ItemProperty) allProps
+//						.get(x)).getiProp()));
+//				tempProps.add(((D2ItemProperty) allProps.get(x)));
+//				for (int y = 0; y < allProps.size(); y = y + 1) {
+//					if (resistanceKeys.contains(new Integer(
+//							((D2ItemProperty) allProps.get(y)).getiProp()))) {
+//						resistanceKeys.remove(new Integer(
+//								((D2ItemProperty) allProps.get(y)).getiProp()));
+//						tempProps.add(((D2ItemProperty) allProps.get(y)));
+//					}
+//				}
+//			}
+//			if (maxResistanceKeys.contains(new Integer(
+//					((D2ItemProperty) allProps.get(x)).getiProp()))) {
+//				maxResistanceKeys.remove(new Integer(((D2ItemProperty) allProps
+//						.get(x)).getiProp()));
+//				tempMaxResProps.add(((D2ItemProperty) allProps.get(x)));
+//				for (int y = 0; y < allProps.size(); y = y + 1) {
+//					if (maxResistanceKeys.contains(new Integer(
+//							((D2ItemProperty) allProps.get(y)).getiProp()))) {
+//						maxResistanceKeys.remove(new Integer(
+//								((D2ItemProperty) allProps.get(y)).getiProp()));
+//						tempMaxResProps.add(((D2ItemProperty) allProps.get(y)));
+//					}
+//				}
+//			}
+//
+//			if (statKeys.contains(new Integer(
+//					((D2ItemProperty) allProps.get(x)).getiProp()))) {
+//				statKeys.remove(new Integer(((D2ItemProperty) allProps.get(x))
+//						.getiProp()));
+//				tempStatProps.add(((D2ItemProperty) allProps.get(x)));
+//				for (int y = 0; y < allProps.size(); y = y + 1) {
+//					if (statKeys.contains(new Integer(
+//							((D2ItemProperty) allProps.get(y)).getiProp()))) {
+//						statKeys.remove(new Integer(((D2ItemProperty) allProps
+//								.get(y)).getiProp()));
+//						tempStatProps.add(((D2ItemProperty) allProps.get(y)));
+//					}
+//				}
+//			}
+//		}
+//
+//		if (maxResistanceKeys.size() == 0) {
+//			smallestMaxRes = ((D2ItemProperty) tempMaxResProps.get(0))
+//			.getRealValue();
+//			for (int f = 1; f < tempMaxResProps.size(); f = f + 1) {
+//				if (((D2ItemProperty) tempMaxResProps.get(f)).getRealValue() < smallestMaxRes) {
+//					smallestMaxRes = ((D2ItemProperty) tempMaxResProps.get(f))
+//					.getRealValue();
+//				}
+//			}
+//
+//			for (int f = 0; f < tempMaxResProps.size(); f = f + 1) {
+//				((D2ItemProperty) tempMaxResProps.get(f))
+//				.setRealValue(((D2ItemProperty) tempMaxResProps.get(f))
+//						.getRealValue()
+//						- smallestMaxRes);
+//				if (((D2ItemProperty) tempMaxResProps.get(f)).getRealValue() == 0) {
+//					maskProps.remove(allProps.indexOf(tempMaxResProps.get(f)));
+//					allProps.remove(tempMaxResProps.get(f));
+//				}
+//			}
+//		}
+//
+//		if (resistanceKeys.size() == 0) {
+//			smallestRes = ((D2ItemProperty) tempProps.get(0)).getRealValue();
+//			for (int f = 1; f < tempProps.size(); f = f + 1) {
+//				if (((D2ItemProperty) tempProps.get(f)).getRealValue() < smallestRes) {
+//					smallestRes = ((D2ItemProperty) tempProps.get(f))
+//					.getRealValue();
+//				}
+//			}
+//
+//			for (int f = 0; f < tempProps.size(); f = f + 1) {
+//				((D2ItemProperty) tempProps.get(f))
+//				.setRealValue(((D2ItemProperty) tempProps.get(f))
+//						.getRealValue()
+//						- smallestRes);
+//				if (((D2ItemProperty) tempProps.get(f)).getRealValue() == 0) {
+//					maskProps.remove(allProps.indexOf(tempProps.get(f)));
+//					allProps.remove(tempProps.get(f));
+//				}
+//			}
+//		}
+//
+//		if (statKeys.size() == 0) {
+//			smallestStat = ((D2ItemProperty) tempStatProps.get(0))
+//			.getRealValue();
+//			for (int f = 1; f < tempStatProps.size(); f = f + 1) {
+//				if (((D2ItemProperty) tempStatProps.get(f)).getRealValue() < smallestStat) {
+//					smallestStat = ((D2ItemProperty) tempStatProps.get(f))
+//					.getRealValue();
+//				}
+//			}
+//
+//			for (int f = 0; f < tempStatProps.size(); f = f + 1) {
+//				((D2ItemProperty) tempStatProps.get(f))
+//				.setRealValue(((D2ItemProperty) tempStatProps.get(f))
+//						.getRealValue()
+//						- smallestStat);
+//				if (((D2ItemProperty) tempStatProps.get(f)).getRealValue() == 0) {
+//					maskProps.remove(allProps.indexOf(tempStatProps.get(f)));
+//					allProps.remove(tempStatProps.get(f));
+//				}
+//			}
+//		}
+//
+//		// for (int b = 0; b < tempProps.size(); b = b + 1) {
+//		// allProps.remove(((Integer) tempProps.get(b)).intValue() -b);
+//		// maskProps.remove(((Integer) tempProps.get(b)).intValue() - b);
+//		// }
+//		// if (counter != 0) {
+//		// ((D2ItemProperty) allProps.get(x))
+//		// .setRealValue(((D2ItemProperty) allProps.get(x))
+//		// .getRealValue()
+//		// + counter);
+//		// }
+//		// counter = 0;
+//		// tempProps.clear();
+//		// }
+//		//
+//		if (!isGem() && !isRune()) {
+//			for (int c = 0; c < maskProps.size(); c = c + 1) {
+//				if (maskProps.get(c).equals("0")) {
+//					iRuneWordProps.add(allProps.get(c));
+//				} else if (maskProps.get(c).equals("1")) {
+//					iGemProps.add(allProps.get(c));
+//				} else if (maskProps.get(c).equals("2")) {
+//					iProperties.add(allProps.get(c));
+//				}
+//			}
+//
+//		} else {
+//
+//			for (int c = 0; c < maskProps.size(); c = c + 1) {
+//				if (maskProps.get(c).equals("0")) {
+//					iRuneWordProps.add(allProps.get(c));
+//				} else if (maskProps.get(c).equals("1")) {
+//					((ArrayList) iGemProps.get(2)).add(allProps.get(c));
+//				} else if (maskProps.get(c).equals("2")) {
+//					iProperties.add(allProps.get(c));
+//				}
+//
+//			}
+//		}
+//
+//		if (resistanceKeys.size() == 0) {
+//			// System.out.println(iItemName + " HAS HAD RESISTANCES COMBINED");
+//
+//			D2ItemProperty lProperty = new D2ItemProperty(1337, iCharLvl,
+//					iItemName);
+//
+//			D2TxtFileItemProperties lItemStatCost2 = null;
+//			lProperty.set(1337, lItemStatCost2, 0, smallestRes);
+//			if (!isGem() && !isRune()) {
+//				iProperties.add(lProperty);
+//
+//				combineProps();
+//
+//			} else {
+//				((ArrayList) iGemProps.get(2)).add(lProperty);
+//			}
+//		}
+//
+//		if (statKeys.size() == 0) {
+//			// System.out.println(iItemName + " HAS HAD STATS COMBINED");
+//			D2ItemProperty lProperty = new D2ItemProperty(1338, iCharLvl,
+//					iItemName);
+//			D2TxtFileItemProperties lItemStatCost2 = null;
+//			lProperty.set(1338, lItemStatCost2, 0, smallestStat);
+//			if (!isGem() && !isRune()) {
+//				iProperties.add(lProperty);
+//				combineProps();
+//			} else {
+//				((ArrayList) iGemProps.get(2)).add(lProperty);
+//			}
+//		}
+//
+//		if (maxResistanceKeys.size() == 0) {
+//			// System.out.println(iItemName + " HAS HAD MAX RESISTANCES
+//			// COMBINED");
+//			D2ItemProperty lProperty = new D2ItemProperty(1339, iCharLvl,
+//					iItemName);
+//			D2TxtFileItemProperties lItemStatCost2 = null;
+//			lProperty.set(1339, lItemStatCost2, 0, smallestMaxRes);
+//			if (!isGem() && !isRune()) {
+//				iProperties.add(lProperty);
+//				combineProps();
+//			} else {
+//				((ArrayList) iGemProps.get(2)).add(lProperty);
+//			}
+//		}
+//
+//
+//	}
 
 	private void modifyReqs(int value) {
 //		System.out.println(iItemName);
@@ -2913,8 +2919,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (!iIdentified) {
 			lReturn.add("Unidentified");
 		}
+		lReturn.add("properties: ");
 		lReturn.addAll(iProps.generateDisplay());
-		lReturn.addAll(getProperties("Properties: ", iProperties));
+//		lReturn.addAll(getProperties("Properties: ", iProperties));
 		if (isGem() || isRune()) {
 			lReturn.addAll(getProperties("Weapons: ", (ArrayList) iGemProps
 					.get(0)));
@@ -3164,7 +3171,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	public void setCharLvl(long pCharLvl) {
 		iCharLvl = pCharLvl;
-		setCharLvl(iProperties, pCharLvl);
+//		setCharLvl(iProperties, pCharLvl);
 		setCharLvl(iSet1, pCharLvl);
 		setCharLvl(iSet2, pCharLvl);
 		setCharLvl(iSet3, pCharLvl);
@@ -3210,17 +3217,18 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	public ArrayList getAllProps() {
 
-		ArrayList out = new ArrayList(iProperties);
-		if (iRuneWord) {
-			out.addAll(iRuneWordProps);
-		}
-		if (iSocketed) {
-			out.addAll(iGemProps);
-		}
-		if (iSet) {
-			out.addAll(iSetProps);
-		}
-		return out;
+//		ArrayList out = new ArrayList(iProperties);
+//		if (iRuneWord) {
+//			out.addAll(iRuneWordProps);
+//		}
+//		if (iSocketed) {
+//			out.addAll(iGemProps);
+//		}
+//		if (iSet) {
+//			out.addAll(iSetProps);
+//		}
+//		return out;
+		return null;
 	}
 
 	public int getiDef() {
@@ -3269,7 +3277,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		// }
 
 		if (isTypeArmor()) {
-			applyEDef();
+//			applyEDef();
 
 		}
 	}
