@@ -1,8 +1,13 @@
 package gomule.item;
 
+import gomule.util.D2BitReader;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+
+import randall.d2files.D2TxtFile;
+import randall.d2files.D2TxtFileItemProperties;
 
 public class D2PropCollection {
 
@@ -10,6 +15,7 @@ public class D2PropCollection {
 
 	public ArrayList pArr = new ArrayList();
 	private HashMap modMap;
+	private int iQuality;
 
 
 	//Stage 1: Remove useless(MIGHT NOT BE!!!) mods STASH+CHAR
@@ -19,8 +25,8 @@ public class D2PropCollection {
 	//Stage 5: Populate modMap to display what properties are being modified CHAR ONLY?  
 
 
-//BASE VALS
-	
+//	BASE VALS
+
 //	REQUREMENTS
 //	applyReqLPlus (92)
 
@@ -51,7 +57,7 @@ public class D2PropCollection {
 
 //	APPLY BLOCK!
 //	20 = BLOCK
-	
+
 //	APPLY DAMAGE!
 //	17 = EN DAMAGE %
 //	219 = MaxDMG % per LEVEL
@@ -60,17 +66,21 @@ public class D2PropCollection {
 //	22 = MAX DAMAGE
 
 
-//--------------------------------
-//COMBINE PROPS - EG if you have a rune embedded in an item, need to combine VALS
-//Props such as +skills can appear twice, prop nums: 107,97,188,201,198,204 should be ignored
-//COMBINE MAXRES, RES, STATS
-	
-	
-	
-	
-	//POTS??
-	
+//	--------------------------------
+//	COMBINE PROPS - EG if you have a rune embedded in an item, need to combine VALS
+//	Props such as +skills can appear twice, prop nums: 107,97,188,201,198,204 should be ignored
+//	COMBINE MAXRES, RES, STATS
 
+
+
+
+	//POTS??
+
+
+	
+	public D2PropCollection(int iQuality){
+		this.iQuality = iQuality;
+	}
 
 
 
@@ -82,9 +92,109 @@ public class D2PropCollection {
 			//160 = Max throw damage
 			//23 = 2h Min damage
 			//24 = 2h Max damage
-			if(((D2Prop)pArr.get(x)).getPNum() == 160 || ((D2Prop)pArr.get(x)).getPNum() == 159 || ((D2Prop)pArr.get(x)).getPNum() == 23 || ((D2Prop)pArr.get(x)).getPNum() == 24){
+			//140 = Extra Blood
+			if(((D2Prop)pArr.get(x)).getPNum() == 160 || ((D2Prop)pArr.get(x)).getPNum() == 159 || ((D2Prop)pArr.get(x)).getPNum() == 23 || ((D2Prop)pArr.get(x)).getPNum() == 24 || ((D2Prop)pArr.get(x)).getPNum() == 140){
 				pArr.remove(x);
 				x--;
+			}
+
+		}
+
+	}
+	
+	
+	/**
+	 * If 2 properties are present, combine them.
+	 *
+	 */
+	public void combineProps(){
+
+		
+	}
+
+	/**
+	 * DeDupe properties including:
+	 * Enhanced Damage
+	 * Damage
+	 * Fire Damage
+	 * Lightning Damage
+	 * Magic Damage
+	 * 
+	 * Cold Damage
+	 * Poison Damage
+	 *
+	 * Stats	
+	 * Res
+	 * Max Res
+	 */
+	
+	private void deDupeProps(){
+
+		for(int x = 0 ;x < pArr.size();x++){
+
+			//Enhanced Damage %
+			if(((D2Prop)pArr.get(x)).getPNum() == 17 && ((D2Prop)pArr.get(x+1)).getPNum() == 18){
+
+				((D2Prop)pArr.get(x)).modifyVals(30, ((D2Prop)pArr.get(x)).getPropVals());
+
+				pArr.remove(x+1);
+
+			}
+
+			//Damage
+			if(((D2Prop)pArr.get(x)).getPNum() == 21 && ((D2Prop)pArr.get(x+1)).getPNum() == 22){
+
+				((D2Prop)pArr.get(x)).modifyVals(31, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0]});
+
+				pArr.remove(x+1);
+
+			}
+
+			//Fire Damage
+			if(((D2Prop)pArr.get(x)).getPNum() == 48 && ((D2Prop)pArr.get(x+1)).getPNum() == 49){
+
+				((D2Prop)pArr.get(x)).modifyVals(32, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0]});
+
+				pArr.remove(x+1);
+
+			}
+
+			//Lightning Damage
+			if(((D2Prop)pArr.get(x)).getPNum() == 50 && ((D2Prop)pArr.get(x+1)).getPNum() == 51){
+
+				((D2Prop)pArr.get(x)).modifyVals(33, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0]});
+
+				pArr.remove(x+1);
+
+			}
+
+			//Magic Damage
+			if(((D2Prop)pArr.get(x)).getPNum() == 52 && ((D2Prop)pArr.get(x+1)).getPNum() == 53){
+
+				((D2Prop)pArr.get(x)).modifyVals(34, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0]});
+
+				pArr.remove(x+1);
+
+			}
+
+			//Cold Damage
+			if(((D2Prop)pArr.get(x)).getPNum() == 54 && ((D2Prop)pArr.get(x+1)).getPNum() == 55 && ((D2Prop)pArr.get(x+2)).getPNum() == 56){
+
+				((D2Prop)pArr.get(x)).modifyVals(35, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0],((D2Prop)pArr.get(x+2)).getPropVals()[0]});
+
+				pArr.remove(x+2);
+				pArr.remove(x+1);
+
+			}
+
+			//Poison Damage
+			if(((D2Prop)pArr.get(x)).getPNum() == 57 && ((D2Prop)pArr.get(x+1)).getPNum() == 58 && ((D2Prop)pArr.get(x+2)).getPNum() == 59){
+
+				((D2Prop)pArr.get(x)).modifyVals(36, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0],((D2Prop)pArr.get(x+2)).getPropVals()[0]});
+
+				pArr.remove(x+2);
+				pArr.remove(x+1);
+
 			}
 
 		}
@@ -94,13 +204,7 @@ public class D2PropCollection {
 
 	private void generateMods() {
 
-
-
-
 		modMap = new HashMap();
-
-
-
 
 	}
 
@@ -109,26 +213,62 @@ public class D2PropCollection {
 		pArr.add(prop);
 
 	}
+	
+	public void tidy(){
+		cleanProps();
+		combineProps();
+		deDupeProps();
+	}
+	
+//	public void tidyChar(){
+//		cleanProps();
+//		combineProps();
+//	}
+//	
+//	public void tidyStash(){
+//		cleanProps();
+//		combineProps();
+//	}
 
 
-	public ArrayList generateDisplay() {
+	public ArrayList generateDisplay(int qFlag) {
 
 		ArrayList arrOut = new ArrayList();
-
-		if(modMap == null){
-			generateMods();
-		}
-
-
+		
 		for(int x = 0;x<pArr.size();x++){
-			arrOut.add(((D2Prop)pArr.get(x)).generateDisplay());		
+			String val = ((D2Prop)pArr.get(x)).generateDisplay(qFlag);
+			if(val != null && !val.equals("")){
+			arrOut.add(val);		
+			}
 		}
 
-		cleanProps();
+
 
 		return arrOut;
 	}
 
+	
+	public void readProp(D2BitReader pFile, int rootProp, int qFlag) {
+
+		D2TxtFileItemProperties pRow = D2TxtFile.ITEM_STAT_COST.getRow(rootProp);
+//		System.out.println(rootProp + " , " + getName());
+		int readLength = Integer.parseInt(pRow.get("Save Bits"));
+		int saveAdd = 0;
+		if(!pRow.get("Save Add").equals("")){
+			saveAdd = Integer.parseInt(pRow.get("Save Add"));
+		}
+		if (rootProp == 201 || rootProp == 197 || rootProp == 199
+				|| rootProp == 195 || rootProp == 198 || rootProp == 196) {
+			add(new D2Prop(rootProp, new int[] {(int)pFile.read(6)-saveAdd,(int)pFile.read(10)-saveAdd,(int)pFile.read(readLength) - saveAdd}, qFlag));
+		} else if (rootProp == 204) {
+			add(new D2Prop(rootProp, new int[] {(int)pFile.read(6)-saveAdd,(int)pFile.read(10)-saveAdd,(int)pFile.read(8)-saveAdd,(int)pFile.read(8)-saveAdd}, qFlag));
+		} else if(!pRow.get("Save Param Bits").equals("")){
+			add(new D2Prop(rootProp,new int[] {(int)pFile.read(Integer.parseInt(pRow.get("Save Param Bits"))) - saveAdd,(int)pFile.read(readLength) - saveAdd}, qFlag));
+		} else {
+			add(new D2Prop(rootProp,new int[] {(int)pFile.read(readLength) - saveAdd}, qFlag));
+		}
+
+}
 
 
 

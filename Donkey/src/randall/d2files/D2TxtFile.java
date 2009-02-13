@@ -22,6 +22,7 @@ package randall.d2files;
 
 
 import gomule.gui.D2FileManager;
+import gomule.item.D2Prop;
 
 import java.io.*;
 import java.util.*;
@@ -150,6 +151,19 @@ public class D2TxtFile
         return iData.size();
     }
 
+    
+    public static ArrayList propToStat(D2TxtFileItemProperties propRow, int[] vals){
+    	
+    	ArrayList outArr = new ArrayList();
+    	for(int x = 1;x<8;x++){
+    		if(!propRow.get("stat" + x).equals("")){
+    			outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat", propRow.get("stat" + x)).get("ID")),vals,0));
+    		}
+    	}    	
+    	return outArr;
+    	
+    }
+    
     public static D2TxtFileItemProperties search(String pCode)
     {
         //        System.err.println("Test1: " + MISC.searchAllData(pCode) );
