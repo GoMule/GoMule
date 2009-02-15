@@ -2675,14 +2675,14 @@ public class D2Character extends D2ItemListAdapter
 	public void addCharItem(D2Item pItem)
 	{
 		iCharItems.add(pItem);
-		pItem.setCharLvl(iCharLevel);
+		pItem.setCharLvl((int)iCharLevel);
 		setModified(true);
 	}
 
 	public void addCorpseItem(D2Item pItem)
 	{
 		iCorpseItems .add(pItem);
-		pItem.setCharLvl(iCharLevel);
+		pItem.setCharLvl((int)iCharLevel);
 		setModified(true);
 	}
 
@@ -2690,7 +2690,7 @@ public class D2Character extends D2ItemListAdapter
 	public void addMercItem(D2Item pItem)
 	{
 		iMercItems.add(pItem);
-		pItem.setCharLvl(iCharLevel);
+		pItem.setCharLvl((int)iCharLevel);
 		setModified(true);
 	}
 

@@ -152,14 +152,43 @@ public class D2TxtFile
     }
 
     
-    public static ArrayList propToStat(D2TxtFileItemProperties propRow, int[] vals){
-    	
+    public static ArrayList propToStat(String pCode, String pMin, String pMax, String pParam, int qFlag){
+    	    	
     	ArrayList outArr = new ArrayList();
     	for(int x = 1;x<8;x++){
-    		if(!propRow.get("stat" + x).equals("")){
-    			outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat", propRow.get("stat" + x)).get("ID")),vals,0));
+    	
+    	if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).equals("")){
+    		break;
+    	}
+    	
+    	int[] pVals = {0,0,0};
+    	
+
+    	if(!pMin.equals("")){
+    		pVals[0] = Integer.parseInt(pMin);
+    	};
+    	
+    	if(!pMax.equals("")){
+    		pVals[1] = Integer.parseInt(pMax);
+    	};
+    	
+    	if(!pParam.equals("")){
+    		pVals[2] = Integer.parseInt(pParam);
+    	};
+    	
+//    	if(pVals[0] != pVals[1]){
+    		   		
+    		if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("max")){
+    			pVals[0] = pVals[1];
+    		}else if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("length")){
+    			if(pVals[2] != 0){
+    			pVals[0] = pVals[2];
+    			}
     		}
-    	}    	
+//    	}
+    	outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")), pVals, qFlag));
+    	
+    	}
     	return outArr;
     	
     }
@@ -378,5 +407,6 @@ public class D2TxtFile
 
         return null;
     }
+
 
 }

@@ -77,13 +77,16 @@ public class D2PropCollection {
 	//POTS??
 
 
-	
+
 	public D2PropCollection(int iQuality){
 		this.iQuality = iQuality;
 	}
 
 
-
+	/**
+	 * Clean up some of those useless properties
+	 *
+	 */
 	private void cleanProps(){
 
 		for(int x = 0;x<pArr.size();x++){
@@ -97,108 +100,136 @@ public class D2PropCollection {
 				pArr.remove(x);
 				x--;
 			}
-
 		}
-
 	}
-	
-	
+
+
 	/**
 	 * If 2 properties are present, combine them.
 	 *
 	 */
-	public void combineProps(){
+	private void combineProps(){
 
-		
+		for(int x = 0 ;x < pArr.size();x++){
+
+			for(int y = 0;y<pArr.size();y++){
+
+				if(pArr.get(x) == pArr.get(y))continue;
+
+				if((((D2Prop)pArr.get(x)).getPNum() == ((D2Prop)pArr.get(y)).getPNum()) && (((D2Prop)pArr.get(x)).getQFlag() == ((D2Prop)pArr.get(y)).getQFlag())&& (((D2Prop)pArr.get(x)).getQFlag() == 0)){
+					if(((D2Prop)pArr.get(x)).getPNum() == 107 || ((D2Prop)pArr.get(x)).getPNum() == 97 || ((D2Prop)pArr.get(x)).getPNum() == 188 || ((D2Prop)pArr.get(x)).getPNum() == 201 || ((D2Prop)pArr.get(x)).getPNum() == 198 || ((D2Prop)pArr.get(x)).getPNum() == 204 )continue;
+					((D2Prop)pArr.get(x)).addPVals(((D2Prop)pArr.get(y)).getPVals());
+					pArr.remove(y);
+					y--;
+				}
+			}
+		}
 	}
+	
+	
+
 
 	/**
 	 * DeDupe properties including:
+	 * Problem: L2 and L3 are guaranteed to be collected together. EG if we have 
+	 * an emerald in a weapon with poison damage already present, it will still have
+	 * (pMin, pMax, pLength) as a triple of consecutive values.
+	 * 
+	 * This is not the case for dedupe level 4. If we have an item with FireR, ColdR and 
+	 * PoisR which is then socketed with an item with LightR, we will see a spread of 
+	 * resistences. Therefore dedupe L4 needs to be different, comparing all possible 
+	 * value, not just considering the next X values. 
+	 * (DEDUPE LEVEL 2)
 	 * Enhanced Damage
 	 * Damage
 	 * Fire Damage
 	 * Lightning Damage
 	 * Magic Damage
 	 * 
+	 * (DEDUPE LEVEL 3)
 	 * Cold Damage
 	 * Poison Damage
 	 *
+	 *(DEDUP LEVEL 4)
 	 * Stats	
 	 * Res
 	 * Max Res
 	 */
-	
+
 	private void deDupeProps(){
 
 		for(int x = 0 ;x < pArr.size();x++){
 
-			//Enhanced Damage %
-			if(((D2Prop)pArr.get(x)).getPNum() == 17 && ((D2Prop)pArr.get(x+1)).getPNum() == 18){
 
-				((D2Prop)pArr.get(x)).modifyVals(30, ((D2Prop)pArr.get(x)).getPropVals());
+			if(x+1<pArr.size()){
+				//Enhanced Damage %
+				if(((D2Prop)pArr.get(x)).getPNum() == 17 && ((D2Prop)pArr.get(x+1)).getPNum() == 18){
 
-				pArr.remove(x+1);
+					((D2Prop)pArr.get(x)).modifyVals(30, ((D2Prop)pArr.get(x)).getPVals());
 
+					pArr.remove(x+1);
+
+				}
+
+				//Damage
+				if(((D2Prop)pArr.get(x)).getPNum() == 21 && ((D2Prop)pArr.get(x+1)).getPNum() == 22){
+
+					((D2Prop)pArr.get(x)).modifyVals(31, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0]});
+
+					pArr.remove(x+1);
+
+				}
+
+				//Fire Damage
+				if(((D2Prop)pArr.get(x)).getPNum() == 48 && ((D2Prop)pArr.get(x+1)).getPNum() == 49){
+
+					((D2Prop)pArr.get(x)).modifyVals(32, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0]});
+
+					pArr.remove(x+1);
+
+				}
+
+				//Lightning Damage
+				if(((D2Prop)pArr.get(x)).getPNum() == 50 && ((D2Prop)pArr.get(x+1)).getPNum() == 51){
+
+					((D2Prop)pArr.get(x)).modifyVals(33, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0]});
+
+					pArr.remove(x+1);
+
+				}
+
+				//Magic Damage
+				if(((D2Prop)pArr.get(x)).getPNum() == 52 && ((D2Prop)pArr.get(x+1)).getPNum() == 53){
+
+					((D2Prop)pArr.get(x)).modifyVals(34, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0]});
+
+					pArr.remove(x+1);
+
+				}
+
+				if(x+2<pArr.size()){
+					//Cold Damage
+					if(((D2Prop)pArr.get(x)).getPNum() == 54 && ((D2Prop)pArr.get(x+1)).getPNum() == 55 && ((D2Prop)pArr.get(x+2)).getPNum() == 56){
+
+						((D2Prop)pArr.get(x)).modifyVals(35, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0],((D2Prop)pArr.get(x+2)).getPVals()[0]});
+
+						pArr.remove(x+2);
+						pArr.remove(x+1);
+
+					}
+
+					//Poison Damage
+					if(((D2Prop)pArr.get(x)).getPNum() == 57 && ((D2Prop)pArr.get(x+1)).getPNum() == 58 && ((D2Prop)pArr.get(x+2)).getPNum() == 59){
+
+						((D2Prop)pArr.get(x)).modifyVals(36, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0],((D2Prop)pArr.get(x+2)).getPVals()[0]});
+
+						pArr.remove(x+2);
+						pArr.remove(x+1);
+
+					}
+				}
 			}
-
-			//Damage
-			if(((D2Prop)pArr.get(x)).getPNum() == 21 && ((D2Prop)pArr.get(x+1)).getPNum() == 22){
-
-				((D2Prop)pArr.get(x)).modifyVals(31, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0]});
-
-				pArr.remove(x+1);
-
-			}
-
-			//Fire Damage
-			if(((D2Prop)pArr.get(x)).getPNum() == 48 && ((D2Prop)pArr.get(x+1)).getPNum() == 49){
-
-				((D2Prop)pArr.get(x)).modifyVals(32, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0]});
-
-				pArr.remove(x+1);
-
-			}
-
-			//Lightning Damage
-			if(((D2Prop)pArr.get(x)).getPNum() == 50 && ((D2Prop)pArr.get(x+1)).getPNum() == 51){
-
-				((D2Prop)pArr.get(x)).modifyVals(33, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0]});
-
-				pArr.remove(x+1);
-
-			}
-
-			//Magic Damage
-			if(((D2Prop)pArr.get(x)).getPNum() == 52 && ((D2Prop)pArr.get(x+1)).getPNum() == 53){
-
-				((D2Prop)pArr.get(x)).modifyVals(34, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0]});
-
-				pArr.remove(x+1);
-
-			}
-
-			//Cold Damage
-			if(((D2Prop)pArr.get(x)).getPNum() == 54 && ((D2Prop)pArr.get(x+1)).getPNum() == 55 && ((D2Prop)pArr.get(x+2)).getPNum() == 56){
-
-				((D2Prop)pArr.get(x)).modifyVals(35, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0],((D2Prop)pArr.get(x+2)).getPropVals()[0]});
-
-				pArr.remove(x+2);
-				pArr.remove(x+1);
-
-			}
-
-			//Poison Damage
-			if(((D2Prop)pArr.get(x)).getPNum() == 57 && ((D2Prop)pArr.get(x+1)).getPNum() == 58 && ((D2Prop)pArr.get(x+2)).getPNum() == 59){
-
-				((D2Prop)pArr.get(x)).modifyVals(36, new int[]{((D2Prop)pArr.get(x)).getPropVals()[0],((D2Prop)pArr.get(x+1)).getPropVals()[0],((D2Prop)pArr.get(x+2)).getPropVals()[0]});
-
-				pArr.remove(x+2);
-				pArr.remove(x+1);
-
-			}
-
 		}
-
 	}
 
 
@@ -213,32 +244,32 @@ public class D2PropCollection {
 		pArr.add(prop);
 
 	}
-	
+
 	public void tidy(){
 		cleanProps();
 		combineProps();
 		deDupeProps();
 	}
-	
+
 //	public void tidyChar(){
-//		cleanProps();
-//		combineProps();
+//	cleanProps();
+//	combineProps();
 //	}
-//	
+
 //	public void tidyStash(){
-//		cleanProps();
-//		combineProps();
+//	cleanProps();
+//	combineProps();
 //	}
 
 
-	public ArrayList generateDisplay(int qFlag) {
+	public ArrayList generateDisplay(int qFlag, int cLvl) {
 
 		ArrayList arrOut = new ArrayList();
-		
+
 		for(int x = 0;x<pArr.size();x++){
-			String val = ((D2Prop)pArr.get(x)).generateDisplay(qFlag);
+			String val = ((D2Prop)pArr.get(x)).generateDisplay(qFlag, cLvl);
 			if(val != null && !val.equals("")){
-			arrOut.add(val);		
+				arrOut.add(val);		
 			}
 		}
 
@@ -247,7 +278,7 @@ public class D2PropCollection {
 		return arrOut;
 	}
 
-	
+
 	public void readProp(D2BitReader pFile, int rootProp, int qFlag) {
 
 		D2TxtFileItemProperties pRow = D2TxtFile.ITEM_STAT_COST.getRow(rootProp);
@@ -268,7 +299,45 @@ public class D2PropCollection {
 			add(new D2Prop(rootProp,new int[] {(int)pFile.read(readLength) - saveAdd}, qFlag));
 		}
 
-}
+	}
+
+
+
+	public void addAll(ArrayList pList) {
+
+		pArr.addAll(pList);
+
+	}
+
+
+	public void addAll(D2PropCollection propCollection, int qFlag) {
+
+		pArr.addAll(propCollection.getPartialList(qFlag));	
+	}
+
+	public void addAll(D2PropCollection propCollection) {
+		pArr.addAll(propCollection.getFullList());	
+	}
+
+
+
+	private ArrayList getPartialList(int qFlag) {
+
+		ArrayList partialList = new ArrayList();
+//		NEED TO ADD AS A NEW WITH STANDARD Q FLAG
+		for(int x = 0;x<pArr.size();x++){
+			if(((D2Prop)pArr.get(x)).getQFlag() == qFlag){
+				partialList.add(new D2Prop((D2Prop)pArr.get(x)));
+			}
+		}
+
+		return partialList;
+
+	}
+
+	private ArrayList getFullList() {
+		return this.pArr;
+	}
 
 
 

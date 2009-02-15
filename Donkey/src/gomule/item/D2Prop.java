@@ -12,6 +12,7 @@ public class D2Prop {
 	private int pNum;
 	private int funcN;
 	private int qFlag;
+	private boolean opApplied;
 	//Quality flag is there to seperate different types of items
 	//0 = ordinary item
 	//1 = ???
@@ -32,20 +33,30 @@ public class D2Prop {
 		this.pVals = pVals;
 		this.qFlag = qFlag;
 	}
-	
+
+	public D2Prop(D2Prop newProp) {
+		this.pNum = newProp.getPNum();
+		this.pVals = newProp.getPVals();
+		this.qFlag = 0;
+	}
+
 	public void setPNum(int pNum){
 		this.pNum = pNum;
 	}
-	
+
 	public void setPVals(int[] pVals){
 		this.pVals = pVals;
 	}
-	
+
+	public int getQFlag() {
+		return qFlag;
+	}
+
 	public void setFuncN(int funcN){
 		this.funcN = funcN;
 	}
 
-	public int[] getPropVals() {
+	public int[] getPVals() {
 
 		return pVals;
 	}
@@ -54,30 +65,32 @@ public class D2Prop {
 
 		return pNum;
 	}
-	
+
 	public int getFuncN(){
 		return funcN;
 	}
-	
+
 	public void modifyVals(int funcN, int[] pVals){
-		
+
 		this.funcN = funcN;
 		this.pVals = pVals;
-		
+
 	}
 
 
 
 
-	public String generateDisplay(int qFlag) {
+	public String generateDisplay(int qFlag, int cLvl) {
 
-		
+
 		if(this.qFlag != qFlag){
 			return null;
 		}
-		
+
+		applyOp(cLvl);
+
 		String oString = D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstrpos"));
-		
+
 		//FUNCTION 0 means that you should use the txt files to find the print function to use. Otherwise, it should be a case of looking for custom funcs
 		if(funcN == 0){
 
@@ -85,14 +98,14 @@ public class D2Prop {
 				funcN = Integer.parseInt( D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descfunc"));
 			}
 		}
-		
+
 		int dispLoc = 1;
 		try{
 			dispLoc= Integer.parseInt(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descval"));
 		}catch(NumberFormatException e){
 			//leave dispLoc as  = 1
 		}
-		
+
 		//Max Durability
 		if (pNum == 73){
 			oString = "Maximum Durability";
@@ -117,14 +130,14 @@ public class D2Prop {
 					}
 				}
 			}else if(dispLoc == 2){
-				
+
 				if(pVals[0] > -1){
 					return oString + " +" + pVals[0];
 				}else{
 					return oString + " " + pVals[0];
 				}
-				
-				
+
+
 			}else{
 				return oString;
 			}
@@ -295,62 +308,75 @@ public class D2Prop {
 
 			return "+" + pVals[1] + " to " + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc")).get("str name"));
 
-		
+
 		//UNOFFICIAL PROPERTIES
-		
+
 		//Enhanced Damage
 		case(30):
-			
+
 			return pVals[0] + "% Enhanced Damage";
-		
+
 		case(31):
-			
+
 			return "Adds " + pVals[0] + " - " + pVals[1] + " Damage";
-		
+
 		case(32):
-			
+
 			return "Adds " + pVals[0] + " - " + pVals[1] + " Fire Damage";
-		
+
 		case(33):
-			
+
 			return "Adds " + pVals[0] + " - " + pVals[1] + " Lightning Damage";
-		
+
 		case(34):
-			
+
 			return "Adds " + pVals[0] + " - " + pVals[1] + " Magic Damage";
-			
+
 		case(35):
-			
+
 			if(pVals[0] == pVals[1]){
 				return "Adds " + pVals[0] + " Cold Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";	
 			}
-			
-			return "Adds " + pVals[0] + " - " + pVals[1] + " Cold Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
-				
+
+		return "Adds " + pVals[0] + " - " + pVals[1] + " Cold Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
+
 		case(36):
-			
+
 			if(pVals[0] == pVals[1]){
 				return "Adds " + Math.round((pVals[0]*(double)pVals[2]/25.0)/10.25)  + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
 			}
-		
-			return "Adds " + Math.round((pVals[0]*(double)pVals[2]/25.0)/10.25) + " - " + Math.round((pVals[1]*(double)pVals[2]/25.0)/10.25) + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
-				
-			
-			
-			
-			
+
+		return "Adds " + Math.round((pVals[0]*(double)pVals[2]/25.0)/10.25) + " - " + Math.round((pVals[1]*(double)pVals[2]/25.0)/10.25) + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
+
+
+
+
+
 		}
 //		System.out.println();
 		return "Unrecognized property: " + this.pNum;
 	}
-	
-	
-	public void setSetProps(){
-		
+
+	private void applyOp(int cLvl) {
+
+		if(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("op").equals(""))return;
+		if(opApplied)return;
+
+		int op = Integer.parseInt(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("op"));
+
+		switch(op){
+
+		case (2):
+		case (4):
+		case (5):
+
+			if(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("op base").equals("level")){
+
+				pVals[0] = (int)Math.floor(((double)(pVals[0] * cLvl)) / ((double)(Math.pow(2, Integer.parseInt(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("op param")))))); 
+			}
+		}
+		opApplied = true;
 	}
-
-
-
 
 	public String getSkillTree(int lSkillNr){
 
@@ -423,4 +449,21 @@ public class D2Prop {
 		return "Unknown Tree (P 188)";
 
 	}
+
+	public void addPVals(int[] newVals) {
+
+		
+		int vLen = pVals.length;
+		
+		if(pVals.length > newVals.length){
+			vLen = newVals.length;
+		}
+
+		for(int z = 0;z<vLen;z++){
+			pVals[z] = pVals[z] + newVals[z];
+		}
+
+	}
+
+
 }
