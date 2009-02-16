@@ -1,10 +1,7 @@
 package gomule.item;
 
-import java.util.HashMap;
-
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
-import randall.d2files.D2TxtFileItemProperties;
 
 public class D2Prop {
 
@@ -38,6 +35,17 @@ public class D2Prop {
 		this.pNum = newProp.getPNum();
 		this.pVals = newProp.getPVals();
 		this.qFlag = 0;
+	}
+
+
+	public D2Prop(int pNum, int[] pVals, int qFlag, boolean opApplied, int funcN) {
+
+
+		this.pNum = pNum;
+		this.pVals = pVals;
+		this.qFlag = qFlag;
+		this.opApplied = opApplied;
+		this.funcN = funcN;
 	}
 
 	public void setPNum(int pNum){
@@ -162,10 +170,23 @@ public class D2Prop {
 
 		case(4):
 			if(dispLoc == 1){
-				return "+" + pVals[0]+"% " + oString;
+
+				if(pVals[0] > -1){
+					return "+" + pVals[0]+"% " + oString;
+				}else{
+					return pVals[0]+"% " + oString;
+				}
+
+
 
 			}else if(dispLoc == 2){
-				return oString + " +" + pVals[0]+"%" ;
+
+				if(pVals[0] > -1){
+					return oString + " +" + pVals[0]+"%" ;
+				}else{
+					return oString + " " +  pVals[0]+"%" ;
+				}
+
 			}else{
 				return oString;
 			}
@@ -348,7 +369,13 @@ public class D2Prop {
 
 		return "Adds " + Math.round((pVals[0]*(double)pVals[2]/25.0)/10.25) + " - " + Math.round((pVals[1]*(double)pVals[2]/25.0)/10.25) + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
 
+		case (37):
 
+			return "All Resistances +" + pVals[0];
+
+		case (38):
+
+			return "All Stats +" + pVals[0];
 
 
 
@@ -452,9 +479,9 @@ public class D2Prop {
 
 	public void addPVals(int[] newVals) {
 
-		
+
 		int vLen = pVals.length;
-		
+
 		if(pVals.length > newVals.length){
 			vLen = newVals.length;
 		}

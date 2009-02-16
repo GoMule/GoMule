@@ -18,8 +18,22 @@ public class D2PropCollection {
 	private int iQuality;
 
 
-	//Stage 1: Remove useless(MIGHT NOT BE!!!) mods STASH+CHAR
+
+	/**
+	 * COMPLETED
+	 * 	//Stage 1: Remove useless(MIGHT NOT BE!!!) mods STASH+CHAR
 	//Stage 2: Combine props, like Cold min, cold max, cold res STASH+CHAR
+	 * 
+//	COMBINE PROPS - EG if you have a rune embedded in an item, need to combine VALS
+//	Props such as +skills can appear twice, prop nums: 107,97,188,201,198,204 should be ignored
+	 * 
+	 */
+
+	/**
+	 * INCOMPLETE
+	 */
+
+
 	//Stage 3: Group mods such as resistance etc STASH+CHAR
 	//Stage 4: Modify base values for DEF, DMG etc. STASH+CHAR
 	//Stage 5: Populate modMap to display what properties are being modified CHAR ONLY?  
@@ -67,8 +81,6 @@ public class D2PropCollection {
 
 
 //	--------------------------------
-//	COMBINE PROPS - EG if you have a rune embedded in an item, need to combine VALS
-//	Props such as +skills can appear twice, prop nums: 107,97,188,201,198,204 should be ignored
 //	COMBINE MAXRES, RES, STATS
 
 
@@ -125,8 +137,8 @@ public class D2PropCollection {
 			}
 		}
 	}
-	
-	
+
+
 
 
 	/**
@@ -156,7 +168,83 @@ public class D2PropCollection {
 	 * Max Res
 	 */
 
+	private void deDupeL4(){
+
+		/**
+		 * 183 and 184 are used as this ensures non null values for the search on the txt files.
+		 */
+		//Fire 39
+		//Light 41
+		//Cold 43
+		//Poison 45
+		ArrayList resMap = new ArrayList();
+
+		//Str 0
+		//Ener 1 
+		//Dex 2 
+		//Vit 3 
+		ArrayList statMap = new ArrayList();
+
+		for(int x = 0;x<pArr.size();x++){
+
+			if(D2TxtFile.ITEM_STAT_COST.searchColumns("ID",Integer.toString(((D2Prop)pArr.get(x)).getPNum())).get("dgrp").equals(""))continue;
+			if(((D2Prop)pArr.get(x)).getPNum() == 0 ||((D2Prop)pArr.get(x)).getPNum() == 1 ||((D2Prop)pArr.get(x)).getPNum() == 2 ||((D2Prop)pArr.get(x)).getPNum() == 3)statMap.add(pArr.get(x));
+			if(((D2Prop)pArr.get(x)).getPNum() == 39 ||((D2Prop)pArr.get(x)).getPNum() == 41 ||((D2Prop)pArr.get(x)).getPNum() == 43 ||((D2Prop)pArr.get(x)).getPNum() == 45)resMap.add(pArr.get(x));
+
+		}
+
+		if(resMap.size() == 4){
+			int vMin = 1000;
+
+			for(int y = 0;y<resMap.size();y++){
+
+				if(((D2Prop)resMap.get(y)).getPVals()[0] < vMin){
+					vMin =((D2Prop)resMap.get(y)).getPVals()[0];
+				}
+			}
+			pArr.add(new D2Prop(183, new int[]{vMin},((D2Prop)resMap.get(0)).getQFlag() ,true,37));
+			threshDelete(resMap, vMin);
+		}
+
+		if(statMap.size() == 4){
+
+			int vMin = 1000;
+
+			for(int y = 0;y<statMap.size();y++){
+
+				if(((D2Prop)statMap.get(y)).getPVals()[0] < vMin){
+					vMin =((D2Prop)statMap.get(y)).getPVals()[0];
+				}
+			}
+			pArr.add(new D2Prop(184, new int[]{vMin},((D2Prop)statMap.get(0)).getQFlag() ,true,38));
+			threshDelete(statMap, vMin);
+
+		}
+
+
+
+
+	}
+
+
+
+	private void threshDelete(ArrayList valMap, int vMin) {
+
+		for(int x = 0;x<valMap.size();x++){
+			if(((D2Prop)valMap.get(x)).getPVals()[0] == vMin){
+				pArr.remove(valMap.get(x));
+			}else{
+				((D2Prop)valMap.get(x)).setPVals(new int[]{((D2Prop)valMap.get(x)).getPVals()[0] - vMin});
+			}
+		}
+
+
+	}
+
+
 	private void deDupeProps(){
+
+		//DeDupe L2 and L3
 
 		for(int x = 0 ;x < pArr.size();x++){
 
@@ -249,6 +337,7 @@ public class D2PropCollection {
 		cleanProps();
 		combineProps();
 		deDupeProps();
+		deDupeL4();
 	}
 
 //	public void tidyChar(){
@@ -327,6 +416,7 @@ public class D2PropCollection {
 //		NEED TO ADD AS A NEW WITH STANDARD Q FLAG
 		for(int x = 0;x<pArr.size();x++){
 			if(((D2Prop)pArr.get(x)).getQFlag() == qFlag){
+				//D2Prop constructor (d2Prop) sets QFlag to be 0
 				partialList.add(new D2Prop((D2Prop)pArr.get(x)));
 			}
 		}

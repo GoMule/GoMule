@@ -47,7 +47,6 @@ import randall.flavie.*;
 //moving items. writing other item fields
 //is not supported by this class
 public class D2Item implements Comparable, D2ItemInterface {
-//	private ArrayList iProperties = new ArrayList();
 
 	private D2PropCollection iProps;
 
@@ -386,12 +385,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 		pFile.skipBytes(2);
 		flags = (int) pFile.unflip(pFile.read(32), 32); // 4 bytes
 
-		iSocketed = check_flag(12); // 12
-		iEthereal = check_flag(23); // 23
-		iRuneWord = check_flag(27); // 27
+		iSocketed = check_flag(12);
+		iEthereal = check_flag(23);
+		iRuneWord = check_flag(27);
 		iIdentified = check_flag(5);
-
-		version = (short) pFile.read(8); // 1 byte
+		version = (short) pFile.read(8);
 
 		pFile.skipBits(2);
 		location = (short) pFile.read(3);
@@ -411,9 +409,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (personalization == null) {
 			iItemNameNoPersonalising = iItemName;
 		}
-
-
-//		applyReqLPlus();
 
 		if (isTypeWeapon()) {
 
@@ -488,7 +483,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 		}
 		if(iProps != null && location != 6){
-			System.out.print(iItemName + ": ");
+//			System.out.print(iItemName + ": ");
 			iProps.tidy();
 		}
 
