@@ -485,6 +485,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if(iProps != null && location != 6){
 //			System.out.print(iItemName + ": ");
 			iProps.tidy();
+		}else{
+			System.out.println();
 		}
 
 	}
@@ -670,14 +672,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if (iType2.equals("gem0") || iType2.equals("gem1")
 					|| iType2.equals("gem2") || iType2.equals("gem3")
 					|| iType2.equals("gem4")) {
-				iProps = new D2PropCollection(quality);
+				iProps = new D2PropCollection();
 				readPropertiesGems(pFile);
 				iGem = true;
 			}
 		}
 
 		if (iType != null && iType2 != null && iType.startsWith("rune")) {
-			iProps = new D2PropCollection(quality);
+			iProps = new D2PropCollection();
 			readPropertiesGems(pFile);
 			iRune = true;
 		}
@@ -813,7 +815,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		iFP = "0x" + Integer.toHexString((int) fingerprint);
 		ilvl = (short) pFile.read(7);
 		quality = (short) pFile.read(4);
-		iProps = new D2PropCollection(quality);
+		iProps = new D2PropCollection();
 		// check variable graphic flag
 		gfx_num = -1;
 		if (pFile.read(1) == 1) {

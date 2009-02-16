@@ -364,10 +364,10 @@ public class D2Prop {
 		case(36):
 
 			if(pVals[0] == pVals[1]){
-				return "Adds " + Math.round((pVals[0]*(double)pVals[2]/25.0)/10.25)  + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
+				return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256)  + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
 			}
 
-		return "Adds " + Math.round((pVals[0]*(double)pVals[2]/25.0)/10.25) + " - " + Math.round((pVals[1]*(double)pVals[2]/25.0)/10.25) + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
+		return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256) + " - " + Math.round(pVals[1]*(double)pVals[2]/256) + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
 
 		case (37):
 
@@ -479,6 +479,11 @@ public class D2Prop {
 
 	public void addPVals(int[] newVals) {
 
+		
+		//ADD POISON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		if(getPNum() == 57){
+			System.out.println();
+		}
 
 		int vLen = pVals.length;
 

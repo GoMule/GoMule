@@ -15,7 +15,6 @@ public class D2PropCollection {
 
 	public ArrayList pArr = new ArrayList();
 	private HashMap modMap;
-	private int iQuality;
 
 
 
@@ -90,11 +89,6 @@ public class D2PropCollection {
 
 
 
-	public D2PropCollection(int iQuality){
-		this.iQuality = iQuality;
-	}
-
-
 	/**
 	 * Clean up some of those useless properties
 	 *
@@ -130,6 +124,9 @@ public class D2PropCollection {
 
 				if((((D2Prop)pArr.get(x)).getPNum() == ((D2Prop)pArr.get(y)).getPNum()) && (((D2Prop)pArr.get(x)).getQFlag() == ((D2Prop)pArr.get(y)).getQFlag())&& (((D2Prop)pArr.get(x)).getQFlag() == 0)){
 					if(((D2Prop)pArr.get(x)).getPNum() == 107 || ((D2Prop)pArr.get(x)).getPNum() == 97 || ((D2Prop)pArr.get(x)).getPNum() == 188 || ((D2Prop)pArr.get(x)).getPNum() == 201 || ((D2Prop)pArr.get(x)).getPNum() == 198 || ((D2Prop)pArr.get(x)).getPNum() == 204 )continue;
+					
+
+					
 					((D2Prop)pArr.get(x)).addPVals(((D2Prop)pArr.get(y)).getPVals());
 					pArr.remove(y);
 					y--;
