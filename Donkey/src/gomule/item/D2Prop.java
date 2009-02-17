@@ -366,18 +366,18 @@ public class D2Prop {
 			if(pVals.length == 4){
 
 				if(pVals[0] == pVals[1]){
-					return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256)  + " Poison Damage Over " + Math.round(((double)pVals[2]/(double)pVals[3])/25.0) + " Secs (" + pVals[2] + " Frames)";
+					return "Adds " + Math.round(pVals[0]*((double)pVals[2]/(double)pVals[3])/256)  + " Poison Damage Over " + (int)Math.floor(((double)pVals[2]/(double)pVals[3])/25.0) + " Secs (" + pVals[2] + " Frames)";
 				}
 
-				return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256) + " - " + Math.round(pVals[1]*(double)pVals[2]/256) + " Poison Damage Over " + Math.round(((double)pVals[2]/(double)pVals[3])/25.0) + " Secs (" + pVals[2] + " Frames)";
+				return "Adds " + Math.round(pVals[0]*((double)pVals[2]/(double)pVals[3])/256) + " - " + Math.round(pVals[1]*((double)pVals[2]/(double)pVals[3])/256) + " Poison Damage Over " + (int)Math.floor(((double)pVals[2]/(double)pVals[3])/25.0) + " Secs (" + pVals[2] + " Frames)";
 
 			}else{
 
 				if(pVals[0] == pVals[1]){
-					return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256)  + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
+					return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256)  + " Poison Damage Over " + (int)Math.floor((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
 				}
 
-				return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256) + " - " + Math.round(pVals[1]*(double)pVals[2]/256) + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
+				return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256) + " - " + Math.round(pVals[1]*(double)pVals[2]/256) + " Poison Damage Over " + (int)Math.floor((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
 			}
 		case (37):
 
@@ -386,14 +386,13 @@ public class D2Prop {
 		case (38):
 
 			return "All Stats +" + pVals[0];
-		
+
 		case (39):
-			
+
 			return "Level " + pVals[1] + " " + D2TxtFile.getCharacterCode(pVals[0]);
 
 
 		}
-//		System.out.println();
 		return "Unrecognized property: " + this.pNum;
 	}
 
@@ -492,18 +491,17 @@ public class D2Prop {
 
 	public void addPVals(int[] newVals) {
 
+//		Poison length needs to keep track of the number of properties contributing to it. 
+//		Therefore, [2] becomes the counter.
+		if(getPNum() == 59){
 
-		//ADD POISON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		if(getPNum() == 57){
-
-			if(pVals.length > 1){
-				pVals[1]++;
-			}else{
-				pVals = new int[]{pVals[0], 2};   
+			if(pVals[2] == 0){
+				pVals  = new int[]{pVals[0], pVals[1], 1};
 			}
 
-			pVals[0] = pVals[0] + newVals[0];	
-			return;
+			if(newVals[2] == 0){
+				newVals  = new int[]{newVals[0], newVals[1], 1};
+			}
 		}
 
 		int vLen = pVals.length;

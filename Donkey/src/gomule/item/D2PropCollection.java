@@ -306,8 +306,8 @@ public class D2PropCollection {
 					//Poison Damage
 					if(((D2Prop)pArr.get(x)).getPNum() == 57 && ((D2Prop)pArr.get(x+1)).getPNum() == 58 && ((D2Prop)pArr.get(x+2)).getPNum() == 59){
 
-						if(((D2Prop)pArr.get(x)).getPVals().length >1){
-							((D2Prop)pArr.get(x)).modifyVals(36, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0],((D2Prop)pArr.get(x+2)).getPVals()[0], ((D2Prop)pArr.get(x)).getPVals()[1]});
+						if(((D2Prop)pArr.get(x+2)).getPVals()[2] != 0){
+							((D2Prop)pArr.get(x)).modifyVals(36, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0],((D2Prop)pArr.get(x+2)).getPVals()[0], ((D2Prop)pArr.get(x+2)).getPVals()[2]});
 
 						}else{
 							((D2Prop)pArr.get(x)).modifyVals(36, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0],((D2Prop)pArr.get(x+2)).getPVals()[0]});
@@ -341,16 +341,6 @@ public class D2PropCollection {
 		deDupeProps();
 		deDupeL4();
 	}
-
-//	public void tidyChar(){
-//	cleanProps();
-//	combineProps();
-//	}
-
-//	public void tidyStash(){
-//	cleanProps();
-//	combineProps();
-//	}
 
 
 	public ArrayList generateDisplay(int qFlag, int cLvl) {

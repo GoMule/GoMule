@@ -185,6 +185,7 @@ public class D2TxtFile
     			pVals[0] = pVals[2];
     			}
     		}
+    		pVals[2] = 0;
 //    	}
     	outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")), pVals, qFlag));
     	
