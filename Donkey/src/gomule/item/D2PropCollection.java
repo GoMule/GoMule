@@ -124,9 +124,9 @@ public class D2PropCollection {
 
 				if((((D2Prop)pArr.get(x)).getPNum() == ((D2Prop)pArr.get(y)).getPNum()) && (((D2Prop)pArr.get(x)).getQFlag() == ((D2Prop)pArr.get(y)).getQFlag())&& (((D2Prop)pArr.get(x)).getQFlag() == 0)){
 					if(((D2Prop)pArr.get(x)).getPNum() == 107 || ((D2Prop)pArr.get(x)).getPNum() == 97 || ((D2Prop)pArr.get(x)).getPNum() == 188 || ((D2Prop)pArr.get(x)).getPNum() == 201 || ((D2Prop)pArr.get(x)).getPNum() == 198 || ((D2Prop)pArr.get(x)).getPNum() == 204 )continue;
-					
 
-					
+
+
 					((D2Prop)pArr.get(x)).addPVals(((D2Prop)pArr.get(y)).getPVals());
 					pArr.remove(y);
 					y--;
@@ -306,7 +306,12 @@ public class D2PropCollection {
 					//Poison Damage
 					if(((D2Prop)pArr.get(x)).getPNum() == 57 && ((D2Prop)pArr.get(x+1)).getPNum() == 58 && ((D2Prop)pArr.get(x+2)).getPNum() == 59){
 
-						((D2Prop)pArr.get(x)).modifyVals(36, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0],((D2Prop)pArr.get(x+2)).getPVals()[0]});
+						if(((D2Prop)pArr.get(x)).getPVals().length >1){
+							((D2Prop)pArr.get(x)).modifyVals(36, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0],((D2Prop)pArr.get(x+2)).getPVals()[0], ((D2Prop)pArr.get(x)).getPVals()[1]});
+
+						}else{
+							((D2Prop)pArr.get(x)).modifyVals(36, new int[]{((D2Prop)pArr.get(x)).getPVals()[0],((D2Prop)pArr.get(x+1)).getPVals()[0],((D2Prop)pArr.get(x+2)).getPVals()[0]});
+						}
 
 						pArr.remove(x+2);
 						pArr.remove(x+1);

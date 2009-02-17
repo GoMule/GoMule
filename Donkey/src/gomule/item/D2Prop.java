@@ -363,12 +363,22 @@ public class D2Prop {
 
 		case(36):
 
-			if(pVals[0] == pVals[1]){
-				return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256)  + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
+			if(pVals.length == 4){
+
+				if(pVals[0] == pVals[1]){
+					return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256)  + " Poison Damage Over " + Math.round(((double)pVals[2]/(double)pVals[3])/25.0) + " Secs (" + pVals[2] + " Frames)";
+				}
+
+				return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256) + " - " + Math.round(pVals[1]*(double)pVals[2]/256) + " Poison Damage Over " + Math.round(((double)pVals[2]/(double)pVals[3])/25.0) + " Secs (" + pVals[2] + " Frames)";
+
+			}else{
+
+				if(pVals[0] == pVals[1]){
+					return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256)  + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
+				}
+
+				return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256) + " - " + Math.round(pVals[1]*(double)pVals[2]/256) + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
 			}
-
-		return "Adds " + Math.round(pVals[0]*(double)pVals[2]/256) + " - " + Math.round(pVals[1]*(double)pVals[2]/256) + " Poison Damage Over " + Math.round((double)pVals[2]/25.0) + " Secs (" + pVals[2] + " Frames)";
-
 		case (37):
 
 			return "All Resistances +" + pVals[0];
@@ -376,7 +386,10 @@ public class D2Prop {
 		case (38):
 
 			return "All Stats +" + pVals[0];
-
+		
+		case (39):
+			
+			return "Level " + pVals[1] + " " + D2TxtFile.getCharacterCode(pVals[0]);
 
 
 		}
@@ -479,10 +492,18 @@ public class D2Prop {
 
 	public void addPVals(int[] newVals) {
 
-		
+
 		//ADD POISON!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		if(getPNum() == 57){
-			System.out.println();
+
+			if(pVals.length > 1){
+				pVals[1]++;
+			}else{
+				pVals = new int[]{pVals[0], 2};   
+			}
+
+			pVals[0] = pVals[0] + newVals[0];	
+			return;
 		}
 
 		int vLen = pVals.length;
