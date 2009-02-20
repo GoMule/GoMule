@@ -19,12 +19,21 @@ If I ever feel like it I could test it and make a formula for the items with col
 //	UNDEAD DAMAGE ON BLUNT
 //	if (iType.equals("club") || iType.equals("scep")|| iType.equals("mace") || iType.equals("hamm")) ADD 92, 150
 
-
+//	APPLY DEF!
+//	16 = EN DEF %
+//	31 = DEF
+//	214 = DEF PER LEVEL
 
 //	EARS NEED CLASS AND LVL ON D2ITEM
 
 	//POTS??
 
+//	APPLY DAMAGE!
+//	17 = EN DAMAGE %
+//	21 = Min DAMAGE
+//	22 = MAX DAMAGE
+//	218 = MaxDMG PER LEVEL
+//	219 = MaxDMG % per LEVEL
 
 
 	/**
@@ -57,10 +66,7 @@ TEST EARS
 
 
 
-//	APPLY DEF!
-//	16 = EN DEF %
-//	31 = DEF
-//	214 = DEF PER LEVEL
+
 
 //	APPLY INC MAX DUR!
 //	75 = DUR %
@@ -68,13 +74,6 @@ TEST EARS
 
 //	APPLY BLOCK!
 //	20 = BLOCK
-
-//	APPLY DAMAGE!
-//	17 = EN DAMAGE %
-//	219 = MaxDMG % per LEVEL
-//	218 = MaxDMG PER LEVEL
-//	21 = Min DAMAGE
-//	22 = MAX DAMAGE
 
 
 //	--------------------------------

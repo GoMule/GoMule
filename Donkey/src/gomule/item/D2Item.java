@@ -379,9 +379,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		} else if (isTypeArmor()) {
 
-			if(iType.equals("ashd")||iType.equals("shie")||iType.equals("head")){
-//				applyBlock();	
-			}
+
 
 //			ArrayList lvlSkills = new ArrayList();
 //			for (int x = 0; x < iProperties.size(); x = x + 1) {
@@ -481,7 +479,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 
 		//Shields - block chance.
-		if(iType.equals("ashd")||iType.equals("shie")||iType.equals("head")){
+		if(isShield()){
 			cBlock = Long.parseLong(iItemType.get("block"));
 		}
 
@@ -1202,7 +1200,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private void applyItemMods(){
 
+		int[] armourTriple = new int[]{0,0,0};
+		int[] dmgTriple = new int[]{0,0,0,0,0};
 		
+		iProps.applyOp(iCharLvl);
 		
 		for(int x = 0;x<iProps.size();x++){
 			
@@ -1210,7 +1211,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if(isTypeArmor()){
 				
 				//ED, DEF, DEF/LVL
-				int[] armourTriple = new int[]{0,0,0,};
+				//ED, MinD, MaxD, MaxD/Lvl, MaxD%/Lvl
 				
 				/**
 				 * Calc Enhanced Def
@@ -1225,7 +1226,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 				 */
 				
 				if(((D2Prop)iProps.get(x)).getPNum() == 31){
-					armourTriple[1] = armourTriple[1] + ((D2Prop)iProps.get(x)).getPVals()[1]; 
+					armourTriple[1] = armourTriple[1] + ((D2Prop)iProps.get(x)).getPVals()[0]; 
 				}
 				
 				/**
@@ -1233,20 +1234,83 @@ public class D2Item implements Comparable, D2ItemInterface {
 				 */
 				
 				if(((D2Prop)iProps.get(x)).getPNum() == 214){
-					armourTriple[2] = armourTriple[2] + ((D2Prop)iProps.get(x)).getPVals()[2]; 
+					armourTriple[2] = armourTriple[2] + ((D2Prop)iProps.get(x)).getPVals()[0]; 
+				}
+				
+				if(isShield()){
+					if(((D2Prop)iProps.get(x)).getPNum() == 20){
+						iBlock = cBlock + ((D2Prop)iProps.get(x)).getPVals()[0];
+					}
 				}
 
 			}else if(isTypeWeapon()){
 				
+				/**
+				 * Calc Enhanced Dmg
+				 */
 				
-
-			}
-			
-			
+				if(((D2Prop)iProps.get(x)).getPNum() == 17){
+					dmgTriple[0] = dmgTriple[0] + ((D2Prop)iProps.get(x)).getPVals()[0]; 
+				}
+				
+				/**
+				 * Calc Min Dmg
+				 */
+				
+				if(((D2Prop)iProps.get(x)).getPNum() == 21){
+					dmgTriple[1] = dmgTriple[1] + ((D2Prop)iProps.get(x)).getPVals()[0];
+					if(((D2Prop)iProps.get(x)).getFuncN() == 31){
+						dmgTriple[2] = dmgTriple[2] + ((D2Prop)iProps.get(x)).getPVals()[1];
+					}
+				}
+				
+				/**
+				 * Calc Max Dmg
+				 */
+				
+				if(((D2Prop)iProps.get(x)).getPNum() == 22){
+					dmgTriple[2] = dmgTriple[2] + ((D2Prop)iProps.get(x)).getPVals()[0]; 
+				}
+				
+				/**
+				 * Calc Max Dmg/Lvl
+				 */
+				
+				if(((D2Prop)iProps.get(x)).getPNum() == 218){
+					dmgTriple[3] = dmgTriple[3] + ((D2Prop)iProps.get(x)).getPVals()[0]; 
+				}
+				
+				/**
+				 * Calc Max Dmg%/Lvl
+				 */
+				
+				if(((D2Prop)iProps.get(x)).getPNum() == 219){
+					dmgTriple[4] = dmgTriple[4] + ((D2Prop)iProps.get(x)).getPVals()[0]; 
+				}
+			}			
 		}
 		
+		iDef = (long) Math.floor((((double) iInitDef / (double) 100) * armourTriple[0])+ (iInitDef + (armourTriple[1] + armourTriple[2])));
 		
+		iMinDmg = (long) Math.floor((((double) iMinDmg / (double) 100) * dmgTriple[0])
+		+ (iMinDmg + dmgTriple[1]));
+		
+		iMaxDmg = (long) Math.floor((((double) iMaxDmg / (double) 100) * (dmgTriple[0] + dmgTriple[4]))
+		+ (iMaxDmg + (dmgTriple[2] + dmgTriple[3])));
 
+		
+		if(iMinDmg > iMaxDmg){
+			iMaxDmg = iMinDmg + 1;
+		}
+		
+//		if (iWhichHand == 0) {
+//		i2MinDmg = (long) Math
+//		.floor((((double) i2MinDmg / (double) 100) * ENDam)
+//		+ (i2MinDmg + MinDam));
+//		i2MaxDmg = (long) Math
+//		.floor((((double) i2MaxDmg / (double) 100) * (ENDam + ENMaxDam))
+//		+ (i2MaxDmg + MaxDam));
+//		}
 
 	}
 
@@ -1935,10 +1999,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 			lReturn.add("Defense: " + iDef);
 		}
 
-		if(isTypeArmor()){
-			if(iType.equals("ashd")||iType.equals("shie")||iType.equals("head")){
+		if(isShield()){
 				lReturn.add("Chance to Block: " + iBlock);
-			}
 		}
 
 		if (isTypeWeapon() || isTypeArmor()) {
@@ -2104,6 +2166,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	public boolean isMagical() {
 		return iMagical;
+	}
+	
+	public boolean isShield(){
+		if (iType != null) {
+		if(iType.equals("ashd")||iType.equals("shie")||iType.equals("head")){
+			return true;
+		}
+		}
+		return false;
 	}
 
 	public boolean isNormal() {

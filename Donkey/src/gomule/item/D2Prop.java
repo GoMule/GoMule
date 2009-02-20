@@ -95,8 +95,6 @@ public class D2Prop {
 			return null;
 		}
 
-		applyOp(cLvl);
-
 		String oString = D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstrpos"));
 
 		//FUNCTION 0 means that you should use the txt files to find the print function to use. Otherwise, it should be a case of looking for custom funcs
@@ -396,7 +394,7 @@ public class D2Prop {
 		return "Unrecognized property: " + this.pNum;
 	}
 
-	private void applyOp(int cLvl) {
+	public void applyOp(int cLvl) {
 
 		if(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("op").equals(""))return;
 		if(opApplied)return;

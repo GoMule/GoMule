@@ -335,6 +335,15 @@ public class D2PropCollection extends ArrayList{
 	}
 
 
+	public void applyOp(int charLvl) {
+		
+		for(int x = 0;x<size();x++){
+			((D2Prop)get(x)).applyOp(charLvl);
+		}
+		
+	}
+
+
 
 
 }
