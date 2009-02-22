@@ -3,7 +3,8 @@ package gomule.item;
 import gomule.util.D2BitReader;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import randall.d2files.D2TxtFile;
@@ -11,14 +12,16 @@ import randall.d2files.D2TxtFileItemProperties;
 
 public class D2PropCollection extends ArrayList{
 
-	
+
+	private boolean tidy;
+
 	/**
 	 * Clean up some of those useless properties
 	 *
 	 */
 	private void cleanProps(){
 
-		
+
 		for(int x = 0;x<size();x++){
 
 			//159 = Min throw damage
@@ -48,9 +51,6 @@ public class D2PropCollection extends ArrayList{
 
 				if((((D2Prop)get(x)).getPNum() == ((D2Prop)get(y)).getPNum()) && (((D2Prop)get(x)).getQFlag() == ((D2Prop)get(y)).getQFlag())&& (((D2Prop)get(x)).getQFlag() == 0)){
 					if(((D2Prop)get(x)).getPNum() == 107 || ((D2Prop)get(x)).getPNum() == 97 || ((D2Prop)get(x)).getPNum() == 188 || ((D2Prop)get(x)).getPNum() == 201 || ((D2Prop)get(x)).getPNum() == 198 || ((D2Prop)get(x)).getPNum() == 204 )continue;
-
-
-
 					((D2Prop)get(x)).addPVals(((D2Prop)get(y)).getPVals());
 					remove(y);
 					y--;
@@ -246,48 +246,73 @@ public class D2PropCollection extends ArrayList{
 		}
 	}
 
+	private ArrayList getPartialList(int qFlag) {
+
+		ArrayList partialList = new ArrayList();
+//		NEED TO ADD AS A NEW WITH STANDARD Q FLAG
+		for(int x = 0;x<size();x++){
+			if(((D2Prop)get(x)).getQFlag() == qFlag){
+				//D2Prop constructor (d2Prop) sets QFlag to be 0
+				partialList.add(new D2Prop((D2Prop)get(x)));
+			}
+		}
+
+		return partialList;
+
+	}
+
+	private ArrayList getFullList() {
+		return this;
+	}
+
+
 
 	public void generateItemMods() {
 
 		HashMap modMap = new HashMap();
-		
+
 		for(int x =0;x<size();x++){
-			
-			
-			
+
+
+
 		}
 
 	}
 
 	public void tidy(){
+
+		if(tidy)return;
+
 		cleanProps();
 		combineProps();
 		deDupeProps();
 		deDupeL4();
+		sort();
+
+		tidy = true;
 	}
 
 
-	public ArrayList generateDisplay(int qFlag, int cLvl) {
+	public StringBuffer generateDisplay(int qFlag, int cLvl) {
 
-		ArrayList arrOut = new ArrayList();
+		StringBuffer arrOut = new StringBuffer("<font color=\"#4850b8\">");
 
 		for(int x = 0;x<size();x++){
 			String val = ((D2Prop)get(x)).generateDisplay(qFlag, cLvl);
 			if(val != null && !val.equals("")){
-				arrOut.add(val);		
+				arrOut.append(val + "<br>");		
 			}
 		}
 
 
 
-		return arrOut;
+		return arrOut.append("</font>");
 	}
 
 
 	public void readProp(D2BitReader pFile, int rootProp, int qFlag) {
 
 		D2TxtFileItemProperties pRow = D2TxtFile.ITEM_STAT_COST.getRow(rootProp);
-//		System.out.println(rootProp + " , " + getName());
 		int readLength = Integer.parseInt(pRow.get("Save Bits"));
 		int saveAdd = 0;
 		if(!pRow.get("Save Add").equals("")){
@@ -312,38 +337,36 @@ public class D2PropCollection extends ArrayList{
 	}
 
 	public void addAll(D2PropCollection propCollection) {
-		addAll(propCollection.getFullList());	
+		addAll(propCollection.getFullList());
+
 	}
 
-	private ArrayList getPartialList(int qFlag) {
+	public void sort(){
 
-		ArrayList partialList = new ArrayList();
-//		NEED TO ADD AS A NEW WITH STANDARD Q FLAG
-		for(int x = 0;x<size();x++){
-			if(((D2Prop)get(x)).getQFlag() == qFlag){
-				//D2Prop constructor (d2Prop) sets QFlag to be 0
-				partialList.add(new D2Prop((D2Prop)get(x)));
+		Collections.sort(this, new Comparator()
+		{
+			public int compare(Object pObj1, Object pObj2)
+			{
+				D2Prop p1 = (D2Prop) pObj1;
+				D2Prop p2 = (D2Prop) pObj2;
+				if(p2.getDescPriority() == p1.getDescPriority()){
+					if(p2.getPNum() > p1.getPNum()){
+						return 1;
+					}
+					return -1;
+				}else if(p2.getDescPriority() > p1.getDescPriority()){
+					return 1;
+				}else{
+					return -1;
+				}
 			}
-		}
-
-		return partialList;
-
+		});
 	}
-
-	private ArrayList getFullList() {
-		return this;
-	}
-
 
 	public void applyOp(int charLvl) {
 		
 		for(int x = 0;x<size();x++){
 			((D2Prop)get(x)).applyOp(charLvl);
 		}
-		
 	}
-
-
-
-
 }

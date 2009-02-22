@@ -23,6 +23,7 @@ package gomule.gui;
 
 import gomule.d2s.*;
 import gomule.d2x.*;
+import gomule.item.D2Item;
 import gomule.util.*;
 
 import java.awt.*;
@@ -31,6 +32,8 @@ import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
+
+import com.sun.org.apache.bcel.internal.generic.D2I;
 
 import randall.d2files.*;
 import randall.util.RandallPanel;
@@ -86,6 +89,9 @@ public class D2FileManager extends JFrame
 
         D2TxtFile.readAllFiles("d2111");
         D2TblFile.readAllFiles("d2111");
+        
+//        D2Item d2i = new D2Item(D2TxtFile.UNIQUES.searchColumns("index","Duskdeep"));
+        
 
 //        D2TxtFile.readAllFiles("d2Median");
 //        D2TblFile.readAllFiles("d2Median");

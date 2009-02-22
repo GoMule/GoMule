@@ -120,6 +120,8 @@ public class D2Prop {
 			oString = "Required Level";
 			funcN = 1;
 			dispLoc = 2;	
+		}else if(pNum == 356){
+			funcN = 40;
 		}
 
 		switch(funcN){
@@ -273,8 +275,8 @@ public class D2Prop {
 
 		case(15):
 
-			oString = oString.replaceFirst("%d%", Integer.toString(pVals[0]));
-		oString = oString.replace("%d", Integer.toString(pVals[2]));
+		oString = oString.replaceFirst("%d%", Integer.toString(pVals[2]));
+		oString = oString.replace("%d", Integer.toString(pVals[0]));
 		return oString.replace("%s", D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(pVals[1]).get("skilldesc")).get("str name")));
 
 		case(16):
@@ -389,8 +391,19 @@ public class D2Prop {
 
 			return "Level " + pVals[1] + " " + D2TxtFile.getCharacterCode(pVals[0]);
 
+		case (40):
 
+			switch (pVals[0]){
+
+			case 0:
+				return "Found In Normal Difficulty";
+			case 1:
+				return "Found In Nightmare Difficulty";
+			case 2:
+				return "Found In Hell Difficulty";
+			}
 		}
+
 		return "Unrecognized property: " + this.pNum;
 	}
 
@@ -512,6 +525,20 @@ public class D2Prop {
 			pVals[z] = pVals[z] + newVals[z];
 		}
 
+	}
+
+	public int getDescPriority() {
+
+		if(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descpriority").equals("")){
+			if(pNum == 183){
+				return 38;
+			}else if(pNum == 184){
+				return 69;
+			}
+			return 0;
+		}else{		
+			return Integer.parseInt(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descpriority"));
+		}
 	}
 
 

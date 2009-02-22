@@ -35,23 +35,16 @@ If I ever feel like it I could test it and make a formula for the items with col
 //	218 = MaxDMG PER LEVEL
 //	219 = MaxDMG % per LEVEL
 
+//	APPLY BLOCK!
+//	20 = BLOCK
 
-	/**
-	 * INCOMPLETE
-	 */
-
-TEST EARS
-	
-	//Stage 4: Modify base values for DEF, DMG etc. STASH+CHAR
-	//Stage 5: Populate modMap to display what properties are being modified CHAR ONLY?  
-
-
-//	BASE VALS
-
+//	APPLY INC MAX DUR!
+//	75 = DUR %
+//	73 = PLUS DUR
 //	REQUREMENTS
 //	applyReqLPlus (92)
-
-
+Eth Damage
++LvlReq
 
 //	+SKILLS CAN CHANGE LVL REQS
 //	for (int x = 0; x < iProperties.size(); x = x + 1) {
@@ -64,28 +57,26 @@ TEST EARS
 //	modifyLvl(lvlSkills);
 //	}
 
+	//Stage 4: Modify base values for DEF, DMG etc. STASH+CHAR
+
+
+	/**
+	 * INCOMPLETE
+	 */
+
+
+	//Stage 5: Populate modMap to display what properties are being modified CHAR ONLY?  
+
+
+//	BASE VALS
 
 
 
 
-//	APPLY INC MAX DUR!
-//	75 = DUR %
-//	73 = PLUS DUR
-
-//	APPLY BLOCK!
-//	20 = BLOCK
 
 
-//	--------------------------------
 
-
-ITEM DATA:
-
-DEF
-DMG
-BLOCK
-DUR
-REQS
+WEAPON DAMAGE FOR 2H storage etc.
 
 
 

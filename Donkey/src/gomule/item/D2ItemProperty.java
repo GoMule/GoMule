@@ -280,7 +280,7 @@ public class D2ItemProperty
                 PropValue lValue1 = (PropValue) iProperties.get(FIRST);
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
 
-                return "+" + lValue2.iValue + " to " + D2Character.getCharacterCode((int) lValue1.iValue) + " Skill Levels";
+                return "+" + lValue2.iValue + " to " + D2TxtFile.getCharacterCode((int) lValue1.iValue) + " Skill Levels";
             }
             
             if (iProp == 92)
