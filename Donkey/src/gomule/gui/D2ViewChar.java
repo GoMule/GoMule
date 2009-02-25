@@ -1675,7 +1675,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					}
 					else
 					{
-						D2CharPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml(0, 0));
+						D2CharPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml());
 					}
 				}
 			});
@@ -2033,7 +2033,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						if(iCharacter.getGolemItem() == null){
 							return;
 						}
-						D2MercPainterPanel.this.setToolTipText(iCharacter.getGolemItem().toStringHtml(0, 0));
+						D2MercPainterPanel.this.setToolTipText(iCharacter.getGolemItem().toStringHtml());
 						return;
 					}
 
@@ -2087,7 +2087,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					}
 					else
 					{
-						D2MercPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml(0, 0));
+						D2MercPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml());
 					}
 				}
 			});
@@ -2275,7 +2275,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					}
 					else
 					{
-						D2DeathPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml(0, 0));
+						D2DeathPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml());
 					}
 				}
 			});
@@ -3392,7 +3392,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 					}
 					else
 					{
-						D2CharCursorPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml(0, 0));
+						D2CharCursorPainterPanel.this.setToolTipText(lCurrentMouse.toStringHtml());
 					}
 				}
 			});

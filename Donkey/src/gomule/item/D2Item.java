@@ -1333,17 +1333,36 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 
 	public String toString(int x){
-		return null;
+		return htmlStrip(generatePropString());
 	}
 
-	public String toStringHtml(int xaa, int yaaa){
+	private String htmlStrip(StringBuffer htmlString) {
+
+		for(int x = 0;x<htmlString.length();x++){
+			
+			if(htmlString.charAt(x) == '<'){
+				
+				
+				
+			}
+			
+		}
+		
+		return null;
+		
+	}
+
+	public String toStringHtml(){
+		return generatePropString().toString();
+	}
+	
+	
+	public StringBuffer generatePropString(){
 
 		if (iProps != null && location != 6)iProps.tidy();
-//		/ face=\"Dialog\" size=\"3\"<FOR STASH...looks the same.?
 		StringBuffer dispStr = new StringBuffer("<html><center>");
 		String base = (Integer.toHexString(Color.white.getRGB())).substring(2, Integer.toHexString(Color.white.getRGB()).length());
 		String rgb = (Integer.toHexString(getItemColor().getRGB())).substring(2, Integer.toHexString(getItemColor().getRGB()).length());
-
 		if (personalization == null) {
 			dispStr.append("<font color=\"#"+ base + "\">" + "<font color=\"#" + rgb + "\">"+ iItemName + "</font>" + "<br>");
 		}else{
@@ -1357,7 +1376,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 			dispStr.append("</font><br>");
 		}
-		
 		if (isTypeWeapon() || isTypeArmor()) {
 			if(isTypeWeapon()){
 				if(iWhichHand == 0){
@@ -1379,7 +1397,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 					dispStr.append("Chance to Block: " + iBlock + "<br>");
 				}
 			}
-
 			if (isStackable()) {
 				dispStr.append("Quantity: " + iCurDur + "<br>");
 			} else {
@@ -1399,82 +1416,38 @@ public class D2Item implements Comparable, D2ItemInterface {
 		dispStr.append("Version: " + get_version() + "<br>");
 		if (!iIdentified)dispStr.append("Unidentified" + "<br>");
 		dispStr.append(iProps.generateDisplay(0, iCharLvl));
-//		if (isGem() || isRune()) {
 
-//		lReturn.add("Weapons: ");
-//		lReturn.addAll(iProps.generateDisplay(7, iCharLvl));
-//		lReturn.add("Armor: ");
-//		lReturn.addAll(iProps.generateDisplay(8, iCharLvl));
-//		lReturn.add("Shields: ");
-//		lReturn.addAll(iProps.generateDisplay(9, iCharLvl));
+		if (isGem() || isRune()) {
+			dispStr.append("Weapons: ");
+			dispStr.append(iProps.generateDisplay(7, iCharLvl));
+			dispStr.append("Armor: ");
+			dispStr.append(iProps.generateDisplay(8, iCharLvl));
+			dispStr.append("Shields: ");
+			dispStr.append(iProps.generateDisplay(9, iCharLvl));
+		}
+		if (quality == 5) {
 
-//		}
+			for (int x = 2; x < 7; x++) {
+				StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
+				if (setBuf.length() > 29) {
+					dispStr.append("Set (" + x + " items): ");
+					dispStr.append(setBuf);
+				}
+			}
+		}
+		if (iEthereal) {
+			dispStr.append("<font color=\"#4850b8\">Ethereal</font><br>");
+		}
+		if (iSocketNrTotal > 0) {
+			dispStr.append(iSocketNrTotal + " Sockets (" + iSocketNrFilled	+ " used)<br>");
+			if (iSocketedItems != null) {
+				for (int i = 0; i < iSocketedItems.size(); i++) {
+					dispStr.append("Socketed: " + ((D2Item) iSocketedItems.get(i)).getItemName() + "<br>");
+				}
+			}
+		}
 
-//		// Set Items
-//		if (quality == 5) {
-
-//		for (int x = 2; x < 7; x++) {
-//		ArrayList outArr = iProps.generateDisplay(x, iCharLvl);
-//		if (outArr.size() > 0) {
-//		lReturn.add("Set (" + x + " items): ");
-//		lReturn.addAll(outArr);
-//		}
-//		}
-//		}
-
-//		if (iEthereal) {
-//		lReturn.add("Ethereal");
-//		}
-//		if (iSocketNrTotal > 0) {
-//		lReturn.add(iSocketNrTotal + " Sockets (" + iSocketNrFilled
-//		+ " used)");
-//		if (iSocketedItems != null) {
-//		for (int i = 0; i < iSocketedItems.size(); i++) {
-//		D2Item lSocket = ((D2Item) iSocketedItems.get(i));
-//		lReturn.add("Socketed: " + lSocket.getItemName());
-//		}
-//		}
-//		}
-
-//		if (disSepProp == 1) {
-
-//		if (isSocketed()) {
-//		lReturn.add("");
-//		if (stash == 1) {
-//		if (iSocketedItems != null) {
-//		for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
-//		if (((D2Item) iSocketedItems.get(x)) != null) {
-//		lReturn.add(((D2Item) iSocketedItems.get(x))
-//		.toString(0)
-//		+ "\n");
-//		}
-//		}
-//		}
-//		} else {
-//		if (iSocketedItems != null) {
-//		for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
-
-//		lReturn.add(((D2Item) iSocketedItems.get(x))
-//		.toStringHtml(stash, 0));
-//		}
-//		}
-//		}
-
-//		}
-
-//		}
-
-//		if (stash == 0) {
-//		lReturn.add("</font></CENTER>");
-//		}
-
-//		return lReturn;
-//		}
-
-		dispStr.append("</html><center>");
-
-
-		return dispStr.toString();
+		return dispStr.append("</html><center>");
 	}
 
 	public String toWriter(PrintWriter pw){
