@@ -122,6 +122,10 @@ public class D2Prop {
 			dispLoc = 2;	
 		}else if(pNum == 356){
 			funcN = 40;
+		}else if(pNum == 26){
+			oString = "Replenishes Mana";
+			funcN = 1;
+			dispLoc = 2;
 		}
 
 		switch(funcN){

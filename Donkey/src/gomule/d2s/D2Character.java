@@ -55,9 +55,8 @@ public class D2Character extends D2ItemListAdapter
 	public static final int BODY_GLOVES        = 20;
 	public static final int BODY_RARM2         = 21;
 	public static final int BODY_LARM2         = 22;
-	public static final int GOLEM_SLOT = 23;
+	public static final int GOLEM_SLOT         = 23;
 
-//	private String          iFileName;
 	private D2BitReader     iReader;
 	private ArrayList       iCharItems;
 	private D2Item			iCharCursorItem;
@@ -71,14 +70,7 @@ public class D2Character extends D2ItemListAdapter
 
 	private boolean[]       iMerc;
 	private boolean[]       iCorpse;
-
-	//    private int itemlist_start;
-	//    private int itemlist_end;
-
 	private boolean         iHC;
-
-	//    private int iCharItemCountPos;
-	//    private int iMercItemCountPos;
 	private boolean         iHasMerc;
 	private byte            iBeforeStats[];
 	private byte            iBeforeItems[];
@@ -117,9 +109,9 @@ public class D2Character extends D2ItemListAdapter
 	private int				iCharStats[] = new int[30];
 	private int				iGF; 
 	private int				iIF;
-	private String iMercName = " ";
-	private String iMercRace = " ";
-	private String iMercType = " ";
+	private String iMercName;
+	private String iMercRace;
+	private String iMercType;
 	private int iMercLevel;
 	private long iMercExp;
 	private boolean iMercDead = false; 
@@ -142,8 +134,8 @@ public class D2Character extends D2ItemListAdapter
 	private int iMercColdRes;
 	private int iMercPoisRes;
 	private int iMercLightRes;
-	public int[] mercStatArray = new int[338];
-	public int[] charStatArray = new int[340];
+//	public int[] mercStatArray = new int[338];
+//	public int[] charStatArray = new int[340];
 	private ArrayList partialSetProps = new ArrayList();
 	private ArrayList fullSetProps = new ArrayList();
 	private int iCurWepSlot = 1;
@@ -186,12 +178,11 @@ public class D2Character extends D2ItemListAdapter
 		System.err.println("Version: " + lVersion );
 		if (lVersion != 96)
 		{
-			//throw new Exception("Incorrect Character version: " + lVersion);
+			throw new Exception("Incorrect Character version: " + lVersion);
 		}
 
 		iReader.set_byte_pos(8);
 		long lSize = iReader.read(32);
-		//        System.err.println("FileSize: " + lSize );
 		if (iReader.get_length() != lSize)
 		{
 			throw new Exception("Incorrect FileSize: " + lSize);
@@ -289,6 +280,9 @@ public class D2Character extends D2ItemListAdapter
 
 		if(iReader.read(32) != 0){
 			iHasMerc = true;
+			iMercName = " ";
+			iMercRace = " ";
+			iMercType = " ";
 			iReader.skipBits(16);
 			setMercType(iReader.read(16));
 			iReader.skipBits(-32);
@@ -296,7 +290,6 @@ public class D2Character extends D2ItemListAdapter
 			iReader.skipBits(16);
 			iMercExp = iReader.read(32);
 			setMercLevel();
-			generateMercStats();
 		}else{
 			iReader.skipBits(64);
 		}
@@ -415,75 +408,28 @@ public class D2Character extends D2ItemListAdapter
 		clearGrid();
 		readItems( iIF );
 		readCorpse();
-//		generateCharStats();
-		/*
-		for(int x = 0;x<iMercItems.size();x=x+1){
-			updateMercStats("D", (D2Item)iMercItems.get(x));
-		}
-
-		generateCharStats();
-		for(int x = 0;x<iCharItems.size();x=x+1){
-			if(((D2Item)iCharItems.get(x)).isEquipped()){
-				if(((D2Item)iCharItems.get(x)).get_body_position() != 11 &&((D2Item)iCharItems.get(x)).get_body_position() != 12 ){
-					updateCharStats("D", (D2Item)iCharItems.get(x));
-				}
-			}
-		}*/
 	}
-
-	private void readCorpse() throws Exception {
-
-		int corpseStart = iReader.findNextFlag("JM", iItemEnd+2);
-		if(corpseStart < 0 || corpseStart > iKF || corpseStart > iJF){
-			return;
-		}
-		iReader.set_byte_pos(corpseStart);
-		iReader.skipBytes(2);
-		int num_items = (int) (iReader.read(8));
-		int lLastItemEnd = iReader.get_byte_pos();
-		for (int i = 0; i < num_items; i++)
+	
+	private long calculateCheckSum()
+	{
+		iReader.set_byte_pos(0);
+		long lCheckSum = 0; // unsigned integer checksum
+		for (int i = 0; i < iReader.get_length(); i++)
 		{
-			int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
-			if (lItemStart == -1)
+			long lByte = iReader.read(8);
+			if (i >= 12 && i <= 15)
 			{
-				throw new Exception("Corpse item " + (i + 1) + " not found.");
+				lByte = 0;
 			}
 
-			D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
-			lLastItemEnd = lItemStart + lItem.getItemLength();
-			if ( lItem.isCursorItem() )
-			{
-				if ( iCharCursorItem != null )
-				{
-					throw new Exception("Double cursor item found");
-				}
-				iCharCursorItem = lItem;
-			}
-			else
-			{
-				addCorpseItem(lItem);
-				markCorpseGrid(lItem);
-			}
+			long upshift = lCheckSum << 33 >>> 32;
+			long add = lByte + ((lCheckSum >>> 31) == 1 ? 1 : 0);
+
+			lCheckSum = upshift + add;
 		}
+		return lCheckSum;
 	}
-
-	private void readGolem() throws Exception {
-
-		iReader.set_byte_pos(iKF);
-		iReader.skipBytes(2);
-		switch((int)iReader.read(8)){
-		case 0:
-			golemItem = null;
-			return;		
-		}
-		int lItemStart = iReader.findNextFlag("JM", iKF);
-		if (lItemStart == -1)
-		{
-			throw new Exception("Golem item not found.");
-		}
-		golemItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
-	}
-
+	
 	private void readWaypoints() {
 
 		for(int y= 0;y<iWaypoints.length;y=y+1){
@@ -524,7 +470,7 @@ public class D2Character extends D2ItemListAdapter
 			iReader.skipBytes(19);
 		}
 	}
-
+	
 	private void readQuests() {
 
 		for(int y= 0;y<iQuests.length;y=y+1){
@@ -579,6 +525,31 @@ public class D2Character extends D2ItemListAdapter
 		}
 	}
 
+	private byte[] getCurrentStats(){
+		
+		D2FileWriter lWriter = new D2FileWriter();
+		lWriter.setCounterInt(8, 103);
+		lWriter.setCounterInt(8, 102);
+		for (int lStatNr = 0; lStatNr < iReadStats.length; lStatNr++)
+		{
+			if (iReadStats[lStatNr] != 0)
+			{
+				lWriter.setCounterInt(9, lStatNr);
+				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST.getRow(lStatNr);
+				int lBits = Integer.parseInt(lItemStatCost.get("CSvBits"));
+				lWriter.setCounterInt(lBits, (int)iReadStats[lStatNr]);
+			}
+		}
+
+		for(int x = 0; x< iReadStats.length;x=x+1){
+			iInitStats[x] = (int)iReadStats[x];
+		}
+
+
+		lWriter.setCounterInt(9, 0x1FF);
+		return lWriter.getCurrentContent();
+	}
+	
 	private void readSkills() {
 
 		generateSkillLocs();
@@ -862,280 +833,395 @@ public class D2Character extends D2ItemListAdapter
 		}
 	}
 
-	private void setSetProps() {
+	private void readCorpse() throws Exception {
 
+		int corpseStart = iReader.findNextFlag("JM", iItemEnd+2);
+		if(corpseStart < 0 || corpseStart > iKF || corpseStart > iJF){
+			return;
+		}
+		iReader.set_byte_pos(corpseStart);
+		iReader.skipBytes(2);
+		int num_items = (int) (iReader.read(8));
+		int lLastItemEnd = iReader.get_byte_pos();
+		for (int i = 0; i < num_items; i++)
+		{
+			int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
+			if (lItemStart == -1)
+			{
+				throw new Exception("Corpse item " + (i + 1) + " not found.");
+			}
 
-		int counter = 0;
-		ArrayList itemsToMod = new ArrayList();
-		ArrayList equippedSetItems = new ArrayList(); 
-		equippedSetItems.addAll(this.equippedSetItems);
-		partialSetProps.clear();
-		fullSetProps.clear();
-		for(int x = 0;x<equippedSetItems.size();x=x+1){
-			D2Item thisSetItem = ((D2Item)equippedSetItems.get(x));
-			itemsToMod.clear();
-			counter = 1;
-			itemsToMod.add(thisSetItem);
-			equippedSetItems.remove(x);
-			x=x-1;
-			for(int y = x+1;y<equippedSetItems.size();y=y+1){
-				if(!((D2Item)equippedSetItems.get(y)).equals(thisSetItem)){
-					if(((D2Item)equippedSetItems.get(y)).getSetName().equals(thisSetItem.getSetName())){
-						counter = counter +1;
-						itemsToMod.add((D2Item)equippedSetItems.get(y));
-						equippedSetItems.remove(y);
-						y=y-1;
-					}
+			D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
+			lLastItemEnd = lItemStart + lItem.getItemLength();
+			if ( lItem.isCursorItem() )
+			{
+				if ( iCharCursorItem != null )
+				{
+					throw new Exception("Double cursor item found");
 				}
+				iCharCursorItem = lItem;
 			}
-			for(int z = 0;z<itemsToMod.size();z=z+1){
-				((D2Item)itemsToMod.get(z)).setSetProps(counter);
+			else
+			{
+				addCorpseItem(lItem);
+				markCorpseGrid(lItem);
+			}
+		}
+	}
+	// read in all items:
+	// find the first "JM" flag in the file
+	// the byte immediately following it
+	// indicates the number of items
+	// copy the set of bytes representing each
+	// item from the character file and use
+	// them to construct a new item object.
+	// store the items in the vector
+	private void readItems(int pStartSearch) throws Exception
+	{
+		int lFirstPos = iReader.findNextFlag("JM", pStartSearch);
+		if (lFirstPos == -1)
+		{
+			throw new Exception("Character items not found");
+		}
+		int lLastItemEnd = lFirstPos + 2;
+		iReader.set_byte_pos(lLastItemEnd);
+		int num_items = (int) iReader.read(16);
+
+		int lCharStart = lFirstPos + 4;
+		int lCharEnd = lCharStart;
+
+		for (int i = 0; i < num_items; i++)
+		{
+			int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
+			if (lItemStart == -1)
+			{
+				throw new Exception("Character item " + (i + 1) + " not found.");
 			}
 
-			if(itemsToMod.size() > 0 ){
+			D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
 
-				if(counter == thisSetItem.getSetSize()){
-					setFullSet(thisSetItem);
+			lLastItemEnd = lItemStart + lItem.getItemLength();
+			lCharEnd = lLastItemEnd;
+			if ( lItem.isCursorItem() )
+			{
+				if ( iCharCursorItem != null )
+				{
+					throw new Exception("Double cursor item found");
 				}
-				setPartialSet(counter, thisSetItem);
+				iCharCursorItem = lItem;
+			}
+			else
+			{
+				addCharItem(lItem);
+				markCharGrid(lItem);
 			}
 		}
-	}
+		iItemEnd = lCharEnd;
+		//        System.err.println("Read Char: " + lCharStart + " - " + lCharEnd );
 
-	private void setPartialSet(int counter, D2Item thisSetItem) {
+		int lMercStart = -1;
+		int lMercEnd = -1;
 
-		if(counter > 5){
-			counter = 5;
-		}
+		lFirstPos = iReader.findNextFlag("jfJM", lCharEnd);
+		if (lFirstPos != -1) // iReader.getFileContent()
+		{
+			iHasMerc = true;
+			lLastItemEnd = lFirstPos + 4;
+			iReader.set_byte_pos(lLastItemEnd);
+			num_items = (int) iReader.read(16);
 
-		D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSetItem.getSetName());
+			lMercStart = lFirstPos + 6;
+			lMercEnd = lMercStart;
 
-		int replaceChar = 2;
-
-		String[] replaceStr = new String[4];
-		String codeStr;
-		while(replaceChar < counter +1){
-
-			replaceStr[0] = "PCode" + replaceChar + "a";
-			replaceStr[1] = "PParam" + replaceChar + "a";
-			replaceStr[2] = "PMin" + replaceChar + "a";
-			replaceStr[3] = "PMax" + replaceChar + "a";
-			codeStr = setRow.get(replaceStr[0]);
-			if(codeStr.equals("")){
-				break;
-			}
-
-			String[] propStats = {
-					(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat1"))).get("ID")};
-			D2ItemProperty lProperty = new D2ItemProperty(Integer.parseInt(propStats[0]), (long)thisSetItem.getReqLvl(),
-					thisSetItem.getName());
-
-			D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
-			.getRow(lProperty.getPropNrs()[0]);
-
-			lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long.parseLong(setRow.get(replaceStr[2])));
-
-
-			if( setRow.get(replaceStr[0]).equals("res-all")){
-				lProperty = new D2ItemProperty(1337,
-						(long)thisSetItem.getReqLvl(), thisSetItem.getName());
-				lProperty.set(1337, lItemStatCost, 0, Long
-						.parseLong(setRow.get(replaceStr[3])));
-			}
-			if (! setRow.get(replaceStr[3]).equals("")) {
-				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
-						.parseLong( setRow.get(replaceStr[3])));
-			}
-
-			if (! setRow.get(replaceStr[1]).equals("")) {
-
-				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
-						.parseLong( setRow.get(replaceStr[1])));
-			}
-			partialSetProps.add(lProperty);
-			replaceChar = replaceChar +1;
-		}
-
-	}
-
-	private void setFullSet(D2Item thisSetItem) {
-
-		D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSetItem.getSetName());
-		int replaceChar = 1;
-		String[] replaceStr = new String[4];
-		String codeStr = "";
-		while(replaceStr.length == 4){
-			replaceStr[0] = "FCode" + replaceChar;
-			replaceStr[1] = "FParam" + replaceChar;
-			replaceStr[2] = "FMin" + replaceChar;
-			replaceStr[3] = "FMax" + replaceChar;
-			codeStr= setRow.get(replaceStr[0]);
-			if(codeStr.equals("") || codeStr.equals("lifesteal")){
-				break;
-			}
-			String[] propStats = {
-					(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat1"))).get("ID")};
-			D2ItemProperty lProperty = new D2ItemProperty(Integer.parseInt(propStats[0]), (long)thisSetItem.getReqLvl(),
-					thisSetItem.getName());
-
-			D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
-			.getRow(lProperty.getPropNrs()[0]);
-
-			lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long.parseLong(setRow.get(replaceStr[2])));
-
-
-			if( setRow.get(replaceStr[0]).equals("res-all")){
-				lProperty = new D2ItemProperty(1337,
-						(long)thisSetItem.getReqLvl(), thisSetItem.getName());
-				lProperty.set(1337, lItemStatCost, 0, Long
-						.parseLong(setRow.get(replaceStr[3])));
-			}
-			if (! setRow.get(replaceStr[3]).equals("")) {
-				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
-						.parseLong( setRow.get(replaceStr[3])));
-			}
-
-			if (! setRow.get(replaceStr[1]).equals("") && !setRow.get(replaceStr[1]).equals("fullsetgeneric")&& !setRow.get(replaceStr[1]).equals("monsterset") && !setRow.get(replaceStr[1]).equals("Fire Mastery")) {
-				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long  
-
-						.parseLong( setRow.get(replaceStr[1])));
-			}
-			fullSetProps.add(lProperty);
-			replaceChar = replaceChar +1;
-		}
-
-	}
-
-	private void generateCharStats(){
-
-		int resCounter = 0;
-		hpCounter = 0;
-		for(int x = 0;x<3;x=x+1){
-			if(iQuests[x][4].charAt(2) == '1'){
-				resCounter = resCounter + 1;
-			}
-			if(iQuests[x][2].charAt(0) == '1'){
-				hpCounter = hpCounter +1;
-			}
-		}
-		charStatArray[39] = resCounter*10;
-		charStatArray[41] =resCounter*10; 
-		charStatArray[43] =resCounter*10; 
-		charStatArray[45] =resCounter*10;
-		//NEED TO GENERATE 
-		//16 is DEF
-		//17 AR
-		//18 FR
-		///19 CR
-		//20 LR
-		//21 PR
-
-		//DEAL WITH XP (?)
-		//DEAL WITH LIFE AND MANA AND STAMINA
-		iInitStats[16] = (int)(Math.floor((double)iInitStats[2]/(double)4));
-		iInitStats[17] = ((iInitStats[2] * 5) - 35) + getARClassBonus(); 
-		for(int i = 0;i<iInitStats.length;i=i+1){
-			iCharStats[i] = iInitStats[i];
-		}
-
-		int[] manaHpStam = setHPManaStam();
-		iInitStats[7] =(manaHpStam[0])+(hpCounter*20);
-		iInitStats[9] = manaHpStam[1];
-		iInitStats[11] = manaHpStam[2];
-
-	}
-
-	public int getARClassBonus(){
-		if(getCharClass().equals("Barbarian") || getCharClass().equals("Paladin")){
-			return 20;
-		}else if(getCharClass().equals("Assasin")){
-			return 15;
-		}else if(getCharClass().equals("Amazon")|| getCharClass().equals("Druid")){
-			return 5;
-		}else if(getCharClass().equals("Necromancer")){
-			return -10;
-		}else if(getCharClass().equals("Sorceress")){
-			return -15;
-		}else{
-			return 99999999;
-		}
-	}
-
-	public int[] setHPManaStam(){
-
-		//HEALTH - MANA - STAM
-		int[] out = new int[3];
-
-		if(getCharClass().equals("Barbarian")){
-			out[0] = (4*(iCharStats[3]-25))+(2*(int)(iCharLevel-1)) + 55;
-			out[2] = (1*(iCharStats[3]-25))+(1*(int)(iCharLevel-1)) + 92;
-			out[1] = (1*(iCharStats[1]-10))+(1*(int)(iCharLevel-1)) + 10;
-		}else if(getCharClass().equals("Paladin")){
-			out[0] = (3*(iCharStats[3]-25))+(2*(int)(iCharLevel-1)) + 55;
-			out[2] = (1*(iCharStats[3]-25))+(1*(int)(iCharLevel-1)) + 89;
-			out[1] = ((int)(Math.floor(1.5*(iCharStats[1]-15))))+((int)(Math.floor(1.5*(int)(iCharLevel-1)))) + 15;
-		}else if(getCharClass().equals("Assasin")){
-			out[0] = (3*(iCharStats[3]-20))+(2*(int)(iCharLevel-1)) + 50;
-			out[2] = ((int)Math.floor(1.5*(iCharStats[3]-20)))+(1*(int)(iCharLevel-1)) + 95;
-			out[1] = ((int)Math.floor(1.5*(iCharStats[1]-25)))+((int)Math.floor(1.5*(int)(iCharLevel-1))) + 25;
-		}else if(getCharClass().equals("Amazon")){
-			out[0] = (3*(iCharStats[3]-20))+(2*(int)(iCharLevel-1)) + 50;
-			out[2] = (1*(iCharStats[3]-20))+(1*(int)(iCharLevel-1)) + 84;
-			out[1] = ((int)Math.floor(1.5*(iCharStats[1]-15)))+((int)Math.floor(1.5*(int)(iCharLevel-1))) + 15;
-		}else if(getCharClass().equals("Druid")){
-			out[0] = (2*(iCharStats[3]-25))+((int)(Math.floor(1.5*(int)(iCharLevel-1)))) + 55;
-			out[2] = (1*(iCharStats[3]-25))+(1*(int)(iCharLevel-1)) + 84;
-			out[1] = (2*(iCharStats[1]-20))+(2*(int)(iCharLevel-1)) + 20;
-		}else if(getCharClass().equals("Necromancer")){
-			out[0] = (2*(iCharStats[3]-15))+((int)Math.floor(1.5*(int)(iCharLevel-1))) + 45;
-			out[2] = (1*(iCharStats[3]-15))+(1*(int)(iCharLevel-1)) + 79;
-			out[1] = (2*(iCharStats[1]-25))+(2*(int)(iCharLevel-1)) + 25;
-		}else if(getCharClass().equals("Sorceress")){
-			out[0] = (2*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 40;
-			out[2] = (1*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 74;
-			out[1] = (2*(iCharStats[1]-35))+(2*(int)(iCharLevel-1)) + 35;
-		}
-
-		return out;
-
-	}
-
-	private void generateMercStats() {
-
-		D2TxtFileItemProperties hireCol = null;
-		ArrayList hireArr = D2TxtFile.HIRE.searchColumnsMultipleHits("SubType", iMercType);
-
-		for(int x = 0;x<hireArr.size();x =x+1){
-			if(((D2TxtFileItemProperties)hireArr.get(x)).get("Version").equals("100") && Integer.parseInt(((D2TxtFileItemProperties)hireArr.get(x)).get("Level")) <= iMercLevel){
-				hireCol = (D2TxtFileItemProperties)hireArr.get(x);
-			}
-		}
-
-		if(hireCol == null){
-
-			for(int x = 0;x<hireArr.size();x =x+1){
-				if(((D2TxtFileItemProperties)hireArr.get(x)).get("Version").equals("100") && Integer.parseInt(((D2TxtFileItemProperties)hireArr.get(x)).get("Level")) > iMercLevel){
-
-					hireCol = (D2TxtFileItemProperties)hireArr.get(x);
-					break;
+			for (int i = 0; i < num_items; i++)
+			{
+				int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
+				if (lItemStart == -1)
+				{
+					throw new Exception("Merc item " + (i + 1) + " not found.");
 				}
+
+				D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
+
+				lLastItemEnd = lItemStart + lItem.getItemLength();
+				lMercEnd = lLastItemEnd;
+				addMercItem(lItem);
+				markMercGrid(lItem);
 			}
+			//	        System.err.println("Read Char: " + lMercStart + " - " + lMercEnd
+			// );
 		}
-		iMercStr = iMercInitStr = (int)Math.floor((Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-		iMercDex = iMercInitDex = (int)Math.floor((Integer.parseInt(hireCol.get("Dex"))+ ((Double.parseDouble(hireCol.get("Dex/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-		iMercHP = iMercInitHP =  (int)Math.floor((Integer.parseInt(hireCol.get("HP"))+ ((Double.parseDouble(hireCol.get("HP/Lvl")))*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-		iMercDef =iMercInitDef = (long)(Integer.parseInt(hireCol.get("Defense"))+ (Integer.parseInt(hireCol.get("Def/Lvl"))*(iMercLevel - Integer.parseInt(hireCol.get("Level")))));
-		iMercFireRes = iMercInitFireRes = (int)Math.floor((Integer.parseInt(hireCol.get("Resist"))+ ((Double.parseDouble(hireCol.get("Resist/Lvl"))/(double)4)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-		iMercAR = iMercInitAR = (int)Math.floor((Integer.parseInt(hireCol.get("AR"))+ ((Double.parseDouble(hireCol.get("AR/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
-		iMercColdRes = iMercInitColdRes = iMercInitFireRes;
-		iMercLightRes = iMercInitLightRes = iMercInitFireRes;
-		iMercPoisRes = iMercInitPoisRes = iMercInitFireRes;
+
+		iReader.set_byte_pos(0); // iReader.getFileContent()
+
+		// before stats
+		iBeforeStats = iReader.get_bytes(iGF);
+
+		// goto after stats
+		iReader.set_byte_pos(iIF);
+
+		// before items
+		iBeforeItems = iReader.get_bytes(lCharStart-iIF);
+
+		if (lMercStart == -1)
+		{
+			// between
+			iBetweenItems = new byte[0];
+
+			// goto after char
+			iReader.set_byte_pos(lCharEnd);
+			// after items
+			iAfterItems = iReader.get_bytes(iReader.get_length() - lCharEnd);
+		}
+		else
+		{
+			// goto after char
+			iReader.set_byte_pos(lCharEnd);
+			// between
+			iBetweenItems = iReader.get_bytes(lMercStart - lCharEnd);
+
+			// goto after merc
+			iReader.set_byte_pos(lMercEnd);
+			// after items
+			iAfterItems = iReader.get_bytes(iReader.get_length() - lMercEnd);
+		}
 	}
+
+	private void readGolem() throws Exception {
+
+		iReader.set_byte_pos(iKF);
+		iReader.skipBytes(2);
+		switch((int)iReader.read(8)){
+		case 0:
+			golemItem = null;
+			return;		
+		}
+		int lItemStart = iReader.findNextFlag("JM", iKF);
+		if (lItemStart == -1)
+		{
+			throw new Exception("Golem item not found.");
+		}
+		golemItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
+	}
+
+//	private void setSetProps() {
+//
+//
+//		int counter = 0;
+//		ArrayList itemsToMod = new ArrayList();
+//		ArrayList equippedSetItems = new ArrayList(); 
+//		equippedSetItems.addAll(this.equippedSetItems);
+//		partialSetProps.clear();
+//		fullSetProps.clear();
+//		for(int x = 0;x<equippedSetItems.size();x=x+1){
+//			D2Item thisSetItem = ((D2Item)equippedSetItems.get(x));
+//			itemsToMod.clear();
+//			counter = 1;
+//			itemsToMod.add(thisSetItem);
+//			equippedSetItems.remove(x);
+//			x=x-1;
+//			for(int y = x+1;y<equippedSetItems.size();y=y+1){
+//				if(!((D2Item)equippedSetItems.get(y)).equals(thisSetItem)){
+//					if(((D2Item)equippedSetItems.get(y)).getSetName().equals(thisSetItem.getSetName())){
+//						counter = counter +1;
+//						itemsToMod.add((D2Item)equippedSetItems.get(y));
+//						equippedSetItems.remove(y);
+//						y=y-1;
+//					}
+//				}
+//			}
+//			for(int z = 0;z<itemsToMod.size();z=z+1){
+//				((D2Item)itemsToMod.get(z)).setSetProps(counter);
+//			}
+//
+//			if(itemsToMod.size() > 0 ){
+//
+//				if(counter == thisSetItem.getSetSize()){
+//					setFullSet(thisSetItem);
+//				}
+//				setPartialSet(counter, thisSetItem);
+//			}
+//		}
+//	}
+//
+//	private void setPartialSet(int counter, D2Item thisSetItem) {
+//
+//		if(counter > 5){
+//			counter = 5;
+//		}
+//
+//		D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSetItem.getSetName());
+//
+//		int replaceChar = 2;
+//
+//		String[] replaceStr = new String[4];
+//		String codeStr;
+//		while(replaceChar < counter +1){
+//
+//			replaceStr[0] = "PCode" + replaceChar + "a";
+//			replaceStr[1] = "PParam" + replaceChar + "a";
+//			replaceStr[2] = "PMin" + replaceChar + "a";
+//			replaceStr[3] = "PMax" + replaceChar + "a";
+//			codeStr = setRow.get(replaceStr[0]);
+//			if(codeStr.equals("")){
+//				break;
+//			}
+//
+//			String[] propStats = {
+//					(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat1"))).get("ID")};
+//			D2ItemProperty lProperty = new D2ItemProperty(Integer.parseInt(propStats[0]), (long)thisSetItem.getReqLvl(),
+//					thisSetItem.getName());
+//
+//			D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
+//			.getRow(lProperty.getPropNrs()[0]);
+//
+//			lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long.parseLong(setRow.get(replaceStr[2])));
+//
+//
+//			if( setRow.get(replaceStr[0]).equals("res-all")){
+//				lProperty = new D2ItemProperty(1337,
+//						(long)thisSetItem.getReqLvl(), thisSetItem.getName());
+//				lProperty.set(1337, lItemStatCost, 0, Long
+//						.parseLong(setRow.get(replaceStr[3])));
+//			}
+//			if (! setRow.get(replaceStr[3]).equals("")) {
+//				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
+//						.parseLong( setRow.get(replaceStr[3])));
+//			}
+//
+//			if (! setRow.get(replaceStr[1]).equals("")) {
+//
+//				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
+//						.parseLong( setRow.get(replaceStr[1])));
+//			}
+//			partialSetProps.add(lProperty);
+//			replaceChar = replaceChar +1;
+//		}
+//
+//	}
+//
+//	private void setFullSet(D2Item thisSetItem) {
+//
+//		D2TxtFileItemProperties setRow = D2TxtFile.FULLSET.searchColumns("name", thisSetItem.getSetName());
+//		int replaceChar = 1;
+//		String[] replaceStr = new String[4];
+//		String codeStr = "";
+//		while(replaceStr.length == 4){
+//			replaceStr[0] = "FCode" + replaceChar;
+//			replaceStr[1] = "FParam" + replaceChar;
+//			replaceStr[2] = "FMin" + replaceChar;
+//			replaceStr[3] = "FMax" + replaceChar;
+//			codeStr= setRow.get(replaceStr[0]);
+//			if(codeStr.equals("") || codeStr.equals("lifesteal")){
+//				break;
+//			}
+//			String[] propStats = {
+//					(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",((D2TxtFile.PROPS.searchColumns("code", setRow.get(replaceStr[0])))).get("stat1"))).get("ID")};
+//			D2ItemProperty lProperty = new D2ItemProperty(Integer.parseInt(propStats[0]), (long)thisSetItem.getReqLvl(),
+//					thisSetItem.getName());
+//
+//			D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
+//			.getRow(lProperty.getPropNrs()[0]);
+//
+//			lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long.parseLong(setRow.get(replaceStr[2])));
+//
+//
+//			if( setRow.get(replaceStr[0]).equals("res-all")){
+//				lProperty = new D2ItemProperty(1337,
+//						(long)thisSetItem.getReqLvl(), thisSetItem.getName());
+//				lProperty.set(1337, lItemStatCost, 0, Long
+//						.parseLong(setRow.get(replaceStr[3])));
+//			}
+//			if (! setRow.get(replaceStr[3]).equals("")) {
+//				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long
+//						.parseLong( setRow.get(replaceStr[3])));
+//			}
+//
+//			if (! setRow.get(replaceStr[1]).equals("") && !setRow.get(replaceStr[1]).equals("fullsetgeneric")&& !setRow.get(replaceStr[1]).equals("monsterset") && !setRow.get(replaceStr[1]).equals("Fire Mastery")) {
+//				lProperty.set(Integer.parseInt(propStats[0]), lItemStatCost, 0, Long  
+//
+//						.parseLong( setRow.get(replaceStr[1])));
+//			}
+//			fullSetProps.add(lProperty);
+//			replaceChar = replaceChar +1;
+//		}
+//
+//	}
+
+//	private void generateCharStats(){
+
+//	int resCounter = 0;
+//	hpCounter = 0;
+//	for(int x = 0;x<3;x=x+1){
+//	if(iQuests[x][4].charAt(2) == '1'){
+//	resCounter = resCounter + 1;
+//	}
+//	if(iQuests[x][2].charAt(0) == '1'){
+//	hpCounter = hpCounter +1;
+//	}
+//	}
+//	charStatArray[39] = resCounter*10;
+//	charStatArray[41] =resCounter*10; 
+//	charStatArray[43] =resCounter*10; 
+//	charStatArray[45] =resCounter*10;
+//	//NEED TO GENERATE 
+//	//16 is DEF
+//	//17 AR
+//	//18 FR
+//	///19 CR
+//	//20 LR
+//	//21 PR
+
+//	//DEAL WITH XP (?)
+//	//DEAL WITH LIFE AND MANA AND STAMINA
+//	iInitStats[16] = (int)(Math.floor((double)iInitStats[2]/(double)4));
+//	iInitStats[17] = ((iInitStats[2] * 5) - 35) + getARClassBonus(); 
+//	for(int i = 0;i<iInitStats.length;i=i+1){
+//	iCharStats[i] = iInitStats[i];
+//	}
+
+//	int[] manaHpStam = setHPManaStam();
+//	iInitStats[7] =(manaHpStam[0])+(hpCounter*20);
+//	iInitStats[9] = manaHpStam[1];
+//	iInitStats[11] = manaHpStam[2];
+
+//	}
+
+//	private void generateMercStats() {
+
+//	D2TxtFileItemProperties hireCol = null;
+//	ArrayList hireArr = D2TxtFile.HIRE.searchColumnsMultipleHits("SubType", iMercType);
+
+//	for(int x = 0;x<hireArr.size();x =x+1){
+//	if(((D2TxtFileItemProperties)hireArr.get(x)).get("Version").equals("100") && Integer.parseInt(((D2TxtFileItemProperties)hireArr.get(x)).get("Level")) <= iMercLevel){
+//	hireCol = (D2TxtFileItemProperties)hireArr.get(x);
+//	}
+//	}
+
+//	if(hireCol == null){
+
+//	for(int x = 0;x<hireArr.size();x =x+1){
+//	if(((D2TxtFileItemProperties)hireArr.get(x)).get("Version").equals("100") && Integer.parseInt(((D2TxtFileItemProperties)hireArr.get(x)).get("Level")) > iMercLevel){
+
+//	hireCol = (D2TxtFileItemProperties)hireArr.get(x);
+//	break;
+//	}
+//	}
+//	}
+//	iMercStr = iMercInitStr = (int)Math.floor((Integer.parseInt(hireCol.get("Str"))+ ((Double.parseDouble(hireCol.get("Str/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//	iMercDex = iMercInitDex = (int)Math.floor((Integer.parseInt(hireCol.get("Dex"))+ ((Double.parseDouble(hireCol.get("Dex/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//	iMercHP = iMercInitHP =  (int)Math.floor((Integer.parseInt(hireCol.get("HP"))+ ((Double.parseDouble(hireCol.get("HP/Lvl")))*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//	iMercDef =iMercInitDef = (long)(Integer.parseInt(hireCol.get("Defense"))+ (Integer.parseInt(hireCol.get("Def/Lvl"))*(iMercLevel - Integer.parseInt(hireCol.get("Level")))));
+//	iMercFireRes = iMercInitFireRes = (int)Math.floor((Integer.parseInt(hireCol.get("Resist"))+ ((Double.parseDouble(hireCol.get("Resist/Lvl"))/(double)4)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//	iMercAR = iMercInitAR = (int)Math.floor((Integer.parseInt(hireCol.get("AR"))+ ((Double.parseDouble(hireCol.get("AR/Lvl"))/(double)8)*(iMercLevel - Integer.parseInt(hireCol.get("Level"))))));
+//	iMercColdRes = iMercInitColdRes = iMercInitFireRes;
+//	iMercLightRes = iMercInitLightRes = iMercInitFireRes;
+//	iMercPoisRes = iMercInitPoisRes = iMercInitFireRes;
+//	}
 
 	private void setMercLevel() {
 
-		D2TxtFileItemProperties hireCol = (D2TxtFile.HIRE.searchColumns("SubType", iMercType));
-		int xpPLev = Integer.parseInt(hireCol.get("Exp/Lvl"));
+		int xpPLev = Integer.parseInt((D2TxtFile.HIRE.searchColumns("SubType", iMercType)).get("Exp/Lvl"));
 		long xpOut = 0;
 		int lev = 0;
 		do{
@@ -1170,246 +1256,34 @@ public class D2Character extends D2ItemListAdapter
 		}
 		iMercName = D2TblFile.getString(nameStr);
 	}
+	
+	private long calcMercArmor() {
 
-	public String getCharName()
-	{
-		return iCharName;
+		int out = 0;
+
+		for(int y = 0;y<iMercItems.size();y=y+1){
+			if(((D2Item)iMercItems.get(y)).isTypeArmor()){
+				out = out + ((D2Item)iMercItems.get(y)).getiDef();
+			}
+		}
+
+
+		return out;
 	}
+	
+	private int calcCharArmor() {
+		int out = 0;
 
-	public String getTitleString()
-	{
-
-		return iTitleString;
+		for(int y = 0;y<iCharItems.size();y=y+1){
+			if(((D2Item)iCharItems.get(y)).isTypeArmor()){
+				if(((D2Item)iCharItems.get(y)).isEquipped()){
+					out = out + ((D2Item)iCharItems.get(y)).getiDef();
+				}
+			}
+		}
+		return out;
 	}
-
-	public void updateCharStats(String string, D2Item pItem){
-
-		if(! pItem.isEquipped()){
-			return;
-		}
-		if(partialSetProps.size() > 0  || fullSetProps.size() > 0){
-			ArrayList set = new ArrayList();
-			set.addAll(partialSetProps);
-			set.addAll(fullSetProps);
-			for(int y = 0;y<set.size();y=y+1){
-
-				if(!pItem.isTypeArmor()){
-					if(((D2ItemProperty)set.get(y)).getiProp() == 31){   				
-						charStatArray[338] = charStatArray[338] - ((D2ItemProperty)set.get(y)).getRealValue();
-					}
-					if(((D2ItemProperty)set.get(y)).getiProp() == 16){
-						charStatArray[339] = charStatArray[339] - ((D2ItemProperty)set.get(y)).getRealValue();
-					}
-				}
-
-				if(((D2ItemProperty)set.get(y)).getiProp() < 340){
-
-					if(((D2ItemProperty)set.get(y)).getiProp() == 188 || ((D2ItemProperty)set.get(y)).getiProp() == 97||((D2ItemProperty)set.get(y)).getiProp() == 126||((D2ItemProperty)set.get(y)).getiProp() == 107||((D2ItemProperty)set.get(y)).getiProp() == 83||((D2ItemProperty)set.get(y)).getiProp() == 127){
-						plusSkillArr.remove(((D2ItemProperty)set.get(y)));
-					}
-					charStatArray[((D2ItemProperty)set.get(y)).getiProp()] = charStatArray[((D2ItemProperty)set.get(y)).getiProp()] - ((D2ItemProperty)set.get(y)).getRealValue();
-				}else{
-					if(((D2ItemProperty)set.get(y)).getiProp() == 1337){
-						//ALL RESISTANCES
-						charStatArray[39] = charStatArray[39] - ((D2ItemProperty)set.get(y)).getRealValue();
-						charStatArray[41] = charStatArray[41] - ((D2ItemProperty)set.get(y)).getRealValue();
-						charStatArray[43] = charStatArray[43] - ((D2ItemProperty)set.get(y)).getRealValue();
-						charStatArray[45] = charStatArray[45] - ((D2ItemProperty)set.get(y)).getRealValue();
-
-					}else if(((D2ItemProperty)set.get(y)).getiProp() == 1338){
-						//ALL STATS
-						charStatArray[0] = charStatArray[0] - ((D2ItemProperty)set.get(y)).getRealValue();
-						charStatArray[1] = charStatArray[1] - ((D2ItemProperty)set.get(y)).getRealValue();
-						charStatArray[2] = charStatArray[2] - ((D2ItemProperty)set.get(y)).getRealValue();
-						charStatArray[3] = charStatArray[3] - ((D2ItemProperty)set.get(y)).getRealValue();
-					}
-				} 
-			}
-		}
-		equippedSetItems.clear();
-		for(int x = 0;x<iCharItems.size();x=x+1){
-			if(((D2Item)iCharItems.get(x)).isEquipped() && ((D2Item)iCharItems.get(x)).isSet()){
-				equippedSetItems.add(iCharItems.get(x));
-
-			}
-		}
-
-		if(equippedSetItems.size() > 0){
-			setSetProps();
-		}
-		if(string.equals("D")){
-			if(pItem.isTypeArmor()){
-				charStatArray[338] = charStatArray[338] + pItem.getiDef();
-			}
-
-			if(pItem.isTypeArmor()&& (pItem.get_body_position()== 4 || pItem.get_body_position()== 5 || pItem.get_body_position()== 11 || pItem.get_body_position()== 12)){
-				charStatArray[20] = charStatArray[20] + pItem.getBlock();
-
-			}
-			ArrayList bla = pItem.getAllProps();
-			bla.addAll(partialSetProps);
-			bla.addAll(fullSetProps);
-
-			for(int y = 0;y<bla.size();y=y+1){
-				if(!pItem.isTypeArmor()){
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 31){   				
-						charStatArray[338] = charStatArray[338] + ((D2ItemProperty)bla.get(y)).getRealValue();
-					}
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 16){
-						charStatArray[339] = charStatArray[339] + ((D2ItemProperty)bla.get(y)).getRealValue();
-					}
-				}
-
-				if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 188 || ((D2ItemProperty)bla.get(y)).getiProp() == 97||((D2ItemProperty)bla.get(y)).getiProp() == 126||((D2ItemProperty)bla.get(y)).getiProp() == 107||((D2ItemProperty)bla.get(y)).getiProp() == 83||((D2ItemProperty)bla.get(y)).getiProp() == 127){
-
-						plusSkillArr.add(((D2ItemProperty)bla.get(y)));
-					}
-					charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
-				}else{
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
-						//ALL RESISTANCES
-						charStatArray[39] = charStatArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[41] = charStatArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[43] = charStatArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[45] = charStatArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
-
-					}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
-						//ALL STATS
-						charStatArray[0] = charStatArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[1] = charStatArray[1] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[2] = charStatArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[3] = charStatArray[3] + ((D2ItemProperty)bla.get(y)).getRealValue();
-					}
-				}        	
-			}
-
-		}else{
-			if(pItem.isTypeArmor()){
-				charStatArray[338] = charStatArray[338] - pItem.getiDef();
-			}
-
-			if(pItem.isTypeArmor()&& (pItem.get_body_position()== 4 || pItem.get_body_position()== 5 || pItem.get_body_position()== 11 || pItem.get_body_position()== 12)){
-				charStatArray[20] = charStatArray[20] - pItem.getBlock();
-
-			}
-
-			if(partialSetProps.size() > 0  || fullSetProps.size() > 0){
-
-				ArrayList set = new ArrayList();
-
-				set.addAll(partialSetProps);
-				set.addAll(fullSetProps);
-
-				for(int y = 0;y<set.size();y=y+1){
-
-					if(!pItem.isTypeArmor()){
-						if(((D2ItemProperty)set.get(y)).getiProp() == 31){   				
-							charStatArray[338] = charStatArray[338] + ((D2ItemProperty)set.get(y)).getRealValue();
-						}
-						if(((D2ItemProperty)set.get(y)).getiProp() == 16){
-							charStatArray[339] = charStatArray[339] + ((D2ItemProperty)set.get(y)).getRealValue();
-						}
-					}
-
-					if(((D2ItemProperty)set.get(y)).getiProp() < 340){
-						if(((D2ItemProperty)set.get(y)).getiProp() == 188 || ((D2ItemProperty)set.get(y)).getiProp() == 97||((D2ItemProperty)set.get(y)).getiProp() == 126||((D2ItemProperty)set.get(y)).getiProp() == 107||((D2ItemProperty)set.get(y)).getiProp() == 83||((D2ItemProperty)set.get(y)).getiProp() == 127){
-							plusSkillArr.add(((D2ItemProperty)set.get(y)));
-						}
-						charStatArray[((D2ItemProperty)set.get(y)).getiProp()] = charStatArray[((D2ItemProperty)set.get(y)).getiProp()] + ((D2ItemProperty)set.get(y)).getRealValue();
-					}else{
-						if(((D2ItemProperty)set.get(y)).getiProp() == 1337){
-							//ALL RESISTANCES
-							charStatArray[39] = charStatArray[39] + ((D2ItemProperty)set.get(y)).getRealValue();
-							charStatArray[41] = charStatArray[41] + ((D2ItemProperty)set.get(y)).getRealValue();
-							charStatArray[43] = charStatArray[43] + ((D2ItemProperty)set.get(y)).getRealValue();
-							charStatArray[45] = charStatArray[45] + ((D2ItemProperty)set.get(y)).getRealValue();
-
-						}else if(((D2ItemProperty)set.get(y)).getiProp() == 1338){
-							//ALL STATS
-							charStatArray[0] = charStatArray[0] + ((D2ItemProperty)set.get(y)).getRealValue();
-							charStatArray[1] = charStatArray[1] + ((D2ItemProperty)set.get(y)).getRealValue();
-							charStatArray[2] = charStatArray[2] + ((D2ItemProperty)set.get(y)).getRealValue();
-							charStatArray[3] = charStatArray[3] + ((D2ItemProperty)set.get(y)).getRealValue();
-						}
-					} 
-				}
-			}
-
-			ArrayList bla = pItem.getAllProps();
-			for(int y = 0;y<bla.size();y=y+1){
-
-				if(!pItem.isTypeArmor()){
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 31){   				
-						charStatArray[338] = charStatArray[338] - ((D2ItemProperty)bla.get(y)).getRealValue();
-					}
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 16){
-						charStatArray[339] = charStatArray[339] - ((D2ItemProperty)bla.get(y)).getRealValue();
-					}
-				}
-
-				if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 188 || ((D2ItemProperty)bla.get(y)).getiProp() == 97||((D2ItemProperty)bla.get(y)).getiProp() == 126||((D2ItemProperty)bla.get(y)).getiProp() == 107||((D2ItemProperty)bla.get(y)).getiProp() == 83||((D2ItemProperty)bla.get(y)).getiProp() == 127){
-						plusSkillArr.remove(((D2ItemProperty)bla.get(y)));
-					}
-					charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
-
-				}else{
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
-						//ALL RESISTANCES
-						charStatArray[39] = charStatArray[39] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[41] = charStatArray[41] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[43] = charStatArray[43] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[45] = charStatArray[45] - ((D2ItemProperty)bla.get(y)).getRealValue();
-
-					}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
-						//ALL STATS
-						charStatArray[0] = charStatArray[0] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[1] = charStatArray[1] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[2] = charStatArray[2] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						charStatArray[3] = charStatArray[3] - ((D2ItemProperty)bla.get(y)).getRealValue();
-					}
-				}     
-			}
-		}
-
-
-		iCharStats[0] = iInitStats[0] +  (charStatArray[220]*(int)iCharLevel) + charStatArray[0];
-		iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
-		iCharStats[1] = iInitStats[1] +  (charStatArray[222]*(int)iCharLevel)+ charStatArray[1];
-		iCharStats[3] = iInitStats[3] +  (charStatArray[223]*(int)iCharLevel)+ charStatArray[3];
-
-		int[] manaHpStam = setHPManaStam();
-		iCharStats[7] = (((int)Math.floor(((double)(manaHpStam[0] + charStatArray[7])/(double)100) * charStatArray[76]))+(manaHpStam[0] + charStatArray[7])+ (int)Math.floor((charStatArray[216] * 0.125)*(int)iCharLevel))+(hpCounter*20);;
-//		OFF ARMOR DEF
-		iCharStats[9] = ((int)Math.floor(((double)(manaHpStam[1] + charStatArray[9])/(double)100) * charStatArray[77]))+(manaHpStam[1] + charStatArray[9])+(int)Math.floor((charStatArray[217]* 0.125)*(int)iCharLevel);
-		iCharStats[11] = (manaHpStam[2] + charStatArray[11])+(charStatArray[242]*(int)iCharLevel);
-		iCharStats[16] = (int)(Math.floor((((double)((int)(Math.floor((double)iCharStats[2]/(double)4))) + charStatArray[338])/(double)100)*charStatArray[339])) + (((int)(Math.floor((double)iCharStats[2]/(double)4))) + charStatArray[338]);
-
-		iCharStats[18] = iInitStats[18] + charStatArray[39];
-		iCharStats[19] = iInitStats[19] + charStatArray[41];
-		iCharStats[20] = iInitStats[20] + charStatArray[43];
-		iCharStats[21] = iInitStats[21] + charStatArray[45];
-		iCharStats[22] = charStatArray[80]+ (int)Math.round((charStatArray[240] * 0.125) * (iCharLevel - 1));
-		iCharStats[23] = charStatArray[96];
-		iCharStats[24] = charStatArray[105];
-		iCharStats[25] = charStatArray[93];
-		iCharStats[26] = charStatArray[99];
-		iCharStats[27] = charStatArray[79];
-		iCharStats[28] = charStatArray[127];
-		iCharStats[29] = charStatArray[20] + Integer.parseInt(D2TxtFile.CHARSTATS.searchColumns("class", getCharClass()).get("BlockFactor"));
-		iCharStats[29] = (int) Math.floor((iCharStats[29] * (getCharDex() - 15))/(iCharLevel * 2));
-		//16 is DEF
-		//17 AR
-		//18 FR
-		///19 CR
-		//20 LR
-		//21 PR
-
-		dealWithSkills();
-	}
-
-
+	
 	private void dealWithSkills() {
 
 		resetSkills();
@@ -1593,94 +1467,361 @@ public class D2Character extends D2ItemListAdapter
 		}
 	}
 
-	public void updateMercStats(String string, D2Item pItem){
+	public String getCharName()
+	{
+		return iCharName;
+	}
 
-//		statArray = new int[338];
+	public String getTitleString()
+	{
 
-		if(string.equals("D")){
-			ArrayList bla = pItem.getAllProps();
-			for(int y = 0;y<bla.size();y=y+1){
-				if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
-					mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
-				}else{
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
-						//ALL RESISTANCES
-						mercStatArray[39] = mercStatArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						mercStatArray[41] = mercStatArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						mercStatArray[43] = mercStatArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						mercStatArray[45] = mercStatArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
+		return iTitleString;
+	}
 
-					}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
-						//ALL STATS
-						mercStatArray[0] = mercStatArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
-						mercStatArray[2] = mercStatArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
-					}
-				}        	
-			}
+//	public void updateCharStats(String string, D2Item pItem){
 
+//	if(! pItem.isEquipped()){
+//	return;
+//	}
+//	if(partialSetProps.size() > 0  || fullSetProps.size() > 0){
+//	ArrayList set = new ArrayList();
+//	set.addAll(partialSetProps);
+//	set.addAll(fullSetProps);
+//	for(int y = 0;y<set.size();y=y+1){
+
+//	if(!pItem.isTypeArmor()){
+//	if(((D2ItemProperty)set.get(y)).getiProp() == 31){   				
+//	charStatArray[338] = charStatArray[338] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	}
+//	if(((D2ItemProperty)set.get(y)).getiProp() == 16){
+//	charStatArray[339] = charStatArray[339] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	}
+//	}
+
+//	if(((D2ItemProperty)set.get(y)).getiProp() < 340){
+
+//	if(((D2ItemProperty)set.get(y)).getiProp() == 188 || ((D2ItemProperty)set.get(y)).getiProp() == 97||((D2ItemProperty)set.get(y)).getiProp() == 126||((D2ItemProperty)set.get(y)).getiProp() == 107||((D2ItemProperty)set.get(y)).getiProp() == 83||((D2ItemProperty)set.get(y)).getiProp() == 127){
+//	plusSkillArr.remove(((D2ItemProperty)set.get(y)));
+//	}
+//	charStatArray[((D2ItemProperty)set.get(y)).getiProp()] = charStatArray[((D2ItemProperty)set.get(y)).getiProp()] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	}else{
+//	if(((D2ItemProperty)set.get(y)).getiProp() == 1337){
+//	//ALL RESISTANCES
+//	charStatArray[39] = charStatArray[39] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[41] = charStatArray[41] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[43] = charStatArray[43] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[45] = charStatArray[45] - ((D2ItemProperty)set.get(y)).getRealValue();
+
+//	}else if(((D2ItemProperty)set.get(y)).getiProp() == 1338){
+//	//ALL STATS
+//	charStatArray[0] = charStatArray[0] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[1] = charStatArray[1] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[2] = charStatArray[2] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[3] = charStatArray[3] - ((D2ItemProperty)set.get(y)).getRealValue();
+//	}
+//	} 
+//	}
+//	}
+//	equippedSetItems.clear();
+//	for(int x = 0;x<iCharItems.size();x=x+1){
+//	if(((D2Item)iCharItems.get(x)).isEquipped() && ((D2Item)iCharItems.get(x)).isSet()){
+//	equippedSetItems.add(iCharItems.get(x));
+
+//	}
+//	}
+
+//	if(equippedSetItems.size() > 0){
+//	setSetProps();
+//	}
+//	if(string.equals("D")){
+//	if(pItem.isTypeArmor()){
+//	charStatArray[338] = charStatArray[338] + pItem.getiDef();
+//	}
+
+//	if(pItem.isTypeArmor()&& (pItem.get_body_position()== 4 || pItem.get_body_position()== 5 || pItem.get_body_position()== 11 || pItem.get_body_position()== 12)){
+//	charStatArray[20] = charStatArray[20] + pItem.getBlock();
+
+//	}
+//	ArrayList bla = pItem.getAllProps();
+//	bla.addAll(partialSetProps);
+//	bla.addAll(fullSetProps);
+
+//	for(int y = 0;y<bla.size();y=y+1){
+//	if(!pItem.isTypeArmor()){
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 31){   				
+//	charStatArray[338] = charStatArray[338] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 16){
+//	charStatArray[339] = charStatArray[339] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}
+//	}
+
+//	if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 188 || ((D2ItemProperty)bla.get(y)).getiProp() == 97||((D2ItemProperty)bla.get(y)).getiProp() == 126||((D2ItemProperty)bla.get(y)).getiProp() == 107||((D2ItemProperty)bla.get(y)).getiProp() == 83||((D2ItemProperty)bla.get(y)).getiProp() == 127){
+
+//	plusSkillArr.add(((D2ItemProperty)bla.get(y)));
+//	}
+//	charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}else{
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
+//	//ALL RESISTANCES
+//	charStatArray[39] = charStatArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[41] = charStatArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[43] = charStatArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[45] = charStatArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
+
+//	}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
+//	//ALL STATS
+//	charStatArray[0] = charStatArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[1] = charStatArray[1] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[2] = charStatArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[3] = charStatArray[3] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}
+//	}        	
+//	}
+
+//	}else{
+//	if(pItem.isTypeArmor()){
+//	charStatArray[338] = charStatArray[338] - pItem.getiDef();
+//	}
+
+//	if(pItem.isTypeArmor()&& (pItem.get_body_position()== 4 || pItem.get_body_position()== 5 || pItem.get_body_position()== 11 || pItem.get_body_position()== 12)){
+//	charStatArray[20] = charStatArray[20] - pItem.getBlock();
+
+//	}
+
+//	if(partialSetProps.size() > 0  || fullSetProps.size() > 0){
+
+//	ArrayList set = new ArrayList();
+
+//	set.addAll(partialSetProps);
+//	set.addAll(fullSetProps);
+
+//	for(int y = 0;y<set.size();y=y+1){
+
+//	if(!pItem.isTypeArmor()){
+//	if(((D2ItemProperty)set.get(y)).getiProp() == 31){   				
+//	charStatArray[338] = charStatArray[338] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	}
+//	if(((D2ItemProperty)set.get(y)).getiProp() == 16){
+//	charStatArray[339] = charStatArray[339] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	}
+//	}
+
+//	if(((D2ItemProperty)set.get(y)).getiProp() < 340){
+//	if(((D2ItemProperty)set.get(y)).getiProp() == 188 || ((D2ItemProperty)set.get(y)).getiProp() == 97||((D2ItemProperty)set.get(y)).getiProp() == 126||((D2ItemProperty)set.get(y)).getiProp() == 107||((D2ItemProperty)set.get(y)).getiProp() == 83||((D2ItemProperty)set.get(y)).getiProp() == 127){
+//	plusSkillArr.add(((D2ItemProperty)set.get(y)));
+//	}
+//	charStatArray[((D2ItemProperty)set.get(y)).getiProp()] = charStatArray[((D2ItemProperty)set.get(y)).getiProp()] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	}else{
+//	if(((D2ItemProperty)set.get(y)).getiProp() == 1337){
+//	//ALL RESISTANCES
+//	charStatArray[39] = charStatArray[39] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[41] = charStatArray[41] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[43] = charStatArray[43] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[45] = charStatArray[45] + ((D2ItemProperty)set.get(y)).getRealValue();
+
+//	}else if(((D2ItemProperty)set.get(y)).getiProp() == 1338){
+//	//ALL STATS
+//	charStatArray[0] = charStatArray[0] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[1] = charStatArray[1] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[2] = charStatArray[2] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	charStatArray[3] = charStatArray[3] + ((D2ItemProperty)set.get(y)).getRealValue();
+//	}
+//	} 
+//	}
+//	}
+
+//	ArrayList bla = pItem.getAllProps();
+//	for(int y = 0;y<bla.size();y=y+1){
+
+//	if(!pItem.isTypeArmor()){
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 31){   				
+//	charStatArray[338] = charStatArray[338] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 16){
+//	charStatArray[339] = charStatArray[339] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}
+//	}
+
+//	if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 188 || ((D2ItemProperty)bla.get(y)).getiProp() == 97||((D2ItemProperty)bla.get(y)).getiProp() == 126||((D2ItemProperty)bla.get(y)).getiProp() == 107||((D2ItemProperty)bla.get(y)).getiProp() == 83||((D2ItemProperty)bla.get(y)).getiProp() == 127){
+//	plusSkillArr.remove(((D2ItemProperty)bla.get(y)));
+//	}
+//	charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = charStatArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
+
+//	}else{
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
+//	//ALL RESISTANCES
+//	charStatArray[39] = charStatArray[39] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[41] = charStatArray[41] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[43] = charStatArray[43] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[45] = charStatArray[45] - ((D2ItemProperty)bla.get(y)).getRealValue();
+
+//	}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
+//	//ALL STATS
+//	charStatArray[0] = charStatArray[0] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[1] = charStatArray[1] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[2] = charStatArray[2] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	charStatArray[3] = charStatArray[3] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}
+//	}     
+//	}
+//	}
+
+
+//	iCharStats[0] = iInitStats[0] +  (charStatArray[220]*(int)iCharLevel) + charStatArray[0];
+//	iCharStats[2] = iInitStats[2] +  (charStatArray[221]*(int)iCharLevel)+ charStatArray[2];
+//	iCharStats[1] = iInitStats[1] +  (charStatArray[222]*(int)iCharLevel)+ charStatArray[1];
+//	iCharStats[3] = iInitStats[3] +  (charStatArray[223]*(int)iCharLevel)+ charStatArray[3];
+
+//	int[] manaHpStam = setHPManaStam();
+//	iCharStats[7] = (((int)Math.floor(((double)(manaHpStam[0] + charStatArray[7])/(double)100) * charStatArray[76]))+(manaHpStam[0] + charStatArray[7])+ (int)Math.floor((charStatArray[216] * 0.125)*(int)iCharLevel))+(hpCounter*20);;
+////	OFF ARMOR DEF
+//	iCharStats[9] = ((int)Math.floor(((double)(manaHpStam[1] + charStatArray[9])/(double)100) * charStatArray[77]))+(manaHpStam[1] + charStatArray[9])+(int)Math.floor((charStatArray[217]* 0.125)*(int)iCharLevel);
+//	iCharStats[11] = (manaHpStam[2] + charStatArray[11])+(charStatArray[242]*(int)iCharLevel);
+//	iCharStats[16] = (int)(Math.floor((((double)((int)(Math.floor((double)iCharStats[2]/(double)4))) + charStatArray[338])/(double)100)*charStatArray[339])) + (((int)(Math.floor((double)iCharStats[2]/(double)4))) + charStatArray[338]);
+
+//	iCharStats[18] = iInitStats[18] + charStatArray[39];
+//	iCharStats[19] = iInitStats[19] + charStatArray[41];
+//	iCharStats[20] = iInitStats[20] + charStatArray[43];
+//	iCharStats[21] = iInitStats[21] + charStatArray[45];
+//	iCharStats[22] = charStatArray[80]+ (int)Math.round((charStatArray[240] * 0.125) * (iCharLevel - 1));
+//	iCharStats[23] = charStatArray[96];
+//	iCharStats[24] = charStatArray[105];
+//	iCharStats[25] = charStatArray[93];
+//	iCharStats[26] = charStatArray[99];
+//	iCharStats[27] = charStatArray[79];
+//	iCharStats[28] = charStatArray[127];
+//	iCharStats[29] = charStatArray[20] + Integer.parseInt(D2TxtFile.CHARSTATS.searchColumns("class", getCharClass()).get("BlockFactor"));
+//	iCharStats[29] = (int) Math.floor((iCharStats[29] * (getCharDex() - 15))/(iCharLevel * 2));
+//	//16 is DEF
+//	//17 AR
+//	//18 FR
+//	///19 CR
+//	//20 LR
+//	//21 PR
+
+//	dealWithSkills();
+//	}
+
+//	public void updateMercStats(String string, D2Item pItem){
+
+////	statArray = new int[338];
+
+//	if(string.equals("D")){
+//	ArrayList bla = pItem.getAllProps();
+//	for(int y = 0;y<bla.size();y=y+1){
+//	if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+//	mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}else{
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
+//	//ALL RESISTANCES
+//	mercStatArray[39] = mercStatArray[39] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	mercStatArray[41] = mercStatArray[41] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	mercStatArray[43] = mercStatArray[43] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	mercStatArray[45] = mercStatArray[45] + ((D2ItemProperty)bla.get(y)).getRealValue();
+
+//	}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
+//	//ALL STATS
+//	mercStatArray[0] = mercStatArray[0] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	mercStatArray[2] = mercStatArray[2] + ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}
+//	}        	
+//	}
+
+//	}else{
+//	ArrayList bla = pItem.getAllProps();
+//	for(int y = 0;y<bla.size();y=y+1){
+//	if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
+//	mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
+
+//	}else{
+//	if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
+//	//ALL RESISTANCES
+//	mercStatArray[39] = mercStatArray[39] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	mercStatArray[41] = mercStatArray[41] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	mercStatArray[43] = mercStatArray[43] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	mercStatArray[45] = mercStatArray[45] - ((D2ItemProperty)bla.get(y)).getRealValue();
+
+//	}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
+//	//ALL STATS
+//	mercStatArray[0] = mercStatArray[0] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	mercStatArray[2] = mercStatArray[2] - ((D2ItemProperty)bla.get(y)).getRealValue();
+//	}
+//	}     
+//	}
+//	}
+
+
+//	iMercStr = iMercInitStr +  (mercStatArray[220]*iMercLevel) + mercStatArray[0];
+//	iMercDex = iMercInitDex +  (mercStatArray[221]*iMercLevel)+ mercStatArray[2];
+//	iMercHP = ((int)Math.floor(((double)(iMercInitHP + mercStatArray[7])/(double)100) * mercStatArray[76]))+(iMercInitHP + mercStatArray[7])+(mercStatArray[216]*iMercLevel);
+//	iMercDef = (int)Math.floor(((double)(iMercInitDef + (calcMercArmor()) + (mercStatArray[214] * iMercLevel))/(double)100)*(mercStatArray[215] * iMercLevel)) +  iMercInitDef + (calcMercArmor()) + (mercStatArray[214] * iMercLevel)  ;
+//	iMercAR = (int)Math.floor(((double)(iMercInitAR + (mercStatArray[19]) + (mercStatArray[224] * iMercLevel))/(double)100)* (mercStatArray[225] * iMercLevel)) +  iMercInitAR + (mercStatArray[19]) + (mercStatArray[224] * iMercLevel)  ;
+//	iMercFireRes = iMercInitFireRes + mercStatArray[39];
+//	iMercLightRes = iMercInitLightRes + mercStatArray[41];
+//	iMercColdRes = iMercInitColdRes + mercStatArray[43];
+//	iMercPoisRes = iMercInitPoisRes + mercStatArray[45];
+
+//	}
+	
+	public int getARClassBonus(){
+		if(getCharClass().equals("Barbarian") || getCharClass().equals("Paladin")){
+			return 20;
+		}else if(getCharClass().equals("Assasin")){
+			return 15;
+		}else if(getCharClass().equals("Amazon")|| getCharClass().equals("Druid")){
+			return 5;
+		}else if(getCharClass().equals("Necromancer")){
+			return -10;
+		}else if(getCharClass().equals("Sorceress")){
+			return -15;
 		}else{
-			ArrayList bla = pItem.getAllProps();
-			for(int y = 0;y<bla.size();y=y+1){
-				if(((D2ItemProperty)bla.get(y)).getiProp() < 340){
-					mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] = mercStatArray[((D2ItemProperty)bla.get(y)).getiProp()] - ((D2ItemProperty)bla.get(y)).getRealValue();
-
-				}else{
-					if(((D2ItemProperty)bla.get(y)).getiProp() == 1337){
-						//ALL RESISTANCES
-						mercStatArray[39] = mercStatArray[39] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						mercStatArray[41] = mercStatArray[41] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						mercStatArray[43] = mercStatArray[43] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						mercStatArray[45] = mercStatArray[45] - ((D2ItemProperty)bla.get(y)).getRealValue();
-
-					}else if(((D2ItemProperty)bla.get(y)).getiProp() == 1338){
-						//ALL STATS
-						mercStatArray[0] = mercStatArray[0] - ((D2ItemProperty)bla.get(y)).getRealValue();
-						mercStatArray[2] = mercStatArray[2] - ((D2ItemProperty)bla.get(y)).getRealValue();
-					}
-				}     
-			}
+			return 99999999;
 		}
-
-
-		iMercStr = iMercInitStr +  (mercStatArray[220]*iMercLevel) + mercStatArray[0];
-		iMercDex = iMercInitDex +  (mercStatArray[221]*iMercLevel)+ mercStatArray[2];
-		iMercHP = ((int)Math.floor(((double)(iMercInitHP + mercStatArray[7])/(double)100) * mercStatArray[76]))+(iMercInitHP + mercStatArray[7])+(mercStatArray[216]*iMercLevel);
-		iMercDef = (int)Math.floor(((double)(iMercInitDef + (calcMercArmor()) + (mercStatArray[214] * iMercLevel))/(double)100)*(mercStatArray[215] * iMercLevel)) +  iMercInitDef + (calcMercArmor()) + (mercStatArray[214] * iMercLevel)  ;
-		iMercAR = (int)Math.floor(((double)(iMercInitAR + (mercStatArray[19]) + (mercStatArray[224] * iMercLevel))/(double)100)* (mercStatArray[225] * iMercLevel)) +  iMercInitAR + (mercStatArray[19]) + (mercStatArray[224] * iMercLevel)  ;
-		iMercFireRes = iMercInitFireRes + mercStatArray[39];
-		iMercLightRes = iMercInitLightRes + mercStatArray[41];
-		iMercColdRes = iMercInitColdRes + mercStatArray[43];
-		iMercPoisRes = iMercInitPoisRes + mercStatArray[45];
-
 	}
 
+	public int[] setHPManaStam(){
 
-	private long calcMercArmor() {
+		//HEALTH - MANA - STAM
+		int[] out = new int[3];
 
-		int out = 0;
-
-		for(int y = 0;y<iMercItems.size();y=y+1){
-			if(((D2Item)iMercItems.get(y)).isTypeArmor()){
-				out = out + ((D2Item)iMercItems.get(y)).getiDef();
-			}
+		if(getCharClass().equals("Barbarian")){
+			out[0] = (4*(iCharStats[3]-25))+(2*(int)(iCharLevel-1)) + 55;
+			out[2] = (1*(iCharStats[3]-25))+(1*(int)(iCharLevel-1)) + 92;
+			out[1] = (1*(iCharStats[1]-10))+(1*(int)(iCharLevel-1)) + 10;
+		}else if(getCharClass().equals("Paladin")){
+			out[0] = (3*(iCharStats[3]-25))+(2*(int)(iCharLevel-1)) + 55;
+			out[2] = (1*(iCharStats[3]-25))+(1*(int)(iCharLevel-1)) + 89;
+			out[1] = ((int)(Math.floor(1.5*(iCharStats[1]-15))))+((int)(Math.floor(1.5*(int)(iCharLevel-1)))) + 15;
+		}else if(getCharClass().equals("Assasin")){
+			out[0] = (3*(iCharStats[3]-20))+(2*(int)(iCharLevel-1)) + 50;
+			out[2] = ((int)Math.floor(1.5*(iCharStats[3]-20)))+(1*(int)(iCharLevel-1)) + 95;
+			out[1] = ((int)Math.floor(1.5*(iCharStats[1]-25)))+((int)Math.floor(1.5*(int)(iCharLevel-1))) + 25;
+		}else if(getCharClass().equals("Amazon")){
+			out[0] = (3*(iCharStats[3]-20))+(2*(int)(iCharLevel-1)) + 50;
+			out[2] = (1*(iCharStats[3]-20))+(1*(int)(iCharLevel-1)) + 84;
+			out[1] = ((int)Math.floor(1.5*(iCharStats[1]-15)))+((int)Math.floor(1.5*(int)(iCharLevel-1))) + 15;
+		}else if(getCharClass().equals("Druid")){
+			out[0] = (2*(iCharStats[3]-25))+((int)(Math.floor(1.5*(int)(iCharLevel-1)))) + 55;
+			out[2] = (1*(iCharStats[3]-25))+(1*(int)(iCharLevel-1)) + 84;
+			out[1] = (2*(iCharStats[1]-20))+(2*(int)(iCharLevel-1)) + 20;
+		}else if(getCharClass().equals("Necromancer")){
+			out[0] = (2*(iCharStats[3]-15))+((int)Math.floor(1.5*(int)(iCharLevel-1))) + 45;
+			out[2] = (1*(iCharStats[3]-15))+(1*(int)(iCharLevel-1)) + 79;
+			out[1] = (2*(iCharStats[1]-25))+(2*(int)(iCharLevel-1)) + 25;
+		}else if(getCharClass().equals("Sorceress")){
+			out[0] = (2*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 40;
+			out[2] = (1*(iCharStats[3]-10))+(1*(int)(iCharLevel-1)) + 74;
+			out[1] = (2*(iCharStats[1]-35))+(2*(int)(iCharLevel-1)) + 35;
 		}
-
 
 		return out;
-	}
 
-	private int calcCharArmor() {
-		int out = 0;
-
-		for(int y = 0;y<iCharItems.size();y=y+1){
-			if(((D2Item)iCharItems.get(y)).isTypeArmor()){
-				if(((D2Item)iCharItems.get(y)).isEquipped()){
-					out = out + ((D2Item)iCharItems.get(y)).getiDef();
-				}
-			}
-		}
-		return out;
 	}
+	
+	
 
 	public String getFilename()
 	{
@@ -1735,125 +1876,6 @@ public class D2Character extends D2ItemListAdapter
 		setModified(true);
 	}
 
-	// read in all items:
-	// find the first "JM" flag in the file
-	// the byte immediately following it
-	// indicates the number of items
-	// copy the set of bytes representing each
-	// item from the character file and use
-	// them to construct a new item object.
-	// store the items in the vector
-	public void readItems(int pStartSearch) throws Exception
-	{
-		int lFirstPos = iReader.findNextFlag("JM", pStartSearch);
-		if (lFirstPos == -1)
-		{
-			throw new Exception("Character items not found");
-		}
-		int lLastItemEnd = lFirstPos + 2;
-		iReader.set_byte_pos(lLastItemEnd);
-		int num_items = (int) iReader.read(16);
-
-		int lCharStart = lFirstPos + 4;
-		int lCharEnd = lCharStart;
-
-		for (int i = 0; i < num_items; i++)
-		{
-			int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
-			if (lItemStart == -1)
-			{
-				throw new Exception("Character item " + (i + 1) + " not found.");
-			}
-
-			D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
-
-			lLastItemEnd = lItemStart + lItem.getItemLength();
-			lCharEnd = lLastItemEnd;
-			if ( lItem.isCursorItem() )
-			{
-				if ( iCharCursorItem != null )
-				{
-					throw new Exception("Double cursor item found");
-				}
-				iCharCursorItem = lItem;
-			}
-			else
-			{
-				addCharItem(lItem);
-				markCharGrid(lItem);
-			}
-		}
-		iItemEnd = lCharEnd;
-		//        System.err.println("Read Char: " + lCharStart + " - " + lCharEnd );
-
-		int lMercStart = -1;
-		int lMercEnd = -1;
-
-		lFirstPos = iReader.findNextFlag("jfJM", lCharEnd);
-		if (lFirstPos != -1) // iReader.getFileContent()
-		{
-			iHasMerc = true;
-			lLastItemEnd = lFirstPos + 4;
-			iReader.set_byte_pos(lLastItemEnd);
-			num_items = (int) iReader.read(16);
-
-			lMercStart = lFirstPos + 6;
-			lMercEnd = lMercStart;
-
-			for (int i = 0; i < num_items; i++)
-			{
-				int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
-				if (lItemStart == -1)
-				{
-					throw new Exception("Merc item " + (i + 1) + " not found.");
-				}
-
-				D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
-
-				lLastItemEnd = lItemStart + lItem.getItemLength();
-				lMercEnd = lLastItemEnd;
-				addMercItem(lItem);
-				markMercGrid(lItem);
-			}
-			//	        System.err.println("Read Char: " + lMercStart + " - " + lMercEnd
-			// );
-		}
-
-		iReader.set_byte_pos(0); // iReader.getFileContent()
-
-		// before stats
-		iBeforeStats = iReader.get_bytes(iGF);
-
-		// goto after stats
-		iReader.set_byte_pos(iIF);
-
-		// before items
-		iBeforeItems = iReader.get_bytes(lCharStart-iIF);
-
-		if (lMercStart == -1)
-		{
-			// between
-			iBetweenItems = new byte[0];
-
-			// goto after char
-			iReader.set_byte_pos(lCharEnd);
-			// after items
-			iAfterItems = iReader.get_bytes(iReader.get_length() - lCharEnd);
-		}
-		else
-		{
-			// goto after char
-			iReader.set_byte_pos(lCharEnd);
-			// between
-			iBetweenItems = iReader.get_bytes(lMercStart - lCharEnd);
-
-			// goto after merc
-			iReader.set_byte_pos(lMercEnd);
-			// after items
-			iAfterItems = iReader.get_bytes(iReader.get_length() - lMercEnd);
-		}
-	}
-
 	public void setCursorItem(D2Item pItem)
 	{
 		iCharCursorItem = pItem;
@@ -1879,8 +1901,8 @@ public class D2Character extends D2ItemListAdapter
 	// clear all the grids
 	// grids keep track of which spots that items
 	// can be place are occupied
-	public void clearGrid()
-	{
+	public void clearGrid(){
+		
 		for (int i = 0; i < iEquipped.length; i++)
 		{
 			iEquipped[i] = false;
@@ -2943,51 +2965,6 @@ public class D2Character extends D2ItemListAdapter
 		return 0;
 	}
 
-	private byte[] getCurrentStats()
-	{
-		D2FileWriter lWriter = new D2FileWriter();
-		lWriter.setCounterInt(8, 103);
-		lWriter.setCounterInt(8, 102);
-		for (int lStatNr = 0; lStatNr < iReadStats.length; lStatNr++)
-		{
-			if (iReadStats[lStatNr] != 0)
-			{
-				lWriter.setCounterInt(9, lStatNr);
-				D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST.getRow(lStatNr);
-				int lBits = Integer.parseInt(lItemStatCost.get("CSvBits"));
-				lWriter.setCounterInt(lBits, (int)iReadStats[lStatNr]);
-			}
-		}
-
-		for(int x = 0; x< iReadStats.length;x=x+1){
-			iInitStats[x] = (int)iReadStats[x];
-		}
-
-
-		lWriter.setCounterInt(9, 0x1FF);
-		return lWriter.getCurrentContent();
-	}
-
-	private long calculateCheckSum()
-	{
-		iReader.set_byte_pos(0);
-		long lCheckSum = 0; // unsigned integer checksum
-		for (int i = 0; i < iReader.get_length(); i++)
-		{
-			long lByte = iReader.read(8);
-			if (i >= 12 && i <= 15)
-			{
-				lByte = 0;
-			}
-
-			long upshift = lCheckSum << 33 >>> 32;
-			long add = lByte + ((lCheckSum >>> 31) == 1 ? 1 : 0);
-
-			lCheckSum = upshift + add;
-		}
-		return lCheckSum;
-	}
-
 	public boolean isSC()
 	{
 		return !iHC;
@@ -3473,6 +3450,16 @@ public class D2Character extends D2ItemListAdapter
 		iCharSkillsA.addAll(iCharInitSkillsA);
 		iCharSkillsB.addAll(iCharInitSkillsB);
 		iCharSkillsC.addAll(iCharInitSkillsC);
+	}
+
+	public void updateCharStats(String string, D2Item temp) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateMercStats(String string, D2Item dropItem) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

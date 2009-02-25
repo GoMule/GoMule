@@ -1333,7 +1333,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 
 	public String toString(int x){
-		return htmlStrip(generatePropString());
+		return generatePropString().toString();
 	}
 
 	private String htmlStrip(StringBuffer htmlString) {
