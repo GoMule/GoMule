@@ -551,8 +551,10 @@ public class D2Prop {
 		switch(pNum){
 		
 		case(0):
-			outStats[0] = outStats[] + pVals[0];
-		case():
+		case(1):
+		case(2):
+		case(3):
+			
 			outStats[0] = outStats[] + pVals[0];
 
 		
