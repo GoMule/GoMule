@@ -355,48 +355,18 @@ public class D2Item implements Comparable, D2ItemInterface {
 			read_ear(pFile);
 		}
 
-		if (isTypeWeapon()) {
-
 			// Blunt does 150 damage to undead
 			if (iType.equals("club") || iType.equals("scep")
 					|| iType.equals("mace") || iType.equals("hamm")) {
 				iProps.add(new D2Prop(122, new int[] { 150 }, 0));
 			}
 
-			// ArrayList lvlSkills = new ArrayList();
-
-			// for (int x = 0; x < iProperties.size(); x = x + 1) {
-			// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 107
-			// || ((D2ItemProperty) iProperties.get(x)).getiProp() == 97) {
-			// lvlSkills.add(iProperties.get(x));
-			// }
-			// }
-			// if (lvlSkills.size() > 0) {
-			// modifyLvl(lvlSkills);
-			// }
-
-		} else if (isTypeArmor()) {
-
-			// ArrayList lvlSkills = new ArrayList();
-			// for (int x = 0; x < iProperties.size(); x = x + 1) {
-			// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 107
-			// || ((D2ItemProperty) iProperties.get(x)).getiProp() == 97) {
-			// lvlSkills.add(iProperties.get(x));
-			// }
-			// }
-			// if (lvlSkills.size() > 0) {
-			// modifyLvl(lvlSkills);
-			// }
-
-		}
-
-//		if (iProps != null && location != 6) {
-//		iProps.tidy();
-//		}
 
 		if (isTypeArmor() || isTypeWeapon()) {
 			applyItemMods();
 		}
+		
+		iProps.calcStats();
 	}
 
 	// read ear related data from the bytes

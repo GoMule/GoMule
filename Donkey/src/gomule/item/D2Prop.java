@@ -279,7 +279,7 @@ public class D2Prop {
 
 		case(15):
 
-		oString = oString.replaceFirst("%d%", Integer.toString(pVals[2]));
+			oString = oString.replaceFirst("%d%", Integer.toString(pVals[2]));
 		oString = oString.replace("%d", Integer.toString(pVals[0]));
 		return oString.replace("%s", D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(pVals[1]).get("skilldesc")).get("str name")));
 
@@ -543,6 +543,26 @@ public class D2Prop {
 		}else{		
 			return Integer.parseInt(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descpriority"));
 		}
+	}
+
+	public void addCharMods(int[] outStats) {
+
+
+		switch(pNum){
+		
+		case(0):
+			outStats[0] = outStats[] + pVals[0];
+		case():
+			outStats[0] = outStats[] + pVals[0];
+
+		
+		return outStats;
+
+		}
+
+		System.out.println();
+
+
 	}
 
 

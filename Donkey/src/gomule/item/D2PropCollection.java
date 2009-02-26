@@ -340,6 +340,19 @@ public class D2PropCollection extends ArrayList{
 		addAll(propCollection.getFullList());
 
 	}
+	
+	public int[] calcStats(){
+
+		int[] outStats = new int[30];
+		
+		for(int x= 0;x<size();x++){
+
+			((D2Prop)get(x)).addCharMods(outStats);
+		}
+		
+		return outStats;
+	}
+
 
 	public void sort(){
 
