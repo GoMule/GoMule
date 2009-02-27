@@ -366,7 +366,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			applyItemMods();
 		}
 		
-		iProps.calcStats();
+//		iProps.calcStats();
 	}
 
 	// read ear related data from the bytes

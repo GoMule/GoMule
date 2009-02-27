@@ -545,24 +545,116 @@ public class D2Prop {
 		}
 	}
 
-	public void addCharMods(int[] outStats) {
+	public int[] addCharMods(int[] outStats, int cLvl) {
 
+		if(!opApplied)applyOp(cLvl);
+		
+		/**
+		 *0 Str 0 
+		 *1 Str/lvl 220
+		 *2 En 1
+		 *3 En/lvl 222
+		 *4 Dex 2
+		 *5 Dex/lvl 221
+		 *6 Vit 3
+		 *7 Vit/lvl 223
+		 *8 Life 7
+		 *9 HP/lvl 216
+		 *10 Mana 9
+		 *11 Mana/Lvl 217
+		 *12 Stam 11 
+		 *13 Stam/lvl 242
+		 *14 AR 19
+		 *15 AR/% 119
+		 *16 AR/lvl 224
+		 *17 AR/%/Lvl 225
+		 *18 FR 39
+		 *19 LR 41
+		 *20 CR 43 
+		 *21 PR 45
+		 *22 MF 80
+		 *23 MF/Lvl 240
+		 *24 FRW 96
+		 *25 FCR 105
+		 *26 IAS 93
+		 *27 FHR 99
+		 *28 GF 79
+		 *29 GF/lvl 239
+		 *30 AllSkill 127
+		 *31 Block 20
+		 */
+				
 
 		switch(pNum){
 		
 		case(0):
+			outStats[0] = outStats[0] + pVals[0];
 		case(1):
+			outStats[2] = outStats[2] + pVals[0];
 		case(2):
+			outStats[4] = outStats[4] + pVals[0];
 		case(3):
-			
-			outStats[0] = outStats[] + pVals[0];
-
-		
-		return outStats;
+			outStats[6] = outStats[6] + pVals[0];
+		case(7):
+			outStats[8] = outStats[8] + pVals[0];
+		case(9):
+			outStats[10] = outStats[10] + pVals[0];
+		case(11):
+			outStats[12] = outStats[12] + pVals[0];
+		case(19):
+			outStats[14] = outStats[14] + pVals[0];
+		case(20):
+			outStats[31] = outStats[31] + pVals[0];
+		case(39):
+			outStats[18] = outStats[18] + pVals[0];
+		case(41):
+			outStats[19] = outStats[19] + pVals[0];
+		case(43):
+			outStats[20] = outStats[20] + pVals[0];
+		case(45):
+			outStats[21] = outStats[21] + pVals[0];
+		case(79):
+			outStats[28] = outStats[28] + pVals[0];
+		case(80):
+			outStats[22] = outStats[22] + pVals[0];
+		case(93):
+			outStats[26] = outStats[26] + pVals[0];
+		case(96):
+			outStats[24] = outStats[24] + pVals[0];
+		case(99):
+			outStats[27] = outStats[27] + pVals[0];
+		case(105):
+			outStats[25] = outStats[25] + pVals[0];
+		case(119):
+			outStats[15] = outStats[15] + pVals[0];
+		case(127):
+			outStats[30] = outStats[30] + pVals[0];
+		case(216):
+			outStats[9] = outStats[9] + pVals[0];
+		case(217):
+			outStats[11] = outStats[11] + pVals[0];
+		case(220):
+			outStats[1] = outStats[1] + pVals[0];
+		case(221):
+			outStats[5] = outStats[5] + pVals[0];
+		case(222):
+			outStats[3] = outStats[3] + pVals[0];
+		case(223):
+			outStats[7] = outStats[7] + pVals[0];
+		case(224):
+			outStats[16] = outStats[16] + pVals[0];
+		case(225):
+			outStats[17] = outStats[17] + pVals[0];
+		case(239):
+			outStats[29] = outStats[29] + pVals[0];
+		case(240):
+			outStats[23] = outStats[23] + pVals[0];	
+		case(242):
+			outStats[13] = outStats[13] + pVals[0];	
 
 		}
-
-		System.out.println();
+		return outStats;
+//		System.out.println();
 
 
 	}
