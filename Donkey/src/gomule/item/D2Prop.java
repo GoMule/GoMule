@@ -545,10 +545,10 @@ public class D2Prop {
 		}
 	}
 
-	public int[] addCharMods(int[] outStats, int cLvl) {
+	public int[] addCharMods(int[] outStats, int cLvl, int op) {
 
 		if(!opApplied)applyOp(cLvl);
-		
+
 		/**
 		 *0 Str 0 
 		 *1 Str/lvl 220
@@ -583,81 +583,107 @@ public class D2Prop {
 		 *30 AllSkill 127
 		 *31 Block 20
 		 */
-				
+
 
 		switch(pNum){
-		
-		case(0):
-			outStats[0] = outStats[0] + pVals[0];
-		case(1):
-			outStats[2] = outStats[2] + pVals[0];
-		case(2):
-			outStats[4] = outStats[4] + pVals[0];
-		case(3):
-			outStats[6] = outStats[6] + pVals[0];
-		case(7):
-			outStats[8] = outStats[8] + pVals[0];
-		case(9):
-			outStats[10] = outStats[10] + pVals[0];
-		case(11):
-			outStats[12] = outStats[12] + pVals[0];
-		case(19):
-			outStats[14] = outStats[14] + pVals[0];
-		case(20):
-			outStats[31] = outStats[31] + pVals[0];
-		case(39):
-			outStats[18] = outStats[18] + pVals[0];
-		case(41):
-			outStats[19] = outStats[19] + pVals[0];
-		case(43):
-			outStats[20] = outStats[20] + pVals[0];
-		case(45):
-			outStats[21] = outStats[21] + pVals[0];
-		case(79):
-			outStats[28] = outStats[28] + pVals[0];
-		case(80):
-			outStats[22] = outStats[22] + pVals[0];
-		case(93):
-			outStats[26] = outStats[26] + pVals[0];
-		case(96):
-			outStats[24] = outStats[24] + pVals[0];
-		case(99):
-			outStats[27] = outStats[27] + pVals[0];
-		case(105):
-			outStats[25] = outStats[25] + pVals[0];
-		case(119):
-			outStats[15] = outStats[15] + pVals[0];
-		case(127):
-			outStats[30] = outStats[30] + pVals[0];
-		case(216):
-			outStats[9] = outStats[9] + pVals[0];
-		case(217):
-			outStats[11] = outStats[11] + pVals[0];
-		case(220):
-			outStats[1] = outStats[1] + pVals[0];
-		case(221):
-			outStats[5] = outStats[5] + pVals[0];
-		case(222):
-			outStats[3] = outStats[3] + pVals[0];
-		case(223):
-			outStats[7] = outStats[7] + pVals[0];
-		case(224):
-			outStats[16] = outStats[16] + pVals[0];
-		case(225):
-			outStats[17] = outStats[17] + pVals[0];
-		case(239):
-			outStats[29] = outStats[29] + pVals[0];
-		case(240):
-			outStats[23] = outStats[23] + pVals[0];	
-		case(242):
-			outStats[13] = outStats[13] + pVals[0];	
 
+		case(0):
+			outStats[0] = outStats[0] + (pVals[0]*op);
+		break;
+		case(1):
+			outStats[2] = outStats[2] + (pVals[0]*op);
+		break;
+		case(2):
+			outStats[4] = outStats[4] + (pVals[0]*op);
+		break;
+		case(3):
+			outStats[6] = outStats[6] + (pVals[0]*op);
+		break;
+		case(7):
+			outStats[8] = outStats[8] + (pVals[0]*op);
+		break;
+		case(9):
+			outStats[10] = outStats[10] + (pVals[0]*op);
+		break;
+		case(11):
+			outStats[12] = outStats[12] + (pVals[0]*op);
+		break;
+		case(19):
+			outStats[14] = outStats[14] + (pVals[0]*op);
+		break;
+		case(20):
+			outStats[31] = outStats[31] + (pVals[0]*op);
+		break;
+		case(39):
+			outStats[18] = outStats[18] + (pVals[0]*op);
+		break;
+		case(41):
+			outStats[19] = outStats[19] + (pVals[0]*op);
+		break;
+		case(43):
+			outStats[20] = outStats[20] + (pVals[0]*op);
+		break;
+		case(45):
+			outStats[21] = outStats[21] + (pVals[0]*op);
+		break;
+		case(79):
+			outStats[28] = outStats[28] + (pVals[0]*op);
+		break;
+		case(80):
+			outStats[22] = outStats[22] + (pVals[0]*op);
+		break;
+		case(93):
+			outStats[26] = outStats[26] + (pVals[0]*op);
+		break;
+		case(96):
+			outStats[24] = outStats[24] + (pVals[0]*op);
+		break;
+		case(99):
+			outStats[27] = outStats[27] + (pVals[0]*op);
+		break;
+		case(105):
+			outStats[25] = outStats[25] + (pVals[0]*op);
+		break;
+		case(119):
+			outStats[15] = outStats[15] + (pVals[0]*op);
+		break;
+		case(127):
+			outStats[30] = outStats[30] + (pVals[0]*op);
+		break;
+		case(216):
+			outStats[9] = outStats[9] + (pVals[0]*op);
+		break;
+		case(217):
+			outStats[11] = outStats[11] + (pVals[0]*op);
+		break;
+		case(220):
+			outStats[1] = outStats[1] + (pVals[0]*op);
+		break;
+		case(221):
+			outStats[5] = outStats[5] + (pVals[0]*op);
+		break;
+		case(222):
+			outStats[3] = outStats[3] + (pVals[0]*op);
+		break;
+		case(223):
+			outStats[7] = outStats[7] + (pVals[0]*op);
+		break;
+		case(224):
+			outStats[16] = outStats[16] + (pVals[0]*op);
+		break;
+		case(225):
+			outStats[17] = outStats[17] + (pVals[0]*op);
+		break;
+		case(239):
+			outStats[29] = outStats[29] + (pVals[0]*op);
+		break;
+		case(240):
+			outStats[23] = outStats[23] + (pVals[0]*op);
+		break;
+		case(242):
+			outStats[13] = outStats[13] + (pVals[0]*op);
+		break;
 		}
 		return outStats;
-//		System.out.println();
-
-
 	}
-
-
 }

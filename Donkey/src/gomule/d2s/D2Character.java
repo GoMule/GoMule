@@ -105,6 +105,9 @@ public class D2Character extends D2ItemListAdapter
 	//27 GF
 	//28 is plus all skills
 	//29 is block
+	
+	private int[] cStats = new int[32];
+	
 	private int				iInitStats[] = new int[30];
 	private int				iCharStats[] = new int[30];
 	private int				iGF; 
@@ -143,7 +146,6 @@ public class D2Character extends D2ItemListAdapter
 	private ArrayList plusSkillArr = new ArrayList();
 	private int iMercInitAR;
 	private String iCharClass;
-	private ArrayList equippedSetItems = new ArrayList();
 	private long[] iReadStats = new long[16];
 	private long lCharCode;
 	private int lWoo;
@@ -397,7 +399,6 @@ public class D2Character extends D2ItemListAdapter
 				throw new Exception("Stats writer check at reading: incorrect byte at nr: " + i);
 			}
 		}
-		readSkills();
 		iStashGrid = new boolean[8][6];
 		iInventoryGrid = new boolean[4][10];
 		iBeltGrid = new boolean[4][4];
@@ -408,8 +409,18 @@ public class D2Character extends D2ItemListAdapter
 		clearGrid();
 		readItems( iIF );
 		readCorpse();
+		readSkills();
+		for(int x = 0;x<iCharItems.size();x++){
+			generateCharStats((D2Item)iCharItems.get(x), 1);
+		}
 	}
 	
+	private void generateCharStats(D2Item cItem, int op) {
+		
+		if(!cItem.isEquipped())return;  
+		cItem.getPropCollection().calcStats(cStats, (int)iCharLevel, op);	
+	}
+
 	private long calculateCheckSum()
 	{
 		iReader.set_byte_pos(0);
@@ -948,8 +959,6 @@ public class D2Character extends D2ItemListAdapter
 				addMercItem(lItem);
 				markMercGrid(lItem);
 			}
-			//	        System.err.println("Read Char: " + lMercStart + " - " + lMercEnd
-			// );
 		}
 
 		iReader.set_byte_pos(0); // iReader.getFileContent()
