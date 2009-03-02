@@ -137,8 +137,6 @@ public class D2Character extends D2ItemListAdapter
 	private int iMercColdRes;
 	private int iMercPoisRes;
 	private int iMercLightRes;
-//	public int[] mercStatArray = new int[338];
-//	public int[] charStatArray = new int[340];
 	private ArrayList partialSetProps = new ArrayList();
 	private ArrayList fullSetProps = new ArrayList();
 	private int iCurWepSlot = 1;
@@ -411,7 +409,7 @@ public class D2Character extends D2ItemListAdapter
 		readCorpse();
 		readSkills();
 		for(int x = 0;x<iCharItems.size();x++){
-			generateCharStats((D2Item)iCharItems.get(x), 1);
+			equipItem((D2Item)iCharItems.get(x));
 		}
 	}
 	
@@ -1475,6 +1473,16 @@ public class D2Character extends D2ItemListAdapter
 			}
 		}
 	}
+	
+	public void equipItem(D2Item item){
+		generateCharStats(item, 1);
+	}
+	
+	public void unequipItem(D2Item item){
+		generateCharStats(item, -1);
+	}
+	
+	
 
 	public String getCharName()
 	{
