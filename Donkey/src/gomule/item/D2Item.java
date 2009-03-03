@@ -355,17 +355,17 @@ public class D2Item implements Comparable, D2ItemInterface {
 			read_ear(pFile);
 		}
 
-			// Blunt does 150 damage to undead
-			if (iType.equals("club") || iType.equals("scep")
-					|| iType.equals("mace") || iType.equals("hamm")) {
-				iProps.add(new D2Prop(122, new int[] { 150 }, 0));
-			}
+		// Blunt does 150 damage to undead
+		if (iType.equals("club") || iType.equals("scep")
+				|| iType.equals("mace") || iType.equals("hamm")) {
+			iProps.add(new D2Prop(122, new int[] { 150 }, 0));
+		}
 
 
 		if (isTypeArmor() || isTypeWeapon()) {
 			applyItemMods();
 		}
-		
+
 //		iProps.calcStats();
 	}
 
@@ -1309,24 +1309,24 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private String htmlStrip(StringBuffer htmlString) {
 
 		for(int x = 0;x<htmlString.length();x++){
-			
+
 			if(htmlString.charAt(x) == '<'){
-				
-				
-				
+
+
+
 			}
-			
+
 		}
-		
+
 		return null;
-		
+
 	}
 
 	public String toStringHtml(){
 		return generatePropString().toString();
 	}
-	
-	
+
+
 	public StringBuffer generatePropString(){
 
 		if (iProps != null && location != 6)iProps.tidy();
@@ -2044,8 +2044,26 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	public boolean isEquipped() {
 
-		if (get_location() == 1) {
+		if (get_location() == 1 ) {
 			return true;
+		} else if (get_panel() == 1 && isCharm()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean isEquipped(int wepSlot) {
+
+		if (get_location() == 1) {
+
+			if(!isTypeWeapon() && !isShield())return true;
+			if(wepSlot == 0){
+				if(get_body_position() == 4 || get_body_position() == 5)return true;
+			}else if(wepSlot == 1){
+				if(get_body_position() == 11 || get_body_position() == 12)return true;
+			}
+			return false;
 		} else if (get_panel() == 1 && isCharm()) {
 			return true;
 		} else {
