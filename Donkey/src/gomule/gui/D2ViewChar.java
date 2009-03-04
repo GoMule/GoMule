@@ -828,15 +828,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			"HP:         " + iCharacter.getCharInitHP()+"/"+iCharacter.getCharHP() + "\n"+
 			"Mana:       " + iCharacter.getCharInitMana()+"/"+iCharacter.getCharMana() + "\n"+
 			"Stamina:    " + iCharacter.getCharInitStam()+"/"+iCharacter.getCharStam() + "\n"+
-			"Defense:    " +iCharacter.getCharInitDef()+"/"+iCharacter.getCharDef() + "\n"+
-			"AR:         " + iCharacter.getCharInitAR()+"/"+iCharacter.getCharAR() + "\n"+ "\n"+
+//			"Defense:    " +iCharacter.getCharInitDef()+"/"+iCharacter.getCharDef() + "\n"+
+//			"AR:         " + iCharacter.getCharInitAR()+"/"+iCharacter.getCharAR() + "\n"+ "\n"+
 			"Fire:       " + iCharacter.getCharFireRes()+"/"+(iCharacter.getCharFireRes()-40) +"/"+(iCharacter.getCharFireRes()-100) + "\n"+
 			"Cold:       " + iCharacter.getCharColdRes()+"/"+(iCharacter.getCharColdRes()-40) +"/"+(iCharacter.getCharColdRes()-100) + "\n"+
 			"Lightning:  " + iCharacter.getCharLightRes()+"/"+(iCharacter.getCharLightRes()-40) +"/"+(iCharacter.getCharLightRes()-100) + "\n"+
 			"Poison:     " + iCharacter.getCharPoisRes()+"/"+(iCharacter.getCharPoisRes()-40) +"/"+(iCharacter.getCharPoisRes()-100) + "\n"+"\n"+
 			"MF:         " + iCharacter.getCharMF() +
 //			"       Block:      "+ iCharacter.getCharBlock(iWeaponSlot) + "\n"+
-			"       Block:      "+ "\n"+
 			"GF:         " +iCharacter.getCharGF()+ "\n"+
 			"FR/W:       " +iCharacter.getCharFRW()+ "\n"+
 			"FHR:        " +iCharacter.getCharFHR()+ "\n"+
@@ -844,33 +843,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			"FCR:        " +iCharacter.getCharFCR();
 
 		CJT.setText(combinedString);
-
-//		iCharName.setText(iCharacter.getCharName());
-//		iCharClass.setText(iCharacter.getCharClass());
-//		iCharExp.setText(Long.toString(iCharacter.getCharExp()));
-//		iCharLevel.setText(Integer.toString(iCharacter.getCharLevel()));
-//		iCharDead.setText(Boolean.toString(iCharacter.getCharDead())); 
-
-//		iCharStr.setText(Integer.toString(iCharacter.getCharInitStr())+"/"+Integer.toString(iCharacter.getCharStr()));
-//		iCharDex.setText(Integer.toString(iCharacter.getCharInitDex())+"/"+Integer.toString(iCharacter.getCharDex()));
-//		iCharNrg.setText(Integer.toString(iCharacter.getCharInitNrg())+"/"+Integer.toString(iCharacter.getCharNrg()));
-//		iCharVit.setText(Integer.toString(iCharacter.getCharInitVit())+"/"+Integer.toString(iCharacter.getCharVit()));
-//		iCharMana.setText(Integer.toString(iCharacter.getCharInitMana())+"/"+Integer.toString(iCharacter.getCharMana()));
-//		iCharHP.setText(Integer.toString(iCharacter.getCharInitHP())+"/"+Integer.toString(iCharacter.getCharHP()));
-//		iCharStam.setText(Integer.toString(iCharacter.getCharInitStam())+"/"+Integer.toString(iCharacter.getCharStam()));
-
-//		iCharDef.setText(Long.toString(iCharacter.getCharInitDef())+"/"+Long.toString(iCharacter.getCharDef()));
-//		iCharAR.setText(Integer.toString(iCharacter.getCharInitAR())+"/"+Integer.toString(iCharacter.getCharAR()));
-
-//		iCharFireRes.setText(Integer.toString(iCharacter.getCharFireRes())+"/"+Integer.toString(iCharacter.getCharFireRes()-40)+"/"+Integer.toString(iCharacter.getCharFireRes()-100));
-//		iCharLightRes.setText(Integer.toString(iCharacter.getCharLightRes())+"/"+Integer.toString(iCharacter.getCharLightRes()-40)+"/"+Integer.toString(iCharacter.getCharLightRes()-100));
-//		iCharColdRes.setText(Integer.toString(iCharacter.getCharColdRes())+"/"+Integer.toString(iCharacter.getCharColdRes()-40)+"/"+Integer.toString(iCharacter.getCharColdRes()-100));
-//		iCharPoisRes.setText(Integer.toString(iCharacter.getCharPoisRes())+"/"+Integer.toString(iCharacter.getCharPoisRes()-40)+"/"+Integer.toString(iCharacter.getCharPoisRes()-100));
-
-
-//		iCharMF.setText(Integer.toString(iCharacter.getCharMF()));
-//		iCharFRW.setText(Integer.toString(iCharacter.getCharFRW()));
-
 		lSkillPanel.build();
 
 	}

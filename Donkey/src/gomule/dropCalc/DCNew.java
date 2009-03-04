@@ -48,7 +48,7 @@ public class DCNew {
 //	CalcWriter CW = new CalcWriter("tempTCs.txt");
 
 
-	CalcWriter CW = null;
+//	CalcWriter CW = null;
 	ArrayList monID = new ArrayList();
 	ArrayList normLvl = new ArrayList();
 	ArrayList normTC1 = new ArrayList();

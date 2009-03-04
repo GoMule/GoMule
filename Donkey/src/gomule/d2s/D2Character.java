@@ -57,105 +57,91 @@ public class D2Character extends D2ItemListAdapter
 	public static final int BODY_LARM2         = 22;
 	public static final int GOLEM_SLOT         = 23;
 
-	private D2BitReader     iReader;
-	private ArrayList       iCharItems;
-	private D2Item			iCharCursorItem;
-	private ArrayList       iMercItems;
+	private D2BitReader iReader;
+	private ArrayList iCharItems;
+	private D2Item iCharCursorItem;
+	private D2Item golemItem;
+	private ArrayList iMercItems;
+	private ArrayList iCorpseItems = new ArrayList();
+
+	private String iCharName;
+	private String iTitleString;
+	private String cClass;
+	private long iCharLevel;
+	private int curWep = 0;
+	private long lCharCode;
+	private String iCharClass;
+	private boolean iHC;
 
 	private boolean[][]     iStashGrid;
 	private boolean[][]     iInventoryGrid;
 	private boolean[][]     iCubeGrid;
 	private boolean[][]     iBeltGrid;
 	private boolean[]       iEquipped;
-
 	private boolean[]       iMerc;
 	private boolean[]       iCorpse;
-	private boolean         iHC;
-	private boolean         iHasMerc;
-	private byte            iBeforeStats[];
-	private byte            iBeforeItems[];
-	private byte            iBetweenItems[];
-	private byte            iAfterItems[];
 
-	private String[][]			iQuests = new String[3][5];
-	private String[][]			iWaypoints = new String[3][5];
+	private String[][] iQuests = new String[3][5];
 
-	private String			iCharName;
-	private String          iTitleString;
-	private long			iCharLevel;
-	private ArrayList			iCharInitSkillsA = new ArrayList();
-	private ArrayList			iCharInitSkillsB = new ArrayList();
-	private ArrayList			iCharInitSkillsC = new ArrayList();
-	private ArrayList			iCharSkillsA = new ArrayList();
-	private ArrayList			iCharSkillsB = new ArrayList();
-	private ArrayList			iCharSkillsC = new ArrayList();
-	private Point[] 			iSkillLocs = new Point[30];
+	private String[][] iWaypoints = new String[3][5];
 
-	//16 is DEF
-	//17 AR
-	//18 FR
-	///19 LR
-	//20 CR
-	//21 PR
-	//22 MF
-	//23 F/RW
-	//24 FCR
-	//25 IAS
-	//26 FHR
-	//27 GF
-	//28 is plus all skills
-	//29 is block
+	private ArrayList iCharInitSkillsA = new ArrayList();
+	private ArrayList iCharInitSkillsB = new ArrayList();
+	private ArrayList iCharInitSkillsC = new ArrayList();
+	private ArrayList iCharSkillsA = new ArrayList();
+	private ArrayList iCharSkillsB = new ArrayList();
+	private ArrayList iCharSkillsC = new ArrayList();
+	private Point[] iSkillLocs = new Point[30];
 
-	private int[] cStats = new int[32];
+	private HashMap cMercInfo;	
 
-	private int				iInitStats[] = new int[30];
-//	private int				iCharStats[] = new int[30];
-	private int				iGF; 
-	private int				iIF;
-	private String iMercName;
-	private String iMercRace;
-	private String iMercType;
-	private int iMercLevel;
-	private long iMercExp;
-	private boolean iMercDead = false; 
-	private int iMercInitStr;
-	private int iMercInitDex;
-	private int iMercInitHP;
-	private long iMercInitDef;
-	private int iMercInitFireRes;
-	private int iMercInitColdRes;
-	private int iMercInitLightRes;
-	private int iMercInitPoisRes;
-	private int iMercStr;
-	private int iMercDex;
-	private int iMercHP;
-	private long iMercDef;
+//	private String iMercName;
+//	private String iMercRace;
+//	private String iMercType;
+//	private int iMercLevel;
+//	private long iMercExp;
+//	private boolean iMercDead = false; 
+//	private int iMercInitStr;
+//	private int iMercInitDex;
+//	private int iMercInitHP;
+//	private long iMercInitDef;
+//	private int iMercInitFireRes;
+//	private int iMercInitColdRes;
+//	private int iMercInitLightRes;
+//	private int iMercInitPoisRes;
+//	private int iMercStr;
+//	private int iMercDex;
+//	private int iMercHP;
+//	private long iMercDef;
+//	private int iMercAR;
+//	private int iMercFireRes;
+//	private int iMercColdRes;
+//	private int iMercPoisRes;
+//	private int iMercLightRes;
+//	private int iMercInitAR;
+
 	private int testCounter = 0;
 	private boolean fullChanged = false;
-	private int iMercAR;
-	private int iMercFireRes;
-	private int iMercColdRes;
-	private int iMercPoisRes;
-	private int iMercLightRes;
 	private ArrayList partialSetProps = new ArrayList();
 	private ArrayList fullSetProps = new ArrayList();
-	private int curWep = 0;
+	private int hpCounter;
 
 	private ArrayList plusSkillArr = new ArrayList();
-	private int iMercInitAR;
-	private String iCharClass;
 	private long[] iReadStats = new long[16];
-	private long lCharCode;
+	private int[] cStats = new int[32];	
+	private int cDef = 0;
+
 	private int lWoo;
 	private int iWS;
-	private int hpCounter;
+	private int	iGF; 
+	private int	iIF;
 	private int iKF;
-	private D2Item golemItem;
-	private int iItemEnd;
 	private int iJF;
-	private ArrayList iCorpseItems = new ArrayList();
-	private String cClass;
-	private int cDef = 0;
+	private int iItemEnd;
+	private byte iBeforeStats[];
+	private byte iBeforeItems[];
+	private byte iBetweenItems[];
+	private byte iAfterItems[];
 
 	public D2Character(String pFileName) throws Exception
 	{
@@ -275,22 +261,22 @@ public class D2Character extends D2ItemListAdapter
 		iTitleString = " Lvl " + iCharLevel + " " + D2TxtFile.getCharacterCode((int) lCharCode);
 		iReader.set_byte_pos(177);
 		if(iReader.read(8) == 1){
-			iMercDead = true;
+			//MERC IS DEAD?
+//			iMercDead = true;
 		}
 		iReader.skipBits(8);
 
 		if(iReader.read(32) != 0){
-			iHasMerc = true;
-			iMercName = " ";
-			iMercRace = " ";
-			iMercType = " ";
+			cMercInfo = new HashMap();
 			iReader.skipBits(16);
-			setMercType(iReader.read(16));
+			D2TxtFileItemProperties hireCol = (D2TxtFile.HIRE.searchColumns("Id", Long.toString(iReader.read(16))));
+			cMercInfo.put("race", hireCol.get("Hireling"));
+			cMercInfo.put("type", hireCol.get("SubType"));
 			iReader.skipBits(-32);
-			setMercName(iReader.read(16));
+			extractMercName(iReader.read(16), hireCol);
 			iReader.skipBits(16);
-			iMercExp = iReader.read(32);
-			setMercLevel();
+			cMercInfo.put("xp", new Long(iReader.read(32)));
+			setMercLevel(hireCol);
 		}else{
 			iReader.skipBits(64);
 		}
@@ -417,13 +403,10 @@ public class D2Character extends D2ItemListAdapter
 
 	private void resetStats() {
 
-
-		cStats[0] = iInitStats[0];
-		cStats[2] = iInitStats[1];
-		cStats[4] = iInitStats[2];
-		cStats[6] = iInitStats[3];
-
-
+		cStats[0] = getCharInitStr();
+		cStats[2] = getCharInitNrg();
+		cStats[4] = getCharInitDex();
+		cStats[6] = getCharInitVit();
 	}
 
 	private void generateCharStats(D2Item cItem, int op) {
@@ -562,11 +545,6 @@ public class D2Character extends D2ItemListAdapter
 				lWriter.setCounterInt(lBits, (int)iReadStats[lStatNr]);
 			}
 		}
-
-		for(int x = 0; x< iReadStats.length;x=x+1){
-			iInitStats[x] = (int)iReadStats[x];
-		}
-
 
 		lWriter.setCounterInt(9, 0x1FF);
 		return lWriter.getCurrentContent();
@@ -947,7 +925,6 @@ public class D2Character extends D2ItemListAdapter
 		lFirstPos = iReader.findNextFlag("jfJM", lCharEnd);
 		if (lFirstPos != -1) // iReader.getFileContent()
 		{
-			iHasMerc = true;
 			lLastItemEnd = lFirstPos + 4;
 			iReader.set_byte_pos(lLastItemEnd);
 			num_items = (int) iReader.read(16);
@@ -1239,31 +1216,24 @@ public class D2Character extends D2ItemListAdapter
 //	iMercPoisRes = iMercInitPoisRes = iMercInitFireRes;
 //	}
 
-	private void setMercLevel() {
+	private void setMercLevel(D2TxtFileItemProperties hireCol) {
 
-		int xpPLev = Integer.parseInt((D2TxtFile.HIRE.searchColumns("SubType", iMercType)).get("Exp/Lvl"));
+		int xpPLev = Integer.parseInt(hireCol.get("Exp/Lvl"));
 		long xpOut = 0;
 		int lev = 0;
 		do{
 			xpOut = xpPLev * lev*lev*(lev+1);    		
-			if(xpOut > iMercExp){
+			if(xpOut > ((Long)cMercInfo.get("xp")).longValue()){
 				lev = lev -1;
 				break;
 			}else{
 				lev = lev+1;
 			}
-		}while (1==1);
-		iMercLevel = lev;
+		}while (true);
+		cMercInfo.put("level", Integer.valueOf(lev));
 	}
 
-	private void setMercType(long bitsIn) {
-		D2TxtFileItemProperties hireCol = (D2TxtFile.HIRE.searchColumns("Id", Long.toString(bitsIn)));
-		iMercRace = (hireCol.get("Hireling"));
-		iMercType = hireCol.get("SubType");
-	}
-
-	private void setMercName(long bitsIn) {
-		D2TxtFileItemProperties hireCol = (D2TxtFile.HIRE.searchColumns("Hireling", iMercRace));
+	private void extractMercName(long bitsIn, D2TxtFileItemProperties hireCol) {
 		String nameStr = hireCol.get("NameFirst");
 		int curNum = Integer.parseInt(nameStr.substring(nameStr.length() - 2, nameStr.length()));
 		nameStr = nameStr.substring(0, nameStr.length() - 2);
@@ -1274,7 +1244,7 @@ public class D2Character extends D2ItemListAdapter
 		}else{
 			nameStr = nameStr + curNum;
 		}
-		iMercName = D2TblFile.getString(nameStr);
+		cMercInfo.put("name", D2TblFile.getString(nameStr));
 	}
 
 	private long calcMercArmor() {
@@ -1937,7 +1907,7 @@ public class D2Character extends D2ItemListAdapter
 
 	public boolean hasMerc()
 	{
-		return iHasMerc;
+		return cMercInfo != null;
 	}
 
 	// clear all the grids
@@ -3266,11 +3236,11 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public int getCharRemStat() {
-		return iInitStats[4];
+		return (int) iReadStats[4];
 	}
 
 	public int getCharRemSkill() {
-		return iInitStats[5];
+		return (int) iReadStats[5];
 	}
 
 	public int getCharMana() {
@@ -3309,55 +3279,31 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public int getCharInitStr() {
-		return iInitStats[0];
+		return (int) iReadStats[0];
 	}
 
 	public int getCharInitDex() {
-		return iInitStats[2];
+		return (int) iReadStats[2];
 	}
 
 	public int getCharInitNrg() {
-		return iInitStats[1];
+		return (int) iReadStats[1];
 	}
 
 	public int getCharInitVit() {
-		return iInitStats[3];
+		return (int) iReadStats[3];
 	}
 
 	public int getCharInitMana() {
-		return iInitStats[9];
+		return (int) iReadStats[9];
 	}
 
 	public int getCharInitStam() {
-		return iInitStats[11];
+		return (int) iReadStats[11];
 	}
 
 	public int getCharInitHP() {
-		return iInitStats[7];
-	}
-
-	public long getCharInitDef() {
-		return iInitStats[16];
-	}
-
-	public int getCharInitAR() {
-		return iInitStats[17];
-	}
-
-	public int getCharInitFireRes() {
-		return iInitStats[18];
-	}
-
-	public int getCharInitColdRes() {
-		return iInitStats[19];
-	}
-
-	public int getCharInitLightRes() {
-		return iInitStats[20];
-	}
-
-	public int getCharInitPoisRes() {
-		return iInitStats[21];
+		return (int) iReadStats[7];
 	}
 
 	public int getCharLevel() {
@@ -3387,28 +3333,8 @@ public class D2Character extends D2ItemListAdapter
 		return cStats[25];
 	}
 
-//	public int getCharBlock(int wepSw){
-
-//	for(int x = 0;x<iCharItems.size();x=x+1){
-//	if(((D2Item)iCharItems.get(x)).isEquipped() && ((D2Item)iCharItems.get(x)).isTypeArmor()){
-
-//	if((((D2Item)iCharItems.get(x)).get_body_position()== 4 || ((D2Item)iCharItems.get(x)).get_body_position()== 5) && wepSw == 1){
-//	return iCharStats[29];
-//	}
-
-//	if((((D2Item)iCharItems.get(x)).get_body_position()== 11 || ((D2Item)iCharItems.get(x)).get_body_position()== 12) && wepSw == 2){
-//	return iCharStats[29];
-//	}
-
-//	}
-//	}
-
-//	return 0;
-//	}
-
-
 	public int getCharSkillRem(){
-		return iInitStats[5];
+		return (int) iReadStats[5];
 	}
 
 	public int getCharCode() {
