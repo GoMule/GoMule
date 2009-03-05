@@ -95,31 +95,6 @@ public class D2Character extends D2ItemListAdapter
 
 	private HashMap cMercInfo;	
 
-//	private String iMercName;
-//	private String iMercRace;
-//	private String iMercType;
-//	private int iMercLevel;
-//	private long iMercExp;
-//	private boolean iMercDead = false; 
-//	private int iMercInitStr;
-//	private int iMercInitDex;
-//	private int iMercInitHP;
-//	private long iMercInitDef;
-//	private int iMercInitFireRes;
-//	private int iMercInitColdRes;
-//	private int iMercInitLightRes;
-//	private int iMercInitPoisRes;
-//	private int iMercStr;
-//	private int iMercDex;
-//	private int iMercHP;
-//	private long iMercDef;
-//	private int iMercAR;
-//	private int iMercFireRes;
-//	private int iMercColdRes;
-//	private int iMercPoisRes;
-//	private int iMercLightRes;
-//	private int iMercInitAR;
-
 	private int testCounter = 0;
 	private boolean fullChanged = false;
 	private ArrayList partialSetProps = new ArrayList();
@@ -129,7 +104,7 @@ public class D2Character extends D2ItemListAdapter
 	private ArrayList plusSkillArr = new ArrayList();
 	private long[] iReadStats = new long[16];
 	private int[] cStats = new int[32];	
-	private int cDef = 0;
+//	private int cDef = 0;
 
 	private int lWoo;
 	private int iWS;
@@ -407,6 +382,19 @@ public class D2Character extends D2ItemListAdapter
 		cStats[2] = getCharInitNrg();
 		cStats[4] = getCharInitDex();
 		cStats[6] = getCharInitVit();
+		cStats[8] = getCharInitHP();
+		cStats[10] = getCharInitMana();
+		cStats[12] = getCharInitStam();
+
+		int resCounter = 0;
+		for(int x = 0;x<3;x=x+1){
+			if(iQuests[x][4].charAt(2) == '1')resCounter ++;
+		}		
+		cStats[18] = cStats[18] + (10*resCounter);
+		cStats[19] = cStats[19] + (10*resCounter);
+		cStats[20] = cStats[20] + (10*resCounter);
+		cStats[21] = cStats[21] + (10*resCounter);
+
 	}
 
 	private void generateCharStats(D2Item cItem, int op) {
@@ -3245,18 +3233,18 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public int getCharStr() {
-		return cStats[0];
+		return cStats[0] + cStats[1];
 	}
 
 	public int getCharDex() {
-		return cStats[4];
+		return cStats[4] + cStats[5];
 	}
 	public int getCharNrg() {
-		return cStats[2];
+		return cStats[2] + cStats[3];
 	}
 
 	public int getCharVit() {
-		return cStats[6];
+		return cStats[6] + cStats[7];
 	}
 
 	public int getCharRemStat() {
@@ -3268,22 +3256,31 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public int getCharMana() {
-		return cStats[10];
+		return cStats[10] + cStats[11];
 	}
 	public int getCharStam() {
-		return cStats[12];
+		return cStats[12] + cStats[13];
 	}
 
 	public int getCharHP() {
-		return cStats[8];
+		return cStats[8] + cStats[9];
 	}
 
 	public long getCharDef() {
-		return cDef ;
+		int cDef = 0;
+		for(int x = 0;x<iCharItems.size();x++){
+			if(((D2Item)iCharItems.get(x)).isTypeArmor()){
+				if(((D2Item)iCharItems.get(x)).isEquipped()){
+					cDef = cDef + ((D2Item)iCharItems.get(x)).getiDef();
+				}
+			}
+		}
+		return  (int) (Math.floor((double)getCharDex()/(double)4)) + cDef;
 	}
 
 	public int getCharAR() {
-		return cStats[14];
+		return ((getCharDex() * 5) - 35) + getARClassBonus(); 
+//		return cStats[14];
 	}
 
 	public int getCharFireRes() {
@@ -3319,15 +3316,15 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public int getCharInitMana() {
-		return (int) iReadStats[9];
+		return (int) iReadStats[9]/256;
 	}
 
 	public int getCharInitStam() {
-		return (int) iReadStats[11];
+		return (int) iReadStats[11]/256;
 	}
 
 	public int getCharInitHP() {
-		return (int) iReadStats[7];
+		return (int) iReadStats[7]/256;
 	}
 
 	public int getCharLevel() {
@@ -3335,11 +3332,11 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public int getCharMF(){
-		return cStats[22];
+		return cStats[22] + cStats[23];
 	}
 
 	public int getCharGF(){
-		return cStats[28];
+		return cStats[28] + cStats[29];
 	}
 
 	public int getCharFHR(){
@@ -3457,5 +3454,23 @@ public class D2Character extends D2ItemListAdapter
 
 	}
 
+	public int getCharInitDef() {
 
+		return (int) (Math.floor((double)getCharInitDex()/(double)4));
+
+	}
+	
+	public int getCharInitAR(){
+		return ((getCharInitDex() * 5) - 35) + getARClassBonus(); 
+	}
+
+	public int getCharBlock() {
+		int iBlock = 0;
+		for(int x = 0;x<iCharItems.size();x++){
+			if(((D2Item)iCharItems.get(x)).isEquipped(curWep)){
+				iBlock = iBlock + ((D2Item)iCharItems.get(x)).getBlock();
+			}
+		}
+		return (int)Math.floor(((cStats[31]+iBlock + Integer.parseInt(D2TxtFile.CHARSTATS.searchColumns("class", getCharClass()).get("BlockFactor"))) * (getCharDex() - 15))/(iCharLevel * 2));
+	}
 }

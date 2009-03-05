@@ -828,14 +828,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			"HP:         " + iCharacter.getCharInitHP()+"/"+iCharacter.getCharHP() + "\n"+
 			"Mana:       " + iCharacter.getCharInitMana()+"/"+iCharacter.getCharMana() + "\n"+
 			"Stamina:    " + iCharacter.getCharInitStam()+"/"+iCharacter.getCharStam() + "\n"+
-//			"Defense:    " +iCharacter.getCharInitDef()+"/"+iCharacter.getCharDef() + "\n"+
-//			"AR:         " + iCharacter.getCharInitAR()+"/"+iCharacter.getCharAR() + "\n"+ "\n"+
+			"Defense:    " +iCharacter.getCharInitDef()+"/"+iCharacter.getCharDef() + "\n"+
+			"AR:         " + iCharacter.getCharInitAR()+"/"+iCharacter.getCharAR() + "\n"+ "\n"+
 			"Fire:       " + iCharacter.getCharFireRes()+"/"+(iCharacter.getCharFireRes()-40) +"/"+(iCharacter.getCharFireRes()-100) + "\n"+
 			"Cold:       " + iCharacter.getCharColdRes()+"/"+(iCharacter.getCharColdRes()-40) +"/"+(iCharacter.getCharColdRes()-100) + "\n"+
 			"Lightning:  " + iCharacter.getCharLightRes()+"/"+(iCharacter.getCharLightRes()-40) +"/"+(iCharacter.getCharLightRes()-100) + "\n"+
 			"Poison:     " + iCharacter.getCharPoisRes()+"/"+(iCharacter.getCharPoisRes()-40) +"/"+(iCharacter.getCharPoisRes()-100) + "\n"+"\n"+
 			"MF:         " + iCharacter.getCharMF() +
-//			"       Block:      "+ iCharacter.getCharBlock(iWeaponSlot) + "\n"+
+			"       Block:      "+ iCharacter.getCharBlock() + "\n"+
 			"GF:         " +iCharacter.getCharGF()+ "\n"+
 			"FR/W:       " +iCharacter.getCharFRW()+ "\n"+
 			"FHR:        " +iCharacter.getCharFHR()+ "\n"+
