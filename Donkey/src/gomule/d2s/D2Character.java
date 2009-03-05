@@ -3113,99 +3113,123 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public String getMercName() {
-		return iMercName;
+		if(!cMercInfo.containsKey("name"))return "";
+		return (String) cMercInfo.get("name");
 	}
 
 	public String getMercType() {
-		return iMercType;
+		if(!cMercInfo.containsKey("type"))return "";
+		return (String) cMercInfo.get("type");
 	}
 
 	public long getMercExp() {
-		return iMercExp;
+		if(!cMercInfo.containsKey("xp"))return 0;
+		return ((Long) cMercInfo.get("xp")).longValue();
 	}
 
 	public String getMercRace() {
-		return iMercRace;
+		if(!cMercInfo.containsKey("race"))return "";
+		return (String) cMercInfo.get("race");
 	}
 
 	public int getMercLevel() {
-		return iMercLevel;
+		if(!cMercInfo.containsKey("lvl"))return 0;
+		return ((Integer) cMercInfo.get("lvl")).intValue();
 	}
 
 	public boolean getMercDead() {
-		return iMercDead;
+		if(!cMercInfo.containsKey("dead"))return false;
+		return ((Boolean) cMercInfo.get("dead")).booleanValue();
 	}
 
 	public int getMercStr() {
-		return iMercStr;
+		if(!cMercInfo.containsKey("str"))return 0;
+		return ((Integer) cMercInfo.get("str")).intValue();
 	}
 
 	public int getMercDex() {
-		return iMercDex;
+		if(!cMercInfo.containsKey("dex"))return 0;
+		return ((Integer) cMercInfo.get("dex")).intValue();
 	}
 
 	public int getMercHP() {
-		return iMercHP;
+		if(!cMercInfo.containsKey("hp"))return 0;
+		return ((Integer) cMercInfo.get("hp")).intValue();
 	}
 
 	public long getMercDef() {
-		return iMercDef;
+		if(!cMercInfo.containsKey("def"))return 0;
+		return ((Long) cMercInfo.get("def")).longValue();
 	}
 
 	public int getMercAR() {
-		return iMercAR;
+		if(!cMercInfo.containsKey("ar"))return 0;
+		return ((Integer) cMercInfo.get("ar")).intValue();
 	}
 
 	public int getMercFireRes() {
-		return iMercFireRes;
+		if(!cMercInfo.containsKey("fr"))return 0;
+		return ((Integer) cMercInfo.get("fr")).intValue();
 	}
 
 	public int getMercColdRes() {
-		return iMercColdRes;
+		if(!cMercInfo.containsKey("cr"))return 0;
+		return ((Integer) cMercInfo.get("cr")).intValue();
 	}
 
 	public int getMercLightRes() {
-		return iMercLightRes;
+		if(!cMercInfo.containsKey("lr"))return 0;
+		return ((Integer) cMercInfo.get("lr")).intValue();
 	}
 
 	public int getMercPoisRes() {
-		return iMercPoisRes;
+		if(!cMercInfo.containsKey("pr"))return 0;
+		return ((Integer) cMercInfo.get("pr")).intValue();
 	}
 
 	public int getMercInitStr() {
-		return iMercInitStr;
+		if(!cMercInfo.containsKey("istr"))return 0;
+		return ((Integer) cMercInfo.get("istr")).intValue();
 	}
 
 	public int getMercInitDex() {
-		return iMercInitDex;
+		if(!cMercInfo.containsKey("idex"))return 0;
+		return ((Integer) cMercInfo.get("idex")).intValue();
 	}
 
 	public int getMercInitHP() {
-		return iMercInitHP;
+		if(!cMercInfo.containsKey("ihp"))return 0;
+		return ((Integer) cMercInfo.get("ihp")).intValue();
 	}
 
 	public long getMercInitDef() {
-		return iMercInitDef;
+		if(!cMercInfo.containsKey("idef"))return 0;
+		return ((Long) cMercInfo.get("idef")).longValue();
 	}
 
 	public int getMercInitAR() {
-		return iMercInitAR;
+		if(!cMercInfo.containsKey("iar"))return 0;
+		return ((Integer) cMercInfo.get("iar")).intValue();
 	}
 
 	public int getMercInitFireRes() {
-		return iMercInitFireRes;
+		if(!cMercInfo.containsKey("ifr"))return 0;
+		return ((Integer) cMercInfo.get("ifr")).intValue();
 	}
 
 	public int getMercInitColdRes() {
-		return iMercInitColdRes;
+		if(!cMercInfo.containsKey("icr"))return 0;
+		return ((Integer) cMercInfo.get("icr")).intValue();
 	}
 
 	public int getMercInitLightRes() {
-		return iMercInitLightRes;
+		if(!cMercInfo.containsKey("ilr"))return 0;
+		return ((Integer) cMercInfo.get("ilr")).intValue();
 	}
 
 	public int getMercInitPoisRes() {
-		return iMercInitPoisRes;
+		if(!cMercInfo.containsKey("ipr"))return 0;
+		return ((Integer) cMercInfo.get("ipr")).intValue();
 	}
 
 	public String getCharClass() {
