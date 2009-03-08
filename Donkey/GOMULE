@@ -1,3 +1,11 @@
+INCLUDE MERC MF IN OUTPUT
+QUESTS
+WAYPOINTS
+SKILLS
+STATS -AR + TEST!!
+
+Total AR = (Dex * 5 + classbonus + AR + AR/Clvl) * (1 + ar% + ar%/Clvl)
+
 If I ever feel like it I could test it and make a formula for the items with cold length 0
 1H and 2H max/min damage remember?
 
