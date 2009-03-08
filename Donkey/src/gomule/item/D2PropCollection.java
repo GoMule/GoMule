@@ -341,14 +341,12 @@ public class D2PropCollection extends ArrayList{
 
 	}
 	
-	public int[] calcStats(int[] outStats, int cLvl, int op){
+	public void calcStats(int[] outStats, ArrayList plSkill, int cLvl, int op){
 		
 		for(int x= 0;x<size();x++){
 
-			((D2Prop)get(x)).addCharMods(outStats, cLvl, op);
+			((D2Prop)get(x)).addCharMods(outStats, plSkill, cLvl, op);
 		}
-		
-		return outStats;
 	}
 
 

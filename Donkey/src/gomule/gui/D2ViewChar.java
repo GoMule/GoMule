@@ -773,26 +773,26 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	}
 
 	public void paintMercStats(){
+		if(iCharacter.hasMerc()){
+			combinedMercString = 
+				"Name:       " + iCharacter.getMercName() + "\n"+
+				"Race:       " + iCharacter.getMercRace() + "\n"+
+				"Type:       " + iCharacter.getMercType() + "\n"+
+				"Experience: " + iCharacter.getMercExp() + "\n"+
+				"Level:      " + iCharacter.getMercLevel() + "\n"+
+				"Dead?:      " + iCharacter.getMercDead() + "\n"+ "\n"+"            Naked/Gear" + "\n"+
+				"Strength:   " + iCharacter.getMercInitStr()+"/"+iCharacter.getMercStr() + "\n"+
+				"Dexterity:  " + iCharacter.getMercInitDex()+"/"+iCharacter.getMercDex() + "\n"+
+				"HP:         " + iCharacter.getMercInitHP()+"/"+iCharacter.getMercHP() + "\n"+
+				"Defense:    " +iCharacter.getMercInitDef()+"/"+iCharacter.getMercDef() + "\n"+
+				"AR:         " + iCharacter.getMercInitAR()+"/"+iCharacter.getMercAR() + "\n"+ "\n"+
+				"Fire:       " + iCharacter.getMercFireRes()+"/"+(iCharacter.getMercFireRes()-40) +"/"+(iCharacter.getMercFireRes()-100) + "\n"+
+				"Cold:       " + iCharacter.getMercColdRes()+"/"+(iCharacter.getMercColdRes()-40) +"/"+(iCharacter.getMercColdRes()-100) + "\n"+
+				"Lightning:  " + iCharacter.getMercLightRes()+"/"+(iCharacter.getMercLightRes()-40) +"/"+(iCharacter.getMercLightRes()-100) + "\n"+
+				"Poison:    " + iCharacter.getMercPoisRes()+"/"+(iCharacter.getMercPoisRes()-40) +"/"+(iCharacter.getMercPoisRes()-100);
 
-		combinedMercString = 
-			"Name:       " + iCharacter.getMercName() + "\n"+
-			"Race:       " + iCharacter.getMercRace() + "\n"+
-			"Type:       " + iCharacter.getMercType() + "\n"+
-			"Experience: " + iCharacter.getMercExp() + "\n"+
-			"Level:      " + iCharacter.getMercLevel() + "\n"+
-			"Dead?:      " + iCharacter.getMercDead() + "\n"+ "\n"+"            Naked/Gear" + "\n"+
-			"Strength:   " + iCharacter.getMercInitStr()+"/"+iCharacter.getMercStr() + "\n"+
-			"Dexterity:  " + iCharacter.getMercInitDex()+"/"+iCharacter.getMercDex() + "\n"+
-			"HP:         " + iCharacter.getMercInitHP()+"/"+iCharacter.getMercHP() + "\n"+
-			"Defense:    " +iCharacter.getMercInitDef()+"/"+iCharacter.getMercDef() + "\n"+
-			"AR:         " + iCharacter.getMercInitAR()+"/"+iCharacter.getMercAR() + "\n"+ "\n"+
-			"Fire:       " + iCharacter.getMercFireRes()+"/"+(iCharacter.getMercFireRes()-40) +"/"+(iCharacter.getMercFireRes()-100) + "\n"+
-			"Cold:       " + iCharacter.getMercColdRes()+"/"+(iCharacter.getMercColdRes()-40) +"/"+(iCharacter.getMercColdRes()-100) + "\n"+
-			"Lightning:  " + iCharacter.getMercLightRes()+"/"+(iCharacter.getMercLightRes()-40) +"/"+(iCharacter.getMercLightRes()-100) + "\n"+
-			"Poison:    " + iCharacter.getMercPoisRes()+"/"+(iCharacter.getMercPoisRes()-40) +"/"+(iCharacter.getMercPoisRes()-100);
-
-		MJT.setText(combinedMercString);
-
+			MJT.setText(combinedMercString);
+		}
 //		iMercName.setText(iCharacter.getMercName());
 //		iMercRace.setText(iCharacter.getMercRace());
 //		iMercType.setText(iCharacter.getMercType());
@@ -1420,7 +1420,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							{
 								D2Item lTemp = lItemPanel.getItem();
 
-								
+
 								/**Code to remove potions when belt is removed!
 								 * Thanks to Krikke.
 								 */
@@ -2705,11 +2705,11 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 				lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
 				for(int x = 0;x<10;x=x+1){
 					lGraphics.setColor(Color.white);
-					lGraphics.drawString(iCharacter.getInitSkillListA().get(x).toString() + "/",iCharacter.getSkillLocs()[x].x-10 , iCharacter.getSkillLocs()[x].y+2);
-					if(!iCharacter.getInitSkillListA().get(x).equals(iCharacter.getSkillListA().get(x))){
+					lGraphics.drawString(iCharacter.getInitSkillListA()[x] + "/",iCharacter.getSkillLocs()[x].x-10 , iCharacter.getSkillLocs()[x].y+2);
+					if(iCharacter.getInitSkillListA()[x]!=(iCharacter.getSkillListA()[x])){
 						lGraphics.setColor(Color.orange.brighter());
 					}
-					lGraphics.drawString(iCharacter.getSkillListA().get(x).toString(),iCharacter.getSkillLocs()[x].x+11 , iCharacter.getSkillLocs()[x].y+2);
+					lGraphics.drawString(iCharacter.getSkillListA()[x]+"",iCharacter.getSkillLocs()[x].x+11 , iCharacter.getSkillLocs()[x].y+2);
 
 				}
 				break;
@@ -2717,14 +2717,14 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 				lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
 				for(int x = 0;x<10;x=x+1){
 					lGraphics.setColor(Color.white);
-					lGraphics.drawString(iCharacter.getInitSkillListB().get(x).toString() + "/",iCharacter.getSkillLocs()[x+10].x-10 , iCharacter.getSkillLocs()[x+10].y+2);
+					lGraphics.drawString(iCharacter.getInitSkillListB()[x] + "/",iCharacter.getSkillLocs()[x+10].x-10 , iCharacter.getSkillLocs()[x+10].y+2);
 
-					if(!iCharacter.getInitSkillListB().get(x).equals(iCharacter.getSkillListB().get(x))){
+					if(iCharacter.getInitSkillListB()[x]!=(iCharacter.getSkillListB()[x])){
 						lGraphics.setColor(Color.orange.brighter());
 					}else{
 						lGraphics.setColor(Color.white);
 					}
-					lGraphics.drawString(iCharacter.getSkillListB().get(x).toString(),iCharacter.getSkillLocs()[x+10].x+11 , iCharacter.getSkillLocs()[x+10].y+2);
+					lGraphics.drawString(iCharacter.getSkillListB()[x]+"",iCharacter.getSkillLocs()[x+10].x+11 , iCharacter.getSkillLocs()[x+10].y+2);
 
 				}
 				break;
@@ -2732,15 +2732,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 				lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
 				for(int x = 0;x<10;x=x+1){
 					lGraphics.setColor(Color.white);
-					lGraphics.drawString(iCharacter.getInitSkillListC().get(x).toString() + "/",iCharacter.getSkillLocs()[x+20].x-10 , iCharacter.getSkillLocs()[x+20].y+2);
+					lGraphics.drawString(iCharacter.getInitSkillListC()[x] + "/",iCharacter.getSkillLocs()[x+20].x-10 , iCharacter.getSkillLocs()[x+20].y+2);
 
-					if(!iCharacter.getInitSkillListC().get(x).equals(iCharacter.getSkillListC().get(x))){
+					if(iCharacter.getInitSkillListC()[x]!=(iCharacter.getSkillListC()[x])){
 						lGraphics.setColor(Color.orange.brighter());
 					}else{
 						lGraphics.setColor(Color.white);
 					}
 
-					lGraphics.drawString(iCharacter.getSkillListC().get(x).toString(),iCharacter.getSkillLocs()[x+20].x+11 , iCharacter.getSkillLocs()[x+20].y+2);
+					lGraphics.drawString(iCharacter.getSkillListC()[x]+"",iCharacter.getSkillLocs()[x+20].x+11 , iCharacter.getSkillLocs()[x+20].y+2);
 				}
 				break;
 

@@ -1,5 +1,7 @@
 package gomule.item;
 
+import java.util.ArrayList;
+
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
@@ -545,7 +547,7 @@ public class D2Prop {
 		}
 	}
 
-	public int[] addCharMods(int[] outStats, int cLvl, int op) {
+	public void addCharMods(int[] outStats, ArrayList plSkill, int cLvl, int op) {
 
 		if(!opApplied)applyOp(cLvl);
 
@@ -612,7 +614,7 @@ public class D2Prop {
 			outStats[14] = outStats[14] + (pVals[0]*op);
 		break;
 		case(20):
-			outStats[31] = outStats[31] + (pVals[0]*op);
+			outStats[30] = outStats[30] + (pVals[0]*op);
 		break;
 		case(39):
 			outStats[18] = outStats[18] + (pVals[0]*op);
@@ -647,9 +649,6 @@ public class D2Prop {
 		case(119):
 			outStats[15] = outStats[15] + (pVals[0]*op);
 		break;
-		case(127):
-			outStats[30] = outStats[30] + (pVals[0]*op);
-		break;
 		case(216):
 			outStats[9] = outStats[9] + (pVals[0]*op);
 		break;
@@ -683,7 +682,16 @@ public class D2Prop {
 		case(242):
 			outStats[13] = outStats[13] + (pVals[0]*op);
 		break;
+		// + SKILLS
+		case(188):
+		case(126):
+		case(97):
+		case(107):
+		case(83):
+		case(127):
+			if(plSkill!= null){
+				plSkill.add(this);
+			}
 		}
-		return outStats;
 	}
 }
