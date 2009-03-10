@@ -726,7 +726,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 						}
 					}
 				} else {
-					iGemProps.addAll((ArrayList) lSocket.iProperties);
+//					iGemProps.addAll((ArrayList) lSocket.iProperties);
 				}
 				if (lSocket.iReqLvl > iReqLvl) {
 					iReqLvl = lSocket.iReqLvl;

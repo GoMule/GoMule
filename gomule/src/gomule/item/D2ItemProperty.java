@@ -160,6 +160,10 @@ public class D2ItemProperty
     {
         try
         {
+        	
+        	if(iProp == 0){
+        		System.out.println();
+        	}
             // the do not display properties
         	//ADDED 140 DUE TO GOREFOOT - NEEDS DOUBLE CHECK.
         	if (iProp == 140)
