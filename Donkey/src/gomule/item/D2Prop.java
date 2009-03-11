@@ -87,11 +87,7 @@ public class D2Prop {
 
 	}
 
-
-
-
 	public String generateDisplay(int qFlag, int cLvl) {
-
 
 		if(this.qFlag != qFlag){
 			return null;
