@@ -685,8 +685,12 @@ public class D2Prop {
 		case(107):
 		case(83):
 		case(127):
-			if(plSkill!= null){
-				plSkill.add(this);
+			if(plSkill!= null && qFlag == 0){
+				if(op == 1){
+					plSkill.add(this);
+				}else{
+					plSkill.remove(this);
+				}
 			}
 		}
 	}

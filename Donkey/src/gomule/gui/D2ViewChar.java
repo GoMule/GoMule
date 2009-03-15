@@ -2864,93 +2864,69 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 		private void drawCompleted(Graphics2D lGraphics, int questSlot) {
 
+			for(int f = 0;f<3;f=f+1){
+			for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length;y=y+1){
+			if(iCharacter.getQuests()[f][questSlot -1][y])lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
 
-
-
-			switch(questSlot){
-			case 1:
-
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
-						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-
-							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-
-						}
-
-					}
-				}
-				break;
-			case 2:
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
-						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-
-						}
-
-					}
-				}
-				break;
-			case 3:
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
-						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-
-						}
-
-					}
-				}
-			case 4:
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<3;y=y+1){
-						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-
-						}
-
-					}
-				}
-				break;
-			case 5:
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
-						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-
-						}
-
-					}
-				}
-				break;
 			}
-
-
-
-
-
-//			switch(iSkillSlot){
-//			case 0:
-//			lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
-//			for(int x = 0;x<10;x=x+1){
-//			lGraphics.drawString(iCharacter.getSkillListA().get(x).toString(),iCharacter.getSkillLocs()[x].x , iCharacter.getSkillLocs()[x].y);
-//			}
-//			break;
+			}
+//			switch(questSlot){
 //			case 1:
-//			lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
-//			for(int x = 0;x<10;x=x+1){
-//			lGraphics.drawString(iCharacter.getSkillListB().get(x).toString(),iCharacter.getSkillLocs()[x+10].x , iCharacter.getSkillLocs()[x+10].y);
-//			}
-//			break;
+//
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
+//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
+//
+//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
+//
+//						}
+//
+//					}
+//				}
+//				break;
 //			case 2:
-//			lGraphics.drawString(iCharacter.getCharSkillRem() + "",238 , 69);
-//			for(int x = 0;x<10;x=x+1){
-//			lGraphics.drawString(iCharacter.getSkillListC().get(x).toString(),iCharacter.getSkillLocs()[x+20].x , iCharacter.getSkillLocs()[x+20].y);
-////			lGraphics.drawString(iCharacter.getSkillListB().get(x).toString(),iCharacter.getSkillLocs()[x+10].x , iCharacter.getSkillLocs()[x+10].y);
-//			}
-//			break;
-
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
+//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
+//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
+//
+//						}
+//
+//					}
+//				}
+//				break;
+//			case 3:
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
+//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
+//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
+//
+//						}
+//
+//					}
+//				}
+//			case 4:
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<3;y=y+1){
+//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
+//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
+//
+//						}
+//
+//					}
+//				}
+//				break;
+//			case 5:
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
+//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
+//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
+//
+//						}
+//
+//					}
+//				}
+//				break;
 //			}
 		}
 
@@ -3071,100 +3047,117 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 		private void drawCompleted(Graphics2D lGraphics, int questSlot) {
 
-
-			switch(questSlot){
-
-			case 1:
-
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
-						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-							if(f==0){
-								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==1){
-								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==2){
-								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-							}
+			
+			
+			for(int f = 0;f<3;f=f+1){
+				for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length;y=y+1){
+					if(iCharacter.getWaypoints()[f][questSlot -1][y]){
+						if(f==0){
+							lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+						}else if(f==1){
+							lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+						}else if(f==2){
+							lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
 						}
-
 					}
+
 				}
-
-//				for(int x = 0;x<iCharacter.getWaypoints().length;x=x+1){
-//				for(int y=0;y<iCharacter.getWaypoints()[x].length;x=x+1){
-//				lGraphics.drawImage(tick, questLoc[x].x, questLoc[x].y, D2WayPainterPanel.this);
-//				lGraphics.drawImage(tick, questLoc[x].x+10, questLoc[x].y, D2WayPainterPanel.this);
-//				lGraphics.drawImage(tick, questLoc[x].x+20, questLoc[x].y, D2WayPainterPanel.this);
-//				}
-//				}
-				break;
-			case 2:
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
-						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-							if(f==0){
-								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==1){
-								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==2){
-								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-							}
-						}
-
-					}
-				}
-				break;
-			case 3:
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
-						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-							if(f==0){
-								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==1){
-								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==2){
-								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-							}
-						}
-
-					}
-				}
-				break;
-			case 4:
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<3;y=y+1){
-						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-							if(f==0){
-								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==1){
-								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==2){
-								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-							}
-						}
-
-					}
-				}
-				break;
-			case 5:
-				for(int f = 0;f<3;f=f+1){
-					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
-						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-							if(f==0){
-								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==1){
-								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-							}else if(f==2){
-								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-							}
-						}
-
-					}
-				}
-				break;
-
 			}
+//			
+//
+//			switch(questSlot){
+//
+//			case 1:
+//
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
+//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//							if(f==0){
+//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==1){
+//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==2){
+//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//							}
+//						}
+//
+//					}
+//				}
+//
+////				for(int x = 0;x<iCharacter.getWaypoints().length;x=x+1){
+////				for(int y=0;y<iCharacter.getWaypoints()[x].length;x=x+1){
+////				lGraphics.drawImage(tick, questLoc[x].x, questLoc[x].y, D2WayPainterPanel.this);
+////				lGraphics.drawImage(tick, questLoc[x].x+10, questLoc[x].y, D2WayPainterPanel.this);
+////				lGraphics.drawImage(tick, questLoc[x].x+20, questLoc[x].y, D2WayPainterPanel.this);
+////				}
+////				}
+//				break;
+//			case 2:
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
+//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//							if(f==0){
+//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==1){
+//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==2){
+//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//							}
+//						}
+//
+//					}
+//				}
+//				break;
+//			case 3:
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
+//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//							if(f==0){
+//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==1){
+//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==2){
+//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//							}
+//						}
+//
+//					}
+//				}
+//				break;
+//			case 4:
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<3;y=y+1){
+//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//							if(f==0){
+//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==1){
+//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==2){
+//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//							}
+//						}
+//
+//					}
+//				}
+//				break;
+//			case 5:
+//				for(int f = 0;f<3;f=f+1){
+//					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
+//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//							if(f==0){
+//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==1){
+//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//							}else if(f==2){
+//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//							}
+//						}
+//
+//					}
+//				}
+//				break;
+//
+//			}
 
 
 
