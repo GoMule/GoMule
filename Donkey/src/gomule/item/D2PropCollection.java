@@ -5,7 +5,6 @@ import gomule.util.D2BitReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 
 import randall.d2files.D2TxtFile;
 import randall.d2files.D2TxtFileItemProperties;
@@ -263,20 +262,6 @@ public class D2PropCollection extends ArrayList{
 
 	private ArrayList getFullList() {
 		return this;
-	}
-
-
-
-	public void generateItemMods() {
-
-		HashMap modMap = new HashMap();
-
-		for(int x =0;x<size();x++){
-
-
-
-		}
-
 	}
 
 	public void tidy(){
