@@ -1,18 +1,21 @@
 INCLUDE MERC MF IN OUTPUT
-FINISH QUESTS - CHECK SORTING METHODS.
+SET PRORORORORORORPERTIES
+
+
 LOOK AT THE PANEL STUFF
 
 
-
-Total AR = (Dex * 5 + classbonus + AR + AR/Clvl) * (1 + ar% + ar%/Clvl)
-
-If I ever feel like it I could test it and make a formula for the items with cold length 0
-1H and 2H max/min damage remember?
 
 
 
 	/**
 	 * COMPLETED
+Total AR = (Dex * 5 + classbonus + AR + AR/Clvl) * (1 + ar% + ar%/Clvl)
+If I ever feel like it I could test it and make a formula for the items with cold length 0
+1H and 2H max/min damage remember?
+
+
+
 	 * 	//Stage 1: Remove useless(MIGHT NOT BE!!!) mods STASH+CHAR
 	//Stage 2: Combine props, like Cold min, cold max, cold res STASH+CHAR
 	 * //Stage 3: Group mods such as resistance etc STASH+CHAR
