@@ -23,7 +23,11 @@ public class D2Prop {
 	//7 = Rune/Gem weapons
 	//8 = Rune/Gem armor
 	//9 = Rune/Gem shields
-
+//  12 = Set2Activated
+//	13 = Set3Activated
+//	14 = Set4Activated
+//	15 = Set5Activated
+//	16 = Set?Activated
 
 
 	public D2Prop(int pNum, int[] pVals, int qFlag){
@@ -693,5 +697,11 @@ public class D2Prop {
 				}
 			}
 		}
+	}
+
+	public void setQFlag(int newQ) {
+		
+		qFlag = newQ;
+		System.out.println("MODDDDD");
 	}
 }

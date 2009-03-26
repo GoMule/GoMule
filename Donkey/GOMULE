@@ -1,6 +1,11 @@
 INCLUDE MERC MF IN OUTPUT
-SET PRORORORORORORPERTIES
 
+
+SET PRORORORORORORPERTIES
+-Implemented adding partial set properties on items
+-Need to ensure we don't add when a repeated item is added OR COULD IGNOREEE (only happens with rings...)!
+-Need to add full and partial set properties defined in sets.txt to itemproperties when items are created
+-Need to deal with adding set properties to outputted stats.
 
 LOOK AT THE PANEL STUFF
 

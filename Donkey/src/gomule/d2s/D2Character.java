@@ -89,6 +89,8 @@ public class D2Character extends D2ItemListAdapter
 	private int[][] cSkills;
 	private Point[] iSkillLocs;
 
+	private int[] setTracker = new int[31];
+
 	private int testCounter = 0;
 	private boolean fullChanged = false;
 	private ArrayList partialSetProps = new ArrayList();
@@ -319,7 +321,6 @@ public class D2Character extends D2ItemListAdapter
 
 	private void generateItemStats(D2Item cItem, int[] cStats, ArrayList plSkill, int op) {
 
-		if(!cItem.isEquipped(curWep))return;  
 		cItem.getPropCollection().calcStats(cStats, plSkill, (int)iCharLevel, op);
 	}
 
@@ -395,7 +396,7 @@ public class D2Character extends D2ItemListAdapter
 		}
 		//Sort Qs
 		boolean[] tempQ = new boolean[6];
-		
+
 		for(int x = 0;x<iQuests.length;x++){
 			for(int y = 0;y<iQuests[x].length;y++){
 				switch(y){
@@ -431,7 +432,7 @@ public class D2Character extends D2ItemListAdapter
 			}
 		}
 	}
-	
+
 	private byte[] getCurrentStats(){
 
 		D2FileWriter lWriter = new D2FileWriter();
@@ -1455,14 +1456,67 @@ public class D2Character extends D2ItemListAdapter
 		if(string.equals("D"))equipItem(temp);
 
 	}
-	
+
 	public void equipItem(D2Item item){
+		if(!item.isEquipped(curWep))return;  
+		if(item.isSet())addSetItem(item);
 		generateItemStats(item, cStats, plSkill, 1);
 		dealWithSkills();
 	}
+
 	public void unequipItem(D2Item item){
+		if(!item.isEquipped(curWep))return;  
+		if(item.isSet())remSetItem(item);
 		generateItemStats(item, cStats, plSkill, -1);
 		dealWithSkills();
+	}
+
+	private void addSetItem(D2Item item) {
+		int setNo = D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(item.getSetID()).get("set")).getRowNum();
+		setTracker[setNo] ++ ;
+
+		for(int x = 0;x<iCharItems.size();x++){
+			if(!((D2Item) iCharItems.get(x)).isEquipped(curWep))continue;
+			if( D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(((D2Item)(iCharItems.get(x))).getSetID()).get("set")).getRowNum() == setNo){
+				System.out.println(((D2Item) iCharItems.get(x)).getName() + " --- " + setNo +" --- " +(setTracker[setNo]));
+				modSetProps(((D2Item) iCharItems.get(x)), setNo, 1);
+			}		
+		}
+
+	}
+
+	private void modSetProps(D2Item sItem, int setNo, int op){
+		
+		for(int x = 0;x<sItem.getPropCollection().size();x++){
+			//Change the property from a +3 set items to + 13 for instance
+			if(op == 1){
+				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() == (setTracker[setNo])){
+					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() + (10*op));
+					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
+				}
+			}else{
+				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() == (setTracker[setNo]+10)){
+					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() + (10*op));
+					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
+				}
+			}
+		}
+	}
+
+	private void remSetItem(D2Item item) {
+
+		int setNo = D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(item.getSetID()).get("set")).getRowNum();
+		//Since the item we have just removed is no longer equipped (so not in icharitems) we need
+		//to remove this first.
+		modSetProps(item, setNo, -1);
+		for(int x = 0;x<iCharItems.size();x++){
+			if(!((D2Item) iCharItems.get(x)).isEquipped(curWep))continue;
+			if( D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(((D2Item)(iCharItems.get(x))).getSetID()).get("set")).getRowNum() == setNo){
+				System.out.println(((D2Item) iCharItems.get(x)).getName() + " --REM- " + setNo +" --- " +(setTracker[setNo]));
+				modSetProps(((D2Item) iCharItems.get(x)), setNo, -1);
+			}		
+		}
+		setTracker[setNo]  -- ;
 	}
 
 	public void updateMercStats(String string, D2Item dropItem) {

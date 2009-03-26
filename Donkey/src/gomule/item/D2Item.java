@@ -212,6 +212,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private String iItemQuality = "none";
 
+	private short set_id;
+
 	public D2Item(String pFileName, D2BitReader pFile, int pPos, long pCharLvl)
 	throws Exception {
 		iFileName = pFileName;
@@ -731,7 +733,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		case 5: // set item
 		{
 			iSet = true;
-			short set_id = (short) pFile.read(12);
+			set_id = (short) pFile.read(12);
 			if (gfx_num == -1) {
 				String s = (String) iItemType.get("setinvfile");
 				if (s.compareTo("") != 0)
@@ -1397,6 +1399,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 		if (quality == 5) {
 
+			for (int x = 12; x < 17; x++) {
+				StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
+				if (setBuf.length() > 29) {
+					dispStr.append("<font color=\"red\">Set (" + (x-10) + " items): ");
+					dispStr.append(setBuf);
+					dispStr.append("</font>");
+				}
+			}
+			
 			for (int x = 2; x < 7; x++) {
 				StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
 				if (setBuf.length() > 29) {
@@ -1555,6 +1566,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	public String get_image() {
 		return image_file;
+	}
+	
+	public short getSetID(){
+		return set_id;
 	}
 
 	public String get_version() {
