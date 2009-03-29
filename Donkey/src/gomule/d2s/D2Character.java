@@ -319,9 +319,9 @@ public class D2Character extends D2ItemListAdapter
 		}
 	}
 
-	private void generateItemStats(D2Item cItem, int[] cStats, ArrayList plSkill, int op) {
+	private void generateItemStats(D2Item cItem, int[] cStats, ArrayList plSkill, int op, int qFlagM) {
 
-		cItem.getPropCollection().calcStats(cStats, plSkill, (int)iCharLevel, op);
+		cItem.getPropCollection().calcStats(cStats, plSkill, (int)iCharLevel, op,qFlagM);
 	}
 
 	private long calculateCheckSum(){
@@ -1460,21 +1460,20 @@ public class D2Character extends D2ItemListAdapter
 	public void equipItem(D2Item item){
 		if(!item.isEquipped(curWep))return;  
 		if(item.isSet())addSetItem(item);
-		generateItemStats(item, cStats, plSkill, 1);
+		generateItemStats(item, cStats, plSkill, 1,0);
 		dealWithSkills();
 	}
 
 	public void unequipItem(D2Item item){
 		if(!item.isEquipped(curWep))return;  
 		if(item.isSet())remSetItem(item);
-		generateItemStats(item, cStats, plSkill, -1);
+		generateItemStats(item, cStats, plSkill, -1,0);
 		dealWithSkills();
 	}
 
 	private void addSetItem(D2Item item) {
 		int setNo = D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(item.getSetID()).get("set")).getRowNum();
 		setTracker[setNo] ++ ;
-
 		for(int x = 0;x<iCharItems.size();x++){
 			if(!((D2Item) iCharItems.get(x)).isEquipped(curWep))continue;
 			if( D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(((D2Item)(iCharItems.get(x))).getSetID()).get("set")).getRowNum() == setNo){
@@ -1488,26 +1487,35 @@ public class D2Character extends D2ItemListAdapter
 	private void modSetProps(D2Item sItem, int setNo, int op){
 		
 		for(int x = 0;x<sItem.getPropCollection().size();x++){
-			//Change the property from a +3 set items to + 13 for instance
-			if(op == 1){
-				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() == (setTracker[setNo])){
-					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() + (10*op));
+			switch(op){
+			case(1):
+				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() <= (setTracker[setNo]) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 1){
+					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() + 10);
+					modSetItemMods(sItem, 1);
 					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
 				}
-			}else{
-				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() == (setTracker[setNo]+10)){
-					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() + (10*op));
+			break;
+			case(-1):
+				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() >= (setTracker[setNo]+10) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 11){
+					modSetItemMods(sItem, -1);
+					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() - 10);
 					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
 				}
+			break;
 			}
 		}
+		sItem.refreshItemMods();
+	}
+
+	private void modSetItemMods(D2Item sItem, int op) {
+		generateItemStats(sItem, cStats, plSkill, op,1);
 	}
 
 	private void remSetItem(D2Item item) {
 
 		int setNo = D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(item.getSetID()).get("set")).getRowNum();
 		//Since the item we have just removed is no longer equipped (so not in icharitems) we need
-		//to remove this first.
+		//to remove it first.
 		modSetProps(item, setNo, -1);
 		for(int x = 0;x<iCharItems.size();x++){
 			if(!((D2Item) iCharItems.get(x)).isEquipped(curWep))continue;
@@ -1595,8 +1603,8 @@ public class D2Character extends D2ItemListAdapter
 	public D2Item getCorpseItem(int i){return (D2Item) iCorpseItems.get(i);}
 	public D2Item getGolemItem() {return golemItem;}
 
-	public void equipMercItem(D2Item item){generateItemStats(item, mStats, null, 1);}
-	public void unequipMercItem(D2Item item){generateItemStats(item, mStats, null,-1);}
+	public void equipMercItem(D2Item item){generateItemStats(item, mStats, null, 1,0);}
+	public void unequipMercItem(D2Item item){generateItemStats(item, mStats, null,-1,0);}
 
 	public int getNrItems(){return iCharItems.size() + iMercItems.size();}
 	public int getCharItemNr(){return iCharItems.size();}

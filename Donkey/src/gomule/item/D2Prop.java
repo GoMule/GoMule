@@ -547,8 +547,15 @@ public class D2Prop {
 		}
 	}
 
-	public void addCharMods(int[] outStats, ArrayList plSkill, int cLvl, int op) {
+	public void addCharMods(int[] outStats, ArrayList plSkill, int cLvl, int op, int qFlagMarker) {
 
+		if(qFlagMarker == 0){
+			if(qFlag != 0)return;
+		}else{
+			if(qFlag != 12 && qFlag != 13 && qFlag != 14 && qFlag != 15 && qFlag != 16)return;
+		}
+//		if(qFlag != 0 && qFlag != 12 && qFlag != 13 && qFlag != 14 && qFlag != 15 && qFlag != 16)return;
+		
 		if(!opApplied)applyOp(cLvl);
 
 		/**
@@ -700,8 +707,6 @@ public class D2Prop {
 	}
 
 	public void setQFlag(int newQ) {
-		
 		qFlag = newQ;
-		System.out.println("MODDDDD");
 	}
 }

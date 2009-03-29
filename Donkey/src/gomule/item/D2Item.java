@@ -1095,8 +1095,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 		int[] durTriple = new int[] { 0, 0 };
 
 		iProps.applyOp(iCharLvl);
-
+		
 		for (int x = 0; x < iProps.size(); x++) {
+			if(((D2Prop) iProps.get(x)).getQFlag() != 0 && ((D2Prop) iProps.get(x)).getQFlag() != 12 && ((D2Prop) iProps.get(x)).getQFlag() != 13 && ((D2Prop) iProps.get(x)).getQFlag() != 14 && ((D2Prop) iProps.get(x)).getQFlag() != 15 && ((D2Prop) iProps.get(x)).getQFlag() != 16)continue;
 
 			// +Dur
 			if (((D2Prop) iProps.get(x)).getPNum() == 73) {
@@ -2834,14 +2835,18 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return iItemQuality;
 	}
 
-
-
 	public String getFileName() {
 		return iFileName;
 	}
 
 	public boolean isCharacter() {
 		return iIsChar;
+	}
+	
+	public void refreshItemMods(){
+		if (isTypeArmor() || isTypeWeapon()) {
+			applyItemMods();
+		}
 	}
 
 }
