@@ -707,9 +707,28 @@ public class D2Character extends D2ItemListAdapter
 
 		switch(curWep){
 		case 0:
-			curWep = 1;
+			for(int x = 0;x<getCharItemNr();x=x+1){
+				if(getCharItem(x).get_body_position() == 4 ||getCharItem(x).get_body_position() == 5){
+					updateCharStats("P", getCharItem(x));
+				}
+				
+				if(getCharItem(x).get_body_position() == 11 ||getCharItem(x).get_body_position() == 12){
+					updateCharStats("D", getCharItem(x));	
+				}
+			}
+			curWep = 1;			
 			return;
 		case 1:
+			for(int x = 0;x<iCharItems.size();x=x+1){
+				if(getCharItem(x).get_body_position() == 4 ||getCharItem(x).get_body_position() == 5){
+
+					updateCharStats("D", getCharItem(x));
+				}
+				if(getCharItem(x).get_body_position() == 11 ||getCharItem(x).get_body_position() == 12){
+
+					updateCharStats("P", getCharItem(x));	
+				}
+			}
 			curWep = 0;
 			return;
 		}

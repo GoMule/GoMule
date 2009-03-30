@@ -1659,50 +1659,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			if(iWeaponSlot == pWeaponSlot){
 				return;
 			}
+			
 			iWeaponSlot = pWeaponSlot;
 			build();
 			//REMOVE ITEMS AND ADD ITEMS
 
-			if(iWeaponSlot == 1){
-				//REMOVE WEAPON AND SHIELD 2 ADD WEAPON AND SHIELD 1
 
-//				D2Item lTemp =  iCharacter.getCharItem(iCharacter.getCharItemIndex(4, 0, 0));
-				for(int x = 0;x<iCharacter.getCharItemNr();x=x+1){
-					if(iCharacter.getCharItem(x).get_body_position() == 4 ||iCharacter.getCharItem(x).get_body_position() == 5){
-
-						iCharacter.updateCharStats("D", iCharacter.getCharItem(x));
-
-					}
-
-					if(iCharacter.getCharItem(x).get_body_position() == 11 ||iCharacter.getCharItem(x).get_body_position() == 12){
-
-						iCharacter.updateCharStats("P", iCharacter.getCharItem(x));	
-
-					}
-				}
-//				System.out.println(lTemp.getName());
-//				iCharacter.updateCharStats("P", lTemp);
-//				paintCharStats();
-
-
-			}else{
-				//REMOVE WEAPON AND SHIELD 1 ADD WEAPON AND SHIELD 2
-
-				for(int x = 0;x<iCharacter.getCharItemNr();x=x+1){
-					if(iCharacter.getCharItem(x).get_body_position() == 4 ||iCharacter.getCharItem(x).get_body_position() == 5){
-
-						iCharacter.updateCharStats("P", iCharacter.getCharItem(x));
-
-					}
-
-					if(iCharacter.getCharItem(x).get_body_position() == 11 ||iCharacter.getCharItem(x).get_body_position() == 12){
-
-						iCharacter.updateCharStats("D", iCharacter.getCharItem(x));	
-
-					}
-				}
-			}
-
+			iCharacter.changeWep();
 			paintCharStats();
 
 //			repaint();
