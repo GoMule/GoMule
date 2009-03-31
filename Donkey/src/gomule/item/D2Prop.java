@@ -29,6 +29,17 @@ public class D2Prop {
 //	15 = Set5Activated
 //	16 = Set?Activated
 
+//  22 = Set2DeActivated
+//	23 = Set3DeActivated
+//	24 = Set4DeActivated
+//	25 = Set5DeActivated
+//	26 = FULLSetDeActivated
+//  32 = Set2Activated
+//	33 = Set3Activated
+//	34 = Set4Activated
+//	35 = Set5Activated
+//	36 = FULLSetActivated
+
 
 	public D2Prop(int pNum, int[] pVals, int qFlag){
 
@@ -696,7 +707,7 @@ public class D2Prop {
 		case(107):
 		case(83):
 		case(127):
-			if(plSkill!= null && qFlag == 0){
+			if(plSkill!= null){
 				if(op == 1){
 					plSkill.add(this);
 				}else{

@@ -1485,6 +1485,7 @@ public class D2Character extends D2ItemListAdapter
 		if(item.isSet())addSetItem(item);
 		generateItemStats(item, cStats, plSkill, 1,0);
 		dealWithSkills();
+
 	}
 
 	public void unequipItem(D2Item item){
@@ -1500,29 +1501,29 @@ public class D2Character extends D2ItemListAdapter
 		for(int x = 0;x<iCharItems.size();x++){
 			if(!((D2Item) iCharItems.get(x)).isEquipped(curWep))continue;
 			if( D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(((D2Item)(iCharItems.get(x))).getSetID()).get("set")).getRowNum() == setNo){
-				System.out.println(((D2Item) iCharItems.get(x)).getName() + " --- " + setNo +" --- " +(setTracker[setNo]));
-				modSetProps(((D2Item) iCharItems.get(x)), setNo, 1);
+//				System.out.println(((D2Item) iCharItems.get(x)).getName() + " --- " + setNo +" --- " +(setTracker[setNo]));
+				modSetProps(((D2Item) iCharItems.get(x)), setTracker[setNo], 1);
 			}		
 		}
 
 	}
 
-	private void modSetProps(D2Item sItem, int setNo, int op){
+	private void modSetProps(D2Item sItem, int trackVal , int op){
 
 		for(int x = 0;x<sItem.getPropCollection().size();x++){
 			switch(op){
 			case(1):
-				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() <= (setTracker[setNo]) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 1){
+				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() <= (trackVal) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 1 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 7){
 					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() + 10);
-					modSetItemMods(sItem, 1);
-					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
+					((D2Prop)sItem.getPropCollection().get(x)).addCharMods(cStats, plSkill, (int)iCharLevel, 1, 1);
+//					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
 				}
 			break;
 			case(-1):
-				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() >= (setTracker[setNo]+10) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 11){
-					modSetItemMods(sItem, -1);
+				if(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() >= (trackVal+10) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 11 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 17){
+					((D2Prop)sItem.getPropCollection().get(x)).addCharMods(cStats, plSkill, (int)iCharLevel, -1, 1);
 					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() - 10);
-					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
+//					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
 				}
 			break;
 			}
@@ -1530,21 +1531,17 @@ public class D2Character extends D2ItemListAdapter
 		sItem.refreshItemMods();
 	}
 
-	private void modSetItemMods(D2Item sItem, int op) {
-		generateItemStats(sItem, cStats, plSkill, op,1);
-	}
-
 	private void remSetItem(D2Item item) {
 
 		int setNo = D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(item.getSetID()).get("set")).getRowNum();
 		//Since the item we have just removed is no longer equipped (so not in icharitems) we need
 		//to remove it first.
-		modSetProps(item, setNo, -1);
+		modSetProps(item, 0, -1);
 		for(int x = 0;x<iCharItems.size();x++){
 			if(!((D2Item) iCharItems.get(x)).isEquipped(curWep))continue;
 			if( D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(((D2Item)(iCharItems.get(x))).getSetID()).get("set")).getRowNum() == setNo){
-				System.out.println(((D2Item) iCharItems.get(x)).getName() + " --REM- " + setNo +" --- " +(setTracker[setNo]));
-				modSetProps(((D2Item) iCharItems.get(x)), setNo, -1);
+//				System.out.println(((D2Item) iCharItems.get(x)).getName() + " --REM- " + setNo +" --- " +(setTracker[setNo]));
+				modSetProps(((D2Item) iCharItems.get(x)), setTracker[setNo], -1);
 			}		
 		}
 		setTracker[setNo]  -- ;

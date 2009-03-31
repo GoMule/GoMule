@@ -363,12 +363,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 			iProps.add(new D2Prop(122, new int[] { 150 }, 0));
 		}
 
-
 		if (isTypeArmor() || isTypeWeapon()) {
 			applyItemMods();
 		}
 
-//		iProps.calcStats();
 	}
 
 	// read ear related data from the bytes
@@ -753,6 +751,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 
 			applyAutomodLvl();
+			addSetProperties(D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(set_id).get("set")));
 			break;
 		}
 		case 7: {
@@ -866,6 +865,18 @@ public class D2Item implements Comparable, D2ItemInterface {
 				pFile.read(7);
 			}
 		}
+	}
+
+	private void addSetProperties(D2TxtFileItemProperties fullsetRow) {
+		
+		for(int x = 2 ;x<6;x++){
+		if(fullsetRow.get("PCode"+x+"a").equals(""))continue;
+		iProps.addAll(D2TxtFile.propToStat(fullsetRow.get("PCode"+x+"a"), fullsetRow.get("PMin"+x+"a"), fullsetRow.get("PMax"+x+"a"), fullsetRow.get("PParam"+x+"a"), (20 + x)));
+		}
+		for(int x = 1 ;x<9;x++){
+		if(fullsetRow.get("FCode"+x).equals(""))continue;
+			iProps.addAll(D2TxtFile.propToStat(fullsetRow.get("FCode"+x), fullsetRow.get("FMin"+x), fullsetRow.get("FMax"+x), fullsetRow.get("FParam"+x), 26));
+		}		
 	}
 
 	private void readExtend2(D2BitReader pFile) throws Exception {
@@ -1427,6 +1438,25 @@ public class D2Item implements Comparable, D2ItemInterface {
 					dispStr.append("Socketed: " + ((D2Item) iSocketedItems.get(i)).getItemName() + "<br>");
 				}
 			}
+		}
+		
+		if (quality == 5) {
+			dispStr.append("<br>");
+			for (int x = 22; x < 26; x++) {
+				StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
+				if (setBuf.length() > 29) {
+					dispStr.append("<font color=\"red\"> ");
+					dispStr.append(setBuf);
+					dispStr.append("</font>");
+				}
+			}
+				StringBuffer setBuf = iProps.generateDisplay(26, iCharLvl);
+				if (setBuf.length() > 29) {
+					dispStr.append("<font color=\"red\"> ");
+					dispStr.append(setBuf);
+					dispStr.append("</font>");
+				}
+			
 		}
 
 		return dispStr.append("</html><center>");

@@ -107,7 +107,7 @@ public class D2PropCollection extends ArrayList{
 
 		for(int x = 0;x<size();x++){
 
-			if(D2TxtFile.ITEM_STAT_COST.searchColumns("ID",Integer.toString(((D2Prop)get(x)).getPNum())).get("dgrp").equals(""))continue;
+			if(D2TxtFile.ITEM_STAT_COST.searchColumns("ID",Integer.toString(((D2Prop)get(x)).getPNum())).get("dgrp").equals("") || ((D2Prop)get(x)).getQFlag() != 0)continue;
 			if(((D2Prop)get(x)).getPNum() == 0 ||((D2Prop)get(x)).getPNum() == 1 ||((D2Prop)get(x)).getPNum() == 2 ||((D2Prop)get(x)).getPNum() == 3)statMap.add(get(x));
 			if(((D2Prop)get(x)).getPNum() == 39 ||((D2Prop)get(x)).getPNum() == 41 ||((D2Prop)get(x)).getPNum() == 43 ||((D2Prop)get(x)).getPNum() == 45)resMap.add(get(x));
 
@@ -167,7 +167,6 @@ public class D2PropCollection extends ArrayList{
 		//DeDupe L2 and L3
 
 		for(int x = 0 ;x < size();x++){
-
 
 			if(x+1<size()){
 				//Enhanced Damage %
@@ -280,8 +279,14 @@ public class D2PropCollection extends ArrayList{
 
 	public StringBuffer generateDisplay(int qFlag, int cLvl) {
 
-		StringBuffer arrOut = new StringBuffer("<font color=\"#4850b8\">");
-
+		StringBuffer arrOut = new StringBuffer();
+		if(qFlag < 7){
+			arrOut.append("<font color=\"#4850b8\">");
+		}else if(qFlag < 17){
+			arrOut.append("<font color=\"#4850b8\">");
+		}else if(qFlag < 36){
+			arrOut.append("<font color=\"#ffdead\">");
+		}
 		for(int x = 0;x<size();x++){
 			String val = ((D2Prop)get(x)).generateDisplay(qFlag, cLvl);
 			if(val != null && !val.equals("")){
@@ -325,9 +330,9 @@ public class D2PropCollection extends ArrayList{
 		addAll(propCollection.getFullList());
 
 	}
-	
+
 	public void calcStats(int[] outStats, ArrayList plSkill, int cLvl, int op, int qFlagM){
-		
+
 		for(int x= 0;x<size();x++){
 
 			((D2Prop)get(x)).addCharMods(outStats, plSkill, cLvl, op, qFlagM);
@@ -358,7 +363,7 @@ public class D2PropCollection extends ArrayList{
 	}
 
 	public void applyOp(int charLvl) {
-		
+
 		for(int x = 0;x<size();x++){
 			((D2Prop)get(x)).applyOp(charLvl);
 		}

@@ -35,95 +35,95 @@ import java.util.*;
  */
 public class D2TxtFile
 {
-    private static String    sMod;
+	private static String    sMod;
 
-    public static D2TxtFile  MISC;
-    public static D2TxtFile  ARMOR;
-    public static D2TxtFile  WEAPONS;
-    public static D2TxtFile  UNIQUES;
-    public static D2TxtFile  SETITEMS;
-    public static D2TxtFile  PREFIX;
-    public static D2TxtFile  SUFFIX;
-    public static D2TxtFile  RAREPREFIX;
-    public static D2TxtFile  RARESUFFIX;
-    public static D2TxtFile  RUNES;
-    public static D2TxtFile  ITEM_TYPES;
-    public static D2TxtFile  ITEM_STAT_COST;
-    public static D2TxtFile  SKILL_DESC;
-    public static D2TxtFile  SKILLS;
-    public static D2TxtFile  GEMS;
-    public static Properties GOMULE_PROPS;
-    public static D2TxtFile PROPS;
-    public static D2TxtFile HIRE;
-    public static D2TxtFile FULLSET;
-    public static D2TxtFile CHARSTATS;
-    public static D2TxtFile AUTOMAGIC;
-    
-    /**
-     * DROP CALC
-     */
-    public static D2TxtFile MONSTATS;
-    public static D2TxtFile TCS;
-    public static D2TxtFile LEVELS;
-    public static D2TxtFile SUPUNIQ;
-    public static D2TxtFile ITEMRATIO;
-    
-    //    public static D2TxtFile PROPERTIES;
+	public static D2TxtFile  MISC;
+	public static D2TxtFile  ARMOR;
+	public static D2TxtFile  WEAPONS;
+	public static D2TxtFile  UNIQUES;
+	public static D2TxtFile  SETITEMS;
+	public static D2TxtFile  PREFIX;
+	public static D2TxtFile  SUFFIX;
+	public static D2TxtFile  RAREPREFIX;
+	public static D2TxtFile  RARESUFFIX;
+	public static D2TxtFile  RUNES;
+	public static D2TxtFile  ITEM_TYPES;
+	public static D2TxtFile  ITEM_STAT_COST;
+	public static D2TxtFile  SKILL_DESC;
+	public static D2TxtFile  SKILLS;
+	public static D2TxtFile  GEMS;
+	public static Properties GOMULE_PROPS;
+	public static D2TxtFile PROPS;
+	public static D2TxtFile HIRE;
+	public static D2TxtFile FULLSET;
+	public static D2TxtFile CHARSTATS;
+	public static D2TxtFile AUTOMAGIC;
 
-    private String           iFileName;
-    private ArrayList        iHeader;
-    private ArrayList        iData;
+	/**
+	 * DROP CALC
+	 */
+	 public static D2TxtFile MONSTATS;
+	public static D2TxtFile TCS;
+	public static D2TxtFile LEVELS;
+	public static D2TxtFile SUPUNIQ;
+	public static D2TxtFile ITEMRATIO;
 
-    
-    public static void readAllFiles(String pMod)
-    {
+	//    public static D2TxtFile PROPERTIES;
 
-    	
-        sMod = pMod;
-        MISC = new D2TxtFile("Misc");
-        ARMOR = new D2TxtFile("armor");
-        WEAPONS = new D2TxtFile("weapons");
-        UNIQUES = new D2TxtFile("UniqueItems");
-        SETITEMS = new D2TxtFile("SetItems");
-        PREFIX = new D2TxtFile("MagicPrefix");
-        SUFFIX = new D2TxtFile("MagicSuffix");
-        RAREPREFIX = new D2TxtFile("RarePrefix");
-        RARESUFFIX = new D2TxtFile("RareSuffix");
-        RUNES = new D2TxtFile("Runes");
-        ITEM_TYPES = new D2TxtFile("ItemTypes");
-        ITEM_STAT_COST = new D2TxtFile("ItemStatCost");
-        SKILL_DESC = new D2TxtFile("SkillDesc");
-        SKILLS = new D2TxtFile("Skills");
-        GEMS = new D2TxtFile("Gems");
-        PROPS = new D2TxtFile("Properties");
-        MONSTATS = new D2TxtFile("MonStats");
-        TCS = new D2TxtFile("TreasureClassEx");
-        LEVELS = new D2TxtFile("Levels");
-        SUPUNIQ = new D2TxtFile("SuperUniques");
-        HIRE = new D2TxtFile("Hireling");
-        FULLSET = new D2TxtFile("Sets");
-        CHARSTATS = new D2TxtFile("CharStats");
-        AUTOMAGIC = new D2TxtFile("automagic");
-        ITEMRATIO = new D2TxtFile("ItemRatio");
-        
-        GOMULE_PROPS = new Properties();
-        try
-        {
-            FileInputStream lFileIn = new FileInputStream(sMod + File.separator + "GoMuleProps.properties");
-            GOMULE_PROPS.load(lFileIn);
-            lFileIn.close();
-        }
-        catch (Exception pEx)
-        {
-            D2FileManager.displayErrorDialog(pEx);
-        }
-    }
+	private String           iFileName;
+	private ArrayList        iHeader;
+	private ArrayList        iData;
 
-    public String getFileName()
-    {
-        return iFileName;
-    }
-    
+
+	public static void readAllFiles(String pMod)
+	{
+
+
+		sMod = pMod;
+		MISC = new D2TxtFile("Misc");
+		ARMOR = new D2TxtFile("armor");
+		WEAPONS = new D2TxtFile("weapons");
+		UNIQUES = new D2TxtFile("UniqueItems");
+		SETITEMS = new D2TxtFile("SetItems");
+		PREFIX = new D2TxtFile("MagicPrefix");
+		SUFFIX = new D2TxtFile("MagicSuffix");
+		RAREPREFIX = new D2TxtFile("RarePrefix");
+		RARESUFFIX = new D2TxtFile("RareSuffix");
+		RUNES = new D2TxtFile("Runes");
+		ITEM_TYPES = new D2TxtFile("ItemTypes");
+		ITEM_STAT_COST = new D2TxtFile("ItemStatCost");
+		SKILL_DESC = new D2TxtFile("SkillDesc");
+		SKILLS = new D2TxtFile("Skills");
+		GEMS = new D2TxtFile("Gems");
+		PROPS = new D2TxtFile("Properties");
+		MONSTATS = new D2TxtFile("MonStats");
+		TCS = new D2TxtFile("TreasureClassEx");
+		LEVELS = new D2TxtFile("Levels");
+		SUPUNIQ = new D2TxtFile("SuperUniques");
+		HIRE = new D2TxtFile("Hireling");
+		FULLSET = new D2TxtFile("Sets");
+		CHARSTATS = new D2TxtFile("CharStats");
+		AUTOMAGIC = new D2TxtFile("automagic");
+		ITEMRATIO = new D2TxtFile("ItemRatio");
+
+		GOMULE_PROPS = new Properties();
+		try
+		{
+			FileInputStream lFileIn = new FileInputStream(sMod + File.separator + "GoMuleProps.properties");
+			GOMULE_PROPS.load(lFileIn);
+			lFileIn.close();
+		}
+		catch (Exception pEx)
+		{
+			D2FileManager.displayErrorDialog(pEx);
+		}
+	}
+
+	public String getFileName()
+	{
+		return iFileName;
+	}
+
 	public static String getCharacterCode(int pChar)
 	{
 		switch (pChar)
@@ -145,269 +145,281 @@ public class D2TxtFile
 		}
 		return "<none>";
 	}
-    
-    public int getRowSize()
-    {
-        return iData.size();
-    }
 
-    
-    public static ArrayList propToStat(String pCode, String pMin, String pMax, String pParam, int qFlag){
-    	    	
-    	ArrayList outArr = new ArrayList();
-    	for(int x = 1;x<8;x++){
-    	
-    	if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).equals("")){
-    		break;
-    	}
-    	
-    	int[] pVals = {0,0,0};
-    	
+	public int getRowSize()
+	{
+		return iData.size();
+	}
 
-    	if(!pMin.equals("")){
-    		pVals[0] = Integer.parseInt(pMin);
-    	};
-    	
-    	if(!pMax.equals("")){
-    		pVals[1] = Integer.parseInt(pMax);
-    	};
-    	
-    	if(!pParam.equals("")){
-    		pVals[2] = Integer.parseInt(pParam);
-    	};
-    	
-//    	if(pVals[0] != pVals[1]){
-    		   		
-    		if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("max")){
-    			pVals[0] = pVals[1];
-    		}else if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("length")){
-    			if(pVals[2] != 0){
-    			pVals[0] = pVals[2];
-    			}
-    		}
-    		pVals[2] = 0;
-//    	}
-    	outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")), pVals, qFlag));
-    	
-    	}
-    	return outArr;
-    	
-    }
-    
-    public static D2TxtFileItemProperties search(String pCode)
-    {
-        //        System.err.println("Test1: " + MISC.searchAllData(pCode) );
-        D2TxtFileItemProperties lFound = MISC.searchColumns("code", pCode);
-        if (lFound == null)
-        {
-            lFound = ARMOR.searchColumns("code", pCode);
-        }
-        if (lFound == null)
-        {
-            lFound = WEAPONS.searchColumns("code", pCode);
-        }
-        //        if ( lFound != null )
-        //        {
-        //            System.err.println("Test1: " + lFound.getName() );
-        //            System.err.println("Test2: " + lFound.getTblName() );
-        //        }
-        //        else
-        //        {
-        //            System.err.println("Test: Not found" );
-        //        }
-        return lFound;
-    }
 
-    private D2TxtFile(String pFileName)
-    {
-        iFileName = pFileName;
-        try
-        {
-            String lSeparator = new Character((char) 9).toString();
-            // read single txt file
-            FileReader lFileIn = new FileReader(sMod + File.separator + iFileName + ".txt");
+	public static ArrayList propToStat(String pCode, String pMin, String pMax, String pParam, int qFlag){
 
-            BufferedReader lIn = new BufferedReader(lFileIn);
+		ArrayList outArr = new ArrayList();
+		for(int x = 1;x<8;x++){
 
-            String lFirstLine = lIn.readLine();
+			if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).equals("")){
+				break;
+			}
 
-            //            System.err.println("Test: " + lFirstLine );
+			int[] pVals = {0,0,0};
 
-            iHeader = split(lFirstLine, lSeparator);
 
-            iData = new ArrayList();
-            String lLine = lIn.readLine();
+			if(!pMin.equals("")){
+				try{
+					pVals[0] = Integer.parseInt(pMin);
+				}catch(NumberFormatException e){
+					return outArr;
+				}
+			};
 
-            boolean lSkipExpansion = "UniqueItems".equals(iFileName) || "SetItems".equals(iFileName);
+			if(!pMax.equals("")){
+				try{
+					pVals[1] = Integer.parseInt(pMax);
+				}catch(NumberFormatException e){
+					return outArr;
+				}
+			};
 
-            while (lLine != null)
-            {
-                ArrayList lSplit = split(lLine, lSeparator);
+			if(!pParam.equals("")){
+				try{
+					pVals[2] = Integer.parseInt(pParam);
+				}catch(NumberFormatException e){
+					return outArr;
+				}
+			};
 
-                if (lSkipExpansion && lSplit.get(0).equals("Expansion"))
-                {
-                    // skip
-//                    System.err.println("Skip: " + lLine);
-                }
-                else
-                {
-                    iData.add(lSplit);
-                }
-                lLine = lIn.readLine();
-            }
+//			if(pVals[0] != pVals[1]){
 
-            lFileIn.close();
-            lIn.close();
-        }
-        catch (Exception pEx)
-        {
-            D2FileManager.displayErrorDialog(pEx);
-        }
-    }
+			if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("max")){
+				pVals[0] = pVals[1];
+			}else if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("length")){
+				if(pVals[2] != 0){
+					pVals[0] = pVals[2];
+				}
+			}
+			pVals[2] = 0;
+//			}
+			outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")), pVals, qFlag));
 
-    private ArrayList split(String pText, String pSplit)
-    {
-        ArrayList lList = new ArrayList();
+		}
+		return outArr;
 
-        int lCurrent = 0;
-        int lIndex = pText.indexOf(pSplit, lCurrent);
+	}
 
-        while (lIndex != -1)
-        {
-            lList.add(pText.substring(lCurrent, lIndex));
-            lCurrent = lIndex + 1;
-            lIndex = pText.indexOf(pSplit, lCurrent);
-        }
+	public static D2TxtFileItemProperties search(String pCode)
+	{
+		//        System.err.println("Test1: " + MISC.searchAllData(pCode) );
+		D2TxtFileItemProperties lFound = MISC.searchColumns("code", pCode);
+		if (lFound == null)
+		{
+			lFound = ARMOR.searchColumns("code", pCode);
+		}
+		if (lFound == null)
+		{
+			lFound = WEAPONS.searchColumns("code", pCode);
+		}
+		//        if ( lFound != null )
+		//        {
+		//            System.err.println("Test1: " + lFound.getName() );
+		//            System.err.println("Test2: " + lFound.getTblName() );
+		//        }
+		//        else
+		//        {
+		//            System.err.println("Test: Not found" );
+		//        }
+		return lFound;
+	}
 
-        return lList;
-    }
+	private D2TxtFile(String pFileName)
+	{
+		iFileName = pFileName;
+		try
+		{
+			String lSeparator = new Character((char) 9).toString();
+			// read single txt file
+			FileReader lFileIn = new FileReader(sMod + File.separator + iFileName + ".txt");
 
-    protected String getValue(int pRowNr, String pCol)
-    {
-        int lColNr = iHeader.indexOf(pCol);
+			BufferedReader lIn = new BufferedReader(lFileIn);
 
-        if (lColNr != -1 && pRowNr < iData.size())
-        {
-            return (String) ((ArrayList) iData.get(pRowNr)).get(lColNr);
-        }
+			String lFirstLine = lIn.readLine();
 
-        return null;
-    }
+			//            System.err.println("Test: " + lFirstLine );
 
-    public D2TxtFileItemProperties getRow(int pRowNr)
-    {
-        return new D2TxtFileItemProperties(this, pRowNr);
-    }
+			iHeader = split(lFirstLine, lSeparator);
 
-    public D2TxtFileItemProperties searchColumns(String pCol, String pText)
-    {
-        int lColNr = iHeader.indexOf(pCol);
+			iData = new ArrayList();
+			String lLine = lIn.readLine();
 
-        if (lColNr != -1)
-        {
-            for (int i = 0; i < iData.size(); i++)
-            {
-            	if(!((ArrayList)iData.get(i)).isEmpty()){
-                if (((ArrayList) iData.get(i)).get(lColNr).equals(pText))
-                {
-                    return new D2TxtFileItemProperties(this, i);
-                }
-            	}
-            }
-        }
+			boolean lSkipExpansion = "UniqueItems".equals(iFileName) || "SetItems".equals(iFileName);
 
-        return null;
-    }
-    
-    public ArrayList searchColumnsMultipleHits(String pCol, String pText)
-    {
-    	ArrayList hits = new ArrayList();
-        int lColNr = iHeader.indexOf(pCol);
+			while (lLine != null)
+			{
+				ArrayList lSplit = split(lLine, lSeparator);
 
-        if (lColNr != -1)
-        {
-            for (int i = 0; i < iData.size(); i++)
-            {
-            	if(!((ArrayList)iData.get(i)).isEmpty()){
-                if (((ArrayList) iData.get(i)).get(lColNr).equals(pText))
-                {
-                     hits.add(new D2TxtFileItemProperties(this, i));
-                }
-            	}
-            }
-        }
+				if (lSkipExpansion && lSplit.get(0).equals("Expansion"))
+				{
+					// skip
+//					System.err.println("Skip: " + lLine);
+				}
+				else
+				{
+					iData.add(lSplit);
+				}
+				lLine = lIn.readLine();
+			}
 
-        return hits;
-    }
+			lFileIn.close();
+			lIn.close();
+		}
+		catch (Exception pEx)
+		{
+			D2FileManager.displayErrorDialog(pEx);
+		}
+	}
 
-    public D2TxtFileItemProperties searchRuneWord(ArrayList pList)
-    {
-        int lRuneNr[] = new int[] { iHeader.indexOf("Rune1"), iHeader.indexOf("Rune2"), iHeader.indexOf("Rune3"), iHeader.indexOf("Rune4"), iHeader.indexOf("Rune5"), iHeader.indexOf("Rune6") };
-        for (int i = 0; i < iData.size(); i++)
-        {
-            ArrayList lRW = new ArrayList();
-            for (int j = 0; j < lRuneNr.length; j++)
-            {
-                String lFile = (String) ((ArrayList) iData.get(i)).get(lRuneNr[j]);
+	private ArrayList split(String pText, String pSplit)
+	{
+		ArrayList lList = new ArrayList();
 
-                if (lFile != null && !lFile.equals(""))
-                {
-                    lRW.add(lFile);
-                }
-                else
-                {
-                    break;
-                }
-            }
+		int lCurrent = 0;
+		int lIndex = pText.indexOf(pSplit, lCurrent);
 
-            if (pList.size() == lRW.size())
-            {
-                boolean lIsRuneWord = true;
-                for (int j = 0; j < pList.size() && lIsRuneWord; j++)
-                {
-                    if (!((String) lRW.get(j)).equals((String) pList.get(j)))
-                    {
-                        lIsRuneWord = false;
-                    }
-                }
-                if (lIsRuneWord)
-                {
-                    return new D2TxtFileItemProperties(this, i);
-                }
-            }
-        }
-        return null;
-    }
+		while (lIndex != -1)
+		{
+			lList.add(pText.substring(lCurrent, lIndex));
+			lCurrent = lIndex + 1;
+			lIndex = pText.indexOf(pSplit, lCurrent);
+		}
 
-    private int searchAllData(String pText)
-    {
-        for (int i = 0; i < iData.size(); i++)
-        {
-            if (((ArrayList) iData.get(i)).contains(pText))
-            {
-                int lHeader = ((ArrayList) iData.get(i)).indexOf(pText);
-                System.err.println("Found at: " + lHeader + " - " + iHeader.get(lHeader));
-                return i;
-            }
-        }
+		return lList;
+	}
 
-        return -1;
-    }
+	protected String getValue(int pRowNr, String pCol)
+	{
+		int lColNr = iHeader.indexOf(pCol);
 
-    public static Boolean getGoMuleProperty(String pKey)
-    {
-        String lProperty = GOMULE_PROPS.getProperty(pKey);
-        if ("true".equals(lProperty))
-        {
-            return Boolean.TRUE;
-        }
-        if ("false".equals(lProperty))
-        {
-            return Boolean.FALSE;
-        }
+		if (lColNr != -1 && pRowNr < iData.size())
+		{
+			return (String) ((ArrayList) iData.get(pRowNr)).get(lColNr);
+		}
 
-        return null;
-    }
+		return null;
+	}
+
+	public D2TxtFileItemProperties getRow(int pRowNr)
+	{
+		return new D2TxtFileItemProperties(this, pRowNr);
+	}
+
+	public D2TxtFileItemProperties searchColumns(String pCol, String pText)
+	{
+		int lColNr = iHeader.indexOf(pCol);
+
+		if (lColNr != -1)
+		{
+			for (int i = 0; i < iData.size(); i++)
+			{
+				if(!((ArrayList)iData.get(i)).isEmpty()){
+					if (((ArrayList) iData.get(i)).get(lColNr).equals(pText))
+					{
+						return new D2TxtFileItemProperties(this, i);
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public ArrayList searchColumnsMultipleHits(String pCol, String pText)
+	{
+		ArrayList hits = new ArrayList();
+		int lColNr = iHeader.indexOf(pCol);
+
+		if (lColNr != -1)
+		{
+			for (int i = 0; i < iData.size(); i++)
+			{
+				if(!((ArrayList)iData.get(i)).isEmpty()){
+					if (((ArrayList) iData.get(i)).get(lColNr).equals(pText))
+					{
+						hits.add(new D2TxtFileItemProperties(this, i));
+					}
+				}
+			}
+		}
+
+		return hits;
+	}
+
+	public D2TxtFileItemProperties searchRuneWord(ArrayList pList)
+	{
+		int lRuneNr[] = new int[] { iHeader.indexOf("Rune1"), iHeader.indexOf("Rune2"), iHeader.indexOf("Rune3"), iHeader.indexOf("Rune4"), iHeader.indexOf("Rune5"), iHeader.indexOf("Rune6") };
+		for (int i = 0; i < iData.size(); i++)
+		{
+			ArrayList lRW = new ArrayList();
+			for (int j = 0; j < lRuneNr.length; j++)
+			{
+				String lFile = (String) ((ArrayList) iData.get(i)).get(lRuneNr[j]);
+
+				if (lFile != null && !lFile.equals(""))
+				{
+					lRW.add(lFile);
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			if (pList.size() == lRW.size())
+			{
+				boolean lIsRuneWord = true;
+				for (int j = 0; j < pList.size() && lIsRuneWord; j++)
+				{
+					if (!((String) lRW.get(j)).equals((String) pList.get(j)))
+					{
+						lIsRuneWord = false;
+					}
+				}
+				if (lIsRuneWord)
+				{
+					return new D2TxtFileItemProperties(this, i);
+				}
+			}
+		}
+		return null;
+	}
+
+	private int searchAllData(String pText)
+	{
+		for (int i = 0; i < iData.size(); i++)
+		{
+			if (((ArrayList) iData.get(i)).contains(pText))
+			{
+				int lHeader = ((ArrayList) iData.get(i)).indexOf(pText);
+				System.err.println("Found at: " + lHeader + " - " + iHeader.get(lHeader));
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	public static Boolean getGoMuleProperty(String pKey)
+	{
+		String lProperty = GOMULE_PROPS.getProperty(pKey);
+		if ("true".equals(lProperty))
+		{
+			return Boolean.TRUE;
+		}
+		if ("false".equals(lProperty))
+		{
+			return Boolean.FALSE;
+		}
+
+		return null;
+	}
 
 
 }
