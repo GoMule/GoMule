@@ -868,13 +868,13 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private void addSetProperties(D2TxtFileItemProperties fullsetRow) {
-		
+
 		for(int x = 2 ;x<6;x++){
-		if(fullsetRow.get("PCode"+x+"a").equals(""))continue;
-		iProps.addAll(D2TxtFile.propToStat(fullsetRow.get("PCode"+x+"a"), fullsetRow.get("PMin"+x+"a"), fullsetRow.get("PMax"+x+"a"), fullsetRow.get("PParam"+x+"a"), (20 + x)));
+			if(fullsetRow.get("PCode"+x+"a").equals(""))continue;
+			iProps.addAll(D2TxtFile.propToStat(fullsetRow.get("PCode"+x+"a"), fullsetRow.get("PMin"+x+"a"), fullsetRow.get("PMax"+x+"a"), fullsetRow.get("PParam"+x+"a"), (20 + x)));
 		}
 		for(int x = 1 ;x<9;x++){
-		if(fullsetRow.get("FCode"+x).equals(""))continue;
+			if(fullsetRow.get("FCode"+x).equals(""))continue;
 			iProps.addAll(D2TxtFile.propToStat(fullsetRow.get("FCode"+x), fullsetRow.get("FMin"+x), fullsetRow.get("FMax"+x), fullsetRow.get("FParam"+x), 26));
 		}		
 	}
@@ -1106,7 +1106,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		int[] durTriple = new int[] { 0, 0 };
 
 		iProps.applyOp(iCharLvl);
-		
+
 		for (int x = 0; x < iProps.size(); x++) {
 			if(((D2Prop) iProps.get(x)).getQFlag() != 0 && ((D2Prop) iProps.get(x)).getQFlag() != 12 && ((D2Prop) iProps.get(x)).getQFlag() != 13 && ((D2Prop) iProps.get(x)).getQFlag() != 14 && ((D2Prop) iProps.get(x)).getQFlag() != 15 && ((D2Prop) iProps.get(x)).getQFlag() != 16)continue;
 
@@ -1419,7 +1419,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					dispStr.append("</font>");
 				}
 			}
-			
+
 			for (int x = 2; x < 7; x++) {
 				StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
 				if (setBuf.length() > 29) {
@@ -1439,10 +1439,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 				}
 			}
 		}
-		
+
 		if (quality == 5) {
 			dispStr.append("<br>");
-			for (int x = 22; x < 26; x++) {
+			for (int x = 32; x < 36; x++) {
 				StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
 				if (setBuf.length() > 29) {
 					dispStr.append("<font color=\"red\"> ");
@@ -1450,13 +1450,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 					dispStr.append("</font>");
 				}
 			}
-				StringBuffer setBuf = iProps.generateDisplay(26, iCharLvl);
-				if (setBuf.length() > 29) {
-					dispStr.append("<font color=\"red\"> ");
-					dispStr.append(setBuf);
-					dispStr.append("</font>");
-				}
-			
+			dispStr.append("<br>");
+			StringBuffer setBuf = iProps.generateDisplay(26, iCharLvl);
+			if (setBuf.length() > 29) {
+				dispStr.append("<font color=\"red\"> ");
+				dispStr.append(setBuf);
+				dispStr.append("</font>");
+			}
+
 		}
 
 		return dispStr.append("</html><center>");
@@ -1598,7 +1599,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	public String get_image() {
 		return image_file;
 	}
-	
+
 	public short getSetID(){
 		return set_id;
 	}
@@ -2872,7 +2873,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	public boolean isCharacter() {
 		return iIsChar;
 	}
-	
+
 	public void refreshItemMods(){
 		if (isTypeArmor() || isTypeWeapon()) {
 			applyItemMods();
