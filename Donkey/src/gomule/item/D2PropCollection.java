@@ -284,7 +284,7 @@ public class D2PropCollection extends ArrayList{
 			arrOut.append("<font color=\"#4850b8\">");
 		}else if(qFlag < 17){
 			arrOut.append("<font color=\"#4850b8\">");
-		}else if(qFlag < 36){
+		}else if(qFlag < 37){
 			arrOut.append("<font color=\"#ffdead\">");
 		}
 		for(int x = 0;x<size();x++){

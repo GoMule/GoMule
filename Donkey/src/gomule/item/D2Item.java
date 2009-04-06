@@ -1445,17 +1445,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 			for (int x = 32; x < 36; x++) {
 				StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
 				if (setBuf.length() > 29) {
-					dispStr.append("<font color=\"red\"> ");
+					dispStr.append("<font color=\"red\">(" + (x-30) + " items): ");
 					dispStr.append(setBuf);
 					dispStr.append("</font>");
 				}
 			}
 			dispStr.append("<br>");
-			StringBuffer setBuf = iProps.generateDisplay(26, iCharLvl);
+			StringBuffer setBuf = iProps.generateDisplay(36, iCharLvl);
 			if (setBuf.length() > 29) {
-				dispStr.append("<font color=\"red\"> ");
 				dispStr.append(setBuf);
-				dispStr.append("</font>");
 			}
 
 		}

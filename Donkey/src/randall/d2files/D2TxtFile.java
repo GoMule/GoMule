@@ -163,7 +163,6 @@ public class D2TxtFile
 
 			int[] pVals = {0,0,0};
 
-
 			if(!pMin.equals("")){
 				try{
 					pVals[0] = Integer.parseInt(pMin);
@@ -188,8 +187,6 @@ public class D2TxtFile
 				}
 			};
 
-//			if(pVals[0] != pVals[1]){
-
 			if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("max")){
 				pVals[0] = pVals[1];
 			}else if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("length")){
@@ -198,8 +195,14 @@ public class D2TxtFile
 				}
 			}
 			pVals[2] = 0;
-//			}
-			System.out.println(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")));
+			
+			if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).equals("item_addclassskills")){
+				pVals[0] = Integer.parseInt(D2TxtFile.PROPS.searchColumns("code", pCode).get("val1"));
+			}
+			
+			if(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")) == 83){
+				System.out.println();
+			}
 			outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")), pVals, qFlag));
 
 		}
