@@ -1,25 +1,25 @@
 package TestyMcTest;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class test {
+import javax.swing.JFrame;
 
-	/**
-	 * @param args
-	 */
+public class test extends JFrame{
+
+	
+	public test(){
+		
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setVisible(true);
+		this.setSize(560,450);
+		
+	}
+	
+	
 	public static void main(String[] args) {
-		String test = "200% Enhanced Defense";
-		
-//		Pattern pat = Pattern.compile(".*[\\d+].*");
-		Pattern pat = Pattern.compile("\\d+");
-		Matcher mat = pat.matcher(test);
-		
-		while(mat.find()){
-			System.out.println(mat.group());
-		}
-		
 
+		new test();
+		
+		
 	}
 
 }
