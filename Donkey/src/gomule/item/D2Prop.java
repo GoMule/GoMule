@@ -563,7 +563,7 @@ public class D2Prop {
 		if(qFlagMarker == 0){
 			if(qFlag != 0)return;
 		}else{
-			if(qFlag != 12 && qFlag != 13 && qFlag != 14 && qFlag != 15 && qFlag != 16)return;
+			if(qFlag != 12 && qFlag != 13 && qFlag != 14 && qFlag != 15 && qFlag != 16 && qFlag != 36)return;
 		}
 //		if(qFlag != 0 && qFlag != 12 && qFlag != 13 && qFlag != 14 && qFlag != 15 && qFlag != 16)return;
 		

@@ -1450,9 +1450,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 					dispStr.append("</font>");
 				}
 			}
-			dispStr.append("<br>");
+			
 			StringBuffer setBuf = iProps.generateDisplay(36, iCharLvl);
-			if (setBuf.length() > 29) {
+			if (setBuf.length() > 33) {
 				dispStr.append(setBuf);
 			}
 

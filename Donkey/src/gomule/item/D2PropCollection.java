@@ -284,8 +284,10 @@ public class D2PropCollection extends ArrayList{
 			arrOut.append("<font color=\"#4850b8\">");
 		}else if(qFlag < 17){
 			arrOut.append("<font color=\"#4850b8\">");
-		}else if(qFlag < 37){
+		}else if(qFlag < 36){
 			arrOut.append("<font color=\"#ffdead\">");
+		}else if(qFlag < 37){
+			arrOut.append("<br><font color=\"#ffdead\">");
 		}
 		for(int x = 0;x<size();x++){
 			String val = ((D2Prop)get(x)).generateDisplay(qFlag, cLvl);
