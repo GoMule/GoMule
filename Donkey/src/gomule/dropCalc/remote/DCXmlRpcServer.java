@@ -1,16 +1,23 @@
-package TestyMcTest;
+package gomule.dropCalc.remote;
+
+import gomule.dropCalc.DCNew;
 
 import org.apache.xmlrpc.webserver.ServletWebServer;
 import org.apache.xmlrpc.webserver.XmlRpcServlet;
 
-public class test{
+
+
+public class DCXmlRpcServer{
 
 	private final int port = 8080;
+	public static final DCNew DC = new DCNew();
 	
-	public test()  throws Exception{
+	
+	public DCXmlRpcServer()  throws Exception{
 
 	          XmlRpcServlet servlet = new XmlRpcServlet();
 	          ServletWebServer webServer = new ServletWebServer(servlet, port);
+	          
 	          webServer.start();
 	      }
 
@@ -18,7 +25,7 @@ public class test{
 	
 	public static void main(String[] args) throws Exception {
 
-		new test();
+		new DCXmlRpcServer();
 		
 		
 	}

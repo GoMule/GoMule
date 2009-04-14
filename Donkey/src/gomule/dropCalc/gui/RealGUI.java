@@ -23,6 +23,8 @@ package gomule.dropCalc.gui;
 import gomule.dropCalc.DCNew;
 import gomule.dropCalc.items.Item;
 import gomule.dropCalc.monsters.Monster;
+import gomule.dropCalc.monsters.MonsterTuple;
+
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -33,6 +35,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -428,8 +432,6 @@ public class RealGUI extends JFrame {
 
 					Monster mSelected = ((Monster)nMonsterKey.get(nMonster.getSelectedIndex()));
 					mSelected.lookupBASETCReturnATOMICTCS(nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1,0,cbMenuItem.isSelected());
-
-
 					((DCTableModel)oResult.getModel()).refresh(mSelected.getmTuples(),cbDec.isSelected());
 
 				}else{

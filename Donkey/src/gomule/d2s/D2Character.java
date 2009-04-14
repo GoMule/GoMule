@@ -1477,7 +1477,6 @@ public class D2Character extends D2ItemListAdapter
 
 		if(string.equals("P"))unequipItem(temp);
 		if(string.equals("D"))equipItem(temp);
-
 	}
 
 	public void equipItem(D2Item item){
@@ -1501,9 +1500,7 @@ public class D2Character extends D2ItemListAdapter
 		for(int x = 0;x<iCharItems.size();x++){
 			if(!((D2Item) iCharItems.get(x)).isEquipped(curWep))continue;
 			if( D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(((D2Item)(iCharItems.get(x))).getSetID()).get("set")).getRowNum() == setNo){
-//				System.out.println(((D2Item) iCharItems.get(x)).getName() + " --- " + setNo +" --- " +(setTracker[setNo]));
 				modSetProps(((D2Item) iCharItems.get(x)), setTracker[setNo], 1);
-				
 			}		
 		}
 	}
@@ -1513,32 +1510,28 @@ public class D2Character extends D2ItemListAdapter
 		for(int x = 0;x<sItem.getPropCollection().size();x++){
 			switch(op){
 			case(1):
-				if((((D2Prop)sItem.getPropCollection().get(x)).getQFlag() <= (trackVal[0]) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 1 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 7)|| (((D2Prop)sItem.getPropCollection().get(x)).getQFlag() <= (20+trackVal[0]) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 21 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 26)){
+				if((((D2Prop)sItem.getPropCollection().get(x)).getQFlag() <= (trackVal[0]) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 1 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 7)){
 					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() + 10);
 					((D2Prop)sItem.getPropCollection().get(x)).addCharMods(cStats, plSkill, (int)iCharLevel, 1, 1);
-					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
-				}else if((sItem.getSetSize() == trackVal[0] && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() == 26)){
+				}else if((((D2Prop)sItem.getPropCollection().get(x)).getQFlag() <= (20+trackVal[0]) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 21 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 26)){
+					//Add display for partial set
 					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() + 10);
-					if(trackVal[1] == 0){
-						((D2Prop)sItem.getPropCollection().get(x)).addCharMods(cStats, plSkill, (int)iCharLevel, 1, 1);
-						trackVal[1] = 1;
-					}
-					
+				}else if((sItem.getSetSize() == trackVal[0] && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() == 26)){
+					//Add display for full set
+					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() + 10);				
 				}
 			break;
 			case(-1):
-				if((((D2Prop)sItem.getPropCollection().get(x)).getQFlag() >= (trackVal[0]+10) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 11 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 17)|| (((D2Prop)sItem.getPropCollection().get(x)).getQFlag() >= (30+trackVal[0]) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 31 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 36)){
+				if((((D2Prop)sItem.getPropCollection().get(x)).getQFlag() >= (trackVal[0]+10) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 11 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 17)){
 					((D2Prop)sItem.getPropCollection().get(x)).addCharMods(cStats, plSkill, (int)iCharLevel, -1, 1);
 					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() - 10);
-					System.out.println(((D2Prop)sItem.getPropCollection().get(x)).getPNum());
+				}else if( (((D2Prop)sItem.getPropCollection().get(x)).getQFlag() >= (30+trackVal[0]) && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() > 31 && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() < 36)){
+					//Add display for partial set
+					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() - 10);
 				}else if((sItem.getSetSize() == trackVal[0] && ((D2Prop)sItem.getPropCollection().get(x)).getQFlag() == 36)){
-					if(trackVal[1] == 1){
-						((D2Prop)sItem.getPropCollection().get(x)).addCharMods(cStats, plSkill, (int)iCharLevel, -1, 1);
-						trackVal[1] = 0;
-					}
+					//Add Display for full set
 					((D2Prop)sItem.getPropCollection().get(x)).setQFlag(((D2Prop)sItem.getPropCollection().get(x)).getQFlag() - 10);					
 				}
-			
 			break;
 			}
 		}
@@ -1554,7 +1547,6 @@ public class D2Character extends D2ItemListAdapter
 		for(int x = 0;x<iCharItems.size();x++){
 			if(!((D2Item) iCharItems.get(x)).isEquipped(curWep))continue;
 			if( D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(((D2Item)(iCharItems.get(x))).getSetID()).get("set")).getRowNum() == setNo){
-				System.out.println(((D2Item) iCharItems.get(x)).getName() + " --REM- " + setNo +" --- " +(setTracker[setNo]));
 				modSetProps(((D2Item) iCharItems.get(x)), setTracker[setNo], -1);
 			}		
 		}

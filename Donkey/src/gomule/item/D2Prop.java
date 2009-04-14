@@ -560,12 +560,12 @@ public class D2Prop {
 
 	public void addCharMods(int[] outStats, ArrayList plSkill, int cLvl, int op, int qFlagMarker) {
 
+		//If it's 0 we only want standard properties (non set)
 		if(qFlagMarker == 0){
 			if(qFlag != 0)return;
 		}else{
-			if(qFlag != 12 && qFlag != 13 && qFlag != 14 && qFlag != 15 && qFlag != 16 && qFlag != 36)return;
+			if(qFlag != 12 && qFlag != 13 && qFlag != 14 && qFlag != 15 && qFlag != 16)return;
 		}
-//		if(qFlag != 0 && qFlag != 12 && qFlag != 13 && qFlag != 14 && qFlag != 15 && qFlag != 16)return;
 		
 		if(!opApplied)applyOp(cLvl);
 
