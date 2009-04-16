@@ -1,6 +1,7 @@
 package gomule.dropCalc.remote;
 
 import gomule.dropCalc.DCNew;
+import gomule.dropCalc.gui.DCTableModel;
 import gomule.dropCalc.gui.OutputRow;
 import gomule.dropCalc.items.Item;
 import gomule.dropCalc.monsters.Monster;
@@ -42,12 +43,58 @@ public class DCXmlRpcWrapper {
 		
 			
 			Monster mSelected = (Monster) getMonster(monKey, diff).get(mIndex);
-			System.out.println(mSelected.getMonName() + " " + mSelected.getMonID() + " " + mSelected.getMonDiff());
+//			System.out.println(mSelected.getMonName() + " " + mSelected.getMonID() + " " + mSelected.getMonDiff());
 			mSelected.lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0,sevenPicks);
 			return arrlistToArr(mSelected.getmTuples());
 		
 	}
 	
+	public Object[] performItemLookup(int monKey, int iIndex, int nPlayers, int nGroup, int diff, boolean sevenPicks, int qual, int ver, int mf){
+		Item mISelected =(Item)getItems(qual, ver).get(iIndex);
+//		System.out.println(mISelected.getRealName()+ "  " +monKey + "  " + nPlayers+ "  " +nGroup+ "  " +diff+ "  " +sevenPicks+ "  " +qual+ "  " +ver+ "  " +mf);
+		HashMap mTuple = mISelected.getFinalProbSum(DCXmlRpcServer.DC,monKey,mf,nPlayers, nGroup, qual-1,sevenPicks);
+		return tupleToArr(mTuple, diff, monKey);
+
+	}
+	
+private Object[] tupleToArr(HashMap iItems, int nDiff, int classKey) {
+	
+			ArrayList tmRows = new ArrayList();
+
+		Iterator it = iItems.keySet().iterator();
+		while(it.hasNext()){
+
+			MonsterTuple tSelected = (MonsterTuple) it.next();
+
+			switch(nDiff){
+			case 0:
+				if(tSelected.getParent().getClassOfMon() == classKey){
+				tmRows.add(new Object[]{tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),getStrC2(true,(Double) iItems.get(tSelected))});
+				}
+				break;
+
+			case 1:
+				if(tSelected.getParent().getClassOfMon()== classKey && tSelected.getParent().getMonDiff().equals("N")){
+					tmRows.add(new Object[]{tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),getStrC2(true,(Double) iItems.get(tSelected))});
+					}
+				break;
+
+			case 2:
+				if(tSelected.getParent().getClassOfMon()== classKey && tSelected.getParent().getMonDiff().equals("NM")){
+					tmRows.add(new Object[]{tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),getStrC2(true,(Double) iItems.get(tSelected))});
+					}
+				break;
+
+			case 3:
+				if(tSelected.getParent().getClassOfMon()== classKey && tSelected.getParent().getMonDiff().equals("H")){
+					tmRows.add(new Object[]{tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),getStrC2(true,(Double) iItems.get(tSelected))});
+					}
+				break;
+			}
+		}
+		return tmRows.toArray();
+	}
+
 //	public Object[] getMonsters(int monKey){
 //		switch(monKey){
 //		case 0:
