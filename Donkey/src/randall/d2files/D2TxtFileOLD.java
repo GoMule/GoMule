@@ -20,12 +20,12 @@
  ******************************************************************************/
 package randall.d2files;
 
+
+import gomule.gui.D2FileManager;
 import gomule.item.D2Prop;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Marco
@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
-public final class D2TxtFile
+public class D2TxtFile2
 {
 	private static String    sMod;
 
@@ -71,8 +71,8 @@ public final class D2TxtFile
 	//    public static D2TxtFile PROPERTIES;
 
 	private String           iFileName;
-	private String[]        iHeader;
-	private String[][]        iData;
+	private ArrayList        iHeader;
+	private ArrayList        iData;
 
 
 	public static void readAllFiles(String pMod)
@@ -115,7 +115,7 @@ public final class D2TxtFile
 		}
 		catch (Exception pEx)
 		{
-//			D2FileManager.displayErrorDialog(pEx);
+			D2FileManager.displayErrorDialog(pEx);
 		}
 	}
 
@@ -148,7 +148,7 @@ public final class D2TxtFile
 
 	public int getRowSize()
 	{
-		return iData.length;
+		return iData.size();
 	}
 
 
@@ -234,50 +234,50 @@ public final class D2TxtFile
 		return lFound;
 	}
 
-	private D2TxtFile(String pFileName)
+	private D2TxtFile2(String pFileName)
 	{
 		iFileName = pFileName;
 		try
 		{
-			ArrayList strArr = new ArrayList();
 			String lSeparator = new Character((char) 9).toString();
+			// read single txt file
 			FileReader lFileIn = new FileReader(sMod + File.separator + iFileName + ".txt");
+
 			BufferedReader lIn = new BufferedReader(lFileIn);
+
 			String lFirstLine = lIn.readLine();
-			
-			Pattern p = Pattern.compile("	");
-			iHeader = p.split(lFirstLine);
-//			iHeader = split(lFirstLine, lSeparator);
-//			iData = new ArrayList();
+
+			//            System.err.println("Test: " + lFirstLine );
+
+			iHeader = split(lFirstLine, lSeparator);
+
+			iData = new ArrayList();
 			String lLine = lIn.readLine();
 
 			boolean lSkipExpansion = "UniqueItems".equals(iFileName) || "SetItems".equals(iFileName);
+
 			while (lLine != null)
 			{
-//				ArrayList lSplit = split(lLine, lSeparator);
-				String[] lineArr = p.split(lLine);
-				if (lineArr.length > 0 &&lSkipExpansion && lineArr[0].equals("Expansion"))
+				ArrayList lSplit = split(lLine, lSeparator);
+
+				if (lSkipExpansion && lSplit.get(0).equals("Expansion"))
 				{
-					
+					// skip
+//					System.err.println("Skip: " + lLine);
 				}
 				else
 				{
-//					iData.add(lSplit);
-					strArr.add(lineArr);
+					iData.add(lSplit);
 				}
 				lLine = lIn.readLine();
 			}
 
 			lFileIn.close();
 			lIn.close();
-			
-			iData = new String[strArr.size()][];
-			strArr.toArray(iData);
-
 		}
 		catch (Exception pEx)
 		{
-//			D2FileManager.displayErrorDialog(pEx);
+			D2FileManager.displayErrorDialog(pEx);
 		}
 	}
 
@@ -300,45 +300,31 @@ public final class D2TxtFile
 
 	protected String getValue(int pRowNr, String pCol)
 	{
-		int lColNr = getCol(pCol);
+		int lColNr = iHeader.indexOf(pCol);
 
-		if (lColNr != -1 && pRowNr < iData.length && iData[pRowNr].length >= lColNr)
+		if (lColNr != -1 && pRowNr < iData.size())
 		{
-			return iData[pRowNr][lColNr];
+			return (String) ((ArrayList) iData.get(pRowNr)).get(lColNr);
 		}
 
-		return "";
-	}
-
-	private int getCol(String col) {
-		
-		
-		for(int x= 0;x<iHeader.length;x++){
-			if(iHeader[x].equals(col)){
-//				System.out.println(x + " " + col);
-				return x;
-			}
-		}
-		
-		return -1;
+		return null;
 	}
 
 	public D2TxtFileItemProperties getRow(int pRowNr)
 	{
 		return new D2TxtFileItemProperties(this, pRowNr);
-//		return new D2TxtFileItemProperties(this, pRowNr);
 	}
 
 	public D2TxtFileItemProperties searchColumns(String pCol, String pText)
-	{	
-		int lColNr = getCol(pCol);
+	{
+		int lColNr = iHeader.indexOf(pCol);
 
 		if (lColNr != -1)
 		{
-			for (int i = 0; i < iData.length; i++)
+			for (int i = 0; i < iData.size(); i++)
 			{
-				if(iData[i].length -1 >= lColNr){
-					if (iData[i][lColNr].equals(pText))
+				if(!((ArrayList)iData.get(i)).isEmpty()){
+					if (((ArrayList) iData.get(i)).get(lColNr).equals(pText))
 					{
 						return new D2TxtFileItemProperties(this, i);
 					}
@@ -352,14 +338,14 @@ public final class D2TxtFile
 	public ArrayList searchColumnsMultipleHits(String pCol, String pText)
 	{
 		ArrayList hits = new ArrayList();
-		int lColNr = getCol(pCol);
+		int lColNr = iHeader.indexOf(pCol);
 
 		if (lColNr != -1)
 		{
-			for (int i = 0; i < iData.length; i++)
+			for (int i = 0; i < iData.size(); i++)
 			{
-				if(iData[i].length -1 >= lColNr){
-					if (iData[i][lColNr].equals(pText))
+				if(!((ArrayList)iData.get(i)).isEmpty()){
+					if (((ArrayList) iData.get(i)).get(lColNr).equals(pText))
 					{
 						hits.add(new D2TxtFileItemProperties(this, i));
 					}
@@ -372,13 +358,13 @@ public final class D2TxtFile
 
 	public D2TxtFileItemProperties searchRuneWord(ArrayList pList)
 	{
-		int lRuneNr[] = new int[] { getCol("Rune1"), getCol("Rune2"), getCol("Rune3"), getCol("Rune4"), getCol("Rune5"), getCol("Rune6") };
-		for (int i = 0; i < iData.length; i++)
+		int lRuneNr[] = new int[] { iHeader.indexOf("Rune1"), iHeader.indexOf("Rune2"), iHeader.indexOf("Rune3"), iHeader.indexOf("Rune4"), iHeader.indexOf("Rune5"), iHeader.indexOf("Rune6") };
+		for (int i = 0; i < iData.size(); i++)
 		{
 			ArrayList lRW = new ArrayList();
 			for (int j = 0; j < lRuneNr.length; j++)
 			{
-				String lFile = iData[i][j];
+				String lFile = (String) ((ArrayList) iData.get(i)).get(lRuneNr[j]);
 
 				if (lFile != null && !lFile.equals(""))
 				{
@@ -402,27 +388,27 @@ public final class D2TxtFile
 				}
 				if (lIsRuneWord)
 				{
-//					return new D2TxtFileItemProperties(this, i);
+					return new D2TxtFileItemProperties(this, i);
 				}
 			}
 		}
 		return null;
 	}
 
-//	private int searchAllData(String pText)
-//	{
-//		for (int i = 0; i < iData.length; i++)
-//		{
-//			if (((ArrayList) iData.get(i)).contains(pText))
-//			{
-//				int lHeader = ((ArrayList) iData.get(i)).indexOf(pText);
-//				System.err.println("Found at: " + lHeader + " - " + iHeader.get(lHeader));
-//				return i;
-//			}
-//		}
-//
-//		return -1;
-//	}
+	private int searchAllData(String pText)
+	{
+		for (int i = 0; i < iData.size(); i++)
+		{
+			if (((ArrayList) iData.get(i)).contains(pText))
+			{
+				int lHeader = ((ArrayList) iData.get(i)).indexOf(pText);
+				System.err.println("Found at: " + lHeader + " - " + iHeader.get(lHeader));
+				return i;
+			}
+		}
+
+		return -1;
+	}
 
 	public static Boolean getGoMuleProperty(String pKey)
 	{
