@@ -20,6 +20,7 @@
  ******************************************************************************/
 package randall.d2files;
 
+import gomule.gui.D2FileManager;
 import gomule.item.D2Prop;
 
 import java.io.*;
@@ -115,7 +116,7 @@ public final class D2TxtFile
 		}
 		catch (Exception pEx)
 		{
-//			D2FileManager.displayErrorDialog(pEx);
+			D2FileManager.displayErrorDialog(pEx);
 		}
 	}
 
@@ -277,7 +278,7 @@ public final class D2TxtFile
 		}
 		catch (Exception pEx)
 		{
-//			D2FileManager.displayErrorDialog(pEx);
+			D2FileManager.displayErrorDialog(pEx);
 		}
 	}
 
