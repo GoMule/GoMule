@@ -697,7 +697,9 @@ public class D2Character extends D2ItemListAdapter
 			break;
 			case(188):
 				for(int t = 0;t<10;t=t+1){
+					if((pVals[0]-(getCharCode() * 8) ) > -1 && (pVals[0]-(getCharCode() * 8) ) < 4){  
 					if(cSkills[pVals[0]-(getCharCode() * 8)][t] > 0)cSkills[pVals[0]-(getCharCode() * 8)][t] = cSkills[pVals[0]-(getCharCode() * 8)][t] + pVals[1];
+					}
 				}
 			}
 		}

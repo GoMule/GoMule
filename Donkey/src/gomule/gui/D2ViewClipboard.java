@@ -21,27 +21,30 @@
 package gomule.gui;
 
 import gomule.d2x.*;
+import gomule.gui.D2ViewChar.D2CharPainterPanel;
 import gomule.item.*;
 import gomule.util.*;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.*;
 import javax.swing.table.*;
 
 import randall.util.*;
 
-public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, D2ItemListListener
+public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2ItemListListener
 {
     private static final int   		GRID_SIZE = 28;
 
     private D2FileManager      		iFileManager;
     private D2ItemModel        		iItemModel;
     private JTable             		iTable;
-    private RandallPanel      		iContentPane;
+//    private RandallPanel      		iContentPane;
 
     private static D2ViewClipboard 	iMouseItem;
 
@@ -52,7 +55,7 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
 
     private JTextField         		iBank;
 
-    public static D2ViewClipboard getInstance(D2FileManager pFileManager) throws Exception
+    public static D2ViewClipboard getInstance(D2FileManager pFileManager)
     {
         if (iMouseItem == null)
         {
@@ -68,11 +71,7 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
 
     private D2ViewClipboard(D2FileManager pFileManager)
     {
-        super("Item Clipboard", true, false, false, true);
         iFileManager = pFileManager;
-
-        iContentPane = new RandallPanel();
-
         try
         {
             iBank = new JTextField();
@@ -82,19 +81,68 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
 
             iItemModel = new D2ItemModel(iItems);
             iTable = new JTable(iItemModel);
+            
+
+            
+            
             iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
             JScrollPane lPane = new JScrollPane(iTable);
-            iContentPane.addToPanel(lPane,0,10,2,RandallPanel.BOTH);
+            setBorder((new TitledBorder(null, ("GoMule Clipboard"), 
+    				TitledBorder.LEFT, TitledBorder.TOP, this.getFont(), Color.gray)));
+//            addToPanel(new JLabel("<html><u><b>Item Clipboard</b></u></html>"),0,0,1,RandallPanel.NONE);
+//            addToPanel((JComponent) Box.createRigidArea(new Dimension(0,20)),0,0,1,RandallPanel.NONE);
             
-            iContentPane.addToPanel(new JLabel("GoMule Bank: "),0,0,1,RandallPanel.NONE);
-            iContentPane.addToPanel(iBank,1,0,1,RandallPanel.HORIZONTAL);
+            addToPanel(new JLabel("GoMule Bank: "),0,2,1,RandallPanel.NONE);
+            addToPanel(iBank,1,2,1,RandallPanel.HORIZONTAL);
+            
+            addToPanel(lPane,0,3,2,RandallPanel.BOTH);
+            
+            
+            final JPanel imgP = new JPanel();
+            imgP.setPreferredSize(new Dimension(100,100));
+            
+            
+            iTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 
-            iTable.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				public void valueChanged(ListSelectionEvent arg0) {
+
+					if(!arg0.getValueIsAdjusting() && iTable.getSelectedRow() > 0){
+						System.out.println(((D2Item)iItems.get(iTable.getSelectedRow())).getName());
+						imgP.getGraphics().drawImage( D2ImageCache.getDC6Image(((D2Item)iItems.get(iTable.getSelectedRow()))), 0, 0, imgP);
+					}
+					
+				}
+            	
+            });
+//            imgP.getGraphics().drawi
+            
+            addToPanel(imgP,0,4,2,RandallPanel.NONE);
+            
+//            final JumbledImage ji = new JumbledImage(imageSrc);
+//            add("Center", ji);
+//            JButton jumbleButton = new JButton("Jumble");
+//            jumbleButton.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//            		JButton b = (JButton)e.getSource();
+//                        ji.jumble();
+//                        ji.repaint();
+//                    };
+//                });
+//            Dimension jumbleSize = ji.getPreferredSize();
+//            resize(jumbleSize.width, jumbleSize.height+40);
+//            add("South", jumbleButton);
+
+            
+//            addToPanel(pComponent, 0, 0, 1, RandallPanel.NONE);
+            
+
+            iTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
             if (!iItems.isEmpty())
             {
                 iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
             }
+            lPane.setPreferredSize(new Dimension(180,150));
         }
         catch (Exception pEx)
         {
@@ -102,15 +150,9 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
             JTextArea lError = new JTextArea();
             JScrollPane lScroll = new JScrollPane(lError);
             lError.setText(pEx.getMessage());
-            iContentPane.add(lError, BorderLayout.CENTER);
+            add(lError, BorderLayout.CENTER);
         }
-
-        setContentPane(iContentPane);
-
-        pack();
-
-        setLocation(0, 300);
-        setSize(300, 200);
+//        setSize(100, 100);
 
         setVisible(true);
     }
@@ -118,7 +160,6 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
     public void itemListChanged()
     {
         fireTableChanged();
-        super.setTitle("Item Clipboard" + ( iStash.isModified() ? "*":"" ) );
     }
 
     class D2ItemModel implements TableModel
@@ -143,7 +184,7 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
 
         public int getColumnCount()
         {
-            return 3;
+            return 2;
         }
 
         public String getColumnName(int pCol)
@@ -154,8 +195,6 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
                 return "Name";
             case 1:
                 return "Fingerprint";
-            case 2:
-                return "iLvl";
             default:
                 return "";
             }
@@ -180,8 +219,6 @@ public class D2ViewClipboard extends JInternalFrame implements D2ItemContainer, 
                 return new D2CellValue( lItem.getItemName(), lItem, iFileManager.getProject());
             case 1:
                 return new D2CellValue( lItem.getFingerprint(), lItem, iFileManager.getProject());
-            case 2:
-                return new D2CellValue( lItem.getILvl(), lItem, iFileManager.getProject());
             default:
                 return "";
             }

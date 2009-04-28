@@ -23,17 +23,12 @@ package gomule.gui;
 
 import gomule.d2s.*;
 import gomule.d2x.*;
-import gomule.item.D2Item;
 import gomule.util.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
-
-import com.sun.org.apache.bcel.internal.generic.D2I;
 
 import randall.d2files.*;
 import randall.util.RandallPanel;
@@ -48,84 +43,61 @@ public class D2FileManager extends JFrame
     private static final String  CURRENT_VERSION = "R0.22";
 
     private HashMap				 iItemLists = new HashMap();
-    
     private ArrayList            iOpenWindows;
-
     private JPanel               iContentPane;
     private JDesktopPane         iDesktopPane;
-
     private JToolBar             iToolbar;
-
     private Properties           iProperties;
     private D2Project            iProject;
     private JButton              iBtnProjectSelection;
     private D2ViewProject        iViewProject;
-
-    private static D2FileManager iCurrent;
-
+    private final static D2FileManager iCurrent = new D2FileManager();
     private D2ViewClipboard      iClipboard;
     private D2ViewStash          iViewAll;
-    
     private boolean				 iIgnoreCheckAll = false;
-
 	private JMenuBar D2JMenu;
-
 	private JMenu file;
-
 	private JMenu edit;
+
+	private JPanel iRightPane;
 
     public static D2FileManager getIntance()
     {
-        if (iCurrent == null)
-        {
-            iCurrent = new D2FileManager();
-        }
         return iCurrent;
     }
 
     private D2FileManager()
     {
-        super();
-
         D2TxtFile.readAllFiles("d2111");
         D2TblFile.readAllFiles("d2111");
-        
-//        D2Item d2i = new D2Item(D2TxtFile.UNIQUES.searchColumns("index","Duskdeep"));
-        
-
-//        D2TxtFile.readAllFiles("d2Median");
-//        D2TblFile.readAllFiles("d2Median");
-        
         createToolbar();
-//        createMenuSystem();
-      
-        
-        iOpenWindows = new ArrayList();
 
+        iOpenWindows = new ArrayList();
         iContentPane = new JPanel();
         iDesktopPane = new JDesktopPane();
-
         iContentPane.setLayout(new BorderLayout());
         iContentPane.add(iToolbar, BorderLayout.NORTH);
-
         iViewProject = new D2ViewProject(this);
         iViewProject.setPreferredSize(new Dimension(100, 100));
         iViewProject.setProject(iProject);
         iViewProject.refreshTreeModel(true, true);
+        iRightPane = new JPanel();
         JSplitPane lSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, iViewProject, iDesktopPane);
+        JSplitPane rSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, lSplit, iRightPane);
         lSplit.setDividerLocation(200);
-        iContentPane.add(lSplit, BorderLayout.CENTER);
+        rSplit.setDividerLocation(1024 - 210);
+        iContentPane.add(rSplit, BorderLayout.CENTER);
 
         setContentPane(iContentPane);
-
         Dimension lSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(lSize.width, lSize.height - 50 );
+//        setSize(lSize.width, lSize.height - 50 );
+        setSize(1024,768);
         setTitle("GoMule " + CURRENT_VERSION);
 
         try
         {
             iClipboard = D2ViewClipboard.getInstance(this);
-            iDesktopPane.add(iClipboard);
+            iRightPane.add(iClipboard);
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             addWindowListener(new java.awt.event.WindowAdapter()
             {
@@ -133,10 +105,6 @@ public class D2FileManager extends JFrame
                 {
                     closeListener();
                 }
-//                public void windowDeactivated(WindowEvent e) 
-//                {
-//                    saveAll();
-//                }
                 public void windowActivated(WindowEvent e) 
                 {
                     checkAll(false);
@@ -146,6 +114,7 @@ public class D2FileManager extends JFrame
         }
         catch (Exception pEx)
         {
+        	pEx.printStackTrace();
             JTextArea lText = new JTextArea();
             lText.setText(pEx.getMessage());
             JScrollPane lScroll = new JScrollPane(lText);
@@ -160,10 +129,6 @@ public class D2FileManager extends JFrame
                 }
             });
         }
-        //        pack();
-
-        //        compareFile("save\\daniel1.d2s", "save\\daniel2.d2s");
-
         setVisible(true);
     }
 
@@ -180,39 +145,6 @@ public class D2FileManager extends JFrame
         iViewProject.setProject(pProject);
     }
     
-    public void createMenuSystem(){
-    	
-    	D2JMenu = new JMenuBar();
-    	setJMenuBar(D2JMenu);
-    	
-    	
-    	
-    	file = new JMenu("File");
-    	edit = new JMenu("Edit");
-    	
-    	
-    	
-    	JMenuItem openCh = new JMenuItem("Open Char");
-    	JMenuItem openSt = new JMenuItem("Open Stash");
-    	JMenuItem saveAll = new JMenuItem("Save All");
-    	
-    	file.add(openCh);
-    	file.add(openSt);
-    	file.addSeparator();
-    	file.add(saveAll);
-    	
-    	JMenuItem pref = new JMenuItem("Preferences");
-    	pref.addActionListener(new D2MenuListener());
-    	edit.add(pref);
-    
-    	
-    	D2JMenu.add(file);
-
-    	D2JMenu.add(edit);
-    	
-    }
-
-    
 
     private void createToolbar()
     {
@@ -222,7 +154,6 @@ public class D2FileManager extends JFrame
 
         // sets whether the border should be painted
         iToolbar.setBorderPainted(false);
-
         iToolbar.add(new JLabel("Character"));
 
         JButton lOpenD2S = new JButton(D2ImageCache.getIcon("open.gif"));
@@ -308,8 +239,10 @@ public class D2FileManager extends JFrame
             public void actionPerformed(java.awt.event.ActionEvent e)
             {
             	try {
-            	    Process child = Runtime.getRuntime().exec("java -jar DropCalc.jar");
+            	    Runtime.getRuntime().exec("java -jar DropCalc.jar");
             	} catch (IOException ee) {
+            		
+            		ee.printStackTrace();
             	}
                 
             }
@@ -417,15 +350,6 @@ public class D2FileManager extends JFrame
         closeWindows();
         System.exit(0);
     }
-    
-//    public D2ItemListAll getAllItemList()
-//    {
-//        if ( iItemLists.containsKey("all") )
-//        {
-//            return (D2ItemListAll) iItemLists.get("all");
-//        }
-//        return null;
-//    }
     
     public void closeFileName(String pFileName)
     {
@@ -540,8 +464,6 @@ public class D2FileManager extends JFrame
 	        iIgnoreCheckAll = true;
 	        boolean lChanges = pCancel;
 	        boolean lModifiedChanges = pCancel;
-	//        return true;
-	//        boolean lSomethingChanged = true;
 	        D2ItemList lClipboardStash = iClipboard.getItemLists();
 	
 	        if ( !lClipboardStash.checkTimestamp() )
@@ -772,43 +694,6 @@ public class D2FileManager extends JFrame
         }
     }
 
-//    public void newStash()
-//    {
-//        JFileChooser lStashChooser = getStashDialog();
-//        if (lStashChooser.showDialog(this, "New Stash") == JFileChooser.APPROVE_OPTION)
-//        {
-//            String lFileName = handleStash(lStashChooser);
-//            if (lFileName != null)
-//            {
-//                D2ItemList lList = (D2ItemList) iItemLists.get(lFileName);
-//                
-//                lList.save(iProject);
-//            }
-//        }
-//    }
-    
-//    private String handleStash(JFileChooser pStashChooser)
-//    {
-//        java.io.File lFile = pStashChooser.getSelectedFile();
-//        try
-//        {
-//            String lFilename = lFile.getAbsolutePath();
-//            if (!lFilename.endsWith(".d2x"))
-//            {
-//                // force stash name to end with .d2x
-//                lFilename += ".d2x";
-//            }
-//
-//            openStash(lFilename);
-//            return lFilename;
-//        }
-//        catch (Exception pEx)
-//        {
-//            D2FileManager.displayErrorDialog(pEx);
-//            return null;
-//        }
-//    }
-    
     private String[] handleStash(JFileChooser pStashChooser, boolean load)
     {
     	
@@ -864,13 +749,7 @@ public class D2FileManager extends JFrame
         }
         lStashView.activateView();
         }
-//        lStashView.toFront();
-//        lStashView.requestFocus();
-//        lStashView.requestFocusInWindow();
         iProject.addStash(pStashName);
-//        iViewProject.refreshTreeModel(false, true);
-
-//        return lStashView;
     }
 
     public void about_action()
@@ -956,12 +835,9 @@ public class D2FileManager extends JFrame
         if ( !lList.hasD2ItemListListener() )
         {
             System.err.println("Remove file: " + pFileName );
-//            saveAll();
             iItemLists.remove(pFileName);
             iViewProject.notifyItemListClosed(pFileName);
         }
-        
-       // System.gc();
     }
     
     public static void displayErrorDialog(Exception pException)
@@ -1022,19 +898,16 @@ public class D2FileManager extends JFrame
         lDialog.pack();
         lDialog.setLocationRelativeTo(null);
         lDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        lDialog.show();
+        lDialog.setVisible(true);
     }
     
     class D2MenuListener implements ActionListener{
 
 		public void actionPerformed(ActionEvent arg0) {
 			
-			RandallPanel prefWindow =  new RandallPanel();
+			new RandallPanel();
 			
 		}
-
-    	
-
     }
 
 }
