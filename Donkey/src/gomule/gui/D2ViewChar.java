@@ -179,7 +179,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		iFileName = pFileName;
 
 
-
+		
 		JPanel lCharPanel = new JPanel();
 		lCharPanel.setLayout(new BorderLayout());
 		iCharPainter = new D2CharPainterPanel();

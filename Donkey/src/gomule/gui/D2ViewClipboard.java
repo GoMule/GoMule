@@ -34,408 +34,394 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.*;
 import javax.swing.table.*;
+import javax.swing.text.StyledEditorKit;
 
 import randall.util.*;
 
 public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2ItemListListener
 {
-    private static final int   		GRID_SIZE = 28;
+	private static final int   		GRID_SIZE = 28;
 
-    private D2FileManager      		iFileManager;
-    private D2ItemModel        		iItemModel;
-    private JTable             		iTable;
-//    private RandallPanel      		iContentPane;
+	private D2FileManager      		iFileManager;
+	private D2ItemModel        		iItemModel;
+	private JTable             		iTable;
+//	private RandallPanel      		iContentPane;
 
-    private static D2ViewClipboard 	iMouseItem;
+	private static D2ViewClipboard 	iMouseItem;
 
-    private ArrayList          		iItems;
+	private ArrayList          		iItems;
 
-    private String			   		iFileName;
-    private D2Stash   				iStash;
+	private String			   		iFileName;
+	private D2Stash   				iStash;
 
-    private JTextField         		iBank;
+	private JTextField         		iBank;
 
-    public static D2ViewClipboard getInstance(D2FileManager pFileManager)
-    {
-        if (iMouseItem == null)
-        {
-            iMouseItem = new D2ViewClipboard(pFileManager);
-        }
-        return iMouseItem;
-    }
-    
-    public static D2ViewClipboard getInstance()
-    {
-        return iMouseItem;
-    }
+	public static D2ViewClipboard getInstance(D2FileManager pFileManager)
+	{
+		if (iMouseItem == null)
+		{
+			iMouseItem = new D2ViewClipboard(pFileManager);
+		}
+		return iMouseItem;
+	}
 
-    private D2ViewClipboard(D2FileManager pFileManager)
-    {
-        iFileManager = pFileManager;
-        try
-        {
-            iBank = new JTextField();
-            iBank.setEditable(false);
-            
-            setProject(pFileManager.getProject());
+	public static D2ViewClipboard getInstance()
+	{
+		return iMouseItem;
+	}
 
-            iItemModel = new D2ItemModel(iItems);
-            iTable = new JTable(iItemModel);
-            
+	private D2ViewClipboard(D2FileManager pFileManager)
+	{
+		iFileManager = pFileManager;
+		try
+		{
+			iBank = new JTextField();
+			iBank.setEditable(false);
 
-            
-            
-            iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
-            JScrollPane lPane = new JScrollPane(iTable);
-            setBorder((new TitledBorder(null, ("GoMule Clipboard"), 
-    				TitledBorder.LEFT, TitledBorder.TOP, this.getFont(), Color.gray)));
-//            addToPanel(new JLabel("<html><u><b>Item Clipboard</b></u></html>"),0,0,1,RandallPanel.NONE);
-//            addToPanel((JComponent) Box.createRigidArea(new Dimension(0,20)),0,0,1,RandallPanel.NONE);
-            
-            addToPanel(new JLabel("GoMule Bank: "),0,2,1,RandallPanel.NONE);
-            addToPanel(iBank,1,2,1,RandallPanel.HORIZONTAL);
-            
-            addToPanel(lPane,0,3,2,RandallPanel.BOTH);
-            
-            
-            final JPanel imgP = new JPanel();
-            imgP.setPreferredSize(new Dimension(100,100));
-            
-            
-            iTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+			setProject(pFileManager.getProject());
+
+			iItemModel = new D2ItemModel(iItems);
+			iTable = new JTable(iItemModel);
+
+			iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
+			JScrollPane lPane = new JScrollPane(iTable);
+			setBorder((new TitledBorder(null, ("GoMule Clipboard"), 
+					TitledBorder.LEFT, TitledBorder.TOP, this.getFont(), Color.gray)));
+
+			final ImageIcon iIcon = new ImageIcon();
+			final JLabel iIconLabel = new JLabel();
+			
+			iIconLabel.setPreferredSize(new Dimension(56, 112));
+			iIconLabel.setIcon(iIcon);
+			iIconLabel.setHorizontalAlignment(JLabel.CENTER);
+			iIconLabel.setOpaque(true);
+			iIconLabel.setBackground(Color.black);
+			
+			addToPanel(new JLabel("GoMule Bank: "),0,2,1,RandallPanel.NONE);
+			addToPanel(iBank,1,2,1,RandallPanel.HORIZONTAL);
+			addToPanel(lPane,0,3,2,RandallPanel.BOTH);
+			addToPanel(iIconLabel,0,4,2,RandallPanel.BOTH);
+
+			iTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 
 				public void valueChanged(ListSelectionEvent arg0) {
 
-					if(!arg0.getValueIsAdjusting() && iTable.getSelectedRow() > 0){
-						System.out.println(((D2Item)iItems.get(iTable.getSelectedRow())).getName());
-						imgP.getGraphics().drawImage( D2ImageCache.getDC6Image(((D2Item)iItems.get(iTable.getSelectedRow()))), 0, 0, imgP);
+					if(!arg0.getValueIsAdjusting()){
+						if(iTable.getSelectedRow() > -1){
+							D2Item iItem = (D2Item)iItems.get(iTable.getSelectedRow());
+							iIcon.setImage(D2ImageCache.getDC6Image(iItem));
+							if(iIconLabel.getIcon() == null){
+								iIconLabel.setIcon(iIcon);
+							}
+							iIconLabel.setToolTipText(iItem.toStringHtml());
+							iIconLabel.repaint();
+						}else{
+							iIconLabel.setIcon(null);
+							iIconLabel.setToolTipText("");
+							iIconLabel.repaint();
+						}
 					}
-					
 				}
-            	
-            });
-//            imgP.getGraphics().drawi
-            
-            addToPanel(imgP,0,4,2,RandallPanel.NONE);
-            
-//            final JumbledImage ji = new JumbledImage(imageSrc);
-//            add("Center", ji);
-//            JButton jumbleButton = new JButton("Jumble");
-//            jumbleButton.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//            		JButton b = (JButton)e.getSource();
-//                        ji.jumble();
-//                        ji.repaint();
-//                    };
-//                });
-//            Dimension jumbleSize = ji.getPreferredSize();
-//            resize(jumbleSize.width, jumbleSize.height+40);
-//            add("South", jumbleButton);
+			});
 
-            
-//            addToPanel(pComponent, 0, 0, 1, RandallPanel.NONE);
-            
+			iTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-            iTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			if (!iItems.isEmpty())
+			{
+				iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+			}
+			lPane.setPreferredSize(new Dimension(180,150));
+		}
+		catch (Exception pEx)
+		{
+			D2FileManager.displayErrorDialog(pEx);
+			JTextArea lError = new JTextArea();
+			JScrollPane lScroll = new JScrollPane(lError);
+			lError.setText(pEx.getMessage());
+			add(lError, BorderLayout.CENTER);
+		}
+		setVisible(true);
+	}
 
-            if (!iItems.isEmpty())
-            {
-                iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
-            }
-            lPane.setPreferredSize(new Dimension(180,150));
-        }
-        catch (Exception pEx)
-        {
-            D2FileManager.displayErrorDialog(pEx);
-            JTextArea lError = new JTextArea();
-            JScrollPane lScroll = new JScrollPane(lError);
-            lError.setText(pEx.getMessage());
-            add(lError, BorderLayout.CENTER);
-        }
-//        setSize(100, 100);
+	public void itemListChanged()
+	{
+		fireTableChanged();
+	}
 
-        setVisible(true);
-    }
-    
-    public void itemListChanged()
-    {
-        fireTableChanged();
-    }
+	class D2ItemModel implements TableModel
+	{
+		private ArrayList iTableModelListeners = new ArrayList();
+		private ArrayList    iItems;
 
-    class D2ItemModel implements TableModel
-    {
-        private ArrayList iTableModelListeners = new ArrayList();
-        private ArrayList    iItems;
+		public D2ItemModel(ArrayList pItems)
+		{
+			setItems(pItems);
+		}
 
-        public D2ItemModel(ArrayList pItems)
-        {
-            setItems(pItems);
-        }
+		public void setItems(ArrayList pItems)
+		{
+			iItems = pItems;
+		}
 
-        public void setItems(ArrayList pItems)
-        {
-            iItems = pItems;
-        }
+		public int getRowCount()
+		{
+			return iItems.size();
+		}
 
-        public int getRowCount()
-        {
-            return iItems.size();
-        }
+		public int getColumnCount()
+		{
+			return 2;
+		}
 
-        public int getColumnCount()
-        {
-            return 2;
-        }
+		public String getColumnName(int pCol)
+		{
+			switch (pCol)
+			{
+			case 0:
+				return "Name";
+			case 1:
+				return "Fingerprint";
+			default:
+				return "";
+			}
+		}
 
-        public String getColumnName(int pCol)
-        {
-            switch (pCol)
-            {
-            case 0:
-                return "Name";
-            case 1:
-                return "Fingerprint";
-            default:
-                return "";
-            }
-        }
+		public Class getColumnClass(int pCol)
+		{
+			return String.class;
+		}
 
-        public Class getColumnClass(int pCol)
-        {
-            return String.class;
-        }
+		public boolean isCellEditable(int pRow, int pCol)
+		{
+			return false;
+		}
 
-        public boolean isCellEditable(int pRow, int pCol)
-        {
-            return false;
-        }
+		public Object getValueAt(int pRow, int pCol)
+		{
+			D2Item lItem = (D2Item) iItems.get(pRow);
+			switch (pCol)
+			{
+			case 0:
+				return new D2CellValue( lItem.getItemName(), lItem, iFileManager.getProject());
+			case 1:
+				return new D2CellValue( lItem.getFingerprint(), lItem, iFileManager.getProject());
+			default:
+				return "";
+			}
+		}
 
-        public Object getValueAt(int pRow, int pCol)
-        {
-            D2Item lItem = (D2Item) iItems.get(pRow);
-            switch (pCol)
-            {
-            case 0:
-                return new D2CellValue( lItem.getItemName(), lItem, iFileManager.getProject());
-            case 1:
-                return new D2CellValue( lItem.getFingerprint(), lItem, iFileManager.getProject());
-            default:
-                return "";
-            }
-        }
+		public void setValueAt(Object pValue, int pRow, int pCol)
+		{
+			// Do nothing
+		}
 
-        public void setValueAt(Object pValue, int pRow, int pCol)
-        {
-            // Do nothing
-        }
+		public void addTableModelListener(TableModelListener pListener)
+		{
+			iTableModelListeners.add(pListener);
+		}
 
-        public void addTableModelListener(TableModelListener pListener)
-        {
-            iTableModelListeners.add(pListener);
-        }
+		public void removeTableModelListener(TableModelListener pListener)
+		{
+			iTableModelListeners.remove(pListener);
+		}
 
-        public void removeTableModelListener(TableModelListener pListener)
-        {
-            iTableModelListeners.remove(pListener);
-        }
+		public void fireTableChanged()
+		{
+			fireTableChanged(new TableModelEvent(this));
+		}
 
-        public void fireTableChanged()
-        {
-            fireTableChanged(new TableModelEvent(this));
-        }
+		public void fireTableChanged(TableModelEvent pEvent)
+		{
+			for (int i = 0; i < iTableModelListeners.size(); i++)
+			{
+				((TableModelListener) iTableModelListeners.get(i)).tableChanged(pEvent);
+			}
+			int lRowCount = iTable.getRowCount();
+			if ( iTable.getSelectedRow() == -1 && iTable.getRowCount() > 0 )
+			{
+				iTable.setRowSelectionInterval(lRowCount-1, lRowCount-1);
+			}
+		}
 
-        public void fireTableChanged(TableModelEvent pEvent)
-        {
-            for (int i = 0; i < iTableModelListeners.size(); i++)
-            {
-                ((TableModelListener) iTableModelListeners.get(i)).tableChanged(pEvent);
-            }
-            int lRowCount = iTable.getRowCount();
-            if ( iTable.getSelectedRow() == -1 && iTable.getRowCount() > 0 )
-            {
-                iTable.setRowSelectionInterval(lRowCount-1, lRowCount-1);
-            }
-        }
+	}
 
-    }
+	public String getFileName()
+	{
+		return iFileName;
+	}
 
-    public String getFileName()
-    {
-        return iFileName;
-    }
+	public void setProject(D2Project pProject) throws Exception
+	{
+		if ( iStash != null )
+		{
+			iStash.removeD2ItemListListener(this);
+			iStash = null;
+		}
+		iFileName = pProject.getProjectDir() + File.separator + "Clipboard.d2x";
+		iStash = new D2Stash(iFileName);
+		iStash.addD2ItemListListener(this);
+		iItems = iStash.getItemList();
+		if (iItemModel != null)
+		{
+			iItemModel.setItems(iItems);
+			iItemModel.fireTableChanged();
+			iTable.repaint();
+			if (!iItems.isEmpty())
+			{
+				iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+			}
+		}
 
-    public void setProject(D2Project pProject) throws Exception
-    {
-        if ( iStash != null )
-        {
-            iStash.removeD2ItemListListener(this);
-            iStash = null;
-        }
-        iFileName = pProject.getProjectDir() + File.separator + "Clipboard.d2x";
-        iStash = new D2Stash(iFileName);
-        iStash.addD2ItemListListener(this);
-        iItems = iStash.getItemList();
-        if (iItemModel != null)
-        {
-            iItemModel.setItems(iItems);
-            iItemModel.fireTableChanged();
-            iTable.repaint();
-            if (!iItems.isEmpty())
-            {
-                iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
-            }
-        }
-        
-        iBank.setText(Integer.toString(pProject.getBankValue()));
-        if (iItemModel != null)
-        {
-            itemListChanged();
-        }
-    }
-    
-    public static void refreshBank(D2Project pProject)
-    {
-        iMouseItem.iBank.setText(Integer.toString(pProject.getBankValue()));
-    }
+		iBank.setText(Integer.toString(pProject.getBankValue()));
+		if (iItemModel != null)
+		{
+			itemListChanged();
+		}
+	}
 
-    public boolean isModified()
-    {
-        return iStash.isModified();
-    }
-    
-    public D2ItemList getItemLists()
-    {
-        return iStash;
-    }
-    
-    public void closeView()
-    {
-        iStash.removeD2ItemListListener(this);
-    }
-    
-    public boolean isSC()
-    {
-        return true;
-    }
+	public static void refreshBank(D2Project pProject)
+	{
+		iMouseItem.iBank.setText(Integer.toString(pProject.getBankValue()));
+	}
 
-    public boolean isHC()
-    {
-        return true;
-    }
-    
-    public void saveView()
-    {
-        if ( iStash != null && iStash.isModified() )
-        {
-            iStash.save( iMouseItem.iFileManager.getProject() );
-        }
-    }
+	public boolean isModified()
+	{
+		return iStash.isModified();
+	}
 
-    public static ArrayList getItemList()
-    {
-        return iMouseItem.iItems;
-    }
-    
-    public static ArrayList removeAllItems()
-    {
-        return iMouseItem.iStash.removeAllItems();
-    }
+	public D2ItemList getItemLists()
+	{
+		return iStash;
+	}
 
-    public static D2Item getItem()
-    {
-        return iMouseItem.getItemInternal();
-    }
+	public void closeView()
+	{
+		iStash.removeD2ItemListListener(this);
+	}
 
-    private D2Item getItemInternal()
-    {
-        if (!iItems.isEmpty())
-        {
-            int lRow = iTable.getSelectedRow();
-            if (lRow >= 0 && lRow < iItems.size())
-            {
-                return (D2Item) iItems.get(lRow);
-            }
-        }
-        return null;
-    }
+	public boolean isSC()
+	{
+		return true;
+	}
 
-    public static D2Item removeItem()
-    {
-        return iMouseItem.removeItemInternal();
-    }
+	public boolean isHC()
+	{
+		return true;
+	}
 
-    private D2Item removeItemInternal()
-    {
-        if (!iItems.isEmpty())
-        {
-            int lRow = iTable.getSelectedRow();
-            if (lRow >= 0 && lRow < iItems.size())
-            {
-                D2Item lItem = (D2Item) iItems.get(lRow);
-                iStash.removeItem(lItem);
-                if (!iItems.isEmpty() && iTable.getSelectedRow() == -1)
-                {
-                    iTable.clearSelection();
-                    iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
-                }
-                return lItem;
-            }
-        }
-        return null;
-    }
+	public void saveView()
+	{
+		if ( iStash != null && iStash.isModified() )
+		{
+			iStash.save( iMouseItem.iFileManager.getProject() );
+		}
+	}
 
-    public static void addItem(D2Item pItem)
-    {
-        iMouseItem.addItemInternal(pItem);
-    }
+	public static ArrayList getItemList()
+	{
+		return iMouseItem.iItems;
+	}
 
-    private void addItemInternal(D2Item pItem)
-    {
-        iStash.addItem(pItem);
+	public static ArrayList removeAllItems()
+	{
+		return iMouseItem.iStash.removeAllItems();
+	}
 
-        if (iTable.getSelectedRow() == -1)
-        {
-            if (!iItems.isEmpty())
-            {
-                //                System.err.println("Set To: " + (iItems.size()-1) );
-                iTable.clearSelection();
-                iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
-            }
-        }
-        else
-        {
-            if (!iItems.isEmpty())
-            {
-                if (iTable.getSelectedRow() == iItems.size() - 2)
-                {
-                    //                    System.err.println("Set To: " + (iItems.size()-1) );
-                    iTable.clearSelection();
-                    iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
-                }
-            }
-            else
-            {
-                iTable.clearSelection();
-                //                iTable.setRowSelectionInterval(-1, -1);
-            }
-        }
-        //        System.err.println( "Test: " + iTable.getSelectedRow() );
+	public static D2Item getItem()
+	{
+		return iMouseItem.getItemInternal();
+	}
 
-    }
+	private D2Item getItemInternal()
+	{
+		if (!iItems.isEmpty())
+		{
+			int lRow = iTable.getSelectedRow();
+			if (lRow >= 0 && lRow < iItems.size())
+			{
+				return (D2Item) iItems.get(lRow);
+			}
+		}
+		return null;
+	}
 
-    private void fireTableChanged()
-    {
-        iItemModel.fireTableChanged();
-    }
-    
-    public void connect()
-    {
-        throw new RuntimeException("Internal error: wrong calling");
-    }
+	public static D2Item removeItem()
+	{
+		return iMouseItem.removeItemInternal();
+	}
 
-    public void disconnect(Exception pEx)
-    {
-        throw new RuntimeException("Internal error: wrong calling");
-    }
+	private D2Item removeItemInternal()
+	{
+		if (!iItems.isEmpty())
+		{
+			int lRow = iTable.getSelectedRow();
+			if (lRow >= 0 && lRow < iItems.size())
+			{
+				D2Item lItem = (D2Item) iItems.get(lRow);
+				iStash.removeItem(lItem);
+				if (!iItems.isEmpty() && iTable.getSelectedRow() == -1)
+				{
+					iTable.clearSelection();
+					iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+				}
+				return lItem;
+			}
+		}
+		return null;
+	}
+
+	public static void addItem(D2Item pItem)
+	{
+		iMouseItem.addItemInternal(pItem);
+	}
+
+	private void addItemInternal(D2Item pItem)
+	{
+		iStash.addItem(pItem);
+
+		if (iTable.getSelectedRow() == -1)
+		{
+			if (!iItems.isEmpty())
+			{
+				//                System.err.println("Set To: " + (iItems.size()-1) );
+				iTable.clearSelection();
+				iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+			}
+		}
+		else
+		{
+			if (!iItems.isEmpty())
+			{
+				if (iTable.getSelectedRow() == iItems.size() - 2)
+				{
+					//                    System.err.println("Set To: " + (iItems.size()-1) );
+					iTable.clearSelection();
+					iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+				}
+			}
+			else
+			{
+				iTable.clearSelection();
+				//                iTable.setRowSelectionInterval(-1, -1);
+			}
+		}
+		//        System.err.println( "Test: " + iTable.getSelectedRow() );
+
+	}
+
+	private void fireTableChanged()
+	{
+		iItemModel.fireTableChanged();
+	}
+
+	public void connect()
+	{
+		throw new RuntimeException("Internal error: wrong calling");
+	}
+
+	public void disconnect(Exception pEx)
+	{
+		throw new RuntimeException("Internal error: wrong calling");
+	}
 
 }

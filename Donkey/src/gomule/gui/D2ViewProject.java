@@ -82,6 +82,8 @@ public class D2ViewProject extends JPanel
         add(lScroll, BorderLayout.CENTER);
         
         JButton lFlavie = new JButton("Flavie");
+        add(lFlavie, BorderLayout.SOUTH);
+        
         lFlavie.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent pEvent)
@@ -115,7 +117,7 @@ public class D2ViewProject extends JPanel
                 }
             }
         });
-        add(lFlavie, BorderLayout.SOUTH);
+       
 
         iTree.addMouseListener(new MouseAdapter()
         {

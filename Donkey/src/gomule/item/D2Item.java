@@ -2877,5 +2877,13 @@ public class D2Item implements Comparable, D2ItemInterface {
 			applyItemMods();
 		}
 	}
+	
+	public String getBaseItemName(){
+		if(!iItemName.equals(iBaseItemName)){
+			return iBaseItemName;
+		}
+		
+		return "";
+	}
 
 }

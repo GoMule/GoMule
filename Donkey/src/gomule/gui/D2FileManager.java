@@ -30,6 +30,8 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 
+import com.sun.java.swing.plaf.windows.DesktopProperty;
+
 import randall.d2files.*;
 import randall.util.RandallPanel;
 
@@ -75,6 +77,7 @@ public class D2FileManager extends JFrame
         iOpenWindows = new ArrayList();
         iContentPane = new JPanel();
         iDesktopPane = new JDesktopPane();
+        iDesktopPane.setDragMode(1);
         iContentPane.setLayout(new BorderLayout());
         iContentPane.add(iToolbar, BorderLayout.NORTH);
         iViewProject = new D2ViewProject(this);
@@ -82,15 +85,16 @@ public class D2FileManager extends JFrame
         iViewProject.setProject(iProject);
         iViewProject.refreshTreeModel(true, true);
         iRightPane = new JPanel();
+        iRightPane.setPreferredSize(new Dimension(190,768));
         JSplitPane lSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, iViewProject, iDesktopPane);
         JSplitPane rSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, lSplit, iRightPane);
         lSplit.setDividerLocation(200);
         rSplit.setDividerLocation(1024 - 210);
+        rSplit.setResizeWeight(1.0);
+        iRightPane.setMinimumSize(new Dimension(190,0));
         iContentPane.add(rSplit, BorderLayout.CENTER);
 
         setContentPane(iContentPane);
-        Dimension lSize = Toolkit.getDefaultToolkit().getScreenSize();
-//        setSize(lSize.width, lSize.height - 50 );
         setSize(1024,768);
         setTitle("GoMule " + CURRENT_VERSION);
 
@@ -626,7 +630,7 @@ public class D2FileManager extends JFrame
         else
         {
             D2ViewChar lCharView = new D2ViewChar(D2FileManager.this, pCharName);
-            lCharView.setLocation(100, 100);
+            lCharView.setLocation(10, 10);
             addToOpenWindows(lCharView);
             lCharView.toFront();
         }
