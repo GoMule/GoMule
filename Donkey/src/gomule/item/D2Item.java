@@ -357,16 +357,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 			read_ear(pFile);
 		}
 
-		// Blunt does 150 damage to undead
-		if (iType.equals("club") || iType.equals("scep")
-				|| iType.equals("mace") || iType.equals("hamm")) {
-			iProps.add(new D2Prop(122, new int[] { 150 }, 0));
-		}
-
 		if (isTypeArmor() || isTypeWeapon()) {
+//			Blunt does 150 damage to undead
+			if (iType.equals("club") || iType.equals("scep")
+					|| iType.equals("mace") || iType.equals("hamm")) {
+				iProps.add(new D2Prop(122, new int[] { 150 }, 0));
+			}
 			applyItemMods();
 		}
-
 	}
 
 	// read ear related data from the bytes
@@ -383,6 +381,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if (lChar != 0) {
 				lCharName.append((char) lChar);
 			} else {
+				pFile.read(7);
 				break;
 			}
 		}
@@ -1450,7 +1449,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					dispStr.append("</font>");
 				}
 			}
-			
+
 			StringBuffer setBuf = iProps.generateDisplay(36, iCharLvl);
 			if (setBuf.length() > 33) {
 				dispStr.append(setBuf);
@@ -2877,12 +2876,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 			applyItemMods();
 		}
 	}
-	
+
 	public String getBaseItemName(){
 		if(!iItemName.equals(iBaseItemName)){
 			return iBaseItemName;
 		}
-		
+
 		return "";
 	}
 
