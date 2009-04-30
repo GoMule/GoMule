@@ -46,6 +46,7 @@ public class D2FileManager extends JFrame
 
     private HashMap				 iItemLists = new HashMap();
     private ArrayList            iOpenWindows;
+    private JMenuBar			 iMenuBar;
     private JPanel               iContentPane;
     private JDesktopPane         iDesktopPane;
     private JToolBar             iToolbar;
@@ -74,6 +75,9 @@ public class D2FileManager extends JFrame
         D2TblFile.readAllFiles("d2111");
         createToolbar();
 
+        
+        createMenubar();
+        
         iOpenWindows = new ArrayList();
         iContentPane = new JPanel();
         iDesktopPane = new JDesktopPane();
@@ -136,7 +140,21 @@ public class D2FileManager extends JFrame
         setVisible(true);
     }
 
-    public D2Project getProject()
+    private void createMenubar() {
+		
+    	iMenuBar = new JMenuBar();
+    	iMenuBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+    	JMenu fileMenu = new JMenu("File");
+    	JMenu projMenu = new JMenu("Project");
+		iMenuBar.add(fileMenu);
+		iMenuBar.add(projMenu);
+		
+		this.setJMenuBar(iMenuBar);
+    	
+    	
+	}
+
+	public D2Project getProject()
     {
         return iProject;
     }
@@ -630,7 +648,7 @@ public class D2FileManager extends JFrame
         else
         {
             D2ViewChar lCharView = new D2ViewChar(D2FileManager.this, pCharName);
-            lCharView.setLocation(10, 10);
+            lCharView.setLocation(10 + (iOpenWindows.size() * 10), 10+ (iOpenWindows.size() * 10));
             addToOpenWindows(lCharView);
             lCharView.toFront();
         }
