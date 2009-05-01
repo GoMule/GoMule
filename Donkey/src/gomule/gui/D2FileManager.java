@@ -145,12 +145,94 @@ public class D2FileManager extends JFrame
     	iMenuBar = new JMenuBar();
     	iMenuBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
     	JMenu fileMenu = new JMenu("File");
+    	
+    	JMenuItem openChar = new JMenuItem("Open Character");
+    	JMenuItem newStash = new JMenuItem("New Stash");
+    	JMenuItem openStash = new JMenuItem("Open Stash");
+    	JMenuItem saveAll = new JMenuItem("Save All");
+    	JMenuItem exitProg = new JMenuItem("Exit");
+    	
     	JMenu projMenu = new JMenu("Project");
+    	JMenuItem projOpt = new JMenuItem("Preferences");
+    	JMenu aboutMenu = new JMenu("About...");
 		iMenuBar.add(fileMenu);
 		iMenuBar.add(projMenu);
+		iMenuBar.add(aboutMenu);
+		
+		fileMenu.add(openChar);
+		fileMenu.addSeparator();
+		fileMenu.add(newStash);
+		fileMenu.add(openStash);
+		fileMenu.addSeparator();
+		fileMenu.add(saveAll);
+		fileMenu.addSeparator();
+		fileMenu.add(exitProg);
+		
+		projMenu.add(projOpt);
 		
 		this.setJMenuBar(iMenuBar);
     	
+		aboutMenu.addMouseListener(new MouseAdapter(){
+			
+			public void mousePressed(MouseEvent e){
+
+		                displayAbout();
+			}
+		});
+		
+		projOpt.addMouseListener(new MouseAdapter(){
+			
+			public void mouseReleased(MouseEvent e){
+
+                D2ProjectSettingsDialog lDialog = new D2ProjectSettingsDialog(D2FileManager.this);
+                lDialog.setVisible(true);
+			}
+		});
+		
+		openChar.addMouseListener(new MouseAdapter(){
+			
+			public void mouseReleased(MouseEvent e){
+				openChar(true);
+
+			}
+		});
+		
+		newStash.addMouseListener(new MouseAdapter(){
+			
+			public void mouseReleased(MouseEvent e){
+				newStash(true);
+
+			}
+		});
+		
+		openStash.addMouseListener(new MouseAdapter(){
+			
+			public void mouseReleased(MouseEvent e){
+				openStash(true);
+
+			}
+		});
+		
+		saveAll.addMouseListener(new MouseAdapter(){
+			
+			public void mouseReleased(MouseEvent e){
+				saveAll();
+
+			}
+		});
+		
+		exitProg.addMouseListener(new MouseAdapter(){
+			
+			public void mouseReleased(MouseEvent e){
+				closeListener();
+
+			}
+		});
+		
+		
+		
+		
+        checkProjects();
     	
 	}
 
@@ -286,31 +368,10 @@ public class D2FileManager extends JFrame
 
 //        iToolbar.addSeparator();
 
-        iToolbar.add(new JLabel("Projects"));
 
-        iBtnProjectSelection = new JButton("Default");
-        iBtnProjectSelection.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent e)
-            {
-                D2ProjectSettingsDialog lDialog = new D2ProjectSettingsDialog(D2FileManager.this);
-                lDialog.setVisible(true);
-            }
-        });
-        iToolbar.add(iBtnProjectSelection);
-        checkProjects();
 
-        iToolbar.addSeparator();
 
-        JButton lHelp = new JButton("About");
-        lHelp.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent e)
-            {
-                about_action();
-            }
-        });
-        iToolbar.add(lHelp);
+
 
     }
 
@@ -352,7 +413,7 @@ public class D2FileManager extends JFrame
             }
 
             iProject = new D2Project(this, lCurrent);
-            iBtnProjectSelection.setText(lCurrent);
+//            iBtnProjectSelection.setText(lCurrent);
         }
         catch (Exception pEx)
         {
@@ -774,7 +835,7 @@ public class D2FileManager extends JFrame
         iProject.addStash(pStashName);
     }
 
-    public void about_action()
+    public void displayAbout()
     {
         JOptionPane.showMessageDialog(this, "A java-based Diablo II muling application\n\noriniginally created by Andy Theuninck (Gohanman)\nVersion 0.1a"
                 + "\n\ncurrent release by Randall & Silospen\nVersion " + CURRENT_VERSION + "\n\nAnd special thanks to:" + "\n\tHakai_no_Tenshi & Gohanman for helping me out with the file formats"
