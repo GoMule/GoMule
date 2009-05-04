@@ -63,6 +63,7 @@ public class D2FileManager extends JFrame
 	private JMenu edit;
 
 	private JPanel iRightPane;
+	private JPanel iLeftPane;
 
     public static D2FileManager getIntance()
     {
@@ -85,12 +86,15 @@ public class D2FileManager extends JFrame
         iContentPane.setLayout(new BorderLayout());
         iContentPane.add(iToolbar, BorderLayout.NORTH);
         iViewProject = new D2ViewProject(this);
-        iViewProject.setPreferredSize(new Dimension(100, 100));
+        iViewProject.setPreferredSize(new Dimension(190, 500));
         iViewProject.setProject(iProject);
         iViewProject.refreshTreeModel(true, true);
         iRightPane = new JPanel();
         iRightPane.setPreferredSize(new Dimension(190,768));
-        JSplitPane lSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, iViewProject, iDesktopPane);
+        iLeftPane = new JPanel();
+        iLeftPane.add(iViewProject);
+        
+        JSplitPane lSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, iLeftPane, iDesktopPane);
         JSplitPane rSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, lSplit, iRightPane);
         lSplit.setDividerLocation(200);
         rSplit.setDividerLocation(1024 - 210);
