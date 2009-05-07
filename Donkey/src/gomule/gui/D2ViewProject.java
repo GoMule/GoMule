@@ -81,7 +81,7 @@ public class D2ViewProject extends JPanel
         JScrollPane lScroll = new JScrollPane(iTree);
         add(lScroll, BorderLayout.CENTER);
         
-        JButton lFlavie = new JButton("Flavie");
+        JButton lFlavie = new JButton("Flavie Report");
         add(lFlavie, BorderLayout.SOUTH);
         
         lFlavie.addActionListener(new ActionListener()

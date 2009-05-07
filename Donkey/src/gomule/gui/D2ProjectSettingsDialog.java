@@ -84,7 +84,7 @@ public class D2ProjectSettingsDialog extends JDialog
         iFileManager.closeWindows();
 
         iProject = iFileManager.getProject();
-        setTitle();
+//        setTitle();
 
         iContent = new RandallPanel();
 
@@ -131,21 +131,21 @@ public class D2ProjectSettingsDialog extends JDialog
         {
             public void actionPerformed(ActionEvent pEvent)
             {
-                setProject(iNewName.getText());
+//                setProject(iNewName.getText());
             }
         });
 
-        iProjectModel = new DefaultComboBoxModel();
-        checkProjectsModel();
-        iChangeProject = new JComboBox(iProjectModel);
-        iChangeProject.setSelectedItem(iProject.getProjectName());
-        iChangeProject.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent pEvent)
-            {
-                setProject((String) iChangeProject.getSelectedItem());
-            }
-        });
+//        iProjectModel = new DefaultComboBoxModel();
+////        checkProjectsModel();
+//        iChangeProject = new JComboBox(iProjectModel);
+//        iChangeProject.setSelectedItem(iProject.getProjectName());
+//        iChangeProject.addActionListener(new ActionListener()
+//        {
+//            public void actionPerformed(ActionEvent pEvent)
+//            {
+////                setProject((String) iChangeProject.getSelectedItem());
+//            }
+//        });
 
         iTypeSC = new JRadioButton("Softcore (SC) Only");
         iTypeSC.addActionListener(new ActionListener()
@@ -332,7 +332,7 @@ public class D2ProjectSettingsDialog extends JDialog
         iContent.addToPanel(iNewName, 1, 0, 1, RandallPanel.HORIZONTAL);
         iContent.addToPanel(iSaveNew, 2, 0, 1, RandallPanel.NONE);
         iContent.addToPanel(new JLabel("Change Project"), 0, 1, 1, RandallPanel.NONE);
-        iContent.addToPanel(iChangeProject, 1, 1, 2, RandallPanel.HORIZONTAL);
+//        iContent.addToPanel(iChangeProject, 1, 1, 2, RandallPanel.HORIZONTAL);
         iContent.addToPanel(new JLabel("Type selection: (for stashes naming convection only, names SC/HC should start with SC_ or HC_)"), 0, 10, 3, RandallPanel.NONE);
         
         RandallPanel lTypePanel = new RandallPanel();
@@ -425,51 +425,6 @@ public class D2ProjectSettingsDialog extends JDialog
         iFlavieCountEthereal.setSelected(iProject.isCountEthereal());
     }
 
-    protected void setProject(String pProject)
-    {
-        try
-        {
-            // save current project
-            iProject.saveProject();
-            // now load new project
-            iProject = new D2Project(iFileManager, pProject);
-            iFileManager.setProject(iProject);
-            setTitle();
-            checkProjectsModel();
-            iChangeProject.setSelectedItem(iProject.getProjectName());
-            setProjectValues();
-        }
-        catch (Exception pEx)
-        {
-            D2FileManager.displayErrorDialog(pEx);
-        }
-    }
-
-    private void checkProjectsModel()
-    {
-        iProjectModel.removeAllElements();
-        File lProjectsDir = new File(D2Project.PROJECTS_DIR);
-        if (!lProjectsDir.exists())
-        {
-            lProjectsDir.mkdir();
-        }
-        else
-        {
-            File lList[] = lProjectsDir.listFiles();
-            for (int i = 0; i < lList.length; i++)
-            {
-                if (lList[i].isDirectory() && lList[i].canRead() && lList[i].canWrite())
-                {
-                    iProjectModel.addElement(lList[i].getName());
-                }
-            }
-        }
-    }
-
-    public void setTitle()
-    {
-        setTitle(iProject.getProjectName());
-    }
 }
 
 abstract class RandallDocumentListener implements DocumentListener
