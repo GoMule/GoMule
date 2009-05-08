@@ -122,20 +122,13 @@ public class D2FileManager extends JFrame
 	{
 		try
 		{
-			System.out.println(pProject);
-			if(pProject == "Bla" || pProject == null){
-				throw new Exception();
-			}
-			// save current project
 			iProject.saveProject();
-			// now load new project
 			iProject = new D2Project(this, pProject);
 			this.setProject(iProject);
-			checkProjectsModel();
-			if(!iChangeProject.getSelectedItem().equals(iProject.getProjectName())){
+			if(iProjectModel.getIndexOf(pProject) == -1){
+				iProjectModel.addElement(pProject);
 				iChangeProject.setSelectedItem(iProject.getProjectName());
 			}
-//			setProjectValues();
 		}
 		catch (Exception pEx)
 		{
@@ -162,6 +155,7 @@ public class D2FileManager extends JFrame
 				}
 			}
 		}
+
 	}
 
 	private void createLeftPane() {
@@ -180,16 +174,14 @@ public class D2FileManager extends JFrame
 		iChangeProject.addItemListener(new ItemListener(){
 
 			public void itemStateChanged(ItemEvent arg0) {
-				
-				
-				System.out.println(arg0.);
-//				if(iChangeProject.getItemCount() == iProjectModel.){
-				setProject((String) iChangeProject.getSelectedItem());
-//				}
+
+				if(arg0.getStateChange() == ItemEvent.SELECTED){
+					closeWindows();
+					setProject((String) iChangeProject.getSelectedItem());
+				}
 			}
-			
 		});
-		
+
 		RandallPanel projControl = new RandallPanel();
 		projControl.setPreferredSize(new Dimension(190, 100));
 		projControl.setBorder(new TitledBorder(null, ("Project Control"),	TitledBorder.LEFT, TitledBorder.TOP, this.getFont(), Color.gray));
@@ -204,7 +196,7 @@ public class D2FileManager extends JFrame
 						"Enter the project name:",
 						"New Project",
 						JOptionPane.QUESTION_MESSAGE);
-				
+
 				if(lNewName == null)return;
 
 				if (!lNewName.trim().equals("")){
@@ -217,7 +209,7 @@ public class D2FileManager extends JFrame
 					setProject(lNewName);
 					return;
 				}else{
-				JOptionPane.showMessageDialog(iContentPane,"Please enter a valid project name.","Error!",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(iContentPane,"Please enter a valid project name.","Error!",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
