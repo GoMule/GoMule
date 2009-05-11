@@ -24,16 +24,13 @@ package gomule.gui;
 import gomule.d2s.*;
 import gomule.d2x.*;
 import gomule.util.*;
-
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyVetoException;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-
-import com.sun.java.swing.plaf.windows.DesktopProperty;
-
 import randall.d2files.*;
 import randall.util.RandallPanel;
 
@@ -253,7 +250,6 @@ public class D2FileManager extends JFrame
 		projControl.addToPanel(delProj,1,0,1,RandallPanel.HORIZONTAL);
 		projControl.addToPanel(clProj,0,1,2,RandallPanel.HORIZONTAL);
 
-
 		iLeftPane.addToPanel(iChangeProject,0,0,1,RandallPanel.HORIZONTAL);
 		iLeftPane.addToPanel(iViewProject,0,1,1,RandallPanel.BOTH);
 		iLeftPane.addToPanel(projControl,0,2,1,RandallPanel.NONE);
@@ -297,7 +293,9 @@ public class D2FileManager extends JFrame
 		pickAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-					System.out.println(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName());
+					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
+					iList.
+					
 				}
 			}
 		});
@@ -886,17 +884,29 @@ public class D2FileManager extends JFrame
 		if(load){
 			if (lExisting != null)
 			{
-				((JInternalFrame) lExisting).toFront();
+				internalWindowForward(((JInternalFrame) lExisting));
+				
 			}
 			else
 			{
 				D2ViewChar lCharView = new D2ViewChar(D2FileManager.this, pCharName);
 				lCharView.setLocation(10 + (iOpenWindows.size() * 10), 10+ (iOpenWindows.size() * 10));
 				addToOpenWindows(lCharView);
-				lCharView.toFront();
+				internalWindowForward(lCharView);
 			}
 		}
 		iProject.addChar(pCharName);
+	}
+
+	private void internalWindowForward(JInternalFrame frame) {
+		
+		frame.toFront();
+		try {
+			frame.setSelected(true);
+		} catch (PropertyVetoException e) {
+			//Shouldn't worry too much if this happens I guess?
+			e.printStackTrace();
+		}
 	}
 
 	public D2ViewProject getViewProject()
@@ -1000,7 +1010,7 @@ public class D2FileManager extends JFrame
 			}
 		}
 
-		D2ViewStash lStashView;
+		D2ViewStash lStashView = null;
 		if(load){
 			if (lExisting != null)
 			{
@@ -1014,7 +1024,9 @@ public class D2FileManager extends JFrame
 			}
 			lStashView.activateView();
 		}
+		
 		iProject.addStash(pStashName);
+		internalWindowForward(lStashView);
 	}
 
 	public void displayAbout()

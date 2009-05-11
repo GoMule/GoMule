@@ -342,11 +342,6 @@ public class D2Project
 			iCharList.add(pCharFileName);
 			Collections.sort(iCharList);
 			iFileManager.getViewProject().refreshTreeModel(true, false);
-//			D2ItemListAll lListAll = iFileManager.getAllItemList();
-//if ( lListAll != null )
-//	{
-//	lListAll.addFileName(pCharFileName);
-//}
 		}
 	}
 
@@ -639,12 +634,14 @@ public class D2Project
 		
 		for(int x= 0;x<iCharList.size();x++){
 			deleteCharStash((String) iCharList.get(x));
+			x--;
 		}
 		
 		for(int x= 0;x<iStashList.size();x++){
 			deleteCharStash((String) iStashList.get(x));
+			x--;
 		}
-		
+		//Error handling should be here, but bla bla bla.
 		return true;
 	}
 }
