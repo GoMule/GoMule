@@ -184,7 +184,7 @@ public class D2FileManager extends JFrame
 
 		RandallPanel projControl = new RandallPanel();
 		projControl.setPreferredSize(new Dimension(190, 100));
-		projControl.setBorder(new TitledBorder(null, ("Project Control"),	TitledBorder.LEFT, TitledBorder.TOP, this.getFont(), Color.gray));
+		projControl.setBorder(new TitledBorder(null, ("Project Control"),	TitledBorder.LEFT, TitledBorder.TOP, iLeftPane.getFont(), Color.gray));
 
 		JButton newProj = new JButton("New Proj");
 
@@ -215,7 +215,39 @@ public class D2FileManager extends JFrame
 		});
 
 		JButton delProj = new JButton("Del Proj");
+
+		delProj.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0) {
+				if(iChangeProject.getSelectedItem().equals("GoMule")){
+					JOptionPane.showMessageDialog(iContentPane,"Cannot delete default project!","Error!",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				D2Project delProjName = iProject;
+				if(JOptionPane.showConfirmDialog(iContentPane,"Are you sure you want to delete this project? (Your clipboard will be lost!)", "Really?", JOptionPane.YES_NO_OPTION) == 0){
+					setProject("GoMule");			
+					if(!delProjName.delProj()){
+						JOptionPane.showMessageDialog(iContentPane,"Error deleting project!","Error!",JOptionPane.ERROR_MESSAGE);
+					}else{
+						checkProjectsModel();
+					}
+				}
+			}
+		});
+
 		JButton clProj = new JButton("Clear Proj");
+
+		clProj.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0) {
+				if(JOptionPane.showConfirmDialog(iContentPane,"Are you sure you want to clear this project?", "Really?", JOptionPane.YES_NO_OPTION) == 0){
+					 closeWindows();
+					if(!iProject.clearProj()){
+						JOptionPane.showMessageDialog(iContentPane,"Error clearing project!","Error!",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
 
 		projControl.addToPanel(newProj,0,0,1,RandallPanel.HORIZONTAL);
 		projControl.addToPanel(delProj,1,0,1,RandallPanel.HORIZONTAL);
@@ -223,7 +255,6 @@ public class D2FileManager extends JFrame
 
 
 		iLeftPane.addToPanel(iChangeProject,0,0,1,RandallPanel.HORIZONTAL);
-//		iLeftPane.addToPanel((JComponent) Box.createRigidArea(new Dimension(0, 50)),0,0,1,RandallPanel.NONE);
 		iLeftPane.addToPanel(iViewProject,0,1,1,RandallPanel.BOTH);
 		iLeftPane.addToPanel(projControl,0,2,1,RandallPanel.NONE);
 	}
@@ -256,6 +287,45 @@ public class D2FileManager extends JFrame
 				}
 			});
 		}
+		
+		RandallPanel itemControl = new RandallPanel();
+		itemControl.setPreferredSize(new Dimension(190, 100));
+		itemControl.setBorder(new TitledBorder(null, ("Item Control"),	TitledBorder.LEFT, TitledBorder.TOP, iRightPane.getFont(), Color.gray));
+		
+		JButton pickAll = new JButton("Pick All");
+		
+		pickAll.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
+					System.out.println(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName());
+				}
+			}
+		});
+		
+		JButton dropAll = new JButton("Drop All");
+		
+		dropAll.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		
+		JButton pickFrom = new JButton("Pickup From ...");
+		
+		pickFrom.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		
+		JComboBox pickChooser = new JComboBox(new String[]{"Stash", "Inventory", "Cube", "Equipped"});
+		
+		itemControl.addToPanel(pickAll,0,0,1,RandallPanel.HORIZONTAL);
+		itemControl.addToPanel(dropAll,1,0,1,RandallPanel.HORIZONTAL);
+		itemControl.addToPanel(pickFrom,0,1,2,RandallPanel.HORIZONTAL);
+		itemControl.addToPanel(pickChooser,0,2,2,RandallPanel.HORIZONTAL);
+		
+		iRightPane.add(itemControl);
 
 	}
 
