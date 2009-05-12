@@ -23,6 +23,7 @@ package gomule.gui;
 
 import gomule.d2s.*;
 import gomule.d2x.*;
+import gomule.item.D2Item;
 import gomule.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -294,8 +295,21 @@ public class D2FileManager extends JFrame
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
 					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
-					iList.
-					
+					iList.ignoreItemListEvents();
+					for(int x = 0;x<iList.getNrItems();x++){
+						D2Item remItem  = ((D2Item)iList.getItemList().get(x));
+						iList.removeItem(remItem);
+						D2ViewClipboard.addItem(remItem);
+						x--;
+						//NEEED TO TEST WITH GOLEM ITEMS
+//						if(((D2Item)iList.getItemList().get(x)).isCharacterItem()){
+//							System.out.println("EQU: " + ((D2Item)iList.getItemList().get(x)).getName() + " " + ((D2Item)iList.getItemList().get(x)).get_panel() + " " + ((D2Item)iList.getItemList().get(x)).get_location());
+//						}else{
+//							System.out.println("NOT: " + ((D2Item)iList.getItemList().get(x)).getName() + " " + ((D2Item)iList.getItemList().get(x)).get_panel() + " " + ((D2Item)iList.getItemList().get(x)).get_location());
+//						}
+					}
+					iList.listenItemListEvents();
+					iList.fireD2ItemListEvent();
 				}
 			}
 		});

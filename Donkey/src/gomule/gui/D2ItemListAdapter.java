@@ -26,6 +26,8 @@ public abstract class D2ItemListAdapter implements D2ItemList
     private ArrayList	iListeners = new ArrayList();
     private boolean 	iModified;
     
+    private boolean iIgnoreItemListEvents =false;
+    
     protected D2ItemListAdapter(String pFileName)
     {
         iFileName = pFileName;
@@ -86,10 +88,22 @@ public abstract class D2ItemListAdapter implements D2ItemList
     }
     public void fireD2ItemListEvent()
     {
+    	if(iIgnoreItemListEvents){
+    		return;
+    	}
         for ( int i = 0 ; i < iListeners.size() ; i++ )
         {
             ((D2ItemListListener) iListeners.get(i)).itemListChanged();
         }
     }
+    
+    public void ignoreItemListEvents(){
+    	iIgnoreItemListEvents = true;
+    }
+    
+    public void listenItemListEvents(){
+    	iIgnoreItemListEvents = false;
+    }
+
 
 }

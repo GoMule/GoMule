@@ -20,7 +20,10 @@ import gomule.util.*;
  */
 public interface D2ItemList
 {
-    public boolean containsItem(D2Item pItem);
+	
+    public void ignoreItemListEvents();
+    public void listenItemListEvents();
+	public boolean containsItem(D2Item pItem);
     public void removeItem(D2Item pItem);
     public ArrayList getItemList();
     public int getNrItems();
@@ -39,4 +42,5 @@ public interface D2ItemList
     
     public void initTimestamp();
     public boolean checkTimestamp();
+	public void fireD2ItemListEvent();
 }

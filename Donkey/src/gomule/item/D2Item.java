@@ -2086,6 +2086,26 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return (int) iDef;
 	}
 
+	public boolean isCharacterItem(){
+
+		//Belt or equipped
+		if (get_location() == 1 || get_location() == 2) {
+			return true;
+		}else if(get_location() == 0){
+			switch(get_panel()){
+			case 1:
+			case 4:
+			case 5:
+				return true;
+			default:
+				return false;
+			}
+		}else{
+			return false;
+		}
+
+	}
+
 	public boolean isEquipped() {
 
 		if (get_location() == 1 ) {

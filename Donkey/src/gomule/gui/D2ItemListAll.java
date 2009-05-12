@@ -25,6 +25,7 @@ public class D2ItemListAll implements D2ItemList
     
     private ArrayList 		iList = new ArrayList();
     private ArrayList 		iD2ItemListListenerList = new ArrayList();
+	private boolean iIgnoreItemListEvents = false;
     
     public D2ItemListAll(D2FileManager pFileManager, D2Project pProject)
     {
@@ -217,9 +218,12 @@ public class D2ItemListAll implements D2ItemList
         }
     }
     
-    private void fireD2ItemListEvent()
+    public void fireD2ItemListEvent()
     {
-        for ( int i = 0 ; i < iD2ItemListListenerList.size() ; i++ )
+    	if(iIgnoreItemListEvents){
+    		return;
+    	}
+    	for ( int i = 0 ; i < iD2ItemListListenerList.size() ; i++ )
         {
             D2ItemListListener lListener = (D2ItemListListener) iD2ItemListListenerList.get(i);
             lListener.itemListChanged();
@@ -302,6 +306,14 @@ public class D2ItemListAll implements D2ItemList
     public boolean checkTimestamp()
     {
         throw new RuntimeException("Internal error: wrong calling");
+    }
+    
+    public void ignoreItemListEvents(){
+    	iIgnoreItemListEvents  = true;
+    }
+    
+    public void listenItemListEvents(){
+    	iIgnoreItemListEvents = false;
     }
 
 }

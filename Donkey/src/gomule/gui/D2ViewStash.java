@@ -49,7 +49,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     private String        iStashName;
 
     private D2StashFilter iStashFilter;
-    private boolean		  iIgnoreItemListEvents;
     private D2ItemModel   iItemModel;
     private JTable        iTable;
 
@@ -674,7 +673,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     }
                     try
                     {
-                        iIgnoreItemListEvents = true;
+                    	iStash.ignoreItemListEvents();
                         for (int i = 0; i < lItemList.size(); i++)
                         {
                             iStash.removeItem((D2Item) lItemList.get(i));
@@ -683,7 +682,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     }
                     finally
                     {
-                        iIgnoreItemListEvents = false;
+                        iStash.listenItemListEvents();
                     }
                     itemListChanged();
                 }
@@ -708,7 +707,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             {
                 try
                 {
-                    iIgnoreItemListEvents = true;
+                	iStash.ignoreItemListEvents();
 	                ArrayList lItemList = D2ViewClipboard.removeAllItems();
 	                while (lItemList.size() > 0)
 	                {
@@ -717,7 +716,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 }
                 finally
                 {
-                    iIgnoreItemListEvents = false;
+                	 iStash.listenItemListEvents();
                 }
                 itemListChanged();
             }
@@ -740,7 +739,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     }
                     try
                     {
-                        iIgnoreItemListEvents = true;
+                    	iStash.ignoreItemListEvents();
                         for (int i = 0; i < lItemList.size(); i++)
                         {				
                        int check = JOptionPane.showConfirmDialog(null, "Delete " + ((D2Item) lItemList.get(i)).getName() + "?");
@@ -753,7 +752,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     }
                     finally
                     {
-                        iIgnoreItemListEvents = false;
+                    	 iStash.listenItemListEvents();
                     }
                     itemListChanged();
                 }
@@ -784,7 +783,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     
                     try
                     {
-                        iIgnoreItemListEvents = true;
+                    	iStash.ignoreItemListEvents();
                         
                         for (int i = 0; i < iTable.getRowCount(); i++)
                         {
@@ -800,7 +799,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     }
                     finally
                     {
-                        iIgnoreItemListEvents = false;
+                    	 iStash.listenItemListEvents();
                     }
                     itemListChanged();
                 
@@ -1154,10 +1153,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
     public void itemListChanged()
     {
-        if ( iIgnoreItemListEvents )
-        {
-            return;
-        }
+
         iItemModel.refreshData();
         String lTitle = iStashName;
         if (iStash == null || iItemModel == null)
@@ -1868,7 +1864,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
     public void resetStash(D2Stash pStash)
     {
-        iIgnoreItemListEvents = false;
+    	iStash.listenItemListEvents();
         iStash = pStash;
         itemListChanged();
     }

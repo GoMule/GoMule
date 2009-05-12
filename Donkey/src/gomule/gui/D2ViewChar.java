@@ -1065,6 +1065,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	public void itemListChanged()
 	{
+		
 		String lTitle;
 		if ( iCharacter == null )
 		{
