@@ -32,6 +32,9 @@ import java.io.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
+
 import randall.d2files.*;
 import randall.util.RandallPanel;
 
@@ -69,6 +72,12 @@ public class D2FileManager extends JFrame
 
 	private JComboBox iChangeProject;
 
+	private JButton dropAll;
+
+	private JButton pickFrom;
+
+	private JComboBox pickChooser;
+
 	public static D2FileManager getIntance()
 	{
 		return iCurrent;
@@ -83,6 +92,8 @@ public class D2FileManager extends JFrame
 		iContentPane = new JPanel();
 		iDesktopPane = new JDesktopPane();
 		iDesktopPane.setDragMode(1);
+
+
 		iContentPane.setLayout(new BorderLayout());
 
 		createToolbar();
@@ -239,7 +250,7 @@ public class D2FileManager extends JFrame
 		{
 			public void actionPerformed(ActionEvent arg0) {
 				if(JOptionPane.showConfirmDialog(iContentPane,"Are you sure you want to clear this project?", "Really?", JOptionPane.YES_NO_OPTION) == 0){
-					 closeWindows();
+					closeWindows();
 					if(!iProject.clearProj()){
 						JOptionPane.showMessageDialog(iContentPane,"Error clearing project!","Error!",JOptionPane.ERROR_MESSAGE);
 					}
@@ -284,13 +295,13 @@ public class D2FileManager extends JFrame
 				}
 			});
 		}
-		
+
 		RandallPanel itemControl = new RandallPanel();
 		itemControl.setPreferredSize(new Dimension(190, 100));
 		itemControl.setBorder(new TitledBorder(null, ("Item Control"),	TitledBorder.LEFT, TitledBorder.TOP, iRightPane.getFont(), Color.gray));
-		
+
 		JButton pickAll = new JButton("Pick All");
-		
+
 		pickAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
@@ -298,14 +309,13 @@ public class D2FileManager extends JFrame
 					iList.ignoreItemListEvents();
 					for(int x = 0;x<iList.getNrItems();x++){
 						D2Item remItem  = ((D2Item)iList.getItemList().get(x));
-						iList.removeItem(remItem);
-						D2ViewClipboard.addItem(remItem);
+						moveToClipboard(remItem, iList);
 						x--;
 						//NEEED TO TEST WITH GOLEM ITEMS
 //						if(((D2Item)iList.getItemList().get(x)).isCharacterItem()){
-//							System.out.println("EQU: " + ((D2Item)iList.getItemList().get(x)).getName() + " " + ((D2Item)iList.getItemList().get(x)).get_panel() + " " + ((D2Item)iList.getItemList().get(x)).get_location());
+//						System.out.println("EQU: " + ((D2Item)iList.getItemList().get(x)).getName() + " " + ((D2Item)iList.getItemList().get(x)).get_panel() + " " + ((D2Item)iList.getItemList().get(x)).get_location());
 //						}else{
-//							System.out.println("NOT: " + ((D2Item)iList.getItemList().get(x)).getName() + " " + ((D2Item)iList.getItemList().get(x)).get_panel() + " " + ((D2Item)iList.getItemList().get(x)).get_location());
+//						System.out.println("NOT: " + ((D2Item)iList.getItemList().get(x)).getName() + " " + ((D2Item)iList.getItemList().get(x)).get_panel() + " " + ((D2Item)iList.getItemList().get(x)).get_location());
 //						}
 					}
 					iList.listenItemListEvents();
@@ -313,32 +323,78 @@ public class D2FileManager extends JFrame
 				}
 			}
 		});
-		
-		JButton dropAll = new JButton("Drop All");
-		
+
+		dropAll = new JButton("Drop All");
+
 		dropAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				
+
+
 			}
 		});
-		
-		JButton pickFrom = new JButton("Pickup From ...");
-		
+
+		pickFrom = new JButton("Pickup From ...");
+		pickChooser = new JComboBox(new String[]{"Stash", "Inventory", "Cube", "Equipped"});
+
 		pickFrom.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				
+
+				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
+					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
+					iList.ignoreItemListEvents();
+					for(int x = 0;x<iList.getNrItems();x++){
+						D2Item remItem  = ((D2Item)iList.getItemList().get(x));
+						switch(pickChooser.getSelectedIndex()){
+						case 0:
+
+							if(remItem.get_location() == 0 && remItem.get_panel() == 5){
+								moveToClipboard(remItem, iList);
+								x--;
+							}
+							break;
+						case 1:
+							if(remItem.get_location() == 0 && remItem.get_panel() == 1){
+								moveToClipboard(remItem, iList);
+								x--;
+							}
+							break;
+						case 2:
+							if(remItem.get_location() == 0 && remItem.get_panel() == 4){
+								moveToClipboard(remItem, iList);
+								x--;
+							}
+							break;
+						case 3:
+							if(remItem.get_location() == 1){
+								System.out.println(remItem.getName() + " " + remItem.get_panel());
+								moveToClipboard(remItem, iList);
+								x--;
+							}
+							break;
+						}
+					}
+					iList.listenItemListEvents();
+					iList.fireD2ItemListEvent();
+				}
+
 			}
+
+
 		});
-		
-		JComboBox pickChooser = new JComboBox(new String[]{"Stash", "Inventory", "Cube", "Equipped"});
-		
+
+
 		itemControl.addToPanel(pickAll,0,0,1,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(dropAll,1,0,1,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(pickFrom,0,1,2,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(pickChooser,0,2,2,RandallPanel.HORIZONTAL);
-		
+
 		iRightPane.add(itemControl);
 
+	}
+
+	private void moveToClipboard(D2Item remItem , D2ItemList iList) {
+		iList.removeItem(remItem);
+		D2ViewClipboard.addItem(remItem);
 	}
 
 	private void createMenubar() {
@@ -899,7 +955,7 @@ public class D2FileManager extends JFrame
 			if (lExisting != null)
 			{
 				internalWindowForward(((JInternalFrame) lExisting));
-				
+
 			}
 			else
 			{
@@ -913,7 +969,7 @@ public class D2FileManager extends JFrame
 	}
 
 	private void internalWindowForward(JInternalFrame frame) {
-		
+
 		frame.toFront();
 		try {
 			frame.setSelected(true);
@@ -932,6 +988,40 @@ public class D2FileManager extends JFrame
 	{
 		iOpenWindows.add( pContainer );
 		iDesktopPane.add( (JInternalFrame) pContainer );
+		((JInternalFrame) pContainer).addInternalFrameListener(new InternalFrameListener(){
+
+			public void internalFrameActivated(InternalFrameEvent arg0) {
+				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2x")){
+					dropAll.setEnabled(true);
+					pickFrom.setEnabled(false);
+					pickChooser.setEnabled(false);
+				}else{
+					dropAll.setEnabled(false);
+					pickFrom.setEnabled(true);
+					pickChooser.setEnabled(true);
+				}
+
+			}
+
+			public void internalFrameClosed(InternalFrameEvent arg0) {
+			}
+
+			public void internalFrameClosing(InternalFrameEvent arg0) {
+			}
+
+			public void internalFrameDeactivated(InternalFrameEvent arg0) {
+			}
+
+			public void internalFrameDeiconified(InternalFrameEvent arg0) {
+			}
+
+			public void internalFrameIconified(InternalFrameEvent arg0) {
+			}
+
+			public void internalFrameOpened(InternalFrameEvent arg0) {
+			}
+
+		});
 		iViewProject.notifyFileOpened( pContainer.getFileName() );
 
 		if ( pContainer.getFileName().equalsIgnoreCase("all") )
@@ -1038,7 +1128,7 @@ public class D2FileManager extends JFrame
 			}
 			lStashView.activateView();
 		}
-		
+
 		iProject.addStash(pStashName);
 		internalWindowForward(lStashView);
 	}
