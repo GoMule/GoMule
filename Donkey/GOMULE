@@ -4,15 +4,21 @@ UI
 STASH
 CHARACTER...
 REJUV POTS
-//NEEED TO TEST WITH GOLEM ITEMS
+//NEEED TO TEST pickup all WITH GOLEM ITEMS
+Drop all needs implementing.
+
 
 INCLUDE MERC MF IN OUTPUT
 
 
+
+REjuvs.
+
 SET PRORORORORORORPERTIES
--Implemented adding partial set properties on items
 -Need to ensure we don't add when a repeated item is added OR COULD IGNOREEE (only happens with rings...)!
  Full/partial set properties to char stats. Buh.
+
+
 
 LOOK AT THE PANEL STUFF
 
