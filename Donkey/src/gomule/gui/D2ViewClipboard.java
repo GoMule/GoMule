@@ -325,6 +325,11 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 	public static ArrayList removeAllItems()
 	{
 		return iMouseItem.iStash.removeAllItems();
+		
+	}
+	
+	public static void removeItem(D2Item dropItem) {
+		iMouseItem.iStash.removeItem(dropItem);
 	}
 
 	public static D2Item getItem()
@@ -423,5 +428,7 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 	{
 		throw new RuntimeException("Internal error: wrong calling");
 	}
+
+
 
 }

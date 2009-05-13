@@ -402,31 +402,62 @@ public class D2FileManager extends JFrame
 		});
 
 		dropTo = new JButton("Drop To ...");
-		dropChooser = new JComboBox(new String[]{"Stash", "Inventory", "Cube", "Equipped"});
+		dropChooser = new JComboBox(new String[]{"Stash", "Inventory", "Cube"});
 
 		dropTo.addActionListener(new ActionListener(){
-			
+
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-				D2Character iCharacter = ((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar();
-				
-				D2Item lDropItem = D2ViewClipboard.removeItem();
-				
-				lDropItem.set_location((short) 0);
-				lDropItem.set_body_position((short) 0);
-				lDropItem.set_row((short) 0);
-				lDropItem.set_col((short) 0);
-				lDropItem.set_panel((short) 5);
-				
-				iCharacter.fireD2ItemListEvent();	
+					D2Character iCharacter = ((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar();
+					ArrayList dropList = D2ViewClipboard.getItemList();
+					iCharacter.ignoreItemListEvents();
+					int dPanel = 0;
+					int rMax = 0;
+					int cMax = 0;
+					switch(dropChooser.getSelectedIndex()){
+					case 0:
+						dPanel = 5;
+						rMax = 8;
+						cMax = 6;
+						break;
+					case 1:
+						dPanel = 1;
+						rMax = 4;
+						cMax = 10;
+						break;
+					case 2:
+						dPanel = 4;
+						rMax = 4;
+						cMax = 3;
+						break;
+					}
+					try{
+						for(int z = dropList.size()-1; z> -1;z--){
+							D2Item lDropItem = (D2Item) dropList.get(z);
+							for(int x = 0;x<rMax;x++){
+								for(int y = 0;y<cMax;y++){
+									if(iCharacter.checkCharGrid(dPanel, y, x, lDropItem)){
+										lDropItem.set_panel((short) dPanel);
+										lDropItem.set_location((short) 0);
+										lDropItem.set_body_position((short) 0);
+										lDropItem.set_row((short) x);
+										lDropItem.set_col((short) y);
+										iCharacter.markCharGrid(lDropItem);
+										D2ViewClipboard.removeItem(lDropItem);
+										iCharacter.addCharItem(lDropItem);
+										x = rMax;
+										y = cMax;
+									}
+								}
+							}
+						}
+					}finally{
+						iCharacter.listenItemListEvents();
+						iCharacter.fireD2ItemListEvent();	
+					}
 				}
-				
-//				iCharacter.checkCharGrid;
 			}
-
 		});
-
-
 
 		itemControl.addToPanel(pickAll,0,0,1,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(dropAll,1,0,1,RandallPanel.HORIZONTAL);
@@ -436,9 +467,7 @@ public class D2FileManager extends JFrame
 		itemControl.addToPanel(dropTo,0,3,2,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(dropChooser,0,4,2,RandallPanel.HORIZONTAL);
 
-
 		iRightPane.add(itemControl);
-
 	}
 
 	private void moveToClipboard(D2Item remItem , D2ItemList iList) {
