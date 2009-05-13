@@ -316,4 +316,8 @@ public class D2ItemListAll implements D2ItemList
     	iIgnoreItemListEvents = false;
     }
 
+	public void addItem(D2Item pItem) {
+		//Do Nothing!
+	}
+
 }

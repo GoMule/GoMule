@@ -30,6 +30,7 @@ import java.awt.event.*;
 import java.beans.PropertyVetoException;
 import java.io.*;
 import java.util.*;
+
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.InternalFrameEvent;
@@ -77,6 +78,10 @@ public class D2FileManager extends JFrame
 	private JButton pickFrom;
 
 	private JComboBox pickChooser;
+
+	private JButton dropTo;
+
+	private JComboBox dropChooser;
 
 	public static D2FileManager getIntance()
 	{
@@ -297,7 +302,7 @@ public class D2FileManager extends JFrame
 		}
 
 		RandallPanel itemControl = new RandallPanel();
-		itemControl.setPreferredSize(new Dimension(190, 100));
+		itemControl.setPreferredSize(new Dimension(190, 160));
 		itemControl.setBorder(new TitledBorder(null, ("Item Control"),	TitledBorder.LEFT, TitledBorder.TOP, iRightPane.getFont(), Color.gray));
 
 		JButton pickAll = new JButton("Pick All");
@@ -306,30 +311,41 @@ public class D2FileManager extends JFrame
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
 					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
-					iList.ignoreItemListEvents();
-					for(int x = 0;x<iList.getNrItems();x++){
-						D2Item remItem  = ((D2Item)iList.getItemList().get(x));
-						moveToClipboard(remItem, iList);
-						x--;
-						//NEEED TO TEST WITH GOLEM ITEMS
-//						if(((D2Item)iList.getItemList().get(x)).isCharacterItem()){
-//						System.out.println("EQU: " + ((D2Item)iList.getItemList().get(x)).getName() + " " + ((D2Item)iList.getItemList().get(x)).get_panel() + " " + ((D2Item)iList.getItemList().get(x)).get_location());
-//						}else{
-//						System.out.println("NOT: " + ((D2Item)iList.getItemList().get(x)).getName() + " " + ((D2Item)iList.getItemList().get(x)).get_panel() + " " + ((D2Item)iList.getItemList().get(x)).get_location());
-//						}
+					try{
+						iList.ignoreItemListEvents();
+						for(int x = 0;x<iList.getNrItems();x++){
+							D2Item remItem  = ((D2Item)iList.getItemList().get(x));
+							moveToClipboard(remItem, iList);
+							x--;
+						}
+					}finally{
+						iList.listenItemListEvents();
+						iList.fireD2ItemListEvent();
 					}
-					iList.listenItemListEvents();
-					iList.fireD2ItemListEvent();
 				}
 			}
 		});
 
 		dropAll = new JButton("Drop All");
-
 		dropAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
+				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
 
-
+					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
+					try{
+						iList.ignoreItemListEvents();
+						ArrayList lItemList = D2ViewClipboard.removeAllItems();
+						while (lItemList.size() > 0)
+						{
+							iList.addItem((D2Item) lItemList.remove(0));
+						}
+					}
+					finally
+					{
+						iList.listenItemListEvents();
+						iList.fireD2ItemListEvent();
+					}
+				}
 			}
 		});
 
@@ -342,39 +358,42 @@ public class D2FileManager extends JFrame
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
 					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
 					iList.ignoreItemListEvents();
-					for(int x = 0;x<iList.getNrItems();x++){
-						D2Item remItem  = ((D2Item)iList.getItemList().get(x));
-						switch(pickChooser.getSelectedIndex()){
-						case 0:
+					try{
+						for(int x = 0;x<iList.getNrItems();x++){
+							D2Item remItem  = ((D2Item)iList.getItemList().get(x));
+							switch(pickChooser.getSelectedIndex()){
+							case 0:
 
-							if(remItem.get_location() == 0 && remItem.get_panel() == 5){
-								moveToClipboard(remItem, iList);
-								x--;
+								if(remItem.get_location() == 0 && remItem.get_panel() == 5){
+									moveToClipboard(remItem, iList);
+									x--;
+								}
+								break;
+							case 1:
+								if(remItem.get_location() == 0 && remItem.get_panel() == 1){
+									moveToClipboard(remItem, iList);
+									x--;
+								}
+								break;
+							case 2:
+								if(remItem.get_location() == 0 && remItem.get_panel() == 4){
+									moveToClipboard(remItem, iList);
+									x--;
+								}
+								break;
+							case 3:
+								if(remItem.get_location() == 1){
+									System.out.println(remItem.getName() + " " + remItem.get_panel());
+									moveToClipboard(remItem, iList);
+									x--;
+								}
+								break;
 							}
-							break;
-						case 1:
-							if(remItem.get_location() == 0 && remItem.get_panel() == 1){
-								moveToClipboard(remItem, iList);
-								x--;
-							}
-							break;
-						case 2:
-							if(remItem.get_location() == 0 && remItem.get_panel() == 4){
-								moveToClipboard(remItem, iList);
-								x--;
-							}
-							break;
-						case 3:
-							if(remItem.get_location() == 1){
-								System.out.println(remItem.getName() + " " + remItem.get_panel());
-								moveToClipboard(remItem, iList);
-								x--;
-							}
-							break;
 						}
+					}finally{
+						iList.listenItemListEvents();
+						iList.fireD2ItemListEvent();
 					}
-					iList.listenItemListEvents();
-					iList.fireD2ItemListEvent();
 				}
 
 			}
@@ -382,11 +401,41 @@ public class D2FileManager extends JFrame
 
 		});
 
+		dropTo = new JButton("Drop To ...");
+		dropChooser = new JComboBox(new String[]{"Stash", "Inventory", "Cube", "Equipped"});
+
+		dropTo.addActionListener(new ActionListener(){
+			
+			public void actionPerformed(ActionEvent arg0) {
+				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
+				D2Character iCharacter = ((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar();
+				
+				D2Item lDropItem = D2ViewClipboard.removeItem();
+				
+				lDropItem.set_location((short) 0);
+				lDropItem.set_body_position((short) 0);
+				lDropItem.set_row((short) 0);
+				lDropItem.set_col((short) 0);
+				lDropItem.set_panel((short) 5);
+				
+				iCharacter.fireD2ItemListEvent();	
+				}
+				
+//				iCharacter.checkCharGrid;
+			}
+
+		});
+
+
 
 		itemControl.addToPanel(pickAll,0,0,1,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(dropAll,1,0,1,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(pickFrom,0,1,2,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(pickChooser,0,2,2,RandallPanel.HORIZONTAL);
+
+		itemControl.addToPanel(dropTo,0,3,2,RandallPanel.HORIZONTAL);
+		itemControl.addToPanel(dropChooser,0,4,2,RandallPanel.HORIZONTAL);
+
 
 		iRightPane.add(itemControl);
 
@@ -995,32 +1044,22 @@ public class D2FileManager extends JFrame
 					dropAll.setEnabled(true);
 					pickFrom.setEnabled(false);
 					pickChooser.setEnabled(false);
+					dropTo.setEnabled(false);
+					dropChooser.setEnabled(false);
 				}else{
 					dropAll.setEnabled(false);
 					pickFrom.setEnabled(true);
 					pickChooser.setEnabled(true);
+					dropTo.setEnabled(true);
+					dropChooser.setEnabled(true);
 				}
-
 			}
-
-			public void internalFrameClosed(InternalFrameEvent arg0) {
-			}
-
-			public void internalFrameClosing(InternalFrameEvent arg0) {
-			}
-
-			public void internalFrameDeactivated(InternalFrameEvent arg0) {
-			}
-
-			public void internalFrameDeiconified(InternalFrameEvent arg0) {
-			}
-
-			public void internalFrameIconified(InternalFrameEvent arg0) {
-			}
-
-			public void internalFrameOpened(InternalFrameEvent arg0) {
-			}
-
+			public void internalFrameClosed(InternalFrameEvent arg0) {}
+			public void internalFrameClosing(InternalFrameEvent arg0) {}
+			public void internalFrameDeactivated(InternalFrameEvent arg0) {}
+			public void internalFrameDeiconified(InternalFrameEvent arg0) {}
+			public void internalFrameIconified(InternalFrameEvent arg0) {}
+			public void internalFrameOpened(InternalFrameEvent arg0) {}
 		});
 		iViewProject.notifyFileOpened( pContainer.getFileName() );
 

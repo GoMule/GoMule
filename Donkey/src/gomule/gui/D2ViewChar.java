@@ -3375,5 +3375,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		lDump.setCaretPosition(0);
 		lDumpPanel.revalidate();
 	}
+	
+	public D2Character getChar(){
+		return iCharacter;
+	}
 
 }

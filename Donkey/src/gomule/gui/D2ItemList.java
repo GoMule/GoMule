@@ -25,6 +25,7 @@ public interface D2ItemList
     public void listenItemListEvents();
 	public boolean containsItem(D2Item pItem);
     public void removeItem(D2Item pItem);
+    public void addItem(D2Item pItem);
     public ArrayList getItemList();
     public int getNrItems();
     public String getFilename();

@@ -1624,7 +1624,8 @@ public class D2Character extends D2ItemListAdapter
 		}
 		return (int)Math.floor(((cStats[30]+iBlock + Integer.parseInt(D2TxtFile.CHARSTATS.searchColumns("class", getCharClass()).get("BlockFactor"))) * (getCharDex() - 15))/(iCharLevel * 2));
 	}
-
+	
+	public void addItem(D2Item item){equipItem(item);};
 	public D2Item getCursorItem(){return iCharCursorItem;}
 	public D2Item getCharItem(int i){return (D2Item) iCharItems.get(i);}
 	public D2Item getMercItem(int i){return (D2Item) iMercItems.get(i);}
