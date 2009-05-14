@@ -36,7 +36,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
+import com.sun.org.apache.bcel.internal.generic.IfInstruction;
+
 import randall.d2files.*;
+import randall.flavie.Flavie;
 import randall.util.RandallPanel;
 
 /**
@@ -66,7 +69,7 @@ public class D2FileManager extends JFrame
 	private JMenu file;
 	private JMenu edit;
 
-	private JPanel iRightPane;
+	private RandallPanel iRightPane;
 	private RandallPanel iLeftPane;
 
 	private DefaultComboBoxModel iProjectModel;
@@ -263,25 +266,71 @@ public class D2FileManager extends JFrame
 			}
 		});
 
+		JButton lFlavie = new JButton("Proj Flavie Report");
+
+		lFlavie.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent pEvent)
+			{
+				
+				ArrayList dFileNames = new ArrayList();
+
+				ArrayList lCharList = iProject.getCharList();
+				if ( lCharList != null )
+				{
+					dFileNames.addAll( lCharList );
+				}
+				ArrayList lStashList = iProject.getStashList();
+				if ( lStashList != null )
+				{
+					dFileNames.addAll( lStashList );
+				}
+				flavieDump(dFileNames);
+			}
+		});
+
 		projControl.addToPanel(newProj,0,0,1,RandallPanel.HORIZONTAL);
 		projControl.addToPanel(delProj,1,0,1,RandallPanel.HORIZONTAL);
 		projControl.addToPanel(clProj,0,1,2,RandallPanel.HORIZONTAL);
+		projControl.addToPanel(lFlavie,0,2,2,RandallPanel.HORIZONTAL);
 
 		iLeftPane.addToPanel(iChangeProject,0,0,1,RandallPanel.HORIZONTAL);
 		iLeftPane.addToPanel(iViewProject,0,1,1,RandallPanel.BOTH);
 		iLeftPane.addToPanel(projControl,0,2,1,RandallPanel.NONE);
 	}
+	
+	private void flavieDump(ArrayList dFileNames){
+		try{
+			new Flavie(
+					iProject.getReportName(), iProject.getReportTitle(), 
+					iProject.getDataName(), iProject.getStyleName(),
+					dFileNames,
+					iProject.isCountAll(), iProject.isCountEthereal(),
+					iProject.isCountStash(), iProject.isCountChar()
+			);
+			JOptionPane.showMessageDialog(iContentPane,
+				    "Flavie report was generated successfully.", 
+				    "Success!", JOptionPane.INFORMATION_MESSAGE);			
+		}
+		catch (Exception pEx)
+		{
+			JOptionPane.showMessageDialog(iContentPane,
+				    "Flavie report failed!", 
+				    "Fail!", JOptionPane.ERROR_MESSAGE);
+			displayErrorDialog(pEx);
+		}
+	}
 
 	private void createRightPane() {
 
-		iRightPane = new JPanel();
+		iRightPane = new RandallPanel();
 		iRightPane.setPreferredSize(new Dimension(190,768));
 		iRightPane.setMinimumSize(new Dimension(190,0));
+		
 
 		try
 		{
 			iClipboard = D2ViewClipboard.getInstance(this);
-			iRightPane.add(iClipboard);
 		}
 		catch (Exception pEx)
 		{
@@ -383,7 +432,6 @@ public class D2FileManager extends JFrame
 								break;
 							case 3:
 								if(remItem.get_location() == 1){
-									System.out.println(remItem.getName() + " " + remItem.get_panel());
 									moveToClipboard(remItem, iList);
 									x--;
 								}
@@ -395,10 +443,7 @@ public class D2FileManager extends JFrame
 						iList.fireD2ItemListEvent();
 					}
 				}
-
 			}
-
-
 		});
 
 		dropTo = new JButton("Drop To ...");
@@ -467,7 +512,58 @@ public class D2FileManager extends JFrame
 		itemControl.addToPanel(dropTo,0,3,2,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(dropChooser,0,4,2,RandallPanel.HORIZONTAL);
 
-		iRightPane.add(itemControl);
+		
+
+		RandallPanel charControl = new RandallPanel();
+		charControl.setPreferredSize(new Dimension(190, 80));
+		charControl.setBorder(new TitledBorder(null, ("Output Control"),	TitledBorder.LEFT, TitledBorder.TOP, iRightPane.getFont(), Color.gray));
+
+		JButton dumpBut = new JButton("Perform txt Dump");
+		dumpBut.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
+					if(fullDump(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName())){
+						JOptionPane.showMessageDialog(iContentPane,
+							    "Char/Stash dump was a success.", 
+							    "Success!", JOptionPane.INFORMATION_MESSAGE);
+
+					}else{
+						JOptionPane.showMessageDialog(iContentPane,
+							    "Char/Stash dump failed!", 
+							    "Fail!", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		
+		JButton flavieSingle = new JButton("Single Flavie Report");
+		flavieSingle.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
+					ArrayList dFileNames = new ArrayList();
+					dFileNames.add(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName());
+					flavieDump(dFileNames);
+				}
+					
+			}
+		});
+
+		charControl.addToPanel(dumpBut,0,0,1,RandallPanel.HORIZONTAL);
+		charControl.addToPanel(flavieSingle,0,1,1,RandallPanel.HORIZONTAL);
+
+		
+//		iRightPane.add(iClipboard);
+//		iRightPane.add(itemControl);
+//		iRightPane.add(charControl);
+		iRightPane.addToPanel(iClipboard,0,0,1,RandallPanel.BOTH);
+		iRightPane.addToPanel(itemControl,0,1,1,RandallPanel.HORIZONTAL);
+		iRightPane.addToPanel(charControl,0,2,1,RandallPanel.HORIZONTAL);
+		iRightPane.addToPanel(new JPanel(),0,3,1,RandallPanel.BOTH);
+		
+//		iRightPane.set
+		
 	}
 
 	private void moveToClipboard(D2Item remItem , D2ItemList iList) {
@@ -776,43 +872,37 @@ public class D2FileManager extends JFrame
 		}
 	}
 
-	public void fullDump(String pFileName)
+	public boolean fullDump(String pFileName)
 	{
 		D2ItemList lList = null;
 		String lFileName = null;
 
-		if ( pFileName.equalsIgnoreCase("all") )
-		{
-			if ( iViewAll != null )
-			{
+		if ( pFileName.equalsIgnoreCase("all") ){
+			if ( iViewAll != null ){
 				lFileName = "." + File.separator + "all.txt";
 				lList = iViewAll.getItemLists();
 			}
-		}
-		else
-		{
+		}else{
+
 			lList = (D2ItemList) iItemLists.get(pFileName);
 			lFileName = pFileName+".txt";
 		}
-		if ( lList != null && lFileName != null )
-		{
-			try
-			{
+		if ( lList != null && lFileName != null ){
+			try{
 				File lFile = new File(lFileName);
 				System.err.println("File: " + lFile.getCanonicalPath() );
 
 				PrintWriter lWriter = new PrintWriter(new FileWriter( lFile.getCanonicalPath() ));
 
 				lList.fullDump(lWriter);
-
 				lWriter.flush();
 				lWriter.close();
-			}
-			catch ( Exception pEx )
-			{
+				return true;
+			}catch ( Exception pEx ){
 				pEx.printStackTrace();
 			}
 		}
+		return false;
 	}
 
 	public void closeWindows()

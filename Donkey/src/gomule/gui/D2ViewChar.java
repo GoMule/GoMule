@@ -1504,7 +1504,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 											lDropItem.set_row((short) lItemPanel.getColumn());
 											lDropItem.set_col((short) lItemPanel.getRow());
 											lDropItem.set_panel((short) lItemPanel.getPanel());
-											System.out.println("P:" + lDropItem.get_panel() + " - L:" + lDropItem.get_location() + " - BP:" + lDropItem.get_body_position()+ " - R:" + lDropItem.get_row()+ " - C:" + lDropItem.get_col());
 											break;
 										}
 										drop = true;

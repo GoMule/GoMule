@@ -81,44 +81,6 @@ public class D2ViewProject extends JPanel
         JScrollPane lScroll = new JScrollPane(iTree);
         add(lScroll, BorderLayout.CENTER);
         
-        JButton lFlavie = new JButton("Flavie Report");
-        add(lFlavie, BorderLayout.SOUTH);
-        
-        lFlavie.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent pEvent)
-            {
-                try
-                {
-                    ArrayList lFileNames = new ArrayList();
-                    
-                    ArrayList lCharList = iProject.getCharList();
-                    if ( lCharList != null )
-                    {
-                        lFileNames.addAll( lCharList );
-                    }
-                    ArrayList lStashList = iProject.getStashList();
-                    if ( lStashList != null )
-                    {
-                        lFileNames.addAll( lStashList );
-                    }
-                    
-                    new Flavie(
-                        iProject.getReportName(), iProject.getReportTitle(), 
-                        iProject.getDataName(), iProject.getStyleName(),
-                        lFileNames,
-                        iProject.isCountAll(), iProject.isCountEthereal(),
-                        iProject.isCountStash(), iProject.isCountChar()
-                        );
-                }
-                catch (Exception pEx)
-                {
-                    iFileManager.displayErrorDialog(pEx);
-                }
-            }
-        });
-       
-
         iTree.addMouseListener(new MouseAdapter()
         {
             public void mousePressed(MouseEvent pEvent)
