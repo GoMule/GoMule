@@ -69,7 +69,7 @@ public class D2FileManager extends JFrame
 	private JMenu file;
 	private JMenu edit;
 
-	private RandallPanel iRightPane;
+	private JPanel iRightPane;
 	private RandallPanel iLeftPane;
 
 	private DefaultComboBoxModel iProjectModel;
@@ -323,7 +323,7 @@ public class D2FileManager extends JFrame
 
 	private void createRightPane() {
 
-		iRightPane = new RandallPanel();
+		iRightPane = new JPanel();
 		iRightPane.setPreferredSize(new Dimension(190,768));
 		iRightPane.setMinimumSize(new Dimension(190,0));
 		
@@ -554,13 +554,13 @@ public class D2FileManager extends JFrame
 		charControl.addToPanel(flavieSingle,0,1,1,RandallPanel.HORIZONTAL);
 
 		
-//		iRightPane.add(iClipboard);
-//		iRightPane.add(itemControl);
-//		iRightPane.add(charControl);
-		iRightPane.addToPanel(iClipboard,0,0,1,RandallPanel.BOTH);
-		iRightPane.addToPanel(itemControl,0,1,1,RandallPanel.HORIZONTAL);
-		iRightPane.addToPanel(charControl,0,2,1,RandallPanel.HORIZONTAL);
-		iRightPane.addToPanel(new JPanel(),0,3,1,RandallPanel.BOTH);
+		iRightPane.add(iClipboard, BorderLayout.LINE_START);
+		iRightPane.add(itemControl, BorderLayout.LINE_START);
+		iRightPane.add(charControl, BorderLayout.LINE_START);
+//		iRightPane.addToPanel(iClipboard,0,0,1,RandallPanel.BOTH);
+//		iRightPane.addToPanel(itemControl,0,1,1,RandallPanel.HORIZONTAL);
+//		iRightPane.addToPanel(charControl,0,2,1,RandallPanel.HORIZONTAL);
+//		iRightPane.addToPanel(new JPanel(),0,3,1,RandallPanel.BOTH);
 		
 //		iRightPane.set
 		

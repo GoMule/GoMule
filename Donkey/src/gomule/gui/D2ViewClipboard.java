@@ -75,6 +75,8 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 		iFileManager = pFileManager;
 		try
 		{
+			
+			JPanel holdingPanel = new JPanel();
 			iBank = new JTextField();
 			iBank.setEditable(false);
 
@@ -82,16 +84,15 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 
 			iItemModel = new D2ItemModel(iItems);
 			iTable = new JTable(iItemModel);
-
 			iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
 			JScrollPane lPane = new JScrollPane(iTable);
 			setBorder((new TitledBorder(null, ("GoMule Clipboard"), 
 					TitledBorder.LEFT, TitledBorder.TOP, this.getFont(), Color.gray)));
-
+//MAKE A PANEL WITH THE DAMN PANE AND THE DAMN ICON ON THERE THEN ADD THAT?!!!
 			final ImageIcon iIcon = new ImageIcon();
 			final JLabel iIconLabel = new JLabel();
 			
-			iIconLabel.setPreferredSize(new Dimension(56, 112));
+			iIconLabel.setPreferredSize(new Dimension(190, 112));
 			iIconLabel.setIcon(iIcon);
 			iIconLabel.setHorizontalAlignment(JLabel.CENTER);
 			iIconLabel.setOpaque(true);
@@ -99,6 +100,11 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 			
 			addToPanel(new JLabel("GoMule Bank: "),0,2,1,RandallPanel.NONE);
 			addToPanel(iBank,1,2,1,RandallPanel.HORIZONTAL);
+//			
+//			holdingPanel.add(lPane);
+//			holdingPanel.add(iIconLabel);
+//			addToPanel(holdingPanel,0,3,2,RandallPanel.BOTH);
+//			
 			addToPanel(lPane,0,3,2,RandallPanel.BOTH);
 			addToPanel(iIconLabel,0,4,2,RandallPanel.BOTH);
 
