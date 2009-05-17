@@ -1281,7 +1281,7 @@ public class D2FileManager extends JFrame
 			else
 			{
 				lStashView = new D2ViewStash(D2FileManager.this, pStashName);
-				lStashView.setLocation(100, 100);
+				lStashView.setLocation(10 + (iOpenWindows.size() * 10), 10+ (iOpenWindows.size() * 10));
 				addToOpenWindows(lStashView);
 			}
 			lStashView.activateView();

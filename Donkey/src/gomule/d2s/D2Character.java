@@ -722,8 +722,6 @@ public class D2Character extends D2ItemListAdapter
 			}
 			return;
 		case 1:
-
-			
 			for(int x = 0;x<iCharItems.size();x=x+1){
 				if(getCharItem(x).get_body_position() == 11 ||getCharItem(x).get_body_position() == 12){
 					updateCharStats("P", getCharItem(x));	

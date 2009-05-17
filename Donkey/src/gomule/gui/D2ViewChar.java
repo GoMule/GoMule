@@ -212,10 +212,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			FileInputStream fis = new FileInputStream(new File("resources" + File.separator +  "Courier_New.ttf"));
 			f = Font.createFont(Font.TRUETYPE_FONT, fis);
 		} catch (FontFormatException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -628,13 +626,15 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						{
 							D2Item lTemp = lItemPanel.getItem();
 							JFrame itemPanel = new JFrame();
-							JTextPane report = new JTextPane();
+							JEditorPane report = new JEditorPane();
+							report.setContentType("text/html");
+							
 							JScrollPane SP = new JScrollPane(report);
 							report.setBackground(Color.black);
 							//HTMLEditorKit htmlEditor = new HTMLEditorKit();
 							//report.setEditorKit(htmlEditor);
 							report.setForeground(Color.white);
-							report.setText(lTemp.toString(1));
+							report.setText("<html><font size=3 face=Dialog>"+lTemp.toString(1) + "</font></html>");
 							report.setCaretPosition(0);
 							itemPanel.add( SP);
 

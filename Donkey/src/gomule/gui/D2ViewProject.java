@@ -81,13 +81,10 @@ public class D2ViewProject extends JPanel
         JScrollPane lScroll = new JScrollPane(iTree);
         add(lScroll, BorderLayout.CENTER);
         
-        iTree.addMouseListener(new MouseAdapter()
+        iTree.addMouseListener(new MouseListener()
         {
-            public void mousePressed(MouseEvent pEvent)
-            {
-                
-            }
-            public void mouseReleased(MouseEvent e)
+            public void mousePressed(MouseEvent pEvent){}
+            public void mouseClicked(MouseEvent e)
             {
                 if ( e.getX() >=0 && e.getX() <= iTree.getWidth()
                     && e.getY() >= 0 && e.getY() <= iTree.getHeight() )
@@ -123,9 +120,9 @@ public class D2ViewProject extends JPanel
                     }
                 }
             }
-//            public void mouseClicked(MouseEvent e)
-//            {
-//            }
+			public void mouseEntered(MouseEvent arg0) {}
+			public void mouseExited(MouseEvent arg0) {}
+			public void mouseReleased(MouseEvent arg0) {}
         });
         iTree.addKeyListener(new KeyAdapter()
         {

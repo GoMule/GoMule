@@ -1457,7 +1457,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		}
 
-		return dispStr.append("</html><center>");
+		return dispStr.append("</center></html>");
 	}
 
 	public String toWriter(PrintWriter pw){
