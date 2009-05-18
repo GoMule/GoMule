@@ -328,10 +328,10 @@ public class D2ProjectSettingsDialog extends JDialog
             }
         });
 
-        iContent.addToPanel(new JLabel("New Project"), 0, 0, 1, RandallPanel.NONE);
-        iContent.addToPanel(iNewName, 1, 0, 1, RandallPanel.HORIZONTAL);
-        iContent.addToPanel(iSaveNew, 2, 0, 1, RandallPanel.NONE);
-        iContent.addToPanel(new JLabel("Change Project"), 0, 1, 1, RandallPanel.NONE);
+//        iContent.addToPanel(new JLabel("New Project"), 0, 0, 1, RandallPanel.NONE);
+//        iContent.addToPanel(iNewName, 1, 0, 1, RandallPanel.HORIZONTAL);
+//        iContent.addToPanel(iSaveNew, 2, 0, 1, RandallPanel.NONE);
+//        iContent.addToPanel(new JLabel("Change Project"), 0, 1, 1, RandallPanel.NONE);
 //        iContent.addToPanel(iChangeProject, 1, 1, 2, RandallPanel.HORIZONTAL);
         iContent.addToPanel(new JLabel("Type selection: (for stashes naming convection only, names SC/HC should start with SC_ or HC_)"), 0, 10, 3, RandallPanel.NONE);
         

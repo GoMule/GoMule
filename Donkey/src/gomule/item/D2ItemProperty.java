@@ -105,7 +105,6 @@ public class D2ItemProperty
     	iBitSet = pBitSet;
     	iItemStatCost = pItemStatCost;
         iProperties.put(COUNTER[iCounter++], new  PropValue(pProps, pItemStatCost, pBitSet, pValue));
-//        System.out.println(pProps + " , " + pValue);
         
     }
 
@@ -304,8 +303,6 @@ public class D2ItemProperty
                 
                 D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow((int) lValue1.iValue);
 
-//                System.out.println(lSkill.get("str name"));
-//               System.out.println(D2TblFile.getString(lSkill.get("str name")));
                 if(iProp == 97){
                 return "+" + lValue2.iValue + " to " + D2TblFile.getString(lSkill.get("str name"));
                 }
@@ -327,7 +324,6 @@ public class D2ItemProperty
                 PropValue lValue2 = (PropValue) iProperties.get(SECOND);
 
                 D2TxtFileItemProperties lSkill = D2TxtFile.SKILL_DESC.getRow((int) lValue1.iValue);
-//                System.out.println(D2TblFile.getString(lSkill.get("str name")));
                 return "Level " + lValue2.iValue + " "+ D2TblFile.getString(lSkill.get("str name")) + " Aura When Equipped";
             }
             

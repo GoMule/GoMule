@@ -21,21 +21,15 @@
 package gomule.gui;
 
 import gomule.d2x.*;
-import gomule.gui.D2ViewChar.D2CharPainterPanel;
 import gomule.item.*;
 import gomule.util.*;
-
 import java.awt.*;
-import java.awt.event.MouseEvent;
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.*;
 import javax.swing.table.*;
-import javax.swing.text.StyledEditorKit;
-
 import randall.util.*;
 
 public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2ItemListListener
@@ -88,7 +82,6 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 			JScrollPane lPane = new JScrollPane(iTable);
 			setBorder((new TitledBorder(null, ("GoMule Clipboard"), 
 					TitledBorder.LEFT, TitledBorder.TOP, this.getFont(), Color.gray)));
-//MAKE A PANEL WITH THE DAMN PANE AND THE DAMN ICON ON THERE THEN ADD THAT?!!!
 			final ImageIcon iIcon = new ImageIcon();
 			final JLabel iIconLabel = new JLabel();
 			
@@ -119,7 +112,7 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 							if(iIconLabel.getIcon() == null){
 								iIconLabel.setIcon(iIcon);
 							}
-							iIconLabel.setToolTipText(iItem.toStringHtml());
+							iIconLabel.setToolTipText(iItem.itemDumpHtml(false));
 							iIconLabel.repaint();
 						}else{
 							iIconLabel.setIcon(null);

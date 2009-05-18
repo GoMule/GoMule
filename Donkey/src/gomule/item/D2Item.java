@@ -158,24 +158,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private short[] i1Dmg;
 	private short[] i2Dmg;
 
-//	private short iMinDmg;
-
-//	private short iMaxDmg;
-
-//	// BARBARIANS
-//	private short i2MinDmg;
-
-//	private short i2MaxDmg;
-
-//	private short iinitMinDmg;
-
-//	private short iinitMaxDmg;
-
-//	// BARBARIANS
-//	private short iinit2MinDmg;
-
-//	private short iinit2MaxDmg;
-
 	// 0 FOR BOTH 1 FOR 1H 2 FOR 2H
 	private int iWhichHand;
 
@@ -275,58 +257,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 			throw new D2ItemException("Error: " + pEx.getMessage() + getExStr());
 		}
 	}
-
-//	public D2Item(D2TxtFileItemProperties txtRow) {
-
-
-//	iItemName = D2TblFile.getString(txtRow.get("index"));
-//	item_type = txtRow.get("code");
-//	iBaseItemName = D2TblFile.getString(item_type);
-//	iTypeArmor = true;
-//	iProps = new D2PropCollection();
-//	iIdentified = true;
-//	version = 101;
-//	ilvl = Short.parseShort(txtRow.get("lvl"));
-//	iInitDef = Short.parseShort(D2TxtFile.ARMOR.searchColumns("name", iBaseItemName).get("maxac"));
-//	iMaxDur = Short.parseShort(D2TxtFile.ARMOR.searchColumns("name", iBaseItemName).get("durability"));
-//	iCurDur = iMaxDur;
-//	iReqLvl = Short.parseShort(txtRow.get("lvl req"));
-//	iReqStr = Short.parseShort(D2TxtFile.ARMOR.searchColumns("name", iBaseItemName).get("reqstr"));
-
-//	readProperties(txtRow);
-
-//	System.out.println(this.toString(0));
-//	System.exit(0);
-
-//	}
-
-//	private void readProperties(D2TxtFileItemProperties txtRow) {
-
-//	for(int x= 1;x<13;x++){
-
-//	if(txtRow.get("prop" + x).equals(""))break;
-
-//	iProps.addAll(D2TxtFile.propToStat(txtRow.get("prop" + x), txtRow.get("max" + x), txtRow.get("min" + x), txtRow.get("par" + x), 0));
-
-
-//	}
-
-//	iProps.tidy();
-//	applyItemMods();
-
-////	D2TxtFile.propToStat("light", "-2", "-2", "0", 0);
-////	System.out.println(propArr);
-
-
-//	}
-
-//	private void read_arm(D2TxtFileItemProperties txtRow) {
-
-
-////	System.out.println(this.toString(0));
-
-
-//	}
 
 	// read basic information from the bytes
 	// common to all items, then split based on
@@ -1314,33 +1244,26 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return false;
 	}
 
-
-	public String toString(int x){
-		return generatePropString().toString();
-	}
-
 	private String htmlStrip(StringBuffer htmlString) {
 
-		for(int x = 0;x<htmlString.length();x++){
-
-			if(htmlString.charAt(x) == '<'){
-
-
-
-			}
-
-		}
-
+		
+		htmlString.toString().replaceAll("<[^>]*>", "");
+		
+		System.out.println(htmlString.toString().replaceAll("<[^>]*>", ""));
+		
 		return null;
-
 	}
 
-	public String toStringHtml(){
-		return generatePropString().toString();
+	public String itemDumpHtml(boolean extended){
+		return generatePropString(extended).toString();
+	}
+
+	public String itemDump(boolean extended){
+		return htmlStrip(generatePropString(extended));
 	}
 
 
-	public StringBuffer generatePropString(){
+	private StringBuffer generatePropString(boolean extended){
 
 		if (iProps != null && location != 6)iProps.tidy();
 		StringBuffer dispStr = new StringBuffer("<html><center>");
@@ -1455,6 +1378,22 @@ public class D2Item implements Comparable, D2ItemInterface {
 				dispStr.append(setBuf);
 			}
 
+		}
+
+		if (extended){
+
+			if (isSocketed()) {
+				dispStr.append("<br>");
+				if (iSocketedItems != null) {
+					for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
+						if (((D2Item) iSocketedItems.get(x)) != null) {
+							dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropString(false));
+							dispStr.append("<br>");
+									
+						}
+					}
+				}
+			}
 		}
 
 		return dispStr.append("</center></html>");
@@ -2562,74 +2501,76 @@ public class D2Item implements Comparable, D2ItemInterface {
 	// }
 
 	public String[] getPerfectDef(ArrayList outArrL) {
-		ArrayList tempProp = new ArrayList();
-		String[] out = new String[2];
-		for (int x = 0; x < outArrL.size(); x++) {
-			tempProp.add(((D2ItemProperty[]) outArrL.get(x))[0]);
-		}
-		out[1] = Long.toString(applyPerfDef(tempProp));
-		tempProp = new ArrayList();
-		for (int x = 0; x < outArrL.size(); x++) {
-			tempProp.add(((D2ItemProperty[]) outArrL.get(x))[1]);
-		}
-		out[0] = Long.toString(applyPerfDef(tempProp));
+		return null;
+//		ArrayList tempProp = new ArrayList();
+//		String[] out = new String[2];
+//		for (int x = 0; x < outArrL.size(); x++) {
+//		tempProp.add(((D2ItemProperty[]) outArrL.get(x))[0]);
+//		}
+//		out[1] = Long.toString(applyPerfDef(tempProp));
+//		tempProp = new ArrayList();
+//		for (int x = 0; x < outArrL.size(); x++) {
+//		tempProp.add(((D2ItemProperty[]) outArrL.get(x))[1]);
+//		}
+//		out[0] = Long.toString(applyPerfDef(tempProp));
 
-		return out;
+//		return out;
 	}
 
 	public String[] getPerfectDmg(ArrayList outArrL) {
-		ArrayList tempProp = new ArrayList();
-		String[] out = new String[2];
-		for (int x = 0; x < outArrL.size(); x++) {
-			tempProp.add(((D2ItemProperty[]) outArrL.get(x))[0]);
-		}
-		tempProp = applyPerfEDmg(tempProp);
-		String outStr = "One Hand Damage: ";
-		for (int x = 0; x < tempProp.size(); x = x + 1) {
-			if (x == 0) {
-				outStr = outStr + tempProp.get(x) + " - ";
-			} else if (x == 1) {
-				outStr = outStr + tempProp.get(x) + "\n";
-			} else if (x == 2) {
-				if (iThrow) {
-					outStr = outStr + "Throw Damage: " + tempProp.get(x)
-					+ " - ";
-				} else {
-					outStr = outStr + "Two Hand Damage: " + tempProp.get(x)
-					+ " - ";
-				}
-			} else if (x == 3) {
-				outStr = outStr + tempProp.get(x) + "\n";
-			}
-		}
-		out[0] = outStr;
-		tempProp = new ArrayList();
-		for (int x = 0; x < outArrL.size(); x++) {
-			tempProp.add(((D2ItemProperty[]) outArrL.get(x))[1]);
-		}
-		tempProp = applyPerfEDmg(tempProp);
+		return null;
+//		ArrayList tempProp = new ArrayList();
+//		String[] out = new String[2];
+//		for (int x = 0; x < outArrL.size(); x++) {
+//		tempProp.add(((D2ItemProperty[]) outArrL.get(x))[0]);
+//		}
+//		tempProp = applyPerfEDmg(tempProp);
+//		String outStr = "One Hand Damage: ";
+//		for (int x = 0; x < tempProp.size(); x = x + 1) {
+//		if (x == 0) {
+//		outStr = outStr + tempProp.get(x) + " - ";
+//		} else if (x == 1) {
+//		outStr = outStr + tempProp.get(x) + "\n";
+//		} else if (x == 2) {
+//		if (iThrow) {
+//		outStr = outStr + "Throw Damage: " + tempProp.get(x)
+//		+ " - ";
+//		} else {
+//		outStr = outStr + "Two Hand Damage: " + tempProp.get(x)
+//		+ " - ";
+//		}
+//		} else if (x == 3) {
+//		outStr = outStr + tempProp.get(x) + "\n";
+//		}
+//		}
+//		out[0] = outStr;
+//		tempProp = new ArrayList();
+//		for (int x = 0; x < outArrL.size(); x++) {
+//		tempProp.add(((D2ItemProperty[]) outArrL.get(x))[1]);
+//		}
+//		tempProp = applyPerfEDmg(tempProp);
 
-		outStr = "One Hand Damage: ";
-		for (int x = 0; x < tempProp.size(); x = x + 1) {
-			if (x == 0) {
-				outStr = outStr + tempProp.get(x) + " - ";
-			} else if (x == 1) {
-				outStr = outStr + tempProp.get(x) + "\n";
-			} else if (x == 2) {
-				if (iThrow) {
-					outStr = outStr + "Throw Damage: " + tempProp.get(x)
-					+ " - ";
-				} else {
-					outStr = outStr + "Two Hand Damage: " + tempProp.get(x)
-					+ " - ";
-				}
-			} else if (x == 3) {
-				outStr = outStr + tempProp.get(x) + "\n";
-			}
-		}
-		out[1] = outStr;
+//		outStr = "One Hand Damage: ";
+//		for (int x = 0; x < tempProp.size(); x = x + 1) {
+//		if (x == 0) {
+//		outStr = outStr + tempProp.get(x) + " - ";
+//		} else if (x == 1) {
+//		outStr = outStr + tempProp.get(x) + "\n";
+//		} else if (x == 2) {
+//		if (iThrow) {
+//		outStr = outStr + "Throw Damage: " + tempProp.get(x)
+//		+ " - ";
+//		} else {
+//		outStr = outStr + "Two Hand Damage: " + tempProp.get(x)
+//		+ " - ";
+//		}
+//		} else if (x == 3) {
+//		outStr = outStr + tempProp.get(x) + "\n";
+//		}
+//		}
+//		out[1] = outStr;
 
-		return out;
+//		return out;
 	}
 
 	public ArrayList getPerfectString() {
@@ -2685,64 +2626,64 @@ public class D2Item implements Comparable, D2ItemInterface {
 	// return null;
 	// }
 
-	private ArrayList applyPerfEDmg(ArrayList iProperties) {
+//	private ArrayList applyPerfEDmg(ArrayList iProperties) {
 
-		int ENDam = 0;
-		int ENMaxDam = 0;
-		int MinDam = 0;
-		int MaxDam = 0;
-		ArrayList out = new ArrayList();
+//	int ENDam = 0;
+//	int ENMaxDam = 0;
+//	int MinDam = 0;
+//	int MaxDam = 0;
+//	ArrayList out = new ArrayList();
 
-		for (int x = 0; x < iProperties.size(); x = x + 1) {
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 17) {
-				ENDam = ENDam
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 21) {
-				MinDam = MinDam
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 22) {
-				MaxDam = MaxDam
-				+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 219) {
-				ENMaxDam = ENMaxDam
-				+ (int) Math.floor((((D2ItemProperty) iProperties
-						.get(x)).getRealValue() * 0.125)
-						* iCharLvl);
-			}
-			if (((D2ItemProperty) iProperties.get(x)).getiProp() == 218) {
-				MaxDam = MaxDam
-				+ (int) Math.floor((((D2ItemProperty) iProperties
-						.get(x)).getRealValue() * 0.125)
-						* iCharLvl);
-			}
-		}
+//	for (int x = 0; x < iProperties.size(); x = x + 1) {
+//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 17) {
+//	ENDam = ENDam
+//	+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//	}
+//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 21) {
+//	MinDam = MinDam
+//	+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//	}
+//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 22) {
+//	MaxDam = MaxDam
+//	+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//	}
+//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 219) {
+//	ENMaxDam = ENMaxDam
+//	+ (int) Math.floor((((D2ItemProperty) iProperties
+//	.get(x)).getRealValue() * 0.125)
+//	* iCharLvl);
+//	}
+//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 218) {
+//	MaxDam = MaxDam
+//	+ (int) Math.floor((((D2ItemProperty) iProperties
+//	.get(x)).getRealValue() * 0.125)
+//	* iCharLvl);
+//	}
+//	}
 
-		out.add(String.valueOf((long) Math
-				.floor((((double) i1Dmg[0] / (double) 100) * ENDam)
-						+ (i1Dmg[0] + MinDam))));
-		out
-		.add(String
-				.valueOf((long) Math
-						.floor((((double) i1Dmg[2] / (double) 100) * (ENDam + ENMaxDam))
-								+ (i1Dmg[2] + MaxDam))));
+//	out.add(String.valueOf((long) Math
+//	.floor((((double) i1Dmg[0] / (double) 100) * ENDam)
+//	+ (i1Dmg[0] + MinDam))));
+//	out
+//	.add(String
+//	.valueOf((long) Math
+//	.floor((((double) i1Dmg[2] / (double) 100) * (ENDam + ENMaxDam))
+//	+ (i1Dmg[2] + MaxDam))));
 
-		if (iWhichHand == 0) {
-			out.add(String.valueOf((long) Math
-					.floor((((double) i2Dmg[0] / (double) 100) * ENDam)
-							+ (i2Dmg[0] + MinDam))));
-			out
-			.add(String
-					.valueOf((long) Math
-							.floor((((double) i2Dmg[2] / (double) 100) * (ENDam + ENMaxDam))
-									+ (i2Dmg[2] + MaxDam))));
-		}
+//	if (iWhichHand == 0) {
+//	out.add(String.valueOf((long) Math
+//	.floor((((double) i2Dmg[0] / (double) 100) * ENDam)
+//	+ (i2Dmg[0] + MinDam))));
+//	out
+//	.add(String
+//	.valueOf((long) Math
+//	.floor((((double) i2Dmg[2] / (double) 100) * (ENDam + ENMaxDam))
+//	+ (i2Dmg[2] + MaxDam))));
+//	}
 
-		return out;
+//	return out;
 
-	}
+//	}
 
 	private long applyPerfDef(ArrayList iProperties) {
 
@@ -2868,7 +2809,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	public boolean isABelt() {
 		if (iType.equals("belt")) {
-			System.out.println(iItemName);
 			return true;
 		} else {
 			return false;

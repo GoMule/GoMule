@@ -1457,19 +1457,19 @@ public class D2Character extends D2ItemListAdapter
 //		}
 //		}
 //		out = out + skillStrArr[0] + skillStrArr[1]+skillStrArr[2] + "\n";
-//		if ( iCharItems != null ){
-//		for ( int i = 0 ; i < iCharItems.size() ; i++){
-//		D2Item lItem = (D2Item) iCharItems.get(i);
-//		out = out + lItem.toString(1);
-//		}
-//		}
-//		out = out + ("Mercenary:"+"\n") + ("\n");
-//		if ( iMercItems != null ){
-//		for ( int i = 0 ; i < iMercItems.size() ; i++){
-//		D2Item lItem = (D2Item) iMercItems.get(i);
-//		out = out + lItem.toString(1) + ("\n") + ("\n");
-//		}
-//		}
+		if ( iCharItems != null ){
+		for ( int i = 0 ; i < iCharItems.size() ; i++){
+		D2Item lItem = (D2Item) iCharItems.get(i);
+		out = out + lItem.itemDump(true);
+		}
+		}
+		out = out + ("Mercenary:"+"\n") + ("\n");
+		if ( iMercItems != null ){
+		for ( int i = 0 ; i < iMercItems.size() ; i++){
+		D2Item lItem = (D2Item) iMercItems.get(i);
+		out = out + lItem.itemDump(true) + ("\n") + ("\n");
+		}
+		}
 		return out;
 	}
 

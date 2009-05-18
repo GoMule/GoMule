@@ -111,6 +111,7 @@ public class D2FileManager extends JFrame
 
 		JSplitPane lSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, iLeftPane, iDesktopPane);
 		JSplitPane rSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, lSplit, iRightPane);
+		rSplit.setEnabled(false);
 		lSplit.setDividerLocation(200);
 		rSplit.setDividerLocation(1024 - 210);
 		rSplit.setResizeWeight(1.0);
@@ -326,8 +327,6 @@ public class D2FileManager extends JFrame
 		iRightPane = new JPanel();
 		iRightPane.setPreferredSize(new Dimension(190,768));
 		iRightPane.setMinimumSize(new Dimension(190,0));
-		
-
 		try
 		{
 			iClipboard = D2ViewClipboard.getInstance(this);
@@ -355,7 +354,6 @@ public class D2FileManager extends JFrame
 		itemControl.setBorder(new TitledBorder(null, ("Item Control"),	TitledBorder.LEFT, TitledBorder.TOP, iRightPane.getFont(), Color.gray));
 
 		JButton pickAll = new JButton("Pick All");
-
 		pickAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
@@ -400,7 +398,6 @@ public class D2FileManager extends JFrame
 
 		pickFrom = new JButton("Pickup From ...");
 		pickChooser = new JComboBox(new String[]{"Stash", "Inventory", "Cube", "Equipped"});
-
 		pickFrom.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -553,16 +550,9 @@ public class D2FileManager extends JFrame
 		charControl.addToPanel(dumpBut,0,0,1,RandallPanel.HORIZONTAL);
 		charControl.addToPanel(flavieSingle,0,1,1,RandallPanel.HORIZONTAL);
 
-		
 		iRightPane.add(iClipboard, BorderLayout.LINE_START);
 		iRightPane.add(itemControl, BorderLayout.LINE_START);
 		iRightPane.add(charControl, BorderLayout.LINE_START);
-//		iRightPane.addToPanel(iClipboard,0,0,1,RandallPanel.BOTH);
-//		iRightPane.addToPanel(itemControl,0,1,1,RandallPanel.HORIZONTAL);
-//		iRightPane.addToPanel(charControl,0,2,1,RandallPanel.HORIZONTAL);
-//		iRightPane.addToPanel(new JPanel(),0,3,1,RandallPanel.BOTH);
-		
-//		iRightPane.set
 		
 	}
 

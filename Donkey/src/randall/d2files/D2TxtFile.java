@@ -53,7 +53,6 @@ public final class D2TxtFile
 	public static D2TxtFile  SKILL_DESC;
 	public static D2TxtFile  SKILLS;
 	public static D2TxtFile  GEMS;
-	public static Properties GOMULE_PROPS;
 	public static D2TxtFile PROPS;
 	public static D2TxtFile HIRE;
 	public static D2TxtFile FULLSET;
@@ -68,8 +67,6 @@ public final class D2TxtFile
 	public static D2TxtFile LEVELS;
 	public static D2TxtFile SUPUNIQ;
 	public static D2TxtFile ITEMRATIO;
-
-	//    public static D2TxtFile PROPERTIES;
 
 	private String           iFileName;
 	private String[]        iHeader;
@@ -107,17 +104,6 @@ public final class D2TxtFile
 		AUTOMAGIC = new D2TxtFile("automagic");
 		ITEMRATIO = new D2TxtFile("ItemRatio");
 
-		GOMULE_PROPS = new Properties();
-		try
-		{
-			FileInputStream lFileIn = new FileInputStream(sMod + File.separator + "GoMuleProps.properties");
-			GOMULE_PROPS.load(lFileIn);
-			lFileIn.close();
-		}
-		catch (Exception pEx)
-		{
-			D2FileManager.displayErrorDialog(pEx);
-		}
 	}
 
 	public String getFileName()
@@ -201,9 +187,6 @@ public final class D2TxtFile
 				pVals[0] = Integer.parseInt(D2TxtFile.PROPS.searchColumns("code", pCode).get("val1"));
 			}
 			
-			if(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")) == 83){
-				System.out.println();
-			}
 			outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")), pVals, qFlag));
 
 		}
@@ -316,7 +299,6 @@ public final class D2TxtFile
 		
 		for(int x= 0;x<iHeader.length;x++){
 			if(iHeader[x].equals(col)){
-//				System.out.println(x + " " + col);
 				return x;
 			}
 		}
@@ -327,7 +309,6 @@ public final class D2TxtFile
 	public D2TxtFileItemProperties getRow(int pRowNr)
 	{
 		return new D2TxtFileItemProperties(this, pRowNr);
-//		return new D2TxtFileItemProperties(this, pRowNr);
 	}
 
 	public D2TxtFileItemProperties searchColumns(String pCol, String pText)
@@ -424,21 +405,6 @@ public final class D2TxtFile
 //
 //		return -1;
 //	}
-
-	public static Boolean getGoMuleProperty(String pKey)
-	{
-		String lProperty = GOMULE_PROPS.getProperty(pKey);
-		if ("true".equals(lProperty))
-		{
-			return Boolean.TRUE;
-		}
-		if ("false".equals(lProperty))
-		{
-			return Boolean.FALSE;
-		}
-
-		return null;
-	}
 
 
 }
