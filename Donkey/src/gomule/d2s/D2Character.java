@@ -1460,7 +1460,7 @@ public class D2Character extends D2ItemListAdapter
 		if ( iCharItems != null ){
 		for ( int i = 0 ; i < iCharItems.size() ; i++){
 		D2Item lItem = (D2Item) iCharItems.get(i);
-		out = out + lItem.itemDump(true);
+		out = out + lItem.itemDump(true) + ("\n");
 		}
 		}
 		out = out + ("Mercenary:"+"\n") + ("\n");

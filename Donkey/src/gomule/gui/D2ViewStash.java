@@ -443,7 +443,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iContentPane.add(lTopPanel, BorderLayout.NORTH);
 
         JPanel lItemPanel = new JPanel();
-//        iItemText = new JTextArea();
         iItemText = new JEditorPane();
         iItemText.setContentType("text/html");
         iItemText.setBackground(Color.black);
@@ -484,8 +483,9 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                         {
                             if (iTable.getSelectedRowCount() == 1)
                             {
-                                iItemText.setText("<html><font size=3 face=Dialog>"+iItemModel.getItem(
-                                        iTable.getSelectedRow()).itemDumpHtml(false)+"</font></html>");
+                            	
+                            	String dispStr = iItemModel.getItem(iTable.getSelectedRow()).itemDumpHtml(iFileManager.getProject().getDisplayProps()).replaceAll("<[/]*html>", "");
+                                iItemText.setText("<html><font size=3 face=Dialog>"+dispStr+"</font></html>");
                                 iItemText.setCaretPosition(0);
                             }
                             else
@@ -494,7 +494,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                             }
                         }
                     });
-            
         }
         if ( iTable.getRowCount() > 0 )
         {
@@ -545,8 +544,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             }
             iTable.setModel( iItemModel );
         }
-        catch( Exception pEx )
-        {
+        catch( Exception pEx ){
             disconnect(pEx);
         }
         
@@ -1838,6 +1836,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     	iStash.listenItemListEvents();
         iStash = pStash;
         itemListChanged();
+    }
+    
+    public D2ItemList getStash(){
+    	return iStash;
     }
 
     

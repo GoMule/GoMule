@@ -327,6 +327,14 @@ public class D2ProjectSettingsDialog extends JDialog
                 iProject.setCountEthereal(iFlavieCountEthereal.isSelected());
             }
         });
+        JButton iOk = new JButton("Ok");
+        iOk.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent pEvent)
+            {
+               ((JDialog)iContent.getRootPane().getParent()).dispose();
+            }
+        });
 
 //        iContent.addToPanel(new JLabel("New Project"), 0, 0, 1, RandallPanel.NONE);
 //        iContent.addToPanel(iNewName, 1, 0, 1, RandallPanel.HORIZONTAL);
@@ -374,7 +382,7 @@ public class D2ProjectSettingsDialog extends JDialog
 
         
         iContent.addToPanel(lFlaviePanel, 0, 50, 3, RandallPanel.HORIZONTAL);
-
+        iContent.addToPanel(iOk, 0, 51, 0, RandallPanel.NONE);
         iContent.finishDefaultPanel();
         
         setProjectValues();
@@ -412,13 +420,7 @@ public class D2ProjectSettingsDialog extends JDialog
         iFlavieOutputTitle.setText(iProject.getReportTitle());
         iFlavieOutputData.setText(iProject.getDataName());
         iFlavieOutputStyle.setText(iProject.getStyleName());
-        
-        if(iProject.getDisProps() == 1){
-        iSetProps.setSelected(true);
-        }else{
-        	 iSetProps.setSelected(false);
-        }
-        
+        iSetProps.setSelected(iProject.getDisplayProps());
         iFlavieCountAll.setSelected(iProject.isCountAll());
         iFlavieCountStash.setSelected(iProject.isCountStash());
         iFlavieCountChar.setSelected(iProject.isCountChar());

@@ -305,7 +305,8 @@ public class D2ItemListAll implements D2ItemList
 
     public boolean checkTimestamp()
     {
-        throw new RuntimeException("Internal error: wrong calling");
+//        throw new RuntimeException("Internal error: wrong calling");
+        return true;
     }
     
     public void ignoreItemListEvents(){

@@ -1246,12 +1246,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private String htmlStrip(StringBuffer htmlString) {
 
+		String dumpStr =  htmlString.toString().replaceAll("<br>", "\n");
+		return dumpStr.replaceAll("<[^>]*>", "");
 		
-		htmlString.toString().replaceAll("<[^>]*>", "");
 		
-		System.out.println(htmlString.toString().replaceAll("<[^>]*>", ""));
-		
-		return null;
 	}
 
 	public String itemDumpHtml(boolean extended){
@@ -1381,7 +1379,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 
 		if (extended){
-
 			if (isSocketed()) {
 				dispStr.append("<br>");
 				if (iSocketedItems != null) {

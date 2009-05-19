@@ -29,6 +29,8 @@ import java.util.*;
 
 import javax.swing.*;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import randall.util.*;
 
 /**
@@ -73,7 +75,7 @@ public class D2Project
 	private boolean iCountChar;
 	private boolean iCountEthereal;
 
-	private int lDisplyProps;
+	private boolean lDisplyProps;
 
 	public D2Project(D2FileManager pFileManager, String pProjectName)
 	{
@@ -161,7 +163,7 @@ public class D2Project
 		{
 			iBank = 0;
 			iType = TYPE_BOTH;
-			lDisplyProps = 0;
+			lDisplyProps = true;
 			iBackup = BACKUP_WEEK;
 			iReportName = "Report";
 			iReportTitle = "Flavie Report";
@@ -208,11 +210,11 @@ public class D2Project
 
 			try
 			{
-				lDisplyProps = Integer.parseInt(lLoadProperties.getProperty("propDisplay"));
+				lDisplyProps = Boolean.parseBoolean(lLoadProperties.getProperty("propDisplay"));
 			}
 			catch (Exception pEx)
 			{
-				lDisplyProps = 0;
+				lDisplyProps = true;
 			}
 
 			iBackup = BACKUP_WEEK;
@@ -306,18 +308,9 @@ public class D2Project
 		return iBackup;
 	}
 
-	public int getDisProps()
-	{
-		return lDisplyProps;
-	}
-
 	public void setDisProps(boolean pDisplayProps)
 	{
-		if(pDisplayProps == true){
-			lDisplyProps =  1;
-		}else{
-			lDisplyProps =  0;
-		}
+			lDisplyProps =  pDisplayProps;
 	}
 
 	public void setBackup(int pBackup)
@@ -446,7 +439,7 @@ public class D2Project
 		lSaveProperties.put("countStash", getStringFromBoolean(iCountStash) );
 		lSaveProperties.put("countChar", getStringFromBoolean(iCountChar) );
 		lSaveProperties.put("countEthereal", getStringFromBoolean(iCountEthereal) );
-		lSaveProperties.put("propDisplay", Integer.toString(lDisplyProps) );
+		lSaveProperties.put("propDisplay", getStringFromBoolean(lDisplyProps) );
 
 		try
 		{ // iFile.getCanonicalPath()
@@ -597,7 +590,7 @@ public class D2Project
 		iStyleName = pStyleName;
 	}
 
-	public int getDisplayProps(){
+	public boolean getDisplayProps(){
 		return lDisplyProps;
 	}
 
