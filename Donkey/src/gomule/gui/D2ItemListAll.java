@@ -6,6 +6,9 @@
  */
 package gomule.gui;
 
+import gomule.d2s.D2Character;
+import gomule.d2x.D2Stash;
+import gomule.gui.D2ViewChar.D2SkillPainterPanel;
 import gomule.item.*;
 import gomule.util.*;
 
@@ -118,7 +121,11 @@ public class D2ItemListAll implements D2ItemList
             lItemList = (D2ItemList) iList.get(i);
             if ( lItemList.containsItem(pItem) )
             {
-                return lItemList.getFilename();
+            	if(lItemList.getFilename().toLowerCase().endsWith(".d2s")){
+            		return ((D2Character)lItemList).getCharName() + ".d2s";
+            	}else{
+            		return ((D2Stash)lItemList).getFileNameEnd();
+            	}
             }
         }
         

@@ -136,6 +136,7 @@ public class D2FileManager extends JFrame
 		});
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
+		iClipboard.scrollbarBottom();
 	}
 
 	protected void setProject(String pProject)
@@ -526,6 +527,10 @@ public class D2FileManager extends JFrame
 
 	private void moveToClipboard(D2Item remItem , D2ItemList iList) {
 		iList.removeItem(remItem);
+		if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
+			((D2Character)iList).unequipItem(remItem);
+			((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).paintCharStats();
+		}
 		D2ViewClipboard.addItem(remItem);
 	}
 
@@ -983,8 +988,11 @@ public class D2FileManager extends JFrame
 				{
 					D2ItemContainer lContainer = (D2ItemContainer) iOpenWindows.get(i);
 					D2ItemList lList = lContainer.getItemLists();
-					if ( lList != iViewAll )
+					if (iViewAll != null && lList == iViewAll.getStash() )
 					{
+						lContainer.disconnect(null);
+						lContainer.connect();
+					}else{
 						if ( !lList.checkTimestamp() || ( lModifiedChanges && lList.isModified() ) )
 						{
 							String lFileName = lList.getFilename();

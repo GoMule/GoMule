@@ -3417,6 +3417,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							iCharacter.markCharGrid(lDropItem);
 							D2ViewClipboard.removeItem(lDropItem);
 							iCharacter.addCharItem(lDropItem);
+							iCharacter.equipItem(lDropItem);
+							paintCharStats();
 							x = rMax;
 							y = cMax;
 						}

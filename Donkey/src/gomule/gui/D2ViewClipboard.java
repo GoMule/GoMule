@@ -50,6 +50,8 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 
 	private JTextField         		iBank;
 
+	private JScrollPane lPane;
+
 	public static D2ViewClipboard getInstance(D2FileManager pFileManager)
 	{
 		if (iMouseItem == null)
@@ -79,7 +81,7 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 			iItemModel = new D2ItemModel(iItems);
 			iTable = new JTable(iItemModel);
 			iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
-			JScrollPane lPane = new JScrollPane(iTable);
+			lPane = new JScrollPane(iTable);
 			setBorder((new TitledBorder(null, ("GoMule Clipboard"), 
 					TitledBorder.LEFT, TitledBorder.TOP, this.getFont(), Color.gray)));
 			final ImageIcon iIcon = new ImageIcon();
@@ -125,11 +127,15 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 
 			iTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+			
+			lPane.setPreferredSize(new Dimension(180,150));
+			
 			if (!iItems.isEmpty())
 			{
 				iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+
 			}
-			lPane.setPreferredSize(new Dimension(180,150));
+			
 		}
 		catch (Exception pEx)
 		{
@@ -239,9 +245,9 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 			if ( iTable.getSelectedRow() == -1 && iTable.getRowCount() > 0 )
 			{
 				iTable.setRowSelectionInterval(lRowCount-1, lRowCount-1);
+				scrollbarBottom();
 			}
 		}
-
 	}
 
 	public String getFileName()
@@ -268,6 +274,7 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 			if (!iItems.isEmpty())
 			{
 				iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+				scrollbarBottom();
 			}
 		}
 
@@ -366,7 +373,9 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 				if (!iItems.isEmpty() && iTable.getSelectedRow() == -1)
 				{
 					iTable.clearSelection();
-					iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+					 iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+					scrollbarBottom();
+
 				}
 				return lItem;
 			}
@@ -389,19 +398,22 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 			{
 				//                System.err.println("Set To: " + (iItems.size()-1) );
 				iTable.clearSelection();
-				iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+				 iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+				scrollbarBottom();
+
 			}
 		}
 		else
 		{
 			if (!iItems.isEmpty())
 			{
-				if (iTable.getSelectedRow() == iItems.size() - 2)
-				{
+//				if (iTable.getSelectedRow() == iItems.size() - 2){
 					//                    System.err.println("Set To: " + (iItems.size()-1) );
 					iTable.clearSelection();
-					iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
-				}
+					 iTable.setRowSelectionInterval(iItems.size() - 1, iItems.size() - 1);
+					scrollbarBottom();
+
+//				}
 			}
 			else
 			{
@@ -426,6 +438,11 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 	public void disconnect(Exception pEx)
 	{
 		throw new RuntimeException("Internal error: wrong calling");
+	}
+	
+	public void scrollbarBottom(){
+		this.validate();
+		lPane.getVerticalScrollBar().setValue(lPane.getVerticalScrollBar().getMaximum());
 	}
 
 

@@ -43,6 +43,8 @@ public class D2Stash extends D2ItemListAdapter
     private boolean		iSC;
     
     private int			iCharLvl = 75; // default char lvl for properties
+
+	private File lFile;
     
 //    private int iItemlistStart;
 //    private int iItemlistEnd;
@@ -56,7 +58,7 @@ public class D2Stash extends D2ItemListAdapter
         }
         iItems = new ArrayList();
         
-        File lFile = new File(iFileName);
+        lFile = new File(iFileName);
         
         iSC = lFile.getName().toLowerCase().startsWith("sc_");
         iHC = lFile.getName().toLowerCase().startsWith("hc_");
@@ -274,6 +276,10 @@ public class D2Stash extends D2ItemListAdapter
         }
         pWriter.println( "Finished: " + iFileName );
         pWriter.println();
+    }
+    
+    public String getFileNameEnd(){
+			return lFile.getName();
     }
     
 }

@@ -202,21 +202,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         
         iTable.setDefaultRenderer(String.class, new D2CellStringRenderer() );
         iTable.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        if ( isStash() )
-        {
             iTable.getColumnModel().getColumn(0).setPreferredWidth(140);
-        }
-        else
-        {
-            iTable.getColumnModel().getColumn(0).setPreferredWidth(180);
-        }
         iTable.getColumnModel().getColumn(1).setPreferredWidth(11);
         iTable.getColumnModel().getColumn(2).setPreferredWidth(11);
         iTable.getColumnModel().getColumn(3).setPreferredWidth(15);
-        if ( !isStash() )
-        {
-            iTable.getColumnModel().getColumn(4).setPreferredWidth(8);
-        }
         JScrollPane lPane = new JScrollPane(iTable);
         lPane.setPreferredSize(new Dimension(257, 100));
         iContentPane.add(lPane, BorderLayout.WEST);
@@ -485,7 +474,12 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                             {
                             	
                             	String dispStr = iItemModel.getItem(iTable.getSelectedRow()).itemDumpHtml(iFileManager.getProject().getDisplayProps()).replaceAll("<[/]*html>", "");
-                                iItemText.setText("<html><font size=3 face=Dialog>"+dispStr+"</font></html>");
+                                if(!isStash()){
+                                	iItemText.setText("<html><font size=3 face=Dialog><font color = white>Item From: "+(((D2ItemListAll) iStash).getFilename(iItemModel.getItem(iTable.getSelectedRow())))+"</font><br><br>"+dispStr+"</font></html>");
+                                }else{
+                                	iItemText.setText("<html><font size=3 face=Dialog>"+dispStr+"</font></html>");
+                                    
+                                }
                                 iItemText.setCaretPosition(0);
                             }
                             else
@@ -1574,11 +1568,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         public int getColumnCount()
         {
-            if ( isStash() )
-            {
                 return 4;
-            }
-            return 5;
         }
 
         public String getColumnName(int pCol)
@@ -1593,8 +1583,8 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 return "str";
             case 3:
                 return "dex";
-            case 4:
-                return "Type";
+//            case 4:
+//                return "Type";
             default:
                 return "";
             }
