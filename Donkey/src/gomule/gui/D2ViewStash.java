@@ -710,8 +710,9 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 
             }
         });
+        if(isStash()){
         lButtonPanel.addToPanel(iDeleteDups, 4, 0, 1, RandallPanel.HORIZONTAL);
-        
+        }
         return lButtonPanel;
     }
 
@@ -1830,6 +1831,10 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     
     public D2ItemList getStash(){
     	return iStash;
+    }
+    
+    public String getStashName(){
+    	return iStashName;
     }
 
     

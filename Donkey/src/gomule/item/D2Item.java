@@ -29,6 +29,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.sun.org.apache.xerces.internal.impl.dv.xs.FullDVFactory;
+
 import randall.d2files.*;
 import randall.flavie.*;
 
@@ -1246,10 +1248,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private String htmlStrip(StringBuffer htmlString) {
 
-		String dumpStr =  htmlString.toString().replaceAll("<br>", "\n");
+		String dumpStr =  htmlString.toString().replaceAll("<br>", System.getProperty("line.separator"));
 		return dumpStr.replaceAll("<[^>]*>", "");
-		
-		
 	}
 
 	public String itemDumpHtml(boolean extended){
@@ -1260,13 +1260,17 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return htmlStrip(generatePropString(extended));
 	}
 
-
 	private StringBuffer generatePropString(boolean extended){
 
 		if (iProps != null && location != 6)iProps.tidy();
 		StringBuffer dispStr = new StringBuffer("<html><center>");
 		String base = (Integer.toHexString(Color.white.getRGB())).substring(2, Integer.toHexString(Color.white.getRGB()).length());
 		String rgb = (Integer.toHexString(getItemColor().getRGB())).substring(2, Integer.toHexString(getItemColor().getRGB()).length());
+		if(isRuneWord()){
+			dispStr.append("<font color=\"#" + rgb + "\">");
+//			dispStr.append(rune);
+			dispStr.append("</font><br>");
+		}
 		if (personalization == null) {
 			dispStr.append("<font color=\"#"+ base + "\">" + "<font color=\"#" + rgb + "\">"+ iItemName + "</font>" + "<br>");
 		}else{
@@ -1396,8 +1400,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return dispStr.append("</center></html>");
 	}
 
-	public String toWriter(PrintWriter pw){
-		return null;
+	public void toWriter(PrintWriter pw){
+		pw.println();
+		pw.print(itemDump(true));
 	}
 
 

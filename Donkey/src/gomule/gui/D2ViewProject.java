@@ -86,7 +86,7 @@ public class D2ViewProject extends JPanel
 			public void mousePressed(MouseEvent pEvent){}
 			public void mouseClicked(MouseEvent e)
 			{
-				workCursor();
+				iFileManager.workCursor();
 				try{
 					if ( e.getX() >=0 && e.getX() <= iTree.getWidth()
 							&& e.getY() >= 0 && e.getY() <= iTree.getHeight() )
@@ -121,7 +121,7 @@ public class D2ViewProject extends JPanel
 						}
 					}
 				}finally{
-					defaultCursor();
+					iFileManager.defaultCursor();
 				}
 			}
 			public void mouseEntered(MouseEvent arg0) {}
@@ -551,14 +551,6 @@ public class D2ViewProject extends JPanel
 		{
 			iNode.fullDump();
 		}
-	}
-
-	private void workCursor(){
-		iFileManager.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-	}
-
-	private void defaultCursor(){
-		iFileManager.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	private static String getCharStr(String pFileName)

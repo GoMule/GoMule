@@ -135,9 +135,13 @@ public class D2Prop {
 			dispLoc = 2;	
 		}else if(pNum == 356){
 			funcN = 40;
-		}else if(pNum == 26){
+		}else if(pNum == 26 || pNum == 8){
 			oString = "Replenishes Mana";
-			funcN = 1;
+			funcN = 2;
+			dispLoc = 2;
+		}else if(pNum == 6){
+			oString = "Replenishes Health";
+			funcN = 2;
 			dispLoc = 2;
 		}
 

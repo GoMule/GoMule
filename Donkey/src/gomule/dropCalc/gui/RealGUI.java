@@ -259,12 +259,12 @@ public class RealGUI extends JFrame {
 //		oScrollingArea.getViewport().setBackground(Color.white);
 //		oResult.
 		//Other window stuff
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
-
+//		addWindowListener(new WindowAdapter() {
+//			public void windowClosing(WindowEvent e) {
+//				System.exit(0);
+//			}
+//		});
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setupListeners();
 		getContentPane().add(vMain);
 		setSize(900, 650);

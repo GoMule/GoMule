@@ -68,6 +68,7 @@ public final class D2TxtFile
 	public static D2TxtFile SUPUNIQ;
 	public static D2TxtFile ITEMRATIO;
 
+	private static boolean read = false;
 	private String           iFileName;
 	private String[]        iHeader;
 	private String[][]        iData;
@@ -76,7 +77,7 @@ public final class D2TxtFile
 	public static void readAllFiles(String pMod)
 	{
 
-
+		if(read)return;
 		sMod = pMod;
 		MISC = new D2TxtFile("Misc");
 		ARMOR = new D2TxtFile("armor");
@@ -104,6 +105,7 @@ public final class D2TxtFile
 		AUTOMAGIC = new D2TxtFile("automagic");
 		ITEMRATIO = new D2TxtFile("ItemRatio");
 
+		read = true;
 	}
 
 	public String getFileName()
@@ -384,7 +386,7 @@ public final class D2TxtFile
 				}
 				if (lIsRuneWord)
 				{
-//					return new D2TxtFileItemProperties(this, i);
+					return new D2TxtFileItemProperties(this, i);
 				}
 			}
 		}

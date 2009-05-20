@@ -23,6 +23,7 @@ package gomule.gui;
 
 import gomule.d2s.*;
 import gomule.d2x.*;
+import gomule.dropCalc.gui.RealGUI;
 import gomule.item.D2Item;
 import gomule.util.*;
 import java.awt.*;
@@ -289,7 +290,7 @@ public class D2FileManager extends JFrame
 				{
 					dFileNames.addAll( lStashList );
 				}
-				flavieDump(dFileNames);
+				flavieDump(dFileNames, false);
 			}
 		});
 
@@ -303,17 +304,32 @@ public class D2FileManager extends JFrame
 		iLeftPane.addToPanel(projControl,0,2,1,RandallPanel.NONE);
 	}
 
-	private void flavieDump(ArrayList dFileNames){
+	private void flavieDump(ArrayList dFileNames, boolean singleDump){
 		try{
+
+
+
+			String reportName;
+
+			if(singleDump){
+				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
+					reportName = (((D2ViewChar)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar().getCharName() + iProject.getReportName());
+				}else{
+					reportName = ((((D2ViewStash)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())))).getStashName() + iProject.getReportName());
+				}
+			}else{
+				reportName = iProject.getProjectName() + iProject.getReportName();
+			}
+			System.out.println(reportName);
 			new Flavie(
-					iProject.getReportName(), iProject.getReportTitle(), 
+					reportName, iProject.getReportTitle(), 
 					iProject.getDataName(), iProject.getStyleName(),
 					dFileNames,
 					iProject.isCountAll(), iProject.isCountEthereal(),
 					iProject.isCountStash(), iProject.isCountChar()
 			);
 			JOptionPane.showMessageDialog(iContentPane,
-					"Flavie report was generated successfully.\nFile: " + System.getProperty("user.dir") + File.separatorChar + iProject.getReportName() + ".html", 
+					"Flavie report was generated successfully.\nFile: " + System.getProperty("user.dir") + File.separatorChar + reportName + ".html", 
 					"Success!", JOptionPane.INFORMATION_MESSAGE);			
 		}
 		catch (Exception pEx)
@@ -508,7 +524,7 @@ public class D2FileManager extends JFrame
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
 					ArrayList dFileNames = new ArrayList();
 					dFileNames.add(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName());
-					flavieDump(dFileNames);
+					flavieDump(dFileNames, true);
 				}
 
 			}
@@ -735,12 +751,13 @@ public class D2FileManager extends JFrame
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
 			{
-				try {
-					Runtime.getRuntime().exec("java -jar DropCalc.jar");
-				} catch (IOException ee) {
-
-					ee.printStackTrace();
+				workCursor();
+				try{
+					new RealGUI();
+				}finally{
+					defaultCursor();
 				}
+
 
 			}
 		});
@@ -1022,28 +1039,22 @@ public class D2FileManager extends JFrame
 		}
 	}
 
-	private void handleLoadError(String pFileName, Exception pEx)
-	{
+	private void handleLoadError(String pFileName, Exception pEx){
 		// close this view & all view
-		for ( int i = 0 ; i < iOpenWindows.size() ; i++ )
-		{
+		for ( int i = 0 ; i < iOpenWindows.size() ; i++ ){
 			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
-
-			if ( lItemContainer.getFileName().equalsIgnoreCase(pFileName) || lItemContainer.getFileName().toLowerCase().equals("all") )
-			{
+			if (lItemContainer.getFileName().equalsIgnoreCase(pFileName) || lItemContainer.getFileName().toLowerCase().equals("all")){
 				lItemContainer.closeView();
 			}
 		}
 		displayErrorDialog( pEx );
 	}
 
-	private JFileChooser getCharDialog()
-	{
+	private JFileChooser getCharDialog(){
 		return iProject.getCharDialog();
 	}
 
-	private JFileChooser getStashDialog()
-	{
+	private JFileChooser getStashDialog(){
 		return iProject.getStashDialog();
 	}
 
@@ -1051,8 +1062,7 @@ public class D2FileManager extends JFrame
 	// throw up a dialog for picking d2s files
 	// then open that character and add it to the
 	// vector of character windows
-	public void openChar(boolean load)
-	{
+	public void openChar(boolean load){
 		JFileChooser lCharChooser = getCharDialog();
 		lCharChooser.setMultiSelectionEnabled(true);
 		if (lCharChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
@@ -1414,6 +1424,14 @@ public class D2FileManager extends JFrame
 		lDialog.setLocationRelativeTo(null);
 		lDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		lDialog.setVisible(true);
+	}
+
+	public void workCursor(){
+		setCursor(new Cursor(Cursor.WAIT_CURSOR));
+	}
+
+	public void defaultCursor(){
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	class D2MenuListener implements ActionListener{
