@@ -313,7 +313,7 @@ public class D2FileManager extends JFrame
 					iProject.isCountStash(), iProject.isCountChar()
 			);
 			JOptionPane.showMessageDialog(iContentPane,
-					"Flavie report was generated successfully.", 
+					"Flavie report was generated successfully.\nFile: " + System.getProperty("user.dir") + File.separatorChar + iProject.getReportName() + ".html", 
 					"Success!", JOptionPane.INFORMATION_MESSAGE);			
 		}
 		catch (Exception pEx)
@@ -489,7 +489,7 @@ public class D2FileManager extends JFrame
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
 					if(fullDump(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName())){
 						JOptionPane.showMessageDialog(iContentPane,
-								"Char/Stash dump was a success.", 
+								"Char/Stash dump was a success.\nFile: " + (((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName()) + ".txt", 
 								"Success!", JOptionPane.INFORMATION_MESSAGE);
 
 					}else{
