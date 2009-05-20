@@ -1266,11 +1266,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 		StringBuffer dispStr = new StringBuffer("<html><center>");
 		String base = (Integer.toHexString(Color.white.getRGB())).substring(2, Integer.toHexString(Color.white.getRGB()).length());
 		String rgb = (Integer.toHexString(getItemColor().getRGB())).substring(2, Integer.toHexString(getItemColor().getRGB()).length());
-		if(isRuneWord()){
-			dispStr.append("<font color=\"#" + rgb + "\">");
-//			dispStr.append(rune);
-			dispStr.append("</font><br>");
-		}
 		if (personalization == null) {
 			dispStr.append("<font color=\"#"+ base + "\">" + "<font color=\"#" + rgb + "\">"+ iItemName + "</font>" + "<br>");
 		}else{

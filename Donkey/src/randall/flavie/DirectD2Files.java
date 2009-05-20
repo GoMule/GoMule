@@ -189,6 +189,10 @@ public class DirectD2Files
 
 					if ( lItemObject.getName().equals(pItem.getName()) )
 					{
+						if(pItem.isUnique() && pItem.isJewel()){
+							System.out.println();
+						}
+						
 						if ( lCatObj.isUnique() && pItem.isUnique() )
 						{
 							lFound = lItemObject;

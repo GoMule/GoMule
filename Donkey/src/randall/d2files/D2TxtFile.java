@@ -362,7 +362,7 @@ public final class D2TxtFile
 			ArrayList lRW = new ArrayList();
 			for (int j = 0; j < lRuneNr.length; j++)
 			{
-				String lFile = iData[i][j];
+				String lFile = iData[i][lRuneNr[j]];
 
 				if (lFile != null && !lFile.equals(""))
 				{

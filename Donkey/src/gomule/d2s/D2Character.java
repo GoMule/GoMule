@@ -314,6 +314,7 @@ public class D2Character extends D2ItemListAdapter
 				equipMercItem((D2Item)iMercItems.get(x));
 			}
 		}
+		dealWithSkills();
 		for(int x = 0;x<iCharItems.size();x++){
 			equipItem((D2Item)iCharItems.get(x));
 		}
@@ -698,7 +699,7 @@ public class D2Character extends D2ItemListAdapter
 			case(188):
 				for(int t = 0;t<10;t=t+1){
 					if((pVals[0]-(getCharCode() * 8) ) > -1 && (pVals[0]-(getCharCode() * 8) ) < 4){  
-					if(cSkills[pVals[0]-(getCharCode() * 8)][t] > 0)cSkills[pVals[0]-(getCharCode() * 8)][t] = cSkills[pVals[0]-(getCharCode() * 8)][t] + pVals[1];
+						if(cSkills[pVals[0]-(getCharCode() * 8)][t] > 0)cSkills[pVals[0]-(getCharCode() * 8)][t] = cSkills[pVals[0]-(getCharCode() * 8)][t] + pVals[1];
 					}
 				}
 			}
@@ -1435,40 +1436,30 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public String fullDumpStr(){
-		String out = "";
+		String out = "\n";
 //		String[] skillStrArr = new String[3];
 //		skillStrArr[0] ="\n";
 //		skillStrArr[1] ="\n";
 //		skillStrArr[2] ="\n";
 //		Iterator[] it = {iCharInitSkillsA.iterator(),iCharInitSkillsB.iterator(),iCharInitSkillsC.iterator(),iCharSkillsA.iterator(),iCharSkillsB.iterator(),iCharSkillsC.iterator()};
-//		ArrayList skillArr = D2TxtFile.SKILLS.searchColumnsMultipleHits("charclass", cClass);
-//		for(int x = 0;x<skillArr.size();x=x+1){
-//		int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties)skillArr.get(x)).get("Id")))).get("SkillPage"));
-//		switch(page){
-//		case 1:
-//		skillStrArr[0] = skillStrArr[0] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name")) + ": " +  it[0].next() + "/" + it[3].next() + "\n";
-//		break;
-//		case 2:
-//		skillStrArr[1] = skillStrArr[1] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name")) + " : " +  it[1].next()+ "/" + it[4].next() + "\n";
-//		break;
-//		case 3:
-//		skillStrArr[2] = skillStrArr[2] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name"))  + " : " +  it[2].next() + "/" + it[5].next()+ "\n";
-//		break;
-//		}
-//		}
-//		out = out + skillStrArr[0] + skillStrArr[1]+skillStrArr[2] + "\n";
-		if ( iCharItems != null ){
-		for ( int i = 0 ; i < iCharItems.size() ; i++){
-		D2Item lItem = (D2Item) iCharItems.get(i);
-		out = out + lItem.itemDump(true) + ("\n");
+		ArrayList skillArr = D2TxtFile.SKILLS.searchColumnsMultipleHits("charclass", cClass);
+		for(int x = 0;x<skillArr.size();x=x+1){
+			int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties)skillArr.get(x)).get("Id")))).get("SkillPage"));
+			out = out +(D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name"))+ ": " +  initSkills[page-1][x%10] + "/" + cSkills[page-1][x%10] + "\n");	
 		}
+		out = out + "\n";
+		if ( iCharItems != null ){
+			for ( int i = 0 ; i < iCharItems.size() ; i++){
+				D2Item lItem = (D2Item) iCharItems.get(i);
+				out = out + lItem.itemDump(true) + ("\n");
+			}
 		}
 		out = out + ("Mercenary:"+"\n") + ("\n");
 		if ( iMercItems != null ){
-		for ( int i = 0 ; i < iMercItems.size() ; i++){
-		D2Item lItem = (D2Item) iMercItems.get(i);
-		out = out + lItem.itemDump(true) + ("\n") + ("\n");
-		}
+			for ( int i = 0 ; i < iMercItems.size() ; i++){
+				D2Item lItem = (D2Item) iMercItems.get(i);
+				out = out + lItem.itemDump(true) + ("\n") + ("\n");
+			}
 		}
 		return out;
 	}
@@ -1622,7 +1613,7 @@ public class D2Character extends D2ItemListAdapter
 		}
 		return (int)Math.floor(((cStats[30]+iBlock + Integer.parseInt(D2TxtFile.CHARSTATS.searchColumns("class", getCharClass()).get("BlockFactor"))) * (getCharDex() - 15))/(iCharLevel * 2));
 	}
-	
+
 	public void addItem(D2Item item){equipItem(item);};
 	public D2Item getCursorItem(){return iCharCursorItem;}
 	public D2Item getCharItem(int i){return (D2Item) iCharItems.get(i);}

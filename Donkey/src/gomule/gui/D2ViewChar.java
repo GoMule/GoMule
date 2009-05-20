@@ -152,7 +152,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 
 
-	private JPanel lDumpPanel;
+	private RandallPanel lDumpPanel;
 	private JPopupMenu rightClickItem;
 	private MouseEvent rightClickEvent;
 	private String combinedString;
@@ -520,18 +520,12 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 		lBankPanel.finishDefaultPanel();
 		lTabs.addTab("Bank", lBankPanel);
-
-
-		lDumpPanel = new JPanel();
+		lDumpPanel = new RandallPanel();
 		lDump = new JTextArea();
-
-
-
-
 		JScrollPane dumpScroll = new JScrollPane(lDump);
 		dumpScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		dumpScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		lDumpPanel.add(dumpScroll);
+		lDumpPanel.addToPanel(dumpScroll, 0, 0, 1, RandallPanel.BOTH);
 		lDumpPanel.setFont(new Font( "Monospaced", Font.TRUETYPE_FONT, 11 ));
 //		HTMLEditorKit htmlEditor = new HTMLEditorKit();
 //		lDump.setEditorKit(htmlEditor);

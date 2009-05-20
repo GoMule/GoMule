@@ -454,7 +454,7 @@ public class D2ViewProject extends JPanel
 
 				JMenuItem lFullDump = new JMenuItem("Full Dump");
 				lFullDump.setAccelerator( KeyStroke.getKeyStroke(new Character('F'), KeyEvent.ALT_MASK) );
-				lMenu.add(lFullDump);
+//				lMenu.add(lFullDump);
 				lFullDump.addActionListener(new ActionNodeFullDump(this));
 
 				JMenuItem lClose = new JMenuItem("Close");

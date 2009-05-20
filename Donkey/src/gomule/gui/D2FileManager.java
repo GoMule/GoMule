@@ -89,6 +89,10 @@ public class D2FileManager extends JFrame
 
 	private JButton pickAll;
 
+	private JButton dumpBut;
+
+	private JButton flavieSingle;
+
 	public static D2FileManager getIntance()
 	{
 		return iCurrent;
@@ -306,16 +310,13 @@ public class D2FileManager extends JFrame
 
 	private void flavieDump(ArrayList dFileNames, boolean singleDump){
 		try{
-
-
-
 			String reportName;
-
 			if(singleDump){
 				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
 					reportName = (((D2ViewChar)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar().getCharName() + iProject.getReportName());
 				}else{
 					reportName = ((((D2ViewStash)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())))).getStashName() + iProject.getReportName());
+					reportName = reportName.replace(".d2x", "");
 				}
 			}else{
 				reportName = iProject.getProjectName() + iProject.getReportName();
@@ -498,7 +499,7 @@ public class D2FileManager extends JFrame
 		charControl.setPreferredSize(new Dimension(190, 80));
 		charControl.setBorder(new TitledBorder(null, ("Output Control"),	TitledBorder.LEFT, TitledBorder.TOP, iRightPane.getFont(), Color.gray));
 
-		JButton dumpBut = new JButton("Perform txt Dump");
+		dumpBut = new JButton("Perform txt Dump");
 		dumpBut.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -517,7 +518,7 @@ public class D2FileManager extends JFrame
 			}
 		});
 
-		JButton flavieSingle = new JButton("Single Flavie Report");
+		flavieSingle = new JButton("Single Flavie Report");
 		flavieSingle.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -1141,19 +1142,24 @@ public class D2FileManager extends JFrame
 					dropTo.setEnabled(false);
 					dropChooser.setEnabled(false);
 					dropAll.setEnabled(true);
+					flavieSingle.setEnabled(true);
+					dumpBut.setEnabled(true);
 				}else if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
 					pickFrom.setEnabled(true);
 					pickChooser.setEnabled(true);
 					dropTo.setEnabled(true);
 					dropChooser.setEnabled(true);
 					dropAll.setEnabled(true);
+					flavieSingle.setEnabled(true);
+					dumpBut.setEnabled(true);
 				}else{
 					pickFrom.setEnabled(false);
 					pickChooser.setEnabled(false);
 					dropTo.setEnabled(false);
 					dropChooser.setEnabled(false);
 					dropAll.setEnabled(false);
-
+					flavieSingle.setEnabled(false);
+					dumpBut.setEnabled(false);
 				}
 			}
 			public void internalFrameClosed(InternalFrameEvent arg0) {}
