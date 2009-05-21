@@ -27,6 +27,9 @@ import gomule.item.*;
 import java.io.*;
 import java.util.*;
 
+import randall.d2files.D2TblFile;
+import randall.d2files.D2TxtFile;
+
 /**
  * @author Marco
  *
@@ -139,6 +142,7 @@ public class DirectD2Files
 			System.err.println("Item: null");
 		}
 		ItemObject lFound = null;
+		String[] matchStr = null;
 
 //		if ( pItem.getFingerprint() == null /*|| !iFlavie.iAllItems.containsKey(pItem.getAllItemsHash())*/ )
 		{
@@ -146,11 +150,6 @@ public class DirectD2Files
 			{
 				if ( pItem.getFingerprint() != null )
 				{
-//					if ( pItemFound.getName().toLowerCase().startsWith("dur") )
-//					{
-//					System.err.println("Duress");
-//					}
-//					iFlavie.iAllItems.put(pItem.getAllItemsHash(), pItem);
 					if ( iFlavie.iAllItemsFP.containsKey(pItem.getFingerprint()) )
 					{
 						D2Item lOriginal = (D2Item) iFlavie.iAllItemsFP.get(pItem.getFingerprint());
@@ -161,6 +160,21 @@ public class DirectD2Files
 					{
 						iFlavie.iAllItemsFP.put(pItem.getFingerprint(), pItem);
 					}
+					
+					//Rainbow facet fix.
+					if(pItem.isUnique() && pItem.isJewel()){
+						matchStr = new String[2];
+						for(int x = 0;x<pItem.getPropCollection().size();x++){
+							if(((D2Prop)(pItem.getPropCollection().get(x))).getPNum() == 197){
+								matchStr[0] = D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(((D2Prop)(pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
+								matchStr[1] = "Die";
+							}else if(((D2Prop)(pItem.getPropCollection().get(x))).getPNum() == 199){
+								matchStr[0] = D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(((D2Prop)(pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
+								matchStr[1] = "Level Up";
+							}
+						}
+					}
+					
 				}
 				else
 				{
@@ -189,11 +203,11 @@ public class DirectD2Files
 
 					if ( lItemObject.getName().equals(pItem.getName()) )
 					{
-						if(pItem.isUnique() && pItem.isJewel()){
-							System.out.println();
+						if(pItem.isUnique() && pItem.isJewel() && matchStr[0].equals(lItemObject.getExtraDetect().get(0)) && matchStr[1].equals(lItemObject.getExtraDetect().get(1))){
+							lFound = lItemObject;
 						}
 						
-						if ( lCatObj.isUnique() && pItem.isUnique() )
+						if ( lCatObj.isUnique() && pItem.isUnique() && !pItem.isJewel() )
 						{
 							lFound = lItemObject;
 						}

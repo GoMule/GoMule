@@ -1590,38 +1590,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return Short.toString(ilvl);
 	}
 
-//	public String toString(int disSepProp) {
-//	ArrayList lDump = getFullItemDump(1, disSepProp);
-//	StringBuffer lReturn = new StringBuffer("");
-//	for (int i = 0; i < lDump.size(); i++) {
-//	if (i > 0 && !lDump.get(i).equals("")) {
-//	lReturn.append("\n");
-//	}
-//	lReturn.append((String) lDump.get(i));
-//	}
-//	return lReturn.toString();
-//	}
-
-//	public void toWriter(PrintWriter pWriter) {
-//	ArrayList lDump = getFullItemDump(1, 0);
-//	for (int i = 0; i < lDump.size(); i++) {
-//	pWriter.println((String) lDump.get(i));
-//	}
-//	pWriter.println();
-//	}
-
-//	public String toStringHtml(int stash, int disSepProp) {
-//	ArrayList lDump = getFullItemDump(stash, disSepProp);
-//	StringBuffer lReturn = new StringBuffer("<HTML>");
-//	for (int i = 0; i < lDump.size(); i++) {
-//	if (i > 0) {
-//	lReturn.append("<BR>");
-//	}
-//	lReturn.append((String) lDump.get(i));
-//	}
-//	return lReturn.toString();
-//	}
-
 	public int getReqLvl() {
 		return iReqLvl;
 	}
@@ -1633,216 +1601,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 	public int getReqDex() {
 		return iReqDex;
 	}
-
-//	public ArrayList getFullItemDump(int stash, int disSepProp) {
-//	if (iProps != null && location != 6) {
-//	iProps.tidy();
-//	}
-//	ArrayList lReturn = new ArrayList();
-
-//	String base = Integer.toHexString(Color.white.getRGB());
-//	base = base.substring(2, base.length());
-
-//	String rgb = Integer.toHexString(getItemColor().getRGB());
-//	rgb = rgb.substring(2, rgb.length());
-//	// System.out.println(rgb);
-//	if (stash == 1) {
-
-//	if (personalization == null) {
-//	lReturn.add(iItemName);
-//	} else {
-//	lReturn.add(personalization + "'s " + iItemName);
-//	}
-
-//	if (!iBaseItemName.equals(iItemName)) {
-//	lReturn.add(iBaseItemName);
-//	}
-//	} else {
-//	if (disSepProp == 1) {
-
-//	if (personalization == null) {
-//	lReturn.add("<font face=\"Dialog\" size=\"3\" color=\"#"
-//	+ base + "\">" + "<font color=\"#" + rgb + "\">"
-//	+ iItemName + "</font>");
-//	} else {
-
-//	lReturn.add("<font face=\"Dialog\" size=\"3\" color=\"#"
-//	+ base + "\">" + "<font color=\"#" + rgb + "\">"
-//	+ personalization + "'s " + iItemName + "</font>");
-
-//	}
-
-//	} else {
-
-//	if (personalization == null) {
-//	lReturn.add("<font color=\"#" + base + "\"><CENTER>"
-//	+ "<font color=\"#" + rgb + "\">" + iItemName
-//	+ "</font>");
-//	} else {
-//	lReturn.add("<font color=\"#" + base + "\">"
-//	+ "<font color=\"#" + rgb + "\">" + personalization
-//	+ "'s " + iItemName + "</font>");
-//	}
-
-//	}
-//	if (!iBaseItemName.equals(iItemName)) {
-//	if (!isRuneWord()) {
-//	lReturn.add("<font color=\"#" + rgb + "\">" + iBaseItemName
-//	+ "</font>");
-//	} else {
-//	rgb = Integer.toHexString(Color.gray.getRGB());
-//	rgb = rgb.substring(2, rgb.length());
-//	lReturn.add("<font color=\"#" + rgb + "\">" + iBaseItemName
-//	+ "</font>");
-
-//	}
-//	}
-//	}
-//	if (isTypeWeapon()) {
-//	if (iWhichHand == 0) {
-//	if (iThrow) {
-//	lReturn.add("Throw Damage: " + i2Dmg[1] + " - " + i2Dmg[3]);
-//	lReturn
-//	.add("One Hand Damage: " + i1Dmg[1] + " - "
-//	+ i1Dmg[3]);
-
-//	} else {
-//	lReturn
-//	.add("One Hand Damage: " + i1Dmg[1] + " - "
-//	+ i1Dmg[3]);
-//	lReturn.add("Two Hand Damage: " + i2Dmg[1] + " - "
-//	+ i2Dmg[3]);
-//	}
-//	} else {
-//	if (iWhichHand == 1) {
-//	lReturn
-//	.add("One Hand Damage: " + i1Dmg[1] + " - "
-//	+ i1Dmg[3]);
-//	} else {
-//	lReturn
-//	.add("Two Hand Damage: " + i1Dmg[1] + " - "
-//	+ i1Dmg[3]);
-//	}
-//	}
-//	} else if (isTypeArmor()) {
-//	lReturn.add("Defense: " + iDef);
-//	}
-
-//	if (isShield()) {
-//	lReturn.add("Chance to Block: " + iBlock);
-//	}
-
-//	if (isTypeWeapon() || isTypeArmor()) {
-//	if (isStackable()) {
-//	lReturn.add("Quantity: " + iCurDur);
-//	} else {
-//	if (iMaxDur == 0) {
-//	lReturn.add("Indestructible");
-//	} else {
-//	lReturn.add("Durability: " + iCurDur + " of " + iMaxDur);
-//	}
-//	}
-//	}
-
-//	if (iReqLvl > 0) {
-//	lReturn.add("Required Level: " + iReqLvl);
-//	}
-//	if (iReqStr > 0) {
-//	lReturn.add("Required Strength: " + iReqStr);
-//	}
-//	if (iReqDex > 0) {
-//	lReturn.add("Required Dexterity: " + iReqDex);
-//	}
-
-//	if (iFP != null) {
-//	lReturn.add("Fingerprint: " + iFP);
-//	}
-//	if (iGUID != null) {
-//	lReturn.add("GUID: " + iGUID);
-//	}
-
-//	if (ilvl != 0) {
-//	lReturn.add("Item Level: " + ilvl);
-//	}
-
-//	lReturn.add("Version: " + get_version());
-//	if (!iIdentified) {
-//	lReturn.add("Unidentified");
-//	}
-//	lReturn.add("Properties: ");
-//	lReturn.addAll(iProps.generateDisplay(0, iCharLvl));
-//	// lReturn.addAll(getProperties("Properties: ", iProperties));
-//	if (isGem() || isRune()) {
-
-//	lReturn.add("Weapons: ");
-//	lReturn.addAll(iProps.generateDisplay(7, iCharLvl));
-//	lReturn.add("Armor: ");
-//	lReturn.addAll(iProps.generateDisplay(8, iCharLvl));
-//	lReturn.add("Shields: ");
-//	lReturn.addAll(iProps.generateDisplay(9, iCharLvl));
-
-//	}
-
-//	// Set Items
-//	if (quality == 5) {
-
-//	for (int x = 2; x < 7; x++) {
-//	ArrayList outArr = iProps.generateDisplay(x, iCharLvl);
-//	if (outArr.size() > 0) {
-//	lReturn.add("Set (" + x + " items): ");
-//	lReturn.addAll(outArr);
-//	}
-//	}
-//	}
-
-//	if (iEthereal) {
-//	lReturn.add("Ethereal");
-//	}
-//	if (iSocketNrTotal > 0) {
-//	lReturn.add(iSocketNrTotal + " Sockets (" + iSocketNrFilled
-//	+ " used)");
-//	if (iSocketedItems != null) {
-//	for (int i = 0; i < iSocketedItems.size(); i++) {
-//	D2Item lSocket = ((D2Item) iSocketedItems.get(i));
-//	lReturn.add("Socketed: " + lSocket.getItemName());
-//	}
-//	}
-//	}
-
-//	if (disSepProp == 1) {
-
-//	if (isSocketed()) {
-//	lReturn.add("");
-//	if (stash == 1) {
-//	if (iSocketedItems != null) {
-//	for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
-//	if (((D2Item) iSocketedItems.get(x)) != null) {
-//	lReturn.add(((D2Item) iSocketedItems.get(x))
-//	.toString(0)
-//	+ "\n");
-//	}
-//	}
-//	}
-//	} else {
-//	if (iSocketedItems != null) {
-//	for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
-
-//	lReturn.add(((D2Item) iSocketedItems.get(x))
-//	.toStringHtml(stash, 0));
-//	}
-//	}
-//	}
-
-//	}
-
-//	}
-
-//	if (stash == 0) {
-//	lReturn.add("</font></CENTER>");
-//	}
-
-//	return lReturn;
-//	}
 
 	public Color getItemColor() {
 		if (isUnique()) {
@@ -1956,24 +1714,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return iTypeWeapon;
 	}
 
-	public void setCharLvl(int pCharLvl) {
-		// iCharLvl = pCharLvl;
-		// // setCharLvl(iProperties, pCharLvl);
-		// setCharLvl(iSet1, pCharLvl);
-		// setCharLvl(iSet2, pCharLvl);
-		// setCharLvl(iSet3, pCharLvl);
-		// setCharLvl(iSet4, pCharLvl);
-		// setCharLvl(iSet5, pCharLvl);
-	}
-
-//	private void setCharLvl(ArrayList pProperties, long pCharLvl) {
-//	if (pProperties != null) {
-//	for (int i = 0; i < pProperties.size(); i++) {
-//	((D2ItemProperty) pProperties.get(i)).setCharLvl(pCharLvl);
-//	}
-//	}
-//	}
-
 	public boolean isCursorItem() {
 		if (location != 0 && location != 2) {
 			if (body_position == 0) {
@@ -2000,22 +1740,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 			return iItemName.compareTo(lItemName);
 		}
 		return -1;
-	}
-
-	public ArrayList getAllProps() {
-
-		// ArrayList out = new ArrayList(iProperties);
-		// if (iRuneWord) {
-		// out.addAll(iRuneWordProps);
-		// }
-		// if (iSocketed) {
-		// out.addAll(iGemProps);
-		// }
-		// if (iSet) {
-		// out.addAll(iSetProps);
-		// }
-		// return out;
-		return null;
 	}
 
 	public int getiDef() {
@@ -2732,6 +2456,16 @@ public class D2Item implements Comparable, D2ItemInterface {
 		return 0;
 	}
 
+	public void setCharLvl(int pCharLvl) {
+		iCharLvl = pCharLvl;
+//		setCharLvl(iProperties, pCharLvl);
+//		setCharLvl(iSet1, pCharLvl);
+//		setCharLvl(iSet2, pCharLvl);
+//		setCharLvl(iSet3, pCharLvl);
+//		setCharLvl(iSet4, pCharLvl);
+//		setCharLvl(iSet5, pCharLvl);
+	}
+	
 	public String getPreSuf() {
 
 		String retStr = "";
@@ -2762,26 +2496,20 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	public boolean conforms(String prop, int pVal, boolean min) {
 
-		// System.out.println();#
-		ArrayList dumpStr = null;
-//		ArrayList dumpStr = getFullItemDump(1, 0);
+		String dumpStr = itemDump(true);
 
-		for (int x = 0; x < dumpStr.size(); x = x + 1) {
-			if (((String) dumpStr.get(x)).toLowerCase().contains(
-					prop.toLowerCase())) {
-				// System.out.println(dumpStr.get(x));
+			if (dumpStr.toLowerCase().contains(prop.toLowerCase())) {
 
 				if (pVal == -1337) {
 					return true;
 				}
 
 				Pattern pat = Pattern.compile("\\d+");
-				Matcher mat = pat.matcher((String) dumpStr.get(x));
+				Matcher mat = pat.matcher(dumpStr);
 
 				while (mat.find()) {
 
 					if (min == true) {
-						// System.out.println(mat.group());
 						if (Integer.parseInt(mat.group()) >= pVal) {
 
 							return true;
@@ -2795,8 +2523,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 				}
 
 			}
-		}
-
 		return false;
 	}
 
