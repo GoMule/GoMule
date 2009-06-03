@@ -1274,10 +1274,10 @@ public class D2FileManager extends JFrame
 				addToOpenWindows(lStashView);
 			}
 			lStashView.activateView();
+			internalWindowForward(lStashView);
 		}
 
 		iProject.addStash(pStashName);
-		internalWindowForward(lStashView);
 	}
 
 	public void displayAbout()
