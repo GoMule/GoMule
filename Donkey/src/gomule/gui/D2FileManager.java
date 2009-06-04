@@ -118,7 +118,7 @@ public class D2FileManager extends JFrame
 
 		JSplitPane lSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, iLeftPane, iDesktopPane);
 		JSplitPane rSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, lSplit, iRightPane);
-		rSplit.setEnabled(false);
+			
 		lSplit.setDividerLocation(200);
 		rSplit.setDividerLocation(1024 - 210);
 		rSplit.setResizeWeight(1.0);

@@ -1100,17 +1100,17 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	public void setCursorPickupItem()
 	{
-		iFileManager.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
 	public void setCursorDropItem()
 	{
-		iFileManager.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+		setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 	}
 
 	public void setCursorNormal()
 	{
-		iFileManager.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	class MyMouse extends MouseAdapter{
