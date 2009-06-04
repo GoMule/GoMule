@@ -128,6 +128,7 @@ public class D2FileManager extends JFrame
 		setSize(1024,768);
 		setTitle("GoMule " + CURRENT_VERSION);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.getGlassPane().setVisible(false);
 		addWindowListener(new java.awt.event.WindowAdapter()
 		{
 			public void windowClosing(java.awt.event.WindowEvent e)
@@ -379,10 +380,34 @@ public class D2FileManager extends JFrame
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
 					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
 					try{
+
 						iList.ignoreItemListEvents();
-						for(int x = 0;x<iList.getNrItems();x++){
-							moveToClipboard(((D2Item)iList.getItemList().get(x)), iList);
-							x--;
+
+						if(iList.getFilename().endsWith(".d2s") && getProject().getIgnoreItems()){
+
+							for(int x = 0;x<iList.getNrItems();x++){
+								
+								if(((D2Item)iList.getItemList().get(x)).get_location() == 0 && ((D2Item)iList.getItemList().get(x)).get_panel() == 1 && (((D2Item)iList.getItemList().get(x)).getName().toLowerCase().equals("horadric cube") || ((D2Item)iList.getItemList().get(x)).isCharm() || ((D2Item)iList.getItemList().get(x)).getName().toLowerCase().equals("key") || ((D2Item)iList.getItemList().get(x)).getName().toLowerCase().contains("tome of"))){
+									//Inv
+								}else if(((D2Item)iList.getItemList().get(x)).get_location() == 2){
+									//Belt
+								}else if(((D2Item)iList.getItemList().get(x)).get_location() == 0 && ((D2Item)iList.getItemList().get(x)).get_panel() == 5 && ((D2Item)iList.getItemList().get(x)).getName().toLowerCase().equals("horadric cube")){
+									//Stash
+								}else if(((D2Item)iList.getItemList().get(x)).get_location() == 1){
+									//equipped
+								}else{
+									moveToClipboard(((D2Item)iList.getItemList().get(x)), iList);
+									x--;
+								}
+							}
+
+						}else{
+
+							for(int x = 0;x<iList.getNrItems();x++){
+								moveToClipboard(((D2Item)iList.getItemList().get(x)), iList);
+								x--;
+							}
+
 						}
 					}finally{
 						iList.listenItemListEvents();

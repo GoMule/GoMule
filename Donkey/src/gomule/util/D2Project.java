@@ -75,7 +75,7 @@ public class D2Project
 	private boolean iCountChar;
 	private boolean iCountEthereal;
 
-	private boolean lDisplyProps;
+	private boolean iIgnoreItems;
 
 	public D2Project(D2FileManager pFileManager, String pProjectName)
 	{
@@ -163,7 +163,7 @@ public class D2Project
 		{
 			iBank = 0;
 			iType = TYPE_BOTH;
-			lDisplyProps = true;
+			iIgnoreItems = true;
 			iBackup = BACKUP_WEEK;
 			iReportName = "Report";
 			iReportTitle = "Flavie Report";
@@ -210,11 +210,11 @@ public class D2Project
 
 			try
 			{
-				lDisplyProps = Boolean.parseBoolean(lLoadProperties.getProperty("propDisplay"));
+				iIgnoreItems = Boolean.parseBoolean(lLoadProperties.getProperty("propDisplay"));
 			}
 			catch (Exception pEx)
 			{
-				lDisplyProps = true;
+				iIgnoreItems = true;
 			}
 
 			iBackup = BACKUP_WEEK;
@@ -308,9 +308,9 @@ public class D2Project
 		return iBackup;
 	}
 
-	public void setDisProps(boolean pDisplayProps)
+	public void setIgnoreItem(boolean iIgnoreItems)
 	{
-			lDisplyProps =  pDisplayProps;
+		this.iIgnoreItems =  iIgnoreItems;
 	}
 
 	public void setBackup(int pBackup)
@@ -439,7 +439,7 @@ public class D2Project
 		lSaveProperties.put("countStash", getStringFromBoolean(iCountStash) );
 		lSaveProperties.put("countChar", getStringFromBoolean(iCountChar) );
 		lSaveProperties.put("countEthereal", getStringFromBoolean(iCountEthereal) );
-		lSaveProperties.put("propDisplay", getStringFromBoolean(lDisplyProps) );
+		lSaveProperties.put("propDisplay", getStringFromBoolean(iIgnoreItems) );
 
 		try
 		{ // iFile.getCanonicalPath()
@@ -590,8 +590,8 @@ public class D2Project
 		iStyleName = pStyleName;
 	}
 
-	public boolean getDisplayProps(){
-		return lDisplyProps;
+	public boolean getIgnoreItems(){
+		return iIgnoreItems;
 	}
 
 	public Color getItemColor(D2Item pItem)
