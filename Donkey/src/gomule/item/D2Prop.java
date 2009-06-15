@@ -143,6 +143,10 @@ public class D2Prop {
 			oString = "Replenishes Health";
 			funcN = 2;
 			dispLoc = 2;
+		}else if(pNum == 126){
+			if(pVals.length > 1){
+				pVals[0] = pVals[1];
+			}
 		}
 
 		switch(funcN){

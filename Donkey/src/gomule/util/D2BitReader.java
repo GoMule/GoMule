@@ -87,6 +87,7 @@ public class D2BitReader
                 filedata = new byte[v.size()];
                 for (int i = 0; i < v.size(); i++)
                     filedata[i] = ((Byte) v.elementAt(i)).byteValue();
+                in.close();
                 return true;
             }
             else

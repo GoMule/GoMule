@@ -108,42 +108,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	private JButton					 iGoldTransferBtns[];
 	private JTabbedPane lTabs = new JTabbedPane();
-//	private JLabel iMercName = new JLabel("");
-//	private JLabel iMercRace = new JLabel("");
-//	private JLabel iMercType = new JLabel("");
-//	private JLabel iMercExp = new JLabel("");
-//	private JLabel iMercLevel = new JLabel("");
-//	private JLabel iMercDead = new JLabel(""); 
-//	private JLabel iMercStr = new JLabel("");
-//	private JLabel iMercDex = new JLabel("");
-//	private JLabel iMercHP = new JLabel("");
-//	private JLabel iMercDef = new JLabel("");
-//	private JLabel iMercAR = new JLabel("");
-//	private JLabel iMercFireRes = new JLabel("");
-//	private JLabel iMercLightRes = new JLabel("");
-//	private JLabel iMercColdRes = new JLabel("");
-//	private JLabel iMercPoisRes = new JLabel("");
-
-//	private JLabel iCharName = new JLabel("");
-//	private JLabel iCharClass = new JLabel("");
-//	private JLabel iCharExp = new JLabel("");
-//	private JLabel iCharLevel = new JLabel("");
-//	private JLabel iCharDead = new JLabel(""); 
-//	private JLabel iCharStr = new JLabel("");
-//	private JLabel iCharDex = new JLabel("");
-//	private JLabel iCharNrg = new JLabel("");
-//	private JLabel iCharVit = new JLabel("");
-//	private JLabel iCharHP = new JLabel("");
-//	private JLabel iCharMana = new JLabel("");
-//	private JLabel iCharStam = new JLabel("");
-//	private JLabel iCharDef = new JLabel("");
-//	private JLabel iCharAR = new JLabel("");
-//	private JLabel iCharFireRes = new JLabel("");
-//	private JLabel iCharLightRes = new JLabel("");
-//	private JLabel iCharColdRes = new JLabel("");
-//	private JLabel iCharPoisRes = new JLabel("");
-//	private JLabel iCharMF = new JLabel("");
-//	private JLabel iCharFRW = new JLabel("");
 	private D2QuestPainterPanel lQuestPanel;
 	private D2SkillPainterPanel lSkillPanel;
 	private D2WayPainterPanel lWayPanel;
@@ -572,7 +536,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		rightClickItem = new JPopupMenu();
 		rightClickItem.add(item = new JMenuItem("Delete?"));
 		rightClickItem.add(item2 = new JMenuItem("View Item"));
-		rightClickItem.add(item3 = new JMenuItem("Extended Item Info"));
+		item3 = new JMenuItem("Extended Item Info");
 		rightClickItem.add(new JPopupMenu.Separator());
 		rightClickItem.add("Cancel");
 

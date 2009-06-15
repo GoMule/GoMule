@@ -717,9 +717,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 		case 8: // also a rare item, do the same (one's probably crafted)
 		{
+			if(!iRare){
 			iCrafted = true;
 			iItemName = "Crafted " + iItemName;
+			}
 		}
+		
 		applyAutomodLvl();
 		short rare_name_1 = (short) pFile.read(8);
 		short rare_name_2 = (short) pFile.read(8);
@@ -1247,8 +1250,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private String htmlStrip(StringBuffer htmlString) {
-
-		String dumpStr =  htmlString.toString().replaceAll("<br>", System.getProperty("line.separator"));
+		String dumpStr =  htmlString.toString().replaceAll("&#10;<br>", System.getProperty("line.separator"));
+		dumpStr =  dumpStr.replaceAll("&#32;", "");
 		return dumpStr.replaceAll("<[^>]*>", "");
 	}
 
@@ -1267,57 +1270,57 @@ public class D2Item implements Comparable, D2ItemInterface {
 		String base = (Integer.toHexString(Color.white.getRGB())).substring(2, Integer.toHexString(Color.white.getRGB()).length());
 		String rgb = (Integer.toHexString(getItemColor().getRGB())).substring(2, Integer.toHexString(getItemColor().getRGB()).length());
 		if (personalization == null) {
-			dispStr.append("<font color=\"#"+ base + "\">" + "<font color=\"#" + rgb + "\">"+ iItemName + "</font>" + "<br>");
+			dispStr.append("<font color=\"#"+ base + "\">" + "<font color=\"#" + rgb + "\">&#32;"+ iItemName + "</font>" + "&#10;<br>");
 		}else{
-			dispStr.append("<font color=\"#"+ base + "\">" + "<font color=\"#" + rgb + "\">"+ personalization + "'s " + iItemName  + "</font>" + "<br>");
+			dispStr.append("<font color=\"#"+ base + "\">" + "<font color=\"#" + rgb + "\">&#32;&#32;"+ personalization + "'s " + iItemName  + "</font>" + "&#10;<br>");
 		}
-		if (!iBaseItemName.equals(iItemName))dispStr.append("<font color=\"#" + rgb + "\">"+iBaseItemName + "</font>" + "<br>");
+		if (!iBaseItemName.equals(iItemName))dispStr.append("<font color=\"#" + rgb + "\">"+iBaseItemName + "</font>" + "&#10;<br>");
 		if(isRuneWord()){
 			dispStr.append("<font color=\"#" + rgb + "\">");
 			for(int x=0;x<iSocketedItems.size();x++){
 				dispStr.append((((D2Item)iSocketedItems.get(x)).getName().substring(0, ((D2Item)iSocketedItems.get(x)).getName().length() -5)));
 			}
-			dispStr.append("</font><br>");
+			dispStr.append("</font>&#10;<br>");
 		}
 		if (isTypeWeapon() || isTypeArmor()) {
 			if(isTypeWeapon()){
 				if(iWhichHand == 0){
 					if(iThrow){
-						dispStr.append("Throw Damage: " + i2Dmg[1] + " - " + i2Dmg[3] + "<br>");
-						dispStr.append("One Hand Damage: " + i1Dmg[1] + " - "+ i1Dmg[3] + "<br>");
+						dispStr.append("Throw Damage: " + i2Dmg[1] + " - " + i2Dmg[3] + "&#10;<br>");
+						dispStr.append("One Hand Damage: " + i1Dmg[1] + " - "+ i1Dmg[3] + "&#10;<br>");
 					}else{
-						dispStr.append("One Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "<br>");
-						dispStr.append("Two Hand Damage: " + i2Dmg[1] + " - " + i2Dmg[3] + "<br>");
+						dispStr.append("One Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "&#10;<br>");
+						dispStr.append("Two Hand Damage: " + i2Dmg[1] + " - " + i2Dmg[3] + "&#10;<br>");
 					}
 				} else if(iWhichHand == 1){
-					dispStr.append("One Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "<br>");
+					dispStr.append("One Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "&#10;<br>");
 				} else{
-					dispStr.append("Two Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "<br>");
+					dispStr.append("Two Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "&#10;<br>");
 				}
 			}else if(isTypeArmor()){
-				dispStr.append("Defense: " + iDef + "<br>");
+				dispStr.append("Defense: " + iDef + "&#10;<br>");
 				if(isShield()){
-					dispStr.append("Chance to Block: " + iBlock + "<br>");
+					dispStr.append("Chance to Block: " + iBlock + "&#10;<br>");
 				}
 			}
 			if (isStackable()) {
-				dispStr.append("Quantity: " + iCurDur + "<br>");
+				dispStr.append("Quantity: " + iCurDur + "&#10;<br>");
 			} else {
 				if (iMaxDur == 0) {
-					dispStr.append("Indestructible" + "<br>");
+					dispStr.append("Indestructible" + "&#10;<br>");
 				} else {
-					dispStr.append("Durability: " + iCurDur + " of " + iMaxDur + "<br>");
+					dispStr.append("Durability: " + iCurDur + " of " + iMaxDur + "&#10;<br>");
 				}
 			}
 		}
-		if (iReqLvl > 0)dispStr.append("Required Level: " + iReqLvl + "<br>");
-		if (iReqStr > 0)dispStr.append("Required Strength: " + iReqStr + "<br>");
-		if (iReqDex > 0)dispStr.append("Required Dexterity: " + iReqDex + "<br>");
-		if (iFP != null)dispStr.append("Fingerprint: " + iFP + "<br>");
-		if (iGUID != null)dispStr.append("GUID: " + iGUID + "<br>");
-		if (ilvl != 0)dispStr.append("Item Level: " + ilvl + "<br>");
-		dispStr.append("Version: " + get_version() + "<br>");
-		if (!iIdentified)dispStr.append("Unidentified" + "<br>");
+		if (iReqLvl > 0)dispStr.append("Required Level: " + iReqLvl + "&#10;<br>");
+		if (iReqStr > 0)dispStr.append("Required Strength: " + iReqStr + "&#10;<br>");
+		if (iReqDex > 0)dispStr.append("Required Dexterity: " + iReqDex + "&#10;<br>");
+		if (iFP != null)dispStr.append("Fingerprint: " + iFP + "&#10;<br>");
+		if (iGUID != null)dispStr.append("GUID: " + iGUID + "&#10;<br>");
+		if (ilvl != 0)dispStr.append("Item Level: " + ilvl + "&#10;<br>");
+		dispStr.append("Version: " + get_version() + "&#10;<br>");
+		if (!iIdentified)dispStr.append("Unidentified" + "&#10;<br>");
 		dispStr.append(iProps.generateDisplay(0, iCharLvl));
 
 		if (isGem() || isRune()) {
@@ -1348,19 +1351,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 		}
 		if (iEthereal) {
-			dispStr.append("<font color=\"#4850b8\">Ethereal</font><br>");
+			dispStr.append("<font color=\"#4850b8\">Ethereal</font>&#10;<br>");
 		}
 		if (iSocketNrTotal > 0) {
-			dispStr.append(iSocketNrTotal + " Sockets (" + iSocketNrFilled	+ " used)<br>");
+			dispStr.append(iSocketNrTotal + " Sockets (" + iSocketNrFilled	+ " used)&#10;<br>");
 			if (iSocketedItems != null) {
 				for (int i = 0; i < iSocketedItems.size(); i++) {
-					dispStr.append("Socketed: " + ((D2Item) iSocketedItems.get(i)).getItemName() + "<br>");
+					dispStr.append("Socketed: " + ((D2Item) iSocketedItems.get(i)).getItemName() + "&#10;<br>");
 				}
 			}
 		}
 
 		if (quality == 5) {
-			dispStr.append("<br>");
+			dispStr.append("&#10;<br>");
 			for (int x = 32; x < 36; x++) {
 				StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
 				if (setBuf.length() > 29) {
@@ -1379,12 +1382,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		if (extended){
 			if (isSocketed()) {
-				dispStr.append("<br>");
+				dispStr.append("&#10;<br>");
 				if (iSocketedItems != null) {
 					for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
 						if (((D2Item) iSocketedItems.get(x)) != null) {
 							dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropString(false));
-							dispStr.append("<br>");
+							dispStr.append("&#10;<br>");
 									
 						}
 					}

@@ -89,7 +89,7 @@ public class D2Character extends D2ItemListAdapter
 	private int[][] cSkills;
 	private Point[] iSkillLocs;
 
-	private int[][] setTracker = new int[31][2];
+	private int[][] setTracker = new int[33][2];
 
 	private int testCounter = 0;
 	private boolean fullChanged = false;

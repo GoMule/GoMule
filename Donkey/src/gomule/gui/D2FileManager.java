@@ -50,7 +50,7 @@ import randall.util.RandallPanel;
  */ 
 public class D2FileManager extends JFrame
 {
-	private static final String  CURRENT_VERSION = "R0.22";
+	private static final String  CURRENT_VERSION = "R0.3: Donkey";
 
 	private HashMap				 iItemLists = new HashMap();
 	private ArrayList            iOpenWindows;

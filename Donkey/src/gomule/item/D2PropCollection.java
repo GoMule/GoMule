@@ -28,7 +28,8 @@ public class D2PropCollection extends ArrayList{
 			//23 = 2h Min damage
 			//24 = 2h Max damage
 			//140 = Extra Blood
-			if(((D2Prop)get(x)).getPNum() == 160 || ((D2Prop)get(x)).getPNum() == 159 || ((D2Prop)get(x)).getPNum() == 23 || ((D2Prop)get(x)).getPNum() == 24 || ((D2Prop)get(x)).getPNum() == 140){
+			//194 SOCKETS??
+			if(((D2Prop)get(x)).getPNum() == 160 || ((D2Prop)get(x)).getPNum() == 159 || ((D2Prop)get(x)).getPNum() == 23 || ((D2Prop)get(x)).getPNum() == 24 || ((D2Prop)get(x)).getPNum() == 140 || ((D2Prop)get(x)).getPNum() == 194){
 				remove(x);
 				x--;
 			}
@@ -292,7 +293,7 @@ public class D2PropCollection extends ArrayList{
 		for(int x = 0;x<size();x++){
 			String val = ((D2Prop)get(x)).generateDisplay(qFlag, cLvl);
 			if(val != null && !val.equals("")){
-				arrOut.append(val + "<br>");		
+				arrOut.append(val + "&#10;<br>");		
 			}
 		}
 

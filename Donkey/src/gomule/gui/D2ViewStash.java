@@ -447,13 +447,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         setSize(514, 500);
         setVisible(true);
         
-        this.addMouseMotionListener(new MouseMotionAdapter(){
-
-            public void mouseMoved(MouseEvent e)
-            {
-            	setNewCursor(new Cursor(sectionOfClick(e.getX(),e.getY())));
-            }
-        });
         
         connect();
 
@@ -502,36 +495,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             iTable.setRowSelectionInterval(0,0);
         }
     }
-    
-    protected void setNewCursor(Cursor cursor) {
-    	this.getRootPane().setCursor(cursor);
-		
-	}
-
-	private int sectionOfClick(int x, int y)
-    {
-      Insets insets = this.getInsets();
-     Rectangle b = this.getBounds();
-      if (x < insets.left && y < insets.top)
-        return Cursor.NW_RESIZE_CURSOR;
-      else if (x > b.width - insets.right && y < insets.top)
-        return Cursor.NE_RESIZE_CURSOR;
-      else if (x > b.width - insets.right && y > b.height - insets.bottom)
-        return Cursor.SE_RESIZE_CURSOR;
-      else if (x < insets.left && y > b.height - insets.bottom)
-        return Cursor.SW_RESIZE_CURSOR;
-      else if (y < insets.top)
-        return Cursor.N_RESIZE_CURSOR;
-      else if (x < insets.left)
-        return Cursor.W_RESIZE_CURSOR;
-      else if (y > b.height - insets.bottom)
-        return Cursor.S_RESIZE_CURSOR;
-      else if (x > b.width - insets.right)
-        return Cursor.E_RESIZE_CURSOR;
-      return Cursor.DEFAULT_CURSOR;
-    }
-  
-
     
     public static String getStashName(String pFileName)
     {

@@ -264,6 +264,7 @@ public class RealGUI extends JFrame {
 //				System.exit(0);
 //			}
 //		});
+		setTitle("Diablo II 1.10+ Drop Calculator");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setupListeners();
 		getContentPane().add(vMain);
