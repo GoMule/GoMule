@@ -293,7 +293,7 @@ public class D2PropCollection extends ArrayList{
 		for(int x = 0;x<size();x++){
 			String val = ((D2Prop)get(x)).generateDisplay(qFlag, cLvl);
 			if(val != null && !val.equals("")){
-				arrOut.append(val + "&#10;<br>");		
+				arrOut.append(val + "<br>&#10;");		
 			}
 		}
 

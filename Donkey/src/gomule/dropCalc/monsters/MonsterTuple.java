@@ -264,7 +264,7 @@ public class MonsterTuple {
 
 //		if(!item.getItemRow().get("type2").equals("")){/
 		if(calcdM.equals(nPlayers+","+nplayersParty+","+input + "," + sevP)){
-//			return;
+			return;
 		}
 //		if(mParent.getRealName().indexOf("Council Member (Bremm Sparkfist) councilmember3")){
 //		System.out.println();
@@ -891,6 +891,7 @@ public class MonsterTuple {
 	public void lookupBASETCReturnATOMICTCS(int nPlayers, int nplayersParty, double input, boolean sevP) {
 
 
+
 		if(calcd.equals(nPlayers+","+nplayersParty+","+input + "," + sevP)){
 			return;
 		}
@@ -963,7 +964,7 @@ public class MonsterTuple {
 
 			((ProbTCRow)allTCS.get(1)).setTotProb(((ProbTCRow)allTCS.get(1)).getTotProb()) ;
 			constructTCPairs((ProbTCRow)allTCS.get(1));
-			if(mParent.getClassOfMon()==2 || mParent.getClassOfMon()==1 ){
+			if(mParent.getClassOfMon()==2 || mParent.getClassOfMon()==1 || initTC.contains("Champ")){
 				counter =  (((Double)((ProbTCRow)allTCS.get(1)).getProb().get(1)).doubleValue());
 			}else{
 				counter =  (((Double)((ProbTCRow)allTCS.get(1)).getProb().get(0)).doubleValue());

@@ -428,6 +428,14 @@ public class RealGUI extends JFrame {
 
 			public void actionPerformed(ActionEvent arg0) {
 
+				int mf = 0;
+				
+				try{
+					mf = Integer.parseInt(nMF.getText());
+				}catch(NumberFormatException n){
+					nMF.setText("0");
+				}
+				
 
 				if(nType.getSelectedIndex() == 0){
 
@@ -437,7 +445,7 @@ public class RealGUI extends JFrame {
 
 				}else{
 					Item mISelected =(Item)nMItemKey.get(nMItem.getSelectedIndex());
-					HashMap mTuple = mISelected.getFinalProbSum(DC,nClass.getSelectedIndex(),Integer.parseInt(nMF.getText()),nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1, nMItemQual.getSelectedIndex() - 1,cbMenuItem.isSelected());
+					HashMap mTuple = mISelected.getFinalProbSum(DC,nClass.getSelectedIndex(),mf,nPlayers.getSelectedIndex()+ 1, nGroup.getSelectedIndex()+1, nMItemQual.getSelectedIndex() - 1,cbMenuItem.isSelected());
 					((DCTableModel)oResult.getModel()).refresh(mTuple, nDiff.getSelectedIndex(), nClass.getSelectedIndex(),cbDec.isSelected());
 
 				}

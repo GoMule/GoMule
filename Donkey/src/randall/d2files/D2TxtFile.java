@@ -233,14 +233,11 @@ public final class D2TxtFile
 			
 			Pattern p = Pattern.compile("	");
 			iHeader = p.split(lFirstLine);
-//			iHeader = split(lFirstLine, lSeparator);
-//			iData = new ArrayList();
 			String lLine = lIn.readLine();
 
 			boolean lSkipExpansion = "UniqueItems".equals(iFileName) || "SetItems".equals(iFileName);
 			while (lLine != null)
 			{
-//				ArrayList lSplit = split(lLine, lSeparator);
 				String[] lineArr = p.split(lLine);
 				if (lineArr.length > 0 &&lSkipExpansion && lineArr[0].equals("Expansion"))
 				{
@@ -288,7 +285,7 @@ public final class D2TxtFile
 	{
 		int lColNr = getCol(pCol);
 
-		if (lColNr != -1 && pRowNr < iData.length && iData[pRowNr].length >= lColNr)
+		if (lColNr != -1 && pRowNr < iData.length && iData[pRowNr].length > lColNr)
 		{
 			return iData[pRowNr][lColNr];
 		}

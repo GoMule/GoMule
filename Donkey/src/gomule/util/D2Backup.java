@@ -38,14 +38,14 @@ public class D2Backup
 	        {
 	            lExtra1 = "D"
 		            + RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4) 
-		            + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH), 2)
+		            + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH) +1, 2)
 	            	+ "." + RandallUtil.fill(lCalendar.get(Calendar.DAY_OF_MONTH), 2);
 	        }
 	        else if ( lBackup == D2Project.BACKUP_MONTH )
 	        {
 	            lExtra1 = "M"
 		            + RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4) 
-		            + RandallUtil.fill(lCalendar.get(Calendar.MONTH), 2);
+		            + RandallUtil.fill(lCalendar.get(Calendar.MONTH) +1, 2);
 	        }
 	        else
 	        {
@@ -57,13 +57,13 @@ public class D2Backup
 	            }
 	            lExtra1 = "W"
 		            + RandallUtil.fill(lWeek.get(Calendar.YEAR), 4) 
-		            + "." + RandallUtil.fill(lWeek.get(Calendar.MONTH), 2)
+		            + "." + RandallUtil.fill(lWeek.get(Calendar.MONTH)+1, 2)
 	            	+ "." + RandallUtil.fill(lWeek.get(Calendar.DAY_OF_MONTH), 2);
 	        }
 
 	        String lExtra2 = 
 	            RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4)
-	            + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH), 2)
+	            + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH)+1, 2)
 	            + "." + RandallUtil.fill(lCalendar.get(Calendar.DAY_OF_MONTH), 2)
 	            + "-" 
 	            + RandallUtil.fill(lCalendar.get(Calendar.HOUR_OF_DAY), 2)
