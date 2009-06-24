@@ -285,7 +285,7 @@ public class D2ProjectSettingsDialog extends JDialog
             }
         });
         
-        iIgnoreItems = new JCheckBox("Show Sockets Separately");
+        iIgnoreItems = new JCheckBox("Ignore Common Items on Pickup");
         iIgnoreItems.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent pEvent)

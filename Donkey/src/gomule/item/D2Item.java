@@ -2570,5 +2570,21 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		return "";
 	}
+	
+	public boolean isMoveable(){
+		
+		if(get_location() == 0 && get_panel() == 1 && (getName().toLowerCase().equals("horadric cube") ||isCharm() || getName().toLowerCase().equals("key") || getName().toLowerCase().contains("tome of"))){
+			//Inv
+		}else if(get_location() == 2){
+			//Belt
+		}else if(get_location() == 0 && get_panel() == 5 && getName().toLowerCase().equals("horadric cube")){
+			//Stash
+		}else if(get_location() == 1){
+			//equipped
+		}else{
+			return true;
+		}
+		return false;
+	}
 
 }

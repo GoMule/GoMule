@@ -233,10 +233,35 @@ public class D2Character extends D2ItemListAdapter
 		if ( iIF < iGF )throw new Exception("Error: Stats / Skills not correct");
 		readWaypoints();
 		readQuests();
+		try{	
+			readStats();
+		}catch (ArrayIndexOutOfBoundsException e){
+			iIF = iReader.findNextFlag("if", iIF +1);
+			if(iIF == -1){
+				throw new Exception("Stats block is incorrect");
+			}
+			readStats();
+		}
+		iStashGrid = new boolean[8][6];
+		iInventoryGrid = new boolean[4][10];
+		iBeltGrid = new boolean[4][4];
+		iCubeGrid = new boolean[4][3];
+		iEquipped = new boolean[13];
+		iMerc = new boolean[13];
+		iCorpse = new boolean[13];
+		clearGrid();
+		readItems();
+		readCorpse();
+		readSkills();
+		resetStats();
+	}
+
+	private void readStats() throws Exception {
 		// now copy the block into the Flavie bitreader 
 		// (it can read integers unaligned to bytes which is needed here) 
 		iReader.set_byte_pos(iGF);
 		byte lInitialBytes[] = iReader.get_bytes(iIF - iGF);
+
 		D2FileReader lReader = new D2FileReader(lInitialBytes);
 		if ( lReader.getCounterInt(8) != 103 )throw new Exception("Stats Section not found");
 		if ( lReader.getCounterInt(8) != 102 )throw new Exception("Stats Section not found");
@@ -253,24 +278,14 @@ public class D2Character extends D2ItemListAdapter
 				iReadStats[lID] = lValue;
 			}
 		}
+
 		// check writer (just to be sure)
 		byte lWritenBytes[] = getCurrentStats();
 		if ( lInitialBytes.length != lWritenBytes.length )throw new Exception("Stats writer check at reading: incorrect length");
 		for ( int i = 0 ; i < lInitialBytes.length ; i++ ){
 			if ( lInitialBytes[i] != lWritenBytes[i] )throw new Exception("Stats writer check at reading: incorrect byte at nr: " + i);
 		}
-		iStashGrid = new boolean[8][6];
-		iInventoryGrid = new boolean[4][10];
-		iBeltGrid = new boolean[4][4];
-		iCubeGrid = new boolean[4][3];
-		iEquipped = new boolean[13];
-		iMerc = new boolean[13];
-		iCorpse = new boolean[13];
-		clearGrid();
-		readItems( iIF );
-		readCorpse();
-		readSkills();
-		resetStats();
+
 	}
 
 	private void resetStats() {
@@ -494,8 +509,8 @@ public class D2Character extends D2ItemListAdapter
 		}
 	}
 
-	private void readItems(int pStartSearch) throws Exception{
-		int lFirstPos = iReader.findNextFlag("JM", pStartSearch);
+	private void readItems() throws Exception{
+		int lFirstPos = iReader.findNextFlag("JM", iIF);
 		if (lFirstPos == -1)throw new Exception("Character items not found");
 		int lLastItemEnd = lFirstPos + 2;
 		iReader.set_byte_pos(lLastItemEnd);

@@ -118,7 +118,7 @@ public class D2FileManager extends JFrame
 
 		JSplitPane lSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, iLeftPane, iDesktopPane);
 		JSplitPane rSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, lSplit, iRightPane);
-			
+
 		lSplit.setDividerLocation(200);
 		rSplit.setDividerLocation(1024 - 210);
 		rSplit.setResizeWeight(1.0);
@@ -379,23 +379,14 @@ public class D2FileManager extends JFrame
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
 					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
+					iList.ignoreItemListEvents();
 					try{
-
-						iList.ignoreItemListEvents();
-
+						
 						if(iList.getFilename().endsWith(".d2s") && getProject().getIgnoreItems()){
 
 							for(int x = 0;x<iList.getNrItems();x++){
-								
-								if(((D2Item)iList.getItemList().get(x)).get_location() == 0 && ((D2Item)iList.getItemList().get(x)).get_panel() == 1 && (((D2Item)iList.getItemList().get(x)).getName().toLowerCase().equals("horadric cube") || ((D2Item)iList.getItemList().get(x)).isCharm() || ((D2Item)iList.getItemList().get(x)).getName().toLowerCase().equals("key") || ((D2Item)iList.getItemList().get(x)).getName().toLowerCase().contains("tome of"))){
-									//Inv
-								}else if(((D2Item)iList.getItemList().get(x)).get_location() == 2){
-									//Belt
-								}else if(((D2Item)iList.getItemList().get(x)).get_location() == 0 && ((D2Item)iList.getItemList().get(x)).get_panel() == 5 && ((D2Item)iList.getItemList().get(x)).getName().toLowerCase().equals("horadric cube")){
-									//Stash
-								}else if(((D2Item)iList.getItemList().get(x)).get_location() == 1){
-									//equipped
-								}else{
+
+								if(((D2Item)iList.getItemList().get(x)).isMoveable()){
 									moveToClipboard(((D2Item)iList.getItemList().get(x)), iList);
 									x--;
 								}
@@ -421,28 +412,24 @@ public class D2FileManager extends JFrame
 		dropAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-
 					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
+					iList.ignoreItemListEvents();
+					try{
+						if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
 
-					if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
-
-						D2ViewChar iCharacter = ((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())));
-						for(int x = 2;x> -1;x--){
-							iCharacter.putOnCharacter(x,  D2ViewClipboard.getItemList());
-						}
-
-					}else{
-						try{
-							iList.ignoreItemListEvents();
+							D2ViewChar iCharacter = ((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())));
+							for(int x = 2;x> -1;x--){
+								iCharacter.putOnCharacter(x,  D2ViewClipboard.getItemList());
+							}
+						}else{
 							ArrayList lItemList = D2ViewClipboard.removeAllItems();
 							while (lItemList.size() > 0){
 								iList.addItem((D2Item) lItemList.remove(0));
 							}
 						}
-						finally{
-							iList.listenItemListEvents();
-							iList.fireD2ItemListEvent();
-						}
+					}finally{
+						iList.listenItemListEvents();
+						iList.fireD2ItemListEvent();
 					}
 				}
 			}
@@ -459,6 +446,9 @@ public class D2FileManager extends JFrame
 					try{
 						for(int x = 0;x<iList.getNrItems();x++){
 							D2Item remItem  = ((D2Item)iList.getItemList().get(x));
+							if(!remItem.isMoveable() && pickChooser.getSelectedIndex()!=3 && getProject().getIgnoreItems()){
+								continue;
+							}
 							switch(pickChooser.getSelectedIndex()){
 							case 0:
 
