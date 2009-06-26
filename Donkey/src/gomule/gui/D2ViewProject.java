@@ -426,7 +426,7 @@ public class D2ViewProject extends JPanel
 
 		public void fullDump()
 		{
-			iFileManager.fullDump( getFilename() );
+			iFileManager.fullDump( getFilename() , null);
 		}
 
 		public void remove()

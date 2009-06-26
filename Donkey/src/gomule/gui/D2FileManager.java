@@ -210,7 +210,7 @@ public class D2FileManager extends JFrame
 		});
 
 		RandallPanel projControl = new RandallPanel();
-		projControl.setPreferredSize(new Dimension(190, 100));
+		projControl.setPreferredSize(new Dimension(190, 150));
 		projControl.setBorder(new TitledBorder(null, ("Project Control"),	TitledBorder.LEFT, TitledBorder.TOP, iLeftPane.getFont(), Color.gray));
 
 		JButton newProj = new JButton("New Proj");
@@ -299,10 +299,65 @@ public class D2FileManager extends JFrame
 			}
 		});
 
+		JButton projTextDump = new JButton("Proj Txt Dump");
+
+		projTextDump.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent pEvent)
+			{
+				workCursor();
+				ArrayList lDumpList = iProject.getCharList();
+				String errStr = "";
+				if ( lDumpList != null )
+				{
+					for(int x = 0;x<lDumpList.size();x++){
+						try{
+							openChar((String) lDumpList.get(x), true);
+							if(!fullDump((String) lDumpList.get(x), iProject.getProjectName())){
+								errStr = errStr + "Char: " + (String) lDumpList.get(x) + " failed.\n";
+							}
+						}catch(Exception e){
+							errStr = errStr + "Stash: " + (String) lDumpList.get(x) + " failed.\n";
+						}finally{
+							closeFileName((String) lDumpList.get(x));
+						}
+					}
+				}
+				
+				lDumpList = iProject.getStashList();
+				if ( lDumpList != null )
+				{
+					for(int x = 0;x<lDumpList.size();x++){
+						try{
+							openStash((String) lDumpList.get(x), true);
+							if(!fullDump((String) lDumpList.get(x), iProject.getProjectName())){
+								errStr = errStr + "Stash: " + (String) lDumpList.get(x) + " failed.\n";
+							}
+						}catch(Exception e){
+							errStr = errStr + "Stash: " + (String) lDumpList.get(x) + " failed.\n";
+						}finally{
+							closeFileName((String) lDumpList.get(x));
+						}
+					}					
+				}
+				if(errStr.equals("")){
+					JOptionPane.showMessageDialog(iContentPane,
+							"Dumps generated successfully.\nFolder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName(), 
+							"Success!", JOptionPane.INFORMATION_MESSAGE);	
+				}else{
+					JOptionPane.showMessageDialog(iContentPane,
+							"Some txt dumps failed (error msg below).\nFolder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName() + "\n\nError: \n" + errStr, 
+							"Fail!", JOptionPane.ERROR_MESSAGE);
+				}
+				defaultCursor();
+			}
+		});
+
 		projControl.addToPanel(newProj,0,0,1,RandallPanel.HORIZONTAL);
 		projControl.addToPanel(delProj,1,0,1,RandallPanel.HORIZONTAL);
 		projControl.addToPanel(clProj,0,1,2,RandallPanel.HORIZONTAL);
 		projControl.addToPanel(lFlavie,0,2,2,RandallPanel.HORIZONTAL);
+		projControl.addToPanel(projTextDump,0,3,2,RandallPanel.HORIZONTAL);
 
 		iLeftPane.addToPanel(iChangeProject,0,0,1,RandallPanel.HORIZONTAL);
 		iLeftPane.addToPanel(iViewProject,0,1,1,RandallPanel.BOTH);
@@ -322,7 +377,6 @@ public class D2FileManager extends JFrame
 			}else{
 				reportName = iProject.getProjectName() + iProject.getReportName();
 			}
-			System.out.println(reportName);
 			new Flavie(
 					reportName, iProject.getReportTitle(), 
 					iProject.getDataName(), iProject.getStyleName(),
@@ -381,7 +435,7 @@ public class D2FileManager extends JFrame
 					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
 					iList.ignoreItemListEvents();
 					try{
-						
+
 						if(iList.getFilename().endsWith(".d2s") && getProject().getIgnoreItems()){
 
 							for(int x = 0;x<iList.getNrItems();x++){
@@ -519,7 +573,7 @@ public class D2FileManager extends JFrame
 
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-					if(fullDump(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName())){
+					if(fullDump(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName(), null)){
 						JOptionPane.showMessageDialog(iContentPane,
 								"Char/Stash dump was a success.\nFile: " + (((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName()) + ".txt", 
 								"Success!", JOptionPane.INFORMATION_MESSAGE);
@@ -868,7 +922,7 @@ public class D2FileManager extends JFrame
 		}
 	}
 
-	public boolean fullDump(String pFileName)
+	public boolean fullDump(String pFileName, String folder)
 	{
 		D2ItemList lList = null;
 		String lFileName = null;
@@ -881,7 +935,30 @@ public class D2FileManager extends JFrame
 		}else{
 
 			lList = (D2ItemList) iItemLists.get(pFileName);
-			lFileName = pFileName+".txt";
+
+			if(folder == null){
+
+				lFileName = pFileName+".txt";
+
+			}else{
+
+				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
+					lFileName = (((D2ViewChar)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar().getCharName());
+				}else{
+					lFileName = ((((D2ViewStash)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())))).getStashName());
+					lFileName = lFileName.replace(".d2x", "");
+
+				}
+				lFileName = folder + File.separator + lFileName + ".txt";
+				
+				File lFile = new File(folder);
+				if(!lFile.exists()){
+					if(!lFile.mkdir()){
+					return false;
+					}
+				}
+				
+			}
 		}
 		if ( lList != null && lFileName != null ){
 			try{
