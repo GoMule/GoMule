@@ -208,7 +208,11 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iTable.getColumnModel().getColumn(3).setPreferredWidth(15);
         JScrollPane lPane = new JScrollPane(iTable);
         lPane.setPreferredSize(new Dimension(257, 100));
-        iContentPane.add(lPane, BorderLayout.WEST);
+        
+        JSplitPane stashConts = new JSplitPane();
+        stashConts.setLeftComponent(lPane);
+        
+//        iContentPane.add(lPane, BorderLayout.WEST);
 
         RandallPanel lButtonPanel = getButtonPanel();
         JPanel lTypePanel = getTypePanel();
@@ -440,7 +444,12 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         lItemPanel.add(lItemScroll, BorderLayout.CENTER);
         lItemPanel.setPreferredSize(new Dimension(250, 100));
 
-        iContentPane.add(lItemPanel, BorderLayout.CENTER);
+//        iContentPane.add(lItemPanel, BorderLayout.CENTER);
+        
+        stashConts.setRightComponent(lItemPanel);
+        stashConts.setDividerSize(3);
+        stashConts.setDividerLocation(257);
+        iContentPane.add(stashConts);
         setContentPane(iContentPane);
 
         pack();
