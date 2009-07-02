@@ -22,10 +22,13 @@ package randall.flavie;
 
 import gomule.d2s.*;
 import gomule.d2x.*;
+import gomule.gui.D2FileManager;
 import gomule.item.*;
 
 import java.io.*;
 import java.util.*;
+
+import javax.swing.JOptionPane;
 
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
@@ -47,6 +50,7 @@ public class DirectD2Files
 
 	public void readDirectD2Files(ArrayList pDataObjects, ArrayList pFileNames) throws Exception
 	{
+		String errStr = "";
 		File lMatchedDir = new File(Flavie.sMatchedDir);
 		if ( lMatchedDir.exists() && !lMatchedDir.isDirectory() )
 		{
@@ -81,19 +85,19 @@ public class DirectD2Files
 				{
 					throw new Exception("Empty text filename");
 				}
-				File lFile = new File(lD2FileName);
-				if ( !lFile.exists() )
-				{
-					throw new Exception("File " + lD2FileName + " does not exist");
-				}
-				else if ( !lFile.isFile() )
-				{
-					throw new Exception("File " + lD2FileName + " is not a file");
-				}
-				else if ( !lFile.canRead() )
-				{
-					throw new Exception("File " + lD2FileName + " can not be read");
-				}
+//				File lFile = new File(lD2FileName);
+//				if ( !lFile.exists() )
+//				{
+//					throw new Exception("File " + lD2FileName + " does not exist");
+//				}
+//				else if ( !lFile.isFile() )
+//				{
+//					throw new Exception("File " + lD2FileName + " is not a file");
+//				}
+//				else if ( !lFile.canRead() )
+//				{
+//					throw new Exception("File " + lD2FileName + " can not be read");
+//				}
 
 				ArrayList lItems = null;
 
@@ -103,7 +107,7 @@ public class DirectD2Files
 						D2Character lCharacter = new D2Character(lD2FileName);
 						lItems = lCharacter.getItemList();
 					}catch(Exception e){
-						System.err.println("Error with file "+lD2FileName);
+						errStr = errStr + ("Error with char "+lD2FileName + "\n");
 					}
 				}
 				else if ( lD2FileName.endsWith(".d2x") )
@@ -112,7 +116,7 @@ public class DirectD2Files
 						D2Stash lStash = new D2Stash(lD2FileName);
 						lItems = lStash.getItemList();
 					}catch(Exception e){
-						System.err.println("Error with file "+lD2FileName);
+						errStr = errStr + ("Error with stash "+lD2FileName + "\n");
 					}
 				}
 
@@ -132,6 +136,11 @@ public class DirectD2Files
 
 			lOutDualFP.flush();
 			lOutDualFP.close();
+			if(!errStr.equals("")){
+				JOptionPane.showMessageDialog(D2FileManager.getIntance().getContentPane(),
+						"Some flavie reports failed (error msg below)." + "\n\n" + errStr, 
+						"Fail!", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 
