@@ -1250,7 +1250,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private String htmlStrip(StringBuffer htmlString) {
-		String dumpStr =  htmlString.toString().replaceAll("&#10;<br>", System.getProperty("line.separator"));
+		String dumpStr =  htmlString.toString().replaceAll("<br>&#10;", System.getProperty("line.separator"));
 		dumpStr =  dumpStr.replaceAll("&#32;", "");
 		return dumpStr.replaceAll("<[^>]*>", "");
 	}
