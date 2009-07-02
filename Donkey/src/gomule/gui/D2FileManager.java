@@ -312,12 +312,12 @@ public class D2FileManager extends JFrame
 				{
 					for(int x = 0;x<lDumpList.size();x++){
 						try{
-							openChar((String) lDumpList.get(x), true);
-							if(!fullDump((String) lDumpList.get(x), iProject.getProjectName())){
+							D2Character d2Char = new D2Character((String) lDumpList.get(x));
+							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Char.getItemList(), iProject.getProjectName())){
 								errStr = errStr + "Char: " + (String) lDumpList.get(x) + " failed.\n";
 							}
 						}catch(Exception e){
-							errStr = errStr + "Stash: " + (String) lDumpList.get(x) + " failed.\n";
+							errStr = errStr + "Char: " + (String) lDumpList.get(x) + " failed.\n";
 						}finally{
 							closeFileName((String) lDumpList.get(x));
 						}
@@ -342,11 +342,11 @@ public class D2FileManager extends JFrame
 				}
 				if(errStr.equals("")){
 					JOptionPane.showMessageDialog(iContentPane,
-							"Dumps generated successfully.\nFolder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName(), 
+							"Dumps generated successfully.\nOutput Folder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName(), 
 							"Success!", JOptionPane.INFORMATION_MESSAGE);	
 				}else{
 					JOptionPane.showMessageDialog(iContentPane,
-							"Some txt dumps failed (error msg below).\nFolder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName() + "\n\nError: \n" + errStr, 
+							"Some txt dumps failed (error msg below).\nOutput Folder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName() + "\n\nError: \n" + errStr, 
 							"Fail!", JOptionPane.ERROR_MESSAGE);
 				}
 				defaultCursor();
@@ -922,6 +922,51 @@ public class D2FileManager extends JFrame
 		}
 	}
 
+	
+	public boolean fullDump(String pFileName, D2ItemList lList, String folder)
+	{
+		String lFileName = null;
+		System.out.println("KAK1");
+			if(folder == null){
+
+				lFileName = pFileName+".txt";
+				
+			}else{
+				System.out.println("KAK");
+				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
+					lFileName = (((D2ViewChar)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar().getCharName());
+				}else{
+					lFileName = ((((D2ViewStash)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())))).getStashName());
+					lFileName = lFileName.replace(".d2x", "");
+				}
+				lFileName = folder + File.separator + lFileName + ".txt";
+				
+				File lFile = new File(folder);
+				if(!lFile.exists()){
+					if(!lFile.mkdir()){
+					return false;
+					}
+				}
+				
+			}
+		if ( lList != null && lFileName != null ){
+			try{
+				File lFile = new File(lFileName);
+				System.err.println("File: " + lFile.getCanonicalPath() );
+
+				PrintWriter lWriter = new PrintWriter(new FileWriter( lFile.getCanonicalPath() ));
+
+				lList.fullDump(lWriter);
+				lWriter.flush();
+				lWriter.close();
+				return true;
+			}catch ( Exception pEx ){
+				pEx.printStackTrace();
+			}
+		}
+		return false;
+	}
+	
 	public boolean fullDump(String pFileName, String folder)
 	{
 		D2ItemList lList = null;
