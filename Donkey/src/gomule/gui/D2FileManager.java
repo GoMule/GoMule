@@ -313,13 +313,12 @@ public class D2FileManager extends JFrame
 					for(int x = 0;x<lDumpList.size();x++){
 						try{
 							D2Character d2Char = new D2Character((String) lDumpList.get(x));
-							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Char.getItemList(), iProject.getProjectName())){
+							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Char, iProject.getProjectName())){
 								errStr = errStr + "Char: " + (String) lDumpList.get(x) + " failed.\n";
 							}
 						}catch(Exception e){
 							errStr = errStr + "Char: " + (String) lDumpList.get(x) + " failed.\n";
-						}finally{
-							closeFileName((String) lDumpList.get(x));
+							e.printStackTrace();
 						}
 					}
 				}
@@ -329,14 +328,13 @@ public class D2FileManager extends JFrame
 				{
 					for(int x = 0;x<lDumpList.size();x++){
 						try{
-							openStash((String) lDumpList.get(x), true);
-							if(!fullDump((String) lDumpList.get(x), iProject.getProjectName())){
+							D2Stash d2Stash = new D2Stash((String) lDumpList.get(x));
+							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Stash, iProject.getProjectName())){
 								errStr = errStr + "Stash: " + (String) lDumpList.get(x) + " failed.\n";
 							}
 						}catch(Exception e){
 							errStr = errStr + "Stash: " + (String) lDumpList.get(x) + " failed.\n";
-						}finally{
-							closeFileName((String) lDumpList.get(x));
+							e.printStackTrace();
 						}
 					}					
 				}
@@ -926,18 +924,16 @@ public class D2FileManager extends JFrame
 	public boolean fullDump(String pFileName, D2ItemList lList, String folder)
 	{
 		String lFileName = null;
-		System.out.println("KAK1");
 			if(folder == null){
 
 				lFileName = pFileName+".txt";
 				
 			}else{
-				System.out.println("KAK");
-				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
-					lFileName = (((D2ViewChar)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar().getCharName());
+				
+				if(lList.getFilename().endsWith(".d2s")){
+					lFileName = ((D2Character)lList).getCharName() + ".d2s";
 				}else{
-					lFileName = ((((D2ViewStash)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())))).getStashName());
-					lFileName = lFileName.replace(".d2x", "");
+					lFileName = ((D2Stash)lList).getFileNameEnd();
 				}
 				lFileName = folder + File.separator + lFileName + ".txt";
 				

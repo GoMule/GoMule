@@ -3322,16 +3322,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	public void dumpChar() {
 
-
-
-
 		String out = combinedString.replaceAll("<BR>", "\n");
 		String iChaString = iCharacter.fullDumpStr().replaceAll("<BR>", "\n");
 		String outMerc = combinedMercString.replaceAll("<BR>", "\n");
 
 		lDump.setText(out + "\n" +iChaString + outMerc + "\n");
 		lDump.setCaretPosition(0);
-		lDumpPanel.revalidate();
+		lDump.validate();
 	}
 	
 	public D2Character getChar(){
