@@ -56,6 +56,15 @@ public class D2Character extends D2ItemListAdapter
 	public static final int BODY_RARM2         = 21;
 	public static final int BODY_LARM2         = 22;
 	public static final int GOLEM_SLOT         = 23;
+	
+	public static final int INVSIZEX = 10;
+	public static final int INVSIZEY = 4;
+	public static final int STASHSIZEX = 6;
+	public static final int STASHSIZEY = 8;
+	public static final int BELTSIZEX = 4;
+	public static final int BELTSIZEY = 4;
+	public static final int CUBESIZEX = 3;
+	public static final int CUBESIZEY = 4;
 
 	private D2BitReader iReader;
 	private ArrayList iCharItems;
@@ -242,10 +251,10 @@ public class D2Character extends D2ItemListAdapter
 			}
 			readStats();
 		}
-		iStashGrid = new boolean[8][6];
-		iInventoryGrid = new boolean[4][10];
-		iBeltGrid = new boolean[4][4];
-		iCubeGrid = new boolean[4][3];
+		iStashGrid = new boolean[STASHSIZEY][STASHSIZEX];
+		iInventoryGrid = new boolean[INVSIZEY][INVSIZEX];
+		iBeltGrid = new boolean[BELTSIZEY][BELTSIZEX];
+		iCubeGrid = new boolean[CUBESIZEY][CUBESIZEX];
 		iEquipped = new boolean[13];
 		iMerc = new boolean[13];
 		iCorpse = new boolean[13];
@@ -809,17 +818,17 @@ public class D2Character extends D2ItemListAdapter
 		for (int i = 0; i < iEquipped.length; i++)iEquipped[i] = false;
 		for (int i = 0; i < iMerc.length; i++)iMerc[i] = false;
 		for (int i = 0; i < iCorpse.length; i++)iCorpse[i] = false;
-		for (int i = 0; i < 4; i++){
-			for (int j = 0; j < 4; j++)iBeltGrid[i][j] = false;
+		for (int i = 0; i < BELTSIZEY; i++){
+			for (int j = 0; j < BELTSIZEX; j++)iBeltGrid[i][j] = false;
 		}
-		for (int i = 0; i < 8; i++){
-			for (int j = 0; j < 6; j++)iStashGrid[i][j] = false;
+		for (int i = 0; i < STASHSIZEY; i++){
+			for (int j = 0; j < STASHSIZEX; j++)iStashGrid[i][j] = false;
 		}
-		for (int i = 0; i < 4; i++){
-			for (int j = 0; j < 10; j++)iInventoryGrid[i][j] = false;
+		for (int i = 0; i < INVSIZEY; i++){
+			for (int j = 0; j < INVSIZEX; j++)iInventoryGrid[i][j] = false;
 		}
-		for (int i = 0; i < 4; i++){
-			for (int j = 0; j < 3; j++)iCubeGrid[i][j] = false;
+		for (int i = 0; i < CUBESIZEY; i++){
+			for (int j = 0; j < CUBESIZEX; j++)iCubeGrid[i][j] = false;
 		}
 	}
 

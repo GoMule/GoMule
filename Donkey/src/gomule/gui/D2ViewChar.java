@@ -3343,19 +3343,22 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		int cMax = 0;
 		switch(areaCode){
 		case 0:
+			//stash
 			dPanel = 5;
-			rMax = 8;
-			cMax = 6;
+			rMax = D2Character.STASHSIZEY;
+			cMax = D2Character.STASHSIZEX;
 			break;
 		case 1:
+			//inv
 			dPanel = 1;
-			rMax = 4;
-			cMax = 10;
+			rMax = D2Character.INVSIZEY;
+			cMax = D2Character.INVSIZEX;
 			break;
 		case 2:
+			//cube
 			dPanel = 4;
-			rMax = 4;
-			cMax = 3;
+			rMax = D2Character.CUBESIZEY;
+			cMax = D2Character.CUBESIZEX;
 			break;
 		}
 		try{

@@ -92,11 +92,10 @@ public class GoMule
 						}
 					}
 				}
-				UIManager.put ("ToolTip.background", Color.black);
-				UIManager.put ("ToolTip.foreground", Color.white);
-				ToolTipManager.sharedInstance().setInitialDelay(0);
-
 			}
+			UIManager.put ("ToolTip.background", Color.black);
+			UIManager.put ("ToolTip.foreground", Color.white);
+			ToolTipManager.sharedInstance().setInitialDelay(0);
 		}
 		catch (Exception e)
 		{
