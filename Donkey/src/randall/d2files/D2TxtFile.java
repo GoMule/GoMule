@@ -176,9 +176,9 @@ public final class D2TxtFile
 				}
 			};
 
-			if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("max")){
+			if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).indexOf("max") != -1){
 				pVals[0] = pVals[1];
-			}else if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).contains("length")){
+			}else if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).indexOf("length") != -1){
 				if(pVals[2] != 0){
 					pVals[0] = pVals[2];
 				}

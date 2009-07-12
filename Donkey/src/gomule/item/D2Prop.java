@@ -153,8 +153,8 @@ public class D2Prop {
 
 		case(1):
 			if(dispLoc == 1){
-				if(oString.contains("%d")){
-					return oString.replace("%d", Integer.toString(pVals[0]));	
+				if(oString.indexOf("%d") != -1){
+					return oString.replaceAll("%d", Integer.toString(pVals[0]));	
 				}else{
 					if(pVals[0] > -1){
 						return "+" + pVals[0]+ " " + oString;
@@ -301,13 +301,13 @@ public class D2Prop {
 		case(15):
 
 			oString = oString.replaceFirst("%d%", Integer.toString(pVals[2]));
-		oString = oString.replace("%d", Integer.toString(pVals[0]));
-		return oString.replace("%s", D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(pVals[1]).get("skilldesc")).get("str name")));
+		oString = oString.replaceAll("%d", Integer.toString(pVals[0]));
+		return oString.replaceAll("%s", D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(pVals[1]).get("skilldesc")).get("str name")));
 
 		case(16):
 
-			oString = oString.replace("%d", Integer.toString(pVals[1]));
-		return oString.replace("%s", D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc")).get("str name")));
+			oString = oString.replaceAll("%d", Integer.toString(pVals[1]));
+		return oString.replaceAll("%s", D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc")).get("str name")));
 
 
 		case(17):
@@ -344,7 +344,7 @@ public class D2Prop {
 		case(24):
 
 			oString = oString.replaceFirst("%d", Integer.toString(pVals[2]));
-		oString = oString.replace("%d", Integer.toString(pVals[3]));
+		oString = oString.replaceAll("%d", Integer.toString(pVals[3]));
 		return "Level " + pVals[0] + " " + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",D2TxtFile.SKILLS.getRow(pVals[1]).get("skilldesc")).get("str name")) + " " + oString;
 
 		case(27):

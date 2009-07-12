@@ -210,7 +210,11 @@ public class D2Project
 
 			try
 			{
-				iIgnoreItems = Boolean.parseBoolean(lLoadProperties.getProperty("propDisplay"));
+				if(lLoadProperties.getProperty("propDisplay").equals("true")){
+					iIgnoreItems = true;
+				}else{
+					iIgnoreItems = false;
+				}
 			}
 			catch (Exception pEx)
 			{

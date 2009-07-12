@@ -24,6 +24,7 @@ package gomule;
 import gomule.gui.*;
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public class GoMule
 {
@@ -78,8 +79,9 @@ public class GoMule
 		try
 		{
 
-			if(System.getProperty("os.name").toLowerCase().contains("mac")){
-				UIManager.setLookAndFeel("javax.swing.plaf.mac.MacLookAndFeel");
+			if(System.getProperty("os.name").toLowerCase().indexOf("mac") != -1){
+				UIManager.setLookAndFeel("apple.laf.AquaLookAndFeel");
+
 			}else{
 				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				if ( args != null )

@@ -964,7 +964,7 @@ public class MonsterTuple {
 
 			((ProbTCRow)allTCS.get(1)).setTotProb(((ProbTCRow)allTCS.get(1)).getTotProb()) ;
 			constructTCPairs((ProbTCRow)allTCS.get(1));
-			if(mParent.getClassOfMon()==2 || mParent.getClassOfMon()==1 || initTC.contains("Champ")){
+			if(mParent.getClassOfMon()==2 || mParent.getClassOfMon()==1 || initTC.indexOf("Champ")!= -1){
 				counter =  (((Double)((ProbTCRow)allTCS.get(1)).getProb().get(1)).doubleValue());
 			}else{
 				counter =  (((Double)((ProbTCRow)allTCS.get(1)).getProb().get(0)).doubleValue());

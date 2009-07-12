@@ -2501,7 +2501,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		String dumpStr = itemDump(true);
 
-			if (dumpStr.toLowerCase().contains(prop.toLowerCase())) {
+			if (dumpStr.toLowerCase().indexOf(prop.toLowerCase()) != -1) {
 
 				if (pVal == -1337) {
 					return true;
@@ -2573,7 +2573,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	
 	public boolean isMoveable(){
 		
-		if(get_location() == 0 && get_panel() == 1 && (getName().toLowerCase().equals("horadric cube") ||isCharm() || getName().toLowerCase().equals("key") || getName().toLowerCase().contains("tome of"))){
+		if(get_location() == 0 && get_panel() == 1 && (getName().toLowerCase().equals("horadric cube") ||isCharm() || getName().toLowerCase().equals("key") || getName().toLowerCase().indexOf("tome of") != -1)){
 			//Inv
 		}else if(get_location() == 2){
 			//Belt
