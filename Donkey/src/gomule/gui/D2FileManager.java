@@ -1357,10 +1357,15 @@ public class D2FileManager extends JFrame
 	{
 
 		String[] fNamesOut = new String[pStashChooser.getSelectedFiles().length];
+		File[] stashList = pStashChooser.getSelectedFiles();
+		if(pStashChooser.getSelectedFiles().length == 0 && pStashChooser.getSelectedFile()!=null){
+			stashList = new File[]{pStashChooser.getSelectedFile()};
+			fNamesOut = new String[1];
+		}
 
-
-		for(int x = 0;x<pStashChooser.getSelectedFiles().length;x=x+1){
-			java.io.File lFile = pStashChooser.getSelectedFiles()[x];
+		for(int x = 0;x<stashList.length;x=x+1){
+			System.out.println(stashList.length);
+			java.io.File lFile = stashList[x];
 			try
 			{
 				String lFilename = lFile.getAbsolutePath();
