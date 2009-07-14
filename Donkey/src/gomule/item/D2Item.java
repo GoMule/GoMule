@@ -1321,8 +1321,33 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (ilvl != 0)dispStr.append("Item Level: " + ilvl + "<br>&#10;");
 		dispStr.append("Version: " + get_version() + "<br>&#10;");
 		if (!iIdentified)dispStr.append("Unidentified" + "<br>&#10;");
-		dispStr.append(iProps.generateDisplay(0, iCharLvl));
+		
+		dispStr.append(getItemPropertyString());
 
+		if (extended){
+			if (isSocketed()) {
+				dispStr.append("<br>&#10;");
+				if (iSocketedItems != null) {
+					for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
+						if (((D2Item) iSocketedItems.get(x)) != null) {
+							dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropString(false));
+							dispStr.append("<br>&#10;");
+									
+						}
+					}
+				}
+			}
+		}
+
+		return dispStr.append("</center></html>");
+	}
+	
+	private StringBuffer getItemPropertyString(){
+		
+		
+		StringBuffer dispStr = new StringBuffer("");
+		
+		dispStr.append(iProps.generateDisplay(0, iCharLvl));
 		if (isGem() || isRune()) {
 			dispStr.append("Weapons: ");
 			dispStr.append(iProps.generateDisplay(7, iCharLvl));
@@ -1379,23 +1404,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 
 		}
-
-		if (extended){
-			if (isSocketed()) {
-				dispStr.append("<br>&#10;");
-				if (iSocketedItems != null) {
-					for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
-						if (((D2Item) iSocketedItems.get(x)) != null) {
-							dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropString(false));
-							dispStr.append("<br>&#10;");
-									
-						}
-					}
-				}
-			}
-		}
-
-		return dispStr.append("</center></html>");
+		
+		return dispStr;
 	}
 
 	public void toWriter(PrintWriter pw){
@@ -2506,25 +2516,29 @@ public class D2Item implements Comparable, D2ItemInterface {
 				if (pVal == -1337) {
 					return true;
 				}
+				Pattern propertyLinePattern = Pattern.compile("(\\n.*"+prop.toLowerCase()+".*\\n)");
+				Matcher propertyPatternMatcher = propertyLinePattern.matcher("\n" + dumpStr.toLowerCase() + "\n" );
+				
+				while(propertyPatternMatcher.find()){
+					
+					Pattern pat = Pattern.compile("\\d+");
+					Matcher mat = pat.matcher(propertyPatternMatcher.group());
 
-				Pattern pat = Pattern.compile("\\d+");
-				Matcher mat = pat.matcher(dumpStr);
+					while (mat.find()) {
 
-				while (mat.find()) {
+						if (min == true) {
+							if (Integer.parseInt(mat.group()) >= pVal) {
 
-					if (min == true) {
-						if (Integer.parseInt(mat.group()) >= pVal) {
+								return true;
+							}
+						} else {
+							if (Integer.parseInt(mat.group()) <= pVal) {
 
-							return true;
-						}
-					} else {
-						if (Integer.parseInt(mat.group()) <= pVal) {
-
-							return true;
+								return true;
+							}
 						}
 					}
-				}
-
+				}				
 			}
 		return false;
 	}
