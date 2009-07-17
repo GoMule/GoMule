@@ -295,7 +295,14 @@ public class D2FileManager extends JFrame
 				{
 					dFileNames.addAll( lStashList );
 				}
-				flavieDump(dFileNames, false);
+				if(dFileNames.size() < 1){
+					JOptionPane.showMessageDialog(iContentPane,
+							"No Chars/Stashes in Project!", 
+							"Fail!", JOptionPane.ERROR_MESSAGE);
+				}else{
+					flavieDump(dFileNames, false);
+				}
+
 			}
 		});
 
@@ -322,7 +329,7 @@ public class D2FileManager extends JFrame
 						}
 					}
 				}
-				
+
 				lDumpList = iProject.getStashList();
 				if ( lDumpList != null )
 				{
@@ -338,7 +345,11 @@ public class D2FileManager extends JFrame
 						}
 					}					
 				}
-				if(errStr.equals("")){
+				if((iProject.getCharList().size() + iProject.getStashList().size()) < 1){	
+					JOptionPane.showMessageDialog(iContentPane,
+							"No Chars/Stashes in Project!", 
+							"Fail!", JOptionPane.ERROR_MESSAGE);
+				}else if(errStr.equals("")){
 					JOptionPane.showMessageDialog(iContentPane,
 							"Dumps generated successfully.\nOutput Folder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName(), 
 							"Success!", JOptionPane.INFORMATION_MESSAGE);	
@@ -382,9 +393,9 @@ public class D2FileManager extends JFrame
 					iProject.isCountAll(), iProject.isCountEthereal(),
 					iProject.isCountStash(), iProject.isCountChar()
 			);
-			JOptionPane.showMessageDialog(iContentPane,
-					"Flavie report was generated successfully.\nFile: " + System.getProperty("user.dir") + File.separatorChar + reportName + ".html", 
-					"Success!", JOptionPane.INFORMATION_MESSAGE);			
+//			JOptionPane.showMessageDialog(iContentPane,
+//					"Flavie says reports generated successfully.\nFile: " + System.getProperty("user.dir") + File.separatorChar + reportName + ".html", 
+//					"Success!", JOptionPane.INFORMATION_MESSAGE);			
 		}
 		catch (Exception pEx)
 		{
@@ -920,31 +931,31 @@ public class D2FileManager extends JFrame
 		}
 	}
 
-	
+
 	public boolean fullDump(String pFileName, D2ItemList lList, String folder)
 	{
 		String lFileName = null;
-			if(folder == null){
+		if(folder == null){
 
-				lFileName = pFileName+".txt";
-				
+			lFileName = pFileName+".txt";
+
+		}else{
+
+			if(lList.getFilename().endsWith(".d2s")){
+				lFileName = ((D2Character)lList).getCharName() + ".d2s";
 			}else{
-				
-				if(lList.getFilename().endsWith(".d2s")){
-					lFileName = ((D2Character)lList).getCharName() + ".d2s";
-				}else{
-					lFileName = ((D2Stash)lList).getFileNameEnd();
-				}
-				lFileName = folder + File.separator + lFileName + ".txt";
-				
-				File lFile = new File(folder);
-				if(!lFile.exists()){
-					if(!lFile.mkdir()){
-					return false;
-					}
-				}
-				
+				lFileName = ((D2Stash)lList).getFileNameEnd();
 			}
+			lFileName = folder + File.separator + lFileName + ".txt";
+
+			File lFile = new File(folder);
+			if(!lFile.exists()){
+				if(!lFile.mkdir()){
+					return false;
+				}
+			}
+
+		}
 		if ( lList != null && lFileName != null ){
 			try{
 				File lFile = new File(lFileName);
@@ -962,7 +973,7 @@ public class D2FileManager extends JFrame
 		}
 		return false;
 	}
-	
+
 	public boolean fullDump(String pFileName, String folder)
 	{
 		D2ItemList lList = null;
@@ -991,14 +1002,14 @@ public class D2FileManager extends JFrame
 
 				}
 				lFileName = folder + File.separator + lFileName + ".txt";
-				
+
 				File lFile = new File(folder);
 				if(!lFile.exists()){
 					if(!lFile.mkdir()){
-					return false;
+						return false;
 					}
 				}
-				
+
 			}
 		}
 		if ( lList != null && lFileName != null ){

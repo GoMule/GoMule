@@ -156,6 +156,12 @@ public class Flavie
 		return lAllFilters;
 	}
 	
+	public String getReportName(){
+		
+		return iReportName;
+		
+	}
+	
 	public boolean checkFilters(String pFingerprint, String pItemname)
 	{
 		boolean lAllFilters = true;
