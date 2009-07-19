@@ -365,40 +365,40 @@ public class MonsterTuple {
 		 */
 
 
-		
 
-		
-		
+
+
+
 		if(mParent.getID().equals("The Countess")){
 
 			HashMap countessArr = parseCountessRuneTree((String) lookupTCReturnSUBATOMICTCROW(initCountess).getTC().get(1));		
 
-			
+
 			Iterator it = countessArr.keySet().iterator();
-			
+
 			while(it.hasNext()){
-				
+
 				String tc = (String)it.next();
-				
+
 				if(finalTrueMiscTCs.containsKey(tc)){
 					finalTrueMiscTCs.put(tc, new Double(((Double)(finalTrueMiscTCs.get(tc))).doubleValue() + (((Double)(countessArr.get(tc))).doubleValue())));
 				}else{
 					finalTrueMiscTCs.put(tc, countessArr.get(tc));
 				}
-				
-			}
-			
 
-			
+			}
+
+
+
 			setInitTC(initCountess);
 
 		}else{
 			applyMPicks(finalTrueMiscTCs, sevP);
 		}
-		
 
-		
-		
+
+
+
 
 		calcdM = nPlayers+","+nplayersParty+","+input + "," + sevP;
 
@@ -406,35 +406,35 @@ public class MonsterTuple {
 
 	public int factorial(int k)
 	{
-        int fact = 1;
-        for (int i=1; i<=k; i++) {
-            fact = fact * i;
-        }
-        
-        return fact;
+		int fact = 1;
+		for (int i=1; i<=k; i++) {
+			fact = fact * i;
+		}
+
+		return fact;
 
 	}
 	public double chanceDrop(int k){
 		double noDrop = (double)19/(double)67; 
 		return ((double)factorial(5) / (double)((factorial(5-k)) * factorial(k))) * (Math.pow(noDrop, (5 - k)))*(Math.pow((1 - noDrop), k));
-		
+
 	}
-	
+
 	private HashMap parseCountessRuneTree(String initTC) {
 
-		
-		
 
-		
-		
+
+
+
+
 		ArrayList runesArr = new ArrayList();
 
 //		System.out.println(initTC);
 
 		double miscCounter = 1;
-		
+
 		runesArr.add(lookupTCReturnSUBATOMICTCROW(initTC));
-		
+
 		if(((String)getLastRow(runesArr).getTC().get(getLastRow(runesArr).getTC().size() - 1)).indexOf("Runes") !=-1){
 
 			do{
@@ -442,11 +442,11 @@ public class MonsterTuple {
 			}while(((String)getLastRow(runesArr).getTC().get(getLastRow(runesArr).getTC().size() - 1)).indexOf("Runes") !=-1);
 
 		}
-		
+
 		int noDrop = Integer.parseInt(D2TxtFile.TCS.searchColumns("Treasure Class", initTC).get("NoDrop"));
-		
+
 		((ProbTCRow)runesArr.get(0)).setTotProb(((ProbTCRow)runesArr.get(0)).getTotProb() + noDrop) ;
-		
+
 		for(int x = 0; x< runesArr.size();x=x+1){
 
 			constructTCPairs((ProbTCRow)runesArr.get(x));
@@ -456,11 +456,11 @@ public class MonsterTuple {
 
 
 		}
-		
-		
+
+
 		runesArr = deleteMiscDuplicated(runesArr);
 		HashMap finalTrueMiscTCs = new HashMap();
-		
+
 		for(int x = 0;x<runesArr.size();x=x+1){
 			for(int y = 0;y<((ProbTCRow)runesArr.get(x)).getTC().size();y=y+1){
 				if(finalTrueMiscTCs.containsKey(((ProbTCRow)runesArr.get(x)).getTC().get(y))){
@@ -470,40 +470,40 @@ public class MonsterTuple {
 				}
 			}
 		}	
-		
-	
+
+
 		System.out.println("ITEM:" + this.finalTrueMiscTCs.get("r01"));
 		System.out.println("RUNE:" + finalTrueMiscTCs.get("r01"));
-		
+
 		double pCI = ((Double)this.finalTrueMiscTCs.get("r01")).doubleValue();
 		double pCR = ((Double)finalTrueMiscTCs.get("r01")).doubleValue();
-		
-		
+
+
 		System.out.println("Value (" + this.mParent.getMonDiff()  + "): " + 
-		(1 - (
-		(Math.pow((1 - pCI),0) * Math.pow((1 - pCR),3)* chanceDrop(0)) +
-		(Math.pow((1 - pCI),1) * Math.pow((1 - pCR),3)* chanceDrop(1)) + 
-		(Math.pow((1 - pCI),2) * Math.pow((1 - pCR),3)* chanceDrop(2)) + 
-		(Math.pow((1 - pCI),3) * Math.pow((1 - pCR),3)* chanceDrop(3)) +
-		(Math.pow((1 - pCI),4) * Math.pow((1 - pCR),2)* chanceDrop(4)) +
-		(Math.pow((1 - pCI),5) * Math.pow((1 - pCR),1)* chanceDrop(5))
-		)));
-		
-		
-		
+				(1 - (
+						(Math.pow((1 - pCI),0) * Math.pow((1 - pCR),3)* chanceDrop(0)) +
+						(Math.pow((1 - pCI),1) * Math.pow((1 - pCR),3)* chanceDrop(1)) + 
+						(Math.pow((1 - pCI),2) * Math.pow((1 - pCR),3)* chanceDrop(2)) + 
+						(Math.pow((1 - pCI),3) * Math.pow((1 - pCR),3)* chanceDrop(3)) +
+						(Math.pow((1 - pCI),4) * Math.pow((1 - pCR),2)* chanceDrop(4)) +
+						(Math.pow((1 - pCI),5) * Math.pow((1 - pCR),1)* chanceDrop(5))
+				)));
+
+
+
 		int picks = Integer.parseInt(D2TxtFile.TCS.searchColumns("Treasure Class",initTC).get("Picks"));
 		Iterator pickIt = finalTrueMiscTCs.keySet().iterator();
 		while(pickIt.hasNext()){
 			String pickItStr = (String) pickIt.next();
-			
-			
+
+
 //			Math.pow((1- ((Double)finalTrueMiscTCs.get(pickItStr)).doubleValue()), picks)
-			
-			
+
+
 			finalTrueMiscTCs.put(pickItStr,new Double(1-(Math.pow((1- ((Double)finalTrueMiscTCs.get(pickItStr)).doubleValue()), picks))));
 
 		}
-		
+
 		return finalTrueMiscTCs;
 	}
 

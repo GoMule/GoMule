@@ -34,6 +34,9 @@ import gomule.dropCalc.monsters.Regular;
 import gomule.dropCalc.monsters.SuperUnique;
 import gomule.dropCalc.monsters.Unique;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -318,6 +321,11 @@ public class DCNew {
 					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnATOMICTCS(nPlayers, nGroup,0, sevP);
 
 					if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
+//						System.out.println(((MonsterTuple)mTuples.get(y)).getParent().getID());
+						if(((MonsterTuple)mTuples.get(y)).getParent().getID().equals("minion11")){
+							System.out.println("BLA");
+						}
+
 						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * generateRarityList((MonsterTuple)mTuples.get(y), item)* getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
 					}
 				}
@@ -974,6 +982,7 @@ public class DCNew {
 
 
 		String qual = "";
+		double mfDiminishReturn = 0.0;
 
 		switch(recursions){
 
@@ -985,14 +994,17 @@ public class DCNew {
 
 		case 0:
 			qual = "Unique";
+			mfDiminishReturn = 250.0;
 			break;
 
 		case 1:
 			qual = "Set";
+			mfDiminishReturn = 500.0;
 			break;
 
 		case 2:
 			qual = "Rare";
+			mfDiminishReturn = 600.0;
 			break;
 		case 3:
 			qual = "Magic";
@@ -1007,10 +1019,16 @@ public class DCNew {
 			ratioRow = D2TxtFile.ITEMRATIO.getRow(2);
 		}
 
-
-
 		int dChance = (Integer.parseInt(ratioRow.get(qual)) - (((ilvl - item.getBaseqLvl()))/(Integer.parseInt(ratioRow.get(qual+"Divisor"))))) * 128;
-		int eMF = ((MF * 250))/((MF + 250));
+		int eMF = 0;
+
+		if(recursions ==3){
+			eMF = MF;
+		}else{
+			BigDecimal enhancedMF = new BigDecimal(((MF * mfDiminishReturn))/((MF + mfDiminishReturn)));
+			MathContext mc = new MathContext(BigDecimal.ROUND_DOWN);
+			eMF = enhancedMF.round(mc).intValue();
+		}
 
 		dChance = ((dChance * 100))/((100 + eMF));
 
@@ -1021,8 +1039,6 @@ public class DCNew {
 		dChance = dChance - (dChance * mon.getUqual()/1024);
 
 		outChance = (double)128/(double)dChance;
-
-//		System.out.println(qual + " - " + outChance);
 
 		if(!end){
 			return outChance;
