@@ -322,9 +322,6 @@ public class DCNew {
 
 					if(((MonsterTuple)mTuples.get(y)).getFinalTCs().containsKey(key)){
 //						System.out.println(((MonsterTuple)mTuples.get(y)).getParent().getID());
-						if(((MonsterTuple)mTuples.get(y)).getParent().getID().equals("minion11")){
-							System.out.println("BLA");
-						}
 
 						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalTCs().get(key)).doubleValue() * d * generateRarityList((MonsterTuple)mTuples.get(y), item)* getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true)));
 					}
@@ -982,7 +979,7 @@ public class DCNew {
 
 
 		String qual = "";
-		double mfDiminishReturn = 0.0;
+		int mfDiminishReturn = 0;
 
 		switch(recursions){
 
@@ -994,17 +991,17 @@ public class DCNew {
 
 		case 0:
 			qual = "Unique";
-			mfDiminishReturn = 250.0;
+			mfDiminishReturn = 250;
 			break;
 
 		case 1:
 			qual = "Set";
-			mfDiminishReturn = 500.0;
+			mfDiminishReturn = 500;
 			break;
 
 		case 2:
 			qual = "Rare";
-			mfDiminishReturn = 600.0;
+			mfDiminishReturn = 600;
 			break;
 		case 3:
 			qual = "Magic";
@@ -1022,12 +1019,10 @@ public class DCNew {
 		int dChance = (Integer.parseInt(ratioRow.get(qual)) - (((ilvl - item.getBaseqLvl()))/(Integer.parseInt(ratioRow.get(qual+"Divisor"))))) * 128;
 		int eMF = 0;
 
-		if(recursions ==3){
+		if(recursions ==3 || MF < 11){
 			eMF = MF;
 		}else{
-			BigDecimal enhancedMF = new BigDecimal(((MF * mfDiminishReturn))/((MF + mfDiminishReturn)));
-			MathContext mc = new MathContext(BigDecimal.ROUND_DOWN);
-			eMF = enhancedMF.round(mc).intValue();
+			eMF = (((MF * mfDiminishReturn))/((MF + mfDiminishReturn)));
 		}
 
 		dChance = ((dChance * 100))/((100 + eMF));
