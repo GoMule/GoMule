@@ -25,6 +25,7 @@ import gomule.dropCalc.items.Item;
 import gomule.dropCalc.monsters.Monster;
 import gomule.dropCalc.monsters.MonsterTuple;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -45,6 +46,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -71,7 +73,7 @@ public class RealGUI extends JFrame {
 	JComboBox nMItemQual = new JComboBox();
 	JComboBox nMItemQual2 = new JComboBox();
 	DCTableModel DCTm = new DCTableModel();
-	JTable oResult = new JTable(new DCTableModel());
+	JTable oResult = new JTable(DCTm);
 	JScrollPane oScrollingArea = new JScrollPane(oResult);
 	JTextField nMF = new JTextField();
 	JButton bSearch = new JButton("Find");
@@ -87,9 +89,11 @@ public class RealGUI extends JFrame {
 	private JCheckBoxMenuItem cbMenuItem;
 	private JCheckBoxMenuItem cbDec;
 	private JCheckBoxMenuItem cbRat;
+	private JCheckBoxMenuItem cbChanceCol;
+	private Container iContentPane;
 	public RealGUI(){
 
-
+		iContentPane  = this.getContentPane();
 		this.setJMenuBar(menuBar);
 		JMenu menu = new JMenu("Options");
 		menuBar.add(menu);
@@ -99,10 +103,12 @@ public class RealGUI extends JFrame {
 		menu.add(cbMenuItem);
 		menu.addSeparator();
 		menu.add(cbDec);
-		menu.add(cbRat);
 		cbDec.setSelected(true);
-
-
+		menu.add(cbRat);
+		menu.addSeparator();
+		cbChanceCol = new JCheckBoxMenuItem("Add Chance Column");
+		menu.add(cbChanceCol);
+		
 		Box vMain = Box.createVerticalBox();
 		Box hSettings = Box.createHorizontalBox();
 		vMain.add(hSettings);
@@ -332,18 +338,48 @@ public class RealGUI extends JFrame {
 					cbRat.setSelected(true);
 				}
 				
-//				System.out.println(cbRat.isSelected());
-//				System.out.println(cbDec.isSelected());
-//
-//				if(!cbRat.isSelected()){
-//					cbRat.setSelected(true);
-//					cbDec.setSelected(false);
-//				}else{
-//					cbDec.setSelected(true);
-//					cbRat.setSelected(false);
-//				}
-
 			}});
+		
+		cbChanceCol.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				
+				if(cbChanceCol.isSelected()){
+					
+					activateChanceColumn();
+					
+					}else{
+					
+						deactivateChanceColumn();
+				}
+				
+			}
+
+			private void deactivateChanceColumn() {
+				DCTm.hideChanceCol();
+				
+			}
+
+			private void activateChanceColumn() {
+				
+				String chancePercentStr = JOptionPane.showInputDialog(iContentPane,"Please Enter a Percentage.");
+				int chancePercent = 50;
+				try{
+					chancePercent = Integer.parseInt(chancePercentStr);
+					if(chancePercent > 100){
+						throw new NumberFormatException();
+					}
+				}catch(NumberFormatException n){
+					JOptionPane.showMessageDialog(iContentPane, "Bad value entered, assuming 50%.", "Bad Value", JOptionPane.ERROR_MESSAGE);
+					chancePercent = 50;
+				}
+				
+				DCTm.showChanceCol();
+				DCTm.setChanceCol(chancePercent);
+			
+			}});
+		
+		
 		
 		nType.addActionListener(new ActionListener() {
 

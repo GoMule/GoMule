@@ -28,51 +28,74 @@ public class OutputRow {
 	String c0;
 	String c1;
 	double c2;
-	
-	public OutputRow(String c0, String c1, Object c2){
+	double c3;
+
+	public OutputRow(String c0, String c1, Object c2, double c3){
 		this.c0 = c0;
 		this.c1 = c1;
 		this.c2 = ((Double)c2).doubleValue();
+		this.c3 = c3;
 	}
-	
+
 	public String getC0(){
-		
+
 		return c0;
-		
+
 	}
-	
+
 	public String getC1(){
-		
+
 		return c1;
-		
+
 	}
-	
+
 	public double getC2(){
-		
+
 		return c2;
-		
+
 	}
-	
+
+	public double getC3(){
+
+		return c3;
+
+	}
+
 	public Double getObjC2(){
-		
+
 		return new Double(c2);	
-//		return new Double(roundDouble(c2, 5));		
 	}
 	
-    public double roundDouble(double d, int places) {
-        return Math.round(d * Math.pow(10, (double) places)) / Math.pow(10,
-            (double) places);
-    }
+	public Double getObjC3(){
+
+		return new Double(c3);	
+	}
+
+	public double roundDouble(double d, int places) {
+		return Math.round(d * Math.pow(10, (double) places)) / Math.pow(10,
+				(double) places);
+	}
 
 	public String getStrC2(boolean dec) {
 		if(dec){
-		return DM.format(c2);
-	
+			return DM.format(c2);
+
 		}
 		else{
 			return "1:" + (int)Math.floor(1/c2);
-			}
-		
+		}
+
 	}
-	
+
+	public String getStrC3(boolean dec) {
+		if(dec){
+			return DM.format(c3);
+
+		}
+		else{
+			return "1:" + (int)Math.floor(1/c3);
+		}
+
+	}
+
 }

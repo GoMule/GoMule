@@ -51,6 +51,8 @@ public class DCTableModel extends AbstractTableModel{
 	public int type = 0;
 	public int iSelected = 2;
 	public boolean dec = true;
+	private int colCount = 3;
+	private int chancePercent = 50;
 	public DCTableModel(){
 //		iItems.put("RAWR", );
 //		this.setValueAt(iItems.get(0), 0, 0);
@@ -63,9 +65,20 @@ public class DCTableModel extends AbstractTableModel{
 	}
 
 	public int getColumnCount() {
-		return 3;
+		return colCount;
 	}
 
+	
+	public void showChanceCol(){
+		colCount = 4;
+		fireTableStructureChanged();
+	}
+	
+	public void hideChanceCol(){
+		colCount = 3;
+		fireTableStructureChanged();
+	}
+	
 	public void refresh(HashMap iItems, int nDiff, int classKey, boolean dec){
 		this.dec = dec;
 		type = 1;
@@ -79,26 +92,26 @@ public class DCTableModel extends AbstractTableModel{
 			switch(nDiff){
 			case 0:
 				if(tSelected.getParent().getClassOfMon() == classKey){
-				tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
-				}
+					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected),
+							Math.log(1-((double)chancePercent/100.0)) / Math.log( 1 -((Double)iItems.get(tSelected)).doubleValue())));	}
 				break;
 
 			case 1:
 				if(tSelected.getParent().getClassOfMon()== classKey && tSelected.getParent().getMonDiff().equals("N")){
-					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
-					}
+					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected),
+							Math.log(1-((double)chancePercent/100.0)) / Math.log( 1 -((Double)iItems.get(tSelected)).doubleValue())));}
 				break;
 
 			case 2:
 				if(tSelected.getParent().getClassOfMon()== classKey && tSelected.getParent().getMonDiff().equals("NM")){
-					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
-					}
+					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected),
+							Math.log(1-((double)chancePercent/100.0)) / Math.log( 1 -((Double)iItems.get(tSelected)).doubleValue())));}
 				break;
 
 			case 3:
 				if(tSelected.getParent().getClassOfMon()== classKey && tSelected.getParent().getMonDiff().equals("H")){
-					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
-					}
+					tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getMonDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected),
+							Math.log(1-((double)chancePercent/100.0)) / Math.log( 1 -((Double)iItems.get(tSelected)).doubleValue())));}
 				break;
 			}
 //			tmRows.add(new OutputRow(tSelected.getParent().getRealName() + " (" + tSelected.getParent().getTinyDiff() + ")",tSelected.getArLvlName(),iItems.get(tSelected)));
@@ -122,7 +135,8 @@ public class DCTableModel extends AbstractTableModel{
 			while(TCIt.hasNext()){
 
 				String tcArr = (String) TCIt.next();				
-				tmRows.add(new OutputRow(tcArr,tSelected.getArLvlName(),tSelected.getFinalTCs().get(tcArr)));
+				tmRows.add(new OutputRow(tcArr,tSelected.getArLvlName(),tSelected.getFinalTCs().get(tcArr),
+						Math.log(1-((double)chancePercent/100.0)) / Math.log( 1 -((Double)tSelected.getFinalTCs().get(tcArr)).doubleValue())));
 
 			}
 		}
@@ -143,6 +157,8 @@ public class DCTableModel extends AbstractTableModel{
 				return "Area";
 			case 2:
 				return "Probability";
+			case 3:
+				return "Kills to "+chancePercent+"%";
 			default:
 				return "";
 			}
@@ -155,6 +171,8 @@ public class DCTableModel extends AbstractTableModel{
 				return "Area";
 			case 2:
 				return "Probability";
+			case 3:
+				return "Kills to "+chancePercent+"%";
 			default:
 				return "";
 			}
@@ -180,6 +198,8 @@ public class DCTableModel extends AbstractTableModel{
 			return ((OutputRow)tmRows.get(row)).getC1();
 		case 2:
 			return ((OutputRow)tmRows.get(row)).getStrC2(dec);
+		case 3:
+			return ((OutputRow)tmRows.get(row)).getStrC3(dec);
 		default:
 			return new String("");
 		}
@@ -233,7 +253,7 @@ public class DCTableModel extends AbstractTableModel{
 
 
 	public void sortCol(int headerCol) {
-	
+
 		iSelected = headerCol;
 		Collections.sort(tmRows, new Comparator()
 		{
@@ -266,6 +286,10 @@ public class DCTableModel extends AbstractTableModel{
 
 
 					return(lItem2.getObjC2().compareTo(lItem1.getObjC2()));
+					
+				case 3:
+					
+					return(lItem2.getObjC3().compareTo(lItem1.getObjC3()));
 
 				}
 
@@ -323,6 +347,15 @@ public class DCTableModel extends AbstractTableModel{
 
 //		}
 
+	}
+
+
+	public void setChanceCol(int chancePercent) {
+		
+		this.chancePercent = chancePercent;
+		fireTableStructureChanged();
+		fireTableChanged();
+		fireTableDataChanged();
 	}
 
 }

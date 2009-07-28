@@ -1264,8 +1264,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private StringBuffer generatePropString(boolean extended){
-
-		if (iProps != null && location != 6)iProps.tidy();
+		//27/7 REMOVED BELOW. Need testing!!!!
+		if (iProps != null /*&& location != 6*/)iProps.tidy();
 		StringBuffer dispStr = new StringBuffer("<html><center>");
 		String base = (Integer.toHexString(Color.white.getRGB())).substring(2, Integer.toHexString(Color.white.getRGB()).length());
 		String rgb = (Integer.toHexString(getItemColor().getRGB())).substring(2, Integer.toHexString(getItemColor().getRGB()).length());
@@ -1326,13 +1326,15 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		if (extended){
 			if (isSocketed()) {
-				dispStr.append("<br>&#10;");
+				
 				if (iSocketedItems != null) {
+					dispStr.append("<br>&#10;");
 					for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
 						if (((D2Item) iSocketedItems.get(x)) != null) {
 							dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropString(false));
+							if(x != iSocketedItems.size() -1){
 							dispStr.append("<br>&#10;");
-									
+							}									
 						}
 					}
 				}
