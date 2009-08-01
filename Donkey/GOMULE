@@ -1,3 +1,18 @@
+One thing I noticed in text dumps of Donkey was there are several line breaks sometimes not just one. See attached.
+>FIXED APART FROM SET ITEMS;
+
+When you pick something up to the clipboard and move the cursor over to the drop all window the popup/mouse over info comes up instantly. This obscures the drop button. The one which should be on the stash window. *cough*
+Anyway, you need to increase the delay or move the buttons down, because it's bloody annoying.
+
+Ok apart from the tool tip thing from the last message, I can't get the filter to work now.
+That's rather useful. I'd appreciate it if you could un-break it. Ta.
+
+
+
+
+
+
+
 ACTIONPLAN:
 
 BACKUP DATES/BACKUP EVERYHING!
