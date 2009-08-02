@@ -430,7 +430,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (lHasGUID == 1) { // GUID ???
 			if (iType.startsWith("rune") || iType.startsWith("gem")
 					|| iType.startsWith("amu") || iType.startsWith("rin")
-					|| !isTypeMisc()) {
+					|| isCharm()|| !isTypeMisc()) {
 
 				iGUID = "0x" + Integer.toHexString((int) pFile.read(32))
 				+ " 0x" + Integer.toHexString((int) pFile.read(32))
