@@ -677,7 +677,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					iSetName)).size();
 
 			int lSetReq = getReq(lSet.get("lvl req"));
-			if (lSetReq != -1) {
+			if (lSetReq != -1 && lSetReq > iReqLvl) {
 				iReqLvl = lSetReq;
 			}
 
