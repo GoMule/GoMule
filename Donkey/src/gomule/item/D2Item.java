@@ -2520,14 +2520,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 				}
 				Pattern propertyLinePattern = Pattern.compile("(\\n.*"+prop.toLowerCase()+".*\\n)");
 				Matcher propertyPatternMatcher = propertyLinePattern.matcher("\n" + dumpStr.toLowerCase() + "\n" );
-				
 				while(propertyPatternMatcher.find()){
 					
-					Pattern pat = Pattern.compile("\\d+");
+					Pattern pat = Pattern.compile("[^\\(+|^\\D+]\\d+");
 					Matcher mat = pat.matcher(propertyPatternMatcher.group());
-
 					while (mat.find()) {
-
 						if (min == true) {
 							if (Integer.parseInt(mat.group()) >= pVal) {
 
