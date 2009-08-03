@@ -88,14 +88,7 @@ public class OutputRow {
 	}
 
 	public String getStrC3(boolean dec) {
-		if(dec){
 			return DM.format(c3);
-
-		}
-		else{
-			return "1:" + (int)Math.floor(1/c3);
-		}
-
 	}
 
 }
