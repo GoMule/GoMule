@@ -108,8 +108,8 @@ public class RealGUI extends JFrame {
 		cbDec.setSelected(true);
 		menu.add(cbRat);
 		menu.addSeparator();
-		cbChanceCol = new JCheckBoxMenuItem("Add Chance Column");
-		cbChanceInput = new JMenuItem("Change Chance %");
+		cbChanceCol = new JCheckBoxMenuItem("Add Kills Column");
+		cbChanceInput = new JMenuItem("Change Kills %");
 		cbChanceInput.setEnabled(false);
 		menu.add(cbChanceCol);
 		menu.add(cbChanceInput);
@@ -499,8 +499,6 @@ public class RealGUI extends JFrame {
 			DCTm.setChanceCol(chancePercent);
 			DCTm.showChanceCol();
 			refreshCalculator();
-		
-		
 	}
 
 	protected int getChancePercent() {
@@ -509,7 +507,7 @@ public class RealGUI extends JFrame {
 		int chancePercent = 50;
 		try{
 			chancePercent = Integer.parseInt(chancePercentStr);
-			if(chancePercent > 100){
+			if(chancePercent > 99 || chancePercent < 1){
 				throw new NumberFormatException();
 			}
 		}catch(NumberFormatException n){
