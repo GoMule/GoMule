@@ -2518,7 +2518,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 				if (pVal == -1337) {
 					return true;
 				}
-				Pattern propertyLinePattern = Pattern.compile("(\\n.*"+prop.toLowerCase()+".*\\n)");
+				Pattern propertyLinePattern = Pattern.compile("(\\n.*"+prop.toLowerCase()+".*\\n)", Pattern.UNIX_LINES);
 				Matcher propertyPatternMatcher = propertyLinePattern.matcher("\n" + dumpStr.toLowerCase() + "\n" );
 				while(propertyPatternMatcher.find()){
 					
