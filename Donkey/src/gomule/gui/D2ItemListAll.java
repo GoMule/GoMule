@@ -8,7 +8,6 @@ package gomule.gui;
 
 import gomule.d2s.D2Character;
 import gomule.d2x.D2Stash;
-import gomule.gui.D2ViewChar.D2SkillPainterPanel;
 import gomule.item.*;
 import gomule.util.*;
 

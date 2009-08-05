@@ -19,13 +19,6 @@
  *  
  ******************************************************************************/
 package gomule.gui;
-
-import gomule.d2s.*;
-import gomule.d2x.*;
-
-import java.util.*;
-
-
 /**
  * @author Marco
  *

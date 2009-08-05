@@ -158,7 +158,7 @@ public class DCTableModel extends AbstractTableModel{
 			case 2:
 				return "Probability";
 			case 3:
-				return "Kills to "+chancePercent+"%";
+				return "Kills for "+chancePercent+"% confidence of drop" ;
 			default:
 				return "";
 			}
@@ -172,7 +172,7 @@ public class DCTableModel extends AbstractTableModel{
 			case 2:
 				return "Probability";
 			case 3:
-				return "Kills to "+chancePercent+"%";
+				return "Kills for "+chancePercent+"% confidence of drop" ;
 			default:
 				return "";
 			}

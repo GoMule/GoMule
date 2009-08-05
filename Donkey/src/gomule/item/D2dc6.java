@@ -28,9 +28,14 @@ import java.awt.image.BufferedImage;
 
 public class D2dc6
 {
+	
+    private BufferedImage b;
+    private D2BitReader br;
+//    private String filename;
+    
     public D2dc6(String f)
     {
-        filename = f;
+//        filename = f;
         br = new D2BitReader(f);
     }
 
@@ -45,13 +50,18 @@ public class D2dc6
         int directions = (int) br.read(32);
         int frames = (int) br.read(32);
         br.skipBits(32 * directions * frames);
-        int flip = (int) br.read(32);
-        int width = (int) br.read(32);
+//        int flip = (int) br.read(32);
+        br.read(32);
+//        int width = (int) br.read(32);
+        br.read(32);
         int height = (int) br.read(32);
-        int offset_x = (int) br.read(32);
-        int offset_y = (int) br.read(32);
+//        int offset_x = (int) br.read(32);
+        br.read(32);
+//        int offset_y = (int) br.read(32);
+        br.read(32);
         br.skipBits(64);
-        int length = (int) br.read(32);
+//        int length = (int) br.read(32);
+        br.read(32);
         int x = 0;
         int y = height - 1;
         while (y >= 0)
@@ -84,13 +94,17 @@ public class D2dc6
         int directions = (int) br.read(32);
         int frames = (int) br.read(32);
         br.skipBits(32 * directions * frames);
-        int flip = (int) br.read(32);
+//        int flip = (int) br.read(32);
+        br.read(32);
         int width = (int) br.read(32);
         int height = (int) br.read(32);
-        int offset_x = (int) br.read(32);
-        int offset_y = (int) br.read(32);
+//        int offset_x = (int) br.read(32);
+        br.read(32);
+//        int offset_y = (int) br.read(32);
+        br.read(32);
         br.skipBits(64);
-        int length = (int) br.read(32);
+//        int length = (int) br.read(32);
+        br.read(32);
         int x = 0;
         int y = height - 1;
     	BufferedImage lImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
@@ -139,9 +153,5 @@ public class D2dc6
 
     }
 
-    private BufferedImage b;
 
-    private D2BitReader br;
-
-    private String filename;
 }

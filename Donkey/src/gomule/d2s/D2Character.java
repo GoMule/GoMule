@@ -100,10 +100,10 @@ public class D2Character extends D2ItemListAdapter
 
 	private int[][] setTracker = new int[33][2];
 
-	private int testCounter = 0;
-	private boolean fullChanged = false;
-	private ArrayList partialSetProps = new ArrayList();
-	private ArrayList fullSetProps = new ArrayList();
+//	private int testCounter = 0;
+//	private boolean fullChanged = false;
+//	private ArrayList partialSetProps = new ArrayList();
+//	private ArrayList fullSetProps = new ArrayList();
 
 	private ArrayList plSkill;
 	private long[] iReadStats = new long[16];
@@ -163,7 +163,8 @@ public class D2Character extends D2ItemListAdapter
 			}
 		}
 		if (!lChecksum)throw new Exception("Incorrect Checksum");
-		long lWeaponSet = iReader.read(32);
+//		long lWeaponSet = iReader.read(32);
+		iReader.read(32);
 		StringBuffer lCharName = new StringBuffer();
 		for (int i = 0; i < 16; i++){
 			long lChar = iReader.read(8);
@@ -174,7 +175,8 @@ public class D2Character extends D2ItemListAdapter
 		iReader.skipBits(2);
 		iHC = iReader.read(1) == 1;
 		iReader.set_byte_pos(37);
-		long lCharTitle = iReader.read(8);
+//		long lCharTitle = iReader.read(8);
+		iReader.read(8);
 		iReader.set_byte_pos(40);
 		lCharCode = iReader.read(8);
 		switch((int)lCharCode){
@@ -1382,7 +1384,7 @@ public class D2Character extends D2ItemListAdapter
 		// get all the bytes
 		iReader.set_byte_pos(0);
 		byte[] data = iReader.get_bytes(iReader.get_length());
-		byte[] oldchecksum = { data[12], data[13], data[14], data[15] };
+//		byte[] oldchecksum = { data[12], data[13], data[14], data[15] };
 		// clear the current checksum
 		byte[] checksum = { 0, 0, 0, 0 }; // byte checksum
 		iReader.setBytes(12, checksum);

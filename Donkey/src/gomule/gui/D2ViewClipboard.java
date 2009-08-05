@@ -34,7 +34,12 @@ import randall.util.*;
 
 public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2ItemListListener
 {
-	private static final int   		GRID_SIZE = 28;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 501590478287942908L;
+
+//	private static final int   		GRID_SIZE = 28;
 
 	private D2FileManager      		iFileManager;
 	private D2ItemModel        		iItemModel;
@@ -134,7 +139,7 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 		{
 			D2FileManager.displayErrorDialog(pEx);
 			JTextArea lError = new JTextArea();
-			JScrollPane lScroll = new JScrollPane(lError);
+//			JScrollPane lScroll = new JScrollPane(lError);
 			lError.setText(pEx.getMessage());
 			add(lError, BorderLayout.CENTER);
 		}

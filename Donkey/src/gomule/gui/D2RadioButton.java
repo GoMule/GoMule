@@ -16,7 +16,11 @@ import javax.swing.*;
  */
 public class D2RadioButton extends JRadioButton
 {
-    private Object iData;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 3895689813117999958L;
+	private Object iData;
     
     public D2RadioButton(Object pData)
     {

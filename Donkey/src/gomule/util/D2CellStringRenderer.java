@@ -20,7 +20,12 @@ import javax.swing.table.*;
 public class D2CellStringRenderer extends DefaultTableCellRenderer
 {
 	
-    public D2CellStringRenderer()
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1351337843493777035L;
+
+	public D2CellStringRenderer()
     {
     	
     	

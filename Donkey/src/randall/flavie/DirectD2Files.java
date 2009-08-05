@@ -262,13 +262,13 @@ public class DirectD2Files
 //		}
 	}
 
-	private String getRuneString(String pRuneName)
-	{
-		if ( pRuneName != null && pRuneName.endsWith(" Rune") && pRuneName.length() > 5 )
-		{
-			return pRuneName.substring(0, pRuneName.length()-5);
-		}
-		return pRuneName;
-	}
+//	private String getRuneString(String pRuneName)
+//	{
+//		if ( pRuneName != null && pRuneName.endsWith(" Rune") && pRuneName.length() > 5 )
+//		{
+//			return pRuneName.substring(0, pRuneName.length()-5);
+//		}
+//		return pRuneName;
+//	}
 
 }

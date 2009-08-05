@@ -31,12 +31,12 @@ import java.util.*;
  */
 public class ReportBuilder 
 {
-	private Flavie				iFlavie;
+//	private Flavie				iFlavie;
 //	private FlavieSettingsPanel	iFlaviePanel;
 	
 	public ReportBuilder(Flavie pFlavie)
 	{
-		iFlavie = pFlavie;
+//		iFlavie = pFlavie;
 //		iFlaviePanel = iFlavie.getSettingsPanel();
 	}
 	
@@ -202,7 +202,7 @@ public class ReportBuilder
 				int lNrItems = 0;
 				int lNrItemsFound = 0;
 				
-				ArrayList lSubCatList = lCatObject.getSubCats();
+//				ArrayList lSubCatList = lCatObject.getSubCats();
 
 				ArrayList lItemObjectList = lSubCatObject.getItemObjects();
 				for ( int k = 0 ; k < lItemObjectList.size() ; k++ )

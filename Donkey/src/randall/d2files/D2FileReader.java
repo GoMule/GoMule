@@ -20,9 +20,7 @@
  ******************************************************************************/
 package randall.d2files;
 
-import gomule.d2s.HexDump;
 import gomule.gui.*;
-
 import java.io.*;
 
 /**
@@ -33,7 +31,7 @@ import java.io.*;
  */
 public class D2FileReader 
 {
-	private String	iFileName;
+//	private String	iFileName;
 	protected byte	iBuffer[];
 	
 	private int		iCounterPos = 0;

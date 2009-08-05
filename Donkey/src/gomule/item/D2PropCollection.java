@@ -1,17 +1,19 @@
 package gomule.item;
 
 import gomule.util.D2BitReader;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 import randall.d2files.D2TxtFile;
 import randall.d2files.D2TxtFileItemProperties;
 
 public class D2PropCollection extends ArrayList{
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6107521404310600035L;
 	private boolean tidy;
 
 	/**

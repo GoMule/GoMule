@@ -38,7 +38,11 @@ import randall.util.*;
  */
 public class D2ProjectSettingsDialog extends JDialog
 {
-    private D2FileManager        iFileManager;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6365602357286303263L;
+	private D2FileManager        iFileManager;
     private D2Project            iProject;
 
     private RandallPanel         iContent;
@@ -46,7 +50,7 @@ public class D2ProjectSettingsDialog extends JDialog
     private JTextField           iNewName;
     private JButton              iSaveNew;
     private DefaultComboBoxModel iProjectModel;
-    private JComboBox            iChangeProject;
+//    private JComboBox            iChangeProject;
 
     private JRadioButton         iTypeSC;
     private JRadioButton         iTypeHC;
@@ -56,12 +60,12 @@ public class D2ProjectSettingsDialog extends JDialog
     private JRadioButton         iBackupWeek;
     private JRadioButton         iBackupMonth;
     
-    private JButton 			 iColorUnique;
-    private JButton 			 iColorSet;
-    private JButton 			 iColorRare;
-    private JButton 			 iColorMagical;
-    private JButton 			 iColorCrafted;
-    private JButton 			 iColorSocketed;
+//    private JButton 			 iColorUnique;
+//    private JButton 			 iColorSet;
+//    private JButton 			 iColorRare;
+//    private JButton 			 iColorMagical;
+//    private JButton 			 iColorCrafted;
+//    private JButton 			 iColorSocketed;
 
     private JTextField           iFlavieOutputReportFileName;
     private JTextField           iFlavieOutputData;
@@ -205,14 +209,14 @@ public class D2ProjectSettingsDialog extends JDialog
         lBackup.add(iBackupWeek);
         lBackup.add(iBackupMonth);
         
-        iColorUnique = new JButton("Unique");
-        iTypeBoth.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent pEvent)
-            {
-//                iProject.setType(D2Project.TYPE_BOTH);
-            }
-        });
+//        iColorUnique = new JButton("Unique");
+//        iTypeBoth.addActionListener(new ActionListener()
+//        {
+//            public void actionPerformed(ActionEvent pEvent)
+//            {
+////                iProject.setType(D2Project.TYPE_BOTH);
+//            }
+//        });
 
         iFlavieOutputReportFileName = new JTextField();
         iFlavieOutputReportFileName.getDocument().addDocumentListener(new RandallDocumentListener()
@@ -359,7 +363,7 @@ public class D2ProjectSettingsDialog extends JDialog
 
         
         
-        RandallPanel lColorPanel = new RandallPanel();
+//        RandallPanel lColorPanel = new RandallPanel();
         
         RandallPanel lFlaviePanel = new RandallPanel(true);
         lFlaviePanel.setBorder("FLAVIE settings");

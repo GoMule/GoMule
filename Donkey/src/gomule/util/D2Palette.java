@@ -21,8 +21,6 @@
 
 package gomule.util;
 
-import gomule.util.*;
-
 // loads a d2-style palette
 public class D2Palette{
   private D2Palette(){

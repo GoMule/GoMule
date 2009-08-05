@@ -1,6 +1,5 @@
 package gomule.d2s;
 import java.io.*;
-import java.util.*;
  
 public class HexDump {
     public static void printHex(byte[] b) {

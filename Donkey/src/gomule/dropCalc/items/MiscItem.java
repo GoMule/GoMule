@@ -25,7 +25,6 @@ import gomule.dropCalc.DCNew;
 import java.util.HashMap;
 
 import randall.d2files.D2TblFile;
-import randall.d2files.D2TxtFile;
 import randall.d2files.D2TxtFileItemProperties;
 
 public class MiscItem extends Item {

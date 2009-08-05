@@ -34,9 +34,6 @@ import gomule.dropCalc.monsters.Regular;
 import gomule.dropCalc.monsters.SuperUnique;
 import gomule.dropCalc.monsters.Unique;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,7 +42,6 @@ import java.util.HashMap;
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 import randall.d2files.D2TxtFileItemProperties;
-import sun.awt.motif.MPopupMenuPeer;
 
 public class DCNew {
 

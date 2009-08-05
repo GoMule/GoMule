@@ -1,8 +1,5 @@
 package gomule.dropCalc.remote;
 
-import gomule.dropCalc.DCNew;
-import gomule.dropCalc.gui.DCTableModel;
-import gomule.dropCalc.gui.OutputRow;
 import gomule.dropCalc.items.Item;
 import gomule.dropCalc.monsters.Monster;
 import gomule.dropCalc.monsters.MonsterTuple;
@@ -11,7 +8,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 public class DCXmlRpcWrapper {
 
@@ -103,16 +99,16 @@ private Object[] tupleToArr(HashMap iItems, int nDiff, int classKey) {
 //		return null;
 //	}
 	
-	private Object[] extractName(ArrayList arrIn) {
-		
-		ArrayList arrOut = new ArrayList();
-		
-		for(int x = 0;x <arrIn.size();x++){
-			System.out.println(((Monster)arrIn.get(x)).getName());
-		}
-		
-		return arrOut.toArray();
-	}
+//	private Object[] extractName(ArrayList arrIn) {
+//		
+//		ArrayList arrOut = new ArrayList();
+//		
+//		for(int x = 0;x <arrIn.size();x++){
+//			System.out.println(((Monster)arrIn.get(x)).getName());
+//		}
+//		
+//		return arrOut.toArray();
+//	}
 
 	public String getStrC2(boolean dec, Double c2) {
 		if(dec){

@@ -24,18 +24,13 @@ import gomule.d2s.*;
 import gomule.d2x.*;
 import gomule.item.*;
 import gomule.util.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
-
-import randall.d2files.D2TblFile;
-import randall.d2files.D2TxtFile;
 import randall.util.*;
 
 /**
@@ -43,7 +38,11 @@ import randall.util.*;
  */
 public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2ItemListListener
 {
-    private D2FileManager iFileManager;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5346518067556935604L;
+	private D2FileManager iFileManager;
     private D2ItemList    iStash;
     private String        iFileName;
     private String        iStashName;
@@ -179,7 +178,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             }
         });
         
-        Font lFont = iTable.getTableHeader().getFont();
+//        Font lFont = iTable.getTableHeader().getFont();
 //            iTable.getTableHeader().setFont( new Font(lFont.getName(), lFont.getStyle(), lFont.getSize()-2) );
         iTable.getTableHeader().addMouseListener( new MouseAdapter() 
         {

@@ -7,9 +7,6 @@
 package gomule.item;
 
 import java.util.*;
-
-import randall.d2files.*;
-
 /**
  * @author Marco
  *

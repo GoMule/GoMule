@@ -154,7 +154,7 @@ public class D2BitReader
 
     public int findNextFlag(String flag, int pPos)
     {
-        Vector v = new Vector();
+//        Vector v = new Vector();
         byte[] target = flag.getBytes();
 
         for (int i = pPos; i < filedata.length; i++)

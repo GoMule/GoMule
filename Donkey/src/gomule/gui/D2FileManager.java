@@ -37,8 +37,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
-import com.sun.org.apache.bcel.internal.generic.IfInstruction;
-
 import randall.d2files.*;
 import randall.flavie.Flavie;
 import randall.util.RandallPanel;
@@ -50,6 +48,11 @@ import randall.util.RandallPanel;
  */ 
 public class D2FileManager extends JFrame
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4010435064410504579L;
+
 	private static final String  CURRENT_VERSION = "R0.3: Donkey";
 
 	private HashMap				 iItemLists = new HashMap();
@@ -60,15 +63,15 @@ public class D2FileManager extends JFrame
 	private JToolBar             iToolbar;
 	private Properties           iProperties;
 	private D2Project            iProject;
-	private JButton              iBtnProjectSelection;
+//	private JButton              iBtnProjectSelection;
 	private D2ViewProject        iViewProject;
 	private final static D2FileManager iCurrent = new D2FileManager();
 	private D2ViewClipboard      iClipboard;
 	private D2ViewStash          iViewAll;
 	private boolean				 iIgnoreCheckAll = false;
-	private JMenuBar D2JMenu;
-	private JMenu file;
-	private JMenu edit;
+//	private JMenuBar D2JMenu;
+//	private JMenu file;
+//	private JMenu edit;
 
 	private JPanel iRightPane;
 	private RandallPanel iLeftPane;
@@ -1184,16 +1187,16 @@ public class D2FileManager extends JFrame
 		}
 	}
 
-	private void handleLoadError(String pFileName, Exception pEx){
-		// close this view & all view
-		for ( int i = 0 ; i < iOpenWindows.size() ; i++ ){
-			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
-			if (lItemContainer.getFileName().equalsIgnoreCase(pFileName) || lItemContainer.getFileName().toLowerCase().equals("all")){
-				lItemContainer.closeView();
-			}
-		}
-		displayErrorDialog( pEx );
-	}
+//	private void handleLoadError(String pFileName, Exception pEx){
+//		// close this view & all view
+//		for ( int i = 0 ; i < iOpenWindows.size() ; i++ ){
+//			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
+//			if (lItemContainer.getFileName().equalsIgnoreCase(pFileName) || lItemContainer.getFileName().toLowerCase().equals("all")){
+//				lItemContainer.closeView();
+//			}
+//		}
+//		displayErrorDialog( pEx );
+//	}
 
 	private JFileChooser getCharDialog(){
 		return iProject.getCharDialog();

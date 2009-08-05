@@ -23,7 +23,6 @@ package gomule.dropCalc.gui;
 import gomule.dropCalc.DCNew;
 import gomule.dropCalc.items.Item;
 import gomule.dropCalc.monsters.Monster;
-import gomule.dropCalc.monsters.MonsterTuple;
 
 import java.awt.Container;
 import java.awt.Dimension;
@@ -32,11 +31,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -108,7 +104,7 @@ public class RealGUI extends JFrame {
 		cbDec.setSelected(true);
 		menu.add(cbRat);
 		menu.addSeparator();
-		cbChanceCol = new JCheckBoxMenuItem("Add Kills Column");
+		cbChanceCol = new JCheckBoxMenuItem("Add Kills Column (50%)");
 		cbChanceInput = new JMenuItem("Change Kills %");
 		cbChanceInput.setEnabled(false);
 		menu.add(cbChanceCol);
@@ -348,7 +344,7 @@ public class RealGUI extends JFrame {
 		cbChanceInput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				activateChanceColumn();
+				activateChanceColumn(getChancePercent());
 				
 			}
 		});
@@ -359,7 +355,7 @@ public class RealGUI extends JFrame {
 				
 				if(cbChanceCol.isSelected()){
 					
-					activateChanceColumn();
+					activateChanceColumn(50);
 					cbChanceInput.setEnabled(true);
 					
 					}else{
@@ -493,9 +489,8 @@ public class RealGUI extends JFrame {
 	}
 
 
-	protected void activateChanceColumn() {
+	protected void activateChanceColumn(int chancePercent) {
 			
-			int chancePercent = getChancePercent();
 			DCTm.setChanceCol(chancePercent);
 			DCTm.showChanceCol();
 			refreshCalculator();
@@ -503,7 +498,7 @@ public class RealGUI extends JFrame {
 
 	protected int getChancePercent() {
 		
-		String chancePercentStr = JOptionPane.showInputDialog(iContentPane,"Please Enter a Percentage.");
+		String chancePercentStr = JOptionPane.showInputDialog(iContentPane,"Please Enter a Percentage (1-99, default 50%):");
 		int chancePercent = 50;
 		try{
 			chancePercent = Integer.parseInt(chancePercentStr);

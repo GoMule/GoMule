@@ -24,7 +24,6 @@ package gomule;
 import gomule.gui.*;
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 public class GoMule
 {

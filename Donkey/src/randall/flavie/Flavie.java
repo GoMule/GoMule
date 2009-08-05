@@ -39,9 +39,9 @@ public class Flavie
 	public static final String sMatchedDir = "."+File.separator;
 	
     private String iReportName;
-    private String iReportTitle;
+//    private String iReportTitle;
     private String iDataFile;
-    private String iStyleFile;
+//    private String iStyleFile;
     
 //	protected HashMap iAllItems = new HashMap();
 	private ArrayList iDatFile = new ArrayList();
@@ -64,9 +64,9 @@ public class Flavie
     public Flavie(String pReportName, String pReportTitle, String pDataFile, String pStyleFile, ArrayList pFileNames, boolean pCountAll, boolean pCountEthereal, boolean pCountStash, boolean pCountChar) throws Exception
     {
         iReportName = pReportName;
-        iReportTitle = pReportTitle;
+//        iReportTitle = pReportTitle;
         iDataFile = pDataFile;
-        iStyleFile = pStyleFile;
+//        iStyleFile = pStyleFile;
         
         iReportBuilder = new ReportBuilder(this);
         iDirectD2 = new DirectD2Files(this);

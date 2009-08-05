@@ -47,7 +47,7 @@ public class MonsterTuple {
 	HashMap finalTCs = new HashMap();
 	HashMap finalMiscTCs = new HashMap();
 	HashMap finalTrueMiscTCs = new HashMap();
-	private int mPicks;
+//	private int mPicks;
 	private String calcdM = "";
 
 	public MonsterTuple(String AreaName, Integer level, String initTC, Monster mParent){
@@ -274,7 +274,7 @@ public class MonsterTuple {
 		mParent.clearFinalMT(this);
 
 		String initCountess = null;
-		double miscCounter = 1;
+//		double miscCounter = 1;
 		int keyRow = -1;
 		ArrayList miscTCS = new ArrayList();
 
@@ -538,7 +538,7 @@ public class MonsterTuple {
 //		System.out.println(getParent().getRealName() + " -- " +(String) getLastRow(gemArr).getTC().get(0));
 //		}
 		int picks = Integer.parseInt(D2TxtFile.TCS.searchColumns("Treasure Class",this.getInitTC()).get("Picks"));
-		mPicks  = picks;
+//		mPicks  = picks;
 		if(picks < 0){
 
 			if(mParent.getClassOfMon()==2 || mParent.getClassOfMon()==3|| mParent.getClassOfMon()==4){
@@ -645,7 +645,7 @@ public class MonsterTuple {
 //		}
 		int f = 0;
 		int picks = Integer.parseInt(D2TxtFile.TCS.searchColumns("Treasure Class",this.getInitTC()).get("Picks"));
-		mPicks  = picks;
+//		mPicks  = picks;
 		if(picks < 0){
 
 			if(mParent.getClassOfMon()==2 || mParent.getClassOfMon()==3|| mParent.getClassOfMon()==4){
@@ -793,7 +793,7 @@ public class MonsterTuple {
 
 		int f = 0;
 		int picks = Integer.parseInt(D2TxtFile.TCS.searchColumns("Treasure Class",this.getInitTC()).get("Picks"));
-		mPicks  = picks;
+//		mPicks  = picks;
 		if(picks < 0){
 
 //			((ProbTCRow)miscTCS.get(1)).setTotProb(((ProbTCRow)miscTCS.get(1)).getTotProb()) ;
@@ -959,7 +959,7 @@ public class MonsterTuple {
 
 		int f = 0;
 		int picks = Integer.parseInt(D2TxtFile.TCS.searchColumns("Treasure Class",this.getInitTC()).get("Picks"));
-		mPicks  = picks;
+//		mPicks  = picks;
 		if(picks < 0){
 
 			((ProbTCRow)allTCS.get(1)).setTotProb(((ProbTCRow)allTCS.get(1)).getTotProb()) ;

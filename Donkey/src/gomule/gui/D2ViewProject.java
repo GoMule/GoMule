@@ -22,19 +22,19 @@
 package gomule.gui;
 
 import gomule.util.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
 import javax.swing.tree.*;
 
-import randall.flavie.*;
-
 public class D2ViewProject extends JPanel
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7147981187044642216L;
 	private D2FileManager          	iFileManager;
 	private D2Project              	iProject;
 
@@ -51,6 +51,11 @@ public class D2ViewProject extends JPanel
 		iTreeModel = refreshTree();
 		iTree = new JTree(iTreeModel)
 		{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 3529087650697421360L;
+
 			public void scrollRectToVisible(Rectangle aRect)
 			{
 				// disable scrolling
@@ -59,6 +64,11 @@ public class D2ViewProject extends JPanel
 		iTree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		iTree.setCellRenderer(new DefaultTreeCellRenderer()
 		{
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 4441305975881423913L;
+
 			public Component getTreeCellRendererComponent(JTree pTree, Object pValue,
 					boolean pSel,
 					boolean pExpanded,
@@ -317,7 +327,7 @@ public class D2ViewProject extends JPanel
 	{
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("D2");
 
-		DefaultMutableTreeNode parent;
+//		DefaultMutableTreeNode parent;
 
 		iChars = new DefaultMutableTreeNode("characters");
 		root.add(iChars);
@@ -349,6 +359,10 @@ public class D2ViewProject extends JPanel
 
 	private class CharTreeNode extends DefaultMutableTreeNode
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -7061935461861570778L;
 		private String	iFileName;
 		private Color	iForeGround = Color.black;
 		private boolean	iItemListRead = false;

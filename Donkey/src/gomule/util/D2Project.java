@@ -22,15 +22,10 @@ package gomule.util;
 
 import gomule.gui.*;
 import gomule.item.*;
-
 import java.awt.*;
 import java.io.*;
 import java.util.*;
-
 import javax.swing.*;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import randall.util.*;
 
 /**

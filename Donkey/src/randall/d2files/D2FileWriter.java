@@ -28,7 +28,7 @@ package randall.d2files;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class D2FileWriter{
-	private String	iFileName;
+//	private String	iFileName;
 	protected byte	iBuffer[];
 	protected int	iBufferLen = 0;
 	

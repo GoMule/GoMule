@@ -20,8 +20,6 @@
  ******************************************************************************/
 package randall.flavie;
 
-import gomule.item.*;
-
 import java.util.*;
 
 public class SubCatObject implements Comparable

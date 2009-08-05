@@ -22,10 +22,8 @@ package randall.d2files;
 
 import gomule.gui.D2FileManager;
 import gomule.item.D2Prop;
-
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -226,7 +224,7 @@ public final class D2TxtFile
 		try
 		{
 			ArrayList strArr = new ArrayList();
-			String lSeparator = new Character((char) 9).toString();
+//			String lSeparator = new Character((char) 9).toString();
 			FileReader lFileIn = new FileReader(sMod + File.separator + iFileName + ".txt");
 			BufferedReader lIn = new BufferedReader(lFileIn);
 			String lFirstLine = lIn.readLine();
@@ -264,22 +262,22 @@ public final class D2TxtFile
 		}
 	}
 
-	private ArrayList split(String pText, String pSplit)
-	{
-		ArrayList lList = new ArrayList();
-
-		int lCurrent = 0;
-		int lIndex = pText.indexOf(pSplit, lCurrent);
-
-		while (lIndex != -1)
-		{
-			lList.add(pText.substring(lCurrent, lIndex));
-			lCurrent = lIndex + 1;
-			lIndex = pText.indexOf(pSplit, lCurrent);
-		}
-
-		return lList;
-	}
+//	private ArrayList split(String pText, String pSplit)
+//	{
+//		ArrayList lList = new ArrayList();
+//
+//		int lCurrent = 0;
+//		int lIndex = pText.indexOf(pSplit, lCurrent);
+//
+//		while (lIndex != -1)
+//		{
+//			lList.add(pText.substring(lCurrent, lIndex));
+//			lCurrent = lIndex + 1;
+//			lIndex = pText.indexOf(pSplit, lCurrent);
+//		}
+//
+//		return lList;
+//	}
 
 	protected String getValue(int pRowNr, String pCol)
 	{

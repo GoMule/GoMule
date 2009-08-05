@@ -22,19 +22,14 @@ package gomule.gui;
 
 import gomule.d2s.*;
 import gomule.item.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.stream.FileImageInputStream;
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.text.html.HTMLEditorKit;
-
 import randall.util.*;
 
 /**
@@ -43,6 +38,10 @@ import randall.util.*;
  */
 public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2ItemListListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7350581523641897831L;
 	private D2CharPainterPanel       iCharPainter;
 	private D2MercPainterPanel       iMercPainter;
 	private D2CharCursorPainterPanel iCharCursorPainter;
@@ -1334,6 +1333,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	class D2CharPainterPanel extends JPanel
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2159433491696507246L;
 		private Image iBackground;
 
 		public D2CharPainterPanel()
@@ -1668,8 +1671,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						int panel = temp_item.get_panel();
 						int x = temp_item.get_col();
 						int y = temp_item.get_row();
-						int w = temp_item.get_width();
-						int h = temp_item.get_height();
+//						int w = temp_item.get_width();
+//						int h = temp_item.get_height();
 						switch (panel)
 						{
 						// in the inventory
@@ -1796,6 +1799,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	class D2MercPainterPanel extends JPanel
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2412158000132602811L;
 		private Image iBackground;
 
 		public D2MercPainterPanel()
@@ -2013,7 +2020,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 				{
 					D2Item temp_item = iCharacter.getMercItem(i);
 					Image lImage = D2ImageCache.getDC6Image(temp_item);
-					int location = temp_item.get_location();
+//					int location = temp_item.get_location();
 					// on the body
 					{
 						int body_position = temp_item.get_body_position();
@@ -2091,6 +2098,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	class D2DeathPainterPanel extends JPanel
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -4532690271347197756L;
 		private Image iBackground;
 
 		public D2DeathPainterPanel()
@@ -2220,8 +2231,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 						int panel = temp_item.get_panel();
 						int x = temp_item.get_col();
 						int y = temp_item.get_row();
-						int w = temp_item.get_width();
-						int h = temp_item.get_height();
+//						int w = temp_item.get_width();
+//						int h = temp_item.get_height();
 						switch (panel)
 						{
 						// in the inventory
@@ -2348,6 +2359,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	class D2SkillPainterPanel extends JPanel
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 8956659406243697754L;
 		private Image iBackground;
 		private Image lEmptyBackground;
 
@@ -2683,6 +2698,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	class D2QuestPainterPanel extends JPanel
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1154694362190497678L;
 		private Image iBackground;
 		private int bgNum = 1;
 		private Image lEmptyBackground;
@@ -2867,6 +2886,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	class D2WayPainterPanel extends JPanel
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -7583208611559380148L;
 		private Image iBackground;
 		private int bgNum = 1;
 		private Image lEmptyBackground;
@@ -3098,6 +3121,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	class D2CharCursorPainterPanel extends JPanel
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 3335835168313769724L;
 		private Image iBackground;
 
 		public D2CharCursorPainterPanel()

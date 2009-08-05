@@ -27,7 +27,11 @@ import javax.swing.border.*;
 
 public class RandallPanel extends JPanel
 {
-    public static final Integer  NONE = new Integer(100);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6556940562813366360L;
+	public static final Integer  NONE = new Integer(100);
     public static final Integer  HORIZONTAL = new Integer(101);
 	public static final Integer  VERTICAL = new Integer(102);
     public static final Integer  BOTH = new Integer(103);

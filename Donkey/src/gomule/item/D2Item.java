@@ -22,15 +22,11 @@
 package gomule.item;
 
 import gomule.util.*;
-
 import java.awt.Color;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.sun.org.apache.xerces.internal.impl.dv.xs.FullDVFactory;
-
 import randall.d2files.*;
 import randall.flavie.*;
 
@@ -125,7 +121,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 	private boolean iJewel;
 
-	private boolean iEquipped = false;
+//	private boolean iEquipped = false;
 
 	private boolean iGem;
 
@@ -936,26 +932,31 @@ public class D2Item implements Comparable, D2ItemInterface {
 	private void readTypes(D2BitReader pFile) {
 		// charms ??
 		if (isCharm()) {
-			long lCharm1 = pFile.read(1);
-			long lCharm2 = pFile.read(11);
+//			long lCharm1 = pFile.read(1);
+			pFile.read(1);
+//			long lCharm2 = pFile.read(11);
+			pFile.read(11);
 			// System.err.println("Charm (?): " + lCharm1 );
 			// System.err.println("Charm (?): " + lCharm2 );
 		}
 
 		// books / scrolls ??
 		if ("tbk".equals(item_type) || "ibk".equals(item_type)) {
-			long lTomb = pFile.read(5);
+//			long lTomb = pFile.read(5);
+			pFile.read(5);
 			// System.err.println("Tome ID: " + lTomb );
 		}
 
 		if ("tsc".equals(item_type) || "isc".equals(item_type)) {
-			long lTomb = pFile.read(5);
+//			long lTomb = pFile.read(5);
+			pFile.read(5);
 			// System.err.println("Tome ID: " + lTomb );
 		}
 
 		// body ??
 		if ("body".equals(item_type)) {
-			long lMonster = pFile.read(10);
+//			long lMonster = pFile.read(10);
+			pFile.read(10);
 			// System.err.println("Monster ID: " + lMonster );
 		}
 	}
@@ -2421,55 +2422,55 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 //	}
 
-	private long applyPerfDef(ArrayList iProperties) {
-
-		// int ENDef = 0;
-		// int Def = 0;
-
-		// if (isSet()) {
-
-		// for (int x = 0; x < iSetProps.size(); x = x + 1) {
-		// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
-		// ENDef = ENDef
-		// + ((D2ItemProperty) iSetProps.get(x))
-		// .getRealValue();
-		// }
-		// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
-		// Def = Def
-		// + ((D2ItemProperty) iSetProps.get(x))
-		// .getRealValue();
-		// }
-		// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
-		// Def = Def
-		// + (int) Math.floor((((D2ItemProperty) iSetProps
-		// .get(x)).getRealValue() * 0.125)
-		// * iCharLvl);
-		// }
-		// }
-
-		// }
-
-		// for (int x = 0; x < iProperties.size(); x = x + 1) {
-		// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 16) {
-		// ENDef = ENDef
-		// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
-		// }
-		// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 31) {
-		// Def = Def
-		// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
-		// }
-		// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
-		// Def = Def
-		// + (int) Math.floor((((D2ItemProperty) iProperties
-		// .get(x)).getRealValue() * 0.125)
-		// * iCharLvl);
-		// }
-		// }
-		// return (int) Math.floor((((double) iInitDef / (double) 100) * ENDef)
-		// + (iInitDef + Def));
-
-		return 0;
-	}
+//	private long applyPerfDef(ArrayList iProperties) {
+//
+//		// int ENDef = 0;
+//		// int Def = 0;
+//
+//		// if (isSet()) {
+//
+//		// for (int x = 0; x < iSetProps.size(); x = x + 1) {
+//		// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
+//		// ENDef = ENDef
+//		// + ((D2ItemProperty) iSetProps.get(x))
+//		// .getRealValue();
+//		// }
+//		// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
+//		// Def = Def
+//		// + ((D2ItemProperty) iSetProps.get(x))
+//		// .getRealValue();
+//		// }
+//		// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
+//		// Def = Def
+//		// + (int) Math.floor((((D2ItemProperty) iSetProps
+//		// .get(x)).getRealValue() * 0.125)
+//		// * iCharLvl);
+//		// }
+//		// }
+//
+//		// }
+//
+//		// for (int x = 0; x < iProperties.size(); x = x + 1) {
+//		// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 16) {
+//		// ENDef = ENDef
+//		// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//		// }
+//		// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 31) {
+//		// Def = Def
+//		// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//		// }
+//		// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
+//		// Def = Def
+//		// + (int) Math.floor((((D2ItemProperty) iProperties
+//		// .get(x)).getRealValue() * 0.125)
+//		// * iCharLvl);
+//		// }
+//		// }
+//		// return (int) Math.floor((((double) iInitDef / (double) 100) * ENDef)
+//		// + (iInitDef + Def));
+//
+//		return 0;
+//	}
 
 	public void setCharLvl(int pCharLvl) {
 		iCharLvl = pCharLvl;

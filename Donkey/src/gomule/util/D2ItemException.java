@@ -28,7 +28,12 @@ package gomule.util;
  */
 public class D2ItemException extends Exception
 {
-    public D2ItemException(String pMessage)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5718244568781627429L;
+
+	public D2ItemException(String pMessage)
     {
         super(pMessage);
     }
