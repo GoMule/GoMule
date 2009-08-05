@@ -323,7 +323,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 //						iItemModel.filterString = "getting magic";
 //						iItemModel.filterVal = 10;
 						
-						iItemModel.refreshData();
+						itemListChanged();
 		            	
 		            	
 		            	filterPanel.dispose();
@@ -355,7 +355,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 	            	
 	            	fNumIn.setText("");	            	
 					
-					iItemModel.refreshData();
+	            	itemListChanged();
 	            	
 					
 	            	

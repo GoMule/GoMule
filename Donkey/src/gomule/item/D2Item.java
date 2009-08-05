@@ -718,11 +718,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 		case 8: // also a rare item, do the same (one's probably crafted)
 		{
 			if(!iRare){
-			iCrafted = true;
-			iItemName = "Crafted " + iItemName;
+				iCrafted = true;
+				iItemName = "Crafted " + iItemName;
 			}
 		}
-		
+
 		applyAutomodLvl();
 		short rare_name_1 = (short) pFile.read(8);
 		short rare_name_2 = (short) pFile.read(8);
@@ -1321,19 +1321,19 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (ilvl != 0)dispStr.append("Item Level: " + ilvl + "<br>&#10;");
 		dispStr.append("Version: " + get_version() + "<br>&#10;");
 		if (!iIdentified)dispStr.append("Unidentified" + "<br>&#10;");
-		
+
 		dispStr.append(getItemPropertyString());
 
 		if (extended){
 			if (isSocketed()) {
-				
+
 				if (iSocketedItems != null) {
 					dispStr.append("<br>&#10;");
 					for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
 						if (((D2Item) iSocketedItems.get(x)) != null) {
 							dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropString(false));
 							if(x != iSocketedItems.size() -1){
-							dispStr.append("<br>&#10;");
+								dispStr.append("<br>&#10;");
 							}									
 						}
 					}
@@ -1343,12 +1343,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		return dispStr.append("</center></html>");
 	}
-	
+
 	private StringBuffer getItemPropertyString(){
-		
-		
+
+
 		StringBuffer dispStr = new StringBuffer("");
-		
+
 		dispStr.append(iProps.generateDisplay(0, iCharLvl));
 		if (isGem() || isRune()) {
 			dispStr.append("Weapons: ");
@@ -1406,7 +1406,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 
 		}
-		
+
 		return dispStr;
 	}
 
@@ -2480,7 +2480,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 //		setCharLvl(iSet4, pCharLvl);
 //		setCharLvl(iSet5, pCharLvl);
 	}
-	
+
 	public String getPreSuf() {
 
 		String retStr = "";
@@ -2513,32 +2513,33 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		String dumpStr = itemDump(true);
 
-			if (dumpStr.toLowerCase().indexOf(prop.toLowerCase()) != -1) {
+		if (dumpStr.toLowerCase().indexOf(prop.toLowerCase()) != -1) {
 
-				if (pVal == -1337) {
-					return true;
-				}
-				Pattern propertyLinePattern = Pattern.compile("(\\n.*"+prop.toLowerCase()+".*\\n)", Pattern.UNIX_LINES);
-				Matcher propertyPatternMatcher = propertyLinePattern.matcher("\n" + dumpStr.toLowerCase() + "\n" );
-				while(propertyPatternMatcher.find()){
-					
-					Pattern pat = Pattern.compile("[^\\(+|^\\D+]\\d+");
-					Matcher mat = pat.matcher(propertyPatternMatcher.group());
-					while (mat.find()) {
+			if (pVal == -1337) {
+				return true;
+			}
+			Pattern propertyLinePattern = Pattern.compile("(\\n.*"+prop.toLowerCase()+".*\\n)", Pattern.UNIX_LINES);
+			Matcher propertyPatternMatcher = propertyLinePattern.matcher("\n" + dumpStr.toLowerCase() + "\n" );
+			while(propertyPatternMatcher.find()){
+				Pattern pat = Pattern.compile("[^\\(?](\\d+)");
+				Matcher mat = pat.matcher(propertyPatternMatcher.group());
+				while (mat.find()) {
+					if(mat.groupCount() > 0){
 						if (min == true) {
-							if (Integer.parseInt(mat.group()) >= pVal) {
+							if (Integer.parseInt(mat.group(1)) >= pVal) {
 
 								return true;
 							}
 						} else {
-							if (Integer.parseInt(mat.group()) <= pVal) {
+							if (Integer.parseInt(mat.group(1)) <= pVal) {
 
 								return true;
 							}
 						}
 					}
-				}				
-			}
+				}
+			}				
+		}
 		return false;
 	}
 
@@ -2583,9 +2584,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		return "";
 	}
-	
+
 	public boolean isMoveable(){
-		
+
 		if(get_location() == 0 && get_panel() == 1 && (getName().toLowerCase().equals("horadric cube") ||isCharm() || getName().toLowerCase().equals("key") || getName().toLowerCase().indexOf("tome of") != -1)){
 			//Inv
 		}else if(get_location() == 2){
