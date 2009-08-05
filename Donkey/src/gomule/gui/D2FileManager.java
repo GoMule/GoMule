@@ -323,7 +323,7 @@ public class D2FileManager extends JFrame
 					for(int x = 0;x<lDumpList.size();x++){
 						try{
 							D2Character d2Char = new D2Character((String) lDumpList.get(x));
-							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Char, iProject.getProjectName())){
+							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Char, iProject.getProjectName()+"Dumps")){
 								errStr = errStr + "Char: " + (String) lDumpList.get(x) + " failed.\n";
 							}
 						}catch(Exception e){
@@ -339,7 +339,7 @@ public class D2FileManager extends JFrame
 					for(int x = 0;x<lDumpList.size();x++){
 						try{
 							D2Stash d2Stash = new D2Stash((String) lDumpList.get(x));
-							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Stash, iProject.getProjectName())){
+							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Stash, iProject.getProjectName()+"Dumps")){
 								errStr = errStr + "Stash: " + (String) lDumpList.get(x) + " failed.\n";
 							}
 						}catch(Exception e){
@@ -354,11 +354,11 @@ public class D2FileManager extends JFrame
 							"Fail!", JOptionPane.ERROR_MESSAGE);
 				}else if(errStr.equals("")){
 					JOptionPane.showMessageDialog(iContentPane,
-							"Dumps generated successfully.\nOutput Folder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName(), 
+							"Dumps generated successfully.\nOutput Folder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName()+"Dumps", 
 							"Success!", JOptionPane.INFORMATION_MESSAGE);	
 				}else{
 					JOptionPane.showMessageDialog(iContentPane,
-							"Some txt dumps failed (error msg below).\nOutput Folder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName() + "\n\nError: \n" + errStr, 
+							"Some txt dumps failed (error msg below).\nOutput Folder: " + System.getProperty("user.dir") + File.separatorChar + iProject.getProjectName()+"Dumps" + "\n\nError: \n" + errStr, 
 							"Fail!", JOptionPane.ERROR_MESSAGE);
 				}
 				defaultCursor();
