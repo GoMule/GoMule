@@ -1,3 +1,48 @@
+GOMULE
+
+Major rewrite of the item property classes. They now:
+-use the diablo game files more.
+-applies transformations to items correctly and cleanly.
+-does things in an appropriate class rather than the item class.
+-fixed numerous display bugs.
+
+
+Added to the main GUI
+-Added new functionality
+-Improved error handling
+-Added more user friendly messages
+
+Partially refactored a large number of classes.
+
+Fixed so many bugs I can't remember most of them:
+-Fixed level reqs for set items
+-Fixed level reqs for rare items
+-Fixed backup dates
+-Fixed problem where certain file parameters could lead to crash on character load
+-Fixed rare items being classed as crafted
+-Fixed item filter on stash (so many damn times. Regex....)
+-Fixed GUID problems with charms
+-Fixed multiple problems with MACS (DAMN YOU MAC USERS!)
+-Fixed problems with some runewords
+
+
+DROPCALC
+
+Fixed bug with multiple items in a single type (eg tyraels + templars)
+Fixed bugs with MF (diminishing returns not correct, rounding errors everywhere!)
+Fixed problems with certain monsters and their TCs
+Fixed various bugs leading to errors
+Added new kills column thanks to the help of the community (Oscuro for the patch, RTB for the original idea and Anaesthesia for the math)
+
+
+FLAVIE
+
+Fixed the damn rainbow facet in flavie bug!!!!!!
+
+
+...And much more that I've forgotten.
+
+
 One thing I noticed in text dumps of Donkey was there are several line breaks sometimes not just one. See attached.
 >FIXED APART FROM SET ITEMS;
 
