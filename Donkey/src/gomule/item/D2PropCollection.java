@@ -44,7 +44,7 @@ public class D2PropCollection extends ArrayList{
 	 *
 	 */
 	private void combineProps(){
-
+		
 		for(int x = 0 ;x < size();x++){
 
 			for(int y = 0;y<size();y++){
@@ -267,9 +267,7 @@ public class D2PropCollection extends ArrayList{
 	}
 
 	public void tidy(){
-
 		if(tidy)return;
-
 		cleanProps();
 		combineProps();
 		deDupeProps();

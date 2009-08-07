@@ -14,7 +14,7 @@ public class D2Prop {
 	private boolean opApplied;
 	//Quality flag is there to seperate different types of items
 	//0 = ordinary item
-	//1 = ???
+	//1 = Jewels
 	//2 = Set 2 items
 	//3 = Set 3 items
 	//4 = Set 4 items
@@ -50,7 +50,7 @@ public class D2Prop {
 
 	public D2Prop(D2Prop newProp) {
 		this.pNum = newProp.getPNum();
-		this.pVals = newProp.getPVals();
+		this.pVals = (int[]) newProp.getPVals().clone();
 		this.qFlag = 0;
 	}
 

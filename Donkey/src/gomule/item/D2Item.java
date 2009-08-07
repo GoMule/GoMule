@@ -491,23 +491,22 @@ public class D2Item implements Comparable, D2ItemInterface {
 				iSocketedItems.add(lSocket);
 
 				if (lSocket.isJewel()) {
-					iProps.addAll(lSocket.getPropCollection());
-				} else {
-					if (isTypeWeapon()) {
-						iProps.addAll(lSocket.getPropCollection(), 7);
-					} else if (isTypeArmor()) {
-						if (iType.equals("tors") || iType.equals("helm")
-								|| iType.equals("phlm") || iType.equals("pelt")
-								|| iType.equals("cloa") || iType.equals("circ")) {
-							iProps.addAll(lSocket.getPropCollection(), 8);
-						} else {
-							iProps.addAll(lSocket.getPropCollection(), 9);
-						}
-					}
-					if (lSocket.iReqLvl > iReqLvl) {
-						iReqLvl = lSocket.iReqLvl;
+					iProps.addAll(lSocket.getPropCollection(), 1);
+				} else	if (isTypeWeapon()) {
+					iProps.addAll(lSocket.getPropCollection(), 7);
+				} else if (isTypeArmor()) {
+					if (iType.equals("tors") || iType.equals("helm")
+							|| iType.equals("phlm") || iType.equals("pelt")
+							|| iType.equals("cloa") || iType.equals("circ")) {
+						iProps.addAll(lSocket.getPropCollection(), 8);
+					} else {
+						iProps.addAll(lSocket.getPropCollection(), 9);
 					}
 				}
+				if (lSocket.iReqLvl > iReqLvl) {
+					iReqLvl = lSocket.iReqLvl;
+				}
+
 			}
 		}
 
@@ -903,8 +902,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 		}
 
-		readProperties(pFile, 0);
-
+		if(iJewel){
+			readProperties(pFile, 1);
+		}else{
+			readProperties(pFile, 0);	
+		}
 		if (quality == 5) {
 			for (int x = 0; x < 5; x++) {
 				if (lSet[x] == 1) {
@@ -981,7 +983,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private void readPropertiesGems(D2BitReader pFile) {
-
+//		RUNES ARE GEMS TOO!!!!
 		String[][] gemHeaders = { { "weaponMod1", "weaponMod2", "weaponMod3" },
 				{ "helmMod1", "helmMod2", "helmMod3" },
 				{ "shieldMod1", "shieldMod2", "shieldMod3" } };
@@ -1350,7 +1352,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 		StringBuffer dispStr = new StringBuffer("");
 
-		dispStr.append(iProps.generateDisplay(0, iCharLvl));
+		if(isJewel()){
+			dispStr.append(iProps.generateDisplay(1, iCharLvl));
+		}else{
+			dispStr.append(iProps.generateDisplay(0, iCharLvl));
+		}
 		if (isGem() || isRune()) {
 			dispStr.append("Weapons: ");
 			dispStr.append(iProps.generateDisplay(7, iCharLvl));
@@ -2423,53 +2429,53 @@ public class D2Item implements Comparable, D2ItemInterface {
 //	}
 
 //	private long applyPerfDef(ArrayList iProperties) {
-//
-//		// int ENDef = 0;
-//		// int Def = 0;
-//
-//		// if (isSet()) {
-//
-//		// for (int x = 0; x < iSetProps.size(); x = x + 1) {
-//		// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
-//		// ENDef = ENDef
-//		// + ((D2ItemProperty) iSetProps.get(x))
-//		// .getRealValue();
-//		// }
-//		// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
-//		// Def = Def
-//		// + ((D2ItemProperty) iSetProps.get(x))
-//		// .getRealValue();
-//		// }
-//		// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
-//		// Def = Def
-//		// + (int) Math.floor((((D2ItemProperty) iSetProps
-//		// .get(x)).getRealValue() * 0.125)
-//		// * iCharLvl);
-//		// }
-//		// }
-//
-//		// }
-//
-//		// for (int x = 0; x < iProperties.size(); x = x + 1) {
-//		// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 16) {
-//		// ENDef = ENDef
-//		// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
-//		// }
-//		// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 31) {
-//		// Def = Def
-//		// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
-//		// }
-//		// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
-//		// Def = Def
-//		// + (int) Math.floor((((D2ItemProperty) iProperties
-//		// .get(x)).getRealValue() * 0.125)
-//		// * iCharLvl);
-//		// }
-//		// }
-//		// return (int) Math.floor((((double) iInitDef / (double) 100) * ENDef)
-//		// + (iInitDef + Def));
-//
-//		return 0;
+
+//	// int ENDef = 0;
+//	// int Def = 0;
+
+//	// if (isSet()) {
+
+//	// for (int x = 0; x < iSetProps.size(); x = x + 1) {
+//	// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
+//	// ENDef = ENDef
+//	// + ((D2ItemProperty) iSetProps.get(x))
+//	// .getRealValue();
+//	// }
+//	// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
+//	// Def = Def
+//	// + ((D2ItemProperty) iSetProps.get(x))
+//	// .getRealValue();
+//	// }
+//	// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
+//	// Def = Def
+//	// + (int) Math.floor((((D2ItemProperty) iSetProps
+//	// .get(x)).getRealValue() * 0.125)
+//	// * iCharLvl);
+//	// }
+//	// }
+
+//	// }
+
+//	// for (int x = 0; x < iProperties.size(); x = x + 1) {
+//	// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 16) {
+//	// ENDef = ENDef
+//	// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//	// }
+//	// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 31) {
+//	// Def = Def
+//	// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
+//	// }
+//	// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
+//	// Def = Def
+//	// + (int) Math.floor((((D2ItemProperty) iProperties
+//	// .get(x)).getRealValue() * 0.125)
+//	// * iCharLvl);
+//	// }
+//	// }
+//	// return (int) Math.floor((((double) iInitDef / (double) 100) * ENDef)
+//	// + (iInitDef + Def));
+
+//	return 0;
 //	}
 
 	public void setCharLvl(int pCharLvl) {
