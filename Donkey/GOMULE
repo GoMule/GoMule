@@ -9,6 +9,7 @@ Major rewrite of the item property classes. They now:
 
 Added to the main GUI
 -Added new functionality
+-Double click on items to remove from stash!
 -Improved error handling
 -Added more user friendly messages
 
