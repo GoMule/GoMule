@@ -43,7 +43,7 @@ import randall.flavie.*;
 //is not supported by this class
 public class D2Item implements Comparable, D2ItemInterface {
 
-	private D2PropCollection iProps;
+	private D2PropCollection iProps = new D2PropCollection();
 
 	private ArrayList iSocketedItems;
 
@@ -319,7 +319,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 		image_file = iItemType.get("invfile");
 		iBaseItemName = iItemName = lCharName.toString() + "'s Ear";
 
-		iProps = new D2PropCollection();
 		iProps.add(new D2Prop(185, new int[] { eClass, eLevel }, 0, true, 39));
 
 		// for (int i = 0; i < 18; i++) {
@@ -445,14 +444,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 			if (iType2.equals("gem0") || iType2.equals("gem1")
 					|| iType2.equals("gem2") || iType2.equals("gem3")
 					|| iType2.equals("gem4")) {
-				iProps = new D2PropCollection();
 				readPropertiesGems(pFile);
 				iGem = true;
 			}
 		}
 
 		if (iType != null && iType2 != null && iType.startsWith("rune")) {
-			iProps = new D2PropCollection();
 			readPropertiesGems(pFile);
 			iRune = true;
 		}
@@ -474,7 +471,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 		if ("1".equals(lItemType.get("Beltable"))) {
 			iBelt = true;
-			iProps = new D2PropCollection();
 			readPropertiesPots(pFile);
 		}
 
