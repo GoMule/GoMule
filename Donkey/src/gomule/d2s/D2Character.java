@@ -91,6 +91,7 @@ public class D2Character extends D2ItemListAdapter
 	private boolean[]       iCorpse;
 
 	private boolean[][][] iQuests = new boolean[3][5][6];
+	private boolean[] cowKingDead = new boolean[3];
 
 	private boolean[][][] iWaypoints = new boolean[3][5][9];
 
@@ -401,7 +402,13 @@ public class D2Character extends D2ItemListAdapter
 				iReader.skipBytes(4);
 				for(int f = 0;f<6;f=f+1){
 					if(iReader.read(1) == 1)iQuests[v][g][f] = true;
+					if(g == 0 && f== 3){
+						iReader.skipBits(9);
+						if(iReader.read(1) == 1)cowKingDead[v] = true;
+						iReader.skipBits(5);
+					}else{
 					iReader.skipBits(15);
+					}
 				}
 			}
 			iReader.skipBytes(4);
@@ -1664,6 +1671,7 @@ public class D2Character extends D2ItemListAdapter
 	public int[] getInitSkillListC(){return initSkills[2];}
 
 	public boolean[][][] getQuests(){return iQuests;}
+	public boolean getCowKingDead(int difficulty){return cowKingDead[difficulty];}
 	public boolean[][][] getWaypoints(){return iWaypoints;}
 
 	public int getGold(){return (int)iReadStats[14];}
@@ -1727,4 +1735,5 @@ public class D2Character extends D2ItemListAdapter
 	public int getMercColdRes(){return mStats[20];}
 	public int getMercLightRes(){return mStats[19];}
 	public int getMercPoisRes(){return mStats[21];}
+
 }

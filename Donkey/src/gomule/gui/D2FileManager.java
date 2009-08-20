@@ -1280,6 +1280,7 @@ public class D2FileManager extends JFrame
 	{
 		iOpenWindows.add( pContainer );
 		iDesktopPane.add( (JInternalFrame) pContainer );
+		((JInternalFrame) pContainer).setOpaque(false);
 		((JInternalFrame) pContainer).addInternalFrameListener(new InternalFrameListener(){
 
 			public void internalFrameActivated(InternalFrameEvent arg0) {

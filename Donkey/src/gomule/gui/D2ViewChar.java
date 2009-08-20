@@ -142,7 +142,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		iFileName = pFileName;
 
 
-		
+
 		JPanel lCharPanel = new JPanel();
 		lCharPanel.setLayout(new BorderLayout());
 		iCharPainter = new D2CharPainterPanel();
@@ -585,7 +585,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							JFrame itemPanel = new JFrame();
 							JEditorPane report = new JEditorPane();
 							report.setContentType("text/html");
-							
+
 							JScrollPane SP = new JScrollPane(report);
 							report.setBackground(Color.black);
 							//HTMLEditorKit htmlEditor = new HTMLEditorKit();
@@ -615,103 +615,103 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 //					D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
 //					if (lItemPanel.getPanel() != -1)
 //					{
-//						// if there is an item to grab, grab it
-//						if (lItemPanel.isItem())
-//						{
-//							D2Item lTemp = lItemPanel.getItem();
-//							Box v1 = Box.createVerticalBox();
-//
-//							Box h1 = Box.createHorizontalBox();
-//
-//							JTextPane report = new JTextPane();
-//							JScrollPane SP = new JScrollPane(report);
-//							float[] bGrey = new float[3];
-//							bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
-//							report.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-//							report.setForeground(Color.black);
-//							report.setText(lTemp.itemDumpHtml(false));
-//							report.setCaretPosition(0);
-//
-//							try{
-//								if(lTemp.isUnique() || lTemp.isSet() || lTemp.isRuneWord()){
-//									ArrayList perfect = lTemp.getPerfectString();
-//									JTextPane reportBest = new JTextPane();
-//									JScrollPane SPBest = new JScrollPane(reportBest);
-//									reportBest.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-//									reportBest.setForeground(Color.black);
-//									String bestStr = "BEST:\n\n";
-//									String[] perfDef = null;
-//									if(lTemp.isTypeArmor()){
-//										perfDef = lTemp.getPerfectDef(perfect);
-//										bestStr = bestStr  + "Defense: " + perfDef[0] + "\n";
-//									}else if(lTemp.isTypeWeapon()){
-//										bestStr = bestStr  + lTemp.getPerfectDmg(perfect)[1];
-//									}
-//
-//									for(int x = 0;x<perfect.size();x=x+1){
-//										bestStr = bestStr + (((D2ItemProperty[])perfect.get(x))[1].getValue()) + "\n";
-//									}
-//
-//									reportBest.setText(bestStr);
-//									reportBest.setCaretPosition(0);
-//
-//									JTextPane reportWorst = new JTextPane();
-//									JScrollPane SPWorst = new JScrollPane(reportWorst);
-//									reportWorst.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-//									reportWorst.setForeground(Color.black);
-//									String WorstStr = "WORST:\n\n";
-//
-//									if(lTemp.isTypeArmor()){
-//										WorstStr = WorstStr + "Defense: " + perfDef[1] + "\n";
-//									}else if(lTemp.isTypeWeapon()){
-//										WorstStr = WorstStr  + lTemp.getPerfectDmg(perfect)[0];
-//									}
-//
-//									for(int x = 0;x<perfect.size();x=x+1){
-//										WorstStr = WorstStr + (((D2ItemProperty[])perfect.get(x))[0].getValue()) + "\n";
-//									}
-//									reportWorst.setText(WorstStr);
-//									reportWorst.setCaretPosition(0);
-//
-//
-//									h1.add(SPWorst);
-//									h1.add( SP);
-//									h1.add(SPBest);
-//
-//								}
-//								if(lTemp.isRare()){
-//
-//									String rareRealName = lTemp.getPreSuf();
-//									JTextPane rareName = new JTextPane();
-//									JScrollPane scP = new JScrollPane(rareName);
-//									rareName.setText("Your rare is a: " + rareRealName);
-//									rareName.setCaretPosition(0);
-//									rareName.setEditable(false);
-//									rareName.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-//									v1.add(scP);
-//									h1.add( SP);
-//								}
-//								JFrame basePanel = new JFrame();
-//
-//								basePanel.setLocation((rightClickEvent.getComponent().getLocationOnScreen().x + rightClickEvent.getX()), (rightClickEvent.getComponent().getLocationOnScreen().y + rightClickEvent.getY()));
-//								basePanel.setSize(800,300);
-//								basePanel.setVisible(true);
-//								basePanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//
-//
-//
-//								v1.add(h1);
-//
-//
-//
-//								basePanel.getContentPane().add(v1);
-//							}
-//							catch(Exception e){
-//								e.printStackTrace();
-//								System.err.println("Perfect strings suck.");
-//							}
-//
-//						}
+//					// if there is an item to grab, grab it
+//					if (lItemPanel.isItem())
+//					{
+//					D2Item lTemp = lItemPanel.getItem();
+//					Box v1 = Box.createVerticalBox();
+
+//					Box h1 = Box.createHorizontalBox();
+
+//					JTextPane report = new JTextPane();
+//					JScrollPane SP = new JScrollPane(report);
+//					float[] bGrey = new float[3];
+//					bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
+//					report.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
+//					report.setForeground(Color.black);
+//					report.setText(lTemp.itemDumpHtml(false));
+//					report.setCaretPosition(0);
+
+//					try{
+//					if(lTemp.isUnique() || lTemp.isSet() || lTemp.isRuneWord()){
+//					ArrayList perfect = lTemp.getPerfectString();
+//					JTextPane reportBest = new JTextPane();
+//					JScrollPane SPBest = new JScrollPane(reportBest);
+//					reportBest.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
+//					reportBest.setForeground(Color.black);
+//					String bestStr = "BEST:\n\n";
+//					String[] perfDef = null;
+//					if(lTemp.isTypeArmor()){
+//					perfDef = lTemp.getPerfectDef(perfect);
+//					bestStr = bestStr  + "Defense: " + perfDef[0] + "\n";
+//					}else if(lTemp.isTypeWeapon()){
+//					bestStr = bestStr  + lTemp.getPerfectDmg(perfect)[1];
+//					}
+
+//					for(int x = 0;x<perfect.size();x=x+1){
+//					bestStr = bestStr + (((D2ItemProperty[])perfect.get(x))[1].getValue()) + "\n";
+//					}
+
+//					reportBest.setText(bestStr);
+//					reportBest.setCaretPosition(0);
+
+//					JTextPane reportWorst = new JTextPane();
+//					JScrollPane SPWorst = new JScrollPane(reportWorst);
+//					reportWorst.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
+//					reportWorst.setForeground(Color.black);
+//					String WorstStr = "WORST:\n\n";
+
+//					if(lTemp.isTypeArmor()){
+//					WorstStr = WorstStr + "Defense: " + perfDef[1] + "\n";
+//					}else if(lTemp.isTypeWeapon()){
+//					WorstStr = WorstStr  + lTemp.getPerfectDmg(perfect)[0];
+//					}
+
+//					for(int x = 0;x<perfect.size();x=x+1){
+//					WorstStr = WorstStr + (((D2ItemProperty[])perfect.get(x))[0].getValue()) + "\n";
+//					}
+//					reportWorst.setText(WorstStr);
+//					reportWorst.setCaretPosition(0);
+
+
+//					h1.add(SPWorst);
+//					h1.add( SP);
+//					h1.add(SPBest);
+
+//					}
+//					if(lTemp.isRare()){
+
+//					String rareRealName = lTemp.getPreSuf();
+//					JTextPane rareName = new JTextPane();
+//					JScrollPane scP = new JScrollPane(rareName);
+//					rareName.setText("Your rare is a: " + rareRealName);
+//					rareName.setCaretPosition(0);
+//					rareName.setEditable(false);
+//					rareName.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
+//					v1.add(scP);
+//					h1.add( SP);
+//					}
+//					JFrame basePanel = new JFrame();
+
+//					basePanel.setLocation((rightClickEvent.getComponent().getLocationOnScreen().x + rightClickEvent.getX()), (rightClickEvent.getComponent().getLocationOnScreen().y + rightClickEvent.getY()));
+//					basePanel.setSize(800,300);
+//					basePanel.setVisible(true);
+//					basePanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+
+
+//					v1.add(h1);
+
+
+
+//					basePanel.getContentPane().add(v1);
+//					}
+//					catch(Exception e){
+//					e.printStackTrace();
+//					System.err.println("Perfect strings suck.");
+//					}
+
+//					}
 //					}
 
 
@@ -1022,7 +1022,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	public void itemListChanged()
 	{
-		
+
 		String lTitle;
 		if ( iCharacter == null )
 		{
@@ -1621,7 +1621,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			if(iWeaponSlot == pWeaponSlot){
 				return;
 			}
-			
+
 			iWeaponSlot = pWeaponSlot;
 			build();
 			//REMOVE ITEMS AND ADD ITEMS
@@ -2709,6 +2709,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		private Point[][] questLoc= {{new Point(24,93),new Point(113,93),new Point(197,93),new Point(24,178),new Point(113,178),new Point(197,178)},
 				{new Point(47,93),new Point(136,93),new Point(220,93),new Point(47,178),new Point(136,178),new Point(220,178)},
 				{new Point(71,93),new Point(160,93),new Point(244,93),new Point(71,178),new Point(160,178),new Point(244,178)}};
+		private final  int cowKingX = 140;
+		private final  int cowkingY = 233;
 		public D2QuestPainterPanel()
 		{
 			tick = D2ImageCache.getImage("tick.jpg");
@@ -2806,69 +2808,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		private void drawCompleted(Graphics2D lGraphics, int questSlot) {
 
 			for(int f = 0;f<3;f=f+1){
-			for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length;y=y+1){
-			if(iCharacter.getQuests()[f][questSlot -1][y])lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-
+				for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length;y=y+1){
+					if(iCharacter.getQuests()[f][questSlot -1][y])lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
+				}
+				if(iCharacter.getCowKingDead(f) && (questSlot) == 1){
+					lGraphics.drawImage(tick, cowKingX + (24*f), cowkingY , D2QuestPainterPanel.this);
+				}
 			}
-			}
-//			switch(questSlot){
-//			case 1:
-//
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
-//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-//
-//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-//
-//						}
-//
-//					}
-//				}
-//				break;
-//			case 2:
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
-//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-//
-//						}
-//
-//					}
-//				}
-//				break;
-//			case 3:
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
-//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-//
-//						}
-//
-//					}
-//				}
-//			case 4:
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<3;y=y+1){
-//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-//
-//						}
-//
-//					}
-//				}
-//				break;
-//			case 5:
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<iCharacter.getQuests()[f][questSlot -1].length();y=y+1){
-//						if(iCharacter.getQuests()[f][questSlot -1].charAt(y) == '1'){
-//							lGraphics.drawImage(tick, questLoc[f][y].x, questLoc[f][y].y, D2QuestPainterPanel.this);
-//
-//						}
-//
-//					}
-//				}
-//				break;
-//			}
 		}
 
 		public void paint(Graphics pGraphics)
@@ -2992,8 +2938,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 		private void drawCompleted(Graphics2D lGraphics, int questSlot) {
 
-			
-			
+
+
 			for(int f = 0;f<3;f=f+1){
 				for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length;y=y+1){
 					if(iCharacter.getWaypoints()[f][questSlot -1][y]){
@@ -3008,100 +2954,100 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 				}
 			}
-//			
-//
+
+
 //			switch(questSlot){
-//
+
 //			case 1:
-//
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
-//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-//							if(f==0){
-//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==1){
-//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==2){
-//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-//							}
-//						}
-//
-//					}
-//				}
-//
-////				for(int x = 0;x<iCharacter.getWaypoints().length;x=x+1){
-////				for(int y=0;y<iCharacter.getWaypoints()[x].length;x=x+1){
-////				lGraphics.drawImage(tick, questLoc[x].x, questLoc[x].y, D2WayPainterPanel.this);
-////				lGraphics.drawImage(tick, questLoc[x].x+10, questLoc[x].y, D2WayPainterPanel.this);
-////				lGraphics.drawImage(tick, questLoc[x].x+20, questLoc[x].y, D2WayPainterPanel.this);
-////				}
-////				}
-//				break;
+
+//			for(int f = 0;f<3;f=f+1){
+//			for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
+//			if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//			if(f==0){
+//			lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==1){
+//			lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==2){
+//			lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//			}
+//			}
+
+//			}
+//			}
+
+////			for(int x = 0;x<iCharacter.getWaypoints().length;x=x+1){
+////			for(int y=0;y<iCharacter.getWaypoints()[x].length;x=x+1){
+////			lGraphics.drawImage(tick, questLoc[x].x, questLoc[x].y, D2WayPainterPanel.this);
+////			lGraphics.drawImage(tick, questLoc[x].x+10, questLoc[x].y, D2WayPainterPanel.this);
+////			lGraphics.drawImage(tick, questLoc[x].x+20, questLoc[x].y, D2WayPainterPanel.this);
+////			}
+////			}
+//			break;
 //			case 2:
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
-//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-//							if(f==0){
-//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==1){
-//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==2){
-//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-//							}
-//						}
-//
-//					}
-//				}
-//				break;
+//			for(int f = 0;f<3;f=f+1){
+//			for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
+//			if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//			if(f==0){
+//			lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==1){
+//			lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==2){
+//			lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//			}
+//			}
+
+//			}
+//			}
+//			break;
 //			case 3:
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
-//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-//							if(f==0){
-//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==1){
-//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==2){
-//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-//							}
-//						}
-//
-//					}
-//				}
-//				break;
+//			for(int f = 0;f<3;f=f+1){
+//			for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
+//			if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//			if(f==0){
+//			lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==1){
+//			lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==2){
+//			lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//			}
+//			}
+
+//			}
+//			}
+//			break;
 //			case 4:
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<3;y=y+1){
-//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-//							if(f==0){
-//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==1){
-//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==2){
-//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-//							}
-//						}
-//
-//					}
-//				}
-//				break;
+//			for(int f = 0;f<3;f=f+1){
+//			for(int y=0;y<3;y=y+1){
+//			if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//			if(f==0){
+//			lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==1){
+//			lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==2){
+//			lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//			}
+//			}
+
+//			}
+//			}
+//			break;
 //			case 5:
-//				for(int f = 0;f<3;f=f+1){
-//					for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
-//						if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
-//							if(f==0){
-//								lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==1){
-//								lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
-//							}else if(f==2){
-//								lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
-//							}
-//						}
-//
-//					}
-//				}
-//				break;
-//
+//			for(int f = 0;f<3;f=f+1){
+//			for(int y=0;y<iCharacter.getWaypoints()[f][questSlot -1].length();y=y+1){
+//			if(iCharacter.getWaypoints()[f][questSlot -1].charAt(y) == '1'){
+//			if(f==0){
+//			lGraphics.drawImage(tick, questLoc[y].x, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==1){
+//			lGraphics.drawImage(tick, questLoc[y].x+10, questLoc[y].y, D2WayPainterPanel.this);
+//			}else if(f==2){
+//			lGraphics.drawImage(tick, questLoc[y].x+20, questLoc[y].y, D2WayPainterPanel.this);
+//			}
+//			}
+
+//			}
+//			}
+//			break;
+
 //			}
 
 
@@ -3357,13 +3303,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		lDump.setCaretPosition(0);
 		lDump.validate();
 	}
-	
+
 	public D2Character getChar(){
 		return iCharacter;
 	}
-	
+
 	public void putOnCharacter(int areaCode, ArrayList dropList){
-		
+
 		iCharacter.ignoreItemListEvents();
 		int dPanel = 0;
 		int rMax = 0;

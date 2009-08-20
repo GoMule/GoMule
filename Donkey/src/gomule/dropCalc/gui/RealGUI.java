@@ -398,6 +398,8 @@ public class RealGUI extends JFrame {
 				}else{
 
 					hM2.removeAll();
+					hMI1.removeAll();
+					hMI2.removeAll();
 					hM2.add(new JLabel("Item"));
 					hM2.add(nMItem);
 					hMI1.add(new JLabel("Quality"));
