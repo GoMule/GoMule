@@ -552,10 +552,16 @@ public class D2Prop {
 //		Therefore, [2] becomes the counter.
 		if(getPNum() == 59){
 
+			if(pVals.length < 2){
+				pVals = new int[]{pVals[0], pVals[0], 0};
+			}
+			if(newVals.length < 2){
+				newVals = new int[]{newVals[0], newVals[0], 0};
+			}
+			
 			if(pVals[2] == 0){
 				pVals  = new int[]{pVals[0], pVals[1], 1};
 			}
-
 			if(newVals[2] == 0){
 				newVals  = new int[]{newVals[0], newVals[1], 1};
 			}

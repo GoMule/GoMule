@@ -1564,7 +1564,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (version == 1) {
 			return "Classic";
 		}
-
+//2 is another version perhaps?
 		if (version == 100) {
 			return "Expansion";
 		}
@@ -1572,6 +1572,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if (version == 101) {
 			return "Expansion 1.10+";
 		}
+//		System.out.println(version);
 
 		return "UNKNOWN";
 	}

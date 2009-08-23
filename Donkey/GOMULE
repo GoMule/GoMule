@@ -1,8 +1,3 @@
-
-Just found a possible GoMule bug:
-I have a stash that contains a bunch of twinking gear(a mix of sets, uniques, and socketed items). When I try to pick up a Gemmed Hunter's Bow, I cannot see the stats, it isn't removed from the stash, and I can pick it up as much as I want. Also, if I click on it, it does not become highlighted(I can still pick it up though). Any thoughts?
-__________________
-
 1) My tals sorceress was showing some pretty horrible resists in
 GoMule. But she had two maxed in game. Do we have a maths problem?
 
@@ -32,7 +27,9 @@ DONE:
 @silos: I know this is a very trivial thing but, is it possible to display if cow king is killed with a char :hide: This has been the only reason i use ATMA lately.
 1) The Character display is missing its background.  (should be fixed?)
 Silo: Bug report for you. On the drop calc menu, when I switch Type from Atomic TC to Item, and then repeatedly choose Item from the same drop-down, the right-most column seems to be expanding.
-
+Just found a possible GoMule bug:
+I have a stash that contains a bunch of twinking gear(a mix of sets, uniques, and socketed items). When I try to pick up a Gemmed Hunter's Bow, I cannot see the stats, it isn't removed from the stash, and I can pick it up as much as I want. Also, if I click on it, it does not become highlighted(I can still pick it up though). Any thoughts?
+(POISON DMG JEWS)
 
 GOMULE
 
