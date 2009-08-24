@@ -31,6 +31,8 @@ import java.awt.event.*;
 import java.beans.PropertyVetoException;
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -227,20 +229,37 @@ public class D2FileManager extends JFrame
 						"New Project",
 						JOptionPane.QUESTION_MESSAGE);
 
-				if(lNewName == null)return;
-
-				if (!lNewName.trim().equals("")){
-					for (int i = 0; i < iProjectModel.getSize(); i++){
-						if (lNewName.equalsIgnoreCase((String) iProjectModel.getElementAt(i))){
-							JOptionPane.showMessageDialog(iContentPane,"Please enter a valid project name.","Error!",JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-					}
+				if(checkNewFilename(lNewName)){
 					setProject(lNewName);
-					return;
 				}else{
 					JOptionPane.showMessageDialog(iContentPane,"Please enter a valid project name.","Error!",JOptionPane.ERROR_MESSAGE);
+
 				}
+
+			}
+
+			private boolean checkNewFilename(String lNewName) {
+
+				if(lNewName == null){
+					return false;
+				}
+				if (lNewName.trim().equals("")){
+					return false;
+				}
+				for (int i = 0; i < iProjectModel.getSize(); i++){
+					if (lNewName.equalsIgnoreCase((String) iProjectModel.getElementAt(i))){
+						return false;
+					}
+				}
+				
+				Pattern projectNamePattern = Pattern.compile("[^/?*:;{}\\\\]+", Pattern.UNIX_LINES);
+				Matcher projectNamePatternMatcher = projectNamePattern.matcher(lNewName);
+				
+				if(!projectNamePatternMatcher.matches()){
+					return false;
+				}
+				return true;
+
 			}
 		});
 
@@ -397,8 +416,8 @@ public class D2FileManager extends JFrame
 					iProject.isCountStash(), iProject.isCountChar()
 			);
 //			JOptionPane.showMessageDialog(iContentPane,
-//					"Flavie says reports generated successfully.\nFile: " + System.getProperty("user.dir") + File.separatorChar + reportName + ".html", 
-//					"Success!", JOptionPane.INFORMATION_MESSAGE);			
+//			"Flavie says reports generated successfully.\nFile: " + System.getProperty("user.dir") + File.separatorChar + reportName + ".html", 
+//			"Success!", JOptionPane.INFORMATION_MESSAGE);			
 		}
 		catch (Exception pEx)
 		{
@@ -1188,14 +1207,14 @@ public class D2FileManager extends JFrame
 	}
 
 //	private void handleLoadError(String pFileName, Exception pEx){
-//		// close this view & all view
-//		for ( int i = 0 ; i < iOpenWindows.size() ; i++ ){
-//			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
-//			if (lItemContainer.getFileName().equalsIgnoreCase(pFileName) || lItemContainer.getFileName().toLowerCase().equals("all")){
-//				lItemContainer.closeView();
-//			}
-//		}
-//		displayErrorDialog( pEx );
+//	// close this view & all view
+//	for ( int i = 0 ; i < iOpenWindows.size() ; i++ ){
+//	D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
+//	if (lItemContainer.getFileName().equalsIgnoreCase(pFileName) || lItemContainer.getFileName().toLowerCase().equals("all")){
+//	lItemContainer.closeView();
+//	}
+//	}
+//	displayErrorDialog( pEx );
 //	}
 
 	private JFileChooser getCharDialog(){

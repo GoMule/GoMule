@@ -3,12 +3,6 @@ GoMule. But she had two maxed in game. Do we have a maths problem?
 
 I ran the drop calculator to see what the drop chances would be for a SOJ in NM from a boss type monster.  According to the calculator, the best chance is Griswold (see attached).  I was under the impression that quest drop Andy had the best probability to drop.  No?
 
-2) I set up a project for my sept (and all SC Vanilla toons) with no
-problems, then tried to set up a project for miscellaneous Modded toons. No
-problem. But when I tried to import the 'tourney toons' (as I call them) I
-got an error (see below) and only one of the characters loaded. Now things
-appear to be stuck in the Tourney project: I can't open OrangeJuice (HC Mod)
-and can't load RangerRick (SC Mod).
 
 Silo, I've got a feature request for you: sort by iLvl. 
 
@@ -30,6 +24,13 @@ Silo: Bug report for you. On the drop calc menu, when I switch Type from Atomic 
 Just found a possible GoMule bug:
 I have a stash that contains a bunch of twinking gear(a mix of sets, uniques, and socketed items). When I try to pick up a Gemmed Hunter's Bow, I cannot see the stats, it isn't removed from the stash, and I can pick it up as much as I want. Also, if I click on it, it does not become highlighted(I can still pick it up though). Any thoughts?
 (POISON DMG JEWS)
+2) I set up a project for my sept (and all SC Vanilla toons) with no
+problems, then tried to set up a project for miscellaneous Modded toons. No
+problem. But when I tried to import the 'tourney toons' (as I call them) I
+got an error (see below) and only one of the characters loaded. Now things
+appear to be stuck in the Tourney project: I can't open OrangeJuice (HC Mod)
+and can't load RangerRick (SC Mod).
+(projname)
 
 GOMULE
 
