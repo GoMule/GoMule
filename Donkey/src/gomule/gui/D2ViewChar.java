@@ -591,7 +591,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							//HTMLEditorKit htmlEditor = new HTMLEditorKit();
 							//report.setEditorKit(htmlEditor);
 							report.setForeground(Color.white);
-							report.setText("<html><font size=3 face=Dialog>"+lTemp.itemDumpHtml(false) + "</font></html>");
+							NEED TO FIX
+							report.setText("<html><font size=3 face=Dialog>"+lTemp.itemDumpHtml(true) + "</font></html>");
 							report.setCaretPosition(0);
 							itemPanel.add( SP);
 
@@ -730,76 +731,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	}
 
 	public void paintMercStats(){
-		if(iCharacter.hasMerc()){
-			combinedMercString = 
-				"Name:       " + iCharacter.getMercName() + "\n"+
-				"Race:       " + iCharacter.getMercRace() + "\n"+
-				"Type:       " + iCharacter.getMercType() + "\n"+
-				"Experience: " + iCharacter.getMercExp() + "\n"+
-				"Level:      " + iCharacter.getMercLevel() + "\n"+
-				"Dead?:      " + iCharacter.getMercDead() + "\n"+ "\n"+"            Naked/Gear" + "\n"+
-				"Strength:   " + iCharacter.getMercInitStr()+"/"+iCharacter.getMercStr() + "\n"+
-				"Dexterity:  " + iCharacter.getMercInitDex()+"/"+iCharacter.getMercDex() + "\n"+
-				"HP:         " + iCharacter.getMercInitHP()+"/"+iCharacter.getMercHP() + "\n"+
-				"Defense:    " +iCharacter.getMercInitDef()+"/"+iCharacter.getMercDef() + "\n"+
-				"AR:         " + iCharacter.getMercInitAR()+"/"+iCharacter.getMercAR() + "\n"+ "\n"+
-				"Fire:       " + iCharacter.getMercFireRes()+"/"+(iCharacter.getMercFireRes()-40) +"/"+(iCharacter.getMercFireRes()-100) + "\n"+
-				"Cold:       " + iCharacter.getMercColdRes()+"/"+(iCharacter.getMercColdRes()-40) +"/"+(iCharacter.getMercColdRes()-100) + "\n"+
-				"Lightning:  " + iCharacter.getMercLightRes()+"/"+(iCharacter.getMercLightRes()-40) +"/"+(iCharacter.getMercLightRes()-100) + "\n"+
-				"Poison:    " + iCharacter.getMercPoisRes()+"/"+(iCharacter.getMercPoisRes()-40) +"/"+(iCharacter.getMercPoisRes()-100);
-
-			MJT.setText(combinedMercString);
+			
+			MJT.setText(iCharacter.getMercStatString());
 		}
-//		iMercName.setText(iCharacter.getMercName());
-//		iMercRace.setText(iCharacter.getMercRace());
-//		iMercType.setText(iCharacter.getMercType());
-//		iMercExp.setText(Long.toString(iCharacter.getMercExp()));
-//		iMercLevel.setText(Integer.toString(iCharacter.getMercLevel()));
-//		iMercDead.setText(Boolean.toString(iCharacter.getMercDead())); 
-
-//		iMercStr.setText(Integer.toString(iCharacter.getMercInitStr())+"/"+Integer.toString(iCharacter.getMercStr()));
-//		iMercDex.setText(Integer.toString(iCharacter.getMercInitDex())+"/"+Integer.toString(iCharacter.getMercDex()));
-//		iMercHP.setText(Integer.toString(iCharacter.getMercInitHP())+"/"+Integer.toString(iCharacter.getMercHP()));
-//		iMercDef.setText(Long.toString(iCharacter.getMercInitDef())+"/"+Long.toString(iCharacter.getMercDef()));
-//		iMercAR.setText(Integer.toString(iCharacter.getMercInitAR())+"/"+Integer.toString(iCharacter.getMercAR()));
-//		iMercFireRes.setText(Integer.toString(iCharacter.getMercInitFireRes())+"/"+Integer.toString(iCharacter.getMercFireRes()));
-//		iMercLightRes.setText(Integer.toString(iCharacter.getMercInitLightRes())+"/"+Integer.toString(iCharacter.getMercLightRes()));
-//		iMercColdRes.setText(Integer.toString(iCharacter.getMercInitColdRes())+"/"+Integer.toString(iCharacter.getMercColdRes()));
-//		iMercPoisRes.setText(Integer.toString(iCharacter.getMercInitPoisRes())+"/"+Integer.toString(iCharacter.getMercPoisRes()));
-
-
-	}
 
 	public void paintCharStats() {
 
-		combinedString = 
-			"Name:       " + iCharacter.getCharName() + "\n"+
-			"Class:      " + iCharacter.getCharClass() + "\n"+
-			"Experience: " + iCharacter.getCharExp() + "\n"+
-			"Level:      " + iCharacter.getCharLevel() + "\n"+
-			/*"NOTIMP:     " + iCharacter.getCharDead() + "\n"+*/ "\n"+"            Naked/Gear" + "\n"+
-			"Strength:   " + iCharacter.getCharInitStr()+"/"+iCharacter.getCharStr() + "\n"+
-			"Dexterity:  " + iCharacter.getCharInitDex()+"/"+iCharacter.getCharDex() + "\n"+
-			"Vitality:   " + iCharacter.getCharInitVit()+"/"+iCharacter.getCharVit() + "\n"+
-			"Energy:     " + iCharacter.getCharInitNrg()+"/"+iCharacter.getCharNrg() + "\n"+
-			"HP:         " + iCharacter.getCharInitHP()+"/"+iCharacter.getCharHP() + "\n"+
-			"Mana:       " + iCharacter.getCharInitMana()+"/"+iCharacter.getCharMana() + "\n"+
-			"Stamina:    " + iCharacter.getCharInitStam()+"/"+iCharacter.getCharStam() + "\n"+
-			"Defense:    " +iCharacter.getCharInitDef()+"/"+iCharacter.getCharDef() + "\n"+
-			"AR:         " + iCharacter.getCharInitAR()+"/"+iCharacter.getCharAR() + "\n"+ "\n"+
-			"Fire:       " + iCharacter.getCharFireRes()+"/"+(iCharacter.getCharFireRes()-40) +"/"+(iCharacter.getCharFireRes()-100) + "\n"+
-			"Cold:       " + iCharacter.getCharColdRes()+"/"+(iCharacter.getCharColdRes()-40) +"/"+(iCharacter.getCharColdRes()-100) + "\n"+
-			"Lightning:  " + iCharacter.getCharLightRes()+"/"+(iCharacter.getCharLightRes()-40) +"/"+(iCharacter.getCharLightRes()-100) + "\n"+
-			"Poison:     " + iCharacter.getCharPoisRes()+"/"+(iCharacter.getCharPoisRes()-40) +"/"+(iCharacter.getCharPoisRes()-100) + "\n"+"\n"+
-			"MF:         " + iCharacter.getCharMF() +
-			"       Block:      "+ iCharacter.getCharBlock() + "\n"+
-			"GF:         " +iCharacter.getCharGF()+ "\n"+
-			"FR/W:       " +iCharacter.getCharFRW()+ "\n"+
-			"FHR:        " +iCharacter.getCharFHR()+ "\n"+
-			"IAS:        " +iCharacter.getCharIAS()+ "\n"+
-			"FCR:        " +iCharacter.getCharFCR();
-
-		CJT.setText(combinedString);
+		CJT.setText(iCharacter.getStatString());
 		lSkillPanel.build();
 
 	}
@@ -3295,11 +3233,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	public void dumpChar() {
 
-		String out = combinedString.replaceAll("<BR>", "\n");
 		String iChaString = iCharacter.fullDumpStr().replaceAll("<BR>", "\n");
-		String outMerc = combinedMercString.replaceAll("<BR>", "\n");
-
-		lDump.setText(out + "\n" +iChaString + outMerc + "\n");
+		lDump.setText(iChaString);
 		lDump.setCaretPosition(0);
 		lDump.validate();
 	}

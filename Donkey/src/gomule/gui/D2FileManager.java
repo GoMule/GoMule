@@ -251,10 +251,10 @@ public class D2FileManager extends JFrame
 						return false;
 					}
 				}
-				
+
 				Pattern projectNamePattern = Pattern.compile("[^/?*:;{}\\\\]+", Pattern.UNIX_LINES);
 				Matcher projectNamePatternMatcher = projectNamePattern.matcher(lNewName);
-				
+
 				if(!projectNamePatternMatcher.matches()){
 					return false;
 				}
@@ -342,7 +342,7 @@ public class D2FileManager extends JFrame
 					for(int x = 0;x<lDumpList.size();x++){
 						try{
 							D2Character d2Char = new D2Character((String) lDumpList.get(x));
-							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Char, iProject.getProjectName()+"Dumps")){
+							if(!projTxtDump((String) lDumpList.get(x),(D2ItemList) d2Char, iProject.getProjectName()+"Dumps")){
 								errStr = errStr + "Char: " + (String) lDumpList.get(x) + " failed.\n";
 							}
 						}catch(Exception e){
@@ -358,7 +358,7 @@ public class D2FileManager extends JFrame
 					for(int x = 0;x<lDumpList.size();x++){
 						try{
 							D2Stash d2Stash = new D2Stash((String) lDumpList.get(x));
-							if(!fullDump((String) lDumpList.get(x),(D2ItemList) d2Stash, iProject.getProjectName()+"Dumps")){
+							if(!projTxtDump((String) lDumpList.get(x),(D2ItemList) d2Stash, iProject.getProjectName()+"Dumps")){
 								errStr = errStr + "Stash: " + (String) lDumpList.get(x) + " failed.\n";
 							}
 						}catch(Exception e){
@@ -604,7 +604,7 @@ public class D2FileManager extends JFrame
 
 			public void actionPerformed(ActionEvent arg0) {
 				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-					if(fullDump(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName(), null)){
+					if(singleTxtDump(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName())){
 						JOptionPane.showMessageDialog(iContentPane,
 								"Char/Stash dump was a success.\nFile: " + (((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName()) + ".txt", 
 								"Success!", JOptionPane.INFORMATION_MESSAGE);
@@ -954,7 +954,7 @@ public class D2FileManager extends JFrame
 	}
 
 
-	public boolean fullDump(String pFileName, D2ItemList lList, String folder)
+	public boolean projTxtDump(String pFileName, D2ItemList lList, String folder)
 	{
 		String lFileName = null;
 		if(folder == null){
@@ -978,25 +978,10 @@ public class D2FileManager extends JFrame
 			}
 
 		}
-		if ( lList != null && lFileName != null ){
-			try{
-				File lFile = new File(lFileName);
-				System.err.println("File: " + lFile.getCanonicalPath() );
-
-				PrintWriter lWriter = new PrintWriter(new FileWriter( lFile.getCanonicalPath() ));
-
-				lList.fullDump(lWriter);
-				lWriter.flush();
-				lWriter.close();
-				return true;
-			}catch ( Exception pEx ){
-				pEx.printStackTrace();
-			}
-		}
-		return false;
+		return writeTxtDump(lFileName, lList);
 	}
 
-	public boolean fullDump(String pFileName, String folder)
+	public boolean singleTxtDump(String pFileName)
 	{
 		D2ItemList lList = null;
 		String lFileName = null;
@@ -1006,34 +991,19 @@ public class D2FileManager extends JFrame
 				lFileName = "." + File.separator + "all.txt";
 				lList = iViewAll.getItemLists();
 			}
+
 		}else{
 
 			lList = (D2ItemList) iItemLists.get(pFileName);
+			lFileName = pFileName+".txt";
 
-			if(folder == null){
-
-				lFileName = pFileName+".txt";
-
-			}else{
-
-				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
-					lFileName = (((D2ViewChar)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar().getCharName());
-				}else{
-					lFileName = ((((D2ViewStash)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())))).getStashName());
-					lFileName = lFileName.replace(".d2x", "");
-
-				}
-				lFileName = folder + File.separator + lFileName + ".txt";
-
-				File lFile = new File(folder);
-				if(!lFile.exists()){
-					if(!lFile.mkdir()){
-						return false;
-					}
-				}
-
-			}
 		}
+
+		return writeTxtDump(lFileName, lList);
+
+	}
+
+	private boolean writeTxtDump(String lFileName, D2ItemList lList){
 		if ( lList != null && lFileName != null ){
 			try{
 				File lFile = new File(lFileName);

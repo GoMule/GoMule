@@ -440,7 +440,7 @@ public class D2ViewProject extends JPanel
 
 		public void fullDump()
 		{
-			iFileManager.fullDump( getFilename() , null);
+			iFileManager.singleTxtDump( getFilename());
 		}
 
 		public void remove()

@@ -56,7 +56,7 @@ public class D2Character extends D2ItemListAdapter
 	public static final int BODY_RARM2         = 21;
 	public static final int BODY_LARM2         = 22;
 	public static final int GOLEM_SLOT         = 23;
-	
+
 	public static final int INVSIZEX = 10;
 	public static final int INVSIZEY = 4;
 	public static final int STASHSIZEX = 6;
@@ -407,7 +407,7 @@ public class D2Character extends D2ItemListAdapter
 						if(iReader.read(1) == 1)cowKingDead[v] = true;
 						iReader.skipBits(5);
 					}else{
-					iReader.skipBits(15);
+						iReader.skipBits(15);
 					}
 				}
 			}
@@ -1443,58 +1443,41 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public void fullDump(PrintWriter pWriter){
-		pWriter.println( iFileName );
-		pWriter.println( "Level: " + iCharLevel );
-		pWriter.println();
-		if ( iCharItems != null )
-		{
-			for ( int i = 0 ; i < iCharItems.size() ; i++ )
-			{
-				D2Item lItem = (D2Item) iCharItems.get(i);
-				lItem.toWriter(pWriter);
-			}
-		}
-		if ( iMercItems != null )
-		{
-			pWriter.println();
-			pWriter.println("Mercenary");
-			for ( int i = 0 ; i < iMercItems.size() ; i++ )
-			{
-				D2Item lItem = (D2Item) iMercItems.get(i);
-				lItem.toWriter(pWriter);
-			}
-		}
-		pWriter.println( "Finished: " + iFileName );
-		pWriter.println();
+		pWriter.println(fullDumpStr());
 	}
 
 	public String fullDumpStr(){
-		String out = "\n";
-//		String[] skillStrArr = new String[3];
-//		skillStrArr[0] ="\n";
-//		skillStrArr[1] ="\n";
-//		skillStrArr[2] ="\n";
-//		Iterator[] it = {iCharInitSkillsA.iterator(),iCharInitSkillsB.iterator(),iCharInitSkillsC.iterator(),iCharSkillsA.iterator(),iCharSkillsB.iterator(),iCharSkillsC.iterator()};
+		StringBuffer out = new StringBuffer();
+		out.append(getStatString());
+		out.append("\n\n");
+		
 		ArrayList skillArr = D2TxtFile.SKILLS.searchColumnsMultipleHits("charclass", cClass);
 		for(int x = 0;x<skillArr.size();x=x+1){
 			int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties)skillArr.get(x)).get("Id")))).get("SkillPage"));
-			out = out +(D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name"))+ ": " +  initSkills[page-1][x%10] + "/" + cSkills[page-1][x%10] + "\n");	
+			out.append(D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name"))+ ": " +  initSkills[page-1][x%10] + "/" + cSkills[page-1][x%10] + "\n");	
 		}
-		out = out + "\n";
+		out.append("\n");
 		if ( iCharItems != null ){
 			for ( int i = 0 ; i < iCharItems.size() ; i++){
 				D2Item lItem = (D2Item) iCharItems.get(i);
-				out = out + lItem.itemDump(true) + ("\n");
+				out.append(lItem.itemDump(true));
+				out.append("\n");
 			}
 		}
-		out = out + ("Mercenary:"+"\n") + ("\n");
+		out.append("Mercenary:"+"\n");
+		out.append("\n");
+		
+		out.append(getMercStatString());
+		out.append("\n\n");
+		
 		if ( iMercItems != null ){
 			for ( int i = 0 ; i < iMercItems.size() ; i++){
 				D2Item lItem = (D2Item) iMercItems.get(i);
-				out = out + lItem.itemDump(true) + ("\n") + ("\n");
+				out.append(lItem.itemDump(true));
+				out.append("\n\n");
 			}
 		}
-		return out;
+		return out.toString();
 	}
 
 	public void updateCharStats(String string, D2Item temp) {
@@ -1735,5 +1718,58 @@ public class D2Character extends D2ItemListAdapter
 	public int getMercColdRes(){return mStats[20];}
 	public int getMercLightRes(){return mStats[19];}
 	public int getMercPoisRes(){return mStats[21];}
+
+	public String getStatString() {
+		return
+		"Name:       " + getCharName() + "\n"+
+		"Class:      " + getCharClass() + "\n"+
+		"Experience: " + getCharExp() + "\n"+
+		"Level:      " + getCharLevel() + "\n"+
+		/*"NOTIMP:     " + getCharDead() + "\n"+*/ "\n"+"            Naked/Gear" + "\n"+
+		"Strength:   " + getCharInitStr()+"/"+getCharStr() + "\n"+
+		"Dexterity:  " + getCharInitDex()+"/"+getCharDex() + "\n"+
+		"Vitality:   " + getCharInitVit()+"/"+getCharVit() + "\n"+
+		"Energy:     " + getCharInitNrg()+"/"+getCharNrg() + "\n"+
+		"HP:         " + getCharInitHP()+"/"+getCharHP() + "\n"+
+		"Mana:       " + getCharInitMana()+"/"+getCharMana() + "\n"+
+		"Stamina:    " + getCharInitStam()+"/"+getCharStam() + "\n"+
+		"Defense:    " +getCharInitDef()+"/"+getCharDef() + "\n"+
+		"AR:         " + getCharInitAR()+"/"+getCharAR() + "\n"+ "\n"+
+		"Fire:       " + getCharFireRes()+"/"+(getCharFireRes()-40) +"/"+(getCharFireRes()-100) + "\n"+
+		"Cold:       " + getCharColdRes()+"/"+(getCharColdRes()-40) +"/"+(getCharColdRes()-100) + "\n"+
+		"Lightning:  " + getCharLightRes()+"/"+(getCharLightRes()-40) +"/"+(getCharLightRes()-100) + "\n"+
+		"Poison:     " + getCharPoisRes()+"/"+(getCharPoisRes()-40) +"/"+(getCharPoisRes()-100) + "\n"+"\n"+
+		"MF:         " + getCharMF() +
+		"       Block:      "+ getCharBlock() + "\n"+
+		"GF:         " +getCharGF()+ "\n"+
+		"FR/W:       " +getCharFRW()+ "\n"+
+		"FHR:        " +getCharFHR()+ "\n"+
+		"IAS:        " +getCharIAS()+ "\n"+
+		"FCR:        " +getCharFCR();
+	}
+
+	public String getMercStatString() {
+
+		if(hasMerc()){
+			return	"Name:       " + getMercName() + "\n"+
+			"Race:       " + getMercRace() + "\n"+
+			"Type:       " + getMercType() + "\n"+
+			"Experience: " + getMercExp() + "\n"+
+			"Level:      " + getMercLevel() + "\n"+
+			"Dead?:      " + getMercDead() + "\n"+ "\n"+"            Naked/Gear" + "\n"+
+			"Strength:   " + getMercInitStr()+"/"+getMercStr() + "\n"+
+			"Dexterity:  " + getMercInitDex()+"/"+getMercDex() + "\n"+
+			"HP:         " + getMercInitHP()+"/"+getMercHP() + "\n"+
+			"Defense:    " +getMercInitDef()+"/"+getMercDef() + "\n"+
+			"AR:         " + getMercInitAR()+"/"+getMercAR() + "\n"+ "\n"+
+			"Fire:       " + getMercFireRes()+"/"+(getMercFireRes()-40) +"/"+(getMercFireRes()-100) + "\n"+
+			"Cold:       " + getMercColdRes()+"/"+(getMercColdRes()-40) +"/"+(getMercColdRes()-100) + "\n"+
+			"Lightning:  " + getMercLightRes()+"/"+(getMercLightRes()-40) +"/"+(getMercLightRes()-100) + "\n"+
+			"Poison:    " + getMercPoisRes()+"/"+(getMercPoisRes()-40) +"/"+(getMercPoisRes()-100);
+		}else{
+			return "";
+		}
+
+	}
 
 }
