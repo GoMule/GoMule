@@ -112,14 +112,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private D2WayPainterPanel lWayPanel;
 	private D2DeathPainterPanel iDeathPainter;
 	private JTextArea lDump;
-
-
-
 	private RandallPanel lDumpPanel;
 	private JPopupMenu rightClickItem;
 	private MouseEvent rightClickEvent;
-	private String combinedString;
-	private String combinedMercString;
 
 	public D2ViewChar(D2FileManager pMainFrame, String pFileName)
 	{
@@ -591,7 +586,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							//HTMLEditorKit htmlEditor = new HTMLEditorKit();
 							//report.setEditorKit(htmlEditor);
 							report.setForeground(Color.white);
-							NEED TO FIX
 							report.setText("<html><font size=3 face=Dialog>"+lTemp.itemDumpHtml(true) + "</font></html>");
 							report.setCaretPosition(0);
 							itemPanel.add( SP);

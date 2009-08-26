@@ -1261,11 +1261,17 @@ public class D2Item implements Comparable, D2ItemInterface {
 	public String itemDump(boolean extended){
 		return htmlStrip(generatePropString(extended));
 	}
-
+	
 	private StringBuffer generatePropString(boolean extended){
+		StringBuffer propString = new StringBuffer("<html>");
+		propString.append(generatePropStringNoHtmlTags(extended));
+		return propString.append("</html>");
+	}
+
+	private StringBuffer generatePropStringNoHtmlTags(boolean extended){
 		//27/7 REMOVED BELOW. Need testing!!!!
 		if (iProps != null /*&& location != 6*/)iProps.tidy();
-		StringBuffer dispStr = new StringBuffer("<html><center>");
+		StringBuffer dispStr = new StringBuffer("<center>");
 		String base = (Integer.toHexString(Color.white.getRGB())).substring(2, Integer.toHexString(Color.white.getRGB()).length());
 		String rgb = (Integer.toHexString(getItemColor().getRGB())).substring(2, Integer.toHexString(getItemColor().getRGB()).length());
 		if (personalization == null) {
@@ -1330,7 +1336,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 					dispStr.append("<br>&#10;");
 					for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
 						if (((D2Item) iSocketedItems.get(x)) != null) {
-							dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropString(false));
+							dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropStringNoHtmlTags(false));
 							if(x != iSocketedItems.size() -1){
 								dispStr.append("<br>&#10;");
 							}									
@@ -1340,7 +1346,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 			}
 		}
 
-		return dispStr.append("</center></html>");
+		return dispStr.append("</center>");
 	}
 
 	private StringBuffer getItemPropertyString(){
