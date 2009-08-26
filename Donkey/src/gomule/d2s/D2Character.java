@@ -1452,11 +1452,20 @@ public class D2Character extends D2ItemListAdapter
 		out.append("\n\n");
 		
 		ArrayList skillArr = D2TxtFile.SKILLS.searchColumnsMultipleHits("charclass", cClass);
+		String[] skillTrees = new String[]{"","",""};
+		int[] skillCounter = new int[3];
+		
 		for(int x = 0;x<skillArr.size();x=x+1){
 			int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties)skillArr.get(x)).get("Id")))).get("SkillPage"));
-			out.append(D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name"))+ ": " +  initSkills[page-1][x%10] + "/" + cSkills[page-1][x%10] + "\n");	
+			skillTrees[page-1] = skillTrees[page-1] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",((D2TxtFileItemProperties)skillArr.get(x)).get("skilldesc")).get("str name"))+ ": " +  initSkills[page-1][skillCounter[page-1]] + "/" + cSkills[page-1][skillCounter[page-1]] + "\n";
+			skillCounter[page -1] ++;
 		}
-		out.append("\n");
+		
+		for(int x = 0;x<skillTrees.length;x++){
+			out.append(skillTrees[x]);
+			out.append("\n");
+		}
+
 		if ( iCharItems != null ){
 			for ( int i = 0 ; i < iCharItems.size() ; i++){
 				D2Item lItem = (D2Item) iCharItems.get(i);
