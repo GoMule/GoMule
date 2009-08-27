@@ -77,6 +77,11 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 		try
 		{
 
+			setPreferredSize(new Dimension(190, 320));
+			setSize(new Dimension(190, 320));
+			setMaximumSize(new Dimension(190, 320));
+			setMinimumSize(new Dimension(190, 320));
+			
 			iBank = new JTextField();
 			iBank.setEditable(false);
 
@@ -92,6 +97,9 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 			final JLabel iIconLabel = new JLabel();
 			
 			iIconLabel.setPreferredSize(new Dimension(190, 112));
+			iIconLabel.setSize(new Dimension(190, 112));
+			iIconLabel.setMaximumSize(new Dimension(190, 112));
+			iIconLabel.setMinimumSize(new Dimension(190, 112));
 			iIconLabel.setIcon(iIcon);
 			iIconLabel.setHorizontalAlignment(JLabel.CENTER);
 			iIconLabel.setOpaque(true);
@@ -126,7 +134,10 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 
 			iTable.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);	
 			
-			lPane.setPreferredSize(new Dimension(180,150));
+			lPane.setPreferredSize(new Dimension(190, 150));
+			lPane.setSize(new Dimension(190, 150));
+			lPane.setMaximumSize(new Dimension(190, 150));
+			lPane.setMinimumSize(new Dimension(190, 150));
 			
 			if (!iItems.isEmpty())
 			{

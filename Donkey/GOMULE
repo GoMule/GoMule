@@ -3,12 +3,8 @@ GoMule. But she had two maxed in game. Do we have a maths problem?
 
 I ran the drop calculator to see what the drop chances would be for a SOJ in NM from a boss type monster.  According to the calculator, the best chance is Griswold (see attached).  I was under the impression that quest drop Andy had the best probability to drop.  No?
 
-
 Silo, I've got a feature request for you: sort by iLvl. 
 
-
-
-Not really a bug report, more of a feature request:
 
 - My left hand side bar always comes in too large - the boxes align side by side. When I re-size it the align nicely underneath eachother, but the size isn't saved in any way. I can do a screenshot later if I'm not being clear.
 
@@ -18,7 +14,7 @@ Not really a bug report, more of a feature request:
 DONE:
 
 @silos: I know this is a very trivial thing but, is it possible to display if cow king is killed with a char :hide: This has been the only reason i use ATMA lately.
-1) The Character display is missing its background.  (should be fixed?)
+1) The Character display is missing its background.  (should be fixed?) (Now it is almost certainly fixed).
 Silo: Bug report for you. On the drop calc menu, when I switch Type from Atomic TC to Item, and then repeatedly choose Item from the same drop-down, the right-most column seems to be expanding.
 Just found a possible GoMule bug:
 I have a stash that contains a bunch of twinking gear(a mix of sets, uniques, and socketed items). When I try to pick up a Gemmed Hunter's Bow, I cannot see the stats, it isn't removed from the stash, and I can pick it up as much as I want. Also, if I click on it, it does not become highlighted(I can still pick it up though). Any thoughts?

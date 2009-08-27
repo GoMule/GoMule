@@ -433,6 +433,7 @@ public class D2FileManager extends JFrame
 		iRightPane = new JPanel();
 		iRightPane.setPreferredSize(new Dimension(190,768));
 		iRightPane.setMinimumSize(new Dimension(190,0));
+		iRightPane.setLayout(new BoxLayout(iRightPane, BoxLayout.Y_AXIS));
 		try
 		{
 			iClipboard = D2ViewClipboard.getInstance(this);
@@ -456,9 +457,13 @@ public class D2FileManager extends JFrame
 		}
 
 		RandallPanel itemControl = new RandallPanel();
-		itemControl.setPreferredSize(new Dimension(190, 160));
 		itemControl.setBorder(new TitledBorder(null, ("Item Control"),	TitledBorder.LEFT, TitledBorder.TOP, iRightPane.getFont(), Color.gray));
 
+		itemControl.setPreferredSize(new Dimension(190, 160));
+		itemControl.setSize(new Dimension(190, 160));
+		itemControl.setMaximumSize(new Dimension(190, 160));
+		itemControl.setMinimumSize(new Dimension(190, 160));
+		
 		pickAll = new JButton("Pick All");
 		pickAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
@@ -587,18 +592,25 @@ public class D2FileManager extends JFrame
 
 		itemControl.addToPanel(pickAll,0,0,1,RandallPanel.HORIZONTAL);
 		itemControl.addToPanel(dropAll,1,0,1,RandallPanel.HORIZONTAL);
+		
 		itemControl.addToPanel(pickFrom,0,1,2,RandallPanel.HORIZONTAL);
+			
 		itemControl.addToPanel(pickChooser,0,2,2,RandallPanel.HORIZONTAL);
-
+		
 		itemControl.addToPanel(dropTo,0,3,2,RandallPanel.HORIZONTAL);
+		
 		itemControl.addToPanel(dropChooser,0,4,2,RandallPanel.HORIZONTAL);
 
 
 
 		RandallPanel charControl = new RandallPanel();
-		charControl.setPreferredSize(new Dimension(190, 80));
 		charControl.setBorder(new TitledBorder(null, ("Output Control"),	TitledBorder.LEFT, TitledBorder.TOP, iRightPane.getFont(), Color.gray));
-
+		charControl.setPreferredSize(new Dimension(190, 80));
+		charControl.setSize(new Dimension(190, 80));
+		charControl.setMaximumSize(new Dimension(190, 80));
+		charControl.setMinimumSize(new Dimension(190, 80));
+		
+		
 		dumpBut = new JButton("Perform txt Dump");
 		dumpBut.addActionListener(new ActionListener(){
 
@@ -634,10 +646,10 @@ public class D2FileManager extends JFrame
 		charControl.addToPanel(dumpBut,0,0,1,RandallPanel.HORIZONTAL);
 		charControl.addToPanel(flavieSingle,0,1,1,RandallPanel.HORIZONTAL);
 
-		iRightPane.add(iClipboard, BorderLayout.LINE_START);
-		iRightPane.add(itemControl, BorderLayout.LINE_START);
-		iRightPane.add(charControl, BorderLayout.LINE_START);
-
+		iRightPane.add(iClipboard);
+		iRightPane.add(itemControl);
+		iRightPane.add(charControl);
+		iRightPane.add(Box.createVerticalGlue());
 	}
 
 
@@ -1269,7 +1281,7 @@ public class D2FileManager extends JFrame
 	{
 		iOpenWindows.add( pContainer );
 		iDesktopPane.add( (JInternalFrame) pContainer );
-		((JInternalFrame) pContainer).setOpaque(false);
+		((JInternalFrame) pContainer).setOpaque(true);
 		((JInternalFrame) pContainer).addInternalFrameListener(new InternalFrameListener(){
 
 			public void internalFrameActivated(InternalFrameEvent arg0) {
