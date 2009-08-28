@@ -720,12 +720,9 @@ public class MonsterTuple {
 
 	public void lookupBASETCReturnMiscTCS(int nPlayers, int nplayersParty, double input, Item item, DCNew DC, int MF, int QRecursions, boolean sevP) {
 
-		if(calcdM.equals(nPlayers+","+nplayersParty+","+input + "," + sevP)){
-			return;
+		if(calcdM.equals(nPlayers+","+nplayersParty+","+input + "," + sevP + "," + item.getItemCode())){
+//			return;
 		}
-
-
-
 
 		mParent.clearFinalM(this);
 		String initCountess = null;
@@ -884,7 +881,7 @@ public class MonsterTuple {
 		if(mParent.getID().equals("The Countess")){
 			setInitTC(initCountess);
 		}
-		calcdM = nPlayers+","+nplayersParty+","+input + "," + sevP;
+		calcdM = nPlayers+","+nplayersParty+","+input + "," + sevP + "," + item.getItemCode();
 
 	}
 
