@@ -21,11 +21,7 @@
 package randall.util;
 
 /**
- * Title:        Stationäre Pflege
- * Description:  DanFileFilter
- * Copyright:    Copyright (c) 2001
- * Company:      DAN Produkte GmbH
- * @author Marco Büttner
+ * @author Marco
  * @version 1.0
  */
 

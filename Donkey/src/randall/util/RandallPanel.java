@@ -52,7 +52,7 @@ public class RandallPanel extends JPanel
 	private TitledBorder titeledBorder = null;
 
     /**
-     *   Creates a new DanPanel with a double buffer and a flow layout.
+     *   Creates a new RandallPanel with a double buffer and a flow layout.
      */
     public RandallPanel()
     {

@@ -128,7 +128,6 @@ public class RandallUtil
         	pCompSep = pSeparator;
         }
         
-//        System.err.println("DanString.split() <"+pString+"> <"+pCompStr+">");
         if ( pString != null )
         {
             while ( lIndex < pString.length() )
@@ -145,7 +144,6 @@ public class RandallUtil
                     lSubString = pString.substring(lIndex, lSeparator);
                     lIndex = lSeparator + pSeparator.length();
                 }
-//                System.err.println("DanString.split() sub <" + lSubString + ">");
                 lSplit.add( lSubString.trim() );
             }
         }

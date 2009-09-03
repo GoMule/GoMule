@@ -98,7 +98,7 @@ public class D2FileManager extends JFrame
 
 	private JButton flavieSingle;
 
-	public static D2FileManager getIntance()
+	public static D2FileManager getInstance()
 	{
 		return iCurrent;
 	}
