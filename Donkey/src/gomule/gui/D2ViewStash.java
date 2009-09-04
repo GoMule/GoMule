@@ -22,6 +22,8 @@ package gomule.gui;
 
 import gomule.d2s.*;
 import gomule.d2x.*;
+import gomule.gui.desktop.generic.GoMuleViewDisplayHandler;
+import gomule.gui.desktop.generic.GoMuleViewStash;
 import gomule.item.*;
 import gomule.util.*;
 import java.awt.*;
@@ -36,7 +38,7 @@ import randall.util.*;
 /**
  * @author Marco
  */
-public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2ItemListListener
+public class D2ViewStash /* extends JInternalFrame */ implements D2ItemContainer, D2ItemListListener, GoMuleViewStash
 {
     /**
 	 * 
@@ -125,24 +127,28 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 	
 	private JButton iCusFilter;
 
+	private JComponent				iContent;
+	private GoMuleViewDisplayHandler	iDisplayHandler;
+	private String						iTitle;
+	
     public D2ViewStash(D2FileManager pMainFrame, String pFileName)
     {
-        super( pFileName, true, true, false, true);
-        
-        addInternalFrameListener(new InternalFrameAdapter()
-        {
-//            public void internalFrameOpened(InternalFrameEvent e) 
+//        super( pFileName, true, true, false, true);
+//        
+//        addInternalFrameListener(new InternalFrameAdapter()
+//        {
+////            public void internalFrameOpened(InternalFrameEvent e) 
+////            {
+////                System.err.println("internalFrameOpened()");
+////                iTable.requestFocus();
+////            }
+//            public void internalFrameClosing(InternalFrameEvent e)
 //            {
-//                System.err.println("internalFrameOpened()");
-//                iTable.requestFocus();
+//                iFileManager.saveAll();
+//                closeView();
+////                System.gc();
 //            }
-            public void internalFrameClosing(InternalFrameEvent e)
-            {
-                iFileManager.saveAll();
-                closeView();
-//                System.gc();
-            }
-        });
+//        });
 
         
         iFileManager = pMainFrame;
@@ -449,11 +455,12 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         stashConts.setDividerSize(3);
         stashConts.setDividerLocation(257);
         iContentPane.add(stashConts);
-        setContentPane(iContentPane);
+        iContent = iContentPane;
+//        setContentPane(iContentPane);
 
-        pack();
-        setSize(514, 500);
-        setVisible(true);
+//        pack();
+//        iContent.setSize(514, 500);
+//        setVisible(true);
         
         
         connect();
@@ -510,12 +517,12 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         return (String) lList.get(lList.size()-1);
     }
     
-    public void activateView()
-    {
-        toFront();
-        requestFocusInWindow();
-        iTable.requestFocus();
-    }
+//    public void activateView()
+//    {
+//        toFront();
+//        requestFocusInWindow();
+//        iTable.requestFocus();
+//    }
     
     public boolean isStash()
     {
@@ -1139,8 +1146,42 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 lTitle += " (HC)";
             }
         }
-        setTitle(lTitle);
+        iTitle = lTitle;
+        if ( iDisplayHandler != null )
+        {
+        	iDisplayHandler.setTitle( iTitle );
+        }
+//        setTitle(lTitle);
     }
+
+	public void setDisplayHandler(GoMuleViewDisplayHandler pDisplayHandler)
+	{
+		iDisplayHandler = pDisplayHandler;
+		if ( iTitle != null )
+		{
+			iDisplayHandler.setTitle( iTitle );
+		}
+	}
+	
+	public GoMuleViewDisplayHandler getDisplayHandler()
+	{
+		return iDisplayHandler;
+	}
+
+	public JComponent getDisplay() 
+	{
+		return iContent;
+	}
+	
+	public D2ViewStash getViewStash() 
+	{
+		return this;
+	}
+	
+	public D2ItemContainer getItemContainer() 
+	{
+		return this;
+	}
 
     class D2ItemModel implements TableModel
     {

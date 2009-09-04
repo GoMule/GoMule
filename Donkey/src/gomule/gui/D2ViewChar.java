@@ -21,6 +21,8 @@
 package gomule.gui;
 
 import gomule.d2s.*;
+import gomule.gui.desktop.generic.GoMuleViewChar;
+import gomule.gui.desktop.generic.GoMuleViewDisplayHandler;
 import gomule.item.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -36,7 +38,7 @@ import randall.util.*;
  * @author Marco
  *  
  */
-public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2ItemListListener
+public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer, D2ItemListListener, GoMuleViewChar
 {
 	/**
 	 * 
@@ -115,19 +117,23 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 	private RandallPanel lDumpPanel;
 	private JPopupMenu rightClickItem;
 	private MouseEvent rightClickEvent;
+	
+	private JComponent				iContent;
+	private GoMuleViewDisplayHandler	iDisplayHandler;
+	private String						iTitle;
 
 	public D2ViewChar(D2FileManager pMainFrame, String pFileName)
 	{
-		super(pFileName, false, true, false, true);
+//		super(pFileName, false, true, false, true);
 
-		addInternalFrameListener(new InternalFrameAdapter()
-		{
-			public void internalFrameClosing(InternalFrameEvent e)
-			{
-				iFileManager.saveAll();
-				closeView();
-			}
-		});
+//		addInternalFrameListener(new InternalFrameAdapter()
+//		{
+//			public void internalFrameClosing(InternalFrameEvent e)
+//			{
+//				iFileManager.saveAll();
+//				closeView();
+//			}
+//		});
 
 		ToolTipManager.sharedInstance().setDismissDelay(40000);
 		ToolTipManager.sharedInstance().setInitialDelay(300);
@@ -143,7 +149,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 		iCharPainter = new D2CharPainterPanel();
 		lCharPanel.add(iCharPainter, BorderLayout.CENTER);
 		lTabs.addTab("Character", lCharPanel);
-		setContentPane(lTabs);
+		iContent = lTabs;
+//		setContentPane(lTabs);
 		iCharPainter.build();
 
 		JPanel lStatPanel = new JPanel();
@@ -715,8 +722,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			}
 		});
 
-		pack();
-		setVisible(true);
+//		pack();
+//		setVisible(true);
 
 		connect();
 		itemListChanged();
@@ -981,7 +988,11 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 				lTitle += iCharacter.getTitleString();
 			}
 		}
-		setTitle(lTitle);
+		iTitle = lTitle;
+		if ( iDisplayHandler != null )
+		{
+			iDisplayHandler.setTitle(iTitle);
+		}
 		iCharPainter.build();
 		if ( iMercPainter != null )
 		{
@@ -995,17 +1006,17 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 	public void setCursorPickupItem()
 	{
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
+		iDisplayHandler.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
 	public void setCursorDropItem()
 	{
-		setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+		iDisplayHandler.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 	}
 
 	public void setCursorNormal()
 	{
-		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		iDisplayHandler.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	class MyMouse extends MouseAdapter{
@@ -1018,6 +1029,20 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 
 		}
 
+	}
+	
+	public void setDisplayHandler(GoMuleViewDisplayHandler pDisplayHandler)
+	{
+		iDisplayHandler = pDisplayHandler;
+		if ( iTitle != null )
+		{
+			iDisplayHandler.setTitle( iTitle );
+		}
+	}
+	
+	public GoMuleViewDisplayHandler getDisplayHandler()
+	{
+		return iDisplayHandler;
 	}
 
 	class D2ItemPanel
@@ -1451,7 +1476,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 							if (lItemPanel.isItem())
 							{
 
-								rightClickItem.show(D2ViewChar.this, pEvent.getX(), pEvent.getY()+35);
+								rightClickItem.show(iContent, pEvent.getX(), pEvent.getY()+35);
 								rightClickEvent = pEvent;
 							}
 						}
@@ -3289,6 +3314,21 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 			iCharacter.listenItemListEvents();
 			iCharacter.fireD2ItemListEvent();	
 		}
+	}
+	
+	public JComponent getDisplay() 
+	{
+		return iContent;
+	}
+	
+	public D2ViewChar getViewChar() 
+	{
+		return this;
+	}
+	
+	public D2ItemContainer getItemContainer() 
+	{
+		return this;
 	}
 
 }

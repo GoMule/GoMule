@@ -24,6 +24,12 @@ package gomule.gui;
 import gomule.d2s.*;
 import gomule.d2x.*;
 import gomule.dropCalc.gui.RealGUI;
+import gomule.gui.desktop.frames.GoMuleFrameDesktop;
+import gomule.gui.desktop.generic.GoMuleDesktop;
+import gomule.gui.desktop.generic.GoMuleDesktopListener;
+import gomule.gui.desktop.generic.GoMuleView;
+import gomule.gui.desktop.generic.GoMuleViewChar;
+import gomule.gui.desktop.generic.GoMuleViewStash;
 import gomule.item.D2Item;
 import gomule.util.*;
 import java.awt.*;
@@ -58,10 +64,10 @@ public class D2FileManager extends JFrame
 	private static final String  CURRENT_VERSION = "R0.3: Donkey";
 
 	private HashMap				 iItemLists = new HashMap();
-	private ArrayList            iOpenWindows;
+//	private ArrayList            iOpenWindows;
 	private JMenuBar			 iMenuBar;
 	private JPanel               iContentPane;
-	private JDesktopPane         iDesktopPane;
+	private GoMuleDesktop        iDesktopPane;
 	private JToolBar             iToolbar;
 	private Properties           iProperties;
 	private D2Project            iProject;
@@ -108,11 +114,9 @@ public class D2FileManager extends JFrame
 		D2TxtFile.readAllFiles("d2111");
 		D2TblFile.readAllFiles("d2111");
 
-		iOpenWindows = new ArrayList();
+//		iOpenWindows = new ArrayList();
 		iContentPane = new JPanel();
-		iDesktopPane = new JDesktopPane();
-		iDesktopPane.setDragMode(1);
-
+		iDesktopPane = new GoMuleFrameDesktop();
 
 		iContentPane.setLayout(new BorderLayout());
 
@@ -121,7 +125,7 @@ public class D2FileManager extends JFrame
 		createLeftPane();
 		createRightPane();
 
-		JSplitPane lSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, iLeftPane, iDesktopPane);
+		JSplitPane lSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, iLeftPane, iDesktopPane.getDisplay());
 		JSplitPane rSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, lSplit, iRightPane);
 
 		lSplit.setDividerLocation(200);
@@ -397,24 +401,34 @@ public class D2FileManager extends JFrame
 
 	private void flavieDump(ArrayList dFileNames, boolean singleDump){
 		try{
-			String reportName;
+			String reportName = null;
 			if(singleDump){
-				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
-					reportName = (((D2ViewChar)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar().getCharName() + iProject.getReportName());
-				}else{
-					reportName = ((((D2ViewStash)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())))).getStashName() + iProject.getReportName());
-					reportName = reportName.replace(".d2x", "");
+				
+				GoMuleView lView = iDesktopPane.getSelectedView();
+				if ( lView != null )
+				{
+					if ( lView instanceof GoMuleViewChar )
+					{
+						reportName = ((GoMuleViewChar) lView).getViewChar().getChar().getCharName() + iProject.getReportName();
+					}else if ( lView instanceof GoMuleViewStash ) {
+						reportName = ((GoMuleViewStash) lView).getViewStash().getStashName() + iProject.getReportName();
+						reportName = reportName.replace(".d2x", "");
+					}
 				}
 			}else{
 				reportName = iProject.getProjectName() + iProject.getReportName();
 			}
-			new Flavie(
-					reportName, iProject.getReportTitle(), 
-					iProject.getDataName(), iProject.getStyleName(),
-					dFileNames,
-					iProject.isCountAll(), iProject.isCountEthereal(),
-					iProject.isCountStash(), iProject.isCountChar()
-			);
+			if ( reportName != null )
+			{
+				new Flavie(
+						reportName, iProject.getReportTitle(), 
+						iProject.getDataName(), iProject.getStyleName(),
+						dFileNames,
+						iProject.isCountAll(), iProject.isCountEthereal(),
+						iProject.isCountStash(), iProject.isCountChar()
+				);
+			}
+			
 //			JOptionPane.showMessageDialog(iContentPane,
 //			"Flavie says reports generated successfully.\nFile: " + System.getProperty("user.dir") + File.separatorChar + reportName + ".html", 
 //			"Success!", JOptionPane.INFORMATION_MESSAGE);			
@@ -467,33 +481,40 @@ public class D2FileManager extends JFrame
 		pickAll = new JButton("Pick All");
 		pickAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
-					iList.ignoreItemListEvents();
-					try{
+				
+				GoMuleView lView = iDesktopPane.getSelectedView();
+				if ( lView != null )
+				{
+					D2ItemList lList = lView.getItemLists();
+					try
+					{
+						lList.ignoreItemListEvents();
 
-						if(iList.getFilename().endsWith(".d2s") && getProject().getIgnoreItems()){
+						if(lList.getFilename().endsWith(".d2s") && getProject().getIgnoreItems()){
 
-							for(int x = 0;x<iList.getNrItems();x++){
+							for(int x = 0;x<lList.getNrItems();x++){
 
-								if(((D2Item)iList.getItemList().get(x)).isMoveable()){
-									moveToClipboard(((D2Item)iList.getItemList().get(x)), iList);
+								if(((D2Item)lList.getItemList().get(x)).isMoveable()){
+									moveToClipboard(((D2Item)lList.getItemList().get(x)), lList);
 									x--;
 								}
 							}
 
 						}else{
 
-							for(int x = 0;x<iList.getNrItems();x++){
-								moveToClipboard(((D2Item)iList.getItemList().get(x)), iList);
+							for(int x = 0;x<lList.getNrItems();x++){
+								moveToClipboard(((D2Item)lList.getItemList().get(x)), lList);
 								x--;
 							}
 
 						}
+						
 					}finally{
-						iList.listenItemListEvents();
-						iList.fireD2ItemListEvent();
+						lList.listenItemListEvents();
+						lList.fireD2ItemListEvent();
 					}
+					
+					
 				}
 			}
 		});
@@ -501,25 +522,34 @@ public class D2FileManager extends JFrame
 		dropAll = new JButton("Drop All");
 		dropAll.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
-					iList.ignoreItemListEvents();
+				GoMuleView lView = iDesktopPane.getSelectedView();
+				if ( lView != null )
+//				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1)
+				{
+					D2ItemList lList = lView.getItemLists();
+//					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
 					try{
-						if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
-
-							D2ViewChar iCharacter = ((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())));
+						lList.ignoreItemListEvents();
+						
+						if ( lView instanceof GoMuleViewChar )
+						{
+							D2ViewChar iCharacter = ((GoMuleViewChar) lView).getViewChar();
 							for(int x = 2;x> -1;x--){
 								iCharacter.putOnCharacter(x,  D2ViewClipboard.getItemList());
 							}
-						}else{
+						}
+						else
+						{
 							ArrayList lItemList = D2ViewClipboard.removeAllItems();
-							while (lItemList.size() > 0){
-								iList.addItem((D2Item) lItemList.remove(0));
+							while (lItemList.size() > 0)
+							{
+								lList.addItem((D2Item) lItemList.remove(0));
 							}
+							
 						}
 					}finally{
-						iList.listenItemListEvents();
-						iList.fireD2ItemListEvent();
+						lList.listenItemListEvents();
+						lList.fireD2ItemListEvent();
 					}
 				}
 			}
@@ -529,13 +559,17 @@ public class D2FileManager extends JFrame
 		pickChooser = new JComboBox(new String[]{"Stash", "Inventory", "Cube", "Equipped"});
 		pickFrom.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-
-				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
-					iList.ignoreItemListEvents();
+				GoMuleView lView = iDesktopPane.getSelectedView();
+				if ( lView != null )
+//				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1)
+				{
+					D2ItemList lList = lView.getItemLists();
+//					D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
 					try{
-						for(int x = 0;x<iList.getNrItems();x++){
-							D2Item remItem  = ((D2Item)iList.getItemList().get(x));
+						lList.ignoreItemListEvents();
+						
+						for(int x = 0;x<lList.getNrItems();x++){
+							D2Item remItem  = ((D2Item)lList.getItemList().get(x));
 							if(!remItem.isMoveable() && pickChooser.getSelectedIndex()!=3 && getProject().getIgnoreItems()){
 								continue;
 							}
@@ -543,33 +577,33 @@ public class D2FileManager extends JFrame
 							case 0:
 
 								if(remItem.get_location() == 0 && remItem.get_panel() == 5){
-									moveToClipboard(remItem, iList);
+									moveToClipboard(remItem, lList);
 									x--;
 								}
 								break;
 							case 1:
 								if(remItem.get_location() == 0 && remItem.get_panel() == 1){
-									moveToClipboard(remItem, iList);
+									moveToClipboard(remItem, lList);
 									x--;
 								}
 								break;
 							case 2:
 								if(remItem.get_location() == 0 && remItem.get_panel() == 4){
-									moveToClipboard(remItem, iList);
+									moveToClipboard(remItem, lList);
 									x--;
 								}
 								break;
 							case 3:
 								if(remItem.get_location() == 1){
-									moveToClipboard(remItem, iList);
+									moveToClipboard(remItem, lList);
 									x--;
 								}
 								break;
 							}
 						}
 					}finally{
-						iList.listenItemListEvents();
-						iList.fireD2ItemListEvent();
+						lList.listenItemListEvents();
+						lList.fireD2ItemListEvent();
 					}
 				}
 			}
@@ -581,9 +615,13 @@ public class D2FileManager extends JFrame
 		dropTo.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
-				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-					D2ViewChar iCharacter = ((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())));
-					iCharacter.putOnCharacter(dropChooser.getSelectedIndex(),  D2ViewClipboard.getItemList());
+				GoMuleView lView = iDesktopPane.getSelectedView();
+				if ( lView instanceof GoMuleViewChar )
+//				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1)
+				{
+					D2ViewChar lCharacter = ((GoMuleViewChar) lView).getViewChar();
+//					D2ViewChar iCharacter = ((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())));
+					lCharacter.putOnCharacter(dropChooser.getSelectedIndex(),  D2ViewClipboard.getItemList());
 				}
 			}
 		});
@@ -615,10 +653,16 @@ public class D2FileManager extends JFrame
 		dumpBut.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
-				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
-					if(singleTxtDump(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName())){
+				GoMuleView lView = iDesktopPane.getSelectedView();
+				if ( lView != null )
+//				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1)
+				{
+					if ( singleTxtDump( lView.getItemContainer().getFileName()) )
+					{
+//					
+//					if(singleTxtDump(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName())){
 						JOptionPane.showMessageDialog(iContentPane,
-								"Char/Stash dump was a success.\nFile: " + (((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName()) + ".txt", 
+								"Char/Stash dump was a success.\nFile: " + lView.getItemContainer().getFileName() + ".txt", 
 								"Success!", JOptionPane.INFORMATION_MESSAGE);
 
 					}else{
@@ -634,9 +678,12 @@ public class D2FileManager extends JFrame
 		flavieSingle.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
-				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1){
+				GoMuleView lView = iDesktopPane.getSelectedView();
+				if ( lView != null )
+//				if(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1)
+				{
 					ArrayList dFileNames = new ArrayList();
-					dFileNames.add(((D2ItemContainer)iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName());
+					dFileNames.add( lView.getItemContainer().getFileName() );
 					flavieDump(dFileNames, true);
 				}
 
@@ -656,9 +703,13 @@ public class D2FileManager extends JFrame
 
 	private void moveToClipboard(D2Item remItem , D2ItemList iList) {
 		iList.removeItem(remItem);
-		if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
+		GoMuleView lView = iDesktopPane.getSelectedView();
+		if ( lView instanceof GoMuleViewChar )
+//		if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s"))
+		{
 			((D2Character)iList).unequipItem(remItem);
-			((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).paintCharStats();
+//			((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).paintCharStats();
+			((GoMuleViewChar) lView).getViewChar().paintCharStats();
 		}
 		D2ViewClipboard.addItem(remItem);
 	}
@@ -954,15 +1005,16 @@ public class D2FileManager extends JFrame
 	public void closeFileName(String pFileName)
 	{
 		saveAll();
-		for ( int i = 0 ; i < iOpenWindows.size() ; i++ )
-		{
-			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
-
-			if ( lItemContainer.getFileName().equalsIgnoreCase(pFileName) )
-			{
-				lItemContainer.closeView();
-			}
-		}
+		iDesktopPane.closeView(pFileName);
+//		for ( int i = 0 ; i < iOpenWindows.size() ; i++ )
+//		{
+//			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
+//
+//			if ( lItemContainer.getFileName().equalsIgnoreCase(pFileName) )
+//			{
+//				lItemContainer.closeView();
+//			}
+//		}
 	}
 
 
@@ -1037,14 +1089,7 @@ public class D2FileManager extends JFrame
 	public void closeWindows()
 	{
 		saveAll();
-		while (iOpenWindows.size() > 0)
-		{
-			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(0);
-			if (lItemContainer != null)
-			{
-				lItemContainer.closeView();
-			}
-		}
+		iDesktopPane.closeViewAll();
 	}
 
 	/** called on exit or when this window is closed
@@ -1150,9 +1195,11 @@ public class D2FileManager extends JFrame
 					}
 				}
 
-				for ( int i = 0 ; i < iOpenWindows.size() ; i++ )
+				Iterator lViewIterator = iDesktopPane.getIteratorView();
+				while ( lViewIterator.hasNext() )
 				{
-					D2ItemContainer lContainer = (D2ItemContainer) iOpenWindows.get(i);
+					GoMuleView lView = (GoMuleView) lViewIterator.next();
+					D2ItemContainer lContainer = lView.getItemContainer();
 					D2ItemList lList = lContainer.getItemLists();
 					if (iViewAll != null && lList == iViewAll.getStash() )
 					{
@@ -1235,57 +1282,71 @@ public class D2FileManager extends JFrame
 
 	public void openChar(String pCharName, boolean load)
 	{
-		D2ItemContainer lExisting = null;
-		for (int i = 0; i < iOpenWindows.size(); i++)
+		GoMuleView lExisting = null;
+		Iterator lViewIterator = iDesktopPane.getIteratorView();
+		while ( lViewIterator.hasNext() )
 		{
-			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
-			if (lItemContainer.getFileName().equals(pCharName))
+			GoMuleView lView = (GoMuleView) lViewIterator.next();
+
+			if (lView.getItemContainer().getFileName().equals(pCharName))
 			{
-				lExisting = lItemContainer;
+				lExisting = lView;
 			}
 		}
 		if(load){
 			if (lExisting != null)
 			{
-				internalWindowForward(((JInternalFrame) lExisting));
-
+//				internalWindowForward(((JInternalFrame) lExisting));
+				iDesktopPane.showView( lExisting );
 			}
 			else
 			{
 				D2ViewChar lCharView = new D2ViewChar(D2FileManager.this, pCharName);
-				lCharView.setLocation(10 + (iOpenWindows.size() * 10), 10+ (iOpenWindows.size() * 10));
+//				lCharView.setLocation(10 + (iOpenWindows.size() * 10), 10+ (iOpenWindows.size() * 10));
 				addToOpenWindows(lCharView);
-				internalWindowForward(lCharView);
+//				internalWindowForward(lCharView);
+//				iDesktopPane.showView( lExisting );
 			}
 		}
 		iProject.addChar(pCharName);
 	}
 
-	private void internalWindowForward(JInternalFrame frame) {
-
-		frame.toFront();
-		try {
-			frame.setSelected(true);
-		} catch (PropertyVetoException e) {
-			//Shouldn't worry too much if this happens I guess?
-			e.printStackTrace();
-		}
-	}
+//	private void internalWindowForward(D2ViewChar pView) {
+//
+//		iDesktopPane.showView( pView );
+////		frame.toFront();
+////		try {
+////			frame.setSelected(true);
+////		} catch (PropertyVetoException e) {
+////			//Shouldn't worry too much if this happens I guess?
+////			e.printStackTrace();
+////		}
+//	}
 
 	public D2ViewProject getViewProject()
 	{
 		return iViewProject;
 	}
 
-	private void addToOpenWindows(D2ItemContainer pContainer)
+	private void addToOpenWindows(GoMuleView pView)
 	{
-		iOpenWindows.add( pContainer );
-		iDesktopPane.add( (JInternalFrame) pContainer );
-		((JInternalFrame) pContainer).setOpaque(true);
-		((JInternalFrame) pContainer).addInternalFrameListener(new InternalFrameListener(){
-
-			public void internalFrameActivated(InternalFrameEvent arg0) {
-				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2x")){
+//		iOpenWindows.add( pView );
+		iDesktopPane.addView( pView );
+		
+		pView.getDisplayHandler().addDesktopListener( new GoMuleDesktopListener() 
+		{
+			
+			public void viewClosing(GoMuleView pView) 
+			{
+				saveAll();
+				pView.getItemContainer().closeView();
+			}
+			
+			public void viewActivated(GoMuleView pView) 
+			{
+//				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2x"))
+				if ( pView instanceof GoMuleViewChar )
+				{
 					pickFrom.setEnabled(false);
 					pickChooser.setEnabled(false);
 					dropTo.setEnabled(false);
@@ -1293,7 +1354,10 @@ public class D2FileManager extends JFrame
 					dropAll.setEnabled(true);
 					flavieSingle.setEnabled(true);
 					dumpBut.setEnabled(true);
-				}else if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")){
+				}
+//				else if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s"))
+				else if ( pView instanceof GoMuleViewStash )
+				{
 					pickFrom.setEnabled(true);
 					pickChooser.setEnabled(true);
 					dropTo.setEnabled(true);
@@ -1301,7 +1365,9 @@ public class D2FileManager extends JFrame
 					dropAll.setEnabled(true);
 					flavieSingle.setEnabled(true);
 					dumpBut.setEnabled(true);
-				}else{
+				}
+				else
+				{
 					pickFrom.setEnabled(false);
 					pickChooser.setEnabled(false);
 					dropTo.setEnabled(false);
@@ -1311,29 +1377,36 @@ public class D2FileManager extends JFrame
 					dumpBut.setEnabled(false);
 				}
 			}
-			public void internalFrameClosed(InternalFrameEvent arg0) {}
-			public void internalFrameClosing(InternalFrameEvent arg0) {}
-			public void internalFrameDeactivated(InternalFrameEvent arg0) {}
-			public void internalFrameDeiconified(InternalFrameEvent arg0) {}
-			public void internalFrameIconified(InternalFrameEvent arg0) {}
-			public void internalFrameOpened(InternalFrameEvent arg0) {}
 		});
-		iViewProject.notifyFileOpened( pContainer.getFileName() );
+//		((JInternalFrame) pContainer).setOpaque(true);
+//		((JInternalFrame) pContainer).addInternalFrameListener(new InternalFrameListener(){
+//
+//			public void internalFrameActivated(InternalFrameEvent arg0) {
+//			}
+//			public void internalFrameClosed(InternalFrameEvent arg0) {}
+//			public void internalFrameClosing(InternalFrameEvent arg0) {}
+//			public void internalFrameDeactivated(InternalFrameEvent arg0) {}
+//			public void internalFrameDeiconified(InternalFrameEvent arg0) {}
+//			public void internalFrameIconified(InternalFrameEvent arg0) {}
+//			public void internalFrameOpened(InternalFrameEvent arg0) {}
+//		});
+		iViewProject.notifyFileOpened( pView.getItemContainer().getFileName() );
 
-		if ( pContainer.getFileName().equalsIgnoreCase("all") )
+		if ( pView instanceof GoMuleViewStash && pView.getItemContainer().getFileName().equalsIgnoreCase("all") )
 		{
-			iViewAll = (D2ViewStash) pContainer;
+			iViewAll = ((GoMuleViewStash) pView).getViewStash();
 		}
 	}
 
-	public void removeFromOpenWindows(D2ItemContainer pContainer)
+	public void removeFromOpenWindows(GoMuleView pView)
 	{
-		iOpenWindows.remove( pContainer );
-		iDesktopPane.remove( (JInternalFrame) pContainer );
-		iViewProject.notifyFileClosed( pContainer.getFileName() );
+		iDesktopPane.removeView(pView);
+//		iOpenWindows.remove( pContainer );
+//		iDesktopPane.remove( (JInternalFrame) pContainer );
+		iViewProject.notifyFileClosed( pView.getItemContainer().getFileName() );
 		repaint();
 
-		if ( pContainer.getFileName().equalsIgnoreCase("all") )
+		if ( pView.getItemContainer().getFileName().equalsIgnoreCase("all") )
 		{
 			iViewAll = null;
 		}
@@ -1405,30 +1478,42 @@ public class D2FileManager extends JFrame
 
 	public void openStash(String pStashName, boolean load)
 	{
-		D2ItemContainer lExisting = null;
-		for (int i = 0; i < iOpenWindows.size(); i++)
+		GoMuleView lExisting = null;
+		Iterator lViewIterator = iDesktopPane.getIteratorView();
+		while ( lViewIterator.hasNext() )
 		{
-			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
-			if (lItemContainer.getFileName().equals(pStashName))
+			GoMuleView lView = (GoMuleView) lViewIterator.next();
+			
+			if ( lView.getItemContainer().getFileName().equals(pStashName) )
 			{
-				lExisting = lItemContainer;
+				lExisting = lView;
 			}
 		}
+		
+//		D2ItemContainer lExisting = null;
+//		for (int i = 0; i < iOpenWindows.size(); i++)
+//		{
+//			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
+//			if (lItemContainer.getFileName().equals(pStashName))
+//			{
+//				lExisting = lItemContainer;
+//			}
+//		}
 
 		D2ViewStash lStashView = null;
 		if(load){
 			if (lExisting != null)
 			{
-				lStashView = ((D2ViewStash) lExisting);
+				lStashView = ((GoMuleViewStash) lExisting).getViewStash();
 			}
 			else
 			{
 				lStashView = new D2ViewStash(D2FileManager.this, pStashName);
-				lStashView.setLocation(10 + (iOpenWindows.size() * 10), 10+ (iOpenWindows.size() * 10));
+//				lStashView.setLocation(10 + (iOpenWindows.size() * 10), 10+ (iOpenWindows.size() * 10));
 				addToOpenWindows(lStashView);
 			}
-			lStashView.activateView();
-			internalWindowForward(lStashView);
+//			lStashView.activateView();
+//			internalWindowForward(lStashView);
 		}
 
 		iProject.addStash(pStashName);
