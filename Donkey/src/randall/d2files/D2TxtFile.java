@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 public final class D2TxtFile
 {
 	private static String    sMod;
-
 	public static D2TxtFile  MISC;
 	public static D2TxtFile  ARMOR;
 	public static D2TxtFile  WEAPONS;
@@ -57,10 +56,10 @@ public final class D2TxtFile
 	public static D2TxtFile CHARSTATS;
 	public static D2TxtFile AUTOMAGIC;
 
-	/**
-	 * DROP CALC
-	 */
-	 public static D2TxtFile MONSTATS;
+//	/**
+//	* DROP CALC
+//	*/
+	public static D2TxtFile MONSTATS;
 	public static D2TxtFile TCS;
 	public static D2TxtFile LEVELS;
 	public static D2TxtFile SUPUNIQ;
@@ -72,7 +71,7 @@ public final class D2TxtFile
 	private String[][]        iData;
 
 
-	public static void readAllFiles(String pMod)
+	public static void constructTxtFiles(String pMod)
 	{
 
 		if(read)return;
@@ -135,9 +134,11 @@ public final class D2TxtFile
 
 	public int getRowSize()
 	{
+		if(iData == null){
+			readInData();
+		}
 		return iData.length;
 	}
-
 
 	public static ArrayList propToStat(String pCode, String pMin, String pMax, String pParam, int qFlag){
 
@@ -182,11 +183,11 @@ public final class D2TxtFile
 				}
 			}
 			pVals[2] = 0;
-			
+
 			if(D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).equals("item_addclassskills")){
 				pVals[0] = Integer.parseInt(D2TxtFile.PROPS.searchColumns("code", pCode).get("val1"));
 			}
-			
+
 			outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat",D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")), pVals, qFlag));
 
 		}
@@ -196,7 +197,6 @@ public final class D2TxtFile
 
 	public static D2TxtFileItemProperties search(String pCode)
 	{
-		//        System.err.println("Test1: " + MISC.searchAllData(pCode) );
 		D2TxtFileItemProperties lFound = MISC.searchColumns("code", pCode);
 		if (lFound == null)
 		{
@@ -206,29 +206,23 @@ public final class D2TxtFile
 		{
 			lFound = WEAPONS.searchColumns("code", pCode);
 		}
-		//        if ( lFound != null )
-		//        {
-		//            System.err.println("Test1: " + lFound.getName() );
-		//            System.err.println("Test2: " + lFound.getTblName() );
-		//        }
-		//        else
-		//        {
-		//            System.err.println("Test: Not found" );
-		//        }
 		return lFound;
 	}
 
 	private D2TxtFile(String pFileName)
 	{
 		iFileName = pFileName;
+
+	}
+	
+	private void readInData(){
 		try
 		{
 			ArrayList strArr = new ArrayList();
-//			String lSeparator = new Character((char) 9).toString();
 			FileReader lFileIn = new FileReader(sMod + File.separator + iFileName + ".txt");
 			BufferedReader lIn = new BufferedReader(lFileIn);
 			String lFirstLine = lIn.readLine();
-			
+
 			Pattern p = Pattern.compile("	");
 			iHeader = p.split(lFirstLine);
 			String lLine = lIn.readLine();
@@ -239,7 +233,7 @@ public final class D2TxtFile
 				String[] lineArr = p.split(lLine);
 				if (lineArr.length > 0 &&lSkipExpansion && lineArr[0].equals("Expansion"))
 				{
-					
+
 				}
 				else
 				{
@@ -251,7 +245,7 @@ public final class D2TxtFile
 
 			lFileIn.close();
 			lIn.close();
-			
+
 			iData = new String[strArr.size()][];
 			strArr.toArray(iData);
 
@@ -261,23 +255,6 @@ public final class D2TxtFile
 			D2FileManager.displayErrorDialog(pEx);
 		}
 	}
-
-//	private ArrayList split(String pText, String pSplit)
-//	{
-//		ArrayList lList = new ArrayList();
-//
-//		int lCurrent = 0;
-//		int lIndex = pText.indexOf(pSplit, lCurrent);
-//
-//		while (lIndex != -1)
-//		{
-//			lList.add(pText.substring(lCurrent, lIndex));
-//			lCurrent = lIndex + 1;
-//			lIndex = pText.indexOf(pSplit, lCurrent);
-//		}
-//
-//		return lList;
-//	}
 
 	protected String getValue(int pRowNr, String pCol)
 	{
@@ -292,14 +269,17 @@ public final class D2TxtFile
 	}
 
 	private int getCol(String col) {
-		
-		
+
+		if(iData == null){
+			readInData();
+		}
+
 		for(int x= 0;x<iHeader.length;x++){
 			if(iHeader[x].equals(col)){
 				return x;
 			}
 		}
-		
+
 		return -1;
 	}
 
@@ -310,6 +290,7 @@ public final class D2TxtFile
 
 	public D2TxtFileItemProperties searchColumns(String pCol, String pText)
 	{	
+
 		int lColNr = getCol(pCol);
 
 		if (lColNr != -1)
@@ -387,21 +368,4 @@ public final class D2TxtFile
 		}
 		return null;
 	}
-
-//	private int searchAllData(String pText)
-//	{
-//		for (int i = 0; i < iData.length; i++)
-//		{
-//			if (((ArrayList) iData.get(i)).contains(pText))
-//			{
-//				int lHeader = ((ArrayList) iData.get(i)).indexOf(pText);
-//				System.err.println("Found at: " + lHeader + " - " + iHeader.get(lHeader));
-//				return i;
-//			}
-//		}
-//
-//		return -1;
-//	}
-
-
 }

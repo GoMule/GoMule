@@ -74,7 +74,7 @@ public class DCNew {
 	}
 
 	public DCNew(){
-		D2TxtFile.readAllFiles("d2111");
+		D2TxtFile.constructTxtFiles("d2111");
 		D2TblFile.readAllFiles("d2111");
 		populateArrays();
 		populateItemArrays();

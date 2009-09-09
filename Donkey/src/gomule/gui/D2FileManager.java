@@ -111,7 +111,7 @@ public class D2FileManager extends JFrame
 
 	private D2FileManager()
 	{
-		D2TxtFile.readAllFiles("d2111");
+		D2TxtFile.constructTxtFiles("d2111");
 		D2TblFile.readAllFiles("d2111");
 
 //		iOpenWindows = new ArrayList();

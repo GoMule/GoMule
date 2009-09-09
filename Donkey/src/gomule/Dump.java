@@ -85,7 +85,7 @@ public class Dump
 //        t.add_file("resources" + s + "uniqueitems.txt", -1);
 //        t = D2TxtTable.get(D2TxtTable.SETS);
 //        t.add_file("resources" + s + "setitems.txt", 0);
-		D2TxtFile.readAllFiles("d2111");
+		D2TxtFile.constructTxtFiles("d2111");
 		D2TblFile.readAllFiles("d2111");
 
         //main gui = new main(args[0]);
