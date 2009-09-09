@@ -860,23 +860,17 @@ public class MonsterTuple {
 		 */
 
 
-		if(picks < 0 ||picks >1){
+//		if(picks < 0 ||picks >1){
 			if(input != 0){
-				if(mParent.getClassOfMon()!= 4 && mParent.getClassOfMon()!=5){
-					System.out.println("RWAR");
-
-				}
-
-				if(mParent.getClassOfMon() == 1 ||mParent.getClassOfMon() == 4 ||mParent.getClassOfMon() == 5 ){
-
-					input = input * DC.getQuality(item, getLevel(), MF,this, QRecursions - 1, true);
-				}
+					input = input * DC.getQuality(item, getLevel(), MF,this, QRecursions, true);
 
 				applyMPicks(input,  sevP);
 			}else{
 				applyMPicks(finalMiscTCs,  sevP);
 			}
-		}
+//		}else{
+//			System.out.println();
+//		}
 
 		if(mParent.getID().equals("The Countess")){
 			setInitTC(initCountess);

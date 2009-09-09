@@ -1251,7 +1251,8 @@ public class DCNew {
 						continue;
 					}
 					if(((MonsterTuple)mTuples.get(y)).getInitTC().indexOf("Council")!=-1){
-						((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,generateRarityList((MonsterTuple)mTuples.get(y), item) * getQuality(item, ((MonsterTuple)mTuples.get(y)).getLevel(), MF,((MonsterTuple)mTuples.get(y)), QRecursions,true),item,this,MF,QRecursions, sevP);
+						((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,generateRarityList((MonsterTuple)mTuples.get(y), item),item,this,MF,QRecursions, sevP);
+
 					}else{
 						((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,0,item,this,MF,QRecursions, sevP);
 
@@ -1330,6 +1331,7 @@ public class DCNew {
 					if(((MonsterTuple)mTuples.get(y)).getLevel() < item.getqLvl()){
 						continue;
 					}
+					
 					((MonsterTuple)mTuples.get(y)).lookupBASETCReturnMiscTCS(nPlayers, nGroup,generateRarityList((MonsterTuple)mTuples.get(y), item),item,this,MF,QRecursions, sevP);
 					if(((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().containsKey(item.getItemCode())){
 						monsterTCList.put(mTuples.get(y), new Double(((Double)((MonsterTuple)mTuples.get(y)).getFinalMiscTCs().get(item.getItemCode())).doubleValue()));
