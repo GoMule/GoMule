@@ -10,8 +10,8 @@ Silo, I've got a feature request for you: sort by iLvl.
 - Nice to see the facets working. I'm so used to subtracting seven from my items left scores I need to break the habit of doing it automatically. Is there any way Flavie can count socketed facets too though?
 
 
-FIX BOSS AND SU with SOJ.
-Works for some, see defilers. Quality check done within Monster tuple, not outside like others. 
+
+Fix defilers and council minions...
 
 DONE:
 
@@ -32,6 +32,9 @@ and can't load RangerRick (SC Mod).
 Fixed dump skills being incorrectly ordered
 - My left (RIGHT???) hand side bar always comes in too large - the boxes align side by side. When I re-size it the align nicely underneath eachother, but the size isn't saved in any way. I can do a screenshot later if I'm not being clear.
 Fixed dropcalc for council member minions - problem was quality list not being included.
+Attemped to optimise on txt file reading. GoMule now reads when files are required rather than initially.
+FIX BOSS AND SU with SOJ. <- Possibly fixed.
+Fixed dropcalc for council member minions AGAIN. boss fix broke previous fix.
 
 GOMULE
 
