@@ -62,10 +62,10 @@ public class GoMuleTabElement
 		
 		iTitleComponent = new TitleComponent(); 
 		iTitleLabel = new JLabel(iTitle);
-		Icon lIcon;
-		lIcon = D2ImageCache.getIcon("TabEmpty");
+//		Icon lIcon;
+//		lIcon = D2ImageCache.getIcon("TabEmpty");
 
-		iTitleLabel.setIcon(lIcon);
+//		iTitleLabel.setIcon(lIcon);
 		iTitleLabel.setForeground(sForegroundColorSelected);
 		iTitleCloseButton = new JLabel(D2ImageCache.getIcon("TabClose.gif"));
 		iTitleComponent.addToPanel(iTitleLabel,0,0,1,RandallPanel.NONE);
