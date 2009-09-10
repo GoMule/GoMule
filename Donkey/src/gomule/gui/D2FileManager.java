@@ -24,12 +24,13 @@ package gomule.gui;
 import gomule.d2s.*;
 import gomule.d2x.*;
 import gomule.dropCalc.gui.RealGUI;
-import gomule.gui.desktop.frames.GoMuleFrameDesktop;
+import gomule.gui.desktop.frames.GoMuleDesktopInternalFrame;
 import gomule.gui.desktop.generic.GoMuleDesktop;
 import gomule.gui.desktop.generic.GoMuleDesktopListener;
 import gomule.gui.desktop.generic.GoMuleView;
 import gomule.gui.desktop.generic.GoMuleViewChar;
 import gomule.gui.desktop.generic.GoMuleViewStash;
+import gomule.gui.desktop.tabs.GoMuleDesktopTabs;
 import gomule.item.D2Item;
 import gomule.util.*;
 import java.awt.*;
@@ -116,7 +117,8 @@ public class D2FileManager extends JFrame
 
 //		iOpenWindows = new ArrayList();
 		iContentPane = new JPanel();
-		iDesktopPane = new GoMuleFrameDesktop();
+		iDesktopPane = new GoMuleDesktopInternalFrame();
+//		iDesktopPane = new GoMuleDesktopTabs();
 
 		iContentPane.setLayout(new BorderLayout());
 

@@ -1119,6 +1119,34 @@ public class D2ViewStash /* extends JInternalFrame */ implements D2ItemContainer
         iCatSockAll.setSelected(true);
         return lCategoriesSock;
     }
+    
+    public String getViewTitle()
+    {
+        String lTitle = iStashName;
+        if (iStash == null || iItemModel == null)
+        {
+            lTitle += " (Disconnected)";
+        }
+        else
+        {
+            lTitle += " (" + iItemModel.getRowCount() + "/";
+            lTitle += iStash.getNrItems() + ")" + ((iStash.isModified()) ? "*" : "");
+            if (iStash.isSC() && iStash.isHC())
+            {
+                lTitle += " (Unknown)";
+            }
+            else if (iStash.isSC())
+            {
+                lTitle += " (SC)";
+            }
+            else if (iStash.isHC())
+            {
+                lTitle += " (HC)";
+            }
+        }
+    	
+        return lTitle;
+    }
 
     public void itemListChanged()
     {

@@ -25,52 +25,6 @@ import java.util.*;
 
 public class RandallUtil
 {
-//	private static final String ICON_PATH = "/randall/images/";
-//	private static HashMap iIcons = new HashMap();
-	
-//   public static ImageIcon getIcon( String iconName )
-//    throws IOException
-//    {
-//        if( iIcons.containsKey( iconName))
-//        {
-//            return (ImageIcon) iIcons.get( iconName);
-//        }
-//
-//        ImageIcon icon = null;
-//        icon = loadImageIcon( iconName);
-//        iIcons.put( iconName, icon);
-//        return icon;
-//    }
-	
-//    private static ImageIcon loadImageIcon( String iconName)
-//    throws IOException
-//	{
-//	    ImageIcon icon = null;
-//	    //Class klasse = getClass();
-//	    InputStream inputStream =  InputStream.class.getResourceAsStream(ICON_PATH + iconName);
-//	    if (inputStream != null)
-//	    {
-//	        byte[] buffer = new byte[0];
-//	        byte[] tmpbuf = new byte[1024];
-//	        while (true)
-//	        {
-//	            int laenge = inputStream.read(tmpbuf);
-//	            if (laenge <= 0)
-//	            {
-//	                break;
-//	            }
-//	            byte[] newbuf = new byte[buffer.length + laenge];
-//	            System.arraycopy(buffer, 0, newbuf, 0, buffer.length);
-//	            System.arraycopy(tmpbuf, 0, newbuf, buffer.length, laenge);
-//	            buffer = newbuf;
-//	        }
-//	        //create image
-//	        icon = new ImageIcon(buffer);
-//	        inputStream.close();
-//	    }
-//	    return icon;
-//	}
-    
 	public static String merge(ArrayList pArrayList, String pJoin)
 	{
 		String lReturn = "";

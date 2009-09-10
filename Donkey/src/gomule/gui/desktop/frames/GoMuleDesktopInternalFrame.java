@@ -1,6 +1,5 @@
 package gomule.gui.desktop.frames;
 
-import gomule.gui.D2FileManager;
 import gomule.gui.D2ItemContainer;
 import gomule.gui.desktop.generic.GoMuleDesktop;
 import gomule.gui.desktop.generic.GoMuleDesktopListener;
@@ -23,12 +22,12 @@ import javax.swing.event.InternalFrameEvent;
  * @author mbr
  *
  */
-public class GoMuleFrameDesktop implements GoMuleDesktop
+public class GoMuleDesktopInternalFrame implements GoMuleDesktop
 {
 	// Hide own stuff
 	private JDesktopPane	iDesktop;
 	
-	public GoMuleFrameDesktop() 
+	public GoMuleDesktopInternalFrame() 
 	{
 		iDesktop = new JDesktopPane();
 		iDesktop.setDragMode( JDesktopPane.OUTLINE_DRAG_MODE );

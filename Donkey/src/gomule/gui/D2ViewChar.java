@@ -958,6 +958,38 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 		disconnect(null);
 		iFileManager.removeFromOpenWindows(this);
 	}
+	
+	public String getViewTitle()
+	{
+		String lTitle;
+		if ( iCharacter == null )
+		{
+			lTitle = "Disconnected";
+		}
+		else
+		{
+			lTitle = iCharacter.getCharName();
+			if (iCharacter == null)
+			{
+				lTitle += " (Error Reading File)";
+			}
+			else
+			{
+				lTitle += (( iCharacter.isModified() ) ? "*" : "");
+				if (iCharacter.isSC())
+				{
+					lTitle += " (SC)";
+				}
+				else if (iCharacter.isHC())
+				{
+					lTitle += " (HC)";
+				}
+				lTitle += iCharacter.getTitleString();
+			}
+		}
+		
+		return lTitle;
+	}
 
 	public void itemListChanged()
 	{
