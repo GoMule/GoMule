@@ -130,6 +130,7 @@ public class D2ViewStash /* extends JInternalFrame */ implements D2ItemContainer
 	private JComponent				iContent;
 	private GoMuleViewDisplayHandler	iDisplayHandler;
 	private String						iTitle;
+	private boolean						iEdited;
 	
     public D2ViewStash(D2FileManager pMainFrame, String pFileName)
     {
@@ -1153,6 +1154,7 @@ public class D2ViewStash /* extends JInternalFrame */ implements D2ItemContainer
 
         iItemModel.refreshData();
         String lTitle = iStashName;
+        iEdited = false;
         if (iStash == null || iItemModel == null)
         {
             lTitle += " (Disconnected)";
@@ -1160,7 +1162,8 @@ public class D2ViewStash /* extends JInternalFrame */ implements D2ItemContainer
         else
         {
             lTitle += " (" + iItemModel.getRowCount() + "/";
-            lTitle += iStash.getNrItems() + ")" + ((iStash.isModified()) ? "*" : "");
+            iEdited = iStash.isModified();
+            lTitle += iStash.getNrItems() + ")" + ( iEdited ? "*" : "" );
             if (iStash.isSC() && iStash.isHC())
             {
                 lTitle += " (Unknown)";
@@ -1178,6 +1181,7 @@ public class D2ViewStash /* extends JInternalFrame */ implements D2ItemContainer
         if ( iDisplayHandler != null )
         {
         	iDisplayHandler.setTitle( iTitle );
+        	iDisplayHandler.setEdited( iEdited );
         }
 //        setTitle(lTitle);
     }
@@ -1188,6 +1192,7 @@ public class D2ViewStash /* extends JInternalFrame */ implements D2ItemContainer
 		if ( iTitle != null )
 		{
 			iDisplayHandler.setTitle( iTitle );
+        	iDisplayHandler.setEdited( iEdited );
 		}
 	}
 	

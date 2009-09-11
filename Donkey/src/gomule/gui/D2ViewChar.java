@@ -107,20 +107,21 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 	private JRadioButton             iConnectGoldBank;
 	private JTextField               iTransferFree;
 
-	private JButton					 iGoldTransferBtns[];
-	private JTabbedPane lTabs = new JTabbedPane();
-	private D2QuestPainterPanel lQuestPanel;
-	private D2SkillPainterPanel lSkillPanel;
-	private D2WayPainterPanel lWayPanel;
-	private D2DeathPainterPanel iDeathPainter;
-	private JTextArea lDump;
-	private RandallPanel lDumpPanel;
-	private JPopupMenu rightClickItem;
-	private MouseEvent rightClickEvent;
+	private JButton					 	iGoldTransferBtns[];
+	private JTabbedPane					lTabs = new JTabbedPane();
+	private D2QuestPainterPanel			lQuestPanel;
+	private D2SkillPainterPanel			lSkillPanel;
+	private D2WayPainterPanel			lWayPanel;
+	private D2DeathPainterPanel			iDeathPainter;
+	private JTextArea					lDump;
+	private RandallPanel				lDumpPanel;
+	private JPopupMenu					rightClickItem;
+	private MouseEvent 					rightClickEvent;
 	
-	private JComponent				iContent;
+	private JComponent					iContent;
 	private GoMuleViewDisplayHandler	iDisplayHandler;
 	private String						iTitle;
+	private boolean						iEdited;
 
 	public D2ViewChar(D2FileManager pMainFrame, String pFileName)
 	{
@@ -993,7 +994,7 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 
 	public void itemListChanged()
 	{
-
+		iEdited = false;
 		String lTitle;
 		if ( iCharacter == null )
 		{
@@ -1008,7 +1009,8 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 			}
 			else
 			{
-				lTitle += (( iCharacter.isModified() ) ? "*" : "");
+				iEdited = iCharacter.isModified();
+				lTitle += ( iEdited ? "*" : "" );
 				if (iCharacter.isSC())
 				{
 					lTitle += " (SC)";
@@ -1024,6 +1026,7 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 		if ( iDisplayHandler != null )
 		{
 			iDisplayHandler.setTitle(iTitle);
+			iDisplayHandler.setEdited(iEdited);
 		}
 		iCharPainter.build();
 		if ( iMercPainter != null )
@@ -1069,6 +1072,7 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 		if ( iTitle != null )
 		{
 			iDisplayHandler.setTitle( iTitle );
+			iDisplayHandler.setEdited(iEdited);
 		}
 	}
 	

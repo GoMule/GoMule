@@ -1,5 +1,6 @@
 package gomule.gui.desktop.tabs;
 
+import gomule.gui.D2ImageCache;
 import gomule.gui.desktop.generic.GoMuleDesktop;
 import gomule.gui.desktop.generic.GoMuleDesktopListener;
 import gomule.gui.desktop.generic.GoMuleView;
@@ -148,7 +149,26 @@ public class GoMuleDesktopTabs  implements GoMuleDesktop
 				if ( iView == lView )
 				{
 					iDesktop.setTabTitle(lView.getDisplay(), pNewTitle);
-//					((GoMuleViewTabDisplayHandler) lView.getDisplayHandler()).fireViewClosing(lView);
+				}
+			}
+		}
+		
+		public void setEdited(boolean pEdited) 
+		{
+			ArrayList lClone = new ArrayList( iOpenedViews );
+			for ( int i = 0 ; i < lClone.size() ; i++ )
+			{
+				GoMuleView lView = (GoMuleView) lClone.get(i);
+				if ( iView == lView )
+				{
+					if ( pEdited )
+					{
+						iDesktop.setTabIcon(lView.getDisplay(), D2ImageCache.getIcon("TabEdit.gif") );
+					}
+					else
+					{
+						iDesktop.setTabIcon(lView.getDisplay(), D2ImageCache.getIcon("TabEmpty.gif") );
+					}
 				}
 			}
 		}

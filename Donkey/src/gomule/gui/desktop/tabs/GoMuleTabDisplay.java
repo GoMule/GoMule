@@ -3,6 +3,7 @@ package gomule.gui.desktop.tabs;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
+import javax.swing.Icon;
 import javax.swing.JComponent;
 
 import randall.util.RandallPanel;
@@ -74,6 +75,18 @@ public class GoMuleTabDisplay extends RandallPanel
 			if ( lTab.getTabComponent() == pTab )
 			{
 				lTab.setTabTitle(pNewTitle);
+			}
+		}
+	}
+
+	public void setTabIcon(JComponent pTab, Icon pNewIcon )
+	{
+		for ( int i = 0 ; i < iTabs.size() ; i++ )
+		{
+			GoMuleTabElement lTab = (GoMuleTabElement) iTabs.get(i);
+			if ( lTab.getTabComponent() == pTab )
+			{
+				lTab.setTabIcon(pNewIcon);
 			}
 		}
 	}

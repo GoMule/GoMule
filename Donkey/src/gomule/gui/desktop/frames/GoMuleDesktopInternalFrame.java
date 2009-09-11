@@ -1,5 +1,6 @@
 package gomule.gui.desktop.frames;
 
+import gomule.gui.D2ImageCache;
 import gomule.gui.D2ItemContainer;
 import gomule.gui.desktop.generic.GoMuleDesktop;
 import gomule.gui.desktop.generic.GoMuleDesktopListener;
@@ -170,6 +171,18 @@ public class GoMuleDesktopInternalFrame implements GoMuleDesktop
 				setSize(514, 500);
 			}
 			setVisible(true);
+		}
+		
+		public void setEdited(boolean pEdited) 
+		{
+			if ( pEdited )
+			{
+				setFrameIcon( D2ImageCache.getIcon("TabEdit.gif") );
+			}
+			else
+			{
+				setFrameIcon( D2ImageCache.getIcon("TabEmpty.gif") );
+			}
 		}
 		
 		public void addDesktopListener(GoMuleDesktopListener pListener) {

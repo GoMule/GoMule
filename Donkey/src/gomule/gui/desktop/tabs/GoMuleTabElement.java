@@ -129,6 +129,11 @@ public class GoMuleTabElement
 		iTitleLabel.setText(pNewTitle);
 	}
 	
+	public void setTabIcon(Icon pNewTitle)
+	{
+		iTitleLabel.setIcon(pNewTitle);
+	}
+	
     protected static void setColors()
     {
     	sActivatedBackgroundColor = Color.green;
