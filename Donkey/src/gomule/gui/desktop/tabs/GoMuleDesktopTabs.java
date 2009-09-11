@@ -202,7 +202,9 @@ public class GoMuleDesktopTabs  implements GoMuleDesktop
 	}
 
 	public Iterator getIteratorView() {
-		return new ArrayList().iterator();
+		ArrayList lList = new ArrayList( iOpenedViews );
+		
+		return lList.iterator();
 	}
 
 	public GoMuleView getSelectedView() {

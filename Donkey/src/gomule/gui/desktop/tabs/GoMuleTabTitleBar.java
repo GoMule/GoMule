@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import randall.util.RandallPanel;
 
@@ -57,11 +59,28 @@ public class GoMuleTabTitleBar extends RandallPanel
 		iTabs.setBorder(new GoMuleTabBorder(GoMuleTabBorder.BORDER_DOWN));
 		iTabs.addMouseListener(new MouseAdapter()
 		{
+			public void mouseClicked(MouseEvent e) 
+			{
+				JPopupMenu lPopupMenu = new JPopupMenu();
+				for ( int i = 0 ; i < iTitleBar.size() ; i++ )
+				{
+					GoMuleTabTitleBarElement lElement = (GoMuleTabTitleBarElement) iTitleBar.get(i);
+					if ( !lElement.getComponent().isVisible() )
+					{
+						JMenuItem lMenuItem = new JMenuItem( lElement.getTitleText() );
+						lMenuItem.addActionListener( new GoMuleMenuShowElement(lElement) );
+						lPopupMenu.add( lMenuItem );
+					}
+				}
+				lPopupMenu.show(iTabs,0,0);
+			}
 			public void mouseEntered(MouseEvent e) 
 		    {
 		    	iTabs.setForeground( Color.red );
 		    	iTabs.setIcon( D2ImageCache.getIcon("TabMenuDownSelected.gif") );
 		    }
+			
+			public void mouseExited(MouseEvent e)
 		    {
 		    	iTabs.setForeground(Color.black);
 		    	iTabs.setIcon( D2ImageCache.getIcon("TabMenuDown.gif") );
@@ -202,11 +221,11 @@ public class GoMuleTabTitleBar extends RandallPanel
 		}
 	}
 	
-	class DanMenuShowElement implements ActionListener
+	class GoMuleMenuShowElement implements ActionListener
 	{
 		private GoMuleTabTitleBarElement iElement;
 		
-		public DanMenuShowElement(GoMuleTabTitleBarElement pElement)
+		public GoMuleMenuShowElement(GoMuleTabTitleBarElement pElement)
 		{
 			iElement = pElement;
 		}

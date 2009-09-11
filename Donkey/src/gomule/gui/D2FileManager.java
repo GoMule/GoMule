@@ -1492,30 +1492,16 @@ public class D2FileManager extends JFrame
 			}
 		}
 		
-//		D2ItemContainer lExisting = null;
-//		for (int i = 0; i < iOpenWindows.size(); i++)
-//		{
-//			D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
-//			if (lItemContainer.getFileName().equals(pStashName))
-//			{
-//				lExisting = lItemContainer;
-//			}
-//		}
-
-		D2ViewStash lStashView = null;
 		if(load){
 			if (lExisting != null)
 			{
-				lStashView = ((GoMuleViewStash) lExisting).getViewStash();
+				iDesktopPane.showView( lExisting );
 			}
 			else
 			{
-				lStashView = new D2ViewStash(D2FileManager.this, pStashName);
-//				lStashView.setLocation(10 + (iOpenWindows.size() * 10), 10+ (iOpenWindows.size() * 10));
+				D2ViewStash lStashView = new D2ViewStash(D2FileManager.this, pStashName);
 				addToOpenWindows(lStashView);
 			}
-//			lStashView.activateView();
-//			internalWindowForward(lStashView);
 		}
 
 		iProject.addStash(pStashName);
