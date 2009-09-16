@@ -52,7 +52,7 @@ public class D2PropCollection extends ArrayList{
 			//24 = 2h Max damage
 			//140 = Extra Blood
 			//194 SOCKETS??
-			if(((D2Prop)get(x)).getPNum() == 160 || ((D2Prop)get(x)).getPNum() == 159 || ((D2Prop)get(x)).getPNum() == 23 || ((D2Prop)get(x)).getPNum() == 24 || ((D2Prop)get(x)).getPNum() == 140 || ((D2Prop)get(x)).getPNum() == 194){
+			if(((D2Prop)get(x)).getPNum() == 140 || ((D2Prop)get(x)).getPNum() == 194 || multipleMinMaxDmg((D2Prop)get(x))){
 				remove(x);
 				x--;
 			}
@@ -61,11 +61,50 @@ public class D2PropCollection extends ArrayList{
 
 
 	/**
+	 * There are 6 types of +damage, min/max, secondary min/max and throw min/max. Generally all three are present on an item, but if there is only one present, then the others should be removed, leaving just base + damage on there.
+	 * @param prop
+	 * @return
+	 */
+	private boolean multipleMinMaxDmg(D2Prop prop) {
+
+		if(prop.getPNum() == 159 || prop.getPNum() == 23 ){
+
+			if(!containsProp(21)){
+				prop.setPNum(21);
+				return false;
+
+			}else{
+				return true;
+			}
+
+		}else if(prop.getPNum() == 160 || prop.getPNum() == 24 ){
+
+			if(!containsProp(22)){
+				prop.setPNum(22);
+			}else{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean containsProp(int propNum) {
+
+		for(int x = 0;x<size();x++){
+			if(((D2Prop)get(x)).getPNum() == propNum){
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	/**
 	 * If 2 properties are present, combine them.
 	 *
 	 */
 	private void combineProps(){
-		
+
 		for(int x = 0 ;x < size();x++){
 
 			for(int y = 0;y<size();y++){

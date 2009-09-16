@@ -1037,7 +1037,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		int[] armourTriple = new int[] { 0, 0, 0 };
 		int[] dmgTriple = new int[] { 0, 0, 0, 0, 0 };
 		int[] durTriple = new int[] { 0, 0 };
-
+		iProps.tidy();
 		iProps.applyOp(iCharLvl);
 
 		for (int x = 0; x < iProps.size(); x++) {
@@ -1269,8 +1269,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private StringBuffer generatePropStringNoHtmlTags(boolean extended){
-		//27/7 REMOVED BELOW. Need testing!!!!
-		if (iProps != null /*&& location != 6*/)iProps.tidy();
 		StringBuffer dispStr = new StringBuffer("<center>");
 		String base = (Integer.toHexString(Color.white.getRGB())).substring(2, Integer.toHexString(Color.white.getRGB()).length());
 		String rgb = (Integer.toHexString(getItemColor().getRGB())).substring(2, Integer.toHexString(getItemColor().getRGB()).length());
