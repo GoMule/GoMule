@@ -40,23 +40,23 @@ public class GoMuleTabTitleBar extends RandallPanel
 		
 		JLabel lDummy1 = new JLabel();
 		Dimension lSize = new Dimension(50,25);
-		lDummy1.setBorder(new GoMuleTabBorder(GoMuleTabBorder.BORDER_DOWN));
+//		lDummy1.setBorder(new GoMuleTabBorder(GoMuleTabBorder.BORDER_DOWN));
 		addToPanel(lDummy1, 0, 0, 1, NONE);
 		JLabel lDummy2 = new JLabel();
-		lDummy2.setBorder(new GoMuleTabBorder(GoMuleTabBorder.BORDER_DOWN));
+//		lDummy2.setBorder(new GoMuleTabBorder(GoMuleTabBorder.BORDER_DOWN));
 		
 		addToPanel(lDummy2, GoMuleTabDisplay.TAB_LIMIT+5, 0, 1, HORIZONTAL);
 		iTabs = new JLabel("");
 		iTabs.setIcon(D2ImageCache.getIcon("TabMenuDown.gif"));
 		iTabs.setVisible(false);
 		
-		iTabs.setBorder(new GoMuleTabBorder(GoMuleTabBorder.BORDER_DOWN));
+//		iTabs.setBorder(new GoMuleTabBorder(GoMuleTabBorder.BORDER_DOWN));
 
 		setMinimumSize(lSize);
 		setPreferredSize(lSize);
 		setSize(lSize);
 		
-		iTabs.setBorder(new GoMuleTabBorder(GoMuleTabBorder.BORDER_DOWN));
+//		iTabs.setBorder(new GoMuleTabBorder(GoMuleTabBorder.BORDER_DOWN));
 		iTabs.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent e) 

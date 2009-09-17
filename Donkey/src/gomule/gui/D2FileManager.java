@@ -23,32 +23,24 @@ package gomule.gui;
 
 import gomule.d2s.*;
 import gomule.d2x.*;
-import gomule.dropCalc.gui.RealGUI;
-import gomule.gui.desktop.frames.GoMuleDesktopInternalFrame;
-import gomule.gui.desktop.generic.GoMuleDesktop;
-import gomule.gui.desktop.generic.GoMuleDesktopListener;
-import gomule.gui.desktop.generic.GoMuleView;
-import gomule.gui.desktop.generic.GoMuleViewChar;
-import gomule.gui.desktop.generic.GoMuleViewStash;
-import gomule.gui.desktop.tabs.GoMuleDesktopTabs;
-import gomule.item.D2Item;
+import gomule.dropCalc.gui.*;
+import gomule.gui.desktop.generic.*;
+import gomule.gui.desktop.tabs.*;
+import gomule.item.*;
 import gomule.util.*;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyVetoException;
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
+import javax.swing.border.*;
 
 import randall.d2files.*;
-import randall.flavie.Flavie;
-import randall.util.RandallPanel;
+import randall.flavie.*;
+import randall.util.*;
 
 /**
  * this class is the top-level administrative window. 
@@ -117,8 +109,8 @@ public class D2FileManager extends JFrame
 
 //		iOpenWindows = new ArrayList();
 		iContentPane = new JPanel();
-		iDesktopPane = new GoMuleDesktopInternalFrame();
-//		iDesktopPane = new GoMuleDesktopTabs();
+//		iDesktopPane = new GoMuleDesktopInternalFrame();
+		iDesktopPane = new GoMuleDesktopTabs();
 
 		iContentPane.setLayout(new BorderLayout());
 
@@ -1346,6 +1338,7 @@ public class D2FileManager extends JFrame
 			
 			public void viewActivated(GoMuleView pView) 
 			{
+				System.err.println("viewActivated");
 //				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2x"))
 				if ( pView instanceof  GoMuleViewStash)
 				{

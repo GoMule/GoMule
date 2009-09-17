@@ -187,6 +187,10 @@ public class GoMuleDesktopInternalFrame implements GoMuleDesktop
 		
 		public void addDesktopListener(GoMuleDesktopListener pListener) {
 			iListenerList.add( pListener );
+			if ( isVisible() )
+			{
+				pListener.viewActivated( iView );
+			}
 		}
 		
 		public GoMuleView getView() {

@@ -27,6 +27,13 @@
     </javac>
   </target>
 
+  <target name="compile MBR" depends="init">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac destdir="${build}" debug="on" target="1.4" classpath="${classpath}" excludes="TestyMcTest/**, gomule/dropCalc/remote/**">
+        <src path="${src}"/>
+    </javac>
+  </target>
+
   <target name="compileDeprecated" depends="init">
     <!-- Compile the java code from ${src} into ${build} -->
     <javac destdir="${build}" debug="on" deprecation="on" classpath="${classpath}">
@@ -45,6 +52,8 @@
     
   <target name="buildAll" depends="clean, compile" description="Build All"/>
 
+  <target name="buildAll MBR" depends="clean, compile MBR" description="Build All"/>
+
   <target name="makeJar">
     <!-- Put everything in ${build} into the ${dist}/GoMule.jar file -->
     <jar jarfile="${dist}/GoMule.jar" manifest="MANIFEST.MF">
@@ -58,6 +67,10 @@
   </target>
 
   <target name="Jar-BuildAll" depends="buildAll, makeJar"
+        description="build all and Jar for GoMule" >
+  </target>
+
+  <target name="Jar-BuildAll MBR" depends="buildAll MBR, makeJar"
         description="build all and Jar for GoMule" >
   </target>
 

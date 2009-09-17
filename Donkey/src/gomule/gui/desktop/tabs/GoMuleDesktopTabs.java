@@ -96,6 +96,7 @@ public class GoMuleDesktopTabs  implements GoMuleDesktop
 		public void addDesktopListener(GoMuleDesktopListener pListener) 
 		{
 			iListenerList.add( pListener );
+			pListener.viewActivated( iView );
 		}
 		
 		public void fireViewClosing(GoMuleView pView)
