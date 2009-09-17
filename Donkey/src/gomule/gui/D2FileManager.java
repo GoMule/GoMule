@@ -1347,7 +1347,7 @@ public class D2FileManager extends JFrame
 			public void viewActivated(GoMuleView pView) 
 			{
 //				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2x"))
-				if ( pView instanceof GoMuleViewChar )
+				if ( pView instanceof  GoMuleViewStash)
 				{
 					pickFrom.setEnabled(false);
 					pickChooser.setEnabled(false);
@@ -1358,7 +1358,7 @@ public class D2FileManager extends JFrame
 					dumpBut.setEnabled(true);
 				}
 //				else if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s"))
-				else if ( pView instanceof GoMuleViewStash )
+				else if ( pView instanceof GoMuleViewChar )
 				{
 					pickFrom.setEnabled(true);
 					pickChooser.setEnabled(true);
