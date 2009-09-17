@@ -284,7 +284,10 @@ public class D2Item implements Comparable, D2ItemInterface {
 		} else {
 			read_ear(pFile);
 		}
-
+		
+		//Need to tidy up the properties before the item mods are calculated.
+		iProps.tidy();
+		
 		if (isTypeArmor() || isTypeWeapon()) {
 //			Blunt does 150 damage to undead
 			if (iType.equals("club") || iType.equals("scep")
@@ -1037,7 +1040,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		int[] armourTriple = new int[] { 0, 0, 0 };
 		int[] dmgTriple = new int[] { 0, 0, 0, 0, 0 };
 		int[] durTriple = new int[] { 0, 0 };
-		iProps.tidy();
+		
 		iProps.applyOp(iCharLvl);
 
 		for (int x = 0; x < iProps.size(); x++) {

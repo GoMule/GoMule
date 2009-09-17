@@ -11,8 +11,6 @@ Silo, I've got a feature request for you: sort by iLvl.
 
 
 
-Fix defilers and council minions...
-
 DONE:
 
 @silos: I know this is a very trivial thing but, is it possible to display if cow king is killed with a char :hide: This has been the only reason i use ATMA lately.
@@ -35,6 +33,10 @@ Fixed dropcalc for council member minions - problem was quality list not being i
 Attemped to optimise on txt file reading. GoMule now reads when files are required rather than initially.
 FIX BOSS AND SU with SOJ. <- Possibly fixed.
 Fixed dropcalc for council member minions AGAIN. boss fix broke previous fix.
+Fixed +Max damage on some items
+Fixed items not consolidating together on misc items
+
+
 
 GOMULE
 
