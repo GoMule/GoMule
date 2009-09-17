@@ -41,7 +41,7 @@ public class D2PropCollection extends ArrayList{
 	 * Clean up some of those useless properties
 	 *
 	 */
-	private void cleanProps(){
+	public void deleteUselessProperties(){
 
 
 		for(int x = 0;x<size();x++){
@@ -328,7 +328,6 @@ public class D2PropCollection extends ArrayList{
 
 	public void tidy(){
 		if(tidy)return;
-		cleanProps();
 		combineProps();
 		deDupeProps();
 		deDupeL4();

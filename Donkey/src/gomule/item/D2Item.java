@@ -286,7 +286,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 		}
 		
 		//Need to tidy up the properties before the item mods are calculated.
-		iProps.tidy();
+		iProps.deleteUselessProperties();
+		
 		
 		if (isTypeArmor() || isTypeWeapon()) {
 //			Blunt does 150 damage to undead
@@ -1272,6 +1273,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	}
 
 	private StringBuffer generatePropStringNoHtmlTags(boolean extended){
+		iProps.tidy();
 		StringBuffer dispStr = new StringBuffer("<center>");
 		String base = (Integer.toHexString(Color.white.getRGB())).substring(2, Integer.toHexString(Color.white.getRGB()).length());
 		String rgb = (Integer.toHexString(getItemColor().getRGB())).substring(2, Integer.toHexString(getItemColor().getRGB()).length());
