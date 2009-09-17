@@ -172,23 +172,31 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 		float[] bGrey = new float[3];
 		bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
 		CJT.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-//		if(System.getProperty("os.name").equals("Linux"))
-		Font f = null;
-		try {
-			FileInputStream fis = new FileInputStream(new File("resources" + File.separator +  "Courier_New.ttf"));
-			f = Font.createFont(Font.TRUETYPE_FONT, fis);
-		} catch (FontFormatException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		if(System.getProperty("os.name").toLowerCase().indexOf("mac") != -1){
+			CJT.setFont( new Font( "Courier", Font.TRUETYPE_FONT, 11 ));
+		}else{
+			Font f = null;
+			FileInputStream fis = null;
+			try {
+				fis = new FileInputStream(new File("resources" + File.separator +  "Courier_New.ttf"));
+				f = Font.createFont(Font.TRUETYPE_FONT, fis);
+			} catch (FontFormatException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}finally{
+				if ( fis != null ){
+					try{ 
+						fis.close(); 
+					}catch( IOException ioe ) {
+						ioe.printStackTrace();
+					}
+				}
+			}
+			f = f.deriveFont((float)11);
+			CJT.setFont(f);
 		}
-
-//		CJT.setFont( new Font( "Courier", Font.TRUETYPE_FONT, 11 ));
-//		System.out.println(f.getName());
-		f = f.deriveFont((float)11);
-		CJT.setFont(f);
 		charMainBox.add(CJT);
-//		charMainBox.add(Box.createRigidArea(new Dimension(80,0)));
 		charMainBox2.add(lSkillPanel);
 
 		charStatsBox.add(charLabelBox);
