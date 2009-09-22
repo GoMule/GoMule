@@ -50,6 +50,8 @@
 
   <target name="build" depends="compile" description="Build"/>
     
+  <target name="build MBR" depends="compile MBR" description="Build"/>
+	    
   <target name="buildAll" depends="clean, compile" description="Build All"/>
 
   <target name="buildAll MBR" depends="clean, compile MBR" description="Build All"/>

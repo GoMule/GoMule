@@ -30,6 +30,11 @@ public class D2ItemFilterComposite implements D2ItemFilter
 		iFilterList.remove( pFilter );
 	}
 	
+	public void clearFilter()
+	{
+		iFilterList.clear( );
+	}
+	
 	public String getDisplayString()
 	{
 		if ( iFilterList.isEmpty() )
@@ -53,7 +58,7 @@ public class D2ItemFilterComposite implements D2ItemFilter
 		return null;
 	}
 
-	public boolean isFilterItem( D2Item pItem )
+	public boolean isFilterItem( D2FilterableItem pItem )
 	{
 		if ( iFilterList.isEmpty() )
 		{

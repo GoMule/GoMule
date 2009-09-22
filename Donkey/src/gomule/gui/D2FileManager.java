@@ -1338,8 +1338,6 @@ public class D2FileManager extends JFrame
 			
 			public void viewActivated(GoMuleView pView) 
 			{
-				System.err.println("viewActivated");
-//				if(((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2x"))
 				if ( pView instanceof  GoMuleViewStash)
 				{
 					pickFrom.setEnabled(false);

@@ -17,14 +17,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		ArrayList lList = new ArrayList();
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Normal")
 			{
-				public String getDisplayString()
-				{
-					return "Normal";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.getItemQuality().equals("normal");
 				}
@@ -33,14 +28,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Exceptional")
 			{
-				public String getDisplayString()
-				{
-					return "Exceptional";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.getItemQuality().equals("exceptional");
 				}
@@ -49,14 +39,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Elite")
 			{
-				public String getDisplayString()
-				{
-					return "Elite";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.getItemQuality().equals("elite");
 				}
@@ -65,14 +50,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Other")
 			{
-				public String getDisplayString()
-				{
-					return "Other";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return !( pItem.getItemQuality().equals("normal")
 						|| pItem.getItemQuality().equals("exceptional")
@@ -88,14 +68,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 	
 	public D2ItemFilter getEthereal()
 	{
-		D2ItemFilter lFilter = new D2ItemFilter()
+		D2ItemFilter lFilter = new D2ItemFilterDefault("Ethereal")
 		{
-			public String getDisplayString()
-			{
-				return "Ethereal";
-			}
-
-			public boolean isFilterItem( D2Item pItem )
+			public boolean isFilterItem( D2FilterableItem pItem )
 			{
 				return pItem.isEthereal();
 			}
@@ -109,14 +84,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		ArrayList lList = new ArrayList();
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Unique")
 			{
-				public String getDisplayString()
-				{
-					return "Unique";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.isUnique();
 				}
@@ -125,14 +95,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Set")
 			{
-				public String getDisplayString()
-				{
-					return "Set";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.isSet();
 				}
@@ -141,14 +106,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Runeword")
 			{
-				public String getDisplayString()
-				{
-					return "Runeword";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.isRuneWord();
 				}
@@ -157,14 +117,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Rare")
 			{
-				public String getDisplayString()
-				{
-					return "Rare";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.isRare();
 				}
@@ -173,14 +128,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Magic")
 			{
-				public String getDisplayString()
-				{
-					return "Magic";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.isMagical();
 				}
@@ -189,14 +139,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Craft")
 			{
-				public String getDisplayString()
-				{
-					return "Craft";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.isCrafted();
 				}
@@ -205,14 +150,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Socketed")
 			{
-				public String getDisplayString()
-				{
-					return "Socketed";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return pItem.isSocketed();
 				}
@@ -221,14 +161,9 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		}
 		
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			D2ItemFilter lFilter = new D2ItemFilterDefault("Other")
 			{
-				public String getDisplayString()
-				{
-					return "Other";
-				}
-
-				public boolean isFilterItem( D2Item pItem )
+				public boolean isFilterItem( D2FilterableItem pItem )
 				{
 					return !(pItem.isUnique() || pItem.isSet() || pItem.isRuneWord() || pItem.isRare() 
 							|| pItem.isMagical() || pItem.isCrafted() || pItem.isSocketed() );
@@ -239,44 +174,544 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 		
 		return lList;
 	}
+	
+	private static final String ARMOR = "Armor";
+	private static final String WEAPON = "Weapon";
+	private static final String SOCKET_FILLER = "Socket Filler";
+	private static final String CHARM = "Charm";
+	private static final String MISC = "Misc";
 
-	public ArrayList getItemCategories()
+	// special socket fillers
+	private static final String GEM = "Gem";
+	private static final String RUNE = "Rune";
+	
+	public ArrayList getItemCategories(int pLevel, D2ItemFilter pFilter)
 	{
-		ArrayList lList = new ArrayList();
-		
-//		{
-//			D2ItemFilter lFilter = new D2ItemFilter()
-//			{
-//				public String getDisplayString()
-//				{
-//					return "All";
-//				}
-//
-//				public boolean isFilterItem( D2Item pItem )
-//				{
-//					return true;
-//				}
-//			};
-//			lList.add(  lFilter );
-//		}
-		
+		if ( pLevel == 1 )
 		{
-			D2ItemFilter lFilter = new D2ItemFilter()
+			ArrayList lList = new ArrayList();
+			
 			{
-				public String getDisplayString()
+				D2ItemFilter lFilter = new D2ItemFilterDefault(ARMOR)
 				{
-					return "Armor";
+					public boolean isFilterItem( D2FilterableItem pItem )
+					{
+						return pItem.isTypeArmor();
+					}
+				};
+				lList.add(  lFilter );
+			}
+			
+			{
+				D2ItemFilter lFilter = new D2ItemFilterDefault(WEAPON)
+				{
+					public boolean isFilterItem( D2FilterableItem pItem )
+					{
+						return pItem.isTypeWeapon();
+					}
+				};
+				lList.add(  lFilter );
+			}
+			
+			{
+				D2ItemFilter lFilter = new D2ItemFilterDefault(SOCKET_FILLER)
+				{
+					public boolean isFilterItem( D2FilterableItem pItem )
+					{
+						return pItem.isJewel() || pItem.isGem() || pItem.isRune();
+					}
+				};
+				lList.add(  lFilter );
+			}
+			
+			{
+				D2ItemFilter lFilter = new D2ItemFilterDefault(CHARM)
+				{
+					public boolean isFilterItem( D2FilterableItem pItem )
+					{
+						return pItem.isCharmGrand() || pItem.isCharmLarge() || pItem.isCharmSmall();
+					}
+				};
+				lList.add(  lFilter );
+			}
+			
+			{
+				D2ItemFilter lFilter = new D2ItemFilterDefault(MISC)
+				{
+					public boolean isFilterItem( D2FilterableItem pItem )
+					{
+						return pItem.isTypeMisc() 
+						&& !(pItem.isJewel() || pItem.isGem() || pItem.isRune()) 
+						&& !(pItem.isCharmGrand() || pItem.isCharmLarge() || pItem.isCharmSmall());
+					}
+				};
+				lList.add(  lFilter );
+			}
+			
+			return lList;
+		}
+		else if ( pLevel == 2 )
+		{
+			if ( pFilter == null )
+			{
+				return null;
+			}
+			if ( pFilter.getDisplayString().equals( ARMOR ) )
+			{
+				ArrayList lList = new ArrayList();
+				
+		        ArrayList lArmorFilterList = D2BodyLocations.getArmorFilterList();
+
+		        for ( int i = 0 ; i < lArmorFilterList.size() ; i++ )
+				{
+		        	// TODO remove All from body locations and remove this compare one the 
+		        	// old filter is out of order
+		        	D2BodyLocations lLocation = (D2BodyLocations) lArmorFilterList.get( i );
+		        	if ( !lLocation.toString().equalsIgnoreCase( "all" ) )
+		        	{
+						D2ItemFilter lFilter = new D2FilterBodyLocation( lLocation );
+						lList.add(  lFilter );
+		        	}
+				}
+		        
+		        return lList;
+			}
+			else if ( pFilter.getDisplayString().equals( WEAPON ) )
+			{
+				ArrayList lList = new ArrayList();
+				
+		        ArrayList lWeaponFilterList = D2WeaponTypes.getWeaponTypeList();
+		        
+		        for ( int i = 0 ; i < lWeaponFilterList.size() ; i++ )
+				{
+		        	// TODO remove "Object" from weapon locations and remove this compare one the 
+		        	// old filter is out of order
+		        	if ( lWeaponFilterList.get( i ) instanceof D2WeaponTypes )
+		        	{
+			        	D2WeaponTypes lLocation = (D2WeaponTypes) lWeaponFilterList.get( i );
+			        	if ( !lLocation.toString().equalsIgnoreCase( "all" ) )
+			        	{
+							D2ItemFilter lFilter = new D2FilterWeaponTypes( lLocation );
+							lList.add(  lFilter );
+			        	}
+		        	}
+				}
+		        
+		        return lList;
+			}
+			else if ( pFilter.getDisplayString().equals( SOCKET_FILLER ) )
+			{
+				ArrayList lList = new ArrayList();
+				
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault("Jewel")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isJewel();
+						}
+					};
+					lList.add(  lFilter );
+				}
+		        
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault(GEM)
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isGem();
+						}
+					};
+					lList.add(  lFilter );
 				}
 
-				public boolean isFilterItem( D2Item pItem )
 				{
-					return pItem.isTypeArmor();
+					D2ItemFilter lFilter = new D2ItemFilterDefault(RUNE)
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isRune();
+						}
+					};
+					lList.add(  lFilter );
 				}
-			};
-			lList.add(  lFilter );
+				
+				return lList;
+			}
+			else if ( pFilter.getDisplayString().equals( CHARM ) )
+			{
+				ArrayList lList = new ArrayList();
+				
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Small" )
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isCharmSmall();
+						}
+					};
+					lList.add(  lFilter );
+				}
+				
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Large" )
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isCharmLarge();
+						}
+					};
+					lList.add(  lFilter );
+				}
+				
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Grand" )
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isCharmGrand();
+						}
+					};
+					lList.add(  lFilter );
+				}
+				
+				return lList;
+			}
+			else if ( pFilter.getDisplayString().equals( MISC ) )
+			{
+				ArrayList lList = new ArrayList();
+				
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Amulet" )
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isBodyLocation(D2BodyLocations.BODY_NECK);
+						}
+					};
+					lList.add(  lFilter );
+				}
+				
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Ring" )
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isBodyLocation(D2BodyLocations.BODY_LRIN);
+						}
+					};
+					lList.add(  lFilter );
+				}
+				
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Other" )
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return !pItem.isBodyLocation(D2BodyLocations.BODY_NECK) && !pItem.isBodyLocation(D2BodyLocations.BODY_LRIN);
+						}
+					};
+					lList.add(  lFilter );
+				}
+				
+				return lList;
+			}
+		}
+		else if ( pLevel == 3 )
+		{
+			if ( pFilter == null )
+			{
+				return null;
+			}
+			if ( pFilter.getDisplayString().equals( GEM ) )
+			{
+				ArrayList lList = new ArrayList();
+				
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Perfect")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isGemPerfect();
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Flawless")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isGemFlawless();
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Normal")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isGemNormal();
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Flawed")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isGemFlawed();
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Chipped")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.isGemChipped();
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				return lList;
+			}
+			else if ( pFilter.getDisplayString().equals( RUNE ) )
+			{
+				ArrayList lList = new ArrayList();
+				
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "Vex, Ohm, Lo, Sur, Ber, Jah, Cham, Zod", "r26", "r33");
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "Um, Mal, Ist, Gul", "r22", "r25");
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "Fal, Lem, Pul", "r19", "r21");
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "Io, Lum, Ko", "r16", "r18");
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "Dol, Hel, Sheal", "r13", "r15");
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "Thul, Amn, Sol", "r10", "r12");
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "Tal, Ral, Ort", "r07", "r09");
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "Nef, Eth, Ith", "r04", "r06");
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "El, Eld, Tir", "r01", "r03");
+					lList.add(  lFilter );
+				}
+
+				return lList;
+			}
+		}
+		else if ( pLevel == 4 )
+		{
+			if ( pFilter == null )
+			{
+				return null;
+			}
+			if ( pFilter.getDisplayString().equals( GEM ) )
+			{
+				ArrayList lList = new ArrayList();
+				
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Diamond")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.getItemName().indexOf( "Diamond" ) != -1;
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Emerald")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.getItemName().indexOf( "Emerald" ) != -1;
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Ruby")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.getItemName().indexOf( "Ruby" ) != -1;
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Sapphire")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.getItemName().indexOf( "Sapphire" ) != -1;
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Skull")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.getItemName().indexOf( "Skull" ) != -1;
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				{
+					D2ItemFilter lFilter = new D2ItemFilterDefault( "Topaz")
+					{
+						public boolean isFilterItem( D2FilterableItem pItem )
+						{
+							return pItem.getItemName().indexOf( "Topaz" ) != -1;
+						}
+					};
+					lList.add(  lFilter );
+				}
+
+				return lList;
+			}
+			else if ( pFilter.getDisplayString().equals( RUNE ) )
+			{
+				ArrayList lList = new ArrayList();
+				
+				{
+					D2ItemFilter lFilter = new D2FilterRunes( "Ral", "r08");
+					lList.add(  lFilter );
+				}
+
+				return lList;
+			}
+		}
+		return null;
+	}
+	
+	class D2FilterBodyLocation implements D2ItemFilter
+	{
+		private D2BodyLocations	iBodyLocation;
+		
+		public D2FilterBodyLocation(D2BodyLocations pBodyLocation)
+		{
+			iBodyLocation = pBodyLocation;
+		}
+
+		public String getDisplayString()
+		{
+			return iBodyLocation.toString();
+		}
+
+		public boolean isFilterItem( D2FilterableItem pItem )
+		{
+			return pItem.isBodyLocation( iBodyLocation );
 		}
 		
-		return lList;
+		public String toString()
+		{
+			return getDisplayString();
+		}
+	}
+
+	class D2FilterWeaponTypes implements D2ItemFilter
+	{
+		private D2WeaponTypes	iWeaponType;
+		
+		public D2FilterWeaponTypes(D2WeaponTypes pWeaponType)
+		{
+			iWeaponType = pWeaponType;
+		}
+
+		public String getDisplayString()
+		{
+			return iWeaponType.toString();
+		}
+
+		public boolean isFilterItem( D2FilterableItem pItem )
+		{
+			return pItem.isWeaponType( iWeaponType );
+		}
+		
+		public String toString()
+		{
+			return getDisplayString();
+		}
+	}
+
+	class D2FilterRunes extends D2ItemFilterDefault
+	{
+		private String	iLower;
+		private String	iHigher;
+		
+		public D2FilterRunes(String pDisplay, String pLower, String pHigher)
+		{
+			super(pDisplay);
+			iLower = pLower;
+			iHigher = pHigher;
+		}
+
+		public D2FilterRunes(String pDisplay, String pSingle)
+		{
+			this(pDisplay, pSingle, pSingle);
+		}
+
+		public boolean isFilterItem( D2FilterableItem pItem )
+		{
+			return pItem.getRuneCode().compareTo( iLower ) >= 0 && pItem.getRuneCode().compareTo( iHigher ) <= 0;
+		}
+		
+	}
+
+	public ArrayList getItemQueryFactory()
+	{
+		ArrayList lReturn = null;
+
+		{
+			
+		}
+		
+		return lReturn;
 	}
 
 }

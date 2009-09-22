@@ -14,5 +14,7 @@ public interface D2ItemFilterFactory
 	
 	public ArrayList	getItemTypes();
 	
-	public ArrayList	getItemCategories();
+	public ArrayList	getItemCategories(int pLevel, D2ItemFilter pFilter);
+	
+	public ArrayList	getItemQueryFactory();
 }
