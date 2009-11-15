@@ -1,4 +1,6 @@
-package gomule.item.filter;
+package gomule.item.filter.free;
+
+import gomule.item.filter.*;
 
 import java.util.*;
 
@@ -10,7 +12,13 @@ import java.util.*;
 public interface D2ItemFilterQueryFactory
 {
 	/**
-	 * list of operators (
+	 * name of the factory / filter
+	 * @return
+	 */
+	public String getName();
+	
+	/**
+	 * list of operators ( D2ItemFilterQueryOperator )
 	 * @return
 	 */
 	public ArrayList getOperator();
@@ -20,6 +28,13 @@ public interface D2ItemFilterQueryFactory
 	 * @return
 	 */
 	public Class getDataType();
+	
+	/**
+	 * convert "String" input from textfield to real value. Invalid values convert to null
+	 * @param pValue
+	 * @return
+	 */
+	public Object getDataValue(String pValue);
 	
 	/**
 	 * data filter

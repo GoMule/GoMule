@@ -1,6 +1,7 @@
 package gomule.item.filter;
 
 import gomule.item.*;
+import gomule.item.filter.free.*;
 
 import java.util.*;
 
@@ -705,13 +706,70 @@ public class D2ItemFilterFactoryDefault implements D2ItemFilterFactory
 
 	public ArrayList getItemQueryFactory()
 	{
-		ArrayList lReturn = null;
+		ArrayList lReturn = new ArrayList();
 
 		{
-			
+			lReturn.add( new D2ItemFilterQueryFactoryInteger( new D2ItemFilterQueryFactoryProperty("Requerement Lvl")
+			{
+				public Object getValue( D2FilterableItem pItem )
+				{
+					return new Integer( pItem.getReqLvl() );
+				}
+			}));
+		}
+		
+		{
+			lReturn.add( new D2ItemFilterQueryFactoryInteger( new D2ItemFilterQueryFactoryProperty("Requerement Str")
+			{
+				public Object getValue( D2FilterableItem pItem )
+				{
+					return new Integer( pItem.getReqStr() );
+				}
+			}));
+		}
+		
+		{
+			lReturn.add( new D2ItemFilterQueryFactoryInteger( new D2ItemFilterQueryFactoryProperty("Requerement Dex")
+			{
+				public Object getValue( D2FilterableItem pItem )
+				{
+					return new Integer( pItem.getReqDex() );
+				}
+			}));
+		}
+		
+		{
+			lReturn.add( new D2ItemFilterQueryFactoryInteger( new D2ItemPropFilter("To Life", 7)));
 		}
 		
 		return lReturn;
+	}
+	
+	class D2ItemPropFilter extends D2ItemFilterQueryFactoryProperty
+	{
+		private final int		iPropNr;
+		
+		public D2ItemPropFilter( String pName, int pPropNr )
+		{
+			super( pName );
+			iPropNr = pPropNr;
+		}
+		
+		public Object getValue( D2FilterableItem pItem )
+		{
+			D2PropCollection lPropCollection = pItem.getPropCollection();
+			
+			for ( int i = 0 ; i < lPropCollection.size() ; i++ )
+			{
+				D2Prop lProp = (D2Prop) lPropCollection.get( i );
+				if ( lProp.getPNum() == iPropNr )
+				{
+					return new Integer( lProp.getPVals()[0] );
+				}
+			}
+			
+			return null;
+		}
 	}
 
 }

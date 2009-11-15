@@ -38,4 +38,8 @@ public interface D2FilterableItem
 	public boolean isCharmGrand();
 	
 	public int getReqLvl();
+	public int getReqDex();
+	public int getReqStr();
+	
+	public D2PropCollection getPropCollection();
 }

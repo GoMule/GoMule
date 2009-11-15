@@ -1,6 +1,6 @@
-package gomule.item.filter;
+package gomule.item.filter.free;
 
-public class D2ItemFilterQueryOperatorSmaller implements D2ItemFilterQueryOperator
+public class D2ItemFilterQueryOperatorGreater implements D2ItemFilterQueryOperator
 {
 
 	public boolean isAllowed( Object pItemValue, Object pOperationValue )
@@ -19,10 +19,15 @@ public class D2ItemFilterQueryOperatorSmaller implements D2ItemFilterQueryOperat
 		}
 		if ( pItemValue instanceof Comparable )
 		{
-			return ((Comparable) pItemValue).compareTo( pOperationValue ) < 0;
+			return ((Comparable) pItemValue).compareTo( pOperationValue ) > 0;
 		}
 		
 		return false;
+	}
+	
+	public String toString()
+	{
+		return "is greater than";
 	}
 	
 }

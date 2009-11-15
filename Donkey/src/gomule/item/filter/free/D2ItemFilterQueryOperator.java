@@ -1,4 +1,4 @@
-package gomule.item.filter;
+package gomule.item.filter.free;
 
 public interface D2ItemFilterQueryOperator
 {
