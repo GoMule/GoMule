@@ -243,7 +243,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 			if (lDiff > 7) {
 				throw new D2ItemException(
 						"Item not read complete, missing bits: " + lDiff
-						+ getExStr());
+						+ "(" +  lDiff/8 +  " bytes)" + getExStr());
 			}
 
 			pFile.set_byte_pos(pPos);
@@ -343,7 +343,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 				item_type += c;
 			}
 		}
-
+		
 		iItemType = D2TxtFile.search(item_type);
 		height = Short.parseShort(iItemType.get("invheight"));
 		width = Short.parseShort(iItemType.get("invwidth"));
@@ -410,7 +410,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 			iItemName = lItemName;
 			iBaseItemName = iItemName;
 		}
-
+		
 		// flag 22 is a simple item (extend1)
 		if (!check_flag(22)) {
 			readExtend1(pFile);
@@ -429,7 +429,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 
 		if (lHasGUID == 1) { // GUID ???
 			if (iType.startsWith("rune") || iType.startsWith("gem")
-					|| iType.startsWith("amu") || iType.startsWith("rin")
+					|| iType.startsWith("amu") || iType.startsWith("rin") || iType.startsWith("jewl")
 					|| isCharm()|| !isTypeMisc()) {
 
 				iGUID = "0x" + Integer.toHexString((int) pFile.read(32))
@@ -810,6 +810,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 	}
 
 	private void readExtend2(D2BitReader pFile) throws Exception {
+		
 		if (isTypeArmor()) {
 			iDef = (short) (pFile.read(11) - 10); // -10 ???
 			iInitDef = iDef;
@@ -825,7 +826,6 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 				iThrow = true;
 			}
 			iMaxDur = (short) pFile.read(8);
-
 			if (iMaxDur != 0) {
 				iCurDur = (short) pFile.read(9);
 			}
@@ -1012,7 +1012,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 	private void readProperties(D2BitReader pFile, int qFlag) {
 
 		int rootProp = (int) pFile.read(9);
-
+		
 		while (rootProp != 511) {
 
 			iProps.readProp(pFile, rootProp, qFlag);
