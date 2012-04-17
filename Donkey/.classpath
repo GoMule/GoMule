@@ -3,11 +3,5 @@
 	<classpathentry excluding="DropCalcRefactored/CopyOfMonster.java|DropCalcRefactored/DropCalcGUI.java|gomule/gui/D2JMenu.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="/home/silo/workspace/Donkey/${classpath}"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/silo/Desktop/xmlrpc-3.1.1/lib/xmlrpc-server-3.1.1.jar"/>
-	<classpathentry kind="lib" path="/home/silo/Desktop/servlet-2_3-fcs-classfiles.zip"/>
-	<classpathentry kind="lib" path="/home/silo/Desktop/xmlrpc-3.1.1/lib/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="/home/silo/Desktop/xmlrpc-3.1.1/lib/ws-commons-util-1.0.2.jar"/>
-	<classpathentry kind="lib" path="/home/silo/Desktop/xmlrpc-3.1.1/lib/xmlrpc-client-3.1.1.jar"/>
-	<classpathentry kind="lib" path="/home/silo/Desktop/xmlrpc-3.1.1/lib/xmlrpc-common-3.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
