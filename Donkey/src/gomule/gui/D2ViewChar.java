@@ -21,8 +21,6 @@
 package gomule.gui;
 
 import gomule.d2s.*;
-import gomule.gui.desktop.generic.GoMuleViewChar;
-import gomule.gui.desktop.generic.GoMuleViewDisplayHandler;
 import gomule.item.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -38,7 +36,7 @@ import randall.util.*;
  * @author Marco
  *  
  */
-public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer, D2ItemListListener, GoMuleViewChar
+public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2ItemListListener
 {
 	/**
 	 * 
@@ -107,34 +105,29 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 	private JRadioButton             iConnectGoldBank;
 	private JTextField               iTransferFree;
 
-	private JButton					 	iGoldTransferBtns[];
-	private JTabbedPane					lTabs = new JTabbedPane();
-	private D2QuestPainterPanel			lQuestPanel;
-	private D2SkillPainterPanel			lSkillPanel;
-	private D2WayPainterPanel			lWayPanel;
-	private D2DeathPainterPanel			iDeathPainter;
-	private JTextArea					lDump;
-	private RandallPanel				lDumpPanel;
-	private JPopupMenu					rightClickItem;
-	private MouseEvent 					rightClickEvent;
-	
-	private JComponent					iContent;
-	private GoMuleViewDisplayHandler	iDisplayHandler;
-	private String						iTitle;
-	private boolean						iEdited;
+	private JButton					 iGoldTransferBtns[];
+	private JTabbedPane lTabs = new JTabbedPane();
+	private D2QuestPainterPanel lQuestPanel;
+	private D2SkillPainterPanel lSkillPanel;
+	private D2WayPainterPanel lWayPanel;
+	private D2DeathPainterPanel iDeathPainter;
+	private JTextArea lDump;
+	private RandallPanel lDumpPanel;
+	private JPopupMenu rightClickItem;
+	private MouseEvent rightClickEvent;
 
 	public D2ViewChar(D2FileManager pMainFrame, String pFileName)
 	{
-//		super(pFileName, false, true, false, true);
+		super(pFileName, false, true, false, true);
 
-//		addInternalFrameListener(new InternalFrameAdapter()
-//		{
-//			public void internalFrameClosing(InternalFrameEvent e)
-//			{
-//				iFileManager.saveAll();
-//				closeView();
-//			}
-//		});
+		addInternalFrameListener(new InternalFrameAdapter()
+		{
+			public void internalFrameClosing(InternalFrameEvent e)
+			{
+				iFileManager.saveAll();
+				closeView();
+			}
+		});
 
 		ToolTipManager.sharedInstance().setDismissDelay(40000);
 		ToolTipManager.sharedInstance().setInitialDelay(300);
@@ -150,8 +143,7 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 		iCharPainter = new D2CharPainterPanel();
 		lCharPanel.add(iCharPainter, BorderLayout.CENTER);
 		lTabs.addTab("Character", lCharPanel);
-		iContent = lTabs;
-//		setContentPane(lTabs);
+		setContentPane(lTabs);
 		iCharPainter.build();
 
 		JPanel lStatPanel = new JPanel();
@@ -196,6 +188,8 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 			f = f.deriveFont((float)11);
 			CJT.setFont(f);
 		}
+
+
 		charMainBox.add(CJT);
 		charMainBox2.add(lSkillPanel);
 
@@ -731,8 +725,8 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 			}
 		});
 
-//		pack();
-//		setVisible(true);
+		pack();
+		setVisible(true);
 
 		connect();
 		itemListChanged();
@@ -741,9 +735,9 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 	}
 
 	public void paintMercStats(){
-			
-			MJT.setText(iCharacter.getMercStatString());
-		}
+
+		MJT.setText(iCharacter.getMercStatString());
+	}
 
 	public void paintCharStats() {
 
@@ -967,9 +961,10 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 		disconnect(null);
 		iFileManager.removeFromOpenWindows(this);
 	}
-	
-	public String getViewTitle()
+
+	public void itemListChanged()
 	{
+
 		String lTitle;
 		if ( iCharacter == null )
 		{
@@ -996,46 +991,7 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 				lTitle += iCharacter.getTitleString();
 			}
 		}
-		
-		return lTitle;
-	}
-
-	public void itemListChanged()
-	{
-		iEdited = false;
-		String lTitle;
-		if ( iCharacter == null )
-		{
-			lTitle = "Disconnected";
-		}
-		else
-		{
-			lTitle = iCharacter.getCharName();
-			if (iCharacter == null)
-			{
-				lTitle += " (Error Reading File)";
-			}
-			else
-			{
-				iEdited = iCharacter.isModified();
-				lTitle += ( iEdited ? "*" : "" );
-				if (iCharacter.isSC())
-				{
-					lTitle += " (SC)";
-				}
-				else if (iCharacter.isHC())
-				{
-					lTitle += " (HC)";
-				}
-				lTitle += iCharacter.getTitleString();
-			}
-		}
-		iTitle = lTitle;
-		if ( iDisplayHandler != null )
-		{
-			iDisplayHandler.setTitle(iTitle);
-			iDisplayHandler.setEdited(iEdited);
-		}
+		setTitle(lTitle);
 		iCharPainter.build();
 		if ( iMercPainter != null )
 		{
@@ -1049,17 +1005,17 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 
 	public void setCursorPickupItem()
 	{
-		iDisplayHandler.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
 	public void setCursorDropItem()
 	{
-		iDisplayHandler.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+		setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 	}
 
 	public void setCursorNormal()
 	{
-		iDisplayHandler.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 	}
 
 	class MyMouse extends MouseAdapter{
@@ -1072,21 +1028,6 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 
 		}
 
-	}
-	
-	public void setDisplayHandler(GoMuleViewDisplayHandler pDisplayHandler)
-	{
-		iDisplayHandler = pDisplayHandler;
-		if ( iTitle != null )
-		{
-			iDisplayHandler.setTitle( iTitle );
-			iDisplayHandler.setEdited(iEdited);
-		}
-	}
-	
-	public GoMuleViewDisplayHandler getDisplayHandler()
-	{
-		return iDisplayHandler;
 	}
 
 	class D2ItemPanel
@@ -1520,7 +1461,7 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 							if (lItemPanel.isItem())
 							{
 
-								rightClickItem.show(iContent, pEvent.getX(), pEvent.getY()+35);
+								rightClickItem.show(D2ViewChar.this, pEvent.getX(), pEvent.getY()+35);
 								rightClickEvent = pEvent;
 							}
 						}
@@ -3358,21 +3299,6 @@ public class D2ViewChar /* extends JInternalFrame */ implements D2ItemContainer,
 			iCharacter.listenItemListEvents();
 			iCharacter.fireD2ItemListEvent();	
 		}
-	}
-	
-	public JComponent getDisplay() 
-	{
-		return iContent;
-	}
-	
-	public D2ViewChar getViewChar() 
-	{
-		return this;
-	}
-	
-	public D2ItemContainer getItemContainer() 
-	{
-		return this;
 	}
 
 }

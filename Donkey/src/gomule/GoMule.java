@@ -92,7 +92,7 @@ public class GoMule
 		{
 			public void run()
 			{
-				D2FileManager.getInstance();
+				D2FileManager.getIntance();
 			}
 		});
 

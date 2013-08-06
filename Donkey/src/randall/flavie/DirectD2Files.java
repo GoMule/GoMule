@@ -137,12 +137,12 @@ public class DirectD2Files
 			lOutDualFP.flush();
 			lOutDualFP.close();
 			if(!errStr.equals("")){
-				JOptionPane.showMessageDialog(D2FileManager.getInstance().getContentPane(),
+				JOptionPane.showMessageDialog(D2FileManager.getIntance().getContentPane(),
 						"Some flavie reports failed (error msg below).\nOutput File: " + System.getProperty("user.dir") + File.separatorChar + iFlavie.getReportName() + ".html" + "\n\n" + errStr, 
 						"Fail!", JOptionPane.ERROR_MESSAGE);
 			}else{
 				
-				JOptionPane.showMessageDialog(D2FileManager.getInstance().getContentPane(),
+				JOptionPane.showMessageDialog(D2FileManager.getIntance().getContentPane(),
 						"Flavie says reports generated successfully.\nFile: " + System.getProperty("user.dir") + File.separatorChar + iFlavie.getReportName() + ".html", 
 						"Success!", JOptionPane.INFORMATION_MESSAGE);			
 			}

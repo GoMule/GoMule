@@ -9,8 +9,7 @@ import java.awt.Cursor;
  */
 public interface GoMuleViewDisplayHandler 
 {
-	public void	setTitle(String pTitle);
-	public void setEdited(boolean pEdited);
+	public void setTitle(String title);
 	public void setCursor(Cursor pCursor);
 	public void addDesktopListener(GoMuleDesktopListener pListener);
 }

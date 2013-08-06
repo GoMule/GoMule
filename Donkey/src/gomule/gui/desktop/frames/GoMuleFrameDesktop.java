@@ -1,6 +1,6 @@
 package gomule.gui.desktop.frames;
 
-import gomule.gui.D2ImageCache;
+import gomule.gui.D2FileManager;
 import gomule.gui.D2ItemContainer;
 import gomule.gui.desktop.generic.GoMuleDesktop;
 import gomule.gui.desktop.generic.GoMuleDesktopListener;
@@ -23,12 +23,12 @@ import javax.swing.event.InternalFrameEvent;
  * @author mbr
  *
  */
-public class GoMuleDesktopInternalFrame implements GoMuleDesktop
+public class GoMuleFrameDesktop implements GoMuleDesktop
 {
 	// Hide own stuff
 	private JDesktopPane	iDesktop;
 	
-	public GoMuleDesktopInternalFrame() 
+	public GoMuleFrameDesktop() 
 	{
 		iDesktop = new JDesktopPane();
 		iDesktop.setDragMode( JDesktopPane.OUTLINE_DRAG_MODE );
@@ -173,24 +173,8 @@ public class GoMuleDesktopInternalFrame implements GoMuleDesktop
 			setVisible(true);
 		}
 		
-		public void setEdited(boolean pEdited) 
-		{
-			if ( pEdited )
-			{
-				setFrameIcon( D2ImageCache.getIcon("TabEdit.gif") );
-			}
-			else
-			{
-				setFrameIcon( D2ImageCache.getIcon("TabEmpty.gif") );
-			}
-		}
-		
 		public void addDesktopListener(GoMuleDesktopListener pListener) {
 			iListenerList.add( pListener );
-			if ( isVisible() )
-			{
-				pListener.viewActivated( iView );
-			}
 		}
 		
 		public GoMuleView getView() {

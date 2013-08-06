@@ -22,12 +22,11 @@
 package gomule.item;
 
 import gomule.util.*;
-
-import java.awt.*;
+import java.awt.Color;
 import java.io.*;
 import java.util.*;
-import java.util.regex.*;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import randall.d2files.*;
 import randall.flavie.*;
 
@@ -42,7 +41,7 @@ import randall.flavie.*;
 //to be written only exist to facillitate
 //moving items. writing other item fields
 //is not supported by this class
-public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
+public class D2Item implements Comparable, D2ItemInterface {
 
 	private D2PropCollection iProps = new D2PropCollection();
 
@@ -243,7 +242,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 			if (lDiff > 7) {
 				throw new D2ItemException(
 						"Item not read complete, missing bits: " + lDiff
-						+ "(" +  lDiff/8 +  " bytes)" + getExStr());
+						+ getExStr());
 			}
 
 			pFile.set_byte_pos(pPos);
@@ -343,7 +342,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 				item_type += c;
 			}
 		}
-		
+
 		iItemType = D2TxtFile.search(item_type);
 		height = Short.parseShort(iItemType.get("invheight"));
 		width = Short.parseShort(iItemType.get("invwidth"));
@@ -410,7 +409,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 			iItemName = lItemName;
 			iBaseItemName = iItemName;
 		}
-		
+
 		// flag 22 is a simple item (extend1)
 		if (!check_flag(22)) {
 			readExtend1(pFile);
@@ -429,7 +428,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 
 		if (lHasGUID == 1) { // GUID ???
 			if (iType.startsWith("rune") || iType.startsWith("gem")
-					|| iType.startsWith("amu") || iType.startsWith("rin") || iType.startsWith("jewl")
+					|| iType.startsWith("amu") || iType.startsWith("rin")
 					|| isCharm()|| !isTypeMisc()) {
 
 				iGUID = "0x" + Integer.toHexString((int) pFile.read(32))
@@ -660,7 +659,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 			iSet = true;
 			set_id = (short) pFile.read(12);
 			if (gfx_num == -1) {
-				String s = iItemType.get("setinvfile");
+				String s = (String) iItemType.get("setinvfile");
 				if (s.compareTo("") != 0)
 					image_file = s;
 			}
@@ -810,7 +809,6 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 	}
 
 	private void readExtend2(D2BitReader pFile) throws Exception {
-		
 		if (isTypeArmor()) {
 			iDef = (short) (pFile.read(11) - 10); // -10 ???
 			iInitDef = iDef;
@@ -826,6 +824,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 				iThrow = true;
 			}
 			iMaxDur = (short) pFile.read(8);
+
 			if (iMaxDur != 0) {
 				iCurDur = (short) pFile.read(9);
 			}
@@ -1012,7 +1011,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 	private void readProperties(D2BitReader pFile, int qFlag) {
 
 		int rootProp = (int) pFile.read(9);
-		
+
 		while (rootProp != 511) {
 
 			iProps.readProp(pFile, rootProp, qFlag);
@@ -1167,18 +1166,18 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 
 			if (iEthereal) {
 				i1Dmg[0] = i1Dmg[1] = (short) Math
-				.floor((((double) i1Dmg[1] / (double) 100) * 50)
+				.floor((((double) i1Dmg[1] / (double) 100) * (double) 50)
 						+ i1Dmg[1]);
 				i1Dmg[2] = i1Dmg[3] = (short) Math
-				.floor((((double) i1Dmg[3] / (double) 100) * 50)
+				.floor((((double) i1Dmg[3] / (double) 100) * (double) 50)
 						+ i1Dmg[3]);
 
 				if (iWhichHand == 0) {
 					i2Dmg[0] = i2Dmg[1] = (short) Math
-					.floor((((double) i2Dmg[1] / (double) 100) * 50)
+					.floor((((double) i2Dmg[1] / (double) 100) * (double) 50)
 							+ i2Dmg[1]);
 					i2Dmg[2] = i2Dmg[3] = (short) Math
-					.floor((((double) i2Dmg[3] / (double) 100) * 50)
+					.floor((((double) i2Dmg[3] / (double) 100) * (double) 50)
 							+ i2Dmg[3]);
 				}
 			}
@@ -1468,10 +1467,6 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 		return iBelt;
 	}
 
-	/**
-	 * @deprecated: old supported for old filter
-	 * @return
-	 */
 	public boolean isCharm() {
 		return (iSmallCharm || iLargeCharm || iGrandCharm);
 	}
@@ -1507,7 +1502,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 	public void set_row(short r) {
 		iItem.set_byte_pos(7);
 		iItem.skipBits(13);
-		iItem.write(r, 4);
+		iItem.write((long) r, 4);
 		row = r;
 	}
 
@@ -1516,28 +1511,28 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 	public void set_col(short c) {
 		iItem.set_byte_pos(7);
 		iItem.skipBits(9);
-		iItem.write(c, 4);
+		iItem.write((long) c, 4);
 		col = c;
 	}
 
 	public void set_location(short l) {
 		iItem.set_byte_pos(7);
 		iItem.skipBits(2);
-		iItem.write(l, 3);
+		iItem.write((long) l, 3);
 		location = l;
 	}
 
 	public void set_body_position(short bp) {
 		iItem.set_byte_pos(7);
 		iItem.skipBits(5);
-		iItem.write(bp, 4);
+		iItem.write((long) bp, 4);
 		body_position = bp;
 	}
 
 	public void set_panel(short p) {
 		iItem.set_byte_pos(7);
 		iItem.skipBits(17);
-		iItem.write(p, 3);
+		iItem.write((long) p, 3);
 		panel = p;
 	}
 
@@ -1702,42 +1697,12 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 		return !(iMagical || iRare || iCrafted || iRuneWord || isRune() || iSet || iUnique);
 	}
 
-	/**
-	 * Only supported for old filter panel
-	 * @deprecated
-	 * @return
-	 */
 	public boolean isSocketFiller() {
 		return isRune() || isJewel() || isGem();
 	}
 
 	public boolean isGem() {
 		return iGem;
-	}
-	
-	public boolean isGemPerfect()
-	{
-		return iGem && iType2.equals("gem4");
-	}
-
-	public boolean isGemFlawless()
-	{
-		return iGem && iType2.equals("gem3");
-	}
-
-	public boolean isGemNormal()
-	{
-		return iGem && iType2.equals("gem2");
-	}
-
-	public boolean isGemFlawed()
-	{
-		return iGem && iType2.equals("gem1");
-	}
-
-	public boolean isGemChipped()
-	{
-		return iGem && iType2.equals("gem0");
 	}
 
 	public boolean isRune() {
@@ -1806,7 +1771,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 	}
 
 	public int getiDef() {
-		return iDef;
+		return (int) iDef;
 	}
 
 	public boolean isCharacterItem(){
@@ -2592,7 +2557,7 @@ public class D2Item implements Comparable, D2ItemInterface, D2FilterableItem {
 	}
 
 	public int getBlock() {
-		return this.cBlock;
+		return (int) this.cBlock;
 	}
 
 	public boolean isABelt() {
