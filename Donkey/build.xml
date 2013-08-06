@@ -22,14 +22,7 @@
 
   <target name="compile" depends="init">
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac destdir="${build}" debug="on" target="1.4"  classpath="${classpath}">
-        <src path="${src}"/>
-    </javac>
-  </target>
-
-  <target name="compile MBR" depends="init">
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac destdir="${build}" debug="on" target="1.4" classpath="${classpath}" excludes="TestyMcTest/**, gomule/dropCalc/remote/**">
+    <javac destdir="${build}" debug="on" source="1.4" target="1.4"  classpath="${classpath}">
         <src path="${src}"/>
     </javac>
   </target>
@@ -43,23 +36,20 @@
 
   <target name="compileOptimized" depends="init">
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac destdir="${build}" optimize="on" target="1.4" classpath="${classpath}">
+    <javac destdir="${build}" optimize="on" source="1.4" target="1.4" classpath="${classpath}">
         <src path="${src}"/>
     </javac>
   </target>
 
   <target name="build" depends="compile" description="Build"/>
     
-  <target name="build MBR" depends="compile MBR" description="Build"/>
-	    
   <target name="buildAll" depends="clean, compile" description="Build All"/>
-
-  <target name="buildAll MBR" depends="clean, compile MBR" description="Build All"/>
 
   <target name="makeJar">
     <!-- Put everything in ${build} into the ${dist}/GoMule.jar file -->
     <jar jarfile="${dist}/GoMule.jar" manifest="MANIFEST.MF">
 		<fileset dir="${build}" />
+		<fileset dir="${src}" />
     	<!-- fileset dir="${resources}" / -->
   	</jar>
   </target>
@@ -69,10 +59,6 @@
   </target>
 
   <target name="Jar-BuildAll" depends="buildAll, makeJar"
-        description="build all and Jar for GoMule" >
-  </target>
-
-  <target name="Jar-BuildAll MBR" depends="buildAll MBR, makeJar"
         description="build all and Jar for GoMule" >
   </target>
 
