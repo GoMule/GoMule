@@ -1427,19 +1427,20 @@ public class D2Character extends D2ItemListAdapter
 	}
 
 	public int getGoldBankMax(){
-		int lMaxGold = 50000;
-		for ( int lLvl = 9 ; lLvl <=29 ; lLvl+=10 ){
-			if ( iCharLevel < lLvl )return lMaxGold;
-			lMaxGold += 50000;
-		}
-		if ( iCharLevel == 30 )return 200000;
-		if ( iCharLevel == 31 )return 800000;
-		lMaxGold = 850000;
-		for ( int lLvl = 33 ; lLvl <=99 ; lLvl+=2 ){
-			if ( iCharLevel <= lLvl )return lMaxGold;
-			lMaxGold += 50000;
-		}
-		return 0;
+		return 2500000;
+//		int lMaxGold = 50000;
+//		for ( int lLvl = 9 ; lLvl <=29 ; lLvl+=10 ){
+//			if ( iCharLevel < lLvl )return lMaxGold;
+//			lMaxGold += 50000;
+//		}
+//		if ( iCharLevel == 30 )return 200000;
+//		if ( iCharLevel == 31 )return 800000;
+//		lMaxGold = 850000;
+//		for ( int lLvl = 33 ; lLvl <=99 ; lLvl+=2 ){
+//			if ( iCharLevel <= lLvl )return lMaxGold;
+//			lMaxGold += 50000;
+//		}
+//		return 0;
 	}
 
 	public void fullDump(PrintWriter pWriter){
