@@ -437,7 +437,14 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         JPanel lItemPanel = new JPanel();
         iItemText = new JEditorPane();
         iItemText.setContentType("text/html");
-        iItemText.setBackground(Color.black);
+        
+        Color bgColor = Color.black;
+        UIDefaults defaults = new UIDefaults();
+        defaults.put("EditorPane[Enabled].backgroundPainter", bgColor);
+        iItemText.putClientProperty("Nimbus.Overrides", defaults);
+        iItemText.putClientProperty("Nimbus.Overrides.InheritDefaults", Boolean.TRUE);
+        iItemText.setBackground(bgColor);        
+        
         JScrollPane lItemScroll = new JScrollPane(iItemText);
         lItemPanel.setLayout(new BorderLayout());
         lItemPanel.add(lItemScroll, BorderLayout.CENTER);

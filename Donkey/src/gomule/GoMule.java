@@ -81,6 +81,7 @@ public class GoMule
 			UIManager.setLookAndFeel(lLookAndFeel);
 			UIManager.put ("ToolTip.background", Color.black);
 			UIManager.put ("ToolTip.foreground", Color.white);
+			UIManager.put("info", Color.black);
 			ToolTipManager.sharedInstance().setInitialDelay(0);
 		}
 		catch (Exception e)
