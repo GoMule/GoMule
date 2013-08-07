@@ -56,10 +56,6 @@ public class D2TxtFileItemProperties
         return iTxtFile.getValue(iRowNr, pKey);
     }
     
-    public ArrayList getSpecialCase() {
-    	return iTxtFile.getValueSpecialCase(iRowNr);
-    }
-    
     public String getFileName()
     {
         return iTxtFile.getFileName();

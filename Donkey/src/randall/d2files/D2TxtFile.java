@@ -268,23 +268,6 @@ public final class D2TxtFile
 		return "";
 	}
 
-	protected ArrayList getValueSpecialCase(int pRowNr)
-	{
-		ArrayList lReturn = new ArrayList();
-		
-		for ( int i = 0 ; i < iData[pRowNr].length ; i++ ) {
-			if ( iData[pRowNr][i] != null && !"".equals(iData[pRowNr][i]) ) {
-				try {
-					Integer.valueOf(iData[pRowNr][i]);
-				} catch (NumberFormatException pEx ) {
-					lReturn.add( iData[pRowNr][i] );
-				}
-			}
-		}
-		
-		return lReturn;
-	}
-
 	private int getCol(String col) {
 
 		if(iData == null){
