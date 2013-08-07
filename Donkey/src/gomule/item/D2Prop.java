@@ -329,22 +329,9 @@ public class D2Prop {
 			String lString = null;
 			if ( !"".equals(lText) ) {
 				lString = D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",lText).get("str name"));
-			} else {
-				// MBR: Really ugly (just search all columns for a value that might fit) 
-				ArrayList lList = lRow.getSpecialCase();
-				for ( int i = 0 ; i < lList.size() ; i++ ) {
-					if ( lString == null ) {
-						lText = (String) lList.get(i);
-						try {
-							lString = D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc",lText).get("str name"));
-						} catch (Exception pEx) {
-							lString = null;
-						}
-					}
-				}
 			}
 			if ( lString == null ) {
-				lString = "<unknown>";
+				lString = "Unknown";
 			}
 			return oString.replaceAll("%s", lString);
 
