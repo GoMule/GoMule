@@ -20,6 +20,8 @@
  ******************************************************************************/
 package randall.d2files;
 
+import java.util.ArrayList;
+
 
 /**
  * @author Marco
@@ -52,6 +54,10 @@ public class D2TxtFileItemProperties
 //    	}
 //    	}
         return iTxtFile.getValue(iRowNr, pKey);
+    }
+    
+    public ArrayList getSpecialCase() {
+    	return iTxtFile.getValueSpecialCase(iRowNr);
     }
     
     public String getFileName()
