@@ -605,7 +605,12 @@ public class D2Character extends D2ItemListAdapter
 			return;		
 		}
 		int lItemStart = iReader.findNextFlag("JM", iKF);
-		if (lItemStart == -1)throw new Exception("Golem item not found.");
+		if (lItemStart != -1) {
+//			throw new Exception("Golem item not found.");
+			// Just do as if there is no golem item
+			golemItem = null;
+			return;		
+		}
 		golemItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
 	}
 
