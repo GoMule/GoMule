@@ -783,7 +783,7 @@ public class D2FileManager extends JFrame
 		iToolbar.add(new JLabel("Character"));
 
 		JButton lOpenD2S = new JButton(D2ImageCache.getIcon("open.gif"));
-		lOpenD2S.setToolTipText("Open Character");
+		lOpenD2S.setToolTipText("<html><font color=white>Open Character</font></html>");
 
 		lOpenD2S.addActionListener(new java.awt.event.ActionListener()
 		{
@@ -795,7 +795,7 @@ public class D2FileManager extends JFrame
 		iToolbar.add(lOpenD2S);
 
 		JButton lAddD2S = new JButton(D2ImageCache.getIcon("add.gif"));
-		lAddD2S.setToolTipText("Add Character");
+		lAddD2S.setToolTipText("<html><font color=white>Add Character</font></html>");
 		lAddD2S.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
@@ -809,7 +809,7 @@ public class D2FileManager extends JFrame
 		iToolbar.add(new JLabel("Stash"));
 
 		JButton lNewD2X = new JButton(D2ImageCache.getIcon("new.gif"));
-		lNewD2X.setToolTipText("New ATMA Stash");
+		lNewD2X.setToolTipText("<html><font color=white>New ATMA Stash</font></html>");
 		lNewD2X.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
@@ -820,7 +820,7 @@ public class D2FileManager extends JFrame
 		iToolbar.add(lNewD2X);
 
 		JButton lOpenD2X = new JButton(D2ImageCache.getIcon("open.gif"));
-		lOpenD2X.setToolTipText("Open ATMA Stash");
+		lOpenD2X.setToolTipText("<html><font color=white>Open ATMA Stash</font></html>");
 		lOpenD2X.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
@@ -831,7 +831,7 @@ public class D2FileManager extends JFrame
 		iToolbar.add(lOpenD2X);
 
 		JButton lAddD2X = new JButton(D2ImageCache.getIcon("add.gif"));
-		lAddD2X.setToolTipText("Add ATMA Stash");
+		lAddD2X.setToolTipText("<html><font color=white>Add ATMA Stash</font></html>");
 		lAddD2X.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
@@ -846,7 +846,7 @@ public class D2FileManager extends JFrame
 		iToolbar.add(new JLabel("     "));
 
 		JButton lSaveAll = new JButton(D2ImageCache.getIcon("save.gif"));
-		lSaveAll.setToolTipText("Save All");
+		lSaveAll.setToolTipText("<html><font color=white>Save All</font></html>");
 		lSaveAll.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
@@ -859,7 +859,7 @@ public class D2FileManager extends JFrame
 
 
 		JButton lDropCalc = new JButton(D2ImageCache.getIcon("dc.gif"));
-		lDropCalc.setToolTipText("Run Drop Calculator");
+		lDropCalc.setToolTipText("<html><font color=white>Run Drop Calculator</font></html>");
 		lDropCalc.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
@@ -877,7 +877,7 @@ public class D2FileManager extends JFrame
 		iToolbar.add(lDropCalc);
 
 		JButton lCancelAll = new JButton(D2ImageCache.getIcon("cancel.gif"));
-		lCancelAll.setToolTipText("Cancel (reload all)");
+		lCancelAll.setToolTipText("<html><font color=white>Cancel (reload all)</font></html>");
 		lCancelAll.addActionListener(new java.awt.event.ActionListener()
 		{
 			public void actionPerformed(java.awt.event.ActionEvent e)
