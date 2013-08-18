@@ -1754,12 +1754,9 @@ public class D2Character extends D2ItemListAdapter
 		"Cold:       " + getCharColdRes()+"/"+(getCharColdRes()-40) +"/"+(getCharColdRes()-100) + "\n"+
 		"Lightning:  " + getCharLightRes()+"/"+(getCharLightRes()-40) +"/"+(getCharLightRes()-100) + "\n"+
 		"Poison:     " + getCharPoisRes()+"/"+(getCharPoisRes()-40) +"/"+(getCharPoisRes()-100) + "\n"+"\n"+
-		"MF:         " + getCharMF() +
-		"       Block:      "+ getCharBlock() + "\n"+
-		"GF:         " +getCharGF()+ "\n"+
-		"FR/W:       " +getCharFRW()+ "\n"+
-		"FHR:        " +getCharFHR()+ "\n"+
-		"IAS:        " +getCharIAS()+ "\n"+
+		"MF:         " + getCharMF() + "       Block:      "+ getCharBlock() + "\n"+
+		"GF:         " +getCharGF()  + "       FR/W:       " +getCharFRW()+ "\n"+
+		"FHR:        " +getCharFHR() + "       IAS:        " +getCharIAS()+ "\n"+
 		"FCR:        " +getCharFCR();
 	}
 
