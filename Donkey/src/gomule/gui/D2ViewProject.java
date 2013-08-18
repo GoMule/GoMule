@@ -92,22 +92,41 @@ public class D2ViewProject extends JPanel
 		add(lScroll, BorderLayout.CENTER);
 
 		iTree.addMouseListener(new MouseListener()
-		{
-			public void mousePressed(MouseEvent pEvent){}
-			public void mouseClicked(MouseEvent e)
+ {
+			private long		iLastRelease = -1;
+			private long		iLastClickCount = 0;
+			private TreePath	iLastTreePath = null;
+
+			public void mousePressed(MouseEvent e){}
+			public void mouseClicked(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e)
 			{
 				iFileManager.workCursor();
 				try{
 					if ( e.getX() >=0 && e.getX() <= iTree.getWidth()
 							&& e.getY() >= 0 && e.getY() <= iTree.getHeight() )
 					{
-						if ( e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2 )
+						TreePath lPath = iTree.getPathForLocation(e.getX(), e.getY());
+						if(lPath == null)
 						{
-							TreePath lPath = iTree.getPathForLocation(e.getX(), e.getY());
-							if(lPath == null)
-							{
+							return;
+						}
+						
+						long lNow = System.currentTimeMillis();
+						if ( lNow < iLastRelease + 500 ) {
+							iLastClickCount++;
+							if ( iLastTreePath != lPath ) {
 								return;
 							}
+						} else {
+							iLastClickCount = 1;
+							iLastRelease = lNow;
+							iLastTreePath = lPath;
+						}
+						System.err.println("mouseReleased: " + e.getClickCount() + " - " + iLastClickCount);
+						
+						if ( e.getButton() == MouseEvent.BUTTON1 && iLastClickCount == 2 )
+						{
 							Object lPathObjects[] = lPath.getPath();
 							Object lLast = lPathObjects[lPathObjects.length - 1];
 							if (lLast instanceof CharTreeNode)
@@ -115,13 +134,8 @@ public class D2ViewProject extends JPanel
 								((CharTreeNode) lLast).view();
 							}
 						}
-						if ( e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1 )
+						if ( e.getButton() == MouseEvent.BUTTON3 && iLastClickCount == 1 )
 						{
-							TreePath lPath = iTree.getPathForLocation(e.getX(), e.getY());
-							if(lPath == null)
-							{
-								return;
-							}
 							Object lPathObjects[] = lPath.getPath();
 							Object lLast = lPathObjects[lPathObjects.length - 1];
 							if (lLast instanceof CharTreeNode)
@@ -134,9 +148,8 @@ public class D2ViewProject extends JPanel
 					iFileManager.defaultCursor();
 				}
 			}
-			public void mouseEntered(MouseEvent arg0) {}
-			public void mouseExited(MouseEvent arg0) {}
-			public void mouseReleased(MouseEvent arg0) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
 		});
 		iTree.addKeyListener(new KeyAdapter()
 		{
