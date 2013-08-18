@@ -123,7 +123,6 @@ public class D2ViewProject extends JPanel
 							iLastRelease = lNow;
 							iLastTreePath = lPath;
 						}
-						System.err.println("mouseReleased: " + e.getClickCount() + " - " + iLastClickCount);
 						
 						if ( e.getButton() == MouseEvent.BUTTON1 && iLastClickCount == 2 )
 						{
