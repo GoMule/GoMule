@@ -20,18 +20,63 @@
  ******************************************************************************/
 package gomule.gui;
 
-import gomule.d2s.*;
-import gomule.d2x.*;
-import gomule.item.*;
-import gomule.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
-import randall.util.*;
+import gomule.d2s.D2Character;
+import gomule.d2x.D2Stash;
+import gomule.item.D2BodyLocations;
+import gomule.item.D2Item;
+import gomule.item.D2WeaponTypes;
+import gomule.util.D2CellStringRenderer;
+import gomule.util.D2CellValue;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
+
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.UIDefaults;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableModel;
+
+import randall.util.RandallPanel;
+import randall.util.RandallUtil;
 
 /**
  * @author Marco
@@ -231,188 +276,9 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         {
             public void actionPerformed(ActionEvent pEvent)
             {
-            	filterPopUp();
+            	new CustomFilterPanel().filterPopUp();
             }
 
-			private void filterPopUp() {
-				
-				
-				
-				final JFrame filterPanel = new JFrame();
-				filterPanel.setTitle("Item Filter");
-				filterPanel.setLocation((int)iContentPane.getLocationOnScreen().getX() + 100,(int)iContentPane.getLocationOnScreen().getY() + 100);
-				filterPanel.setSize(500,300);
-				filterPanel.setVisible(true);
-				filterPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				
-				Box hRoot = Box.createHorizontalBox();
-				Box vControl = Box.createVerticalBox();
-				Box hVal = Box.createHorizontalBox();
-				Box hButtons = Box.createHorizontalBox();
-				Box hLabel1 = Box.createHorizontalBox();
-				Box hLabel2 = Box.createHorizontalBox();
-				Box hLabel3 = Box.createHorizontalBox();
-							
-				final JTextField fStrIn = new JTextField();
-				final JTextField fNumIn = new JTextField();
-				final JRadioButton fMin = new JRadioButton("Min");
-				final JRadioButton fMax = new JRadioButton("Max");
-				JButton fOk = new JButton("Ok");
-				if(iItemModel.filterVal == -1337){
-					fNumIn.setText("");
-				}else{
-					fNumIn.setText(iItemModel.filterVal + "");
-				}
-				fStrIn.setText(iItemModel.filterString);
-				
-				
-				if(iItemModel.filterMin){
-					fMin.setSelected(true);
-					fMax.setSelected(false);
-				}else{
-					fMax.setSelected(true);
-					fMin.setSelected(false);
-				}
-				
-				fMin.addActionListener(new ActionListener(){
-
-					public void actionPerformed(ActionEvent arg0) {
-						
-						if(fMax.isSelected()){
-							fMax.setSelected(false);
-						}
-						fMin.setSelected(true);
-						iItemModel.filterMin = true;
-					}
-					
-					
-				});
-				
-				fMax.addActionListener(new ActionListener(){
-
-					public void actionPerformed(ActionEvent arg0) {
-						
-						
-						if(fMin.isSelected()){
-							fMin.setSelected(false);
-						}
-						
-						fMax.setSelected(true);
-						iItemModel.filterMin = false;
-					}
-					
-					
-				});
-				
-				fOk.addActionListener(new ActionListener(){
-	            public void actionPerformed(ActionEvent pEvent)
-	            {
-				
-	            	iItemModel.filterString = fStrIn.getText();
-	            	try{
-	            		if(fNumIn.getText().equals("")){
-	            		
-	            			iItemModel.filterVal = -1337;
-	            			
-	            		}else{
-	            	iItemModel.filterVal = Integer.parseInt(fNumIn.getText());
-	            		}
-	            		
-						iItemModel.filterOn = true;
-//						iItemModel.filterString = "getting magic";
-//						iItemModel.filterVal = 10;
-						
-						itemListChanged();
-		            	
-		            	
-		            	filterPanel.dispose();
-		            	
-	            	}catch(NumberFormatException e){
-	            		e.printStackTrace();
-	            		iItemModel.filterVal = 0;
-	            		fNumIn.setBackground(Color.red);
-	            	}
-	            	
-
-	            	
-	            }
-				
-				});
-				
-				JButton fClear = new JButton("Clear");
-				
-				fClear.addActionListener(new ActionListener(){
-	            public void actionPerformed(ActionEvent pEvent)
-	            {
-				
-	            	fNumIn.setBackground(Color.white);
-					iItemModel.filterOn = false;
-					iItemModel.filterString = "";
-					iItemModel.filterVal = 0;
-					
-	            	fStrIn.setText("");
-	            	
-	            	fNumIn.setText("");	            	
-					
-	            	itemListChanged();
-	            	
-					
-	            	
-	            }
-				
-				});
-				
-				JButton fCancel = new JButton("Cancel");
-				
-				fCancel.addActionListener(new ActionListener(){
-	            public void actionPerformed(ActionEvent pEvent)
-	            {
-				
-	            	filterPanel.dispose();
-	            	
-	            }
-				
-				});
-				
-				filterPanel.getContentPane().add(hRoot);
-//				hRoot.add(Box.createRigidArea(new Dimension(250,0)));
-				
-				
-				vControl.add(hLabel3);
-				hLabel3.add(new JLabel("The superfantastic finder machine."));
-				hLabel3.add(Box.createRigidArea(new Dimension(10,0)));
-				vControl.add(Box.createRigidArea(new Dimension(0,50)));
-				hLabel1.add(new JLabel("Filter String:"));
-				hLabel1.add(Box.createRigidArea(new Dimension(168,0)));
-				vControl.add(hLabel1);
-				hLabel2.add(new JLabel("Filter Value:"));
-				hLabel2.add(Box.createRigidArea(new Dimension(168,0)));
-				vControl.add(fStrIn);
-				vControl.add(Box.createRigidArea(new Dimension(0,25)));
-				vControl.add(hLabel2);
-				vControl.add(hVal);
-				vControl.add(Box.createRigidArea(new Dimension(0,50)));
-				vControl.add(hButtons);
-				vControl.add(Box.createRigidArea(new Dimension(0,50)));
-			
-				hVal.add(fNumIn);
-				hVal.add(fMin);
-				hVal.add(fMax);
-				
-				hButtons.add(fOk);
-				hButtons.add(fClear);
-				hButtons.add(fCancel);
-				
-				Box lazy = Box.createVerticalBox();
-				
-				lazy.add(new JLabel("I'm too lazy to code"));
-				lazy.add(new JLabel("what should be here."));
-				
-				hRoot.add(lazy);
-				hRoot.add(Box.createRigidArea(new Dimension(100, 0)));
-				hRoot.add(vControl);
-				filterPanel.validate();
-			}
         });
         
         
@@ -1148,6 +1014,13 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         }
         setTitle(lTitle);
     }
+    
+    class D2ItemModelCusFilter {
+		private String filterString = "";
+		private int filterVal = -1337;
+		private boolean filterOn = false;
+		private boolean filterMin = true;
+    }
 
     class D2ItemModel implements TableModel
     {
@@ -1157,16 +1030,18 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         private ArrayList iSortList = new ArrayList();
 
         private final Object HEADER[] = new Object[] {new Object(), new Object(), new Object(), new Object(), new Object()};
-		private String filterString = "";
-		private int filterVal = -1337;
-		private boolean filterOn = false;
-		private boolean filterMin = true;
+        private final ArrayList iCusFilterList = new ArrayList();
         
         public D2ItemModel()
         {
 //            iStash = pStash;
             iSortList.add(HEADER[0]);
             refreshData();
+            
+            // For now, 10 fixed filters
+            for ( int i = 0 ; i < 10 ; i++ ) {
+            	iCusFilterList.add(new D2ItemModelCusFilter());
+            }
         }
         
         public void sortCol(int pHeaderCol)
@@ -1490,13 +1365,15 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 	                }
 	
 	                if ( lAdd1 && lAdd2 )
-	                {	                	
-						if(filterOn){
-	                	
-							if(!lItem.conforms(filterString, filterVal, filterMin )){
-								lAdd1 = false;
-							}
-							
+	                {
+	                	for ( int lCusFilterNr = 0 ; lCusFilterNr < iCusFilterList.size() ; lCusFilterNr++ ) {
+							D2ItemModelCusFilter lFilter = (D2ItemModelCusFilter) iCusFilterList.get(lCusFilterNr);
+							if(lFilter.filterOn){
+								if(!lItem.conforms(lFilter.filterString, lFilter.filterVal, lFilter.filterMin )){
+									lAdd1 = false;
+								}
+								
+		                	}
 	                	}
 	                	
 	                    if ( lMaxReqLvl != -1 )
@@ -1854,5 +1731,180 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     	return iStashName;
     }
 
-    
+	private class CustomFilterPanel extends JFrame {
+
+		private final JTextField[] fStrIn;
+		private final JTextField[] fNumIn;
+		private final JRadioButton[] fMin;
+		private final JRadioButton[] fMax;
+		
+		public CustomFilterPanel() {
+			int lNr = iItemModel.iCusFilterList.size();
+			fStrIn = new JTextField[lNr];
+			fNumIn = new JTextField[lNr];
+			fMin = new JRadioButton[lNr];
+			fMax = new JRadioButton[lNr];
+		}
+		
+		public void filterPopUp() {
+			setTitle("Item Filter");
+			setLocation((int)iContentPane.getLocationOnScreen().getX() + 100,(int)iContentPane.getLocationOnScreen().getY() + 100);
+			setSize(500,500);
+			setVisible(true);
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+			RandallPanel lContent = new RandallPanel();
+
+			for ( int i = 0 ; i < fStrIn.length ; i++ ) {
+				D2ItemModelCusFilter lFilter = (D2ItemModelCusFilter) iItemModel.iCusFilterList.get(i);
+				fStrIn[i] = new JTextField(lFilter.filterString);
+				if(lFilter.filterVal == -1337){
+					fNumIn[i] = new JTextField("");
+				}else{
+					fNumIn[i] = new JTextField(lFilter.filterVal + "");
+				}
+				if(lFilter.filterMin){
+					fMin[i] = new JRadioButton("Min", true);
+					fMax[i] = new JRadioButton("Max", false);
+				}else{
+					fMin[i] = new JRadioButton("Min", false);
+					fMax[i] = new JRadioButton("Max", true);
+				}
+				fMin[i].addActionListener(new CustomFilterMinActionListener(i));
+				
+				fMax[i].addActionListener(new CustomFilterMaxActionListener(i));
+			}
+			
+			JButton fOk = new JButton("Ok");
+			
+			
+			fOk.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent pEvent)
+            {
+            	for ( int lFilterNr = 0 ; lFilterNr < iItemModel.iCusFilterList.size() ; lFilterNr++ ) {
+					D2ItemModelCusFilter lFilter = (D2ItemModelCusFilter) iItemModel.iCusFilterList.get(lFilterNr);
+					lFilter.filterString = fStrIn[lFilterNr].getText();
+	            	try{
+	            		if(fNumIn[lFilterNr].getText().equals("")){
+	            		
+	            			lFilter.filterVal = -1337;
+	            			
+	            		}else{
+	            			lFilter.filterVal = Integer.parseInt(fNumIn[lFilterNr].getText());
+	            		}
+	            		
+	            		lFilter.filterOn = true;
+	//					iItemModel.filterString = "getting magic";
+	//					iItemModel.filterVal = 10;
+						
+		            	
+	            	}catch(NumberFormatException e){
+	            		e.printStackTrace();
+	            		lFilter.filterVal = 0;
+	            		fNumIn[lFilterNr].setBackground(Color.red);
+	            		return;
+	            	}
+            	}
+				itemListChanged();
+            	
+            	dispose();
+            }
+			
+			});
+			
+			JButton fClear = new JButton("Clear");
+			
+			fClear.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent pEvent)
+            {
+				for ( int i = 0 ; i < iItemModel.iCusFilterList.size() ; i++ ) {
+	            	fNumIn[i].setBackground(Color.white);
+					D2ItemModelCusFilter lFilter = (D2ItemModelCusFilter) iItemModel.iCusFilterList.get(i);
+					lFilter.filterOn = false;
+					lFilter.filterString = "";
+					lFilter.filterVal = 0;
+	            	fStrIn[i].setText("");
+	            	fNumIn[i].setText("");	            	
+				}
+				
+            	itemListChanged();
+            }
+			
+			});
+			
+			JButton fCancel = new JButton("Cancel");
+			
+			fCancel.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent pEvent)
+            {
+			
+            	dispose();
+            	
+            }
+			
+			});
+			
+			setContentPane(lContent);
+//			hRoot.add(Box.createRigidArea(new Dimension(250,0)));
+			
+			int lY=0;
+			lContent.addToPanel(new JLabel("The superfantastic finder machine."), 0, lY, 4, RandallPanel.HORIZONTAL);
+			lY++;
+			lContent.addToPanel(new JLabel(" "), 0, lY, 1, RandallPanel.HORIZONTAL);
+			lY++;
+			lContent.addToPanel(new JLabel("Filter String:"), 0, lY, 1, RandallPanel.HORIZONTAL);
+			lContent.addToPanel(new JLabel("Filter Value:"), 1, lY, 1, RandallPanel.HORIZONTAL);
+			lContent.addToPanel(new JLabel("Min or Max"), 2, lY, 2, RandallPanel.HORIZONTAL);
+			lY++;
+			for ( int i = 0 ; i < fStrIn.length ; i++ ) {
+				lContent.addToPanel(fStrIn[i], 0, lY, 1, RandallPanel.HORIZONTAL);
+				lContent.addToPanel(fNumIn[i], 1, lY, 1, RandallPanel.HORIZONTAL);
+				lContent.addToPanel(fMin[i], 2, lY, 1, RandallPanel.NONE);
+				lContent.addToPanel(fMax[i], 3, lY, 1, RandallPanel.NONE);
+				lY++;
+			}
+			lContent.addToPanel(new JLabel(" "), 0, lY, 1, RandallPanel.HORIZONTAL);
+			lY++;
+			lContent.addToPanel(fOk, 0, lY, 1, RandallPanel.HORIZONTAL);
+			lContent.addToPanel(fClear, 1, lY, 1, RandallPanel.HORIZONTAL);
+			lContent.addToPanel(fCancel, 2, lY, 2, RandallPanel.HORIZONTAL);
+		}
+		private class CustomFilterMinActionListener implements ActionListener {
+			private final int iFilterNr;
+			
+			public CustomFilterMinActionListener(int pFilterNr) {
+				iFilterNr = pFilterNr;
+			}
+			
+			public void actionPerformed(ActionEvent pE) {
+				if(fMax[iFilterNr].isSelected()){
+					fMax[iFilterNr].setSelected(false);
+				}
+				fMin[iFilterNr].setSelected(true);
+				D2ItemModelCusFilter lFilter = (D2ItemModelCusFilter) iItemModel.iCusFilterList.get(iFilterNr);
+				lFilter.filterMin = true;
+			}
+			
+		}
+		private class CustomFilterMaxActionListener implements ActionListener {
+			private final int iFilterNr;
+			
+			public CustomFilterMaxActionListener(int pFilterNr) {
+				iFilterNr = pFilterNr;
+			}
+			
+			public void actionPerformed(ActionEvent pE) {
+				if(fMin[iFilterNr].isSelected()){
+					fMin[iFilterNr].setSelected(false);
+				}
+				
+				D2ItemModelCusFilter lFilter = (D2ItemModelCusFilter) iItemModel.iCusFilterList.get(iFilterNr);
+				fMax[iFilterNr].setSelected(true);
+				lFilter.filterMin = false;
+			}
+			
+		}
+		
+	}
+	
 }
