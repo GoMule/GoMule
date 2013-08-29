@@ -901,6 +901,55 @@ Principle, Ral-Gul-Eld
 Rain, Ort-Mal-Ith
 Treachery, Shael-Thul-Lem
 
+**Skillers Amazon[w][newrow][skiller]
+
+*Amazon
+Bow and Crossbow,Fletcher's
+Passive,Acrobat's
+Javelin and Spear,Harpoonist's
+
+**Skillers Sorceress[w][newcol][skiller]
+
+*Sorceress
+Fire,Burning
+Lightning,Sparking
+Cold,Chilling
+
+**Skillers Necromancer[w][newcol][skiller]
+
+*Necromancer
+Curses, Hexing
+Poison and Bone, Fungal
+Summoning, Graverobber's
+
+**Skillers Paladin[w][newrow][skiller]
+
+*Paladin
+Combat, Lion Branded
+Offensive Auras, Captain's
+Defensive Auras, Preserver's
+
+**Skillers Barbarian[w][newcol][skiller]
+
+*Barbarian
+Combat, Expert's
+Combat Masteries, Fanatic
+Warcries, Sounding
+
+**Skillers Druid[w][newcol][skiller]
+
+*Druid
+Summoning, Trainer's
+Shapeshifting, Spiritual
+Elemental, Natural
+
+**Skillers Assassin[w][newrow][skiller]
+
+*Assassin
+Traps, Entrapping
+Shadow Disciplines, Mentalist's
+Martial Arts, Shogukusha's
+
 **Miscelaneous[g][newrow][misc]
 
 *Potions

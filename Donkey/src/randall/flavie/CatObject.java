@@ -35,6 +35,7 @@ public class CatObject implements Comparable
 	private boolean		iRuneWord;
 	private boolean		iMisc;
 	private boolean		iGem;
+	private boolean		iSkiller;
 	
 	private boolean		iNewRow;
 	
@@ -115,6 +116,7 @@ public class CatObject implements Comparable
         iRuneWord = "runeword".equals(iGroup);
         iGem = "gem".equals(iGroup);
         iMisc = "misc".equals(iGroup);
+        iSkiller = "skiller".equals(iGroup);
     }
     
 	public boolean isUnique()
@@ -145,6 +147,10 @@ public class CatObject implements Comparable
 	public boolean isMisc()
 	{
 	    return iMisc;
+	}
+	
+	public boolean isSkiller() {
+		return iSkiller;
 	}
 	
 }

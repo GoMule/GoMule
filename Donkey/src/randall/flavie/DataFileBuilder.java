@@ -159,6 +159,9 @@ public class DataFileBuilder
 				}
 				else if ( lItem.size() == 2 || lItem.size() == 3 )
 				{
+					if ( "Fire Skills".equals(lItem.get(0)) ) {
+						System.err.println("Test");
+					}
 					// Ok, found a item definition
 					ItemObject lItemObject = new ItemObject((String) lItem.get(0), (String) lItem.get(1), lSubCat);
 					if ( iFlavie.checkForRuneWord((String) lItem.get(0), (String) lItem.get(1)) )

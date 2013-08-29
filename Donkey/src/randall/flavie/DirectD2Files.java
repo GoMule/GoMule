@@ -215,7 +215,11 @@ public class DirectD2Files
 
 					lCatObj = lSubCatObj.getCatObject();
 
-					if ( lItemObject.getName().equals(pItem.getName()) )
+					if ( lCatObj.isSkiller() ) {
+						if ( fitsSkiller(lCatObj, lItemObject, pItem) ) {
+							lFound = lItemObject;
+						}
+					} else if ( lItemObject.getName().equals(pItem.getName()) )
 					{
 						if(pItem.isUnique() && pItem.isJewel() && matchStr[0].equals(lItemObject.getExtraDetect().get(0)) && matchStr[1].equals(lItemObject.getExtraDetect().get(1))){
 							lFound = lItemObject;
@@ -260,6 +264,12 @@ public class DirectD2Files
 //		pOutDualFP.println("Item matched : " + pItem + " with FP " + pItem.getFingerprint() + "(" + pItem.getFileName() + ") Fingerprint was allready used by another item: " + lOriginal + " from file " + lOriginal.getFileName() );
 //		iFlavie.iDualFPMatched++;
 //		}
+	}
+	
+	private boolean fitsSkiller(CatObject pCatObj, ItemObject pItemObject, D2Item pItem) {
+		return ( pItem.getName().startsWith(pItemObject.getInfo())); 
+		
+//		return false;
 	}
 
 //	private String getRuneString(String pRuneName)
