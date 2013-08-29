@@ -25,6 +25,11 @@ public class D2Backup
     {
         try
         {
+	        int lBackup = pProject.getBackup();
+	        if ( lBackup == D2Project.BACKUP_NONE ) {
+	        	return;
+	        }
+	        
 	        File lFile = new File(pFileName);
 	        
 	        String lFileName = lFile.getName();
@@ -33,7 +38,6 @@ public class D2Backup
 	        GregorianCalendar lCalendar = new GregorianCalendar();
 	        String lExtra1;
 	        
-	        int lBackup = pProject.getBackup();
 	        if ( lBackup == D2Project.BACKUP_DAY )
 	        {
 	            lExtra1 = "D"

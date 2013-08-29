@@ -59,6 +59,7 @@ public class D2ProjectSettingsDialog extends JDialog
     private JRadioButton         iBackupDay;
     private JRadioButton         iBackupWeek;
     private JRadioButton         iBackupMonth;
+    private JRadioButton         iBackupNone;
     
 //    private JButton 			 iColorUnique;
 //    private JButton 			 iColorSet;
@@ -204,10 +205,19 @@ public class D2ProjectSettingsDialog extends JDialog
                 iProject.setBackup(D2Project.BACKUP_MONTH);
             }
         });
+        iBackupNone = new JRadioButton("No Backup");
+        iBackupNone.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent pEvent)
+            {
+                iProject.setBackup(D2Project.BACKUP_NONE);
+            }
+        });
         ButtonGroup lBackup = new ButtonGroup();
         lBackup.add(iBackupDay);
         lBackup.add(iBackupWeek);
         lBackup.add(iBackupMonth);
+        lBackup.add(iBackupNone);
         
 //        iColorUnique = new JButton("Unique");
 //        iTypeBoth.addActionListener(new ActionListener()
@@ -358,6 +368,7 @@ public class D2ProjectSettingsDialog extends JDialog
         lBackupPanel.addToPanel(iBackupDay, 1, 0, 1, RandallPanel.HORIZONTAL);
         lBackupPanel.addToPanel(iBackupWeek, 2, 0, 1, RandallPanel.HORIZONTAL);
         lBackupPanel.addToPanel(iBackupMonth, 3, 0, 1, RandallPanel.HORIZONTAL);
+        lBackupPanel.addToPanel(iBackupNone, 4, 0, 1, RandallPanel.HORIZONTAL);
         lBackupPanel.addToPanel(iIgnoreItems, 0, 1, 1, RandallPanel.HORIZONTAL);
         iContent.addToPanel(lBackupPanel, 0, 30, 3, RandallPanel.HORIZONTAL);
 
@@ -415,6 +426,9 @@ public class D2ProjectSettingsDialog extends JDialog
         case D2Project.BACKUP_MONTH:
             iBackupMonth.setSelected(true);
             break;
+        case D2Project.BACKUP_NONE:
+        	iBackupNone.setSelected(true);
+        	break;
         default:
             iBackupWeek.setSelected(true);
             break;

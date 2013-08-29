@@ -59,6 +59,7 @@ public class D2Project
 	public static final int    BACKUP_DAY   = 1;
 	public static final int    BACKUP_WEEK  = 2;
 	public static final int    BACKUP_MONTH = 3;
+	public static final int    BACKUP_NONE  = 4;
 	private int                iBackup      = BACKUP_WEEK;
 
 	private String iReportName;
