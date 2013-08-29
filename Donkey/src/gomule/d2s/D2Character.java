@@ -140,7 +140,7 @@ public class D2Character extends D2ItemListAdapter
 	private void readChar() throws Exception{
 		iReader.set_byte_pos(4);
 		long lVersion = iReader.read(32);
-		System.err.println("Version: " + lVersion );
+//		System.err.println("Version: " + lVersion );
 		if (lVersion != 96)throw new Exception("Incorrect Character version: " + lVersion);
 		iReader.set_byte_pos(8);
 		long lSize = iReader.read(32);
