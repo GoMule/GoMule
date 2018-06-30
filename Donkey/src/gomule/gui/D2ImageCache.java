@@ -57,7 +57,7 @@ public class D2ImageCache
         Image lImage = null;
         try
         {
-            Image lLoadImage = ImageIO.read(new java.io.File( pImageName ));
+            Image lLoadImage = ImageIO.read(D2ImageCache.class.getResourceAsStream( "/" + pImageName ));
             new ImageIcon(lLoadImage);
             
             lImage = new BufferedImage(lLoadImage.getWidth(null), lLoadImage.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
@@ -89,7 +89,7 @@ public class D2ImageCache
         Icon lIcon = null;
         try
         {
-            Image lLoadImage = ImageIO.read(new java.io.File( pImageName ));
+            Image lLoadImage = ImageIO.read(D2ImageCache.class.getResourceAsStream( "/" + pImageName ));
             lIcon = new ImageIcon(lLoadImage);
         }
         catch ( IOException pEx )
