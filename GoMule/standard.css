@@ -4,44 +4,44 @@
 
 .body
 {
-	color : white;
-	background-color: black;
+	color : whitesmoke;
+	background-color: #151515;
 }
 
-.cat  
+.cat
 {
 	font-family : Arial, Helvetica, Sans-serif;
-	color : white;
+	color : whitesmoke;
 	font-size : 14;
 	font-weight : BOLD;
 }
 
-.subcat  
+.subcat
 {
 	font-family : Arial, Helvetica, Sans-serif;
-	color : white;
+	color : whitesmoke;
 	font-size : 10;
 	font-weight : BOLD;
 }
 
-.total  
+.total
 {
 	font-family : Arial, Helvetica, Sans-serif;
-	color : white;
+	color : whitesmoke;
 	font-size : 10;
 }
 
-.d  
+.d
 {
 	font-family : Arial, Helvetica, Sans-serif;
-	color : white;
+	color : whitesmoke;
 	font-size : 10;
 }
 
 .b
 {
 	font-family : Arial, Helvetica, Sans-serif;
-	color : blue;
+	color : royalblue;
 	font-size : 10;
 	font-weight : BOLD;
 }
@@ -49,7 +49,7 @@
 .s
 {
 	font-family : Arial, Helvetica, Sans-serif;
-	color : red;
+	color : indianred;
 	font-size : 10;
 	font-weight : BOLD;
 }
@@ -57,12 +57,12 @@
 .c
 {
 	font-family : Arial, Helvetica, Sans-serif;
-	color : yellow;
+	color : #C7C966;
 	font-size : 10;
 	font-weight : BOLD;
 }
 
-.e  
+.e
 {
 	font-family : Arial, Helvetica, Sans-serif;
 	color : gray;
@@ -73,7 +73,7 @@
 /*  The following styles are optional. You can define new  */
 /*  styles here and reference them inside the datafile.    */
 
-.u  
+.u
 {
 
 	font-family : Arial, Helvetica, Sans-serif;
@@ -81,37 +81,37 @@
 	font-size : 10;
 }
 
-.t  
+.t
 {
 	font-family : Arial, Helvetica, Sans-serif;
 	color : limegreen;
 	font-size : 10;
 }
 
-.r  
+.r
 {
 	font-family : Arial, Helvetica, Sans-serif;
 	color : gold;
 	font-size : 10;
 }
 
-.g  
+.g
 {
 	font-family : Arial, Helvetica, Sans-serif;
-	color : magenta;
+	color : plum;
 	font-size : 10;
 }
 
-.w  
+.w
 {
 	font-family : Arial, Helvetica, Sans-serif;
 	color : gray;
 	font-size : 10;
 }
 
-.sk  
+.sk
 {
 	font-family : Arial, Helvetica, Sans-serif;
-	color : blue;
+	color : royalblue;
 	font-size : 10;
 }
