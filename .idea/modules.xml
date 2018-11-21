@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Donkey/Donkey.iml" filepath="$PROJECT_DIR$/Donkey/Donkey.iml" />
-      <module fileurl="file://$PROJECT_DIR$/framework/framework.iml" filepath="$PROJECT_DIR$/framework/framework.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gomule/gomule.iml" filepath="$PROJECT_DIR$/gomule/gomule.iml" />
     </modules>
   </component>
 </project>
