@@ -39,21 +39,22 @@ public class D2FileReader
 	
 	public D2FileReader(String pFileName)
 	{
+		File lFile = new File(pFileName);
+		if ( lFile.exists() && lFile.isFile() && lFile.canRead() )
+		{
 			try
 			{
-				InputStream resourceStream = this.getClass().getResourceAsStream("/" + pFileName);
-				if(resourceStream != null) {
-					iBuffer = new byte[resourceStream.available()]; //TODO: This shouldnt use available()
-					resourceStream.read(iBuffer);
-					resourceStream.close();
-				}
+				iBuffer = new byte[(int) lFile.length()];
+				FileInputStream lIn = new FileInputStream(lFile);
+				lIn.read(iBuffer);
+				lIn.close();
 			}
 			catch ( Exception pEx )
 			{
 				iBuffer = null;
                 D2FileManager.displayErrorDialog(pEx);
 			}
-//		}
+		}
 	}
 
 	public D2FileReader(byte pBuffer[])

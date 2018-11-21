@@ -1,22 +1,22 @@
 /*******************************************************************************
- *
+ * 
  * Copyright 2007 Randall & Silospen
- *
+ * 
  * This file is part of gomule.
- *
+ * 
  * gomule is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- *
+ * 
  * gomule is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with
  * gomlue; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
- *
+ *  
  ******************************************************************************/
 package randall.d2files;
 
@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Marco
- *
+ * 
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
@@ -214,12 +214,13 @@ public final class D2TxtFile
 		iFileName = pFileName;
 
 	}
-
+	
 	private void readInData(){
 		try
 		{
 			ArrayList strArr = new ArrayList();
-			BufferedReader lIn = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/" + sMod + File.separator + iFileName + ".txt")));
+			FileReader lFileIn = new FileReader(sMod + File.separator + iFileName + ".txt");
+			BufferedReader lIn = new BufferedReader(lFileIn);
 			String lFirstLine = lIn.readLine();
 
 			Pattern p = Pattern.compile("	");
@@ -242,6 +243,7 @@ public final class D2TxtFile
 				lLine = lIn.readLine();
 			}
 
+			lFileIn.close();
 			lIn.close();
 
 			iData = new String[strArr.size()][];
@@ -287,7 +289,7 @@ public final class D2TxtFile
 	}
 
 	public D2TxtFileItemProperties searchColumns(String pCol, String pText)
-	{
+	{	
 
 		int lColNr = getCol(pCol);
 
