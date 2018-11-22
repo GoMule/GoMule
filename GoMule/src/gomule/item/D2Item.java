@@ -1,22 +1,22 @@
 /*******************************************************************************
- * 
+ *
  * Copyright 2007 Andy Theuninck, Randall & Silospen
- * 
+ *
  * This file is part of gomule.
- * 
+ *
  * gomule is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * gomule is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * gomlue; if not, write to the Free Software Foundation, Inc., 51 Franklin St,
  * Fifth Floor, Boston, MA 02110-1301 USA
- *  
+ *
  ******************************************************************************/
 
 package gomule.item;
@@ -284,11 +284,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 		} else {
 			read_ear(pFile);
 		}
-		
+
 		//Need to tidy up the properties before the item mods are calculated.
 		iProps.deleteUselessProperties();
-		
-		
+
+
 		if (isTypeArmor() || isTypeWeapon()) {
 //			Blunt does 150 damage to undead
 			if (iType.equals("club") || iType.equals("scep")
@@ -805,7 +805,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		for(int x = 1 ;x<9;x++){
 			if(fullsetRow.get("FCode"+x).equals(""))continue;
 			iProps.addAll(D2TxtFile.propToStat(fullsetRow.get("FCode"+x), fullsetRow.get("FMin"+x), fullsetRow.get("FMax"+x), fullsetRow.get("FParam"+x), 26));
-		}		
+		}
 	}
 
 	private void readExtend2(D2BitReader pFile) throws Exception {
@@ -905,7 +905,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 		if(iJewel){
 			readProperties(pFile, 1);
 		}else{
-			readProperties(pFile, 0);	
+			readProperties(pFile, 0);
 		}
 		if (quality == 5) {
 			for (int x = 0; x < 5; x++) {
@@ -1041,7 +1041,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 		int[] armourTriple = new int[] { 0, 0, 0 };
 		int[] dmgTriple = new int[] { 0, 0, 0, 0, 0 };
 		int[] durTriple = new int[] { 0, 0 };
-		
+		RequirementModifierAccumulator requirementModifierAccumulator = new RequirementModifierAccumulator();
+
 		iProps.applyOp(iCharLvl);
 
 		for (int x = 0; x < iProps.size(); x++) {
@@ -1061,23 +1062,12 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 			// +LvlReq
 			if (((D2Prop) iProps.get(x)).getPNum() == 92) {
-				iReqLvl = iReqLvl + ((D2Prop) iProps.get(x)).getPVals()[0];
+				requirementModifierAccumulator.accumulateLevelRequirement(((D2Prop) iProps.get(x)).getPVals()[0]);
 			}
 
 			// -Req
 			if (((D2Prop) iProps.get(x)).getPNum() == 91) {
-
-				if (getReqDex() != -1) {
-					iReqDex = iReqDex
-					+ ((int) (iReqDex * ((double) ((D2Prop) iProps
-							.get(x)).getPVals()[0] / (double) 100)));
-				}
-				if (getReqStr() != -1) {
-					iReqStr = iReqStr
-					+ ((int) (iReqStr * ((double) ((D2Prop) iProps
-							.get(x)).getPVals()[0] / (double) 100)));
-				}
-
+				requirementModifierAccumulator.accumulatePercentRequirements(((D2Prop) iProps.get(x)).getPVals()[0]);
 			}
 
 			// +Skills modify level
@@ -1161,6 +1151,11 @@ public class D2Item implements Comparable, D2ItemInterface {
 				}
 			}
 		}
+
+		iReqLvl = iReqLvl + requirementModifierAccumulator.getLevelRequirement();
+		double percentReqirementsModifier = requirementModifierAccumulator.getPercentRequirements() / (double) 100;
+		iReqDex = iReqDex + ((int) (iReqDex * percentReqirementsModifier));
+		iReqStr = iReqStr + ((int) (iReqStr * percentReqirementsModifier));
 
 		if(isTypeWeapon()){
 
@@ -1265,7 +1260,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 	public String itemDump(boolean extended){
 		return htmlStrip(generatePropString(extended));
 	}
-	
+
 	private StringBuffer generatePropString(boolean extended){
 		StringBuffer propString = new StringBuffer("<html>");
 		propString.append(generatePropStringNoHtmlTags(extended));
@@ -1342,7 +1337,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 							dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropStringNoHtmlTags(false));
 							if(x != iSocketedItems.size() -1){
 								dispStr.append("<br>&#10;");
-							}									
+							}
 						}
 					}
 				}
@@ -1828,8 +1823,8 @@ public class D2Item implements Comparable, D2ItemInterface {
 		/*
 		 * if(numItems == 0){ iSetProps.clear(); }else if(numItems == 1){
 		 * iSetProps.clear();
-		 * 
-		 * 
+		 *
+		 *
 		 * }else
 		 */
 
@@ -2551,7 +2546,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 						}
 					}
 				}
-			}				
+			}
 		}
 		return false;
 	}
