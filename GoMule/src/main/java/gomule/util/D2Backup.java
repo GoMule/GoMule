@@ -6,91 +6,80 @@
  */
 package gomule.util;
 
-import gomule.gui.*;
+import gomule.gui.D2FileManager;
+import randall.util.RandallUtil;
 
-import java.io.*;
-import java.util.*;
-
-import randall.util.*;
+import java.io.File;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * @author Marco
- *
+ * <p>
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class D2Backup
-{
-    public static void backup(D2Project pProject, String pFileName, D2BitReader pContent)
-    {
-        try
-        {
-	        int lBackup = pProject.getBackup();
-	        if ( lBackup == D2Project.BACKUP_NONE ) {
-	        	return;
-	        }
-	        
-	        File lFile = new File(pFileName);
-	        
-	        String lFileName = lFile.getName();
-	        String lPathName = lFile.getParent();
-	        
-	        GregorianCalendar lCalendar = new GregorianCalendar();
-	        String lExtra1;
-	        
-	        if ( lBackup == D2Project.BACKUP_DAY )
-	        {
-	            lExtra1 = "D"
-		            + RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4) 
-		            + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH) +1, 2)
-	            	+ "." + RandallUtil.fill(lCalendar.get(Calendar.DAY_OF_MONTH), 2);
-	        }
-	        else if ( lBackup == D2Project.BACKUP_MONTH )
-	        {
-	            lExtra1 = "M"
-		            + RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4) 
-		            + RandallUtil.fill(lCalendar.get(Calendar.MONTH) +1, 2);
-	        }
-	        else
-	        {
-	            GregorianCalendar lWeek = new GregorianCalendar();
-	            
-	            while ( lWeek.get(Calendar.DAY_OF_WEEK) != lWeek.getFirstDayOfWeek() )
-	            {
-	                lWeek.add(Calendar.DAY_OF_MONTH, -1);
-	            }
-	            lExtra1 = "W"
-		            + RandallUtil.fill(lWeek.get(Calendar.YEAR), 4) 
-		            + "." + RandallUtil.fill(lWeek.get(Calendar.MONTH)+1, 2)
-	            	+ "." + RandallUtil.fill(lWeek.get(Calendar.DAY_OF_MONTH), 2);
-	        }
+public class D2Backup {
+    public static void backup(D2Project pProject, String pFileName, D2BitReader pContent) {
+        try {
+            int lBackup = pProject.getBackup();
+            if (lBackup == D2Project.BACKUP_NONE) {
+                return;
+            }
 
-	        String lExtra2 = 
-	            RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4)
-	            + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH)+1, 2)
-	            + "." + RandallUtil.fill(lCalendar.get(Calendar.DAY_OF_MONTH), 2)
-	            + "-" 
-	            + RandallUtil.fill(lCalendar.get(Calendar.HOUR_OF_DAY), 2)
-	            + "." + RandallUtil.fill(lCalendar.get(Calendar.MINUTE), 2)
-	            + "." + RandallUtil.fill(lCalendar.get(Calendar.SECOND), 2);
-	        
-	        String lBackupDir = lPathName + File.separator + "GoMule.backup";
-	        String lBackupSubDir = lBackupDir + File.separator + lExtra1;
-	        
-	        String lNewFileName = lFileName.substring(0,lFileName.length()-4) + "." + lExtra2 + lFileName.substring( lFileName.length()-4 ) + ".org";
-	
-	        String lBackupName = lBackupSubDir + File.separator + lNewFileName;
-	        
-	        RandallUtil.checkDir(lBackupSubDir);
-	        
-	        pContent.save(lBackupName);
-        }
-        catch ( Exception pEx )
-        {
+            File lFile = new File(pFileName);
+
+            String lFileName = lFile.getName();
+            String lPathName = lFile.getParent();
+
+            GregorianCalendar lCalendar = new GregorianCalendar();
+            String lExtra1;
+
+            if (lBackup == D2Project.BACKUP_DAY) {
+                lExtra1 = "D"
+                        + RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4)
+                        + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH) + 1, 2)
+                        + "." + RandallUtil.fill(lCalendar.get(Calendar.DAY_OF_MONTH), 2);
+            } else if (lBackup == D2Project.BACKUP_MONTH) {
+                lExtra1 = "M"
+                        + RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4)
+                        + RandallUtil.fill(lCalendar.get(Calendar.MONTH) + 1, 2);
+            } else {
+                GregorianCalendar lWeek = new GregorianCalendar();
+
+                while (lWeek.get(Calendar.DAY_OF_WEEK) != lWeek.getFirstDayOfWeek()) {
+                    lWeek.add(Calendar.DAY_OF_MONTH, -1);
+                }
+                lExtra1 = "W"
+                        + RandallUtil.fill(lWeek.get(Calendar.YEAR), 4)
+                        + "." + RandallUtil.fill(lWeek.get(Calendar.MONTH) + 1, 2)
+                        + "." + RandallUtil.fill(lWeek.get(Calendar.DAY_OF_MONTH), 2);
+            }
+
+            String lExtra2 =
+                    RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4)
+                            + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH) + 1, 2)
+                            + "." + RandallUtil.fill(lCalendar.get(Calendar.DAY_OF_MONTH), 2)
+                            + "-"
+                            + RandallUtil.fill(lCalendar.get(Calendar.HOUR_OF_DAY), 2)
+                            + "." + RandallUtil.fill(lCalendar.get(Calendar.MINUTE), 2)
+                            + "." + RandallUtil.fill(lCalendar.get(Calendar.SECOND), 2);
+
+            String lBackupDir = lPathName + File.separator + "GoMule.backup";
+            String lBackupSubDir = lBackupDir + File.separator + lExtra1;
+
+            String lNewFileName = lFileName.substring(0, lFileName.length() - 4) + "." + lExtra2 + lFileName.substring(lFileName.length() - 4) + ".org";
+
+            String lBackupName = lBackupSubDir + File.separator + lNewFileName;
+
+            RandallUtil.checkDir(lBackupSubDir);
+
+            pContent.save(lBackupName);
+        } catch (Exception pEx) {
             pEx.printStackTrace();
-            D2FileManager.displayErrorDialog( pEx );
+            D2FileManager.displayErrorDialog(pEx);
         }
-        
+
 //        if ( pContent.isNewFile() )
 //        {
 //            return;
@@ -117,6 +106,6 @@ public class D2Backup
 //        
 //        // save the file to backup 0
 //        pContent.save(pFileName + ".0");
-        
+
     }
 }

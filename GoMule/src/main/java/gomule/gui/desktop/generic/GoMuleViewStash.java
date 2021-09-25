@@ -4,11 +4,10 @@ import gomule.gui.D2ViewStash;
 
 /**
  * stash content
- * @author mbr
  *
+ * @author mbr
  */
-public interface GoMuleViewStash extends GoMuleView 
-{
-//	public String getStashName();
-	public D2ViewStash	getViewStash();
+public interface GoMuleViewStash extends GoMuleView {
+    //	public String getStashName();
+    public D2ViewStash getViewStash();
 }

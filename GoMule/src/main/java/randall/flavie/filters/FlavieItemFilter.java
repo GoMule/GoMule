@@ -3,15 +3,17 @@
  */
 package randall.flavie.filters;
 
-import randall.flavie.*;
+import randall.flavie.D2ItemInterface;
 
 /**
  * @author mbr
  */
-public interface FlavieItemFilter
-{
-	public void initialize() throws Exception;
-	public void finish() throws Exception;
-	public boolean check(D2ItemInterface pItemFound);
-	public boolean check(String pFingerprint, String pItemname);
+public interface FlavieItemFilter {
+    public void initialize() throws Exception;
+
+    public void finish() throws Exception;
+
+    public boolean check(D2ItemInterface pItemFound);
+
+    public boolean check(String pFingerprint, String pItemname);
 }

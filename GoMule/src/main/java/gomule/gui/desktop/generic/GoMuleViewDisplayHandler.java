@@ -1,15 +1,16 @@
 package gomule.gui.desktop.generic;
 
-import java.awt.Cursor;
+import java.awt.*;
 
 /**
  * handler for actual gui element handling the display on the desktop
- * @author mbr
  *
+ * @author mbr
  */
-public interface GoMuleViewDisplayHandler 
-{
-	public void setTitle(String title);
-	public void setCursor(Cursor pCursor);
-	public void addDesktopListener(GoMuleDesktopListener pListener);
+public interface GoMuleViewDisplayHandler {
+    public void setTitle(String title);
+
+    public void setCursor(Cursor pCursor);
+
+    public void addDesktopListener(GoMuleDesktopListener pListener);
 }
