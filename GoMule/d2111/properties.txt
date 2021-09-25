@@ -26,9 +26,9 @@ ltng-max	1			1	lightmaxdam																													none	0
 pois-min	1			1	poisonmindam																													none	0
 pois-max	1			1	poisonmaxdam																													none	0
 pois-len	1			1	poisonlength																													none	0
-dmg-min	1			5																														none	0
-dmg-max	1			6																														none	0
-dmg%	1			7																														none	0
+dmg-min	1			5	mindamage																													none	0
+dmg-max	1			6	maxdamage																													none	0
+dmg%	1			7	item_maxdamage_percent																													none	0
 dmg-to-mana	1			1	item_damagetomana																													none	0
 res-fire	1			1	fireresist																													none	0
 res-fire-max	1			1	maxfireresist																													none	0
@@ -242,7 +242,7 @@ att-mon																														To Hit vs. specific Monster Type	monster	mi
 att%-mon																														To Hit % vs. specific Monster Type	monster	min	max	none	0
 ac-mon																														AC vs. specific Monster Type	monster	min	max	none	0
 ac%-mon																														AC% vs. specific Monster Type	monster	min	max	none	0
-indestruct	1			20																										Indestructible				none	0
+indestruct	1			20	item_indesctructible																									Indestructible				none	0
 charged	1			19	item_charged_skill																									Charged Skill	skill	charges	level	none	0
 extra-fire	1			1	passive_fire_mastery																														0
 extra-ltng	1			1	passive_ltng_mastery																														0
