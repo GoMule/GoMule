@@ -331,8 +331,10 @@ public class D2Character extends D2ItemListAdapter {
                     }
                 }
             }
-            //TODO: Resist is now per elemenmt instead of one resist for all.
-//            mStats[18] = mStats[19] = mStats[20] = mStats[21] = (int) Math.floor((Integer.parseInt(mercHireCol.get("Resist")) + ((Double.parseDouble(mercHireCol.get("Resist/Lvl")) / (double) 4) * (getMercLevel() - Integer.parseInt(mercHireCol.get("Level"))))));
+            mStats[18] = getResistValue("Fire");
+            mStats[19] = getResistValue("Lightning");
+            mStats[20] = getResistValue("Cold");
+            mStats[21] = getResistValue("Poison");
             mStats[0] = getMercInitStr();
             mStats[4] = getMercInitDex();
             mStats[8] = getMercInitHP();
@@ -344,6 +346,10 @@ public class D2Character extends D2ItemListAdapter {
         for (int x = 0; x < iCharItems.size(); x++) {
             equipItem((D2Item) iCharItems.get(x));
         }
+    }
+
+    private int getResistValue(String type) {
+        return (int) Math.floor((Integer.parseInt(mercHireCol.get("Resist" + type)) + ((Double.parseDouble(mercHireCol.get("Resist" + type + "/Lvl")) / (double) 4) * (getMercLevel() - Integer.parseInt(mercHireCol.get("Level"))))));
     }
 
     private void generateItemStats(D2Item cItem, int[] cStats, ArrayList plSkill, int op, int qFlagM) {
@@ -558,7 +564,7 @@ public class D2Character extends D2ItemListAdapter {
             lMercStart = lFirstPos + 6;
             lMercEnd = lMercStart;
             for (int i = 0; i < num_items; i++) {
-                int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
+                int lItemStart = iReader.get_byte_pos();
                 if (lItemStart == -1) throw new Exception("Merc item " + (i + 1) + " not found.");
                 D2Item lItem = new D2Item(iFileName, iReader, iCharLevel);
                 lLastItemEnd = lItemStart + lItem.getItemLength();

@@ -17,7 +17,7 @@ public class D2CharacterTest {
         D2TxtFile.constructTxtFiles("./d2111");
         D2TblFile.readAllFiles("./d2111");
         D2Character d2Character = new D2Character(new File(Resources.getResource("charFiles/complexChar.d2s").toURI()).getAbsolutePath());
-        assertEquals(expectedComplexChar, d2Character.fullDumpStr());
+        assertEquals(expectedComplexChar, d2Character.fullDumpStr().replaceAll("\r", ""));
     }
 
     private String expectedComplexChar = "Name:       ThePerfectJava\n" +
