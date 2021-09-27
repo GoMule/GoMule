@@ -134,8 +134,13 @@ public final class D2TxtFile {
         ArrayList outArr = new ArrayList();
         for (int x = 1; x < 8; x++) {
 
-            if (D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).equals("")) {
-                break;
+            String propsStatCode = D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x);
+            if (propsStatCode.equals("")) {
+                if (pCode.equals("dmg%") && x == 1) {
+                    propsStatCode = "item_maxdamage_percent";
+                } else {
+                    break;
+                }
             }
 
             int[] pVals = {0, 0, 0};
@@ -167,20 +172,20 @@ public final class D2TxtFile {
             }
             ;
 
-            if (D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).indexOf("max") != -1) {
+            if (propsStatCode.indexOf("max") != -1) {
                 pVals[0] = pVals[1];
-            } else if (D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).indexOf("length") != -1) {
+            } else if (propsStatCode.indexOf("length") != -1) {
                 if (pVals[2] != 0) {
                     pVals[0] = pVals[2];
                 }
             }
             pVals[2] = 0;
 
-            if (D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x).equals("item_addclassskills")) {
+            if (propsStatCode.equals("item_addclassskills")) {
                 pVals[0] = Integer.parseInt(D2TxtFile.PROPS.searchColumns("code", pCode).get("val1"));
             }
 
-            outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat", D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x)).get("ID")), pVals, qFlag));
+            outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat", propsStatCode).get("*ID")), pVals, qFlag));
 
         }
         return outArr;

@@ -169,7 +169,7 @@ public class D2PropCollection extends ArrayList {
 
         for (int x = 0; x < size(); x++) {
 
-            if (D2TxtFile.ITEM_STAT_COST.searchColumns("ID", Integer.toString(((D2Prop) get(x)).getPNum())).get("dgrp").equals("") || ((D2Prop) get(x)).getQFlag() != 0)
+            if (D2TxtFile.ITEM_STAT_COST.searchColumns("*ID", Integer.toString(((D2Prop) get(x)).getPNum())).get("dgrp").equals("") || ((D2Prop) get(x)).getQFlag() != 0)
                 continue;
             if (((D2Prop) get(x)).getPNum() == 0 || ((D2Prop) get(x)).getPNum() == 1 || ((D2Prop) get(x)).getPNum() == 2 || ((D2Prop) get(x)).getPNum() == 3)
                 statMap.add(get(x));

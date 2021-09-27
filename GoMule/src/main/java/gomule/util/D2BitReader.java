@@ -159,6 +159,10 @@ public class D2BitReader {
         return position;
     }
 
+    public int getNextByteBoundaryInBits() {
+        return (position + 7) & (~7);
+    }
+
     // set the current position (in bits)
     public void set_pos(int p) {
         position = p;

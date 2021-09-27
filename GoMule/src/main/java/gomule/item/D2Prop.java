@@ -26,6 +26,10 @@ import randall.d2files.D2TxtFile;
 import randall.d2files.D2TxtFileItemProperties;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.Collections.singletonList;
 
 public class D2Prop {
 
@@ -134,19 +138,19 @@ public class D2Prop {
             return null;
         }
 
-        String oString = D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstrpos"));
-
+        D2TxtFileItemProperties itemStatCostRow = D2TxtFile.ITEM_STAT_COST.getRow(pNum);
+        String oString = D2TblFile.getString(itemStatCostRow.get("descstrpos"));
         //FUNCTION 0 means that you should use the txt files to find the print function to use. Otherwise, it should be a case of looking for custom funcs
         if (funcN == 0) {
 
-            if (D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descfunc") != null && !D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descfunc").equals("")) {
-                funcN = Integer.parseInt(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descfunc"));
+            if (itemStatCostRow.get("descfunc") != null && !itemStatCostRow.get("descfunc").equals("")) {
+                funcN = Integer.parseInt(itemStatCostRow.get("descfunc"));
             }
         }
 
         int dispLoc = 1;
         try {
-            dispLoc = Integer.parseInt(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descval"));
+            dispLoc = Integer.parseInt(itemStatCostRow.get("descval"));
         } catch (NumberFormatException e) {
             //leave dispLoc as  = 1
         }
@@ -173,6 +177,8 @@ public class D2Prop {
             if (pVals.length > 1) {
                 pVals[0] = pVals[1];
             }
+        } else if (pNum == 112) {
+            dispLoc = 2;
         }
 
         switch (funcN) {
@@ -253,50 +259,50 @@ public class D2Prop {
 
             case (6):
                 if (dispLoc == 1) {
-                    return "+" + pVals[0] + " " + oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2"));
+                    return "+" + pVals[0] + " " + oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2"));
 
                 } else if (dispLoc == 2) {
-                    return oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2")) + " +" + pVals[0];
+                    return oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2")) + " +" + pVals[0];
                 } else {
                     return oString;
                 }
 
             case (7):
                 if (dispLoc == 1) {
-                    return pVals[0] + "% " + oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2"));
+                    return pVals[0] + "% " + oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2"));
 
                 } else if (dispLoc == 2) {
-                    return oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2")) + pVals[0] + "%";
+                    return oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2")) + pVals[0] + "%";
                 } else {
                     return oString;
                 }
 
             case (8):
                 if (dispLoc == 1) {
-                    return "+" + pVals[0] + "% " + oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2"));
+                    return "+" + pVals[0] + "% " + oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2"));
 
                 } else if (dispLoc == 2) {
-                    return oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2")) + " +" + pVals[0] + "%";
+                    return oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2")) + " +" + pVals[0] + "%";
                 } else {
                     return oString;
                 }
 
             case (9):
                 if (dispLoc == 1) {
-                    return pVals[0] + " " + oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2"));
+                    return pVals[0] + " " + oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2"));
 
                 } else if (dispLoc == 2) {
-                    return oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2")) + " " + pVals[0];
+                    return oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2")) + " " + pVals[0];
                 } else {
                     return oString;
                 }
 
             case (10):
                 if (dispLoc == 1) {
-                    return (pVals[0] * 100) / 128 + "% " + oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2"));
+                    return (pVals[0] * 100) / 128 + "% " + oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2"));
 
                 } else if (dispLoc == 2) {
-                    return oString + " " + D2TblFile.getString(D2TxtFile.ITEM_STAT_COST.getRow(pNum).get("descstr2")) + (pVals[0] * 100) / 128 + "%";
+                    return oString + " " + D2TblFile.getString(itemStatCostRow.get("descstr2")) + (pVals[0] * 100) / 128 + "%";
                 } else {
                     return oString;
                 }
@@ -351,6 +357,28 @@ public class D2Prop {
 
             case (18):
                 return "By time!? Oh shi....";
+
+            case (19):
+                List<D2TxtFileItemProperties> matchingPropsRecords = ((ArrayList<D2TxtFileItemProperties>) D2TxtFile.PROPS.searchColumnsMultipleHits("stat1", itemStatCostRow.get("Stat")))
+                        .stream()
+                        .filter(it -> it.get("stat2").isEmpty())
+                        .collect(Collectors.toList());
+                if (matchingPropsRecords.isEmpty()) {
+                    if (oString.equals("Indestructible")) {
+                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "indestruct"));
+                    } else if (oString.equals("Enhanced Maximum Damage")) {
+                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg%"));
+                    } else if (oString.equals("to Maximum Damage")) {
+                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg-max"));
+                    } else if (oString.equals("to Minimum Damage")) {
+                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg-min"));
+                    } else {
+                        return "Unknown property";
+                    }
+                }
+                D2TxtFileItemProperties o = matchingPropsRecords.get(0);
+                String tooltip = o.get("*Tooltip");
+                return tooltip.replace("#", String.valueOf(pVals[0]));
 
             case (20):
                 if (dispLoc == 1) {

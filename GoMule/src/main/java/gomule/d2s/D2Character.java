@@ -97,7 +97,7 @@ public class D2Character extends D2ItemListAdapter {
     private int[][] cSkills;
     private Point[] iSkillLocs;
 
-//	private int testCounter = 0;
+    //	private int testCounter = 0;
 //	private boolean fullChanged = false;
 //	private ArrayList partialSetProps = new ArrayList();
 //	private ArrayList fullSetProps = new ArrayList();
@@ -135,8 +135,8 @@ public class D2Character extends D2ItemListAdapter {
     private void readChar() throws Exception {
         iReader.set_byte_pos(4);
         long lVersion = iReader.read(32);
-//		System.err.println("Version: " + lVersion );
-        if (lVersion != 96) throw new Exception("Incorrect Character version: " + lVersion);
+//        System.err.println("Version: " + lVersion);
+        if (lVersion != 97) throw new Exception("Incorrect Character version: " + lVersion);
         iReader.set_byte_pos(8);
         long lSize = iReader.read(32);
         if (iReader.get_length() != lSize) throw new Exception("Incorrect FileSize: " + lSize);
@@ -212,7 +212,7 @@ public class D2Character extends D2ItemListAdapter {
             iReader.skipBits(16);
             D2TxtFileItemProperties hireCol = (D2TxtFile.HIRE.searchColumns("Id", Long.toString(iReader.read(16))));
             cMercInfo.put("race", hireCol.get("Hireling"));
-            cMercInfo.put("type", hireCol.get("SubType"));
+            cMercInfo.put("type", hireCol.get("*SubType"));
             iReader.skipBits(-32);
             extractMercName(iReader.read(16), hireCol);
             iReader.skipBits(16);
@@ -317,7 +317,7 @@ public class D2Character extends D2ItemListAdapter {
         cStats[20] = cStats[20] + (10 * resCounter);
         cStats[21] = cStats[21] + (10 * resCounter);
         if (hasMerc()) {
-            ArrayList hireArr = D2TxtFile.HIRE.searchColumnsMultipleHits("SubType", getMercType());
+            ArrayList hireArr = D2TxtFile.HIRE.searchColumnsMultipleHits("*SubType", getMercType());
             for (int x = 0; x < hireArr.size(); x = x + 1) {
                 if (((D2TxtFileItemProperties) hireArr.get(x)).get("Version").equals("100") && Integer.parseInt(((D2TxtFileItemProperties) hireArr.get(x)).get("Level")) <= getMercLevel()) {
                     mercHireCol = (D2TxtFileItemProperties) hireArr.get(x);
@@ -331,7 +331,8 @@ public class D2Character extends D2ItemListAdapter {
                     }
                 }
             }
-            mStats[18] = mStats[19] = mStats[20] = mStats[21] = (int) Math.floor((Integer.parseInt(mercHireCol.get("Resist")) + ((Double.parseDouble(mercHireCol.get("Resist/Lvl")) / (double) 4) * (getMercLevel() - Integer.parseInt(mercHireCol.get("Level"))))));
+            //TODO: Resist is now per elemenmt instead of one resist for all.
+//            mStats[18] = mStats[19] = mStats[20] = mStats[21] = (int) Math.floor((Integer.parseInt(mercHireCol.get("Resist")) + ((Double.parseDouble(mercHireCol.get("Resist/Lvl")) / (double) 4) * (getMercLevel() - Integer.parseInt(mercHireCol.get("Level"))))));
             mStats[0] = getMercInitStr();
             mStats[4] = getMercInitDex();
             mStats[8] = getMercInitHP();
@@ -513,7 +514,7 @@ public class D2Character extends D2ItemListAdapter {
         for (int i = 0; i < num_items; i++) {
             int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
             if (lItemStart == -1) throw new Exception("Corpse item " + (i + 1) + " not found.");
-            D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
+            D2Item lItem = new D2Item(iFileName, iReader, iCharLevel);
             lLastItemEnd = lItemStart + lItem.getItemLength();
             if (lItem.isCursorItem()) {
                 if (iCharCursorItem != null) throw new Exception("Double cursor item found");
@@ -534,9 +535,8 @@ public class D2Character extends D2ItemListAdapter {
         int lCharStart = lFirstPos + 4;
         int lCharEnd = lCharStart;
         for (int i = 0; i < num_items; i++) {
-            int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
-            if (lItemStart == -1) throw new Exception("Character item " + (i + 1) + " not found.");
-            D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
+            int lItemStart = iReader.get_byte_pos();
+            D2Item lItem = new D2Item(iFileName, iReader, iCharLevel);
             lLastItemEnd = lItemStart + lItem.getItemLength();
             lCharEnd = lLastItemEnd;
             if (lItem.isCursorItem()) {
@@ -560,7 +560,7 @@ public class D2Character extends D2ItemListAdapter {
             for (int i = 0; i < num_items; i++) {
                 int lItemStart = iReader.findNextFlag("JM", lLastItemEnd);
                 if (lItemStart == -1) throw new Exception("Merc item " + (i + 1) + " not found.");
-                D2Item lItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
+                D2Item lItem = new D2Item(iFileName, iReader, iCharLevel);
                 lLastItemEnd = lItemStart + lItem.getItemLength();
                 lMercEnd = lLastItemEnd;
                 addMercItem(lItem);
@@ -609,7 +609,7 @@ public class D2Character extends D2ItemListAdapter {
             golemItem = null;
             return;
         }
-        golemItem = new D2Item(iFileName, iReader, lItemStart, iCharLevel);
+        golemItem = new D2Item(iFileName, iReader, iCharLevel);
     }
 
     private void extractMercName(long bitsIn, D2TxtFileItemProperties hireCol) {
@@ -1423,7 +1423,7 @@ public class D2Character extends D2ItemListAdapter {
         int[] skillCounter = new int[3];
 
         for (int x = 0; x < skillArr.size(); x = x + 1) {
-            int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties) skillArr.get(x)).get("Id")))).get("SkillPage"));
+            int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties) skillArr.get(x)).get("*Id")))).get("SkillPage"));
             skillTrees[page - 1] = skillTrees[page - 1] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", ((D2TxtFileItemProperties) skillArr.get(x)).get("skilldesc")).get("str name")) + ": " + initSkills[page - 1][skillCounter[page - 1]] + "/" + cSkills[page - 1][skillCounter[page - 1]] + "\n";
             skillCounter[page - 1]++;
         }

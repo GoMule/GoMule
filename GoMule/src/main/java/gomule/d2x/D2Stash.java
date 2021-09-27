@@ -183,7 +183,7 @@ public class D2Stash extends D2ItemListAdapter {
         for (int i = 0; i < pNumItems; i++) {
             int lItemStart = iBR.findNextFlag("JM", lLastItemEnd);
 
-            D2Item lItem = new D2Item(iFileName, iBR, lItemStart, iCharLvl);
+            D2Item lItem = new D2Item(iFileName, iBR, iCharLvl);
             lLastItemEnd = lItemStart + lItem.getItemLength();
             iItems.add(lItem);
         }
