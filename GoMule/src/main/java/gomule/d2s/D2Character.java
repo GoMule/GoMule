@@ -62,8 +62,8 @@ public class D2Character extends D2ItemListAdapter {
 
     public static final int INVSIZEX = 10;
     public static final int INVSIZEY = 4;
-    public static final int STASHSIZEX = 6;
-    public static final int STASHSIZEY = 8;
+    public static final int STASHSIZEX = 10;
+    public static final int STASHSIZEY = 10;
     public static final int BELTSIZEX = 4;
     public static final int BELTSIZEY = 4;
     public static final int CUBESIZEX = 3;
@@ -881,8 +881,8 @@ public class D2Character extends D2ItemListAdapter {
                 col = (int) i.get_col();
                 width = (int) i.get_width();
                 height = (int) i.get_height();
-                if ((row + height) > 8) return false;
-                if ((col + width) > 6) return false;
+                if ((row + height) > 10) return false;
+                if ((col + width) > 10) return false;
                 for (j = row; j < row + height; j++) {
                     for (k = col; k < col + width; k++) iStashGrid[j][k] = true;
                 }
@@ -988,8 +988,8 @@ public class D2Character extends D2ItemListAdapter {
                 col = (int) i.get_col();
                 width = (int) i.get_width();
                 height = (int) i.get_height();
-                if ((row + height) > 8) return false;
-                if ((col + width) > 6) return false;
+                if ((row + height) > 10) return false;
+                if ((col + width) > 10) return false;
                 for (j = row; j < row + height; j++) {
                     for (k = col; k < col + width; k++)
                         iStashGrid[j][k] = false;

@@ -42,8 +42,8 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
      *
      */
     private static final long serialVersionUID = -7350581523641897831L;
-    private static final int BG_WIDTH = 550;
-    private static final int BG_HEIGHT = 383;
+    private static final int BG_WIDTH = 617;
+    private static final int BG_HEIGHT = 434;
     private static final int BG_MERC_WIDTH = 323;
     private static final int BG_MERC_HEIGHT = 187;
     private static final int BG_CURSOR_WIDTH = 78;
@@ -51,7 +51,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     private static final int STASH_X = 327;
     private static final int STASH_Y = 9;
     private static final int INV_X = 18;
-    private static final int INV_Y = 255;
+    private static final int INV_Y = 306;
     private static final int HEAD_X = 135;
     private static final int HEAD_Y = 3;
     private static final int NECK_X = 205;
@@ -73,9 +73,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     private static final int R_RING_X = 205;
     private static final int R_RING_Y = 175;
     private static final int BELT_GRID_X = 426;
-    private static final int BELT_GRID_Y = 250;
+    private static final int BELT_GRID_Y = 308;
     private static final int CUBE_X = 328;
-    private static final int CUBE_Y = 251;
+    private static final int CUBE_Y = 309;
     private static final int GRID_SIZE = 28;
     private static final int GRID_SPACER = 1;
     private static final int CURSOR_X = 12;
@@ -1077,7 +1077,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                 }
                 return -1;
             }
-            if (iIsChar && x >= STASH_X && x < STASH_X + 6 * GRID_SIZE + 6 * GRID_SPACER && y >= STASH_Y && y < STASH_Y + 8 * GRID_SIZE + 8 * GRID_SPACER) {
+            if (iIsChar && x >= STASH_X && x < STASH_X + 10 * GRID_SIZE + 10 * GRID_SPACER && y >= STASH_Y && y < STASH_Y + 10 * GRID_SIZE + 10 * GRID_SPACER) {
                 return D2Character.BODY_STASH_CONTENT;
             }
             if (iIsChar && x >= BELT_GRID_X && x < BELT_GRID_X + 4 * GRID_SIZE + 4 * GRID_SPACER && y >= BELT_GRID_Y && y < BELT_GRID_Y + 4 * GRID_SIZE + 4 * GRID_SPACER) {
