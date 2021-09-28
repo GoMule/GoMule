@@ -18,7 +18,8 @@ public class D2ItemTest {
                 "Item Level: 1\n" +
                 "Version: Resurrected\n" +
                 "Poison Resist +7%\n";
-        runTest(expected, new byte[]{16, 0, -128, 0, 5, 36, 68, -40, 79, -40, -114, -124, 14, 11, 80, -80, 12, 0, -76, -56, -7, 15});
+        final byte[] bytes = new byte[]{16, 0, -128, 0, 5, 36, 68, -40, 79, -40, -114, -124, 14, 11, 80, -80, 12, 0, -76, -56, -7, 15};
+        runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
     @Test
@@ -33,7 +34,7 @@ public class D2ItemTest {
                 "All Stats +5\n" +
                 "All Resistances +26\n";
         byte[] bytes = {16, 0, -128, 0, -115, 8, -32, 89, 24, -114, 8, -3, -47, -82, 55, 32, 2, -128, -110, 0, 37, 1, -91, 1, -91, 19, 76, 41, -104, 86, 48, -75, 96, -6, -93, -1};
-        runTest(expected, bytes);
+        runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
     @Test
@@ -59,7 +60,7 @@ public class D2ItemTest {
                 "Set (4 items): +15 to Dexterity\n" +
                 "\n";
         byte[] bytes = {16, 64, -128, 0, 77, 38, -128, 27, 13, 22, -106, -64, 123, -29, -94, 8, -48, 64, 98, -63, 57, 32, 101, 1, 53, 7, -112, 19, 94, 96, 120, 114, 20, 76, -1, 11, 120, -3, 23, -16, -6, 47, -32, -11, 31};
-        runTest(expected, bytes);
+        runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
     @Test
@@ -80,7 +81,7 @@ public class D2ItemTest {
                 "Fire Resist +14%\n" +
                 "23% Better Chance of Getting Magic Items\n";
         byte[] bytes = {16, 0, -128, 0, -115, 42, -64, -84, 27, 10, 28, 65, -50, 111, 70, 109, 87, 73, 84, 69, -36, -4, 72, -71, 52, 11, 11, 72, 16, -128, 16, -29, 4, 16, -113, 1, -108, -67, 46, 40, 94, 2, 0, -6, 15};
-        runTest(expected, bytes);
+        runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
     @Test
@@ -112,7 +113,7 @@ public class D2ItemTest {
                 "Armor: +10 to Strength\n" +
                 "Shields: +10 to Strength\n";
         byte[] bytes = {16, 8, -128, 0, 5, 72, 84, -4, -66, 19, 33, 117, 39, 22, 86, 48, -126, -111, 7, -14, 31, 16, 0, -96, 0, 53, 0, -32, 124, 92, 0, 16, 0, -96, 0, 53, 4, -32, 124, 92, 0};
-        runTest(expected, bytes);
+        runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
     @Test
@@ -121,7 +122,26 @@ public class D2ItemTest {
                 "Version: Resurrected\n" +
                 "Replenish Life +320\n";
         byte[] bytes = {16, 4, -96, 8, 21, 0, 0, 79, -76, 0};
-        runTest(expected, bytes);
+        runItemDumpComparison(expected, loadD2Item(bytes));
+    }
+
+    @Test
+    public void moveItem() throws Exception {
+        String expected = "Super Healing Potion\n" +
+                "Version: Resurrected\n" +
+                "Replenish Life +320\n";
+        byte[] bytes = {16, 4, -96, 8, 21, 0, 0, 79, -76, 0};
+        D2Item d2Item = loadD2Item(bytes);
+        d2Item.set_location((short) 0);
+        d2Item.set_col((short) 4);
+        d2Item.set_row((short) 4);
+        d2Item.set_panel((short) 1);
+        D2Item afterMove = loadD2Item(d2Item.get_bytes());
+        runItemDumpComparison(expected, afterMove);
+        assertEquals((short) 0, afterMove.get_location());
+        assertEquals((short) 4, afterMove.get_col());
+        assertEquals((short) 4, afterMove.get_row());
+        assertEquals((short) 1, afterMove.get_panel());
     }
 
     @Test
@@ -195,7 +215,7 @@ public class D2ItemTest {
                 "Armor: +5% to Maximum Cold Resist\n" +
                 "Shields: +5% to Maximum Cold Resist\n";
         byte[] bytes = {16, 8, -128, 12, -53, 46, 0, -48, -84, 77, -8, -81, 27, 61, -31, 4, 42, 0, 0, 0, 0, 0, 0, 0, -64, -107, -81, -41, -19, -10, 70, -110, -126, 17, -111, -6, 31, -31, -37, 55, 37, 106, 23, 94, 24, 73, 74, -104, 74, 77, -104, 77, -55, 31, -3, 7, 16, 0, -96, 8, 51, 0, -32, 124, 62, 5, 0, 0, 0, 0, 0, 0, 0, 96, 13, 29, -112, 34, -81, -16, 51, 0, 16, 0, -96, 8, 51, 4, -32, 124, 35, 5, 0, 0, 0, 0, 0, 0, 0, 120, -4, -127, 55, -69, -67, 68, 56, 0, 16, 0, -96, 8, 51, 8, -32, 48, -37, 2, 0, 0, 0, 0, 0, 0, 0, -12, 103, 32, 4, 70, 80, -50, 23, 0, 16, 0, -96, 8, 51, 12, -32, 48, 95, 5, 0, 0, 0, 0, 0, 0, 0, -112, 66, -92, -19, -10, -111, 72, 43, 0, 16, 0, -96, 8, 51, 16, -32, 48, 62};
-        runTest(expected, bytes);
+        runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
     @Test
@@ -224,7 +244,7 @@ public class D2ItemTest {
                 "Required Level +7\n" +
                 "Ethereal\n";
         byte[] bytes = {16, 64, -64, 1, 13, 17, -32, 89, 57, -96, 28, 17, -79, 94, -113, -116, 16, -90, -49, -62, -9, 91, 60, 23, -90, -49, -62, -9, 29, -64, -96, 0, 35, 0, 52, 2, 104, 17, 98, -59, -86, -112, 89, -112, -15, 40, 76, -127, -72, 28, -64, -56, 62, 101, -96, 100, -68, 4, 0, -44, -49, -13, -57, -13, 31};
-        runTest(expected, bytes);
+        runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
     @Test
@@ -238,7 +258,7 @@ public class D2ItemTest {
                 "+1 to Javelin and Spear Skills (Amazon Only)\n" +
                 "+3 to Maximum Damage\n";
         byte[] bytes = {16, 0, -128, 0, 5, 92, 68, -40, 109, -64, -46, -73, -110, -84, 82, -128, -115, -87, 88, 24, 96, 24, -128, 26, -16, 18, 0, -56, 127};
-        runTest(expected, bytes);
+        runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
     @Test
@@ -256,13 +276,16 @@ public class D2ItemTest {
                 "Cold Absorb 20%\n" +
                 "Cannot Be Frozen\n";
         byte[] bytes = {16, 0, -128, 0, -117, 25, -32, -4, -40, -80, 87, -81, 46, -91, -67, 51, 17, 4, -48, 18, 32, 77, -8, -59, -58, 67, 11, 50, 74, -108, 76, -1, 3};
-        runTest(expected, bytes);
+        runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
-    private void runTest(String expected, byte[] bytes) throws Exception {
+    private void runItemDumpComparison(String expected, D2Item d2Item) throws Exception {
+        assertEquals(expected, d2Item.itemDump(true).replaceAll("\r", ""));
+    }
+
+    private D2Item loadD2Item(byte[] bytes) throws Exception {
         D2TxtFile.constructTxtFiles("./d2111");
         D2TblFile.readAllFiles("./d2111");
-        D2Item d2Item = new D2Item("my-test-file", new D2BitReader(bytes), 10);
-        assertEquals(expected, d2Item.itemDump(true).replaceAll("\r", ""));
+        return new D2Item("my-test-file", new D2BitReader(bytes), 10);
     }
 }

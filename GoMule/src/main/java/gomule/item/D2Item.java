@@ -1397,8 +1397,8 @@ public class D2Item implements Comparable, D2ItemInterface {
     // setter for the row
     // necessary for moving items
     public void set_row(short r) {
-        iItem.set_byte_pos(7);
-        iItem.skipBits(13);
+        iItem.set_byte_pos(4);
+        iItem.skipBits(14);
         iItem.write((long) r, 4);
         row = r;
     }
@@ -1411,8 +1411,8 @@ public class D2Item implements Comparable, D2ItemInterface {
     // setter for the column
     // necessary for moving items
     public void set_col(short c) {
-        iItem.set_byte_pos(7);
-        iItem.skipBits(9);
+        iItem.set_byte_pos(4);
+        iItem.skipBits(10);
         iItem.write((long) c, 4);
         col = c;
     }
@@ -1422,8 +1422,8 @@ public class D2Item implements Comparable, D2ItemInterface {
     }
 
     public void set_location(short l) {
-        iItem.set_byte_pos(7);
-        iItem.skipBits(2);
+        iItem.set_byte_pos(4);
+        iItem.skipBits(3);
         iItem.write((long) l, 3);
         location = l;
     }
@@ -1433,8 +1433,8 @@ public class D2Item implements Comparable, D2ItemInterface {
     }
 
     public void set_body_position(short bp) {
-        iItem.set_byte_pos(7);
-        iItem.skipBits(5);
+        iItem.set_byte_pos(4);
+        iItem.skipBits(6);
         iItem.write((long) bp, 4);
         body_position = bp;
     }
@@ -1444,8 +1444,8 @@ public class D2Item implements Comparable, D2ItemInterface {
     }
 
     public void set_panel(short p) {
-        iItem.set_byte_pos(7);
-        iItem.skipBits(17);
+        iItem.set_byte_pos(4);
+        iItem.skipBits(18);
         iItem.write((long) p, 3);
         panel = p;
     }
