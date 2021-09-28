@@ -21,6 +21,7 @@
 
 package gomule.gui;
 
+import gomule.d2i.D2SharedStash;
 import gomule.d2s.D2Character;
 import gomule.d2x.D2Stash;
 import gomule.dropCalc.gui.RealGUI;
@@ -222,7 +223,7 @@ public class D2FileManager extends JFrame {
         iViewProject = new D2ViewProject(this);
         iViewProject.setPreferredSize(new Dimension(190, 500));
         iViewProject.setProject(iProject);
-        iViewProject.refreshTreeModel(true, true);
+        iViewProject.refreshTreeModel(true, true, true);
         iLeftPane = new RandallPanel();
 
         iProjectModel = new DefaultComboBoxModel();
@@ -845,6 +846,28 @@ public class D2FileManager extends JFrame {
         iToolbar.add(lAddD2X);
 
         iToolbar.addSeparator();
+        iToolbar.add(new JLabel("Shared Stash"));
+
+        JButton openSharedStashButton = new JButton(D2ImageCache.getIcon("open.gif"));
+        openSharedStashButton.setToolTipText("<html><font color=white>Open Shared Stash</font></html>");
+
+        openSharedStashButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                openSharedStash(true);
+            }
+        });
+        iToolbar.add(openSharedStashButton);
+
+        JButton addSharedStashButton = new JButton(D2ImageCache.getIcon("add.gif"));
+        addSharedStashButton.setToolTipText("<html><font color=white>Add Shared Stash</font></html>");
+        addSharedStashButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                openSharedStash(false);
+            }
+        });
+        iToolbar.add(addSharedStashButton);
+
+        iToolbar.addSeparator();
 
         iToolbar.add(new JLabel("     "));
 
@@ -1152,6 +1175,10 @@ public class D2FileManager extends JFrame {
         return iProject.getStashDialog();
     }
 
+    private JFileChooser getSharedStashDialog() {
+        return iProject.getSharedStashDialog();
+    }
+
     // file->open callback
     // throw up a dialog for picking d2s files
     // then open that character and add it to the
@@ -1234,6 +1261,14 @@ public class D2FileManager extends JFrame {
                     dropAll.setEnabled(true);
                     flavieSingle.setEnabled(true);
                     dumpBut.setEnabled(true);
+                } else if (((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2i")) {
+                    pickFrom.setEnabled(true);
+                    pickChooser.setEnabled(true);
+                    dropTo.setEnabled(true);
+                    dropChooser.setEnabled(true);
+                    dropAll.setEnabled(true);
+                    flavieSingle.setEnabled(true);
+                    dumpBut.setEnabled(true);
                 } else {
                     pickFrom.setEnabled(false);
                     pickChooser.setEnabled(false);
@@ -1281,6 +1316,14 @@ public class D2FileManager extends JFrame {
         }
 
 //		System.gc();
+    }
+
+    public void openSharedStash(boolean load) {
+        JFileChooser lSharedStashChooser = getSharedStashDialog();
+        lSharedStashChooser.setMultiSelectionEnabled(true);
+        if (lSharedStashChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            handleSharedStash(lSharedStashChooser, load);
+        }
     }
 
     public void openStash(boolean load) {
@@ -1360,6 +1403,55 @@ public class D2FileManager extends JFrame {
         iProject.addStash(pStashName);
     }
 
+    private String[] handleSharedStash(JFileChooser pSharedStashChooser, boolean load) {
+
+        String[] fNamesOut = new String[pSharedStashChooser.getSelectedFiles().length];
+        File[] stashList = pSharedStashChooser.getSelectedFiles();
+        if (pSharedStashChooser.getSelectedFiles().length == 0 && pSharedStashChooser.getSelectedFile() != null) {
+            stashList = new File[]{pSharedStashChooser.getSelectedFile()};
+            fNamesOut = new String[1];
+        }
+
+        for (int x = 0; x < stashList.length; x = x + 1) {
+            System.out.println(stashList.length);
+            java.io.File lFile = stashList[x];
+            try {
+                String lFilename = lFile.getAbsolutePath();
+                openSharedStash(lFilename, load);
+                fNamesOut[x] = lFilename;
+            } catch (Exception pEx) {
+                D2FileManager.displayErrorDialog(pEx);
+                fNamesOut[x] = null;
+            }
+        }
+        return fNamesOut;
+    }
+
+    public void openSharedStash(String pSharedStashName, boolean load) {
+        D2ItemContainer lExisting = null;
+        for (int i = 0; i < iOpenWindows.size(); i++) {
+            D2ItemContainer lItemContainer = (D2ItemContainer) iOpenWindows.get(i);
+            if (lItemContainer.getFileName().equals(pSharedStashName)) {
+                lExisting = lItemContainer;
+            }
+        }
+
+        D2ViewSharedStash lStashView;
+        if (load) {
+            if (lExisting != null) {
+                lStashView = ((D2ViewSharedStash) lExisting);
+            } else {
+                lStashView = new D2ViewSharedStash(D2FileManager.this, pSharedStashName);
+                lStashView.setLocation(10 + (iOpenWindows.size() * 10), 10 + (iOpenWindows.size() * 10));
+                addToOpenWindows(lStashView);
+            }
+            lStashView.activateView();
+            internalWindowForward(lStashView);
+        }
+
+        iProject.addSharedStash(pSharedStashName);
+    }
+
     public void displayAbout() {
         JOptionPane.showMessageDialog(this, "A java-based Diablo II muling application\n\noriniginally created by Andy Theuninck (Gohanman)\nVersion 0.1a"
                 + "\n\ncurrent release by Randall & Silospen\nVersion " + CURRENT_VERSION + "\n\nAnd special thanks to:" + "\n\tHakai_no_Tenshi & Gohanman for helping me out with the file formats"
@@ -1397,6 +1489,19 @@ public class D2FileManager extends JFrame {
             }
             if (lType == D2Project.TYPE_HC && (lList.isSC() || !lList.isHC())) {
                 throw new Exception("Stash is not Hardcore (HC), this is a project requirement");
+            }
+            System.err.println("Add Stash: " + pFileName);
+            iItemLists.put(pFileName, lList);
+            iViewProject.notifyItemListRead(pFileName);
+        } else if (pFileName.toLowerCase().endsWith(".d2i")) {
+            lList = new D2SharedStash(pFileName);
+
+            int lType = getProject().getType();
+            if (lType == D2Project.TYPE_SC && (!lList.isSC() || lList.isHC())) {
+                throw new Exception("Shared Stash is not Softcore (SC), this is a project requirement");
+            }
+            if (lType == D2Project.TYPE_HC && (lList.isSC() || !lList.isHC())) {
+                throw new Exception("Shared Stash is not Hardcore (HC), this is a project requirement");
             }
             System.err.println("Add Stash: " + pFileName);
             iItemLists.put(pFileName, lList);

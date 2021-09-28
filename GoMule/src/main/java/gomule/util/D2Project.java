@@ -56,8 +56,10 @@ public class D2Project {
     private File iFile;
     private JFileChooser iCharDialog;
     private JFileChooser iStashDialog;
+    private JFileChooser iSharedStashDialog;
     private ArrayList iCharList = new ArrayList();
     private ArrayList iStashList = new ArrayList();
+    private ArrayList iSharedStashList = new ArrayList();
     private int iBank;
     private int iType = TYPE_BOTH;
     private int iBackup = BACKUP_WEEK;
@@ -114,6 +116,13 @@ public class D2Project {
         iStashDialog.setFileFilter(lStashFilter);
         iStashDialog.setFileHidingEnabled(true);
 
+        String lSharedStashDir = lLoadProperties.getProperty("SharedStashDir", ".");
+        iSharedStashDialog = new JFileChooser(lSharedStashDir);
+        RandallFileFilter lSharedStashFilter = new RandallFileFilter(".d2i files");
+        lSharedStashFilter.addExtension("d2i");
+        iSharedStashDialog.setFileFilter(lSharedStashFilter);
+        iSharedStashDialog.setFileHidingEnabled(true);
+
         boolean lLoading = true;
         iCharList.clear();
         for (int i = 0; lLoading; i++) {
@@ -137,6 +146,18 @@ public class D2Project {
             }
         }
         Collections.sort(iStashList);
+
+        lLoading = true;
+        iSharedStashList.clear();
+        for (int i = 0; lLoading; i++) {
+            String lSharedStash = lLoadProperties.getProperty("sharedstash." + i);
+            if (lSharedStash != null) {
+                iSharedStashList.add(lSharedStash);
+            } else {
+                lLoading = false;
+            }
+        }
+        Collections.sort(iSharedStashList);
 
 
         if (lNew) {
@@ -281,11 +302,15 @@ public class D2Project {
         return iStashList;
     }
 
+    public ArrayList getSharedStashList() {
+        return iSharedStashList;
+    }
+
     public void addChar(String pCharFileName) {
         if (!iCharList.contains(pCharFileName)) {
             iCharList.add(pCharFileName);
             Collections.sort(iCharList);
-            iFileManager.getViewProject().refreshTreeModel(true, false);
+            iFileManager.getViewProject().refreshTreeModel(true, false, false);
         }
     }
 
@@ -296,7 +321,7 @@ public class D2Project {
         if (!iStashList.contains(pStashFileName)) {
             iStashList.add(pStashFileName);
             Collections.sort(iStashList);
-            iFileManager.getViewProject().refreshTreeModel(false, true);
+            iFileManager.getViewProject().refreshTreeModel(false, true, false);
 //			D2ItemListAll lListAll = iFileManager.getAllItemList();
 //			if ( lListAll != null )
 //			{
@@ -305,11 +330,22 @@ public class D2Project {
         }
     }
 
+    public void addSharedStash(String pSharedStashFileName) {
+        if (pSharedStashFileName.equalsIgnoreCase("all")) {
+            return;
+        }
+        if (!iSharedStashList.contains(pSharedStashFileName)) {
+            iSharedStashList.add(pSharedStashFileName);
+            Collections.sort(iSharedStashList);
+            iFileManager.getViewProject().refreshTreeModel(false, false, true);
+        }
+    }
+
     public void deleteCharStash(String pFilename) {
         iCharList.remove(pFilename);
         iStashList.remove(pFilename);
         iFileManager.closeFileName(pFilename);
-        iFileManager.getViewProject().refreshTreeModel(false, false);
+        iFileManager.getViewProject().refreshTreeModel(false, false, false);
 //		D2ItemListAll lListAll = iFileManager.getAllItemList();
 //		if ( lListAll != null )
 //		{
@@ -333,6 +369,10 @@ public class D2Project {
         return iStashDialog;
     }
 
+    public JFileChooser getSharedStashDialog() {
+        return iSharedStashDialog;
+    }
+
     public void saveProject() {
         // clear old
         Properties lSaveProperties = new Properties();
@@ -348,15 +388,25 @@ public class D2Project {
         } catch (IOException pEx) {
             D2FileManager.displayErrorDialog(pEx);
         }
+        String lSharedStashPath = ".";
+        try {
+            lSharedStashPath = iSharedStashDialog.getCurrentDirectory().getCanonicalPath();
+        } catch (IOException pEx) {
+            D2FileManager.displayErrorDialog(pEx);
+        }
 
         lSaveProperties.put("CharDir", lCharPath);
         lSaveProperties.put("StashDir", lStashPath);
+        lSaveProperties.put("SharedStashDir", lSharedStashPath);
 
         for (int i = 0; i < iCharList.size(); i++) {
             lSaveProperties.put("char." + i, iCharList.get(i));
         }
         for (int i = 0; i < iStashList.size(); i++) {
             lSaveProperties.put("stash." + i, iStashList.get(i));
+        }
+        for (int i = 0; i < iSharedStashList.size(); i++) {
+            lSaveProperties.put("sharedstash." + i, iSharedStashList.get(i));
         }
 
         lSaveProperties.put("bank", Integer.toString(iBank));

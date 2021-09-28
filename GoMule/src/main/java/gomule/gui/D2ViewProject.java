@@ -42,6 +42,7 @@ public class D2ViewProject extends JPanel {
     private DefaultTreeModel iTreeModel;
     private DefaultMutableTreeNode iChars;
     private DefaultMutableTreeNode iStashes;
+    private DefaultMutableTreeNode iSharedStashes;
     private CharTreeNode iAll;
 
     public D2ViewProject(D2FileManager pFileManager) {
@@ -239,6 +240,8 @@ public class D2ViewProject extends JPanel {
             return searchSingleNode(iChars, pFileName);
         } else if (pFileName.toLowerCase().endsWith(".d2x")) {
             return searchSingleNode(iStashes, pFileName);
+        } else if (pFileName.toLowerCase().endsWith(".d2i")) {
+            return searchSingleNode(iSharedStashes, pFileName);
         } else if (pFileName.equalsIgnoreCase("all")) {
             return iAll;
         }
@@ -258,12 +261,13 @@ public class D2ViewProject extends JPanel {
 
     public void setProject(D2Project pProject) {
         iProject = pProject;
-        refreshTreeModel(true, true);
+        refreshTreeModel(true, true, true);
     }
 
-    public void refreshTreeModel(boolean pExpandChar, boolean pExpandStash) {
+    public void refreshTreeModel(boolean pExpandChar, boolean pExpandStash, boolean pExpandSharedStash) {
         boolean lChar = false;
         boolean lStash = false;
+        boolean lSharedStash = false;
         for (int i = 0; i < iTree.getRowCount(); i++) {
             TreePath lPath = iTree.getPathForRow(i);
             Object lPathObjects[] = lPath.getPath();
@@ -272,6 +276,9 @@ public class D2ViewProject extends JPanel {
             }
             if (lPathObjects.length > 1 && lPathObjects[lPathObjects.length - 1] == iStashes) {
                 lStash = iTree.isExpanded(i);
+            }
+            if (lPathObjects.length > 1 && lPathObjects[lPathObjects.length - 1] == iSharedStashes) {
+                lSharedStash = iTree.isExpanded(i);
             }
         }
         iTreeModel = refreshTree();
@@ -286,6 +293,11 @@ public class D2ViewProject extends JPanel {
             }
             if (lPathObjects.length > 1 && lPathObjects[lPathObjects.length - 1] == iStashes) {
                 if (lStash || pExpandStash) {
+                    iTree.expandRow(i);
+                }
+            }
+            if (lPathObjects.length > 1 && lPathObjects[lPathObjects.length - 1] == iSharedStashes) {
+                if (lSharedStash || pExpandSharedStash) {
                     iTree.expandRow(i);
                 }
             }
@@ -312,6 +324,15 @@ public class D2ViewProject extends JPanel {
             ArrayList lStashList = iProject.getStashList();
             for (int i = 0; i < lStashList.size(); i++) {
                 iStashes.add(new CharTreeNode((String) lStashList.get(i)));
+            }
+        }
+
+        iSharedStashes = new DefaultMutableTreeNode("sharedstashes");
+        root.add(iSharedStashes);
+        if (iProject != null) {
+            ArrayList lSharedStashList = iProject.getSharedStashList();
+            for (int i = 0; i < lSharedStashList.size(); i++) {
+                iSharedStashes.add(new CharTreeNode((String) lSharedStashList.get(i)));
             }
         }
 
@@ -379,6 +400,8 @@ public class D2ViewProject extends JPanel {
                 iFileManager.openChar(iFileName, true);
             } else if (iFileName.toLowerCase().endsWith(".d2x")) {
                 iFileManager.openStash(iFileName, true);
+            } else if (iFileName.toLowerCase().endsWith(".d2i")) {
+                iFileManager.openSharedStash(iFileName, true);
             }
         }
 
