@@ -367,5 +367,24 @@ public class D2BitReader {
         }
     }
 
+    public byte[] calculateChecksum() {
+        int currentPos = get_pos();
+        set_byte_pos(0);
+        long lCheckSum = 0; // unsigned integer checksum
+        for (int i = 0; i < get_length(); i++) {
+            long lByte = read(8);
+            if (i >= 12 && i <= 15) lByte = 0;
+            long upshift = lCheckSum << 33 >>> 32;
+            long add = lByte + ((lCheckSum >>> 31) == 1 ? 1 : 0);
+            lCheckSum = upshift + add;
+        }
+        set_pos(currentPos);
+        return new byte[]{
+                (byte) (0x000000ff & lCheckSum),
+                (byte) ((0x0000ff00 & lCheckSum) >>> 8),
+                (byte) ((0x00ff0000 & lCheckSum) >>> 16),
+                (byte) ((0xff000000 & lCheckSum) >>> 24)
+        };
+    }
 }
 

@@ -33,6 +33,7 @@ import randall.d2files.*;
 import java.awt.*;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 //a character class
@@ -140,25 +141,11 @@ public class D2Character extends D2ItemListAdapter {
         iReader.set_byte_pos(8);
         long lSize = iReader.read(32);
         if (iReader.get_length() != lSize) throw new Exception("Incorrect FileSize: " + lSize);
-        long lCheckSum2 = calculateCheckSum();
+        byte[] calculatedChecksum = iReader.calculateChecksum();
         iReader.set_byte_pos(12);
-        boolean lChecksum = false;
-        byte lCalcByte3 = (byte) ((0xff000000 & lCheckSum2) >>> 24);
-        byte lCalcByte2 = (byte) ((0x00ff0000 & lCheckSum2) >>> 16);
-        byte lCalcByte1 = (byte) ((0x0000ff00 & lCheckSum2) >>> 8);
-        byte lCalcByte0 = (byte) (0x000000ff & lCheckSum2);
-        byte lFileByte0 = (byte) iReader.read(8);
-        byte lFileByte1 = (byte) iReader.read(8);
-        byte lFileByte2 = (byte) iReader.read(8);
-        byte lFileByte3 = (byte) iReader.read(8);
-        if (lFileByte0 == lCalcByte0) {
-            if (lFileByte1 == lCalcByte1) {
-                if (lFileByte2 == lCalcByte2) {
-                    if (lFileByte3 == lCalcByte3) lChecksum = true;
-                }
-            }
-        }
-        if (!lChecksum) throw new Exception("Incorrect Checksum");
+        byte[] checksumFromFile = iReader.get_bytes(4);
+        if (!Arrays.equals(calculatedChecksum, checksumFromFile)) throw new Exception("Incorrect Checksum");
+        iReader.set_byte_pos(16);
 //		long lWeaponSet = iReader.read(32);
         iReader.read(32);
         StringBuffer lCharName = new StringBuffer();
@@ -355,19 +342,6 @@ public class D2Character extends D2ItemListAdapter {
     private void generateItemStats(D2Item cItem, int[] cStats, ArrayList plSkill, int op, int qFlagM) {
 
         cItem.getPropCollection().calcStats(cStats, plSkill, (int) iCharLevel, op, qFlagM);
-    }
-
-    private long calculateCheckSum() {
-        iReader.set_byte_pos(0);
-        long lCheckSum = 0; // unsigned integer checksum
-        for (int i = 0; i < iReader.get_length(); i++) {
-            long lByte = iReader.read(8);
-            if (i >= 12 && i <= 15) lByte = 0;
-            long upshift = lCheckSum << 33 >>> 32;
-            long add = lByte + ((lCheckSum >>> 31) == 1 ? 1 : 0);
-            lCheckSum = upshift + add;
-        }
-        return lCheckSum;
     }
 
     private void readWaypoints() {
@@ -1387,13 +1361,7 @@ public class D2Character extends D2ItemListAdapter {
         length[1] = (byte) ((0x0000ff00 & data.length) >>> 8);
         length[0] = (byte) (0x000000ff & data.length);
         iReader.setBytes(8, length);
-        iReader.set_byte_pos(0);
-        long lCheckSum = calculateCheckSum();
-        checksum[3] = (byte) ((0xff000000 & lCheckSum) >>> 24);
-        checksum[2] = (byte) ((0x00ff0000 & lCheckSum) >>> 16);
-        checksum[1] = (byte) ((0x0000ff00 & lCheckSum) >>> 8);
-        checksum[0] = (byte) (0x000000ff & lCheckSum);
-        iReader.setBytes(12, checksum);
+        iReader.setBytes(12, iReader.calculateChecksum());
         iReader.save();
         setModified(false);
     }
