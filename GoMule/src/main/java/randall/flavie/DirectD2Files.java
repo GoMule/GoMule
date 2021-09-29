@@ -20,6 +20,8 @@
  ******************************************************************************/
 package randall.flavie;
 
+import gomule.d2i.D2SharedStash;
+import gomule.d2i.D2SharedStashReader;
 import gomule.d2s.D2Character;
 import gomule.d2x.D2Stash;
 import gomule.gui.D2FileManager;
@@ -33,6 +35,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Marco
@@ -90,7 +93,7 @@ public class DirectD2Files {
 //					throw new Exception("File " + lD2FileName + " can not be read");
 //				}
 
-                ArrayList lItems = null;
+                List lItems = null;
 
                 if (lD2FileName.endsWith(".d2s")) {
                     try {
@@ -98,6 +101,13 @@ public class DirectD2Files {
                         lItems = lCharacter.getItemList();
                     } catch (Exception e) {
                         errStr = errStr + ("Error with char " + lD2FileName + "\n");
+                    }
+                } else if (lD2FileName.endsWith(".d2i")) {
+                    try {
+                        D2SharedStash sharedStash = new D2SharedStashReader().readStash(lD2FileName);
+                        lItems = sharedStash.getItemList();
+                    } catch (Exception e) {
+                        errStr = errStr + ("Error with shared stash " + lD2FileName + "\n");
                     }
                 } else if (lD2FileName.endsWith(".d2x")) {
                     try {

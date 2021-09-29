@@ -21,6 +21,7 @@
 
 package gomule.gui;
 
+import gomule.d2i.D2SharedStash;
 import gomule.d2i.D2SharedStashReader;
 import gomule.d2s.D2Character;
 import gomule.d2x.D2Stash;
@@ -339,6 +340,10 @@ public class D2FileManager extends JFrame {
                 if (lStashList != null) {
                     dFileNames.addAll(lStashList);
                 }
+                ArrayList sharedStashList = iProject.getSharedStashList();
+                if (sharedStashList != null) {
+                    dFileNames.addAll(sharedStashList);
+                }
                 if (dFileNames.size() < 1) {
                     JOptionPane.showMessageDialog(iContentPane,
                             "No Chars/Stashes in Project!",
@@ -385,6 +390,20 @@ public class D2FileManager extends JFrame {
                         }
                     }
                 }
+                lDumpList = iProject.getSharedStashList();
+                if (lDumpList != null) {
+                    for (int x = 0; x < lDumpList.size(); x++) {
+                        try {
+                            D2SharedStash d2SharedStash = new D2SharedStashReader().readStash((String) lDumpList.get(x));
+                            if (!projTxtDump((String) lDumpList.get(x), (D2ItemList) d2SharedStash, iProject.getProjectName() + "Dumps")) {
+                                errStr = errStr + "Shared Stash: " + (String) lDumpList.get(x) + " failed.\n";
+                            }
+                        } catch (Exception e) {
+                            errStr = errStr + "Shared Stash: " + (String) lDumpList.get(x) + " failed.\n";
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 if ((iProject.getCharList().size() + iProject.getStashList().size()) < 1) {
                     JOptionPane.showMessageDialog(iContentPane,
                             "No Chars/Stashes in Project!",
@@ -417,8 +436,13 @@ public class D2FileManager extends JFrame {
         try {
             String reportName;
             if (singleDump) {
-                if (((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")) {
+                String fileName = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName();
+                if (fileName.endsWith(".d2s")) {
                     reportName = (((D2ViewChar) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getChar().getCharName() + iProject.getReportName());
+
+                } else if (fileName.endsWith(".d2i")) {
+                    reportName = ((((D2ViewSharedStash) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())))).getSharedStashName() + iProject.getReportName());
+                    reportName = reportName.replace(".d2i", "");
                 } else {
                     reportName = ((((D2ViewStash) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame())))).getStashName() + iProject.getReportName());
                     reportName = reportName.replace(".d2x", "");
@@ -983,6 +1007,8 @@ public class D2FileManager extends JFrame {
 
             if (lList.getFilename().endsWith(".d2s")) {
                 lFileName = ((D2Character) lList).getCharName() + ".d2s";
+            } else if (lList.getFilename().endsWith(".d2i")) {
+                lFileName = ((D2SharedStash) lList).getFilename().substring(((D2SharedStash) lList).getFilename().lastIndexOf(File.separator) + 1);
             } else {
                 lFileName = ((D2Stash) lList).getFileNameEnd();
             }
