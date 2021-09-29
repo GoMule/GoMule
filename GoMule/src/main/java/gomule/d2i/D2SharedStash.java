@@ -26,16 +26,16 @@ public class D2SharedStash extends D2ItemListAdapter {
 
     @Override
     public void removeItem(D2Item pItem) {
-
+        //Handled by panes
     }
 
     @Override
     public void addItem(D2Item pItem) {
-
+        //Handled by panes
     }
 
     @Override
-    public ArrayList getItemList() {
+    public ArrayList<D2Item> getItemList() {
         return null;
     }
 
@@ -67,6 +67,10 @@ public class D2SharedStash extends D2ItemListAdapter {
     @Override
     protected void saveInternal(D2Project pProject) {
 
+    }
+
+    public void replacePane(int paneIndex, D2SharedStashPane newPane) {
+        panes.set(paneIndex, newPane);
     }
 
     public static class D2SharedStashPane {
@@ -135,6 +139,24 @@ public class D2SharedStash extends D2ItemListAdapter {
             int result = Objects.hash(items);
             result = 31 * result + Arrays.deepHashCode(paneGrid);
             return result;
+        }
+
+        public D2SharedStashPane addItem(int col, int row, D2Item item) {
+            item.set_col((short) col);
+            item.set_row((short) row);
+            item.set_location((short) 0);
+            item.set_body_position((short) 0);
+            item.set_panel((short) 5);
+            item.setCharLvl(75);
+            List<D2Item> items = new ArrayList<>(this.items);
+            items.add(item);
+            return D2SharedStashPane.fromItems(items);
+        }
+
+        public D2SharedStashPane removeItem(D2Item item) {
+            List<D2Item> items = new ArrayList<>(this.items);
+            items.remove(item);
+            return D2SharedStashPane.fromItems(items);
         }
     }
 }

@@ -1,6 +1,7 @@
 package gomule.gui;
 
 import gomule.d2i.D2SharedStash;
+import gomule.d2i.D2SharedStash.D2SharedStashPane;
 import gomule.item.D2Item;
 
 import javax.swing.*;
@@ -144,7 +145,7 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
         }
 
         private void placeItemsInView(D2SharedStash sharedStash) {
-            D2SharedStash.D2SharedStashPane pane = sharedStash.getPane(selectedStashPane);
+            D2SharedStashPane pane = sharedStash.getPane(selectedStashPane);
             pane.getItems().forEach(item -> {
                 if (item.get_location() != 0 && item.get_body_position() != 0 && item.get_panel() != 5) return;
                 Image image = D2ImageCache.getDC6Image(item);
@@ -192,14 +193,13 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
                     setCursorNormal();
                     return;
                 }
-                D2SharedStash.D2SharedStashPane stashPane = sharedStashView.sharedStash.getPane(selectedStashPane);
+                D2SharedStashPane stashPane = sharedStashView.sharedStash.getPane(selectedStashPane);
                 D2Item item = stashPane.getItemCovering(col, row);
                 if (item != null) {
                     setCursorPickupItem();
                 } else {
                     D2Item itemOnClipboard = D2ViewClipboard.getItem();
                     boolean canDropItem = itemOnClipboard != null && stashPane.canDropItem(col, row, itemOnClipboard);
-                    System.out.println(canDropItem);
                     if (itemOnClipboard != null && canDropItem) {
                         setCursorDropItem();
                     } else {
@@ -224,9 +224,42 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
         private final MouseListener mouseListener = new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) handleLeftClick(e);
+            }
+
+            private void handleLeftClick(MouseEvent e) {
                 if (sharedStashView.sharedStash == null) return;
                 Integer possibleStashTabClick = getPossibleStashTabClick(e.getX(), e.getY());
                 setStashTab(possibleStashTabClick);
+
+                int col = getColForXCoord(e.getX());
+                int row = getRowForYCoord(e.getY());
+                if (col < 0 || row < 0 || col > 9 || row > 9) return;
+                D2SharedStashPane stashPane = sharedStashView.sharedStash.getPane(selectedStashPane);
+                D2Item item = stashPane.getItemCovering(col, row);
+                if (item != null) {
+                    moveItemToClipboard(stashPane, item);
+                } else if (D2ViewClipboard.getItem() != null) {
+                    tryMoveItemFromClipboard(stashPane, col, row);
+                }
+            }
+
+            private void tryMoveItemFromClipboard(D2SharedStashPane stashPane, int col, int row) {
+                D2Item item = D2ViewClipboard.getItem();
+                if (stashPane.canDropItem(col, row, item)) {
+                    D2SharedStashPane d2SharedStashPane = stashPane.addItem(col, row, D2ViewClipboard.removeItem());
+                    sharedStashView.sharedStash.replacePane(selectedStashPane, d2SharedStashPane);
+                    sharedStashView.sharedStash.setModified(true);
+                    setCursorPickupItem();
+                }
+            }
+
+            private void moveItemToClipboard(D2SharedStashPane stashPane, D2Item item) {
+                D2SharedStashPane d2SharedStashPane = stashPane.removeItem(item);
+                sharedStashView.sharedStash.replacePane(selectedStashPane, d2SharedStashPane);
+                D2ViewClipboard.addItem(item);
+                sharedStashView.sharedStash.setModified(true);
+                setCursorDropItem();
             }
 
             private void setStashTab(Integer possibleStashTabClick) {

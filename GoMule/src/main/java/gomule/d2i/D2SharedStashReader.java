@@ -18,16 +18,16 @@ public class D2SharedStashReader {
         int nextItemBlock;
         while ((nextItemBlock = bitReader.findNextFlag("JM", bitReader.get_byte_pos())) != -1) {
             bitReader.set_byte_pos(nextItemBlock + 2);
-            result.add(readSharedStashPane(bitReader));
+            result.add(readSharedStashPane(bitReader, filename));
         }
         return new D2SharedStash(filename, result);
     }
 
-    private D2SharedStashPane readSharedStashPane(D2BitReader bitReader) throws Exception {
+    private D2SharedStashPane readSharedStashPane(D2BitReader bitReader, String filename) throws Exception {
         int numItems = (int) bitReader.read(16);
         List<D2Item> result = new ArrayList<>();
         for (int i = 0; i < numItems; i++) {
-            result.add(new D2Item("foo", bitReader, 75));
+            result.add(new D2Item(filename, bitReader, 75));
         }
         return D2SharedStashPane.fromItems(result);
     }
