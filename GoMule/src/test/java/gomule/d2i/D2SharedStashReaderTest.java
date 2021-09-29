@@ -6,6 +6,8 @@ import org.junit.Test;
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,17 @@ public class D2SharedStashReaderTest {
         assertEquals(singletonList("Scroll of Identify\n" +
                 "Version: Resurrected\n"), getItemDumps(stash.getPane(1)));
         assertEquals(emptyList(), getItemDumps(stash.getPane(2)));
+        StringWriter out = new StringWriter();
+        stash.fullDump(new PrintWriter(out));
+        assertEquals("somethingSoftCore.d2i\n" +
+                "\n" +
+                "\n" +
+                "Scroll of Town Portal\n" +
+                "Version: Resurrected\n" +
+                "\n" +
+                "Scroll of Identify\n" +
+                "Version: Resurrected\n" +
+                "Finished: somethingSoftCore.d2i\n\n", out.toString().replaceAll("\r", ""));
     }
 
     private List<String> getItemDumps(D2SharedStash.D2SharedStashPane pane) {

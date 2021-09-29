@@ -38,6 +38,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.*;
+import java.util.List;
 
 /**
  * @author Marco
@@ -979,7 +980,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
             iItems = new ArrayList();
             if (iStash != null) {
-                ArrayList lList = iStash.getItemList();
+                List lList = iStash.getItemList();
                 for (int i = 0; i < lList.size(); i++) {
                     D2Item lItem = (D2Item) lList.get(i);
 

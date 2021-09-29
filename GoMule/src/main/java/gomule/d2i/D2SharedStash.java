@@ -6,6 +6,7 @@ import gomule.util.D2Project;
 
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class D2SharedStash extends D2ItemListAdapter {
     private final List<D2SharedStashPane> panes;
@@ -21,7 +22,7 @@ public class D2SharedStash extends D2ItemListAdapter {
 
     @Override
     public boolean containsItem(D2Item pItem) {
-        return false;
+        return panes.stream().anyMatch(it -> it.items.contains(pItem));
     }
 
     @Override
@@ -35,18 +36,18 @@ public class D2SharedStash extends D2ItemListAdapter {
     }
 
     @Override
-    public ArrayList<D2Item> getItemList() {
-        return null;
+    public List<D2Item> getItemList() {
+        return panes.stream().flatMap(it -> it.getItems().stream()).collect(Collectors.toList());
     }
 
     @Override
     public int getNrItems() {
-        return 0;
+        return panes.stream().map(it -> it.items.size()).reduce(0, Integer::sum);
     }
 
     @Override
     public String getFilename() {
-        return null;
+        return iFileName;
     }
 
     @Override
@@ -61,7 +62,14 @@ public class D2SharedStash extends D2ItemListAdapter {
 
     @Override
     public void fullDump(PrintWriter pWriter) {
-
+        pWriter.println(iFileName);
+        pWriter.println();
+        List<D2Item> items = getItemList();
+        for (D2Item item : items) {
+            item.toWriter(pWriter);
+        }
+        pWriter.println("Finished: " + iFileName);
+        pWriter.println();
     }
 
     @Override
