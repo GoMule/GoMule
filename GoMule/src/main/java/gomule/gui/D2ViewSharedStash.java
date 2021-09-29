@@ -50,12 +50,12 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
 
     @Override
     public boolean isHC() {
-        return false;
+        return sharedStash.isHC();
     }
 
     @Override
     public boolean isSC() {
-        return false;
+        return sharedStash.isSC();
     }
 
     @Override
@@ -66,12 +66,12 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
 
     @Override
     public boolean isModified() {
-        return false;
+        return sharedStash.isModified();
     }
 
     @Override
     public D2ItemList getItemLists() {
-        return null;
+        return sharedStash;
     }
 
     @Override
