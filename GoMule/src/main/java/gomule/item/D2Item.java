@@ -150,7 +150,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
     private short set_id;
 
-    private HuffmanLookupTable huffmanLookupTable = HuffmanLookupTable.withStandardDictionary();
+    private final HuffmanLookupTable huffmanLookupTable = HuffmanLookupTable.withStandardDictionary();
 
     public D2Item(String pFileName, D2BitReader pFile, long pCharLvl)
             throws Exception {

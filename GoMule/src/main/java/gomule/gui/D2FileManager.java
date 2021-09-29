@@ -21,7 +21,7 @@
 
 package gomule.gui;
 
-import gomule.d2i.D2SharedStash;
+import gomule.d2i.D2SharedStashReader;
 import gomule.d2s.D2Character;
 import gomule.d2x.D2Stash;
 import gomule.dropCalc.gui.RealGUI;
@@ -63,6 +63,7 @@ public class D2FileManager extends JFrame {
 
     private static final String CURRENT_VERSION = "R0.43: Donkey";
     private final static D2FileManager iCurrent = new D2FileManager();
+    private final D2SharedStashReader sharedStashReader;
     private HashMap iItemLists = new HashMap();
     private ArrayList iOpenWindows;
     private JMenuBar iMenuBar;
@@ -106,7 +107,7 @@ public class D2FileManager extends JFrame {
     private D2FileManager() {
         D2TxtFile.constructTxtFiles("d2111");
         D2TblFile.readAllFiles("d2111");
-
+        sharedStashReader = new D2SharedStashReader();
         iOpenWindows = new ArrayList();
         iContentPane = new JPanel();
         iDesktopPane = new JDesktopPane();
@@ -1494,7 +1495,7 @@ public class D2FileManager extends JFrame {
             iItemLists.put(pFileName, lList);
             iViewProject.notifyItemListRead(pFileName);
         } else if (pFileName.toLowerCase().endsWith(".d2i")) {
-            lList = new D2SharedStash(pFileName);
+            lList = sharedStashReader.readStash(pFileName);
 
             int lType = getProject().getType();
             if (lType == D2Project.TYPE_SC && (!lList.isSC() || lList.isHC())) {
