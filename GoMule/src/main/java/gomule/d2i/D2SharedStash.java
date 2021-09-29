@@ -2,6 +2,8 @@ package gomule.d2i;
 
 import gomule.gui.D2ItemListAdapter;
 import gomule.item.D2Item;
+import gomule.util.D2Backup;
+import gomule.util.D2BitReader;
 import gomule.util.D2Project;
 
 import java.io.PrintWriter;
@@ -10,14 +12,22 @@ import java.util.stream.Collectors;
 
 public class D2SharedStash extends D2ItemListAdapter {
     private final List<D2SharedStashPane> panes;
+    private final byte[] originalContent;
+    private final D2SharedStashWriter sharedStashWriter;
 
-    public D2SharedStash(String pFileName, List<D2SharedStashPane> panes) {
+    public D2SharedStash(String pFileName, List<D2SharedStashPane> panes, byte[] originalContent) {
         super(pFileName);
         this.panes = panes;
+        this.originalContent = originalContent;
+        this.sharedStashWriter = new D2SharedStashWriter(pFileName, originalContent);
     }
 
     public D2SharedStashPane getPane(int index) {
         return panes.get(index);
+    }
+
+    public List<D2SharedStashPane> getPanes() {
+        return panes;
     }
 
     @Override
@@ -73,8 +83,10 @@ public class D2SharedStash extends D2ItemListAdapter {
     }
 
     @Override
-    protected void saveInternal(D2Project pProject) {
-
+    protected void saveInternal(D2Project d2Project) {
+        if (d2Project != null) D2Backup.backup(d2Project, iFileName, new D2BitReader(originalContent.clone()));
+        sharedStashWriter.write(this);
+        setModified(false);
     }
 
     public void replacePane(int paneIndex, D2SharedStashPane newPane) {

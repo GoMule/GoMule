@@ -232,6 +232,7 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
                 Integer possibleStashTabClick = getPossibleStashTabClick(e.getX(), e.getY());
                 setStashTab(possibleStashTabClick);
 
+                if(1==1) return; //TODO: Need to understand checksum in shared stash file before being able to modify stash.
                 int col = getColForXCoord(e.getX());
                 int row = getRowForYCoord(e.getY());
                 if (col < 0 || row < 0 || col > 9 || row > 9) return;
