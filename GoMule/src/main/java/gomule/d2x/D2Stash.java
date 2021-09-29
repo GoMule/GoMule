@@ -147,7 +147,7 @@ public class D2Stash extends D2ItemListAdapter {
 
             long lVersionNr = iBR.read(16);
 
-            if (lVersionNr == 96) {
+            if (lVersionNr == 97) {
                 readItems(lNumItems);
             } else {
                 throw new Exception("Stash Version Incorrect!");
@@ -178,13 +178,9 @@ public class D2Stash extends D2ItemListAdapter {
     }
 
     private void readItems(long pNumItems) throws Exception {
-        int lLastItemEnd = 11;
-
+        iBR.set_byte_pos(11);
         for (int i = 0; i < pNumItems; i++) {
-            int lItemStart = iBR.findNextFlag("JM", lLastItemEnd);
-
             D2Item lItem = new D2Item(iFileName, iBR, iCharLvl);
-            lLastItemEnd = lItemStart + lItem.getItemLength();
             iItems.add(lItem);
         }
     }
@@ -211,7 +207,7 @@ public class D2Stash extends D2ItemListAdapter {
 
         iBR.set_byte_pos(3);
         iBR.write(iItems.size(), 16);
-        iBR.write(96, 16); // version 96
+        iBR.write(97, 16); // version 96
 //        iBR.replace_bytes(11, iBR.get_length(), newbytes);
 
         long lCheckSum1 = calculateAtmaCheckSum();
