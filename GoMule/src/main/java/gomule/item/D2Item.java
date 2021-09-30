@@ -587,7 +587,7 @@ public class D2Item implements Comparable, D2ItemInterface {
                 }
 
                 applyAutomodLvl();
-                addSetProperties(D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(set_id).get("set")));
+                addSetProperties(D2TxtFile.FULLSET.searchColumns("index", lSet.get("set")));
                 break;
             }
             case 7: {
