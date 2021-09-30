@@ -125,11 +125,11 @@ public class Minion extends Monster {
 
             } else if (monDiff.equals("NM")) {
 
-                monLvlAreas.put(area, new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvl2Ex")) + 3));
+                monLvlAreas.put(area, new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvlEx(N)")) + 3));
 
             } else {
 
-                monLvlAreas.put(area, new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvl3Ex")) + 3));
+                monLvlAreas.put(area, new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvlEx(H)")) + 3));
             }
 
         }

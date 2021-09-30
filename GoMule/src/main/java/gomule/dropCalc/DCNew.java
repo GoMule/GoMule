@@ -564,7 +564,8 @@ public class DCNew {
 
         for (int x = 0; x < D2TxtFile.SETITEMS.getRowSize(); x = x + 1) {
 //			if(!D2TxtFile.SETITEMS.getRow(x).get("item").equals("amu")){
-            setItemArray.add(new SetItem(D2TxtFile.SETITEMS.getRow(x)));
+            D2TxtFileItemProperties row = D2TxtFile.SETITEMS.getRow(x);
+            if (!row.get("index").equals("Expansion")) setItemArray.add(new SetItem(row));
 //			}
         }
 

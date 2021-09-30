@@ -86,7 +86,7 @@ public class Item {
     }
 
     public String getRealName() {
-
+        if (ItemName.equals("Immortal King's Soul Cage")) return D2TblFile.getString("Immortal King's Soul Cage ");
         return D2TblFile.getString(ItemName);
 
     }

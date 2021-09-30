@@ -322,7 +322,7 @@ public class Monster {
         areaSUPair.put("Fire Eye", "Act 2 - Basement 3");
         areaSUPair.put("Dark Elder", "Act 2 - Desert 4");
         areaSUPair.put("The Summoner", "Act 2 - Arcane");
-        areaSUPair.put("Ancient Kaa the Soulless", "Act 2 - Tomb Tal");
+        areaSUPair.put("Ancient Kaa the Soulless", "Act 2 - Tomb Tal 1");
         areaSUPair.put("The Smith", "Act 1 - Barracks");
         areaSUPair.put("Web Mage the Burning", "Act 3 - Spider 2");
         areaSUPair.put("Witch Doctor Endugu", "Act 3 - Dungeon 2 Treasure");

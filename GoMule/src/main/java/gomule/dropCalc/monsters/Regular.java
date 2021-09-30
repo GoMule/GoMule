@@ -52,11 +52,11 @@ public class Regular extends Monster {
 
                 monLvlAreas.put(area, new Integer(monRow.get("Level")));
             } else if (monDiff.equals("NM")) {
-                monLvlAreas.put(area, new Integer(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvl2Ex")));
+                monLvlAreas.put(area, new Integer(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvlEx(N)")));
 
             } else {
 
-                monLvlAreas.put(area, new Integer(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvl3Ex")));
+                monLvlAreas.put(area, new Integer(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvlEx(H)")));
             }
 
         }

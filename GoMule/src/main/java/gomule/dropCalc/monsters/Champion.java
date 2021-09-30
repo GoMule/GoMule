@@ -53,11 +53,11 @@ public class Champion extends Monster {
 
             } else if (monDiff.equals("NM")) {
 
-                monLvlAreas.put(area, new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvl2Ex")) + 2));
+                monLvlAreas.put(area, new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvlEx(N)")) + 2));
 
             } else {
 
-                monLvlAreas.put(area, new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvl3Ex")) + 2));
+                monLvlAreas.put(area, new Integer(Integer.parseInt(D2TxtFile.LEVELS.searchColumns("Name", area).get("MonLvlEx(H)")) + 2));
             }
 
         }
