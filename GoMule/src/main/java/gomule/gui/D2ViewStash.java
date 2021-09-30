@@ -40,6 +40,8 @@ import java.io.File;
 import java.util.*;
 import java.util.List;
 
+import static gomule.gui.D2FileManager.displayErrorDialog;
+
 /**
  * @author Marco
  */
@@ -358,6 +360,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             }
             iTable.setModel(iItemModel);
         } catch (Exception pEx) {
+            displayErrorDialog(pEx);
             disconnect(pEx);
         }
 

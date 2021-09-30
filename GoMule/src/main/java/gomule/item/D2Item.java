@@ -573,7 +573,9 @@ public class D2Item implements Comparable, D2ItemInterface {
                 }
 
                 D2TxtFileItemProperties lSet = D2TxtFile.SETITEMS.searchColumns("*ID", String.valueOf(set_id));
-                iItemName = D2TblFile.getString(lSet.get("index"));
+                String nameFromSetFile = lSet.get("index");
+                String translatedName = D2TblFile.getString(nameFromSetFile);
+                iItemName = translatedName == null ? nameFromSetFile : translatedName;
                 iSetName = lSet.get("set");
 
                 setSize = (D2TxtFile.SETITEMS.searchColumnsMultipleHits("set",
