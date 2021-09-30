@@ -985,16 +985,18 @@ public class D2Item implements Comparable, D2ItemInterface {
             if (((D2Prop) iProps.get(x)).getPNum() == 97
                     || ((D2Prop) iProps.get(x)).getPNum() == 107) {
 
-                if (iReqLvl < Integer.parseInt(D2TxtFile.SKILLS.searchColumns(
+                D2TxtFileItemProperties skillsRow = D2TxtFile.SKILLS.searchColumns(
                         "skilldesc",
                         D2TxtFile.SKILL_DESC.getRow(
                                 ((D2Prop) iProps.get(x)).getPVals()[0]).get(
-                                "skilldesc")).get("reqlevel"))) {
-                    iReqLvl = (Integer.parseInt(D2TxtFile.SKILLS.searchColumns(
-                            "skilldesc",
-                            D2TxtFile.SKILL_DESC.getRow(
-                                            ((D2Prop) iProps.get(x)).getPVals()[0])
-                                    .get("skilldesc")).get("reqlevel")));
+                                "skilldesc"));
+                String reqlevel = skillsRow.get("reqlevel");
+                try {
+                    if (iReqLvl < Integer.parseInt(reqlevel)) {
+                        iReqLvl = (Integer.parseInt(reqlevel));
+                    }
+                } catch (NumberFormatException e){
+                    System.err.println("Failed to parse level req number for " + skillsRow.get("skill"));
                 }
             }
 
