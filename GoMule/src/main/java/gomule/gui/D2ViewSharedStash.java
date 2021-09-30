@@ -122,7 +122,7 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
     private static class SharedStashPanel extends JPanel {
 
         private final D2FileManager fileManager;
-        private D2ViewSharedStash sharedStashView;
+        private final D2ViewSharedStash sharedStashView;
         private int selectedStashPane = 0;
         private Image background;
 
@@ -136,6 +136,8 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
             addMouseListener(mouseListener);
             addMouseMotionListener(mouseMotionListener);
             setVisible(true);
+            ToolTipManager.sharedInstance().setDismissDelay(40000);
+            ToolTipManager.sharedInstance().setInitialDelay(300);
             build();
         }
 
@@ -201,6 +203,7 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
                 D2Item item = stashPane.getItemCovering(col, row);
                 if (item != null) {
                     setCursorPickupItem();
+                    setToolTipText(item.itemDumpHtml(false));
                 } else {
                     D2Item itemOnClipboard = D2ViewClipboard.getItem();
                     boolean canDropItem = itemOnClipboard != null && stashPane.canDropItem(col, row, itemOnClipboard);
@@ -209,6 +212,7 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
                     } else {
                         setCursorNormal();
                     }
+                    setToolTipText(null);
                 }
             }
         };
