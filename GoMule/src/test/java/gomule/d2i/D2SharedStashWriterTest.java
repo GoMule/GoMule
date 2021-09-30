@@ -3,7 +3,7 @@ package gomule.d2i;
 import com.google.common.io.BaseEncoding;
 import gomule.item.D2Item;
 import gomule.util.D2BitReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
@@ -14,7 +14,7 @@ import static gomule.d2i.D2SharedStash.D2SharedStashPane;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class D2SharedStashWriterTest {
 

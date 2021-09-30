@@ -2,7 +2,7 @@ package gomule.d2i;
 
 import com.google.common.io.BaseEncoding;
 import gomule.util.D2BitReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class D2SharedStashReaderTest {
 

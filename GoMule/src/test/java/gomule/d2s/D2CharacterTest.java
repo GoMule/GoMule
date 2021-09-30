@@ -1,13 +1,13 @@
 package gomule.d2s;
 
 import com.google.common.io.Resources;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
 import java.io.File;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("UnstableApiUsage")
 public class D2CharacterTest {

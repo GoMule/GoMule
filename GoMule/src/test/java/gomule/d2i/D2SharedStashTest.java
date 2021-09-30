@@ -2,14 +2,14 @@ package gomule.d2i;
 
 import gomule.d2i.D2SharedStash.D2SharedStashPane;
 import gomule.item.D2Item;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class D2SharedStashTest {
 
@@ -50,21 +50,26 @@ public class D2SharedStashTest {
         assertEquals(expected, D2SharedStashPane.fromItems(items));
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testOverlappingItems() {
-        List<D2Item> items = Arrays.asList(
-                mockItem(0, 0, 5, 5),
-                mockItem(1, 1, 5, 5)
-        );
-        D2SharedStashPane.fromItems(items);
+        assertThrows(RuntimeException.class, () -> {
+            List<D2Item> items = Arrays.asList(
+                    mockItem(0, 0, 5, 5),
+                    mockItem(1, 1, 5, 5)
+            );
+            D2SharedStashPane.fromItems(items);
+        });
+
     }
 
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    @Test
     public void testOutOfBoundsItems() {
-        List<D2Item> items = Collections.singletonList(
-                mockItem(0, 0, 50, 50)
-        );
-        D2SharedStashPane.fromItems(items);
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            List<D2Item> items = Collections.singletonList(
+                    mockItem(0, 0, 50, 50)
+            );
+            D2SharedStashPane.fromItems(items);
+        });
     }
 
     @Test

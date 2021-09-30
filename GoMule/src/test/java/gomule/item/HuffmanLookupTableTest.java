@@ -3,10 +3,10 @@ package gomule.item;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.BaseEncoding;
 import gomule.util.D2BitReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HuffmanLookupTableTest {
 

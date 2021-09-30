@@ -1,11 +1,11 @@
 package gomule.item;
 
 import gomule.util.D2BitReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class D2ItemTest {
 
@@ -279,7 +279,7 @@ public class D2ItemTest {
         runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
-    private void runItemDumpComparison(String expected, D2Item d2Item) throws Exception {
+    private void runItemDumpComparison(String expected, D2Item d2Item) {
         assertEquals(expected, d2Item.itemDump(true).replaceAll("\r", ""));
     }
 
