@@ -62,7 +62,7 @@ public class D2FileManager extends JFrame {
      */
     private static final long serialVersionUID = 4010435064410504579L;
 
-    private static final String CURRENT_VERSION = "R0.43: Donkey";
+    private static final String CURRENT_VERSION = "R0.44: Resurrected";
     private final static D2FileManager iCurrent = new D2FileManager();
     private final D2SharedStashReader sharedStashReader;
     private HashMap iItemLists = new HashMap();
