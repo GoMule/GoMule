@@ -16,8 +16,56 @@ dependencies {
     implementation 'com.google.guava:guava:31.0-jre'
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito:mockito-core:3.+"
+    testImplementation "org.junit.jupiter:junit-jupiter:5.5.2"
 }
 
 test {
     useJUnitPlatform()
 }
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'gomule.GoMule'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+task copyJarToDistribution(type: Copy) {
+    from jar
+    into "build/tmp/distribution/GoMule"
+    rename { "GoMule.jar" }
+}
+
+task copyResourcesToDistribution(type: Copy) {
+    from ".", {
+        include 'd2111/**'
+        include 'dupelists/**'
+        include 'resources/**'
+        include 'COPYING.txt'
+        include 'LICENSE.txt'
+        include 'standard.css'
+        include 'standard.dat'
+
+    }
+    into "build/tmp/distribution/GoMule/"
+}
+
+task createDistribution {
+    delete "build/tmp/distribution"
+    mkdir "build/tmp/distribution/GoMule"
+}
+
+task distribution(type: Zip) {
+    from 'build/tmp/distribution/'
+    include 'GoMule/**'
+    archiveName 'GoMuleR4.4.0_Resurrected_1.0.zip'
+}
+
+copyJarToDistribution.dependsOn jar
+distribution.dependsOn createDistribution
+createDistribution.finalizedBy copyJarToDistribution
+createDistribution.finalizedBy copyResourcesToDistribution
