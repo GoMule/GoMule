@@ -104,8 +104,10 @@ public class D2BitReader {
     // being found, so know what you're looking for
     public int[] find_flags(String flag) {
         //        String data = new String(filedata);
-        Vector v = new Vector();
-        byte[] target = flag.getBytes();
+        return findBytes(flag.getBytes());
+    }
+
+    public int[] findBytes(byte[] target) {
         // offset is maintained to keep
         // correct indexing stored as i move
         // forward by substring-ing
@@ -114,6 +116,7 @@ public class D2BitReader {
          * v.add(new Integer(i+offset)); System.out.println(filedata[i+offset]);
          * offset += i+1; data = data.substring(i+1); }while(true);
          */
+        Vector v = new Vector();
         for (int i = 0; i < filedata.length; i++) {
             if (filedata[i] == target[0]) {
                 boolean found = true;
@@ -135,9 +138,10 @@ public class D2BitReader {
     }
 
     public int findNextFlag(String flag, int pPos) {
-//        Vector v = new Vector();
-        byte[] target = flag.getBytes();
+        return findNextBytes(flag.getBytes(), pPos);
+    }
 
+    public int findNextBytes(byte[] target, int pPos) {
         for (int i = pPos; i < filedata.length; i++) {
             if (filedata[i] == target[0]) {
                 boolean found = true;

@@ -46,8 +46,8 @@ public class D2SharedStashTest {
         expectedGrid[3][4] = items.get(0);
         expectedGrid[4][4] = items.get(0);
         expectedGrid[9][9] = items.get(1);
-        D2SharedStashPane expected = new D2SharedStashPane(items, expectedGrid);
-        assertEquals(expected, D2SharedStashPane.fromItems(items));
+        D2SharedStashPane expected = new D2SharedStashPane(items, expectedGrid, 0);
+        assertEquals(expected, D2SharedStashPane.fromItems(items, 0));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class D2SharedStashTest {
                     mockItem(0, 0, 5, 5),
                     mockItem(1, 1, 5, 5)
             );
-            D2SharedStashPane.fromItems(items);
+            D2SharedStashPane.fromItems(items, 0);
         });
 
     }
@@ -68,7 +68,7 @@ public class D2SharedStashTest {
             List<D2Item> items = Collections.singletonList(
                     mockItem(0, 0, 50, 50)
             );
-            D2SharedStashPane.fromItems(items);
+            D2SharedStashPane.fromItems(items, 0);
         });
     }
 
@@ -77,7 +77,7 @@ public class D2SharedStashTest {
         List<D2Item> items = Arrays.asList(
                 mockItem(0, 0, 5, 5),
                 mockItem(7, 7, 2, 2));
-        D2SharedStashPane d2SharedStashPane = D2SharedStashPane.fromItems(items);
+        D2SharedStashPane d2SharedStashPane = D2SharedStashPane.fromItems(items, 0);
         assertEquals(items.get(0), d2SharedStashPane.getItemCovering(0, 0));
         assertEquals(items.get(0), d2SharedStashPane.getItemCovering(4, 4));
         assertNull(d2SharedStashPane.getItemCovering(5, 4));
@@ -90,7 +90,7 @@ public class D2SharedStashTest {
         List<D2Item> items = Arrays.asList(
                 mockItem(0, 0, 5, 5),
                 mockItem(7, 7, 2, 2));
-        D2SharedStashPane d2SharedStashPane = D2SharedStashPane.fromItems(items);
+        D2SharedStashPane d2SharedStashPane = D2SharedStashPane.fromItems(items, 0);
         assertFalse(d2SharedStashPane.canDropItem(0, 0, items.get(1)));
         assertTrue(d2SharedStashPane.canDropItem(5, 0, items.get(1)));
         assertFalse(d2SharedStashPane.canDropItem(4, 0, items.get(1)));

@@ -27,9 +27,9 @@ public class D2SharedStashWriterTest {
         File tempFile = File.createTempFile("d2SharedStashWriterTest", null);
         D2SharedStashWriter writer = new D2SharedStashWriter(tempFile, simpleStash);
         writer.write(new D2SharedStash("myfile.foo", asList(
-                D2SharedStashPane.fromItems(emptyList()),
-                D2SharedStashPane.fromItems(singletonList(healthPot)),
-                D2SharedStashPane.fromItems(emptyList())
+                D2SharedStashPane.fromItems(emptyList(), 0),
+                D2SharedStashPane.fromItems(singletonList(healthPot), 0),
+                D2SharedStashPane.fromItems(emptyList(), 0)
         ), simpleStash));//TODO there's some kind of a checksum in the stash header preceeding each stash. Don't understand it.
         byte[] expected = BaseEncoding.base16().decode("55AA55AA0000000061000000000000004D00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004A4D00004A4D01001004A0080588144FB4004A4D0000");
         assertArrayEquals(expected, Files.readAllBytes(tempFile.toPath()));

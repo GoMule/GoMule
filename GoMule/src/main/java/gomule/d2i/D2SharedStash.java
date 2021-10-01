@@ -96,14 +96,16 @@ public class D2SharedStash extends D2ItemListAdapter {
     public static class D2SharedStashPane {
         private final List<D2Item> items;
         private final D2Item[][] paneGrid;
+        private final int gold;
 
-        D2SharedStashPane(List<D2Item> items, D2Item[][] paneGrid) {
+        D2SharedStashPane(List<D2Item> items, D2Item[][] paneGrid, int gold) {
             this.items = items;
             this.paneGrid = paneGrid;
+            this.gold = gold;
         }
 
-        public static D2SharedStashPane fromItems(List<D2Item> items) {
-            return new D2SharedStashPane(items, constructPaneGrid(items));
+        public static D2SharedStashPane fromItems(List<D2Item> items, int gold) {
+            return new D2SharedStashPane(items, constructPaneGrid(items), gold);
         }
 
         private static D2Item[][] constructPaneGrid(List<D2Item> items) {
@@ -121,6 +123,10 @@ public class D2SharedStash extends D2ItemListAdapter {
 
         public List<D2Item> getItems() {
             return items;
+        }
+
+        public int getGold() {
+            return gold;
         }
 
         public D2Item getItemCovering(int col, int row) {
@@ -170,13 +176,13 @@ public class D2SharedStash extends D2ItemListAdapter {
             item.setCharLvl(75);
             List<D2Item> items = new ArrayList<>(this.items);
             items.add(item);
-            return D2SharedStashPane.fromItems(items);
+            return D2SharedStashPane.fromItems(items, gold);
         }
 
         public D2SharedStashPane removeItem(D2Item item) {
             List<D2Item> items = new ArrayList<>(this.items);
             items.remove(item);
-            return D2SharedStashPane.fromItems(items);
+            return D2SharedStashPane.fromItems(items, gold);
         }
     }
 }
