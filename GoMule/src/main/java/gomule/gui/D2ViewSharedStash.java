@@ -161,6 +161,7 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
                 int y = getYCoordForRow(row);
                 background.getGraphics().drawImage(image, x, y, this);
             });
+            background.getGraphics().drawString(Integer.toString(pane.getGold()), 155, 417);
         }
 
         private int getXCoordForCol(int col) {
