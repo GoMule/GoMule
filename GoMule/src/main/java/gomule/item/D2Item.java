@@ -605,6 +605,7 @@ public class D2Item implements Comparable, D2ItemInterface {
                     iItemName = lNewName;
                 }
 
+                if (s.equals("") && !lUnique.get("invfile").equals("")) image_file = lUnique.get("invfile");
 
                 if (lUnique.get("code").equals(item_type)) {
                     int lUniqueReq = getReq(lUnique.get("lvl req"));
@@ -995,7 +996,7 @@ public class D2Item implements Comparable, D2ItemInterface {
                     if (iReqLvl < Integer.parseInt(reqlevel)) {
                         iReqLvl = (Integer.parseInt(reqlevel));
                     }
-                } catch (NumberFormatException e){
+                } catch (NumberFormatException e) {
                     System.err.println("Failed to parse level req number for " + skillsRow.get("skill"));
                 }
             }
