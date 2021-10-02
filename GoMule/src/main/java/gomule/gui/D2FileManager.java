@@ -44,10 +44,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Properties;
+import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -507,7 +505,8 @@ public class D2FileManager extends JFrame {
         pickAll.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 if (iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1) {
-                    D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
+                    D2ItemContainer d2ItemContainer = (D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()));
+                    D2ItemList iList = d2ItemContainer.getItemLists();
                     iList.ignoreItemListEvents();
                     try {
 
@@ -521,6 +520,9 @@ public class D2FileManager extends JFrame {
                                 }
                             }
 
+                        } else if (d2ItemContainer instanceof D2ViewSharedStash) {
+                            D2ViewSharedStash viewSharedStash = ((D2ViewSharedStash) d2ItemContainer);
+                            D2ViewClipboard.addItems(viewSharedStash.getSharedStashPanel().removeAllItems());
                         } else {
 
                             for (int x = 0; x < iList.getNrItems(); x++) {
@@ -541,7 +543,8 @@ public class D2FileManager extends JFrame {
         dropAll.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 if (iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()) > -1) {
-                    D2ItemList iList = ((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getItemLists();
+                    D2ItemContainer d2ItemContainer = (D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()));
+                    D2ItemList iList = d2ItemContainer.getItemLists();
                     iList.ignoreItemListEvents();
                     try {
                         if (((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2s")) {
@@ -550,6 +553,11 @@ public class D2FileManager extends JFrame {
                             for (int x = 2; x > -1; x--) {
                                 iCharacter.putOnCharacter(x, D2ViewClipboard.getItemList());
                             }
+                        } else if (d2ItemContainer instanceof D2ViewSharedStash) {
+                            D2ViewSharedStash viewSharedStash = ((D2ViewSharedStash) d2ItemContainer);
+                            //noinspection unchecked
+                            List<D2Item> successfullyAddedItems = viewSharedStash.getSharedStashPanel().tryToAddItems(D2ViewClipboard.getItemList());
+                            successfullyAddedItems.forEach(D2ViewClipboard::removeItem);
                         } else {
                             ArrayList lItemList = D2ViewClipboard.removeAllItems();
                             while (lItemList.size() > 0) {
@@ -1297,8 +1305,8 @@ public class D2FileManager extends JFrame {
                     pickChooser.setEnabled(false);
                     dropTo.setEnabled(false);
                     dropChooser.setEnabled(false);
-                    pickAll.setEnabled(false);
-                    dropAll.setEnabled(false);
+                    pickAll.setEnabled(true);
+                    dropAll.setEnabled(true);
                     flavieSingle.setEnabled(true);
                     dumpBut.setEnabled(true);
                 } else {

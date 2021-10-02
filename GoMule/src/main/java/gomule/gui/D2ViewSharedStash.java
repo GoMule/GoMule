@@ -10,6 +10,10 @@ import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Collections.emptyList;
 
 public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer, D2ItemListListener {
     private final D2FileManager fileManager;
@@ -154,10 +158,6 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
             repaint();
         }
 
-        public int getSelectedStashPane() {
-            return selectedStashPane;
-        }
-
         private void placeItemsInView(D2SharedStash sharedStash) {
             D2SharedStashPane pane = sharedStash.getPane(selectedStashPane);
             pane.getItems().forEach(item -> {
@@ -295,5 +295,38 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
                 return null;
             }
         };
+
+        public List<D2Item> removeAllItems() {
+            if (sharedStashView.sharedStash == null) return emptyList();
+            D2SharedStashPane stashPane = sharedStashView.sharedStash.getPane(selectedStashPane);
+            sharedStashView.sharedStash.replacePane(selectedStashPane, D2SharedStashPane.fromItems(emptyList(), stashPane.getGold()));
+            sharedStashView.sharedStash.setModified(true);
+            return stashPane.getItems();
+        }
+
+        public List<D2Item> tryToAddItems(List<D2Item> items) {
+            if (sharedStashView.sharedStash == null) return emptyList();
+            D2SharedStashPane stashPane = sharedStashView.sharedStash.getPane(selectedStashPane);
+            List<D2Item> successfullyAddedItems = new ArrayList<>();
+            for (D2Item item : items) {
+                stashPane = getD2SharedStashPane(stashPane, successfullyAddedItems, item);
+            }
+            sharedStashView.sharedStash.replacePane(selectedStashPane, stashPane);
+            sharedStashView.sharedStash.setModified(true);
+            return successfullyAddedItems;
+        }
+
+        private D2SharedStashPane getD2SharedStashPane(D2SharedStashPane stashPane, List<D2Item> successfullyAddedItems, D2Item item) {
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    if (stashPane.canDropItem(j, i, item)) {
+                        stashPane = stashPane.addItem(j, i, item);
+                        successfullyAddedItems.add(item);
+                        return stashPane;
+                    }
+                }
+            }
+            return stashPane;
+        }
     }
 }

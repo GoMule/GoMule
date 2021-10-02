@@ -37,6 +37,7 @@ import javax.swing.table.TableModel;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2ItemListListener {
     /**
@@ -44,11 +45,11 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
      */
     private static final long serialVersionUID = 501590478287942908L;
 
-//	private static final int   		GRID_SIZE = 28;
+    //	private static final int   		GRID_SIZE = 28;
     private static D2ViewClipboard iMouseItem;
     private D2FileManager iFileManager;
     private D2ItemModel iItemModel;
-//	private RandallPanel      		iContentPane;
+    //	private RandallPanel      		iContentPane;
     private JTable iTable;
     private ArrayList iItems;
 
@@ -178,6 +179,10 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
 
     public static void addItem(D2Item pItem) {
         iMouseItem.addItemInternal(pItem);
+    }
+
+    public static void addItems(List<D2Item> items) {
+        items.forEach(it -> iMouseItem.addItemInternal(it));
     }
 
     public void itemListChanged() {
