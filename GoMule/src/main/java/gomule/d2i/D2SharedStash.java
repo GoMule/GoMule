@@ -134,6 +134,7 @@ public class D2SharedStash extends D2ItemListAdapter {
         }
 
         public boolean canDropItem(int col, int row, D2Item item) {
+            if (item.isQuestItem()) return false;
             if (col > paneGrid.length - 1 || col < 0 || row > paneGrid[0].length - 1 || row < 0) return false;
             for (int i = col; i < col + item.get_width(); i++) {
                 for (int j = row; j < row + item.get_height(); j++) {

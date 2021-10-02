@@ -98,6 +98,7 @@ public class D2Item implements Comparable, D2ItemInterface {
     private boolean iTypeWeapon;
     private boolean iTypeArmor;
     private short iCurDur;
+    private boolean questItem;
 
     private short iMaxDur;
 
@@ -262,6 +263,7 @@ public class D2Item implements Comparable, D2ItemInterface {
             iTypeMisc = ("misc".equals(lD2TxtFileName));
             iTypeWeapon = ("weapons".equals(lD2TxtFileName));
             iTypeArmor = ("armor".equals(lD2TxtFileName));
+            questItem = iItemType.get("quest") != "";
         }
 
         iType = iItemType.get("type");
@@ -2525,4 +2527,7 @@ public class D2Item implements Comparable, D2ItemInterface {
         return false;
     }
 
+    public boolean isQuestItem() {
+        return questItem;
+    }
 }
