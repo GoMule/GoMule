@@ -96,15 +96,15 @@ public class D2SharedStash extends D2ItemListAdapter {
     public static class D2SharedStashPane {
         private final List<D2Item> items;
         private final D2Item[][] paneGrid;
-        private final int gold;
+        private final long gold;
 
-        D2SharedStashPane(List<D2Item> items, D2Item[][] paneGrid, int gold) {
+        D2SharedStashPane(List<D2Item> items, D2Item[][] paneGrid, long gold) {
             this.items = items;
             this.paneGrid = paneGrid;
             this.gold = gold;
         }
 
-        public static D2SharedStashPane fromItems(List<D2Item> items, int gold) {
+        public static D2SharedStashPane fromItems(List<D2Item> items, long gold) {
             return new D2SharedStashPane(items, constructPaneGrid(items), gold);
         }
 
@@ -125,7 +125,7 @@ public class D2SharedStash extends D2ItemListAdapter {
             return items;
         }
 
-        public int getGold() {
+        public long getGold() {
             return gold;
         }
 
