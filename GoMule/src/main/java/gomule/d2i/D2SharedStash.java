@@ -185,4 +185,59 @@ public class D2SharedStash extends D2ItemListAdapter {
             return D2SharedStashPane.fromItems(items, gold);
         }
     }
+
+    static class Header {
+        private final long version;
+        private final long gold;
+        private final long length;
+
+        public Header(long version, long gold, long length) {
+            this.version = version;
+            this.gold = gold;
+            this.length = length;
+        }
+
+        public static Header fromBytes(D2BitReader bitReader) {
+            bitReader.skipBytes(8);
+            long version = bitReader.read(8);
+            bitReader.skipBytes(3);
+            long gold = bitReader.read(32);
+            long length = bitReader.read(32);
+            return new D2SharedStash.Header(version, gold, length);
+        }
+
+        public long getVersion() {
+            return version;
+        }
+
+        public long getGold() {
+            return gold;
+        }
+
+        public long getLength() {
+            return length;
+        }
+
+        @Override
+        public String toString() {
+            return "Header{" +
+                    "version=" + version +
+                    ", gold=" + gold +
+                    ", length=" + length +
+                    '}';
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Header header = (Header) o;
+            return version == header.version && gold == header.gold && length == header.length;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(version, gold, length);
+        }
+    }
 }

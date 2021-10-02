@@ -29,8 +29,9 @@ public class D2SharedStashReader {
 
     private D2SharedStashPane readSharedStashPane(D2BitReader bitReader, String filename) throws Exception {
         int stashPaneStart = bitReader.get_byte_pos();
-        D2SharedStashHeader header = readHeader(bitReader);
-        if (header.version != 97) throw new RuntimeException("Incorrect shared stash version: " + header.version);
+        D2SharedStash.Header header = D2SharedStash.Header.fromBytes(bitReader);
+        if (header.getVersion() != 97)
+            throw new RuntimeException("Incorrect shared stash version: " + header.getVersion());
         bitReader.set_byte_pos(bitReader.findNextFlag("JM", bitReader.get_byte_pos()));
         bitReader.skipBytes(2);
         int numItems = (int) bitReader.read(16);
@@ -39,30 +40,8 @@ public class D2SharedStashReader {
             result.add(new D2Item(filename, bitReader, 75));
         }
         int calculatedLength = bitReader.get_byte_pos() - stashPaneStart;
-        if (calculatedLength != header.length)
-            throw new RuntimeException("Incorrect shared stash length: " + calculatedLength + " expected: " + header.length);
-        return D2SharedStashPane.fromItems(result, header.gold);
+        if (calculatedLength != header.getLength())
+            throw new RuntimeException("Incorrect shared stash length: " + calculatedLength + " expected: " + header.getLength());
+        return D2SharedStashPane.fromItems(result, header.getGold());
     }
-
-    private D2SharedStashHeader readHeader(D2BitReader bitReader) {
-        bitReader.skipBytes(8);
-        long version = bitReader.read(8);
-        bitReader.skipBytes(3);
-        long gold = bitReader.read(32);
-        long length = bitReader.read(32);
-        return new D2SharedStashHeader(version, gold, length);
-    }
-
-    private static class D2SharedStashHeader {
-        private final long version;
-        private final long gold;
-        private final long length;
-
-        public D2SharedStashHeader(long version, long gold, long length) {
-            this.version = version;
-            this.gold = gold;
-            this.length = length;
-        }
-    }
-
 }
