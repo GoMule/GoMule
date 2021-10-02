@@ -119,7 +119,11 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
         return sharedStashFilename.substring(sharedStashFilename.lastIndexOf(File.separator) + 1);
     }
 
-    private static class SharedStashPanel extends JPanel {
+    public SharedStashPanel getSharedStashPanel() {
+        return sharedStashPanel;
+    }
+
+    public static class SharedStashPanel extends JPanel {
 
         private final D2FileManager fileManager;
         private final D2ViewSharedStash sharedStashView;
@@ -148,6 +152,10 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
             lGraphics.drawImage(lEmptyBackground, 0, 0, this);
             if (sharedStashView.sharedStash != null) placeItemsInView(sharedStashView.sharedStash);
             repaint();
+        }
+
+        public int getSelectedStashPane() {
+            return selectedStashPane;
         }
 
         private void placeItemsInView(D2SharedStash sharedStash) {
@@ -241,8 +249,6 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
                 Integer possibleStashTabClick = getPossibleStashTabClick(e.getX(), e.getY());
                 setStashTab(possibleStashTabClick);
 
-                if (1 == 1)
-                    return; //TODO: Need to understand checksum in shared stash file before being able to modify stash.
                 int col = getColForXCoord(e.getX());
                 int row = getRowForYCoord(e.getY());
                 if (col < 0 || row < 0 || col > 9 || row > 9) return;

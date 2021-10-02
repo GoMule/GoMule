@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class D2ItemTest {
+
+    public static final byte[] HEALTH_POT = new byte[]{16, 4, -96, 8, 21, 0, 0, 79, -76, 0};
+    public static final byte[] SMALL_CHARM = new byte[]{16, 0, -128, 0, 5, 36, 68, -40, 79, -40, -114, -124, 14, 11, 80, -80, 12, 0, -76, -56, -7, 15};
 
     @Test
     public void viridianSmallCharm() throws Exception {
@@ -18,8 +21,7 @@ public class D2ItemTest {
                 "Item Level: 1\n" +
                 "Version: Resurrected\n" +
                 "Poison Resist +7%\n";
-        final byte[] bytes = new byte[]{16, 0, -128, 0, 5, 36, 68, -40, 79, -40, -114, -124, 14, 11, 80, -80, 12, 0, -76, -56, -7, 15};
-        runItemDumpComparison(expected, loadD2Item(bytes));
+        runItemDumpComparison(expected, loadD2Item(SMALL_CHARM));
     }
 
     @Test
@@ -121,8 +123,7 @@ public class D2ItemTest {
         String expected = "Super Healing Potion\n" +
                 "Version: Resurrected\n" +
                 "Replenish Life +320\n";
-        byte[] bytes = {16, 4, -96, 8, 21, 0, 0, 79, -76, 0};
-        runItemDumpComparison(expected, loadD2Item(bytes));
+        runItemDumpComparison(expected, loadD2Item(HEALTH_POT));
     }
 
     @Test

@@ -1293,11 +1293,12 @@ public class D2FileManager extends JFrame {
                     flavieSingle.setEnabled(true);
                     dumpBut.setEnabled(true);
                 } else if (((D2ItemContainer) iOpenWindows.get(iOpenWindows.indexOf(iDesktopPane.getSelectedFrame()))).getFileName().endsWith(".d2i")) {
-                    pickFrom.setEnabled(true);
-                    pickChooser.setEnabled(true);
-                    dropTo.setEnabled(true);
-                    dropChooser.setEnabled(true);
-                    dropAll.setEnabled(true);
+                    pickFrom.setEnabled(false);
+                    pickChooser.setEnabled(false);
+                    dropTo.setEnabled(false);
+                    dropChooser.setEnabled(false);
+                    pickAll.setEnabled(false);
+                    dropAll.setEnabled(false);
                     flavieSingle.setEnabled(true);
                     dumpBut.setEnabled(true);
                 } else {

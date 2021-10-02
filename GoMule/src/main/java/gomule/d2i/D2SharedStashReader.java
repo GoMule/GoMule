@@ -10,7 +10,7 @@ import java.util.List;
 
 public class D2SharedStashReader {
 
-    private static final byte[] STASH_HEADER_START = BaseEncoding.base16().decode("55AA55AA");
+    static final byte[] STASH_HEADER_START = BaseEncoding.base16().decode("55AA55AA");
 
     public D2SharedStash readStash(String filename) throws Exception {
         return readStash(filename, new D2BitReader(filename));
