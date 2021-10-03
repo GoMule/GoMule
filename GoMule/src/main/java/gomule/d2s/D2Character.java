@@ -1452,11 +1452,11 @@ public class D2Character extends D2ItemListAdapter {
     }
 
     private void addSetItem(D2Item item) {
-        int setNo = D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(item.getSetID()).get("set")).getRowNum();
+        int setNo = D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.searchColumns("*ID", String.valueOf(item.getSetID())).get("set")).getRowNum();
         setTracker[setNo][0]++;
         for (int x = 0; x < iCharItems.size(); x++) {
             if (!((D2Item) iCharItems.get(x)).isEquipped(curWep)) continue;
-            if (D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(((D2Item) (iCharItems.get(x))).getSetID()).get("set")).getRowNum() == setNo) {
+            if (D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.searchColumns("*ID", String.valueOf(((D2Item) (iCharItems.get(x))).getSetID())).get("set")).getRowNum() == setNo) {
                 modSetProps(((D2Item) iCharItems.get(x)), setTracker[setNo], 1);
             }
         }
@@ -1497,13 +1497,13 @@ public class D2Character extends D2ItemListAdapter {
 
     private void remSetItem(D2Item item) {
 
-        int setNo = D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(item.getSetID()).get("set")).getRowNum();
+        int setNo = D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.searchColumns("*ID", String.valueOf(item.getSetID())).get("set")).getRowNum();
         //Since the item we have just removed is no longer equipped (so not in icharitems) we need
         //to remove it first.
         modSetProps(item, new int[]{0}, -1);
         for (int x = 0; x < iCharItems.size(); x++) {
             if (!((D2Item) iCharItems.get(x)).isEquipped(curWep)) continue;
-            if (D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.getRow(((D2Item) (iCharItems.get(x))).getSetID()).get("set")).getRowNum() == setNo) {
+            if (D2TxtFile.FULLSET.searchColumns("index", D2TxtFile.SETITEMS.searchColumns("*ID", String.valueOf(((D2Item) (iCharItems.get(x))).getSetID())).get("set")).getRowNum() == setNo) {
                 modSetProps(((D2Item) iCharItems.get(x)), setTracker[setNo], -1);
             }
         }
