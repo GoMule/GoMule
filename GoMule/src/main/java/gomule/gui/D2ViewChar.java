@@ -42,16 +42,16 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
      *
      */
     private static final long serialVersionUID = -7350581523641897831L;
-    private static final int BG_WIDTH = 617;
-    private static final int BG_HEIGHT = 434;
+    private static final int BG_WIDTH = 616;
+    private static final int BG_HEIGHT = 418;
     private static final int BG_MERC_WIDTH = 323;
     private static final int BG_MERC_HEIGHT = 187;
     private static final int BG_CURSOR_WIDTH = 78;
     private static final int BG_CURSOR_HEIGHT = 135;
-    private static final int STASH_X = 327;
-    private static final int STASH_Y = 9;
+    private static final int STASH_X = 326;
+    private static final int STASH_Y = 3;
     private static final int INV_X = 18;
-    private static final int INV_Y = 306;
+    private static final int INV_Y = 299;
     private static final int HEAD_X = 135;
     private static final int HEAD_Y = 3;
     private static final int NECK_X = 205;
@@ -72,10 +72,10 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     private static final int L_RING_Y = 175;
     private static final int R_RING_X = 205;
     private static final int R_RING_Y = 175;
-    private static final int BELT_GRID_X = 426;
-    private static final int BELT_GRID_Y = 308;
-    private static final int CUBE_X = 328;
-    private static final int CUBE_Y = 309;
+    private static final int BELT_GRID_X = 499;
+    private static final int BELT_GRID_Y = 299;
+    private static final int CUBE_X = 326;
+    private static final int CUBE_Y = 299;
     private static final int GRID_SIZE = 28;
     private static final int GRID_SPACER = 1;
     private static final int CURSOR_X = 12;
@@ -1454,9 +1454,9 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         public void build() {
             Image lEmptyBackground;
             if (iWeaponSlot == 1) {
-                lEmptyBackground = D2ImageCache.getImage("background.jpg");
+                lEmptyBackground = D2ImageCache.getImage("background.png");
             } else {
-                lEmptyBackground = D2ImageCache.getImage("background2.jpg");
+                lEmptyBackground = D2ImageCache.getImage("background2.png");
             }
 
             int lWidth = lEmptyBackground.getWidth(D2CharPainterPanel.this);
