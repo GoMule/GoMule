@@ -21,6 +21,7 @@
 
 package gomule.gui;
 
+import com.google.common.collect.Streams;
 import gomule.d2i.D2SharedStash;
 import gomule.d2i.D2SharedStashReader;
 import gomule.d2s.D2Character;
@@ -46,9 +47,11 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Queue;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * this class is the top-level administrative window.
@@ -943,10 +946,65 @@ public class D2FileManager extends JFrame {
             }
         });
         iToolbar.add(lCancelAll);
+        JButton rearrangeWindows = new JButton(D2ImageCache.getIcon("rearrange.gif"));
+        rearrangeWindows.setToolTipText("<html><font color=white>Rearrange Windows</font></html>");
+        rearrangeWindows.addActionListener(e -> rearrangeWindows());
+        iToolbar.addSeparator();
+        iToolbar.add(rearrangeWindows);
 
         iToolbar.addSeparator();
 
         iContentPane.add(iToolbar, BorderLayout.NORTH);
+    }
+
+    private void rearrangeWindows() {
+        Dimension desktopSize = iDesktopPane.getSize();
+        Map<String, List<JInternalFrame>> framesByFileSuffix = getFramesByFileSuffix();
+        Queue<JInternalFrame> orderedFrames = Streams.concat(
+                framesByFileSuffix.getOrDefault(".d2s", Collections.emptyList()).stream().sorted(Comparator.comparing(it -> (((D2ItemContainer) it).getFileName()))),
+                framesByFileSuffix.getOrDefault(".d2i", Collections.emptyList()).stream().sorted(Comparator.comparing(it -> (((D2ItemContainer) it).getFileName()))),
+                framesByFileSuffix.getOrDefault(".d2x", Collections.emptyList()).stream().sorted(Comparator.comparing(it -> (((D2ItemContainer) it).getFileName())))
+        ).collect(Collectors.toCollection(LinkedList::new));
+
+        int x = 0;
+        int y = 0;
+        JInternalFrame nextFrame;
+        while ((nextFrame = orderedFrames.peek()) != null) {
+            if ((y + nextFrame.getHeight()) > (desktopSize.height + (nextFrame.getWidth() * 0.05))) {
+                x += iDesktopPane.getComponentAt(x, 0).getWidth();
+                y = 0;
+            }
+            if ((x + nextFrame.getWidth()) > (desktopSize.width + (nextFrame.getWidth() * 0.05))) {
+                break;
+            }
+            nextFrame.setLocation(x, y);
+            y += nextFrame.getHeight();
+            orderedFrames.remove();
+        }
+        cascadeWindows(orderedFrames);
+    }
+
+    private void cascadeWindows(Queue<JInternalFrame> orderedFrames) {
+        JInternalFrame nextFrame;
+        int x;
+        int y;
+        x = 20;
+        y = 20;
+        while ((nextFrame = orderedFrames.poll()) != null) {
+            nextFrame.setLocation(x, y);
+            x += 20;
+            y += 20;
+            nextFrame.toFront();
+        }
+    }
+
+    private Map<String, List<JInternalFrame>> getFramesByFileSuffix() {
+        return Arrays.stream(iDesktopPane.getAllFrames())
+                .filter(it -> it instanceof D2ItemContainer)
+                .collect(Collectors.groupingBy(it -> {
+                    String fileName = ((D2ItemContainer) it).getFileName();
+                    return fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+                }));
     }
 
     private void checkProjects() {
