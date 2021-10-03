@@ -26,6 +26,7 @@ import gomule.d2i.D2SharedStashReader;
 import gomule.d2s.D2Character;
 import gomule.d2x.D2Stash;
 import gomule.dropCalc.gui.RealGUI;
+import gomule.gui.sharedStash.D2ViewSharedStash;
 import gomule.item.D2Item;
 import gomule.util.D2Project;
 import randall.d2files.D2TblFile;

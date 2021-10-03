@@ -1,7 +1,8 @@
-package gomule.gui;
+package gomule.gui.sharedStash;
 
 import gomule.d2i.D2SharedStash;
 import gomule.d2i.D2SharedStash.D2SharedStashPane;
+import gomule.gui.*;
 import gomule.item.D2Item;
 import randall.util.RandallPanel;
 

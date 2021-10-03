@@ -60,7 +60,7 @@ public abstract class D2ItemListAdapter implements D2ItemList {
         return iModified;
     }
 
-    protected void setModified(boolean pModified) {
+    public void setModified(boolean pModified) {
         iModified = pModified;
         fireD2ItemListEvent();
     }
