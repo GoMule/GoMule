@@ -96,15 +96,15 @@ public class D2SharedStash extends D2ItemListAdapter {
     public static class D2SharedStashPane {
         private final List<D2Item> items;
         private final D2Item[][] paneGrid;
-        private final long gold;
+        private final int gold;
 
-        D2SharedStashPane(List<D2Item> items, D2Item[][] paneGrid, long gold) {
+        D2SharedStashPane(List<D2Item> items, D2Item[][] paneGrid, int gold) {
             this.items = items;
             this.paneGrid = paneGrid;
             this.gold = gold;
         }
 
-        public static D2SharedStashPane fromItems(List<D2Item> items, long gold) {
+        public static D2SharedStashPane fromItems(List<D2Item> items, int gold) {
             return new D2SharedStashPane(items, constructPaneGrid(items), gold);
         }
 
@@ -125,7 +125,7 @@ public class D2SharedStash extends D2ItemListAdapter {
             return items;
         }
 
-        public long getGold() {
+        public int getGold() {
             return gold;
         }
 
@@ -189,10 +189,10 @@ public class D2SharedStash extends D2ItemListAdapter {
 
     static class Header {
         private final long version;
-        private final long gold;
+        private final int gold;
         private final long length;
 
-        public Header(long version, long gold, long length) {
+        public Header(long version, int gold, long length) {
             this.version = version;
             this.gold = gold;
             this.length = length;
@@ -202,7 +202,8 @@ public class D2SharedStash extends D2ItemListAdapter {
             bitReader.skipBytes(8);
             long version = bitReader.read(8);
             bitReader.skipBytes(3);
-            long gold = bitReader.read(32);
+            int gold = (int) bitReader.read(24);
+            bitReader.skipBytes(1);
             long length = bitReader.read(32);
             return new D2SharedStash.Header(version, gold, length);
         }
@@ -211,7 +212,7 @@ public class D2SharedStash extends D2ItemListAdapter {
             return version;
         }
 
-        public long getGold() {
+        public int getGold() {
             return gold;
         }
 
