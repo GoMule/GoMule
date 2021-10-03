@@ -1558,7 +1558,7 @@ public class D2Item implements Comparable, D2ItemInterface {
             return new Color(72, 118, 255);
         }
         if (isRune()) {
-            return Color.red;
+            return Color.orange;
         }
         if (isCrafted()) {
             return Color.orange;
