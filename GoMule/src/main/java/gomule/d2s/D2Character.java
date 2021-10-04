@@ -634,6 +634,7 @@ public class D2Character extends D2ItemListAdapter {
                 case (97):
                     if (!D2TxtFile.SKILLS.getRow(pVals[0]).get("charclass").equals(cClass)) continue;
                     String page = D2TxtFile.SKILL_DESC.getRow(pVals[0]).get("SkillPage");
+                    if (page.equals("")) continue; //TODO: Fix skills issues for assasins
                     int counter = 0;
                     for (int z = pVals[0]; z > -1; z = z - 1) {
                         if (D2TxtFile.SKILLS.getRow(z).get("charclass").equals(cClass)) {
@@ -648,6 +649,7 @@ public class D2Character extends D2ItemListAdapter {
                 case (107):
                     if (!D2TxtFile.SKILLS.getRow(pVals[0]).get("charclass").equals(cClass)) continue;
                     page = D2TxtFile.SKILL_DESC.getRow(pVals[0]).get("SkillPage");
+                    if (page.equals("")) continue;
                     counter = 0;
                     for (int z = pVals[0]; z > -1; z = z - 1) {
                         if (D2TxtFile.SKILLS.getRow(z).get("charclass").equals(cClass)) {
