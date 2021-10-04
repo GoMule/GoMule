@@ -602,6 +602,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
                 D2TxtFileItemProperties lUnique = D2TxtFile.UNIQUES
                         .searchColumns("*ID", String.valueOf(unique_id));
+                if(lUnique == null) break;
                 String lNewName = D2TblFile.getString(lUnique.get("index"));
                 if (lNewName != null) {
                     iItemName = lNewName;

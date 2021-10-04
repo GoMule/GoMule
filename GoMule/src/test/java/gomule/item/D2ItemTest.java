@@ -1,5 +1,6 @@
 package gomule.item;
 
+import com.google.common.io.BaseEncoding;
 import gomule.util.D2BitReader;
 import org.junit.jupiter.api.Test;
 import randall.d2files.D2TblFile;
@@ -277,6 +278,17 @@ public class D2ItemTest {
                 "Cold Absorb 20%\n" +
                 "Cannot Be Frozen\n";
         byte[] bytes = {16, 0, -128, 0, -117, 25, -32, -4, -40, -80, 87, -81, 46, -91, -67, 51, 17, 4, -48, 18, 32, 77, -8, -59, -58, 67, 11, 50, 74, -108, 76, -1, 3};
+        runItemDumpComparison(expected, loadD2Item(bytes));
+    }
+
+    @Test
+    public void standardOfHeroes() throws Exception {
+        String expected = "Standard of Heroes\n" +
+                "Required Level: 90\n" +
+                "Fingerprint: 0xa4366601\n" +
+                "Item Level: 99\n" +
+                "Version: Resurrected\n";
+        byte[] bytes = BaseEncoding.base16().decode("10008000055496CC1802CC6C48C7C7FFFB0F");
         runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
