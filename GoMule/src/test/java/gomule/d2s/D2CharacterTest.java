@@ -810,7 +810,7 @@ public class D2CharacterTest {
             "Fire:       230/190/130\n" +
             "Cold:       260/220/160\n" +
             "Lightning:  230/190/130\n" +
-            "Poison:    230/190/130\n" +
+            "Poison:     230/190/130\n" +
             "\n" +
             "Treachery\n" +
             "Wire Fleece\n" +
