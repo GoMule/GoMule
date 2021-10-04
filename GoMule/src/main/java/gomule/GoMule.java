@@ -22,6 +22,8 @@
 package gomule;
 
 import gomule.gui.D2FileManager;
+import gomule.gui.FileManagerProperties;
+import gomule.gui.LookAndFeelOptions;
 import randall.util.RandallUtil;
 
 import javax.swing.*;
@@ -31,6 +33,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class GoMule {
     /**
@@ -40,13 +43,9 @@ public class GoMule {
      */
     public static void main(String[] pArgs) {
         try {
-            String lLookAndFeel;
+            Properties fileManagerPropertiesFile = FileManagerProperties.loadFileManagerProperties();
+            String lLookAndFeel = LookAndFeelOptions.valueOf(fileManagerPropertiesFile.getProperty(LookAndFeelOptions.PROPERTY_NAME, LookAndFeelOptions.CLASSIC.name())).getLookAndFeelName();
 
-            if (System.getProperty("os.name").toLowerCase().indexOf("mac") != -1) {
-                lLookAndFeel = "apple.laf.AquaLookAndFeel";
-            } else {
-                lLookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
-            }
             String[] lArgs = pArgs;
 
             if (lArgs == null || lArgs.length == 0) {
@@ -84,7 +83,6 @@ public class GoMule {
                 D2FileManager.getInstance();
             }
         });
-
     }
 
     private static String[] readArgumentsFromFile(String pFilename) {

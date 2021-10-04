@@ -42,16 +42,15 @@ import javax.swing.event.InternalFrameListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyVetoException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.List;
 import java.util.Queue;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 
 /**
  * this class is the top-level administrative window.
@@ -720,6 +719,22 @@ public class D2FileManager extends JFrame {
         JMenuItem newStash = new JMenuItem("New Stash");
         JMenuItem openStash = new JMenuItem("Open Stash");
         JMenuItem saveAll = new JMenuItem("Save All");
+        JMenu switchLookAndFeelMenu = new JMenu("Switch Appearance");
+        for (LookAndFeelOptions lookAndFeelOption : LookAndFeelOptions.values()) {
+            JMenuItem menuItem = new JMenuItem(lookAndFeelOption.getNameString());
+            switchLookAndFeelMenu.add(menuItem);
+            menuItem.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    int check = JOptionPane.showConfirmDialog(null, "GoMule will exit to switch appearance, you'll need to manually start GoMule again. Any unsaved changes will be automatically saved.", "", OK_CANCEL_OPTION);
+                    if (check == 0) {
+                        iProperties.setProperty(LookAndFeelOptions.PROPERTY_NAME, lookAndFeelOption.name());
+                        FileManagerProperties.saveFileManagerProperties(iProperties);
+                        D2FileManager.getInstance().closeListener();
+                    }
+                }
+            });
+        }
         JMenuItem exitProg = new JMenuItem("Exit");
 
         JMenu projMenu = new JMenu("Project");
@@ -735,6 +750,8 @@ public class D2FileManager extends JFrame {
         fileMenu.add(openStash);
         fileMenu.addSeparator();
         fileMenu.add(saveAll);
+        fileMenu.addSeparator();
+        fileMenu.add(switchLookAndFeelMenu);
         fileMenu.addSeparator();
         fileMenu.add(exitProg);
 
@@ -1009,20 +1026,7 @@ public class D2FileManager extends JFrame {
 
     private void checkProjects() {
         try {
-            File lProjectsDir = new File(D2Project.PROJECTS_DIR);
-            if (!lProjectsDir.exists()) {
-                lProjectsDir.mkdir();
-            }
-
-            File lProps = new File(D2Project.PROJECTS_DIR + File.separator + "projects.properties");
-            if (!lProps.exists()) {
-                lProps.createNewFile();
-            }
-            FileInputStream lPropsIn = new FileInputStream(lProps);
-            iProperties = new Properties();
-            iProperties.load(lPropsIn);
-            lPropsIn.close();
-
+            iProperties = FileManagerProperties.loadFileManagerProperties();
             String lCurrent = iProperties.getProperty("current-project"); // ,
             // "DefaultProject");
 
