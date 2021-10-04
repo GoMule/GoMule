@@ -263,7 +263,7 @@ public class D2Item implements Comparable, D2ItemInterface {
             iTypeMisc = ("misc".equals(lD2TxtFileName));
             iTypeWeapon = ("weapons".equals(lD2TxtFileName));
             iTypeArmor = ("armor".equals(lD2TxtFileName));
-            questItem = iItemType.get("quest") != "";
+            questItem = !iItemType.get("quest").equals("");
         }
 
         iType = iItemType.get("type");
