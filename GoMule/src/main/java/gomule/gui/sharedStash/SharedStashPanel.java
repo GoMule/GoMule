@@ -13,8 +13,8 @@ import static java.util.Collections.emptyList;
 
 public class SharedStashPanel extends JPanel {
 
-    private static final int BG_WIDTH = 362;
-    private static final int BG_HEIGHT = 470;
+    public static final int BG_WIDTH = 362;
+    public static final int BG_HEIGHT = 470;
     private final D2FileManager fileManager;
     private final D2ViewSharedStash sharedStashView;
     private int selectedStashPaneIndex = 0;

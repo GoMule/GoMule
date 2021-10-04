@@ -31,9 +31,9 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
         ToolTipManager.sharedInstance().setInitialDelay(300);
         sharedStashPanel = new SharedStashPanel(fileManager, this);
         setContentPane(sharedStashPanel);
-        pack();
-        setVisible(true);
         connect();
+        setVisible(true);
+        pack();
     }
 
     public void activateView() {
