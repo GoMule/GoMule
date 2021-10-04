@@ -109,8 +109,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     private D2DeathPainterPanel iDeathPainter;
     private JTextArea lDump;
     private RandallPanel lDumpPanel;
-    private JPopupMenu rightClickItem;
-    private MouseEvent rightClickEvent;
 
     public D2ViewChar(D2FileManager pMainFrame, String pFileName) {
         super(pFileName, false, true, false, true);
@@ -503,197 +501,11 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         lTabs.addTab("Messages", lMessagePanel);
         iMessage.setText("Nothing done, disconnected");
 
-        JMenuItem item;
-        JMenuItem item2;
-        JMenuItem item3;
-        rightClickItem = new JPopupMenu();
-        rightClickItem.add(item = new JMenuItem("Delete?"));
-        rightClickItem.add(item2 = new JMenuItem("View Item"));
-        item3 = new JMenuItem("Extended Item Info");
-        rightClickItem.add(new JPopupMenu.Separator());
-        rightClickItem.add("Cancel");
-
-        item.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-
-                if (event.getActionCommand().equals("Delete?")) {
-
-
-                    D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
-                    if (lItemPanel.getPanel() != -1) {
-                        // if there is an item to grab, grab it
-                        if (lItemPanel.isItem()) {
-                            D2Item lTemp = lItemPanel.getItem();
-
-                            int check = JOptionPane.showConfirmDialog(null, "Delete " + lTemp.getName() + "?");
-                            if (check == 0) {
-                                iCharacter.unmarkCharGrid(lTemp);
-                                iCharacter.removeCharItem(lItemPanel.getItemIndex());
-                                setCursorDropItem();
-                                if (lTemp.statModding()) {
-                                    iCharacter.updateCharStats("P", lTemp);
-                                    paintCharStats();
-                                }
-                            }
-                        }
-                    }
-                }
-
-            }
-        });
-
-        item2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-
-                if (event.getActionCommand().equals("View Item")) {
-                    D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
-                    if (lItemPanel.getPanel() != -1) {
-                        // if there is an item to grab, grab it
-                        if (lItemPanel.isItem()) {
-                            D2Item lTemp = lItemPanel.getItem();
-                            JFrame itemPanel = new JFrame();
-                            JEditorPane report = new JEditorPane();
-                            report.setContentType("text/html");
-
-                            JScrollPane SP = new JScrollPane(report);
-                            report.setBackground(Color.black);
-                            //HTMLEditorKit htmlEditor = new HTMLEditorKit();
-                            //report.setEditorKit(htmlEditor);
-                            report.setForeground(Color.white);
-                            report.setText("<html><font size=3 face=Dialog>" + lTemp.itemDumpHtml(true) + "</font></html>");
-                            report.setCaretPosition(0);
-                            itemPanel.add(SP);
-
-                            itemPanel.setLocation((rightClickEvent.getComponent().getLocationOnScreen().x + rightClickEvent.getX()), (rightClickEvent.getComponent().getLocationOnScreen().y + rightClickEvent.getY()));
-                            itemPanel.setSize(200, 400);
-                            itemPanel.setVisible(true);
-                            itemPanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                        }
-                    }
-
-
-                }
-
-            }
-        });
-
-        item3.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-
-                if (event.getActionCommand().equals("Extended Item Info")) {
-//					D2ItemPanel lItemPanel = new D2ItemPanel(rightClickEvent, true, false, false);
-//					if (lItemPanel.getPanel() != -1)
-//					{
-//					// if there is an item to grab, grab it
-//					if (lItemPanel.isItem())
-//					{
-//					D2Item lTemp = lItemPanel.getItem();
-//					Box v1 = Box.createVerticalBox();
-
-//					Box h1 = Box.createHorizontalBox();
-
-//					JTextPane report = new JTextPane();
-//					JScrollPane SP = new JScrollPane(report);
-//					float[] bGrey = new float[3];
-//					bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
-//					report.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-//					report.setForeground(Color.black);
-//					report.setText(lTemp.itemDumpHtml(false));
-//					report.setCaretPosition(0);
-
-//					try{
-//					if(lTemp.isUnique() || lTemp.isSet() || lTemp.isRuneWord()){
-//					ArrayList perfect = lTemp.getPerfectString();
-//					JTextPane reportBest = new JTextPane();
-//					JScrollPane SPBest = new JScrollPane(reportBest);
-//					reportBest.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-//					reportBest.setForeground(Color.black);
-//					String bestStr = "BEST:\n\n";
-//					String[] perfDef = null;
-//					if(lTemp.isTypeArmor()){
-//					perfDef = lTemp.getPerfectDef(perfect);
-//					bestStr = bestStr  + "Defense: " + perfDef[0] + "\n";
-//					}else if(lTemp.isTypeWeapon()){
-//					bestStr = bestStr  + lTemp.getPerfectDmg(perfect)[1];
-//					}
-
-//					for(int x = 0;x<perfect.size();x=x+1){
-//					bestStr = bestStr + (((D2ItemProperty[])perfect.get(x))[1].getValue()) + "\n";
-//					}
-
-//					reportBest.setText(bestStr);
-//					reportBest.setCaretPosition(0);
-
-//					JTextPane reportWorst = new JTextPane();
-//					JScrollPane SPWorst = new JScrollPane(reportWorst);
-//					reportWorst.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-//					reportWorst.setForeground(Color.black);
-//					String WorstStr = "WORST:\n\n";
-
-//					if(lTemp.isTypeArmor()){
-//					WorstStr = WorstStr + "Defense: " + perfDef[1] + "\n";
-//					}else if(lTemp.isTypeWeapon()){
-//					WorstStr = WorstStr  + lTemp.getPerfectDmg(perfect)[0];
-//					}
-
-//					for(int x = 0;x<perfect.size();x=x+1){
-//					WorstStr = WorstStr + (((D2ItemProperty[])perfect.get(x))[0].getValue()) + "\n";
-//					}
-//					reportWorst.setText(WorstStr);
-//					reportWorst.setCaretPosition(0);
-
-
-//					h1.add(SPWorst);
-//					h1.add( SP);
-//					h1.add(SPBest);
-
-//					}
-//					if(lTemp.isRare()){
-
-//					String rareRealName = lTemp.getPreSuf();
-//					JTextPane rareName = new JTextPane();
-//					JScrollPane scP = new JScrollPane(rareName);
-//					rareName.setText("Your rare is a: " + rareRealName);
-//					rareName.setCaretPosition(0);
-//					rareName.setEditable(false);
-//					rareName.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-//					v1.add(scP);
-//					h1.add( SP);
-//					}
-//					JFrame basePanel = new JFrame();
-
-//					basePanel.setLocation((rightClickEvent.getComponent().getLocationOnScreen().x + rightClickEvent.getX()), (rightClickEvent.getComponent().getLocationOnScreen().y + rightClickEvent.getY()));
-//					basePanel.setSize(800,300);
-//					basePanel.setVisible(true);
-//					basePanel.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-
-//					v1.add(h1);
-
-
-//					basePanel.getContentPane().add(v1);
-//					}
-//					catch(Exception e){
-//					e.printStackTrace();
-//					System.err.println("Perfect strings suck.");
-//					}
-
-//					}
-//					}
-
-
-                }
-
-            }
-        });
-
         pack();
         setVisible(true);
 
         connect();
         itemListChanged();
-
-        //        setModified(true);
     }
 
     public void paintMercStats() {
@@ -1364,14 +1176,19 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                         D2ItemPanel lItemPanel = new D2ItemPanel(pEvent, true, false, false);
                         if (lItemPanel.getPanel() != -1) {
                             if (lItemPanel.isItem()) {
-
-                                rightClickItem.show(D2ViewChar.this, pEvent.getX(), pEvent.getY() + 35);
-                                rightClickEvent = pEvent;
+                                new ItemRightClickMenu(lItemPanel.getItem(), this::deleteMenuItemAction).show(D2ViewChar.this, pEvent.getX(), pEvent.getY() + 35);
                             }
                         }
                     }
                 }
 
+                private void deleteMenuItemAction(D2Item d2Item) {
+                    iCharacter.removeItem(d2Item);
+                    if (d2Item.statModding()) {
+                        iCharacter.updateCharStats("P", d2Item);
+                        paintCharStats();
+                    }
+                }
 
                 public void mouseEntered(MouseEvent e) {
                     setCursorNormal();
