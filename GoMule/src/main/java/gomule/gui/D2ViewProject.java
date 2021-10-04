@@ -348,7 +348,7 @@ public class D2ViewProject extends JPanel {
          */
         private static final long serialVersionUID = -7061935461861570778L;
         private String iFileName;
-        private Color iForeGround = Color.black;
+        private Color iForeGround = UIManager.getColor("Tree.textForeground");
         private boolean iItemListRead = false;
         private boolean iFileOpened = false;
 
@@ -370,12 +370,12 @@ public class D2ViewProject extends JPanel {
 
         public void itemListRead() {
             iItemListRead = true;
-            iForeGround = Color.blue;
+            iForeGround = new Color(0, 150, 0);
         }
 
         public void itemListClosed() {
             iItemListRead = false;
-            iForeGround = Color.black;
+            iForeGround = UIManager.getColor("Tree.textForeground");
         }
 
         public void fileOpened() {
