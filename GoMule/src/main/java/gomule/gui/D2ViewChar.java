@@ -29,9 +29,6 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -151,34 +148,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
 //		charMainBox.add(charStatsBox);
 
         CJT.setEditable(false);
-        float[] bGrey = new float[3];
-        bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
-        CJT.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-        if (System.getProperty("os.name").toLowerCase().indexOf("mac") != -1) {
-            CJT.setFont(new Font("Courier", Font.TRUETYPE_FONT, 11));
-        } else {
-            Font f = null;
-            FileInputStream fis = null;
-            try {
-                fis = new FileInputStream(new File("resources" + File.separator + "Courier_New.ttf"));
-                f = Font.createFont(Font.TRUETYPE_FONT, fis);
-            } catch (FontFormatException e1) {
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } finally {
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException ioe) {
-                        ioe.printStackTrace();
-                    }
-                }
-            }
-            f = f.deriveFont((float) 11);
-            CJT.setFont(f);
-        }
-
+        CJT.setFont(new Font("monospaced", Font.PLAIN, 11));
 
         charMainBox.add(CJT);
         charMainBox2.add(lSkillPanel);
@@ -201,55 +171,6 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         lQuestPanel.build();
         lWayPanel.build();
         lQuestWPanel.setBackground(Color.BLACK);
-//		charLabelBox.add(new JLabel("Name: "));
-//		charLabelBox.add(new JLabel("Class: "));
-//		charLabelBox.add(new JLabel("Experience: "));
-//		charLabelBox.add(new JLabel("Level:"));
-//		charLabelBox.add(new JLabel("NOTIMP: "));
-//		charLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
-//		charLabelBox.add(new JLabel(" "));
-//		charLabelBox.add(new JLabel("Strength: "));
-//		charLabelBox.add(new JLabel("Dexterity: "));
-//		charLabelBox.add(new JLabel("Vitality: "));
-//		charLabelBox.add(new JLabel("Energy: "));
-//		charLabelBox.add(new JLabel("HP: "));
-//		charLabelBox.add(new JLabel("Mana: "));
-//		charLabelBox.add(new JLabel("Stamina: "));
-//		charLabelBox.add(new JLabel("Defense: "));
-//		charLabelBox.add(new JLabel("AR: "));
-//		charLabelBox.add(Box.createRigidArea(new Dimension(0,10)));
-//		charLabelBox.add(new JLabel("Fire: "));
-//		charLabelBox.add(new JLabel("Lightning: "));
-//		charLabelBox.add(new JLabel("Cold: "));
-//		charLabelBox.add(new JLabel("Poision: "));
-//		charLabelBox.add(new JLabel("MF: "));
-//		charLabelBox.add(new JLabel("FR/W: "));
-//		charLabelBox.add(Box.createRigidArea(new Dimension(0,50)));
-
-//		charValueBox.add(iCharName);
-//		charValueBox.add(iCharClass);
-//		charValueBox.add(iCharExp);
-//		charValueBox.add(iCharLevel);
-//		charValueBox.add(iCharDead);
-//		charValueBox.add(Box.createRigidArea(new Dimension(0,10)));
-//		charValueBox.add(new JLabel("Naked/Gear"));
-//		charValueBox.add(iCharStr);
-//		charValueBox.add(iCharDex);
-//		charValueBox.add(iCharVit);
-//		charValueBox.add(iCharNrg);
-//		charValueBox.add(iCharHP);
-//		charValueBox.add(iCharMana);
-//		charValueBox.add(iCharStam);
-//		charValueBox.add(iCharDef);
-//		charValueBox.add(iCharAR);
-//		charValueBox.add(Box.createRigidArea(new Dimension(0,10)));
-//		charValueBox.add(iCharFireRes);
-//		charValueBox.add(iCharLightRes);
-//		charValueBox.add(iCharColdRes);
-//		charValueBox.add(iCharPoisRes);
-//		charValueBox.add(iCharMF);
-//		charValueBox.add(iCharFRW);
-//		charValueBox.add(Box.createRigidArea(new Dimension(0,50)));
 
 
         JPanel lCursorPanel = new JPanel();
@@ -289,10 +210,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         Box mercValueBox = Box.createVerticalBox();
 
         MJT.setEditable(false);
-        bGrey = Color.RGBtoHSB(237, 237, 237, bGrey);
-        MJT.setBackground(Color.getHSBColor(bGrey[0], bGrey[1], bGrey[2]));
-        MJT.setFont(new Font("Courier", Font.TRUETYPE_FONT, 11));
-
+        MJT.setFont(new Font("monospaced", Font.PLAIN, 11));
 
         mercMainBox2.add(iMercPainter);
 //		mercMainBox.add(mercStatsBox);
@@ -465,7 +383,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
         dumpScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         dumpScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         lDumpPanel.addToPanel(dumpScroll, 0, 0, 1, RandallPanel.BOTH);
-        lDumpPanel.setFont(new Font("Monospaced", Font.TRUETYPE_FONT, 11));
+        lDump.setFont(new Font("monospaced", Font.PLAIN, 11));
 //		HTMLEditorKit htmlEditor = new HTMLEditorKit();
 //		lDump.setEditorKit(htmlEditor);
         //lDump.setPreferredSize(new Dimension(520,360));

@@ -1399,9 +1399,14 @@ public class D2Character extends D2ItemListAdapter {
         int[] skillCounter = new int[3];
 
         for (int x = 0; x < skillArr.size(); x = x + 1) {
-            int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties) skillArr.get(x)).get("*Id")))).get("SkillPage"));
-            skillTrees[page - 1] = skillTrees[page - 1] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", ((D2TxtFileItemProperties) skillArr.get(x)).get("skilldesc")).get("str name")) + ": " + initSkills[page - 1][skillCounter[page - 1]] + "/" + cSkills[page - 1][skillCounter[page - 1]] + "\n";
-            skillCounter[page - 1]++;
+
+            try {
+                int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties) skillArr.get(x)).get("*Id")))).get("SkillPage"));
+                skillTrees[page - 1] = skillTrees[page - 1] + D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", ((D2TxtFileItemProperties) skillArr.get(x)).get("skilldesc")).get("str name")) + ": " + initSkills[page - 1][skillCounter[page - 1]] + "/" + cSkills[page - 1][skillCounter[page - 1]] + "\n";
+                skillCounter[page - 1]++;
+            } catch (NumberFormatException e) {
+                //ignore
+            }
         }
 
         for (int x = 0; x < skillTrees.length; x++) {
@@ -1983,7 +1988,7 @@ public class D2Character extends D2ItemListAdapter {
                     "Fire:       " + getMercFireRes() + "/" + (getMercFireRes() - 40) + "/" + (getMercFireRes() - 100) + "\n" +
                     "Cold:       " + getMercColdRes() + "/" + (getMercColdRes() - 40) + "/" + (getMercColdRes() - 100) + "\n" +
                     "Lightning:  " + getMercLightRes() + "/" + (getMercLightRes() - 40) + "/" + (getMercLightRes() - 100) + "\n" +
-                    "Poison:    " + getMercPoisRes() + "/" + (getMercPoisRes() - 40) + "/" + (getMercPoisRes() - 100);
+                    "Poison:     " + getMercPoisRes() + "/" + (getMercPoisRes() - 40) + "/" + (getMercPoisRes() - 100);
         } else {
             return "";
         }
