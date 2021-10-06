@@ -13,6 +13,7 @@ public class ItemRightClickMenu extends JPopupMenu {
 
     public ItemRightClickMenu(D2Item item, Consumer<D2Item> deleteMenuItemAction) {
         add(deleteItemOption = new JMenuItem("Delete?"));
+        deleteItemOption.setEnabled(D2FileManager.getInstance().getProject().getAllowDelete());
         add(viewItemOption = new JMenuItem("View Item"));
         add(new JPopupMenu.Separator());
         add("Cancel");

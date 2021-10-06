@@ -74,6 +74,7 @@ public class D2Project {
     private boolean iCountEthereal;
 
     private boolean iIgnoreItems;
+    private boolean allowDelete;
 
     public D2Project(D2FileManager pFileManager, String pProjectName) {
         iFileManager = pFileManager;
@@ -164,6 +165,7 @@ public class D2Project {
             iBank = 0;
             iType = TYPE_BOTH;
             iIgnoreItems = true;
+            allowDelete = true;
             iBackup = BACKUP_WEEK;
             iReportName = "Report";
             iReportTitle = "Flavie Report";
@@ -206,6 +208,16 @@ public class D2Project {
                 }
             } catch (Exception pEx) {
                 iIgnoreItems = true;
+            }
+
+            try {
+                if (lLoadProperties.getProperty("allowDelete").equals("true")) {
+                    allowDelete = true;
+                } else {
+                    allowDelete = false;
+                }
+            } catch (Exception pEx) {
+                allowDelete = true;
             }
 
             iBackup = BACKUP_WEEK;
@@ -292,6 +304,10 @@ public class D2Project {
 
     public void setIgnoreItem(boolean iIgnoreItems) {
         this.iIgnoreItems = iIgnoreItems;
+    }
+
+    public void setAllowDelete(boolean allowDelete) {
+        this.allowDelete = allowDelete;
     }
 
     public ArrayList getCharList() {
@@ -424,6 +440,7 @@ public class D2Project {
         lSaveProperties.put("countChar", getStringFromBoolean(iCountChar));
         lSaveProperties.put("countEthereal", getStringFromBoolean(iCountEthereal));
         lSaveProperties.put("propDisplay", getStringFromBoolean(iIgnoreItems));
+        lSaveProperties.put("allowDelete", getStringFromBoolean(allowDelete));
 
         try { // iFile.getCanonicalPath()
             if (!iFile.exists()) {
@@ -567,6 +584,10 @@ public class D2Project {
 
     public boolean getIgnoreItems() {
         return iIgnoreItems;
+    }
+
+    public boolean getAllowDelete() {
+        return allowDelete;
     }
 
     public Color getItemColor(D2Item pItem) {

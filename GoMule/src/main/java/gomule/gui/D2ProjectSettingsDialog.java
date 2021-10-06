@@ -73,6 +73,7 @@ public class D2ProjectSettingsDialog extends JDialog {
     private JTextField iFlavieOutputStyle;
     private JTextField iFlavieOutputTitle;
     private JCheckBox iIgnoreItems;
+    private JCheckBox allowDelete;
     private JCheckBox iFlavieCountAll;
     private JCheckBox iFlavieCountStash;
     private JCheckBox iFlavieCountChar;
@@ -265,6 +266,8 @@ public class D2ProjectSettingsDialog extends JDialog {
             }
         });
 
+        allowDelete = new JCheckBox("Allow Item Deletion");
+        allowDelete.addActionListener((ActionListener) pEvent -> iProject.setAllowDelete(allowDelete.isSelected()));
 
         iFlavieCountAll = new JCheckBox("All");
         iFlavieCountAll.addActionListener(new ActionListener() {
@@ -317,6 +320,7 @@ public class D2ProjectSettingsDialog extends JDialog {
         lBackupPanel.addToPanel(iBackupMonth, 3, 0, 1, RandallPanel.HORIZONTAL);
         lBackupPanel.addToPanel(iBackupNone, 4, 0, 1, RandallPanel.HORIZONTAL);
         lBackupPanel.addToPanel(iIgnoreItems, 0, 1, 1, RandallPanel.HORIZONTAL);
+        lBackupPanel.addToPanel(allowDelete, 0, 2, 1, RandallPanel.HORIZONTAL);
         iContent.addToPanel(lBackupPanel, 0, 30, 3, RandallPanel.HORIZONTAL);
 
 
@@ -382,6 +386,7 @@ public class D2ProjectSettingsDialog extends JDialog {
         iFlavieOutputData.setText(iProject.getDataName());
         iFlavieOutputStyle.setText(iProject.getStyleName());
         iIgnoreItems.setSelected(iProject.getIgnoreItems());
+        allowDelete.setSelected(iProject.getAllowDelete());
         iFlavieCountAll.setSelected(iProject.isCountAll());
         iFlavieCountStash.setSelected(iProject.isCountStash());
         iFlavieCountChar.setSelected(iProject.isCountChar());

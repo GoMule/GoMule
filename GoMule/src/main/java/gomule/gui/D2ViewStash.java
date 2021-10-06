@@ -400,6 +400,8 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iPickup = new JButton("Pickup");
         iDelete = new JButton("Delete");
         iDeleteDups = new JButton("Delete Dupes");
+        iDelete.setEnabled(D2FileManager.getInstance().getProject().getAllowDelete());
+        iDeleteDups.setEnabled(D2FileManager.getInstance().getProject().getAllowDelete());
         iPickup.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent pEvent) {
                 pickupSelected();
