@@ -42,7 +42,9 @@ import javax.swing.event.InternalFrameListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyVetoException;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Queue;
 import java.util.*;
@@ -133,7 +135,7 @@ public class D2FileManager extends JFrame {
 
         setContentPane(iContentPane);
         setSize(1024, 768);
-        setTitle("GoMule " + CURRENT_VERSION);
+        setTitle(true);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.getGlassPane().setVisible(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -152,6 +154,10 @@ public class D2FileManager extends JFrame {
                 "D2R.exe",
                 () -> D2FileManager.displayTextDialog("Warning: D2R.exe Running", "Diablo 2 Resurrected is currently running, changes in GoMule are unlikely to be applied and you may lose changes when you exit D2R.")
         );
+    }
+
+    private void setTitle(boolean saved) {
+        setTitle("GoMule " + CURRENT_VERSION + (saved ? " - Saved" : ""));
     }
 
     public static D2FileManager getInstance() {
@@ -1266,6 +1272,7 @@ public class D2FileManager extends JFrame {
             pEx.printStackTrace();
         } finally {
             iIgnoreCheckAll = false;
+            TITLE_SETTING_LIST_LISTENER.itemListChanged();
         }
     }
 
@@ -1615,10 +1622,21 @@ public class D2FileManager extends JFrame {
 
         if (pListener != null) {
             lList.addD2ItemListListener(pListener);
+            lList.addD2ItemListListener(TITLE_SETTING_LIST_LISTENER);
         }
 
         return lList;
     }
+
+    private static D2ItemListListener TITLE_SETTING_LIST_LISTENER = new D2ItemListListener() {
+        @SuppressWarnings("unchecked")
+        @Override
+        public void itemListChanged() {
+            boolean noModifiedWindows = D2FileManager.getInstance().iOpenWindows.stream()
+                    .noneMatch(it -> ((D2ItemContainer) it).isModified());
+            D2FileManager.getInstance().setTitle(noModifiedWindows);
+        }
+    };
 
     public D2ItemList getItemList(String pFileName) {
         return (D2ItemList) iItemLists.get(pFileName);
@@ -1630,6 +1648,7 @@ public class D2FileManager extends JFrame {
             return;
         }
         if (pListener != null) {
+            lList.removeD2ItemListListener(TITLE_SETTING_LIST_LISTENER);
             lList.removeD2ItemListListener(pListener);
         }
         if (!lList.hasD2ItemListListener()) {
