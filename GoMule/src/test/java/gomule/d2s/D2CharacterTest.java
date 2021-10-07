@@ -798,7 +798,7 @@ public class D2CharacterTest {
             "Type:       Def-Nightmare\n" +
             "Experience: 107329840\n" +
             "Level:      96\n" +
-            "Dead?:      false\n" +
+            "Dead?:      unknown\n" +
             "\n" +
             "            Naked/Gear\n" +
             "Strength:   205/205\n" +

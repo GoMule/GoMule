@@ -1565,9 +1565,9 @@ public class D2Character extends D2ItemListAdapter {
         cMercInfo.put("lvl", Integer.valueOf(lev));
     }
 
-    public boolean getMercDead() {
-        if (!cMercInfo.containsKey("dead")) return false;
-        return ((Boolean) cMercInfo.get("dead")).booleanValue();
+    public String getMercDead() {
+        if (!cMercInfo.containsKey("dead")) return "unknown";
+        return String.valueOf(((Boolean) cMercInfo.get("dead")).booleanValue());
     }
 
     public long getCharDef() {
