@@ -152,7 +152,10 @@ public class D2FileManager extends JFrame {
         iClipboard.scrollbarBottom();
         new ApplicationRunningChecker(Runtime.getRuntime(),
                 "D2R.exe",
-                () -> D2FileManager.displayTextDialog("Warning: D2R.exe Running", "Diablo 2 Resurrected is currently running, changes in GoMule are unlikely to be applied and you may lose changes when you exit D2R.")
+                () -> JOptionPane.showMessageDialog(this,
+                        "Diablo 2 Resurrected is currently running, changes in GoMule are unlikely to be applied and you may lose changes when you exit D2R.",
+                        "Warning: D2R.exe Running",
+                        JOptionPane.INFORMATION_MESSAGE)
         );
     }
 
