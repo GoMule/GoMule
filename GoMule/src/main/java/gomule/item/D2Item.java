@@ -224,14 +224,11 @@ public class D2Item implements Comparable, D2ItemInterface {
         int eLevel = (int) (pFile.read(7));
 
         StringBuffer lCharName = new StringBuffer();
-        for (int i = 0; i < 18; i++)
-        // while(1==1)
-        {
+        for (int i = 0; i < 18; i++) {
             long lChar = pFile.read(7);
             if (lChar != 0) {
                 lCharName.append((char) lChar);
             } else {
-                pFile.read(7);
                 break;
             }
         }
@@ -242,10 +239,6 @@ public class D2Item implements Comparable, D2ItemInterface {
         iBaseItemName = iItemName = lCharName.toString() + "'s Ear";
 
         iProps.add(new D2Prop(185, new int[]{eClass, eLevel}, 0, true, 39));
-
-        // for (int i = 0; i < 18; i++) {
-        // pFile.read(7); // name
-        // }
     }
 
     // read non ear data from the bytes,
@@ -602,7 +595,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
                 D2TxtFileItemProperties lUnique = D2TxtFile.UNIQUES
                         .searchColumns("*ID", String.valueOf(unique_id));
-                if(lUnique == null) break;
+                if (lUnique == null) break;
                 String lNewName = D2TblFile.getString(lUnique.get("index"));
                 if (lNewName != null) {
                     iItemName = lNewName;

@@ -120,6 +120,14 @@ public class D2ItemTest {
     }
 
     @Test
+    public void ear() throws Exception {
+        String expected = "Tas's Ear\n" +
+                "Version: Resurrected\n" +
+                "Level 72 Necromancer\n";
+        runItemDumpComparison(expected, loadD2Item(decode("10 00 A1 00 05 54 44 48 6A 78 0E 00")));
+    }
+
+    @Test
     public void healthPot() throws Exception {
         String expected = "Super Healing Potion\n" +
                 "Version: Resurrected\n" +
@@ -288,8 +296,12 @@ public class D2ItemTest {
                 "Fingerprint: 0xa4366601\n" +
                 "Item Level: 99\n" +
                 "Version: Resurrected\n";
-        byte[] bytes = BaseEncoding.base16().decode("10008000055496CC1802CC6C48C7C7FFFB0F");
+        byte[] bytes = decode("10008000055496CC1802CC6C48C7C7FFFB0F");
         runItemDumpComparison(expected, loadD2Item(bytes));
+    }
+
+    private byte[] decode(String s) {
+        return BaseEncoding.base16().decode(s.replaceAll(" ", ""));
     }
 
     private void runItemDumpComparison(String expected, D2Item d2Item) {
