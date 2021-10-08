@@ -113,6 +113,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
     private RandallPanel iRequerementFilter;
     private JTextField iReqMaxLvl;
+    private JTextField freeTextSearch;
     private JTextField iReqMaxStr;
     private JTextField iReqMaxDex;
     private JButton iDelete;
@@ -216,6 +217,8 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         RandallPanel lCategoryPanel = getCategoryPanel();
 
         iRequerementFilter = new RandallPanel();
+        freeTextSearch = new JTextField();
+        freeTextSearch.getDocument().addDocumentListener(iStashFilter);
         iReqMaxLvl = new JTextField();
         iReqMaxLvl.getDocument().addDocumentListener(iStashFilter);
         iReqMaxStr = new JTextField();
@@ -231,14 +234,15 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         });
 
-
-        iRequerementFilter.addToPanel(new JLabel("MaxLvl"), 0, 0, 1, RandallPanel.NONE);
-        iRequerementFilter.addToPanel(iReqMaxLvl, 1, 0, 1, RandallPanel.HORIZONTAL);
-        iRequerementFilter.addToPanel(new JLabel("MaxStr"), 2, 0, 1, RandallPanel.NONE);
-        iRequerementFilter.addToPanel(iReqMaxStr, 3, 0, 1, RandallPanel.HORIZONTAL);
-        iRequerementFilter.addToPanel(new JLabel("MaxDex"), 4, 0, 1, RandallPanel.NONE);
-        iRequerementFilter.addToPanel(iReqMaxDex, 5, 0, 1, RandallPanel.HORIZONTAL);
-        iRequerementFilter.addToPanel(iCusFilter, 6, 0, 1, RandallPanel.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("Contains"), 0, 0, 1, RandallPanel.NONE);
+        iRequerementFilter.addToPanel(freeTextSearch, 1, 0, 1, RandallPanel.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("MaxLvl"), 2, 0, 1, RandallPanel.NONE);
+        iRequerementFilter.addToPanel(iReqMaxLvl, 3, 0, 1, RandallPanel.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("MaxStr"), 4, 0, 1, RandallPanel.NONE);
+        iRequerementFilter.addToPanel(iReqMaxStr, 5, 0, 1, RandallPanel.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("MaxDex"), 6, 0, 1, RandallPanel.NONE);
+        iRequerementFilter.addToPanel(iReqMaxDex, 7, 0, 1, RandallPanel.HORIZONTAL);
+        iRequerementFilter.addToPanel(iCusFilter, 8, 0, 1, RandallPanel.HORIZONTAL);
 
         RandallPanel lTopPanel = new RandallPanel();
         lTopPanel.addToPanel(lButtonPanel, 0, 0, 1, RandallPanel.HORIZONTAL);
@@ -1173,6 +1177,15 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                     }
 
                     if (lAdd1 && lAdd2) {
+
+                        if (!freeTextSearch.getText().isEmpty()) {
+                            D2ItemModelCusFilter freeformSearchFilter = new D2ItemModelCusFilter();
+                            freeformSearchFilter.filterOn = true;
+                            freeformSearchFilter.filterString = freeTextSearch.getText();
+                            if (!lItem.conforms(freeformSearchFilter.filterString, freeformSearchFilter.filterVal, freeformSearchFilter.filterMin))
+                                lAdd1 = false;
+                        }
+
                         for (int lCusFilterNr = 0; lCusFilterNr < iCusFilterList.size(); lCusFilterNr++) {
                             D2ItemModelCusFilter lFilter = (D2ItemModelCusFilter) iCusFilterList.get(lCusFilterNr);
                             if (lFilter.filterOn) {
