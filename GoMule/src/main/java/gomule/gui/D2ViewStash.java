@@ -439,6 +439,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 itemListChanged();
             }
         });
+        lButtonPanel.addToPanel(iDropAll, 2, 0, 1, RandallPanel.HORIZONTAL);
 
         iDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent pEvent) {
