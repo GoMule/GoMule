@@ -359,7 +359,7 @@ public class D2ViewProject extends JPanel {
             if (!iFileName.toLowerCase().equals("all")) {
                 File lTest = new File(iFileName);
                 if (!lTest.exists() || !lTest.isFile() || !lTest.canRead() || !lTest.canWrite()) {
-                    iForeGround = Color.red;
+                    iForeGround = new Color(187, 67, 67);
                 }
             }
         }
