@@ -419,7 +419,9 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iDropOne = new JButton("Drop");
         iDropOne.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent pEvent) {
-                ((D2Stash) iStash).addItem(D2ViewClipboard.removeItem());
+                D2Item pItem = D2ViewClipboard.removeItem();
+                iStash.addItem(pItem);
+                selectItem(pItem);
             }
         });
         lButtonPanel.addToPanel(iDropOne, 1, 0, 1, RandallPanel.HORIZONTAL);
@@ -427,16 +429,19 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         iDropAll = new JButton("Drop All");
         iDropAll.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent pEvent) {
+                D2Item lastItemAdded = null;
                 try {
                     iStash.ignoreItemListEvents();
                     ArrayList lItemList = D2ViewClipboard.removeAllItems();
                     while (lItemList.size() > 0) {
-                        ((D2Stash) iStash).addItem((D2Item) lItemList.remove(0));
+                        lastItemAdded = (D2Item) lItemList.remove(0);
+                        iStash.addItem(lastItemAdded);
                     }
                 } finally {
                     iStash.listenItemListEvents();
                 }
                 itemListChanged();
+                if (lastItemAdded != null) selectItem(lastItemAdded);
             }
         });
         lButtonPanel.addToPanel(iDropAll, 2, 0, 1, RandallPanel.HORIZONTAL);
@@ -513,6 +518,11 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             lButtonPanel.addToPanel(iDeleteDups, 4, 0, 1, RandallPanel.HORIZONTAL);
         }
         return lButtonPanel;
+    }
+
+    private void selectItem(D2Item pItem) {
+        int rowOfInsertedItem = iItemModel.iItems.indexOf(pItem);
+        if (rowOfInsertedItem >= 0) iTable.changeSelection(rowOfInsertedItem, 0, false, false);
     }
 
     protected void pickupSelected() {
@@ -952,6 +962,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         }
 
         public void refreshData() {
+            System.out.println("REFRESHING");
             int lMaxReqLvl = -1;
             int lMaxReqStr = -1;
             int lMaxReqDex = -1;
