@@ -219,7 +219,6 @@ public class D2Item implements Comparable, D2ItemInterface {
 
     // read ear related data from the bytes
     private void read_ear(D2BitReader pFile) {
-
         int eClass = (int) pFile.read(3);
         int eLevel = (int) (pFile.read(7));
 
@@ -229,6 +228,7 @@ public class D2Item implements Comparable, D2ItemInterface {
             if (lChar != 0) {
                 lCharName.append((char) lChar);
             } else {
+                pFile.set_pos(pFile.getNextByteBoundaryInBits() == pFile.get_pos() ? pFile.get_pos() + 8 : pFile.getNextByteBoundaryInBits());
                 break;
             }
         }

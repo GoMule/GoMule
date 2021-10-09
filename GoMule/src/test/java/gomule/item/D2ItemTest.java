@@ -128,6 +128,14 @@ public class D2ItemTest {
     }
 
     @Test
+    public void ear2() throws Exception {
+        String expected = "Jeremy's Ear\n" +
+                "Version: Resurrected\n" +
+                "Level 59 Barbarian\n";
+        runItemDumpComparison(expected, loadD2Item(decode("10 00 A1 00 05 88 84 3B 65 59 5E 6E E7 01 00")));
+    }
+
+    @Test
     public void healthPot() throws Exception {
         String expected = "Super Healing Potion\n" +
                 "Version: Resurrected\n" +
