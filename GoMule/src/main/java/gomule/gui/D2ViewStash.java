@@ -882,7 +882,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
     }
 
     public boolean isModified() {
-        return iStash.isModified();
+        return iStash != null && iStash.isModified();
     }
 
     public D2ItemList getItemLists() {

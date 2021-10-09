@@ -219,7 +219,7 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
     }
 
     public boolean isModified() {
-        return iStash.isModified();
+        return iStash != null && iStash.isModified();
     }
 
     public D2ItemList getItemLists() {

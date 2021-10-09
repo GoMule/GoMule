@@ -596,7 +596,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
     }
 
     public boolean isModified() {
-        return iCharacter.isModified();
+        return iCharacter != null && iCharacter.isModified();
     }
 
     public D2ItemList getItemLists() {

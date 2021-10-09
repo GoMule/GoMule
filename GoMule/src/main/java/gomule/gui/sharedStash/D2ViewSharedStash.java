@@ -64,7 +64,7 @@ public class D2ViewSharedStash extends JInternalFrame implements D2ItemContainer
 
     @Override
     public boolean isModified() {
-        return sharedStash.isModified();
+        return sharedStash != null && sharedStash.isModified();
     }
 
     @Override
