@@ -962,7 +962,6 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         }
 
         public void refreshData() {
-            System.out.println("REFRESHING");
             int lMaxReqLvl = -1;
             int lMaxReqStr = -1;
             int lMaxReqDex = -1;
