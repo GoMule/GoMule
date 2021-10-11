@@ -128,6 +128,13 @@ public class D2ItemTest {
     }
 
     @Test
+    public void khalimsEye() throws Exception {
+        String expected = "Khalim's Eye\n" +
+                "Version: Resurrected\n";
+        runItemDumpComparison(expected, loadD2Item(decode("10 00 A0 00 05 90 64 73 40 15")));
+    }
+
+    @Test
     public void ear2() throws Exception {
         String expected = "Jeremy's Ear\n" +
                 "Version: Resurrected\n" +
