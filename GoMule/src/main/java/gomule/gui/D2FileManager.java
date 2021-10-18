@@ -147,7 +147,6 @@ public class D2FileManager extends JFrame {
                 checkAll(false);
             }
         });
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setVisible(true);
         iClipboard.scrollbarBottom();
         new ApplicationRunningChecker(Runtime.getRuntime(),
