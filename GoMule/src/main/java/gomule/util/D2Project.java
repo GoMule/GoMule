@@ -360,6 +360,7 @@ public class D2Project {
     public void deleteCharStash(String pFilename) {
         iCharList.remove(pFilename);
         iStashList.remove(pFilename);
+        iSharedStashList.remove(pFilename);
         iFileManager.closeFileName(pFilename);
         iFileManager.getViewProject().refreshTreeModel(false, false, false);
 //		D2ItemListAll lListAll = iFileManager.getAllItemList();
