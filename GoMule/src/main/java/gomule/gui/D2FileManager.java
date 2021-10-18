@@ -1065,6 +1065,8 @@ public class D2FileManager extends JFrame {
      * windows save on close
      */
     public void closeListener() {
+        iProperties.setProperty("current-project", iProject.getProjectName());
+        FileManagerProperties.saveFileManagerProperties(iProperties);
         closeWindows();
         System.exit(0);
     }
