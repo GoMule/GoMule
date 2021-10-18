@@ -1177,10 +1177,14 @@ public class D2FileManager extends JFrame {
      * windows save on close
      */
     public void saveAll() {
-        if (iProject != null) {
-            iProject.saveProject();
+        try {
+            if (iProject != null) {
+                iProject.saveProject();
+            }
+            saveAllItemLists();
+        } catch (Exception ex) {
+            displayErrorDialog(ex);
         }
-        saveAllItemLists();
     }
 
     public void saveAllItemLists() {
@@ -1302,7 +1306,10 @@ public class D2FileManager extends JFrame {
 //			String[] fNamesOut = new String[lCharChooser.getSelectedFiles().length];
             for (int x = 0; x < lCharChooser.getSelectedFiles().length; x = x + 1) {
                 java.io.File lFile = lCharChooser.getSelectedFiles()[x];
-
+                if (!(lFile.canRead() && lFile.canWrite())) {
+                    D2FileManager.displayErrorDialog(new Exception("Access denied to file, please move it to a location that GoMule can access"));
+                    return;
+                }
                 try {
                     String lFilename = lFile.getAbsolutePath();
                     openChar(lFilename, load);
@@ -1474,6 +1481,10 @@ public class D2FileManager extends JFrame {
         for (int x = 0; x < stashList.length; x = x + 1) {
             System.out.println(stashList.length);
             java.io.File lFile = stashList[x];
+            if (!(lFile.canRead() && lFile.canWrite())) {
+                D2FileManager.displayErrorDialog(new Exception("Access denied to file, please move it to a location that GoMule can access"));
+                return new String[0];
+            }
             try {
                 String lFilename = lFile.getAbsolutePath();
                 if (!lFilename.endsWith(".d2x")) {
@@ -1528,6 +1539,10 @@ public class D2FileManager extends JFrame {
         for (int x = 0; x < stashList.length; x = x + 1) {
             System.out.println(stashList.length);
             java.io.File lFile = stashList[x];
+            if (!(lFile.canRead() && lFile.canWrite())) {
+                D2FileManager.displayErrorDialog(new Exception("Access denied to file, please move it to a location that GoMule can access"));
+                return new String[0];
+            }
             try {
                 String lFilename = lFile.getAbsolutePath();
                 openSharedStash(lFilename, load);

@@ -357,7 +357,7 @@ public class D2BitReader {
             out.write(filedata);
             out.close();
         } catch (Exception ex) {
-            System.out.println("Error saving file " + filename);
+            throw new RuntimeException("Error saving file " + filename, ex);
         }
     }
 
@@ -367,7 +367,7 @@ public class D2BitReader {
             out.write(filedata);
             out.close();
         } catch (Exception ex) {
-            System.out.println("Error saving file " + f);
+            throw new RuntimeException("Error saving file " + filename, ex);
         }
     }
 
