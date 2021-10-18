@@ -45,6 +45,7 @@ import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Queue;
 import java.util.*;
@@ -1307,7 +1308,7 @@ public class D2FileManager extends JFrame {
 //			String[] fNamesOut = new String[lCharChooser.getSelectedFiles().length];
             for (int x = 0; x < lCharChooser.getSelectedFiles().length; x = x + 1) {
                 java.io.File lFile = lCharChooser.getSelectedFiles()[x];
-                if (!(lFile.canRead() && lFile.canWrite())) {
+                if (!canReadWrite(lFile)) {
                     D2FileManager.displayErrorDialog(new Exception("Access denied to file, please move it to a location that GoMule can access"));
                     return;
                 }
@@ -1482,7 +1483,7 @@ public class D2FileManager extends JFrame {
         for (int x = 0; x < stashList.length; x = x + 1) {
             System.out.println(stashList.length);
             java.io.File lFile = stashList[x];
-            if (!(lFile.canRead() && lFile.canWrite())) {
+            if ((lFile.exists() && !canReadWrite(lFile)) || (!lFile.exists() && !canReadWrite(lFile.getParentFile()))) {
                 D2FileManager.displayErrorDialog(new Exception("Access denied to file, please move it to a location that GoMule can access"));
                 return new String[0];
             }
@@ -1501,6 +1502,10 @@ public class D2FileManager extends JFrame {
             }
         }
         return fNamesOut;
+    }
+
+    private boolean canReadWrite(File lFile) {
+        return Files.isWritable(lFile.toPath()) && Files.isReadable(lFile.toPath());
     }
 
     public void openStash(String pStashName, boolean load) {
@@ -1540,7 +1545,7 @@ public class D2FileManager extends JFrame {
         for (int x = 0; x < stashList.length; x = x + 1) {
             System.out.println(stashList.length);
             java.io.File lFile = stashList[x];
-            if (!(lFile.canRead() && lFile.canWrite())) {
+            if (!canReadWrite(lFile)) {
                 D2FileManager.displayErrorDialog(new Exception("Access denied to file, please move it to a location that GoMule can access"));
                 return new String[0];
             }
