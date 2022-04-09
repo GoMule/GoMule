@@ -21,7 +21,7 @@
 
 package gomule;
 
-import randall.d2files.D2TblFile;
+
 import randall.d2files.D2TxtFile;
 
 import java.io.FileInputStream;
@@ -39,7 +39,6 @@ public class Dump {
 //        t = D2TxtTable.get(D2TxtTable.SETS);
 //        t.add_file("resources" + s + "setitems.txt", 0);
         D2TxtFile.constructTxtFiles("d2111");
-        D2TblFile.readAllFiles("d2111");
 
         //main gui = new main(args[0]);
         new Dump().print_d2s(args[0]);

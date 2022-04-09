@@ -40,8 +40,8 @@ public class D2TxtFileItemProperties {
 //    	if(pKey.equals("str name")){
 ////    	while(x==1){
 //    	int test = 221;
-//    	if(D2TblFile.getString(iTxtFile.getValue(test, "str name")) != null){
-//    	System.out.println(D2TblFile.getString(iTxtFile.getValue(test, "str name")));
+//    	if(D2Files.getInstance().getTranslations().getTranslation(iTxtFile.getValue(test, "str name")) != null){
+//    	System.out.println(D2Files.getInstance().getTranslations().getTranslation(iTxtFile.getValue(test, "str name")));
 //    	System.out.println((iTxtFile.getFileName()));
 //    	System.out.println("bl");
 ////    	}

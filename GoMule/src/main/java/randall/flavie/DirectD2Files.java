@@ -20,6 +20,7 @@
  ******************************************************************************/
 package randall.flavie;
 
+import gomule.D2Files;
 import gomule.d2i.D2SharedStash;
 import gomule.d2i.D2SharedStashReader;
 import gomule.d2s.D2Character;
@@ -27,7 +28,6 @@ import gomule.d2x.D2Stash;
 import gomule.gui.D2FileManager;
 import gomule.item.D2Item;
 import gomule.item.D2Prop;
-import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
 import javax.swing.*;
@@ -167,10 +167,10 @@ public class DirectD2Files {
                         matchStr = new String[2];
                         for (int x = 0; x < pItem.getPropCollection().size(); x++) {
                             if (((D2Prop) (pItem.getPropCollection().get(x))).getPNum() == 197) {
-                                matchStr[0] = D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(((D2Prop) (pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
+                                matchStr[0] = D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(((D2Prop) (pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
                                 matchStr[1] = "Die";
                             } else if (((D2Prop) (pItem.getPropCollection().get(x))).getPNum() == 199) {
-                                matchStr[0] = D2TblFile.getString(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(((D2Prop) (pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
+                                matchStr[0] = D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(((D2Prop) (pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
                                 matchStr[1] = "Level Up";
                             }
                         }

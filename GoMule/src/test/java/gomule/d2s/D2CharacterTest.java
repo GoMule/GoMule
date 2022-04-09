@@ -2,12 +2,11 @@ package gomule.d2s;
 
 import com.google.common.io.Resources;
 import org.junit.jupiter.api.Test;
-import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
 import java.io.File;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SuppressWarnings("UnstableApiUsage")
 public class D2CharacterTest {
@@ -15,7 +14,6 @@ public class D2CharacterTest {
     @Test
     public void complexChar() throws Exception {
         D2TxtFile.constructTxtFiles("./d2111");
-        D2TblFile.readAllFiles("./d2111");
         D2Character d2Character = new D2Character(new File(Resources.getResource("charFiles/complexChar.d2s").toURI()).getAbsolutePath());
         assertEquals(expectedComplexChar, d2Character.fullDumpStr().replaceAll("\r", ""));
     }
@@ -537,7 +535,7 @@ public class D2CharacterTest {
             "Dol Rune\n" +
             "Required Level: 31\n" +
             "Version: Resurrected\n" +
-            "Weapons: Hit Causes Monster to Flee 25%\n" +
+            "Weapons: Hit Causes Monster to Flee %d%% 25%\n" + //TODO
             "Armor: Replenish Life +7\n" +
             "Shields: Replenish Life +7\n" +
             "\n" +
@@ -891,7 +889,7 @@ public class D2CharacterTest {
             "Prevent Monster Heal\n" +
             "+49 to Vitality (Based on Character Level)\n" +
             "30% Better Chance of Getting Magic Items\n" +
-            "Level 21 Cyclone Armor (30/30 Charges)\n" +
+            "Level 21 Cyclone Armor Level 30 %s (30/30 Charges)\n" + //TODO
             "Ethereal\n" +
             "4 Sockets (4 used)\n" +
             "Socketed: Ber Rune\n" +

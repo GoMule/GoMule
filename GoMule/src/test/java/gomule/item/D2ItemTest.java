@@ -3,7 +3,6 @@ package gomule.item;
 import com.google.common.io.BaseEncoding;
 import gomule.util.D2BitReader;
 import org.junit.jupiter.api.Test;
-import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -325,7 +324,6 @@ public class D2ItemTest {
 
     private D2Item loadD2Item(byte[] bytes) throws Exception {
         D2TxtFile.constructTxtFiles("./d2111");
-        D2TblFile.readAllFiles("./d2111");
         return new D2Item("my-test-file", new D2BitReader(bytes), 10);
     }
 }

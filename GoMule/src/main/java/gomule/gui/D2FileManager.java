@@ -29,7 +29,6 @@ import gomule.d2x.D2Stash;
 import gomule.gui.sharedStash.D2ViewSharedStash;
 import gomule.item.D2Item;
 import gomule.util.D2Project;
-import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 import randall.flavie.Flavie;
 import randall.util.RandallPanel;
@@ -113,7 +112,6 @@ public class D2FileManager extends JFrame {
 
     private D2FileManager() {
         D2TxtFile.constructTxtFiles("d2111");
-        D2TblFile.readAllFiles("d2111");
         sharedStashReader = new D2SharedStashReader();
         iOpenWindows = new ArrayList();
         iContentPane = new JPanel();

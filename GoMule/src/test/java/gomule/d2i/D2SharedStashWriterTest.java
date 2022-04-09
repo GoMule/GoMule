@@ -5,7 +5,6 @@ import gomule.item.D2Item;
 import gomule.util.D2BitReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import randall.d2files.D2TblFile;
 import randall.d2files.D2TxtFile;
 
 import java.io.File;
@@ -30,7 +29,6 @@ public class D2SharedStashWriterTest {
     @BeforeEach
     public void setup() {
         D2TxtFile.constructTxtFiles("./d2111");
-        D2TblFile.readAllFiles("./d2111");
     }
 
     @Test
