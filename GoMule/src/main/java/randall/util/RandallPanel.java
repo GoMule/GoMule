@@ -133,12 +133,21 @@ public class RandallPanel extends JPanel {
     public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Integer constraint,
                            double weightX, double weightY, int constraintAnchor) {
 
-        this.add(component, new GridBagConstraints(x, y, sizeX, sizeY, calcWeightX(weightX, constraint),
-                calcWeightY(weightY, constraint), calcGridbagAnchor(constraintAnchor),
-                calcGridbagConstraint(constraint),
-                new Insets(calcMarginTop(y), calcMarginLeft(x, component),
-                        calcMarginBottom(y, sizeY), calcMarginRight(x, sizeX)), 0, 0));
+        Insets insets = new Insets(
+                calcMarginTop(y),
+                calcMarginLeft(x, component),
+                calcMarginBottom(y, sizeY),
+                calcMarginRight(x, sizeX));
 
+        GridBagConstraints constraints = new GridBagConstraints(
+                x, y, sizeX, sizeY,
+                calcWeightX(weightX, constraint),
+                calcWeightY(weightY, constraint),
+                calcGridbagAnchor(constraintAnchor),
+                calcGridbagConstraint(constraint),
+                insets, 0, 0);
+
+        this.add(component, constraints);
         this.yPos = y + 1;
     }
 
