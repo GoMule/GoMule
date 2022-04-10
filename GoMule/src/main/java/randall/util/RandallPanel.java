@@ -53,12 +53,10 @@ public class RandallPanel extends JPanel {
      * Creates a new RandallPanel with a double buffer and a flow layout.
      */
     public RandallPanel() {
-        super();
         init();
     }
 
     public RandallPanel(boolean pSubPanel) {
-        super();
         init();
         if (pSubPanel) {
             setSubPanel();
