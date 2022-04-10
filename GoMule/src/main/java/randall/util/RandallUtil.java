@@ -22,6 +22,7 @@ package randall.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RandallUtil {
 
@@ -71,7 +72,7 @@ public class RandallUtil {
 //	    return icon;
 //	}
 
-    public static String merge(ArrayList pArrayList, String pJoin) {
+    public static String merge(List pArrayList, String pJoin) {
         String lReturn = "";
         if (pArrayList.size() > 0) {
             lReturn += (String) pArrayList.get(0);
@@ -97,7 +98,7 @@ public class RandallUtil {
 //	}
 
     public static ArrayList split(String pString, String pSeparator, boolean pIgnoreCase) {
-        ArrayList lSplit = new ArrayList();
+        List lSplit = new ArrayList();
         int lIndex = 0;
         int lSeparator;
         String lSubString;
@@ -134,7 +135,7 @@ public class RandallUtil {
                 lSplit.add(lSubString.trim());
             }
         }
-        return lSplit;
+        return (ArrayList) lSplit;
     }
 
     public static String fill(int pValue, int pDigits) {
