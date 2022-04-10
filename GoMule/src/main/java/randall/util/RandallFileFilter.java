@@ -30,8 +30,8 @@ import java.util.ArrayList;
 
 public class RandallFileFilter extends javax.swing.filechooser.FileFilter {
 
-    private ArrayList iExtensions;
-    private String iDescription;
+    private final ArrayList iExtensions;
+    private final String iDescription;
 
     public RandallFileFilter(String pDescription) {
         iExtensions = new ArrayList();
