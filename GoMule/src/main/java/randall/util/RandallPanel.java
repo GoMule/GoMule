@@ -133,7 +133,6 @@ public class RandallPanel extends JPanel {
     public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Integer constraint,
                            double weightX, double weightY, int constraintAnchor) {
 
-        int gridbagConstraint = GridBagConstraints.NONE;
         int gridbagAnchor = ANCHOR_NORTHWEST;
 
         int marginTop = margin;
@@ -143,16 +142,6 @@ public class RandallPanel extends JPanel {
 //			marginBottom = margin;
 //        }
         int marginRight = margin;
-
-        if (HORIZONTAL.equals(constraint)) {
-            gridbagConstraint = GridBagConstraints.HORIZONTAL;
-        }
-        if (VERTICAL.equals(constraint)) {
-            gridbagConstraint = GridBagConstraints.VERTICAL;
-        }
-        if (BOTH.equals(constraint)) {
-            gridbagConstraint = GridBagConstraints.BOTH;
-        }
 
         if (constraintAnchor >= 0) {
             gridbagAnchor = constraintAnchor;
@@ -179,7 +168,7 @@ public class RandallPanel extends JPanel {
 //        }
 
         this.add(component, new GridBagConstraints(x, y, sizeX, sizeY, calcWeightX(weightX, constraint),
-                calcWeightY(weightY, constraint), gridbagAnchor, gridbagConstraint,
+                calcWeightY(weightY, constraint), gridbagAnchor, calcGridbagConstraint(constraint),
                 new Insets(marginTop, marginLeft, marginBottom, marginRight), 0, 0));
 
         this.yPos = y + 1;
@@ -203,6 +192,17 @@ public class RandallPanel extends JPanel {
             return 1.0;
         }
         return 0.0;
+    }
+
+    private int calcGridbagConstraint(Integer constraint) {
+        if (HORIZONTAL.equals(constraint)) {
+            return GridBagConstraints.HORIZONTAL;
+        } else if (VERTICAL.equals(constraint)) {
+            return GridBagConstraints.VERTICAL;
+        } else if (BOTH.equals(constraint)) {
+            return GridBagConstraints.BOTH;
+        }
+        return GridBagConstraints.NONE;
     }
 
     /**
