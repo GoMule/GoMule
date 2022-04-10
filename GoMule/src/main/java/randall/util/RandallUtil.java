@@ -72,10 +72,10 @@ public class RandallUtil {
 //	    return icon;
 //	}
 
-    public static String merge(List pArrayList, String pJoin) {
+    public static String merge(List<String> pArrayList, String pJoin) {
         String lReturn = "";
         if (pArrayList.size() > 0) {
-            lReturn += (String) pArrayList.get(0);
+            lReturn += pArrayList.get(0);
             for (int i = 1; i < pArrayList.size(); i++) {
                 lReturn += pJoin + pArrayList.get(i);
             }
@@ -97,8 +97,8 @@ public class RandallUtil {
 //	    return lCount;
 //	}
 
-    public static ArrayList split(String pString, String pSeparator, boolean pIgnoreCase) {
-        List lSplit = new ArrayList();
+    public static ArrayList<String> split(String pString, String pSeparator, boolean pIgnoreCase) {
+        List<String> lSplit = new ArrayList<>();
         int lIndex = 0;
         int lSeparator;
         String lSubString;
@@ -135,7 +135,7 @@ public class RandallUtil {
                 lSplit.add(lSubString.trim());
             }
         }
-        return (ArrayList) lSplit;
+        return (ArrayList<String>) lSplit;
     }
 
     public static String fill(int pValue, int pDigits) {
