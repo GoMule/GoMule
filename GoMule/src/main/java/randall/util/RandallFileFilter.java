@@ -39,10 +39,11 @@ public class RandallFileFilter extends FileFilter {
     }
 
     public boolean accept(File file) {
+        if (file.isDirectory()) {
+            return true;
+        }
+
         for (String extension : filteredExtensions) {
-            if (file.isDirectory()) {
-                return true;
-            }
             if (file.getAbsolutePath().toLowerCase().endsWith(extension.toLowerCase())) {
                 return true;
             }
