@@ -336,9 +336,9 @@ public class D2PropCollection extends ArrayList {
     }
 
 
-    public StringBuffer generateDisplay(int qFlag, int cLvl) {
+    public StringBuilder generateDisplay(int qFlag, int cLvl) {
 
-        StringBuffer arrOut = new StringBuffer();
+        StringBuilder arrOut = new StringBuilder();
         if (qFlag < 7) {
             arrOut.append("<font color=\"#4850b8\">");
         } else if (qFlag < 17) {
@@ -351,7 +351,7 @@ public class D2PropCollection extends ArrayList {
         for (int x = 0; x < size(); x++) {
             String val = ((D2Prop) get(x)).generateDisplay(qFlag, cLvl);
             if (val != null && !val.equals("")) {
-                arrOut.append(val + "<br>&#10;");
+                arrOut.append(val).append("<br>&#10;");
             }
         }
 
