@@ -37,15 +37,15 @@ public class RandallPanel extends JPanel {
 
     private static final long serialVersionUID = -6556940562813366360L;
 
-    private int iMarginXSize = 2;
-    private int iMarginYSize = -1;
-    private int iYPos = 0;
+    private int marginXSize = 2;
+    private int marginYSize = -1;
+    private int yPos = 0;
 
-    private int iMargin = 1;
+    private int margin = 1;
 //	private boolean iMarginAllSides = false;
 
     // sub panel -> all elements on X or Y of 0 does not get a top or left margin
-    private boolean iSubPanel = false;
+    private boolean subPanel = false;
 
     private TitledBorder titledBorder = null;
 
@@ -56,15 +56,15 @@ public class RandallPanel extends JPanel {
         init();
     }
 
-    public RandallPanel(boolean pSubPanel) {
+    public RandallPanel(boolean subPanel) {
         this();
-        if (pSubPanel) {
+        if (subPanel) {
             setSubPanel();
         }
     }
 
-    public void setBorder(String pTitle) {
-        titledBorder = new TitledBorder(new EtchedBorder(), pTitle);
+    public void setBorder(String title) {
+        titledBorder = new TitledBorder(new EtchedBorder(), title);
         setBorder(titledBorder);
     }
 
@@ -73,32 +73,32 @@ public class RandallPanel extends JPanel {
     }
 
     public void finishDefaultPanel() {
-        iYPos = iYPos + 100;
+        yPos = yPos + 100;
         addToPanel(new JPanel(), 0, 250, 1, VERTICAL);
     }
 
     /**
      * Set the right column nr for the panel
      */
-    public void setMarginRightColumnNr(int pColumnNr) {
-        iMarginXSize = pColumnNr;
+    public void setMarginRightColumnNr(int columnNr) {
+        marginXSize = columnNr;
     }
 
-    public void setMarginBottomRowNrColumnNr(int pRowNr) {
-        iMarginYSize = pRowNr;
+    public void setMarginBottomRowNrColumnNr(int rowNr) {
+        marginYSize = rowNr;
     }
 
-    public void setMarginRightBottom(int pColumnNr, int pRowNr) {
-        iMarginXSize = pColumnNr;
-        iMarginYSize = pRowNr;
+    public void setMarginRightBottom(int columnNr, int rowNr) {
+        marginXSize = columnNr;
+        marginYSize = rowNr;
     }
 
-    public void setMargin(int pMargin) {
-        iMargin = pMargin;
+    public void setMargin(int margin) {
+        this.margin = margin;
     }
 
-//	public void setMarginAllSides(boolean pMarginAllSides) {
-//		iMarginAllSides = pMarginAllSides;
+//	public void setMarginAllSides(boolean marginAllSides) {
+//		this.marginAllSides = marginAllSides;
 //	}
 
     /**
@@ -106,94 +106,94 @@ public class RandallPanel extends JPanel {
      * (does not add left/upper margin when left/up coordinate is 0)
      */
     public void setSubPanel() {
-        iSubPanel = true;
+        subPanel = true;
     }
 
     public int getPanelColumnNr() {
-        return iMarginXSize;
+        return marginXSize;
     }
 
-    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, Object pConstraint) {
-        addToPanel(pComponent, pX, pY, pSizeX, 1, pConstraint, -1.0, -1.0, -1);
+    public void addToPanel(JComponent component, int x, int y, int sizeX, Object constraint) {
+        addToPanel(component, x, y, sizeX, 1, constraint, -1.0, -1.0, -1);
     }
 
-    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, double pWeightX, Object pConstraint) {
-        addToPanel(pComponent, pX, pY, pSizeX, 1, pConstraint, pWeightX, -1.0, -1);
+    public void addToPanel(JComponent component, int x, int y, int sizeX, double weightX, Object constraint) {
+        addToPanel(component, x, y, sizeX, 1, constraint, weightX, -1.0, -1);
     }
 
-    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, int pSizeY, Object pConstraint) {
-        addToPanel(pComponent, pX, pY, pSizeX, pSizeY, pConstraint, -1.0, -1.0, -1);
+    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Object constraint) {
+        addToPanel(component, x, y, sizeX, sizeY, constraint, -1.0, -1.0, -1);
     }
 
-    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, int pSizeY,
-                           Object pConstraint, int pConstraintAnchor) {
-        addToPanel(pComponent, pX, pY, pSizeX, pSizeY, pConstraint, -1.0, -1.0, pConstraintAnchor);
+    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY,
+                           Object constraint, int constraintAnchor) {
+        addToPanel(component, x, y, sizeX, sizeY, constraint, -1.0, -1.0, constraintAnchor);
     }
 
-    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, int pSizeY, Object pConstraint,
-                           double pWeightX, double pWeightY, int pConstraintAnchor) {
-        double lWeightX = 0.0;
-        double lWeightY = 0.0;
-        int lGridbagConstraint = GridBagConstraints.NONE;
-        int lGridbagAnchor = ANCHOR_NORTHWEST;
+    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Object constraint,
+                           double xWeight, double yWeight, int constraintAnchor) {
+        double weightX = 0.0;
+        double weightY = 0.0;
+        int gridbagConstraint = GridBagConstraints.NONE;
+        int gridbagAnchor = ANCHOR_NORTHWEST;
 
-        int lMarginTop = iMargin;
-        int lMarginLeft = iMargin;
-        int lMarginBottom = 0;
-//        if (iMarginAllSides) {
-//			lMarginBottom = iMargin;
+        int marginTop = margin;
+        int marginLeft = margin;
+        int marginBottom = 0;
+//        if (marginAllSides) {
+//			marginBottom = margin;
 //        }
-        int lMarginRight = iMargin;
+        int marginRight = margin;
 
-        if (pConstraint == HORIZONTAL) {
-            lWeightX = 1.0;
-            lGridbagConstraint = GridBagConstraints.HORIZONTAL;
+        if (constraint == HORIZONTAL) {
+            weightX = 1.0;
+            gridbagConstraint = GridBagConstraints.HORIZONTAL;
         }
-        if (pConstraint == VERTICAL) {
-            lWeightY = 1.0;
-            lGridbagConstraint = GridBagConstraints.VERTICAL;
+        if (constraint == VERTICAL) {
+            weightY = 1.0;
+            gridbagConstraint = GridBagConstraints.VERTICAL;
         }
-        if (pConstraint == BOTH) {
-            lWeightX = 1.0;
-            lWeightY = 1.0;
-            lGridbagConstraint = GridBagConstraints.BOTH;
-        }
-
-        if (pWeightX >= 0.0) {
-            lWeightX = pWeightX;
-        }
-        if (pWeightY >= 0.0) {
-            lWeightY = pWeightY;
-        }
-        if (pConstraintAnchor >= 0) {
-            lGridbagAnchor = pConstraintAnchor;
+        if (constraint == BOTH) {
+            weightX = 1.0;
+            weightY = 1.0;
+            gridbagConstraint = GridBagConstraints.BOTH;
         }
 
-        if (pX + pSizeX < iMarginXSize) {
-            lMarginRight = 0;
+        if (xWeight >= 0.0) {
+            weightX = xWeight;
         }
-        if (iMarginYSize != -1 && pY + pSizeY == iMarginYSize) {
-            lMarginBottom = iMargin;
+        if (yWeight >= 0.0) {
+            weightY = yWeight;
         }
-        if (iSubPanel) {
-            lMarginRight = 0;
-            if (pX == 0) {
-                lMarginLeft = 0;
+        if (constraintAnchor >= 0) {
+            gridbagAnchor = constraintAnchor;
+        }
+
+        if (x + sizeX < marginXSize) {
+            marginRight = 0;
+        }
+        if (marginYSize != -1 && y + sizeY == marginYSize) {
+            marginBottom = margin;
+        }
+        if (subPanel) {
+            marginRight = 0;
+            if (x == 0) {
+                marginLeft = 0;
             }
-            if (pY == 0) {
-                lMarginTop = 0;
+            if (y == 0) {
+                marginTop = 0;
             }
         }
 
-//        if (pComponent instanceof JCheckBox) {
-//        	lMarginLeft -= 4;
+//        if (component instanceof JCheckBox) {
+//        	marginLeft -= 4;
 //        }
 
-        this.add(pComponent, new GridBagConstraints(pX, pY, pSizeX, pSizeY, lWeightX, lWeightY,
-                lGridbagAnchor, lGridbagConstraint,
-                new Insets(lMarginTop, lMarginLeft, lMarginBottom, lMarginRight), 0, 0));
+        this.add(component, new GridBagConstraints(x, y, sizeX, sizeY, weightX, weightY,
+                gridbagAnchor, gridbagConstraint,
+                new Insets(marginTop, marginLeft, marginBottom, marginRight), 0, 0));
 
-        this.iYPos = pY + 1;
+        this.yPos = y + 1;
     }
 
     /**
