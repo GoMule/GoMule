@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class RandallUtil {
+
 //	private static final String ICON_PATH = "/randall/images/";
 //	private static HashMap iIcons = new HashMap();
 
@@ -168,5 +169,4 @@ public class RandallUtil {
             throw new Exception("Can not write backup dir: " + pDir);
         }
     }
-
 }
