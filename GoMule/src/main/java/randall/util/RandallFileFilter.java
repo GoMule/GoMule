@@ -31,16 +31,16 @@ import java.util.List;
  */
 public class RandallFileFilter extends FileFilter {
 
-    private final List<String> extensions;
+    private final List<String> filteredExtensions;
     private final String description;
 
     public RandallFileFilter(String description) {
-        extensions = new ArrayList<>();
+        filteredExtensions = new ArrayList<>();
         this.description = description;
     }
 
     public boolean accept(File file) {
-        for (String extension : extensions) {
+        for (String extension : filteredExtensions) {
             if (file.isDirectory()) {
                 return true;
             }
@@ -52,7 +52,7 @@ public class RandallFileFilter extends FileFilter {
     }
 
     public void addExtension(String extension) {
-        extensions.add(extension);
+        filteredExtensions.add(extension);
     }
 
     public String getDescription() {
