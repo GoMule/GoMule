@@ -76,7 +76,7 @@ public class RandallUtil {
         if (pArrayList.size() > 0) {
             lReturn += (String) pArrayList.get(0);
             for (int i = 1; i < pArrayList.size(); i++) {
-                lReturn += pJoin + (String) pArrayList.get(i);
+                lReturn += pJoin + pArrayList.get(i);
             }
         }
         return lReturn;
