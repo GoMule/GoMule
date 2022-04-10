@@ -39,10 +39,7 @@ public class RandallFileFilter extends FileFilter {
     }
 
     public boolean accept(File file) {
-        if (file.isDirectory()) {
-            return true;
-        }
-        return extensionMatches(file);
+        return file.isDirectory() || extensionMatches(file);
     }
 
     private boolean extensionMatches(File file) {
