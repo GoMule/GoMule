@@ -31,31 +31,31 @@ import java.util.List;
  */
 public class RandallFileFilter extends FileFilter {
 
-    private final List<String> iExtensions;
-    private final String iDescription;
+    private final List<String> extensions;
+    private final String description;
 
-    public RandallFileFilter(String pDescription) {
-        iExtensions = new ArrayList<>();
-        iDescription = pDescription;
+    public RandallFileFilter(String description) {
+        extensions = new ArrayList<>();
+        this.description = description;
     }
 
-    public boolean accept(File pFile) {
-        for (String iExtension : iExtensions) {
-            if (pFile.isDirectory()) {
+    public boolean accept(File file) {
+        for (String extension : extensions) {
+            if (file.isDirectory()) {
                 return true;
             }
-            if (pFile.getAbsolutePath().toLowerCase().endsWith(iExtension.toLowerCase())) {
+            if (file.getAbsolutePath().toLowerCase().endsWith(extension.toLowerCase())) {
                 return true;
             }
         }
         return false;
     }
 
-    public void addExtension(String pExtension) {
-        iExtensions.add(pExtension);
+    public void addExtension(String extension) {
+        extensions.add(extension);
     }
 
     public String getDescription() {
-        return iDescription;
+        return description;
     }
 }
