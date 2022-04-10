@@ -31,11 +31,11 @@ import java.util.List;
 
 public class RandallFileFilter extends javax.swing.filechooser.FileFilter {
 
-    private final List iExtensions;
+    private final List<String> iExtensions;
     private final String iDescription;
 
     public RandallFileFilter(String pDescription) {
-        iExtensions = new ArrayList();
+        iExtensions = new ArrayList<>();
         iDescription = pDescription;
     }
 
@@ -44,7 +44,7 @@ public class RandallFileFilter extends javax.swing.filechooser.FileFilter {
             if (pFile.isDirectory()) {
                 return true;
             }
-            if (pFile.getAbsolutePath().toLowerCase().endsWith(((String) iExtensions.get(i)).toLowerCase())) {
+            if (pFile.getAbsolutePath().toLowerCase().endsWith((iExtensions.get(i)).toLowerCase())) {
                 return true;
             }
         }
