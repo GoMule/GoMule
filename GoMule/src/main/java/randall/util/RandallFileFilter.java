@@ -40,11 +40,11 @@ public class RandallFileFilter extends javax.swing.filechooser.FileFilter {
     }
 
     public boolean accept(File pFile) {
-        for (int i = 0; i < iExtensions.size(); i++) {
+        for (String iExtension : iExtensions) {
             if (pFile.isDirectory()) {
                 return true;
             }
-            if (pFile.getAbsolutePath().toLowerCase().endsWith((iExtensions.get(i)).toLowerCase())) {
+            if (pFile.getAbsolutePath().toLowerCase().endsWith(iExtension.toLowerCase())) {
                 return true;
             }
         }
