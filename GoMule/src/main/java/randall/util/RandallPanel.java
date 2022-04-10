@@ -32,8 +32,6 @@ public class RandallPanel extends JPanel {
     public static final Integer VERTICAL = 102;
     public static final Integer BOTH = 103;
 
-    public static final int ANCHOR_NORTHEAST = GridBagConstraints.NORTHEAST;
-
     private static final long serialVersionUID = -6556940562813366360L;
 
     private int marginXSize = 2;
