@@ -28,8 +28,8 @@ package randall.util;
 import java.io.File;
 import java.util.ArrayList;
 
-public class RandallFileFilter
-        extends javax.swing.filechooser.FileFilter {
+public class RandallFileFilter extends javax.swing.filechooser.FileFilter {
+
     private ArrayList iExtensions;
     private String iDescription;
 
