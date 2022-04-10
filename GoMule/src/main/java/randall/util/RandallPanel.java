@@ -28,7 +28,20 @@ import java.awt.*;
 public class RandallPanel extends JPanel {
 
     public enum Constraint {
-        NONE, HORIZONTAL, VERTICAL, BOTH
+        NONE, HORIZONTAL, VERTICAL, BOTH;
+
+        private int toGridbagConstraint() {
+            switch (this) {
+                case HORIZONTAL:
+                    return GridBagConstraints.HORIZONTAL;
+                case VERTICAL:
+                    return GridBagConstraints.VERTICAL;
+                case BOTH:
+                    return GridBagConstraints.BOTH;
+                default:
+                    return GridBagConstraints.NONE;
+            }
+        }
     }
 
     private static final long serialVersionUID = -6556940562813366360L;
@@ -140,7 +153,7 @@ public class RandallPanel extends JPanel {
                 calcWeightX(weightX, constraint),
                 calcWeightY(weightY, constraint),
                 calcGridbagAnchor(constraintAnchor),
-                calcGridbagConstraint(constraint),
+                constraint.toGridbagConstraint(),
                 insets, 0, 0);
 
         this.add(component, constraints);
@@ -169,17 +182,6 @@ public class RandallPanel extends JPanel {
 
     private int calcGridbagAnchor(int constraintAnchor) {
         return constraintAnchor >= 0 ? constraintAnchor : GridBagConstraints.NORTHWEST;
-    }
-
-    private int calcGridbagConstraint(Constraint constraint) {
-        if (Constraint.HORIZONTAL == constraint) {
-            return GridBagConstraints.HORIZONTAL;
-        } else if (Constraint.VERTICAL == constraint) {
-            return GridBagConstraints.VERTICAL;
-        } else if (Constraint.BOTH == constraint) {
-            return GridBagConstraints.BOTH;
-        }
-        return GridBagConstraints.NONE;
     }
 
     private int calcMarginTop(int y) {
