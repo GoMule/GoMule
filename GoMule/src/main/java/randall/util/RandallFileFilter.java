@@ -20,6 +20,7 @@
  ******************************************************************************/
 package randall.util;
 
+import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
  * @author Marco
  * @version 1.0
  */
-public class RandallFileFilter extends javax.swing.filechooser.FileFilter {
+public class RandallFileFilter extends FileFilter {
 
     private final List<String> iExtensions;
     private final String iDescription;
