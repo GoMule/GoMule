@@ -72,15 +72,15 @@ public class RandallUtil {
 //	    return icon;
 //	}
 
-    public static String merge(List<String> pArrayList, String pJoin) {
-        String lReturn = "";
-        if (pArrayList.size() > 0) {
-            lReturn += pArrayList.get(0);
-            for (int i = 1; i < pArrayList.size(); i++) {
-                lReturn += pJoin + pArrayList.get(i);
+    public static String merge(List<String> strings, String delimiter) {
+        String result = "";
+        if (!strings.isEmpty()) {
+            result += strings.get(0);
+            for (int i = 1; i < strings.size(); i++) {
+                result += delimiter + strings.get(i);
             }
         }
-        return lReturn;
+        return result;
     }
 
 //	public static int count(String pString, String pOccurance, boolean pIgnoreCase)
