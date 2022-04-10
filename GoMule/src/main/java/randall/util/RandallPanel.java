@@ -131,8 +131,8 @@ public class RandallPanel extends JPanel {
     }
 
     public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Integer constraint,
-                           double weightX, double yWeight, int constraintAnchor) {
-        double weightY = 0.0;
+                           double weightX, double weightY, int constraintAnchor) {
+
         int gridbagConstraint = GridBagConstraints.NONE;
         int gridbagAnchor = ANCHOR_NORTHWEST;
 
@@ -148,17 +148,12 @@ public class RandallPanel extends JPanel {
             gridbagConstraint = GridBagConstraints.HORIZONTAL;
         }
         if (VERTICAL.equals(constraint)) {
-            weightY = 1.0;
             gridbagConstraint = GridBagConstraints.VERTICAL;
         }
         if (BOTH.equals(constraint)) {
-            weightY = 1.0;
             gridbagConstraint = GridBagConstraints.BOTH;
         }
 
-        if (yWeight >= 0.0) {
-            weightY = yWeight;
-        }
         if (constraintAnchor >= 0) {
             gridbagAnchor = constraintAnchor;
         }
@@ -183,8 +178,8 @@ public class RandallPanel extends JPanel {
 //        	marginLeft -= 4;
 //        }
 
-        this.add(component, new GridBagConstraints(x, y, sizeX, sizeY, calcWeightX(weightX, constraint), weightY,
-                gridbagAnchor, gridbagConstraint,
+        this.add(component, new GridBagConstraints(x, y, sizeX, sizeY, calcWeightX(weightX, constraint),
+                calcWeightY(weightY, constraint), gridbagAnchor, gridbagConstraint,
                 new Insets(marginTop, marginLeft, marginBottom, marginRight), 0, 0));
 
         this.yPos = y + 1;
@@ -195,6 +190,16 @@ public class RandallPanel extends JPanel {
             return xWeight;
         }
         if (HORIZONTAL.equals(constraint) || BOTH.equals(constraint)) {
+            return 1.0;
+        }
+        return 0.0;
+    }
+
+    private double calcWeightY(double weightY, Integer constraint) {
+        if (weightY >= 0.0) {
+            return weightY;
+        }
+        if (VERTICAL.equals(constraint) || BOTH.equals(constraint)) {
             return 1.0;
         }
         return 0.0;
