@@ -50,7 +50,7 @@ public class D2Item implements Comparable, D2ItemInterface {
     protected String iItemName;
     protected String iBaseItemName;
     private D2PropCollection iProps = new D2PropCollection();
-    private ArrayList iSocketedItems;
+    private ArrayList<D2Item> iSocketedItems;
     private int flags;
     private short version;
     private short location;
@@ -87,7 +87,6 @@ public class D2Item implements Comparable, D2ItemInterface {
     private boolean iSmallCharm;
     private boolean iLargeCharm;
 
-    //	private boolean iEquipped = false;
     private boolean iGrandCharm;
     private boolean iJewel;
     private boolean iGem;
@@ -387,7 +386,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
 
         if (iSocketNrFilled > 0) {
-            iSocketedItems = new ArrayList();
+            iSocketedItems = new ArrayList<>();
             pFile.set_pos(pFile.getNextByteBoundaryInBits());
             for (int i = 0; i < iSocketNrFilled; i++) {
                 D2Item lSocket = new D2Item(iFileName, pFile, iCharLvl);
@@ -416,7 +415,7 @@ public class D2Item implements Comparable, D2ItemInterface {
         if (iRuneWord) {
             ArrayList lList = new ArrayList();
             for (int i = 0; i < iSocketedItems.size(); i++) {
-                lList.add(((D2Item) iSocketedItems.get(i)).getRuneCode());
+                lList.add(iSocketedItems.get(i).getRuneCode());
             }
 
             D2TxtFileItemProperties lRuneWord = D2TxtFile.RUNES
@@ -1155,182 +1154,10 @@ public class D2Item implements Comparable, D2ItemInterface {
         return false;
     }
 
-    private String htmlStrip(StringBuffer htmlString) {
-        String dumpStr = htmlString.toString().replaceAll("<br>&#10;", System.getProperty("line.separator"));
-        dumpStr = dumpStr.replaceAll("&#32;", "");
-        return dumpStr.replaceAll("<[^>]*>", "");
-    }
-
-    public String itemDumpHtml(boolean extended) {
-        return generatePropString(extended).toString();
-    }
-
-    public String itemDump(boolean extended) {
-        return htmlStrip(generatePropString(extended));
-    }
-
-    private StringBuffer generatePropString(boolean extended) {
-        StringBuffer propString = new StringBuffer("<html>");
-        propString.append(generatePropStringNoHtmlTags(extended));
-        return propString.append("</html>");
-    }
-
-    private StringBuffer generatePropStringNoHtmlTags(boolean extended) {
-        iProps.tidy();
-        StringBuffer dispStr = new StringBuffer("<center>");
-        String base = (Integer.toHexString(Color.white.getRGB())).substring(2, Integer.toHexString(Color.white.getRGB()).length());
-        String rgb = (Integer.toHexString(getItemColor().getRGB())).substring(2, Integer.toHexString(getItemColor().getRGB()).length());
-        if (personalization == null) {
-            dispStr.append("<font color=\"#" + base + "\">" + "<font color=\"#" + rgb + "\">" + iItemName + "</font>" + "<br>&#10;");
-        } else {
-            dispStr.append("<font color=\"#" + base + "\">" + "<font color=\"#" + rgb + "\">" + personalization + "'s " + iItemName + "</font>" + "<br>&#10;");
-        }
-        if (!iBaseItemName.equals(iItemName))
-            dispStr.append("<font color=\"#" + rgb + "\">" + iBaseItemName + "</font>" + "<br>&#10;");
-        if (isRuneWord()) {
-            dispStr.append("<font color=\"#" + rgb + "\">");
-            for (int x = 0; x < iSocketedItems.size(); x++) {
-                dispStr.append((((D2Item) iSocketedItems.get(x)).getName().substring(0, ((D2Item) iSocketedItems.get(x)).getName().length() - 5)));
-            }
-            dispStr.append("</font><br>&#10;");
-        }
-        if (isTypeWeapon() || isTypeArmor()) {
-            if (isTypeWeapon()) {
-                if (iWhichHand == 0) {
-                    if (iThrow) {
-                        dispStr.append("Throw Damage: " + i2Dmg[1] + " - " + i2Dmg[3] + "<br>&#10;");
-                        dispStr.append("One Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "<br>&#10;");
-                    } else {
-                        dispStr.append("One Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "<br>&#10;");
-                        dispStr.append("Two Hand Damage: " + i2Dmg[1] + " - " + i2Dmg[3] + "<br>&#10;");
-                    }
-                } else if (iWhichHand == 1) {
-                    dispStr.append("One Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "<br>&#10;");
-                } else {
-                    dispStr.append("Two Hand Damage: " + i1Dmg[1] + " - " + i1Dmg[3] + "<br>&#10;");
-                }
-            } else if (isTypeArmor()) {
-                dispStr.append("Defense: " + iDef + "<br>&#10;");
-                if (isShield()) {
-                    dispStr.append("Chance to Block: " + iBlock + "<br>&#10;");
-                }
-            }
-            if (isStackable()) {
-                dispStr.append("Quantity: " + iCurDur + "<br>&#10;");
-            } else {
-                if (iMaxDur == 0) {
-                    dispStr.append("Indestructible" + "<br>&#10;");
-                } else {
-                    dispStr.append("Durability: " + iCurDur + " of " + iMaxDur + "<br>&#10;");
-                }
-            }
-        }
-        if (iReqLvl > 0) dispStr.append("Required Level: " + iReqLvl + "<br>&#10;");
-        if (iReqStr > 0) dispStr.append("Required Strength: " + iReqStr + "<br>&#10;");
-        if (iReqDex > 0) dispStr.append("Required Dexterity: " + iReqDex + "<br>&#10;");
-        if (iFP != null) dispStr.append("Fingerprint: " + iFP + "<br>&#10;");
-        if (iGUID != null) dispStr.append("GUID: " + iGUID + "<br>&#10;");
-        if (ilvl != 0) dispStr.append("Item Level: " + ilvl + "<br>&#10;");
-        dispStr.append("Version: " + get_version() + "<br>&#10;");
-        if (!iIdentified) dispStr.append("Unidentified" + "<br>&#10;");
-
-        dispStr.append(getItemPropertyString());
-
-        if (extended) {
-            if (isSocketed()) {
-
-                if (iSocketedItems != null) {
-                    dispStr.append("<br>&#10;");
-                    for (int x = 0; x < iSocketedItems.size(); x = x + 1) {
-                        if (((D2Item) iSocketedItems.get(x)) != null) {
-                            dispStr.append(((D2Item) iSocketedItems.get(x)).generatePropStringNoHtmlTags(false));
-                            if (x != iSocketedItems.size() - 1) {
-                                dispStr.append("<br>&#10;");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return dispStr.append("</center>");
-    }
-
-    private StringBuffer getItemPropertyString() {
-
-
-        StringBuffer dispStr = new StringBuffer("");
-
-        if (isJewel()) {
-            dispStr.append(iProps.generateDisplay(1, iCharLvl));
-        } else {
-            dispStr.append(iProps.generateDisplay(0, iCharLvl));
-        }
-        if (isGem() || isRune()) {
-            dispStr.append("Weapons: ");
-            dispStr.append(iProps.generateDisplay(7, iCharLvl));
-            dispStr.append("Armor: ");
-            dispStr.append(iProps.generateDisplay(8, iCharLvl));
-            dispStr.append("Shields: ");
-            dispStr.append(iProps.generateDisplay(9, iCharLvl));
-        }
-        if (quality == 5) {
-
-            for (int x = 12; x < 17; x++) {
-                StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
-                if (setBuf.length() > 29) {
-                    dispStr.append("<font color=\"red\">Set (" + (x - 10) + " items): ");
-                    dispStr.append(setBuf);
-                    dispStr.append("</font>");
-                }
-            }
-
-            for (int x = 2; x < 7; x++) {
-                StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
-                if (setBuf.length() > 29) {
-                    dispStr.append("Set (" + x + " items): ");
-                    dispStr.append(setBuf);
-                }
-            }
-        }
-        if (iEthereal) {
-            dispStr.append("<font color=\"#4850b8\">Ethereal</font><br>&#10;");
-        }
-        if (iSocketNrTotal > 0) {
-            dispStr.append(iSocketNrTotal + " Sockets (" + iSocketNrFilled + " used)<br>&#10;");
-            if (iSocketedItems != null) {
-                for (int i = 0; i < iSocketedItems.size(); i++) {
-                    dispStr.append("Socketed: " + ((D2Item) iSocketedItems.get(i)).getItemName() + "<br>&#10;");
-                }
-            }
-        }
-
-        if (quality == 5) {
-            dispStr.append("<br>&#10;");
-            for (int x = 32; x < 36; x++) {
-                StringBuffer setBuf = iProps.generateDisplay(x, iCharLvl);
-                if (setBuf.length() > 29) {
-                    dispStr.append("<font color=\"red\">(" + (x - 30) + " items): ");
-                    dispStr.append(setBuf);
-                    dispStr.append("</font>");
-                }
-            }
-
-            StringBuffer setBuf = iProps.generateDisplay(36, iCharLvl);
-            if (setBuf.length() > 33) {
-                dispStr.append(setBuf);
-            }
-
-        }
-
-        return dispStr;
-    }
-
     public void toWriter(PrintWriter pw) {
         pw.println();
-        pw.print(itemDump(true));
+        pw.print(D2ItemRenderer.itemDump(this, true));
     }
-
 
     public boolean isBodyLArm() {
         return isBodyLocation("larm");
@@ -1521,8 +1348,8 @@ public class D2Item implements Comparable, D2ItemInterface {
         return iFP;
     }
 
-    public String getILvl() {
-        return Short.toString(ilvl);
+    public short getIlvl() {
+        return ilvl;
     }
 
     public int getReqLvl() {
@@ -1730,41 +1557,6 @@ public class D2Item implements Comparable, D2ItemInterface {
         }
     }
 
-    public void setSetProps(int numItems) {
-        // iSetProps.clear();
-        /*
-         * if(numItems == 0){ iSetProps.clear(); }else if(numItems == 1){
-         * iSetProps.clear();
-         *
-         *
-         * }else
-         */
-
-        // if (numItems == 2) {
-        // iSetProps.addAll(iSet1);
-        // } else if (numItems == 3) {
-        // iSetProps.addAll(iSet1);
-        // iSetProps.addAll(iSet2);
-        // } else if (numItems == 4) {
-        // iSetProps.addAll(iSet1);
-        // iSetProps.addAll(iSet2);
-        // iSetProps.addAll(iSet3);
-        // } else if (numItems == 5) {
-        // iSetProps.addAll(iSet1);
-        // iSetProps.addAll(iSet2);
-        // iSetProps.addAll(iSet3);
-        // iSetProps.addAll(iSet4);
-        // }
-        // for(int x =0;x<iSetProps.size();x=x+1){
-        // System.out.println(numItems + " VAL:
-        // "+((D2ItemProperty)iSetProps.get(x)).getValue());
-        // }
-        if (isTypeArmor()) {
-            // applyEDef();
-
-        }
-    }
-
     public int getSetSize() {
         return setSize;
     }
@@ -1778,627 +1570,12 @@ public class D2Item implements Comparable, D2ItemInterface {
         if (iJewel || iGem || iRune) {
             return false;
         } else {
-
             return true;
         }
     }
 
-    // public ArrayList getPerfectStringUS() {
-    // D2ItemProperty[] outProp;
-    // ArrayList outArrL = new ArrayList();
-    // D2TxtFileItemProperties pRow;
-    // if (this.isUnique()) {
-    // pRow = D2TxtFile.UNIQUES.getRow(unique_id);
-    // } else if (this.isSet()) {
-    // pRow = D2TxtFile.SETITEMS.getRow(set_id);
-    // } else {
-    // pRow = D2TxtFile.RUNES.getRow(runeword_id);
-    // }
-    //
-    // int counter = 1;
-    // int max = 13;
-    // if (this.isSet()) {
-    // max = 10;
-    // } else if (this.isRuneWord()) {
-    // max = 8;
-    // }
-    // String prop = "prop";
-    //
-    // if (isRuneWord()) {
-    // prop = "T1Code";
-    // }
-    //
-    // while (counter < max) {
-    // outProp = new D2ItemProperty[2];
-    // if (!pRow.get(prop + counter).equals("")) {
-    //
-    // if (pRow.get(prop + counter).indexOf("*") != -1) {
-    // break;
-    // }
-    //
-    // // System.out.println(pRow.get("prop" + counter) + " -- " +
-    // // pRow.get("min" + counter) + "-" + pRow.get("max" + counter));
-    //
-    // /*
-    // * int lProp = Integer.parseInt((D2TxtFile.ITEM_STAT_COST
-    // * .searchColumns("Stat", ((D2TxtFile.PROPS
-    // * .searchColumns("code", (D2TxtFile.GEMS .searchColumns("code",
-    // * item_type)) .get(interestingSubProp[x][y])))
-    // * .get("stat1")))).get("ID"));
-    // */
-    //
-    // int lProp = Integer.parseInt(D2TxtFile.ITEM_STAT_COST
-    // .searchColumns(
-    // "Stat",
-    // (D2TxtFile.PROPS.searchColumns("code", pRow
-    // .get(prop + counter)).get("stat1")))
-    // .get("ID"));
-    // if (pRow.get(prop + counter).equals("res-all")) {
-    // lProp = 1337;
-    // }
-    //
-    //
-    //
-    // if (lProp == 54 || lProp == 55 || lProp == 56) {
-    // D2ItemProperty lProperty = new D2ItemProperty(101010,
-    // iCharLvl, iItemName);
-    // lProperty.set(101010, null, 0, 0);
-    // outProp[0] = lProperty;
-    // outProp[1] = lProperty;
-    // outArrL.add(outProp);
-    // if(pRow.get("prop" + counter).equals("dmg-cold")){
-    // counter = counter + 1;
-    // }else{
-    // counter = counter + 3;
-    // }
-    // continue;
-    // }
-    //
-    // if (lProp == 48 || lProp == 49) {
-    // D2ItemProperty lProperty = new D2ItemProperty(101010,
-    // iCharLvl, iItemName);
-    // lProperty.set(101010, null, 0, 1);
-    // outProp[0] = lProperty;
-    // outProp[1] = lProperty;
-    // outArrL.add(outProp);
-    // if(pRow.get("prop" + counter).equals("dmg-fire")){
-    // counter = counter + 1;
-    // }else{
-    // counter = counter + 2;
-    // }
-    // continue;
-    // }
-    //
-    // if (lProp == 50 || lProp == 51) {
-    // D2ItemProperty lProperty = new D2ItemProperty(101010,
-    // iCharLvl, iItemName);
-    // lProperty.set(101010, null, 0, 2);
-    // outProp[0] = lProperty;
-    // outProp[1] = lProperty;
-    // outArrL.add(outProp);
-    // if(pRow.get("prop" + counter).equals("dmg-ltng")){
-    // counter = counter + 1;
-    // }else{
-    // counter = counter + 2;
-    // }
-    // continue;
-    // }
-    //
-    // if (lProp == 52 || lProp == 53) {
-    // D2ItemProperty lProperty = new D2ItemProperty(101010,
-    // iCharLvl, iItemName);
-    // lProperty.set(101010, null, 0, 3);
-    // outProp[0] = lProperty;
-    // outProp[1] = lProperty;
-    // outArrL.add(outProp);
-    // if(pRow.get("prop" + counter).equals("dmg-mag")){
-    // counter = counter + 1;
-    // }else{
-    // counter = counter + 2;
-    // }
-    // continue;
-    // }
-    //
-    // if (lProp == 57 || lProp == 58 || lProp == 59) {
-    // D2ItemProperty lProperty = new D2ItemProperty(101010,
-    // iCharLvl, iItemName);
-    // lProperty.set(101010, null, 0, 4);
-    // outProp[0] = lProperty;
-    // outProp[1] = lProperty;
-    // outArrL.add(outProp);
-    // if(pRow.get("prop" + counter).equals("dmg-pois")){
-    // counter = counter + 1;
-    // }else{
-    // counter = counter + 3;
-    // }
-    // continue;
-    // }
-    //
-    // int lPropTemp = lProp;
-    // D2ItemProperty lProperty = new D2ItemProperty(lPropTemp,
-    // iCharLvl, iItemName);
-    //
-    // D2TxtFileItemProperties lItemStatCost = D2TxtFile.ITEM_STAT_COST
-    // .getRow(lProperty.getPropNrs()[0]);
-    //
-    // String pMin = pRow.get("min" + counter);
-    // String pMax = pRow.get("max" + counter);
-    // String pParam = pRow.get("par" + counter);
-    //
-    // if (isRuneWord()) {
-    // pMin = pRow.get("T1Min" + counter);
-    // pMax = pRow.get("T1Max" + counter);
-    // pParam = pRow.get("T1Param" + counter);
-    // }
-    //
-    //
-    // if (pRow.get(prop + counter).equals("dmg-norm")) {
-    //
-    // lProperty = new D2ItemProperty(21,
-    // iCharLvl, iItemName);
-    //
-    // lItemStatCost = D2TxtFile.ITEM_STAT_COST
-    // .getRow(lProperty.getPropNrs()[0]);
-    //
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMin));
-    //
-    // outProp[0] = lProperty;
-    // outProp[1] = lProperty;
-    // outArrL.add(outProp);
-    //
-    // outProp = new D2ItemProperty[2];
-    //
-    // lProperty = new D2ItemProperty(22,
-    // iCharLvl, iItemName);
-    //
-    // lItemStatCost = D2TxtFile.ITEM_STAT_COST
-    // .getRow(lProperty.getPropNrs()[0]);
-    //
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMax));
-    //
-    // outProp[0] = lProperty;
-    // outProp[1] = lProperty;
-    // outArrL.add(outProp);
-    // counter ++;
-    // continue;
-    //
-    //
-    //
-    // }
-    //
-    // if (lPropTemp == 201 || lPropTemp == 197 || lPropTemp == 199
-    // || lPropTemp == 195 || lPropTemp == 198
-    // || lPropTemp == 196) {
-    //
-    // if (!pMax.equals("")) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMax));
-    // }
-    //
-    // if (!pParam.equals("")) {
-    // // if(lPropTemp==198){
-    //
-    // try {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(D2TxtFile.SKILLS.searchColumns(
-    // "skill", pParam).get("Id")));
-    // } catch (NullPointerException e) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pParam));
-    // }
-    // // }else{
-    // // lProperty.set(lPropTemp, lItemStatCost, 0,
-    // // Long.parseLong(pParam));
-    // // }
-    // }
-    //
-    // if (!pMin.equals("")) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMin));
-    // }
-    // } else {
-    //
-    // if (!pMin.equals("")) {
-    // if (lPropTemp == 204) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMax));
-    // } else if (lPropTemp == 107) {
-    // try {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(D2TxtFile.SKILLS
-    // .searchColumns("skill", pParam)
-    // .get("Id")));
-    // } catch (NullPointerException e) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pParam));
-    // }
-    //
-    //
-    // } else {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMin));
-    // }
-    // }
-    //
-    // if (!pMax.equals("")) {
-    // if (lPropTemp == 204) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMin));
-    // } else if (lPropTemp == 107) {
-    //
-    // } else {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMax));
-    // }
-    // }
-    //
-    // if (!pParam.equals("")) {
-    //
-    // if (lPropTemp == 204 ||lPropTemp == 97) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(D2TxtFile.SKILLS.searchColumns(
-    // "skill", pParam).get("Id")));
-    //
-    // // System.out.println(pParam);
-    // // System.out.println(Long
-    // // .parseLong(D2TxtFile.SKILLS.searchColumns(
-    // // "skill", pParam).get("Id")));
-    //
-    // } else if (lPropTemp == 107) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMin));
-    // } else {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pParam));
-    // }
-    // }
-    // }
-    // outProp[0] = lProperty;
-    // lPropTemp = lProp;
-    //
-    // lProperty = new D2ItemProperty(lPropTemp, iCharLvl, iItemName);
-    //
-    // lItemStatCost = D2TxtFile.ITEM_STAT_COST.getRow(lProperty
-    // .getPropNrs()[0]);
-    //
-    // pMin = pRow.get("min" + counter);
-    // pMax = pRow.get("max" + counter);
-    // pParam = pRow.get("par" + counter);
-    //
-    // if (isRuneWord()) {
-    // pMin = pRow.get("T1Min" + counter);
-    // pMax = pRow.get("T1Max" + counter);
-    // pParam = pRow.get("T1Param" + counter);
-    // }
-    //
-    // if (lPropTemp == 201 || lPropTemp == 197 || lPropTemp == 199
-    // || lPropTemp == 195 || lPropTemp == 198
-    // || lPropTemp == 196) {
-    //
-    // if (!pMax.equals("")) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMax));
-    // }
-    //
-    // if (!pParam.equals("")) {
-    // // if(lPropTemp==198){
-    // try {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(D2TxtFile.SKILLS.searchColumns(
-    // "skill", pParam).get("Id")));
-    // } catch (NullPointerException e) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pParam));
-    // }
-    // // }else{
-    // // lProperty.set(lPropTemp, lItemStatCost, 0,
-    // // Long.parseLong(pParam));
-    // // }
-    // }
-    //
-    // if (!pMin.equals("")) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMin));
-    // }
-    // } else {
-    // if (!pMax.equals("")) {
-    // if (lPropTemp == 107) {
-    //
-    // } else {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMax));
-    // }
-    // }
-    //
-    // if (!pMin.equals("")) {
-    // if (lPropTemp == 107) {
-    // try {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(D2TxtFile.SKILLS
-    // .searchColumns("skill", pParam)
-    // .get("Id")));
-    // } catch (NullPointerException e) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pParam));
-    // }
-    // } else {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMin));
-    // }
-    // }
-    //
-    // if (!pParam.equals("")) {
-    // if (lPropTemp == 204||lPropTemp == 97) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(D2TxtFile.SKILLS.searchColumns(
-    // "skill", pParam).get("Id")));
-    // } else if (lPropTemp == 107) {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pMax));
-    // } else {
-    // lProperty.set(lPropTemp, lItemStatCost, 0, Long
-    // .parseLong(pParam));
-    // }
-    // }
-    // }
-    //
-    // // System.out.println(lProperty.getValue());
-    // outProp[1] = lProperty;
-    // outArrL.add(outProp);
-    //
-    // }
-    // counter++;
-    // }
-    //
-    // // System.out.println(applyPerfDef(tempProp));
-    // return outArrL;
-    // }
-
-    public String[] getPerfectDef(ArrayList outArrL) {
-        return null;
-//		ArrayList tempProp = new ArrayList();
-//		String[] out = new String[2];
-//		for (int x = 0; x < outArrL.size(); x++) {
-//		tempProp.add(((D2ItemProperty[]) outArrL.get(x))[0]);
-//		}
-//		out[1] = Long.toString(applyPerfDef(tempProp));
-//		tempProp = new ArrayList();
-//		for (int x = 0; x < outArrL.size(); x++) {
-//		tempProp.add(((D2ItemProperty[]) outArrL.get(x))[1]);
-//		}
-//		out[0] = Long.toString(applyPerfDef(tempProp));
-
-//		return out;
-    }
-
-    public String[] getPerfectDmg(ArrayList outArrL) {
-        return null;
-//		ArrayList tempProp = new ArrayList();
-//		String[] out = new String[2];
-//		for (int x = 0; x < outArrL.size(); x++) {
-//		tempProp.add(((D2ItemProperty[]) outArrL.get(x))[0]);
-//		}
-//		tempProp = applyPerfEDmg(tempProp);
-//		String outStr = "One Hand Damage: ";
-//		for (int x = 0; x < tempProp.size(); x = x + 1) {
-//		if (x == 0) {
-//		outStr = outStr + tempProp.get(x) + " - ";
-//		} else if (x == 1) {
-//		outStr = outStr + tempProp.get(x) + "\n";
-//		} else if (x == 2) {
-//		if (iThrow) {
-//		outStr = outStr + "Throw Damage: " + tempProp.get(x)
-//		+ " - ";
-//		} else {
-//		outStr = outStr + "Two Hand Damage: " + tempProp.get(x)
-//		+ " - ";
-//		}
-//		} else if (x == 3) {
-//		outStr = outStr + tempProp.get(x) + "\n";
-//		}
-//		}
-//		out[0] = outStr;
-//		tempProp = new ArrayList();
-//		for (int x = 0; x < outArrL.size(); x++) {
-//		tempProp.add(((D2ItemProperty[]) outArrL.get(x))[1]);
-//		}
-//		tempProp = applyPerfEDmg(tempProp);
-
-//		outStr = "One Hand Damage: ";
-//		for (int x = 0; x < tempProp.size(); x = x + 1) {
-//		if (x == 0) {
-//		outStr = outStr + tempProp.get(x) + " - ";
-//		} else if (x == 1) {
-//		outStr = outStr + tempProp.get(x) + "\n";
-//		} else if (x == 2) {
-//		if (iThrow) {
-//		outStr = outStr + "Throw Damage: " + tempProp.get(x)
-//		+ " - ";
-//		} else {
-//		outStr = outStr + "Two Hand Damage: " + tempProp.get(x)
-//		+ " - ";
-//		}
-//		} else if (x == 3) {
-//		outStr = outStr + tempProp.get(x) + "\n";
-//		}
-//		}
-//		out[1] = outStr;
-
-//		return out;
-    }
-
-    public ArrayList getPerfectString() {
-
-        // if (isUnique() || isSet()) {
-        // return sortStats(getPerfectStringUS());
-        // }else if(isRuneWord()){
-        //
-        // ArrayList perfArr = getPerfectStringUS();
-        // for(int x = 0;x<iGemProps.size();x=x+1){
-        // //D2ItemProperty[] tempP =
-        // {(D2ItemProperty)iGemProps.get(x),(D2ItemProperty)iGemProps.get(x)};
-        // //perfArr.add(tempP);
-        // }
-        //
-        //
-        // return sortStats(perfArr);
-        // }
-
-        return null;
-    }
-
-    // private ArrayList sortStats(ArrayList perfectStringUS) {
-    //
-    // int[] sortArr = new int[perfectStringUS.size()];
-    // ArrayList outSorted = new ArrayList();
-    // for (int x = 0; x < perfectStringUS.size(); x = x + 1) {
-    // sortArr[x] = (((D2ItemProperty[]) perfectStringUS.get(x))[0])
-    // .getiProp();
-    //
-    // }
-    //
-    // Arrays.sort(sortArr);
-    //
-    // for (int x = 0; x < sortArr.length; x = x + 1) {
-    // D2ItemProperty[] obj = findObjProp(sortArr[x], perfectStringUS);
-    // outSorted.add(x, obj);
-    // perfectStringUS.remove(obj);
-    // }
-    //
-    // return outSorted;
-    // }
-
-    // private D2ItemProperty[] findObjProp(int i, ArrayList perfectStringUS) {
-    //
-    // for (int x = 0; x < perfectStringUS.size(); x = x + 1) {
-    // if ((((D2ItemProperty[]) perfectStringUS.get(x))[0]).getiProp() == i) {
-    // return (D2ItemProperty[]) perfectStringUS.get(x);
-    // }
-    //
-    // }
-    //
-    // return null;
-    // }
-
-//	private ArrayList applyPerfEDmg(ArrayList iProperties) {
-
-//	int ENDam = 0;
-//	int ENMaxDam = 0;
-//	int MinDam = 0;
-//	int MaxDam = 0;
-//	ArrayList out = new ArrayList();
-
-//	for (int x = 0; x < iProperties.size(); x = x + 1) {
-//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 17) {
-//	ENDam = ENDam
-//	+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-//	}
-//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 21) {
-//	MinDam = MinDam
-//	+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-//	}
-//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 22) {
-//	MaxDam = MaxDam
-//	+ ((D2ItemProperty) iProperties.get(x)).getRealValue();
-//	}
-//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 219) {
-//	ENMaxDam = ENMaxDam
-//	+ (int) Math.floor((((D2ItemProperty) iProperties
-//	.get(x)).getRealValue() * 0.125)
-//	* iCharLvl);
-//	}
-//	if (((D2ItemProperty) iProperties.get(x)).getiProp() == 218) {
-//	MaxDam = MaxDam
-//	+ (int) Math.floor((((D2ItemProperty) iProperties
-//	.get(x)).getRealValue() * 0.125)
-//	* iCharLvl);
-//	}
-//	}
-
-//	out.add(String.valueOf((long) Math
-//	.floor((((double) i1Dmg[0] / (double) 100) * ENDam)
-//	+ (i1Dmg[0] + MinDam))));
-//	out
-//	.add(String
-//	.valueOf((long) Math
-//	.floor((((double) i1Dmg[2] / (double) 100) * (ENDam + ENMaxDam))
-//	+ (i1Dmg[2] + MaxDam))));
-
-//	if (iWhichHand == 0) {
-//	out.add(String.valueOf((long) Math
-//	.floor((((double) i2Dmg[0] / (double) 100) * ENDam)
-//	+ (i2Dmg[0] + MinDam))));
-//	out
-//	.add(String
-//	.valueOf((long) Math
-//	.floor((((double) i2Dmg[2] / (double) 100) * (ENDam + ENMaxDam))
-//	+ (i2Dmg[2] + MaxDam))));
-//	}
-
-//	return out;
-
-//	}
-
-//	private long applyPerfDef(ArrayList iProperties) {
-
-//	// int ENDef = 0;
-//	// int Def = 0;
-
-//	// if (isSet()) {
-
-//	// for (int x = 0; x < iSetProps.size(); x = x + 1) {
-//	// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 16) {
-//	// ENDef = ENDef
-//	// + ((D2ItemProperty) iSetProps.get(x))
-//	// .getRealValue();
-//	// }
-//	// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 31) {
-//	// Def = Def
-//	// + ((D2ItemProperty) iSetProps.get(x))
-//	// .getRealValue();
-//	// }
-//	// if (((D2ItemProperty) iSetProps.get(x)).getiProp() == 214) {
-//	// Def = Def
-//	// + (int) Math.floor((((D2ItemProperty) iSetProps
-//	// .get(x)).getRealValue() * 0.125)
-//	// * iCharLvl);
-//	// }
-//	// }
-
-//	// }
-
-//	// for (int x = 0; x < iProperties.size(); x = x + 1) {
-//	// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 16) {
-//	// ENDef = ENDef
-//	// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
-//	// }
-//	// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 31) {
-//	// Def = Def
-//	// + ((D2ItemProperty) iProperties.get(x)).getRealValue();
-//	// }
-//	// if (((D2ItemProperty) iProperties.get(x)).getiProp() == 214) {
-//	// Def = Def
-//	// + (int) Math.floor((((D2ItemProperty) iProperties
-//	// .get(x)).getRealValue() * 0.125)
-//	// * iCharLvl);
-//	// }
-//	// }
-//	// return (int) Math.floor((((double) iInitDef / (double) 100) * ENDef)
-//	// + (iInitDef + Def));
-
-//	return 0;
-//	}
-
     public void setCharLvl(int pCharLvl) {
         iCharLvl = pCharLvl;
-//		setCharLvl(iProperties, pCharLvl);
-//		setCharLvl(iSet1, pCharLvl);
-//		setCharLvl(iSet2, pCharLvl);
-//		setCharLvl(iSet3, pCharLvl);
-//		setCharLvl(iSet4, pCharLvl);
-//		setCharLvl(iSet5, pCharLvl);
     }
 
     public String getPreSuf() {
@@ -2430,11 +1607,8 @@ public class D2Item implements Comparable, D2ItemInterface {
     }
 
     public boolean conforms(String prop, int pVal, boolean min) {
-
-        String dumpStr = itemDump(true);
-
-        if (dumpStr.toLowerCase().indexOf(prop.toLowerCase()) != -1) {
-
+        String dumpStr = D2ItemRenderer.itemDump(this, true);
+        if (dumpStr.toLowerCase().contains(prop.toLowerCase())) {
             if (pVal == -1337) {
                 return true;
             }
@@ -2483,6 +1657,10 @@ public class D2Item implements Comparable, D2ItemInterface {
         return iItemQuality;
     }
 
+    public short getQuality() {
+        return quality;
+    }
+
     public String getFileName() {
         return iFileName;
     }
@@ -2498,11 +1676,7 @@ public class D2Item implements Comparable, D2ItemInterface {
     }
 
     public String getBaseItemName() {
-        if (!iItemName.equals(iBaseItemName)) {
-            return iBaseItemName;
-        }
-
-        return "";
+        return iBaseItemName;
     }
 
     public boolean isMoveable() {
@@ -2523,5 +1697,53 @@ public class D2Item implements Comparable, D2ItemInterface {
 
     public boolean isQuestItem() {
         return questItem;
+    }
+
+    public String getPersonalization() {
+        return personalization;
+    }
+
+    public ArrayList<D2Item> getiSocketedItems() {
+        return iSocketedItems;
+    }
+
+    public int getiWhichHand() {
+        return iWhichHand;
+    }
+
+    public boolean isiThrow() {
+        return iThrow;
+    }
+
+    public short[] getI1Dmg() {
+        return i1Dmg;
+    }
+
+    public short[] getI2Dmg() {
+        return i2Dmg;
+    }
+
+    public short getiBlock() {
+        return iBlock;
+    }
+
+    public short getiCurDur() {
+        return iCurDur;
+    }
+
+    public short getiMaxDur() {
+        return iMaxDur;
+    }
+
+    public String getiGUID() {
+        return iGUID;
+    }
+
+    public boolean isiIdentified() {
+        return iIdentified;
+    }
+
+    public int getiCharLvl() {
+        return iCharLvl;
     }
 }

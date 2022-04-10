@@ -24,6 +24,7 @@ import gomule.d2s.D2Character;
 import gomule.d2x.D2Stash;
 import gomule.item.D2BodyLocations;
 import gomule.item.D2Item;
+import gomule.item.D2ItemRenderer;
 import gomule.item.D2WeaponTypes;
 import gomule.util.D2CellStringRenderer;
 import gomule.util.D2CellValue;
@@ -313,7 +314,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                         public void valueChanged(ListSelectionEvent e) {
                             if (iTable.getSelectedRowCount() == 1) {
 
-                                String dispStr = iItemModel.getItem(iTable.getSelectedRow()).itemDumpHtml(true).replaceAll("<[/]*html>", "");
+                                String dispStr = D2ItemRenderer.itemDumpHtml(iItemModel.getItem(iTable.getSelectedRow()), true).replaceAll("<[/]*html>", "");
                                 if (!isStash()) {
                                     iItemText.setText("<html><font size=3 face=Dialog><font color = white>Item From: " + (((D2ItemListAll) iStash).getFilename(iItemModel.getItem(iTable.getSelectedRow()))) + "</font><br><br>" + dispStr + "</font></html>");
                                 } else {

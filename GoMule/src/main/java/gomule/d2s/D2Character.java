@@ -25,6 +25,7 @@ import gomule.D2Files;
 import gomule.gui.D2ItemListAdapter;
 import gomule.item.D2BodyLocations;
 import gomule.item.D2Item;
+import gomule.item.D2ItemRenderer;
 import gomule.item.D2Prop;
 import gomule.util.D2Backup;
 import gomule.util.D2BitReader;
@@ -1421,7 +1422,7 @@ public class D2Character extends D2ItemListAdapter {
         if (iCharItems != null) {
             for (int i = 0; i < iCharItems.size(); i++) {
                 D2Item lItem = (D2Item) iCharItems.get(i);
-                out.append(lItem.itemDump(true));
+                out.append(D2ItemRenderer.itemDump(lItem, true));
                 out.append("\n");
             }
         }
@@ -1434,7 +1435,7 @@ public class D2Character extends D2ItemListAdapter {
         if (iMercItems != null) {
             for (int i = 0; i < iMercItems.size(); i++) {
                 D2Item lItem = (D2Item) iMercItems.get(i);
-                out.append(lItem.itemDump(true));
+                out.append(D2ItemRenderer.itemDump(lItem, true));
                 out.append("\n\n");
             }
         }

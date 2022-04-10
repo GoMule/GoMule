@@ -22,6 +22,7 @@ package gomule.gui;
 
 import gomule.d2x.D2Stash;
 import gomule.item.D2Item;
+import gomule.item.D2ItemRenderer;
 import gomule.util.D2CellStringRenderer;
 import gomule.util.D2CellValue;
 import gomule.util.D2Project;
@@ -108,7 +109,7 @@ public class D2ViewClipboard extends RandallPanel implements D2ItemContainer, D2
                             if (iIconLabel.getIcon() == null) {
                                 iIconLabel.setIcon(iIcon);
                             }
-                            iIconLabel.setToolTipText(iItem.itemDumpHtml(false));
+                            iIconLabel.setToolTipText(D2ItemRenderer.itemDumpHtml(iItem, false));
                             iIconLabel.repaint();
                         } else {
                             iIconLabel.setIcon(null);

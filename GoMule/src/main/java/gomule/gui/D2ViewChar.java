@@ -22,6 +22,7 @@ package gomule.gui;
 
 import gomule.d2s.D2Character;
 import gomule.item.D2Item;
+import gomule.item.D2ItemRenderer;
 import randall.util.RandallPanel;
 
 import javax.swing.*;
@@ -1164,7 +1165,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                     if (lCurrentMouse == null) {
                         D2CharPainterPanel.this.setToolTipText(null);
                     } else {
-                        D2CharPainterPanel.this.setToolTipText(lCurrentMouse.itemDumpHtml(false));
+                        D2CharPainterPanel.this.setToolTipText(D2ItemRenderer.itemDumpHtml(lCurrentMouse, false));
                     }
                 }
             });
@@ -1455,7 +1456,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                         if (iCharacter.getGolemItem() == null) {
                             return;
                         }
-                        D2MercPainterPanel.this.setToolTipText(iCharacter.getGolemItem().itemDumpHtml(false));
+                        D2MercPainterPanel.this.setToolTipText(D2ItemRenderer.itemDumpHtml(iCharacter.getGolemItem(), false));
                         return;
                     }
 
@@ -1492,7 +1493,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                     if (lCurrentMouse == null) {
                         D2MercPainterPanel.this.setToolTipText(null);
                     } else {
-                        D2MercPainterPanel.this.setToolTipText(lCurrentMouse.itemDumpHtml(false));
+                        D2MercPainterPanel.this.setToolTipText(D2ItemRenderer.itemDumpHtml(lCurrentMouse, false));
                     }
                 }
             });
@@ -1656,7 +1657,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                     if (lCurrentMouse == null) {
                         D2DeathPainterPanel.this.setToolTipText(null);
                     } else {
-                        D2DeathPainterPanel.this.setToolTipText(lCurrentMouse.itemDumpHtml(false));
+                        D2DeathPainterPanel.this.setToolTipText(D2ItemRenderer.itemDumpHtml(lCurrentMouse, false));
                     }
                 }
             });
@@ -2629,7 +2630,7 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                     if (lCurrentMouse == null) {
                         D2CharCursorPainterPanel.this.setToolTipText(null);
                     } else {
-                        D2CharCursorPainterPanel.this.setToolTipText(lCurrentMouse.itemDumpHtml(false));
+                        D2CharCursorPainterPanel.this.setToolTipText(D2ItemRenderer.itemDumpHtml(lCurrentMouse, false));
                     }
                 }
             });

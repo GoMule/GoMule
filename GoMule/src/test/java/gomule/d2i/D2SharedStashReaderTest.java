@@ -1,6 +1,7 @@
 package gomule.d2i;
 
 import com.google.common.io.BaseEncoding;
+import gomule.item.D2ItemRenderer;
 import gomule.util.D2BitReader;
 import org.junit.jupiter.api.Test;
 import randall.d2files.D2TxtFile;
@@ -45,6 +46,6 @@ public class D2SharedStashReaderTest {
     }
 
     private List<String> getItemDumps(D2SharedStash.D2SharedStashPane pane) {
-        return pane.getItems().stream().map(it -> it.itemDump(true).replace("\r", "")).collect(Collectors.toList());
+        return pane.getItems().stream().map(it -> D2ItemRenderer.itemDump(it, true).replace("\r", "")).collect(Collectors.toList());
     }
 }

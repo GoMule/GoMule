@@ -3,6 +3,7 @@ package gomule.gui.sharedStash;
 import gomule.d2i.D2SharedStash;
 import gomule.gui.D2ViewClipboard;
 import gomule.item.D2Item;
+import gomule.item.D2ItemRenderer;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -29,7 +30,7 @@ class SharedStashMouseMotionListener extends MouseMotionAdapter {
         D2Item item = stashPane.getItemCovering(col, row);
         if (item != null) {
             sharedStashPanel.setCursorPickupItem();
-            sharedStashPanel.setToolTipText(item.itemDumpHtml(false));
+            sharedStashPanel.setToolTipText(D2ItemRenderer.itemDumpHtml(item, false));
         } else {
             D2Item itemOnClipboard = D2ViewClipboard.getItem();
             boolean canDropItem = itemOnClipboard != null && stashPane.canDropItem(col, row, itemOnClipboard);

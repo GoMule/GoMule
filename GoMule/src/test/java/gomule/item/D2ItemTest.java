@@ -319,7 +319,7 @@ public class D2ItemTest {
     }
 
     private void runItemDumpComparison(String expected, D2Item d2Item) {
-        assertEquals(expected, d2Item.itemDump(true).replaceAll("\r", ""));
+        assertEquals(expected, D2ItemRenderer.itemDump(d2Item, true).replaceAll("\r", ""));
     }
 
     private D2Item loadD2Item(byte[] bytes) throws Exception {
