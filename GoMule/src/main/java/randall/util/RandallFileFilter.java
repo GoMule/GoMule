@@ -31,11 +31,10 @@ import java.util.List;
  */
 public class RandallFileFilter extends FileFilter {
 
-    private final List<String> filteredExtensions;
+    private final List<String> filteredExtensions = new ArrayList<>();
     private final String description;
 
     public RandallFileFilter(String description) {
-        filteredExtensions = new ArrayList<>();
         this.description = description;
     }
 
