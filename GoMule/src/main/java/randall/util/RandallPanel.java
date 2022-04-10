@@ -32,7 +32,6 @@ public class RandallPanel extends JPanel {
     public static final Integer VERTICAL = 102;
     public static final Integer BOTH = 103;
 
-    public static final int ANCHOR_NORTHWEST = GridBagConstraints.NORTHWEST;
     public static final int ANCHOR_NORTHEAST = GridBagConstraints.NORTHEAST;
 
     private static final long serialVersionUID = -6556940562813366360L;
@@ -172,7 +171,7 @@ public class RandallPanel extends JPanel {
     }
 
     private int calcGridbagAnchor(int constraintAnchor) {
-        return constraintAnchor >= 0 ? constraintAnchor : ANCHOR_NORTHWEST;
+        return constraintAnchor >= 0 ? constraintAnchor : GridBagConstraints.NORTHWEST;
     }
 
     private int calcGridbagConstraint(Integer constraint) {
