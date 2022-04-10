@@ -132,9 +132,6 @@ public class RandallPanel extends JPanel {
 
     public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Integer constraint,
                            double weightX, double weightY, int constraintAnchor) {
-
-        int gridbagAnchor = ANCHOR_NORTHWEST;
-
         int marginTop = margin;
         int marginLeft = margin;
         int marginBottom = 0;
@@ -142,10 +139,6 @@ public class RandallPanel extends JPanel {
 //			marginBottom = margin;
 //        }
         int marginRight = margin;
-
-        if (constraintAnchor >= 0) {
-            gridbagAnchor = constraintAnchor;
-        }
 
         if (x + sizeX < marginXSize) {
             marginRight = 0;
@@ -168,7 +161,8 @@ public class RandallPanel extends JPanel {
 //        }
 
         this.add(component, new GridBagConstraints(x, y, sizeX, sizeY, calcWeightX(weightX, constraint),
-                calcWeightY(weightY, constraint), gridbagAnchor, calcGridbagConstraint(constraint),
+                calcWeightY(weightY, constraint), calcGridbagAnchor(constraintAnchor),
+                calcGridbagConstraint(constraint),
                 new Insets(marginTop, marginLeft, marginBottom, marginRight), 0, 0));
 
         this.yPos = y + 1;
@@ -192,6 +186,10 @@ public class RandallPanel extends JPanel {
             return 1.0;
         }
         return 0.0;
+    }
+
+    private int calcGridbagAnchor(int constraintAnchor) {
+        return constraintAnchor >= 0 ? constraintAnchor : ANCHOR_NORTHWEST;
     }
 
     private int calcGridbagConstraint(Integer constraint) {
