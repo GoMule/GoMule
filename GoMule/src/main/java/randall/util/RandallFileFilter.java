@@ -43,12 +43,8 @@ public class RandallFileFilter extends FileFilter {
     }
 
     private boolean extensionMatches(File file) {
-        for (String extension : filteredExtensions) {
-            if (file.getAbsolutePath().toLowerCase().endsWith(extension.toLowerCase())) {
-                return true;
-            }
-        }
-        return false;
+        return filteredExtensions.stream()
+                .anyMatch(extension -> file.getAbsolutePath().toLowerCase().endsWith(extension.toLowerCase()));
     }
 
     public void addExtension(String extension) {
