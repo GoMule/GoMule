@@ -20,15 +20,14 @@
  ******************************************************************************/
 package randall.util;
 
-/**
- * @author Marco
- * @version 1.0
- */
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Marco
+ * @version 1.0
+ */
 public class RandallFileFilter extends javax.swing.filechooser.FileFilter {
 
     private final List<String> iExtensions;
