@@ -27,10 +27,11 @@ package randall.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RandallFileFilter extends javax.swing.filechooser.FileFilter {
 
-    private final ArrayList iExtensions;
+    private final List iExtensions;
     private final String iDescription;
 
     public RandallFileFilter(String pDescription) {
