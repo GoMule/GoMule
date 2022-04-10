@@ -132,7 +132,6 @@ public class RandallPanel extends JPanel {
 
     public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Integer constraint,
                            double weightX, double weightY, int constraintAnchor) {
-        int marginLeft = margin;
         int marginBottom = 0;
 //        if (marginAllSides) {
 //			marginBottom = margin;
@@ -147,19 +146,12 @@ public class RandallPanel extends JPanel {
         }
         if (subPanel) {
             marginRight = 0;
-            if (x == 0) {
-                marginLeft = 0;
-            }
         }
-
-//        if (component instanceof JCheckBox) {
-//        	marginLeft -= 4;
-//        }
 
         this.add(component, new GridBagConstraints(x, y, sizeX, sizeY, calcWeightX(weightX, constraint),
                 calcWeightY(weightY, constraint), calcGridbagAnchor(constraintAnchor),
                 calcGridbagConstraint(constraint),
-                new Insets(calcMarginTop(y), marginLeft, marginBottom, marginRight), 0, 0));
+                new Insets(calcMarginTop(y), calcMarginLeft(x, component), marginBottom, marginRight), 0, 0));
 
         this.yPos = y + 1;
     }
@@ -203,6 +195,16 @@ public class RandallPanel extends JPanel {
         if (subPanel && y == 0) {
             return 0;
         }
+        return margin;
+    }
+
+    private int calcMarginLeft(int x, JComponent component) {
+        if (subPanel && x == 0) {
+            return 0;
+        }
+//        if (component instanceof JCheckBox) {
+//        	return margin - 4;
+//        }
         return margin;
     }
 
