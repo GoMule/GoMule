@@ -26,16 +26,17 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 public class RandallPanel extends JPanel {
+
     public static final Integer NONE = new Integer(100);
     public static final Integer HORIZONTAL = new Integer(101);
     public static final Integer VERTICAL = new Integer(102);
     public static final Integer BOTH = new Integer(103);
+
     public static final int ANCHOR_NORTHWEST = GridBagConstraints.NORTHWEST;
     public static final int ANCHOR_NORTHEAST = GridBagConstraints.NORTHEAST;
-    /**
-     *
-     */
+
     private static final long serialVersionUID = -6556940562813366360L;
+
     private int iMarginXSize = 2;
     private int iMarginYSize = -1;
     private int iYPos = 0;
@@ -98,8 +99,7 @@ public class RandallPanel extends JPanel {
         iMargin = pMargin;
     }
 
-//	public void setMarginAllSides(boolean pMarginAllSides)
-//	{
+//	public void setMarginAllSides(boolean pMarginAllSides) {
 //		iMarginAllSides = pMarginAllSides;
 //	}
 
@@ -127,11 +127,13 @@ public class RandallPanel extends JPanel {
         addToPanel(pComponent, pX, pY, pSizeX, pSizeY, pConstraint, -1.0, -1.0, -1);
     }
 
-    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, int pSizeY, Object pConstraint, int pConstraintAnchor) {
+    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, int pSizeY,
+                           Object pConstraint, int pConstraintAnchor) {
         addToPanel(pComponent, pX, pY, pSizeX, pSizeY, pConstraint, -1.0, -1.0, pConstraintAnchor);
     }
 
-    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, int pSizeY, Object pConstraint, double pWeightX, double pWeightY, int pConstraintAnchor) {
+    public void addToPanel(JComponent pComponent, int pX, int pY, int pSizeX, int pSizeY, Object pConstraint,
+                           double pWeightX, double pWeightY, int pConstraintAnchor) {
         double lWeightX = 0.0;
         double lWeightY = 0.0;
         int lGridbagConstraint = GridBagConstraints.NONE;
@@ -140,8 +142,7 @@ public class RandallPanel extends JPanel {
         int lMarginTop = iMargin;
         int lMarginLeft = iMargin;
         int lMarginBottom = 0;
-//        if ( iMarginAllSides )
-//        {
+//        if (iMarginAllSides) {
 //			lMarginBottom = iMargin;
 //        }
         int lMarginRight = iMargin;
@@ -186,17 +187,15 @@ public class RandallPanel extends JPanel {
             }
         }
 
-//        if ( pComponent instanceof JCheckBox )
-//        {
+//        if (pComponent instanceof JCheckBox) {
 //        	lMarginLeft -= 4;
 //        }
 
-        this.add(pComponent, new GridBagConstraints(pX, pY, pSizeX, pSizeY, lWeightX, lWeightY
-                , lGridbagAnchor, lGridbagConstraint,
+        this.add(pComponent, new GridBagConstraints(pX, pY, pSizeX, pSizeY, lWeightX, lWeightY,
+                lGridbagAnchor, lGridbagConstraint,
                 new Insets(lMarginTop, lMarginLeft, lMarginBottom, lMarginRight), 0, 0));
 
         this.iYPos = pY + 1;
-
     }
 
     /**
@@ -217,5 +216,4 @@ public class RandallPanel extends JPanel {
     public void setTitle(String pTitle) {
         titeledBorder.setTitle(pTitle);
     }
-
 }
