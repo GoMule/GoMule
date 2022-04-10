@@ -3,6 +3,7 @@ package gomule.gui.sharedStash;
 import gomule.d2i.D2SharedStash;
 import gomule.gui.D2FileManager;
 import randall.util.RandallPanel;
+import randall.util.RandallPanel.Constraint;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,9 +26,9 @@ class SharedStashGoldTransferPanel extends JPanel {
 
         RandallPanel transferPanel = new RandallPanel(true);
         transferPanel.setBorder("Transfer");
-        transferPanel.addToPanel(transferGoldIn, 0, 0, 1, RandallPanel.NONE);
-        transferPanel.addToPanel(transferGoldAmount, 1, 0, 1, RandallPanel.HORIZONTAL);
-        transferPanel.addToPanel(transferGoldOut, 2, 0, 1, RandallPanel.NONE);
+        transferPanel.addToPanel(transferGoldIn, 0, 0, 1, Constraint.NONE);
+        transferPanel.addToPanel(transferGoldAmount, 1, 0, 1, Constraint.HORIZONTAL);
+        transferPanel.addToPanel(transferGoldOut, 2, 0, 1, Constraint.NONE);
         add(transferPanel);
     }
 

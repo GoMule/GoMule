@@ -23,6 +23,7 @@ package gomule.gui;
 import gomule.util.D2Project;
 import randall.util.RandallFileFilter;
 import randall.util.RandallPanel;
+import randall.util.RandallPanel.Constraint;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -300,28 +301,28 @@ public class D2ProjectSettingsDialog extends JDialog {
             }
         });
 
-//        iContent.addToPanel(new JLabel("New Project"), 0, 0, 1, RandallPanel.NONE);
-//        iContent.addToPanel(iNewName, 1, 0, 1, RandallPanel.HORIZONTAL);
-//        iContent.addToPanel(iSaveNew, 2, 0, 1, RandallPanel.NONE);
-//        iContent.addToPanel(new JLabel("Change Project"), 0, 1, 1, RandallPanel.NONE);
-//        iContent.addToPanel(iChangeProject, 1, 1, 2, RandallPanel.HORIZONTAL);
-        iContent.addToPanel(new JLabel("Type selection: (for stashes naming convection only, names SC/HC should start with SC_ or HC_)"), 0, 10, 3, RandallPanel.NONE);
+//        iContent.addToPanel(new JLabel("New Project"), 0, 0, 1, Constraint.NONE);
+//        iContent.addToPanel(iNewName, 1, 0, 1, Constraint.HORIZONTAL);
+//        iContent.addToPanel(iSaveNew, 2, 0, 1, Constraint.NONE);
+//        iContent.addToPanel(new JLabel("Change Project"), 0, 1, 1, Constraint.NONE);
+//        iContent.addToPanel(iChangeProject, 1, 1, 2, Constraint.HORIZONTAL);
+        iContent.addToPanel(new JLabel("Type selection: (for stashes naming convection only, names SC/HC should start with SC_ or HC_)"), 0, 10, 3, Constraint.NONE);
 
         RandallPanel lTypePanel = new RandallPanel();
-        lTypePanel.addToPanel(iTypeSC, 0, 0, 1, RandallPanel.HORIZONTAL);
-        lTypePanel.addToPanel(iTypeHC, 1, 0, 1, RandallPanel.HORIZONTAL);
-        lTypePanel.addToPanel(iTypeBoth, 2, 0, 1, RandallPanel.HORIZONTAL);
-        iContent.addToPanel(lTypePanel, 0, 20, 3, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeSC, 0, 0, 1, Constraint.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeHC, 1, 0, 1, Constraint.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeBoth, 2, 0, 1, Constraint.HORIZONTAL);
+        iContent.addToPanel(lTypePanel, 0, 20, 3, Constraint.HORIZONTAL);
 
         RandallPanel lBackupPanel = new RandallPanel();
-        lBackupPanel.addToPanel(new JLabel("Create backupdir for each: "), 0, 0, 1, RandallPanel.NONE);
-        lBackupPanel.addToPanel(iBackupDay, 1, 0, 1, RandallPanel.HORIZONTAL);
-        lBackupPanel.addToPanel(iBackupWeek, 2, 0, 1, RandallPanel.HORIZONTAL);
-        lBackupPanel.addToPanel(iBackupMonth, 3, 0, 1, RandallPanel.HORIZONTAL);
-        lBackupPanel.addToPanel(iBackupNone, 4, 0, 1, RandallPanel.HORIZONTAL);
-        lBackupPanel.addToPanel(iIgnoreItems, 0, 1, 1, RandallPanel.HORIZONTAL);
-        lBackupPanel.addToPanel(allowDelete, 0, 2, 1, RandallPanel.HORIZONTAL);
-        iContent.addToPanel(lBackupPanel, 0, 30, 3, RandallPanel.HORIZONTAL);
+        lBackupPanel.addToPanel(new JLabel("Create backupdir for each: "), 0, 0, 1, Constraint.NONE);
+        lBackupPanel.addToPanel(iBackupDay, 1, 0, 1, Constraint.HORIZONTAL);
+        lBackupPanel.addToPanel(iBackupWeek, 2, 0, 1, Constraint.HORIZONTAL);
+        lBackupPanel.addToPanel(iBackupMonth, 3, 0, 1, Constraint.HORIZONTAL);
+        lBackupPanel.addToPanel(iBackupNone, 4, 0, 1, Constraint.HORIZONTAL);
+        lBackupPanel.addToPanel(iIgnoreItems, 0, 1, 1, Constraint.HORIZONTAL);
+        lBackupPanel.addToPanel(allowDelete, 0, 2, 1, Constraint.HORIZONTAL);
+        iContent.addToPanel(lBackupPanel, 0, 30, 3, Constraint.HORIZONTAL);
 
 
 //        RandallPanel lColorPanel = new RandallPanel();
@@ -329,25 +330,25 @@ public class D2ProjectSettingsDialog extends JDialog {
         RandallPanel lFlaviePanel = new RandallPanel(true);
         lFlaviePanel.setBorder("FLAVIE settings");
 
-        lFlaviePanel.addToPanel(new JLabel("Report name (html): "), 0, 6, 1, RandallPanel.NONE);
-        lFlaviePanel.addToPanel(iFlavieOutputReportFileName, 1, 6, 2, RandallPanel.HORIZONTAL);
-        lFlaviePanel.addToPanel(new JLabel("Title of Report: "), 0, 8, 1, RandallPanel.NONE);
-        lFlaviePanel.addToPanel(iFlavieOutputTitle, 1, 8, 2, RandallPanel.HORIZONTAL);
-        lFlaviePanel.addToPanel(new JLabel("Data file: "), 0, 20, 1, RandallPanel.NONE);
-        lFlaviePanel.addToPanel(iFlavieOutputData, 1, 20, 1, RandallPanel.HORIZONTAL);
-        lFlaviePanel.addToPanel(lFlavieDataButton, 2, 20, 1, RandallPanel.NONE);
-        lFlaviePanel.addToPanel(new JLabel("Styles file: "), 0, 21, 1, RandallPanel.NONE);
-        lFlaviePanel.addToPanel(iFlavieOutputStyle, 1, 21, 1, RandallPanel.HORIZONTAL);
-        lFlaviePanel.addToPanel(lFlaveStyleButton, 2, 21, 1, RandallPanel.NONE);
-        lFlaviePanel.addToPanel(new JLabel("Count: "), 0, 30, 1, RandallPanel.NONE);
-        lFlaviePanel.addToPanel(iFlavieCountAll, 1, 30, 1, RandallPanel.HORIZONTAL);
-        lFlaviePanel.addToPanel(iFlavieCountStash, 1, 31, 1, RandallPanel.HORIZONTAL);
-        lFlaviePanel.addToPanel(iFlavieCountChar, 1, 32, 1, RandallPanel.HORIZONTAL);
-        lFlaviePanel.addToPanel(iFlavieCountEthereal, 1, 33, 1, RandallPanel.HORIZONTAL);
+        lFlaviePanel.addToPanel(new JLabel("Report name (html): "), 0, 6, 1, Constraint.NONE);
+        lFlaviePanel.addToPanel(iFlavieOutputReportFileName, 1, 6, 2, Constraint.HORIZONTAL);
+        lFlaviePanel.addToPanel(new JLabel("Title of Report: "), 0, 8, 1, Constraint.NONE);
+        lFlaviePanel.addToPanel(iFlavieOutputTitle, 1, 8, 2, Constraint.HORIZONTAL);
+        lFlaviePanel.addToPanel(new JLabel("Data file: "), 0, 20, 1, Constraint.NONE);
+        lFlaviePanel.addToPanel(iFlavieOutputData, 1, 20, 1, Constraint.HORIZONTAL);
+        lFlaviePanel.addToPanel(lFlavieDataButton, 2, 20, 1, Constraint.NONE);
+        lFlaviePanel.addToPanel(new JLabel("Styles file: "), 0, 21, 1, Constraint.NONE);
+        lFlaviePanel.addToPanel(iFlavieOutputStyle, 1, 21, 1, Constraint.HORIZONTAL);
+        lFlaviePanel.addToPanel(lFlaveStyleButton, 2, 21, 1, Constraint.NONE);
+        lFlaviePanel.addToPanel(new JLabel("Count: "), 0, 30, 1, Constraint.NONE);
+        lFlaviePanel.addToPanel(iFlavieCountAll, 1, 30, 1, Constraint.HORIZONTAL);
+        lFlaviePanel.addToPanel(iFlavieCountStash, 1, 31, 1, Constraint.HORIZONTAL);
+        lFlaviePanel.addToPanel(iFlavieCountChar, 1, 32, 1, Constraint.HORIZONTAL);
+        lFlaviePanel.addToPanel(iFlavieCountEthereal, 1, 33, 1, Constraint.HORIZONTAL);
 
 
-        iContent.addToPanel(lFlaviePanel, 0, 50, 3, RandallPanel.HORIZONTAL);
-        iContent.addToPanel(iOk, 0, 51, 0, RandallPanel.NONE);
+        iContent.addToPanel(lFlaviePanel, 0, 50, 3, Constraint.HORIZONTAL);
+        iContent.addToPanel(iOk, 0, 51, 0, Constraint.NONE);
         iContent.finishDefaultPanel();
 
         setProjectValues();

@@ -32,6 +32,7 @@ import gomule.util.D2Project;
 import randall.d2files.D2TxtFile;
 import randall.flavie.Flavie;
 import randall.util.RandallPanel;
+import randall.util.RandallPanel.Constraint;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -203,7 +204,7 @@ public class D2FileManager extends JFrame {
         if (pTitle.equalsIgnoreCase("error")) {
             lScroll.setPreferredSize(new Dimension(640, 480));
         }
-        lPanel.addToPanel(lScroll, 0, 0, 1, RandallPanel.BOTH);
+        lPanel.addToPanel(lScroll, 0, 0, 1, Constraint.BOTH);
 
         lTextArea.setText(pText);
         if (pText.length() > 1) {
@@ -435,15 +436,15 @@ public class D2FileManager extends JFrame {
             }
         });
 
-        projControl.addToPanel(newProj, 0, 0, 1, RandallPanel.HORIZONTAL);
-        projControl.addToPanel(delProj, 1, 0, 1, RandallPanel.HORIZONTAL);
-        projControl.addToPanel(clProj, 0, 1, 2, RandallPanel.HORIZONTAL);
-        projControl.addToPanel(lFlavie, 0, 2, 2, RandallPanel.HORIZONTAL);
-        projControl.addToPanel(projTextDump, 0, 3, 2, RandallPanel.HORIZONTAL);
+        projControl.addToPanel(newProj, 0, 0, 1, Constraint.HORIZONTAL);
+        projControl.addToPanel(delProj, 1, 0, 1, Constraint.HORIZONTAL);
+        projControl.addToPanel(clProj, 0, 1, 2, Constraint.HORIZONTAL);
+        projControl.addToPanel(lFlavie, 0, 2, 2, Constraint.HORIZONTAL);
+        projControl.addToPanel(projTextDump, 0, 3, 2, Constraint.HORIZONTAL);
 
-        iLeftPane.addToPanel(iChangeProject, 0, 0, 1, RandallPanel.HORIZONTAL);
-        iLeftPane.addToPanel(iViewProject, 0, 1, 1, RandallPanel.BOTH);
-        iLeftPane.addToPanel(projControl, 0, 2, 1, RandallPanel.NONE);
+        iLeftPane.addToPanel(iChangeProject, 0, 0, 1, Constraint.HORIZONTAL);
+        iLeftPane.addToPanel(iViewProject, 0, 1, 1, Constraint.BOTH);
+        iLeftPane.addToPanel(projControl, 0, 2, 1, Constraint.NONE);
     }
 
     private void flavieDump(ArrayList dFileNames, boolean singleDump) {
@@ -648,16 +649,16 @@ public class D2FileManager extends JFrame {
         });
 
 
-        itemControl.addToPanel(pickAll, 0, 0, 1, RandallPanel.HORIZONTAL);
-        itemControl.addToPanel(dropAll, 1, 0, 1, RandallPanel.HORIZONTAL);
+        itemControl.addToPanel(pickAll, 0, 0, 1, Constraint.HORIZONTAL);
+        itemControl.addToPanel(dropAll, 1, 0, 1, Constraint.HORIZONTAL);
 
-        itemControl.addToPanel(pickFrom, 0, 1, 2, RandallPanel.HORIZONTAL);
+        itemControl.addToPanel(pickFrom, 0, 1, 2, Constraint.HORIZONTAL);
 
-        itemControl.addToPanel(pickChooser, 0, 2, 2, RandallPanel.HORIZONTAL);
+        itemControl.addToPanel(pickChooser, 0, 2, 2, Constraint.HORIZONTAL);
 
-        itemControl.addToPanel(dropTo, 0, 3, 2, RandallPanel.HORIZONTAL);
+        itemControl.addToPanel(dropTo, 0, 3, 2, Constraint.HORIZONTAL);
 
-        itemControl.addToPanel(dropChooser, 0, 4, 2, RandallPanel.HORIZONTAL);
+        itemControl.addToPanel(dropChooser, 0, 4, 2, Constraint.HORIZONTAL);
 
 
         RandallPanel charControl = new RandallPanel();
@@ -700,8 +701,8 @@ public class D2FileManager extends JFrame {
             }
         });
 
-        charControl.addToPanel(dumpBut, 0, 0, 1, RandallPanel.HORIZONTAL);
-        charControl.addToPanel(flavieSingle, 0, 1, 1, RandallPanel.HORIZONTAL);
+        charControl.addToPanel(dumpBut, 0, 0, 1, Constraint.HORIZONTAL);
+        charControl.addToPanel(flavieSingle, 0, 1, 1, Constraint.HORIZONTAL);
 
         iRightPane.add(iClipboard);
         iRightPane.add(itemControl);

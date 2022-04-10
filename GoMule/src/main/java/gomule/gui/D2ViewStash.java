@@ -29,6 +29,7 @@ import gomule.item.D2WeaponTypes;
 import gomule.util.D2CellStringRenderer;
 import gomule.util.D2CellValue;
 import randall.util.RandallPanel;
+import randall.util.RandallPanel.Constraint;
 import randall.util.RandallUtil;
 
 import javax.swing.*;
@@ -42,6 +43,7 @@ import java.util.List;
 import java.util.*;
 
 import static gomule.gui.D2FileManager.displayErrorDialog;
+import static randall.util.RandallPanel.Constraint.NONE;
 
 /**
  * @author Marco
@@ -235,22 +237,22 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         });
 
-        iRequerementFilter.addToPanel(new JLabel("Contains"), 0, 0, 1, RandallPanel.NONE);
-        iRequerementFilter.addToPanel(freeTextSearch, 1, 0, 1, RandallPanel.HORIZONTAL);
-        iRequerementFilter.addToPanel(new JLabel("MaxLvl"), 2, 0, 1, RandallPanel.NONE);
-        iRequerementFilter.addToPanel(iReqMaxLvl, 3, 0, 1, RandallPanel.HORIZONTAL);
-        iRequerementFilter.addToPanel(new JLabel("MaxStr"), 4, 0, 1, RandallPanel.NONE);
-        iRequerementFilter.addToPanel(iReqMaxStr, 5, 0, 1, RandallPanel.HORIZONTAL);
-        iRequerementFilter.addToPanel(new JLabel("MaxDex"), 6, 0, 1, RandallPanel.NONE);
-        iRequerementFilter.addToPanel(iReqMaxDex, 7, 0, 1, RandallPanel.HORIZONTAL);
-        iRequerementFilter.addToPanel(iCusFilter, 8, 0, 1, RandallPanel.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("Contains"), 0, 0, 1, NONE);
+        iRequerementFilter.addToPanel(freeTextSearch, 1, 0, 1, Constraint.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("MaxLvl"), 2, 0, 1, NONE);
+        iRequerementFilter.addToPanel(iReqMaxLvl, 3, 0, 1, Constraint.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("MaxStr"), 4, 0, 1, NONE);
+        iRequerementFilter.addToPanel(iReqMaxStr, 5, 0, 1, Constraint.HORIZONTAL);
+        iRequerementFilter.addToPanel(new JLabel("MaxDex"), 6, 0, 1, NONE);
+        iRequerementFilter.addToPanel(iReqMaxDex, 7, 0, 1, Constraint.HORIZONTAL);
+        iRequerementFilter.addToPanel(iCusFilter, 8, 0, 1, Constraint.HORIZONTAL);
 
         RandallPanel lTopPanel = new RandallPanel();
-        lTopPanel.addToPanel(lButtonPanel, 0, 0, 1, RandallPanel.HORIZONTAL);
-        lTopPanel.addToPanel(lQualityPanel, 0, 1, 1, RandallPanel.HORIZONTAL);
-        lTopPanel.addToPanel(lTypePanel, 0, 2, 1, RandallPanel.HORIZONTAL);
-        lTopPanel.addToPanel(lCategoryPanel, 0, 3, 1, RandallPanel.HORIZONTAL);
-        lTopPanel.addToPanel(iRequerementFilter, 0, 4, 1, RandallPanel.HORIZONTAL);
+        lTopPanel.addToPanel(lButtonPanel, 0, 0, 1, Constraint.HORIZONTAL);
+        lTopPanel.addToPanel(lQualityPanel, 0, 1, 1, Constraint.HORIZONTAL);
+        lTopPanel.addToPanel(lTypePanel, 0, 2, 1, Constraint.HORIZONTAL);
+        lTopPanel.addToPanel(lCategoryPanel, 0, 3, 1, Constraint.HORIZONTAL);
+        lTopPanel.addToPanel(iRequerementFilter, 0, 4, 1, Constraint.HORIZONTAL);
 
 
         iContentPane.add(lTopPanel, BorderLayout.NORTH);
@@ -415,7 +417,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 pickupSelected();
             }
         });
-        lButtonPanel.addToPanel(iPickup, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lButtonPanel.addToPanel(iPickup, 0, 0, 1, Constraint.HORIZONTAL);
 
         iDropOne = new JButton("Drop");
         iDropOne.addActionListener(new ActionListener() {
@@ -425,7 +427,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 selectItem(pItem);
             }
         });
-        lButtonPanel.addToPanel(iDropOne, 1, 0, 1, RandallPanel.HORIZONTAL);
+        lButtonPanel.addToPanel(iDropOne, 1, 0, 1, Constraint.HORIZONTAL);
 
         iDropAll = new JButton("Drop All");
         iDropAll.addActionListener(new ActionListener() {
@@ -445,7 +447,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 if (lastItemAdded != null) selectItem(lastItemAdded);
             }
         });
-        lButtonPanel.addToPanel(iDropAll, 2, 0, 1, RandallPanel.HORIZONTAL);
+        lButtonPanel.addToPanel(iDropAll, 2, 0, 1, Constraint.HORIZONTAL);
 
         iDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent pEvent) {
@@ -474,7 +476,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 }
             }
         });
-        lButtonPanel.addToPanel(iDelete, 3, 0, 1, RandallPanel.HORIZONTAL);
+        lButtonPanel.addToPanel(iDelete, 3, 0, 1, Constraint.HORIZONTAL);
 
 
         iDeleteDups.addActionListener(new ActionListener() {
@@ -516,7 +518,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             }
         });
         if (isStash()) {
-            lButtonPanel.addToPanel(iDeleteDups, 4, 0, 1, RandallPanel.HORIZONTAL);
+            lButtonPanel.addToPanel(iDeleteDups, 4, 0, 1, Constraint.HORIZONTAL);
         }
         return lButtonPanel;
     }
@@ -553,28 +555,28 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         iTypeUnique = new JCheckBox("Uniq");
         iTypeUnique.addActionListener(iStashFilter);
-        lTypePanel.addToPanel(iTypeUnique, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeUnique, 0, 0, 1, Constraint.HORIZONTAL);
         iTypeSet = new JCheckBox("Set");
         iTypeSet.addActionListener(iStashFilter);
-        lTypePanel.addToPanel(iTypeSet, 1, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeSet, 1, 0, 1, Constraint.HORIZONTAL);
         iTypeRuneWord = new JCheckBox("Runeword");
         iTypeRuneWord.addActionListener(iStashFilter);
-        lTypePanel.addToPanel(iTypeRuneWord, 2, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeRuneWord, 2, 0, 1, Constraint.HORIZONTAL);
         iTypeRare = new JCheckBox("Rare");
         iTypeRare.addActionListener(iStashFilter);
-        lTypePanel.addToPanel(iTypeRare, 3, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeRare, 3, 0, 1, Constraint.HORIZONTAL);
         iTypeMagical = new JCheckBox("Magic");
         iTypeMagical.addActionListener(iStashFilter);
-        lTypePanel.addToPanel(iTypeMagical, 4, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeMagical, 4, 0, 1, Constraint.HORIZONTAL);
         iTypeCrafted = new JCheckBox("Craft");
         iTypeCrafted.addActionListener(iStashFilter);
-        lTypePanel.addToPanel(iTypeCrafted, 5, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeCrafted, 5, 0, 1, Constraint.HORIZONTAL);
         iTypeSocketed = new JCheckBox("Socketed");
         iTypeSocketed.addActionListener(iStashFilter);
-        lTypePanel.addToPanel(iTypeSocketed, 6, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeSocketed, 6, 0, 1, Constraint.HORIZONTAL);
         iTypeOther = new JCheckBox("Other");
         iTypeOther.addActionListener(iStashFilter);
-        lTypePanel.addToPanel(iTypeOther, 7, 0, 1, RandallPanel.HORIZONTAL);
+        lTypePanel.addToPanel(iTypeOther, 7, 0, 1, Constraint.HORIZONTAL);
 
         return lTypePanel;
     }
@@ -586,22 +588,22 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         iQualNorm = new JCheckBox("Normal");
         iQualNorm.addActionListener(iStashFilter);
-        lQualPanel.addToPanel(iQualNorm, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lQualPanel.addToPanel(iQualNorm, 0, 0, 1, Constraint.HORIZONTAL);
         iQualExce = new JCheckBox("Exceptional");
         iQualExce.addActionListener(iStashFilter);
-        lQualPanel.addToPanel(iQualExce, 1, 0, 1, RandallPanel.HORIZONTAL);
+        lQualPanel.addToPanel(iQualExce, 1, 0, 1, Constraint.HORIZONTAL);
         iQualEli = new JCheckBox("Elite");
         iQualEli.addActionListener(iStashFilter);
-        lQualPanel.addToPanel(iQualEli, 2, 0, 1, RandallPanel.HORIZONTAL);
+        lQualPanel.addToPanel(iQualEli, 2, 0, 1, Constraint.HORIZONTAL);
         iQualEth = new JCheckBox("Ethereal");
         iQualEth.addActionListener(iStashFilter);
-        lQualPanel.addToPanel(iQualEth, 3, 0, 1, RandallPanel.HORIZONTAL);
+        lQualPanel.addToPanel(iQualEth, 3, 0, 1, Constraint.HORIZONTAL);
         iQualOther = new JCheckBox("Other");
         iQualOther.addActionListener(iStashFilter);
-        lQualPanel.addToPanel(iQualOther, 4, 0, 1, RandallPanel.HORIZONTAL);
+        lQualPanel.addToPanel(iQualOther, 4, 0, 1, Constraint.HORIZONTAL);
         iQualAll = new JCheckBox("All");
         iQualAll.addActionListener(iStashFilter);
-        lQualPanel.addToPanel(iQualAll, 5, 0, 1, RandallPanel.HORIZONTAL);
+        lQualPanel.addToPanel(iQualAll, 5, 0, 1, Constraint.HORIZONTAL);
 
         iQualAll.setSelected(true);
 
@@ -615,7 +617,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         RandallPanel lCategories = getCategories();
 
         lCategoryPanel
-                .addToPanel(lCategories, 0, 0, 1, RandallPanel.HORIZONTAL);
+                .addToPanel(lCategories, 0, 0, 1, Constraint.HORIZONTAL);
 
         return lCategoryPanel;
     }
@@ -627,33 +629,32 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         iCatArmor = new JRadioButton("Armor");
         iCatArmor.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatArmor, 0, lRow, 1, 0.7, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatArmor, 0, lRow, 1, 0.7, Constraint.HORIZONTAL);
         lCatBtnGroup.add(iCatArmor);
 
         iCatWeapons = new JRadioButton("Weapon");
         iCatWeapons.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatWeapons, 1, lRow, 1, 0.7, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatWeapons, 1, lRow, 1, 0.7, Constraint.HORIZONTAL);
         lCatBtnGroup.add(iCatWeapons);
 
         iCatSocket = new JRadioButton("Socket Filler");
         iCatSocket.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatSocket, 2, lRow, 1,
-                RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatSocket, 2, lRow, 1, Constraint.HORIZONTAL);
         lCatBtnGroup.add(iCatSocket);
 
         iCatCharm = new JRadioButton("Charm");
         iCatCharm.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatCharm, 3, lRow, 1, 0.6, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatCharm, 3, lRow, 1, 0.6, Constraint.HORIZONTAL);
         lCatBtnGroup.add(iCatCharm);
 
         iCatMisc = new JRadioButton("Misc");
         iCatMisc.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatMisc, 4, lRow, 1, 0.5, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatMisc, 4, lRow, 1, 0.5, Constraint.HORIZONTAL);
         lCatBtnGroup.add(iCatMisc);
 
         iCatAll = new JRadioButton("All");
         iCatAll.addActionListener(iStashFilter);
-        lCategories.addToPanel(iCatAll, 5, lRow, 1, 0.5, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCatAll, 5, lRow, 1, 0.5, Constraint.HORIZONTAL);
         lCatBtnGroup.add(iCatAll);
 
         iCatAll.setSelected(true);
@@ -661,27 +662,27 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         iArmorFilter = getCategoriesArmor();
         iArmorFilter.setVisible(false);
-        lCategories.addToPanel(iArmorFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iArmorFilter, 0, lRow++, 5, Constraint.HORIZONTAL);
 
         iWeaponFilter = getCategoriesWeapon();
         iWeaponFilter.setVisible(false);
-        lCategories.addToPanel(iWeaponFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iWeaponFilter, 0, lRow++, 5, Constraint.HORIZONTAL);
 
         iSocketFilter = getCategoriesSocket();
         iSocketFilter.setVisible(false);
-        lCategories.addToPanel(iSocketFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iSocketFilter, 0, lRow++, 5, Constraint.HORIZONTAL);
 
         iCharmFilter = getCategoriesCharm();
         iCharmFilter.setVisible(false);
-        lCategories.addToPanel(iCharmFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iCharmFilter, 0, lRow++, 5, Constraint.HORIZONTAL);
 
         iMiscFilter = getCategoriesMisc();
         iMiscFilter.setVisible(false);
-        lCategories.addToPanel(iMiscFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iMiscFilter, 0, lRow++, 5, Constraint.HORIZONTAL);
 
         iSockFilter = getCategoriesSock();
         iSockFilter.setVisible(false);
-        lCategories.addToPanel(iSockFilter, 0, lRow++, 5, RandallPanel.HORIZONTAL);
+        lCategories.addToPanel(iSockFilter, 0, lRow++, 5, Constraint.HORIZONTAL);
 
         return lCategories;
     }
@@ -696,7 +697,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
             D2BodyLocations lArmor = (D2BodyLocations) lArmorFilterList.get(i);
             D2RadioButton lBtn = new D2RadioButton(lArmor);
             lBtn.addActionListener(iStashFilter);
-            lCategoriesArmor.addToPanel(lBtn, i, 0, 1, RandallPanel.HORIZONTAL);
+            lCategoriesArmor.addToPanel(lBtn, i, 0, 1, Constraint.HORIZONTAL);
             lCatArmorBtnGroup.add(lBtn);
             if (lArmor == D2BodyLocations.BODY_ALL) {
                 lBtn.setSelected(true);
@@ -713,7 +714,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         int lCurrentRowNr = 0;
         RandallPanel lCurrentRow = new RandallPanel(true);
-        lCategoriesWeapon.addToPanel(lCurrentRow, 0, lCurrentRowNr++, 1, RandallPanel.HORIZONTAL);
+        lCategoriesWeapon.addToPanel(lCurrentRow, 0, lCurrentRowNr++, 1, Constraint.HORIZONTAL);
 
         iWeaponFilterList = new ArrayList();
         ArrayList lWeaponFilterList = D2WeaponTypes.getWeaponTypeList();
@@ -722,7 +723,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 D2WeaponTypes lWeapon = (D2WeaponTypes) lWeaponFilterList.get(i);
                 D2RadioButton lBtn = new D2RadioButton(lWeapon);
                 lBtn.addActionListener(iStashFilter);
-                lCurrentRow.addToPanel(lBtn, i, 0, 1, RandallPanel.HORIZONTAL);
+                lCurrentRow.addToPanel(lBtn, i, 0, 1, Constraint.HORIZONTAL);
                 lCatWeaponBtnGroup.add(lBtn);
                 if (lWeapon == D2WeaponTypes.WEAP_ALL) {
                     lBtn.setSelected(true);
@@ -730,7 +731,7 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
                 iWeaponFilterList.add(lBtn);
             } else {
                 lCurrentRow = new RandallPanel(true);
-                lCategoriesWeapon.addToPanel(lCurrentRow, 0, lCurrentRowNr++, 1, RandallPanel.HORIZONTAL);
+                lCategoriesWeapon.addToPanel(lCurrentRow, 0, lCurrentRowNr++, 1, Constraint.HORIZONTAL);
             }
         }
 
@@ -743,22 +744,22 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         iCatSocketJewel = new JRadioButton("Jewel");
         iCatSocketJewel.addActionListener(iStashFilter);
-        lCategoriesSocket.addToPanel(iCatSocketJewel, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSocket.addToPanel(iCatSocketJewel, 0, 0, 1, Constraint.HORIZONTAL);
         lCatSocketBtnGroup.add(iCatSocketJewel);
 
         iCatSocketGem = new JRadioButton("Gem");
         iCatSocketGem.addActionListener(iStashFilter);
-        lCategoriesSocket.addToPanel(iCatSocketGem, 1, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSocket.addToPanel(iCatSocketGem, 1, 0, 1, Constraint.HORIZONTAL);
         lCatSocketBtnGroup.add(iCatSocketGem);
 
         iCatSocketRune = new JRadioButton("Rune");
         iCatSocketRune.addActionListener(iStashFilter);
-        lCategoriesSocket.addToPanel(iCatSocketRune, 2, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSocket.addToPanel(iCatSocketRune, 2, 0, 1, Constraint.HORIZONTAL);
         lCatSocketBtnGroup.add(iCatSocketRune);
 
         iCatSocketAll = new JRadioButton("All");
         iCatSocketAll.addActionListener(iStashFilter);
-        lCategoriesSocket.addToPanel(iCatSocketAll, 3, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSocket.addToPanel(iCatSocketAll, 3, 0, 1, Constraint.HORIZONTAL);
         lCatSocketBtnGroup.add(iCatSocketAll);
 
         iCatSocketAll.setSelected(true);
@@ -772,22 +773,22 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         iCatCharmSmall = new JRadioButton("Small");
         iCatCharmSmall.addActionListener(iStashFilter);
-        lCategoriesCharm.addToPanel(iCatCharmSmall, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesCharm.addToPanel(iCatCharmSmall, 0, 0, 1, Constraint.HORIZONTAL);
         lCatCharmBtnGroup.add(iCatCharmSmall);
 
         iCatCharmLarge = new JRadioButton("Large");
         iCatCharmLarge.addActionListener(iStashFilter);
-        lCategoriesCharm.addToPanel(iCatCharmLarge, 1, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesCharm.addToPanel(iCatCharmLarge, 1, 0, 1, Constraint.HORIZONTAL);
         lCatCharmBtnGroup.add(iCatCharmLarge);
 
         iCatCharmGrand = new JRadioButton("Grand");
         iCatCharmGrand.addActionListener(iStashFilter);
-        lCategoriesCharm.addToPanel(iCatCharmGrand, 2, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesCharm.addToPanel(iCatCharmGrand, 2, 0, 1, Constraint.HORIZONTAL);
         lCatCharmBtnGroup.add(iCatCharmGrand);
 
         iCatCharmAll = new JRadioButton("All");
         iCatCharmAll.addActionListener(iStashFilter);
-        lCategoriesCharm.addToPanel(iCatCharmAll, 3, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesCharm.addToPanel(iCatCharmAll, 3, 0, 1, Constraint.HORIZONTAL);
         lCatCharmBtnGroup.add(iCatCharmAll);
 
         iCatCharmAll.setSelected(true);
@@ -801,22 +802,22 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 
         iCatMiscAmulet = new JRadioButton("Amulet");
         iCatMiscAmulet.addActionListener(iStashFilter);
-        lCategoriesMisc.addToPanel(iCatMiscAmulet, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesMisc.addToPanel(iCatMiscAmulet, 0, 0, 1, Constraint.HORIZONTAL);
         lCatMiscBtnGroup.add(iCatMiscAmulet);
 
         iCatMiscRing = new JRadioButton("Ring");
         iCatMiscRing.addActionListener(iStashFilter);
-        lCategoriesMisc.addToPanel(iCatMiscRing, 1, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesMisc.addToPanel(iCatMiscRing, 1, 0, 1, Constraint.HORIZONTAL);
         lCatMiscBtnGroup.add(iCatMiscRing);
 
         iCatMiscOther = new JRadioButton("Other");
         iCatMiscOther.addActionListener(iStashFilter);
-        lCategoriesMisc.addToPanel(iCatMiscOther, 2, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesMisc.addToPanel(iCatMiscOther, 2, 0, 1, Constraint.HORIZONTAL);
         lCatMiscBtnGroup.add(iCatMiscOther);
 
         iCatMiscAll = new JRadioButton("All");
         iCatMiscAll.addActionListener(iStashFilter);
-        lCategoriesMisc.addToPanel(iCatMiscAll, 3, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesMisc.addToPanel(iCatMiscAll, 3, 0, 1, Constraint.HORIZONTAL);
         lCatMiscBtnGroup.add(iCatMiscAll);
 
         iCatMiscAll.setSelected(true);
@@ -828,31 +829,31 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
         RandallPanel lCategoriesSock = new RandallPanel(true);
         iCatSock1 = new JCheckBox("1 Sock");
         iCatSock1.addActionListener(iStashFilter);
-        lCategoriesSock.addToPanel(iCatSock1, 0, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSock.addToPanel(iCatSock1, 0, 0, 1, Constraint.HORIZONTAL);
 
         iCatSock2 = new JCheckBox("2 Sock");
         iCatSock2.addActionListener(iStashFilter);
-        lCategoriesSock.addToPanel(iCatSock2, 1, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSock.addToPanel(iCatSock2, 1, 0, 1, Constraint.HORIZONTAL);
 
         iCatSock3 = new JCheckBox("3 Sock");
         iCatSock3.addActionListener(iStashFilter);
-        lCategoriesSock.addToPanel(iCatSock3, 2, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSock.addToPanel(iCatSock3, 2, 0, 1, Constraint.HORIZONTAL);
 
         iCatSock4 = new JCheckBox("4 Sock");
         iCatSock4.addActionListener(iStashFilter);
-        lCategoriesSock.addToPanel(iCatSock4, 3, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSock.addToPanel(iCatSock4, 3, 0, 1, Constraint.HORIZONTAL);
 
         iCatSock5 = new JCheckBox("5 Sock");
         iCatSock5.addActionListener(iStashFilter);
-        lCategoriesSock.addToPanel(iCatSock5, 4, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSock.addToPanel(iCatSock5, 4, 0, 1, Constraint.HORIZONTAL);
 
         iCatSock6 = new JCheckBox("6 Sock");
         iCatSock6.addActionListener(iStashFilter);
-        lCategoriesSock.addToPanel(iCatSock6, 5, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSock.addToPanel(iCatSock6, 5, 0, 1, Constraint.HORIZONTAL);
 
         iCatSockAll = new JCheckBox("All");
         iCatSockAll.addActionListener(iStashFilter);
-        lCategoriesSock.addToPanel(iCatSockAll, 6, 0, 1, RandallPanel.HORIZONTAL);
+        lCategoriesSock.addToPanel(iCatSockAll, 6, 0, 1, Constraint.HORIZONTAL);
 
         iCatSockAll.setSelected(true);
         return lCategoriesSock;
@@ -1531,26 +1532,26 @@ public class D2ViewStash extends JInternalFrame implements D2ItemContainer, D2It
 //			hRoot.add(Box.createRigidArea(new Dimension(250,0)));
 
             int lY = 0;
-            lContent.addToPanel(new JLabel("The superfantastic finder machine."), 0, lY, 4, RandallPanel.HORIZONTAL);
+            lContent.addToPanel(new JLabel("The superfantastic finder machine."), 0, lY, 4, Constraint.HORIZONTAL);
             lY++;
-            lContent.addToPanel(new JLabel(" "), 0, lY, 1, RandallPanel.HORIZONTAL);
+            lContent.addToPanel(new JLabel(" "), 0, lY, 1, Constraint.HORIZONTAL);
             lY++;
-            lContent.addToPanel(new JLabel("Filter String:"), 0, lY, 1, RandallPanel.HORIZONTAL);
-            lContent.addToPanel(new JLabel("Filter Value:"), 1, lY, 1, RandallPanel.HORIZONTAL);
-            lContent.addToPanel(new JLabel("Min or Max"), 2, lY, 2, RandallPanel.HORIZONTAL);
+            lContent.addToPanel(new JLabel("Filter String:"), 0, lY, 1, Constraint.HORIZONTAL);
+            lContent.addToPanel(new JLabel("Filter Value:"), 1, lY, 1, Constraint.HORIZONTAL);
+            lContent.addToPanel(new JLabel("Min or Max"), 2, lY, 2, Constraint.HORIZONTAL);
             lY++;
             for (int i = 0; i < fStrIn.length; i++) {
-                lContent.addToPanel(fStrIn[i], 0, lY, 1, RandallPanel.HORIZONTAL);
-                lContent.addToPanel(fNumIn[i], 1, lY, 1, RandallPanel.HORIZONTAL);
-                lContent.addToPanel(fMin[i], 2, lY, 1, RandallPanel.NONE);
-                lContent.addToPanel(fMax[i], 3, lY, 1, RandallPanel.NONE);
+                lContent.addToPanel(fStrIn[i], 0, lY, 1, Constraint.HORIZONTAL);
+                lContent.addToPanel(fNumIn[i], 1, lY, 1, Constraint.HORIZONTAL);
+                lContent.addToPanel(fMin[i], 2, lY, 1, NONE);
+                lContent.addToPanel(fMax[i], 3, lY, 1, NONE);
                 lY++;
             }
-            lContent.addToPanel(new JLabel(" "), 0, lY, 1, RandallPanel.HORIZONTAL);
+            lContent.addToPanel(new JLabel(" "), 0, lY, 1, Constraint.HORIZONTAL);
             lY++;
-            lContent.addToPanel(fOk, 0, lY, 1, RandallPanel.HORIZONTAL);
-            lContent.addToPanel(fClear, 1, lY, 1, RandallPanel.HORIZONTAL);
-            lContent.addToPanel(fCancel, 2, lY, 2, RandallPanel.HORIZONTAL);
+            lContent.addToPanel(fOk, 0, lY, 1, Constraint.HORIZONTAL);
+            lContent.addToPanel(fClear, 1, lY, 1, Constraint.HORIZONTAL);
+            lContent.addToPanel(fCancel, 2, lY, 2, Constraint.HORIZONTAL);
         }
 
         private class CustomFilterMinActionListener implements ActionListener {

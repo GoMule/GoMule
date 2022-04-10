@@ -27,10 +27,9 @@ import java.awt.*;
 
 public class RandallPanel extends JPanel {
 
-    public static final Integer NONE = 100;
-    public static final Integer HORIZONTAL = 101;
-    public static final Integer VERTICAL = 102;
-    public static final Integer BOTH = 103;
+    public enum Constraint {
+        NONE, HORIZONTAL, VERTICAL, BOTH
+    }
 
     private static final long serialVersionUID = -6556940562813366360L;
 
@@ -71,7 +70,7 @@ public class RandallPanel extends JPanel {
 
     public void finishDefaultPanel() {
         yPos = yPos + 100;
-        addToPanel(new JPanel(), 0, 250, 1, VERTICAL);
+        addToPanel(new JPanel(), 0, 250, 1, Constraint.VERTICAL);
     }
 
     /**
@@ -110,25 +109,25 @@ public class RandallPanel extends JPanel {
         return marginXSize;
     }
 
-    public void addToPanel(JComponent component, int x, int y, int sizeX, Integer constraint) {
-        addToPanel(component, x, y, sizeX, 1, constraint, -1.0, -1.0, -1);
+    public void addToPanel(JComponent component, int x, int y, int sizeX, Constraint constraint) {
+        addToPanel(component, x, y, sizeX, 1, -1.0, -1.0, constraint, -1);
     }
 
-    public void addToPanel(JComponent component, int x, int y, int sizeX, double weightX, Integer constraint) {
-        addToPanel(component, x, y, sizeX, 1, constraint, weightX, -1.0, -1);
+    public void addToPanel(JComponent component, int x, int y, int sizeX, double weightX, Constraint constraint) {
+        addToPanel(component, x, y, sizeX, 1, weightX, -1.0, constraint, -1);
     }
 
-    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Integer constraint) {
-        addToPanel(component, x, y, sizeX, sizeY, constraint, -1.0, -1.0, -1);
+    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Constraint constraint) {
+        addToPanel(component, x, y, sizeX, sizeY, -1.0, -1.0, constraint, -1);
     }
 
     public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY,
-                           Integer constraint, int constraintAnchor) {
-        addToPanel(component, x, y, sizeX, sizeY, constraint, -1.0, -1.0, constraintAnchor);
+                           Constraint constraint, int constraintAnchor) {
+        addToPanel(component, x, y, sizeX, sizeY, -1.0, -1.0, constraint, constraintAnchor);
     }
 
-    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Integer constraint,
-                           double weightX, double weightY, int constraintAnchor) {
+    private void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, double weightX, double weightY,
+                            Constraint constraint, int constraintAnchor) {
 
         Insets insets = new Insets(
                 calcMarginTop(y),
@@ -148,21 +147,21 @@ public class RandallPanel extends JPanel {
         this.yPos = y + 1;
     }
 
-    private double calcWeightX(double xWeight, Integer constraint) {
+    private double calcWeightX(double xWeight, Constraint constraint) {
         if (xWeight >= 0.0) {
             return xWeight;
         }
-        if (HORIZONTAL.equals(constraint) || BOTH.equals(constraint)) {
+        if (Constraint.HORIZONTAL == constraint || Constraint.BOTH == constraint) {
             return 1.0;
         }
         return 0.0;
     }
 
-    private double calcWeightY(double weightY, Integer constraint) {
+    private double calcWeightY(double weightY, Constraint constraint) {
         if (weightY >= 0.0) {
             return weightY;
         }
-        if (VERTICAL.equals(constraint) || BOTH.equals(constraint)) {
+        if (Constraint.VERTICAL == constraint || Constraint.BOTH == constraint) {
             return 1.0;
         }
         return 0.0;
@@ -172,12 +171,12 @@ public class RandallPanel extends JPanel {
         return constraintAnchor >= 0 ? constraintAnchor : GridBagConstraints.NORTHWEST;
     }
 
-    private int calcGridbagConstraint(Integer constraint) {
-        if (HORIZONTAL.equals(constraint)) {
+    private int calcGridbagConstraint(Constraint constraint) {
+        if (Constraint.HORIZONTAL == constraint) {
             return GridBagConstraints.HORIZONTAL;
-        } else if (VERTICAL.equals(constraint)) {
+        } else if (Constraint.VERTICAL == constraint) {
             return GridBagConstraints.VERTICAL;
-        } else if (BOTH.equals(constraint)) {
+        } else if (Constraint.BOTH == constraint) {
             return GridBagConstraints.BOTH;
         }
         return GridBagConstraints.NONE;
