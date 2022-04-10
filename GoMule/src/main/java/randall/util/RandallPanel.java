@@ -57,7 +57,7 @@ public class RandallPanel extends JPanel {
     }
 
     public RandallPanel(boolean pSubPanel) {
-        init();
+        this();
         if (pSubPanel) {
             setSubPanel();
         }
