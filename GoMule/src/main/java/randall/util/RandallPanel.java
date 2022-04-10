@@ -47,7 +47,7 @@ public class RandallPanel extends JPanel {
     // sub panel -> all elements on X or Y of 0 does not get a top or left margin
     private boolean iSubPanel = false;
 
-    private TitledBorder titeledBorder = null;
+    private TitledBorder titledBorder = null;
 
     /**
      * Creates a new RandallPanel with a double buffer and a flow layout.
@@ -66,8 +66,8 @@ public class RandallPanel extends JPanel {
     }
 
     public void setBorder(String pTitle) {
-        titeledBorder = new TitledBorder(new EtchedBorder(), pTitle);
-        setBorder(titeledBorder);
+        titledBorder = new TitledBorder(new EtchedBorder(), pTitle);
+        setBorder(titledBorder);
     }
 
     private void init() {
@@ -210,10 +210,10 @@ public class RandallPanel extends JPanel {
     }
 
     public String getTitle() {
-        return titeledBorder.getTitle();
+        return titledBorder.getTitle();
     }
 
     public void setTitle(String pTitle) {
-        titeledBorder.setTitle(pTitle);
+        titledBorder.setTitle(pTitle);
     }
 }
