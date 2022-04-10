@@ -113,24 +113,24 @@ public class RandallPanel extends JPanel {
         return marginXSize;
     }
 
-    public void addToPanel(JComponent component, int x, int y, int sizeX, Object constraint) {
+    public void addToPanel(JComponent component, int x, int y, int sizeX, Integer constraint) {
         addToPanel(component, x, y, sizeX, 1, constraint, -1.0, -1.0, -1);
     }
 
-    public void addToPanel(JComponent component, int x, int y, int sizeX, double weightX, Object constraint) {
+    public void addToPanel(JComponent component, int x, int y, int sizeX, double weightX, Integer constraint) {
         addToPanel(component, x, y, sizeX, 1, constraint, weightX, -1.0, -1);
     }
 
-    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Object constraint) {
+    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Integer constraint) {
         addToPanel(component, x, y, sizeX, sizeY, constraint, -1.0, -1.0, -1);
     }
 
     public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY,
-                           Object constraint, int constraintAnchor) {
+                           Integer constraint, int constraintAnchor) {
         addToPanel(component, x, y, sizeX, sizeY, constraint, -1.0, -1.0, constraintAnchor);
     }
 
-    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Object constraint,
+    public void addToPanel(JComponent component, int x, int y, int sizeX, int sizeY, Integer constraint,
                            double xWeight, double yWeight, int constraintAnchor) {
         double weightX = 0.0;
         double weightY = 0.0;
@@ -145,15 +145,15 @@ public class RandallPanel extends JPanel {
 //        }
         int marginRight = margin;
 
-        if (constraint == HORIZONTAL) {
+        if (HORIZONTAL.equals(constraint)) {
             weightX = 1.0;
             gridbagConstraint = GridBagConstraints.HORIZONTAL;
         }
-        if (constraint == VERTICAL) {
+        if (VERTICAL.equals(constraint)) {
             weightY = 1.0;
             gridbagConstraint = GridBagConstraints.VERTICAL;
         }
-        if (constraint == BOTH) {
+        if (BOTH.equals(constraint)) {
             weightX = 1.0;
             weightY = 1.0;
             gridbagConstraint = GridBagConstraints.BOTH;
