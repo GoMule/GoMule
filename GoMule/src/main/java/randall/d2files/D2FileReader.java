@@ -30,7 +30,7 @@ import java.io.FileInputStream;
  */
 public class D2FileReader {
 
-    protected byte buffer[];
+    protected byte[] buffer;
 
 //    private String iFileName;
     private int counterPosition = 0;
@@ -51,7 +51,7 @@ public class D2FileReader {
         }
     }
 
-    public D2FileReader(byte buffer[]) {
+    public D2FileReader(byte[] buffer) {
         this.buffer = buffer;
     }
 
@@ -108,7 +108,7 @@ public class D2FileReader {
     }
 
     public String getCounterString(int pCharNr) {
-        char lBuffer[] = new char[pCharNr];
+        char[] lBuffer = new char[pCharNr];
         for (int lCharNr = 0; lCharNr < pCharNr; lCharNr++) {
             lBuffer[lCharNr] = 0;
             for (int lBitNr = 0; lBitNr < 8; lBitNr++) {
@@ -129,7 +129,7 @@ public class D2FileReader {
 
     public long getCounterLong(int pBitNr) {
         long lInt = 0;
-        boolean lIntCount[] = new boolean[pBitNr];
+        boolean[] lIntCount = new boolean[pBitNr];
 
         for (int i = 0; i < pBitNr; i++) {
             lIntCount[i] = getCounterBoolean();
@@ -145,7 +145,7 @@ public class D2FileReader {
 
     public int getCounterInt(int pBitNr) {
         int lInt = 0;
-        boolean lIntCount[] = new boolean[pBitNr];
+        boolean[] lIntCount = new boolean[pBitNr];
 
         for (int i = 0; i < pBitNr; i++) {
             lIntCount[i] = getCounterBoolean();
