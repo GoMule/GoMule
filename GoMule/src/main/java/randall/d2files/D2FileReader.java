@@ -34,7 +34,7 @@ public class D2FileReader {
 
 //    private String iFileName;
     private int counterPosition = 0;
-    private int iCounterBit = 0;
+    private int counterBit = 0;
 
     public D2FileReader(String pFileName) {
         File lFile = new File(pFileName);
@@ -57,9 +57,9 @@ public class D2FileReader {
 
     public void increaseCounter(int pNrBits) {
         for (int i = 0; i < pNrBits; i++) {
-            iCounterBit++;
-            if (iCounterBit > 7) {
-                iCounterBit = 0;
+            counterBit++;
+            if (counterBit > 7) {
+                counterBit = 0;
                 counterPosition++;
             }
         }
@@ -70,18 +70,18 @@ public class D2FileReader {
     }
 
     public int getCounterBit() {
-        return iCounterBit;
+        return counterBit;
     }
 
-    public void setCounter(int counterPosition, int pBitNr) {
+    public void setCounter(int counterPosition, int counterBit) {
         this.counterPosition = counterPosition;
-        iCounterBit = pBitNr;
+        this.counterBit = counterBit;
     }
 
     public boolean getCounterBoolean() {
         int lNr = 1;
-        if (iCounterBit > 0) {
-            lNr = lNr << iCounterBit;
+        if (counterBit > 0) {
+            lNr = lNr << counterBit;
         }
         boolean lBoolean = ((buffer[counterPosition] & lNr) > 0);
         increaseCounter(1);
