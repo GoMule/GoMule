@@ -41,6 +41,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 //a character class
 //manages one character file
@@ -310,16 +311,16 @@ public class D2Character extends D2ItemListAdapter {
         cStats[20] = cStats[20] + (10 * resCounter);
         cStats[21] = cStats[21] + (10 * resCounter);
         if (hasMerc()) {
-            ArrayList hireArr = D2TxtFile.HIRE.searchColumnsMultipleHits("*SubType", getMercType());
+            List<D2TxtFileItemProperties> hireArr = D2TxtFile.HIRE.searchColumnsMultipleHits("*SubType", getMercType());
             for (int x = 0; x < hireArr.size(); x = x + 1) {
-                if (((D2TxtFileItemProperties) hireArr.get(x)).get("Version").equals("100") && Integer.parseInt(((D2TxtFileItemProperties) hireArr.get(x)).get("Level")) <= getMercLevel()) {
-                    mercHireCol = (D2TxtFileItemProperties) hireArr.get(x);
+                if (hireArr.get(x).get("Version").equals("100") && Integer.parseInt(hireArr.get(x).get("Level")) <= getMercLevel()) {
+                    mercHireCol = hireArr.get(x);
                 }
             }
             if (mercHireCol == null) {
                 for (int x = 0; x < hireArr.size(); x = x + 1) {
-                    if (((D2TxtFileItemProperties) hireArr.get(x)).get("Version").equals("100") && Integer.parseInt(((D2TxtFileItemProperties) hireArr.get(x)).get("Level")) > getMercLevel()) {
-                        mercHireCol = (D2TxtFileItemProperties) hireArr.get(x);
+                    if (hireArr.get(x).get("Version").equals("100") && Integer.parseInt(hireArr.get(x).get("Level")) > getMercLevel()) {
+                        mercHireCol = hireArr.get(x);
                         break;
                     }
                 }
@@ -1400,15 +1401,15 @@ public class D2Character extends D2ItemListAdapter {
         out.append(getStatString());
         out.append("\n\n");
 
-        ArrayList skillArr = D2TxtFile.SKILLS.searchColumnsMultipleHits("charclass", cClass);
+        List<D2TxtFileItemProperties> skillArr = D2TxtFile.SKILLS.searchColumnsMultipleHits("charclass", cClass);
         String[] skillTrees = new String[]{"", "", ""};
         int[] skillCounter = new int[3];
 
         for (int x = 0; x < skillArr.size(); x = x + 1) {
 
             try {
-                int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(((D2TxtFileItemProperties) skillArr.get(x)).get("*Id")))).get("SkillPage"));
-                skillTrees[page - 1] = skillTrees[page - 1] + D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", ((D2TxtFileItemProperties) skillArr.get(x)).get("skilldesc")).get("str name")) + ": " + initSkills[page - 1][skillCounter[page - 1]] + "/" + cSkills[page - 1][skillCounter[page - 1]] + "\n";
+                int page = Integer.parseInt((D2TxtFile.SKILL_DESC.getRow(Integer.parseInt(skillArr.get(x).get("*Id")))).get("SkillPage"));
+                skillTrees[page - 1] = skillTrees[page - 1] + D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", skillArr.get(x).get("skilldesc")).get("str name")) + ": " + initSkills[page - 1][skillCounter[page - 1]] + "/" + cSkills[page - 1][skillCounter[page - 1]] + "\n";
                 skillCounter[page - 1]++;
             } catch (NumberFormatException e) {
                 //ignore
