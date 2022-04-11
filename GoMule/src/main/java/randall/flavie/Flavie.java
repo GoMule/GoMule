@@ -32,6 +32,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -100,12 +101,12 @@ public class Flavie {
 
     public boolean checkForRuneWord(String pName, String pRunes) {
 //	    System.err.println("checkForRuneWord(" + pName + ", " + pRunes);
-        ArrayList lList = RandallUtil.split(pRunes, "-", false);
+        List lList = RandallUtil.split(pRunes, "-", false);
         if (lList.size() <= 1) {
             return false;
         }
 //	    System.err.println("checkForRuneWord(" + pName + ", " + pRunes);
-        ArrayList lRuneList = new ArrayList();
+        List lRuneList = new ArrayList();
         for (int i = 0; i < lList.size(); i++) {
             D2TxtFileItemProperties lProps = D2TxtFile.MISC.searchColumns("name", (String) lList.get(i) + " Rune");
             if (lProps == null) {
@@ -114,7 +115,7 @@ public class Flavie {
             lRuneList.add(lProps.get("code"));
         }
 //	    System.err.println("checkForRuneWord(" + pName + ", " + pRunes);
-        return (D2TxtFile.RUNES.searchRuneWord(lRuneList) != null);
+        return (D2TxtFile.RUNES.searchRuneWord(new ArrayList(lRuneList)) != null);
     }
 
     public void initializeFilters() throws Exception {

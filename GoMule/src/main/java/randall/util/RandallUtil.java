@@ -94,7 +94,7 @@ public class RandallUtil {
 //	    return lCount;
 //	}
 
-    public static ArrayList<String> split(String sourceString, String separator, boolean ignoreCase) {
+    public static List<String> split(String sourceString, String separator, boolean ignoreCase) {
         if (sourceString == null) {
             return new ArrayList<>();
         }
@@ -112,7 +112,7 @@ public class RandallUtil {
     }
 
     @NotNull
-    private static ArrayList<String> split(String stringToSplit, String stringToSearch, String separator) {
+    private static List<String> split(String stringToSplit, String stringToSearch, String separator) {
         List<String> result = new ArrayList<>();
         for (int startIndex = 0, endIndex;
              startIndex < stringToSearch.length(); startIndex = endIndex + separator.length()) {
@@ -124,7 +124,7 @@ public class RandallUtil {
             }
             result.add(stringToSplit.substring(startIndex, endIndex).trim());
         }
-        return (ArrayList<String>) result;
+        return result;
     }
 
     public static String fill(int pValue, int pDigits) {
