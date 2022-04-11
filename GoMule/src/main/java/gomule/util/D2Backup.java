@@ -7,7 +7,6 @@
 package gomule.util;
 
 import gomule.gui.D2FileManager;
-import randall.util.RandallUtil;
 
 import java.io.File;
 import java.util.Calendar;
@@ -72,7 +71,7 @@ public class D2Backup {
 
             String lBackupName = lBackupSubDir + File.separator + lNewFileName;
 
-            RandallUtil.checkDirectory(lBackupSubDir);
+            checkDirectory(lBackupSubDir);
 
             pContent.save(lBackupName);
         } catch (Exception pEx) {
@@ -115,5 +114,24 @@ public class D2Backup {
         return length > maxLength
                 ? string.substring(length - maxLength)
                 : String.format("%0" + maxLength + "d", number);
+    }
+
+    private static void checkDirectory(String pDir) throws Exception {
+        File lDir = new File(pDir);
+
+        if (!lDir.exists()) {
+            if (!lDir.mkdirs()) {
+                throw new Exception("Can not create backup dir: " + pDir);
+            }
+        }
+        if (!lDir.isDirectory()) {
+            throw new Exception("File exists with name of backup dir: " + pDir);
+        }
+        if (!lDir.canRead()) {
+            throw new Exception("Can not read backup dir: " + pDir);
+        }
+        if (!lDir.canWrite()) {
+            throw new Exception("Can not write backup dir: " + pDir);
+        }
     }
 }
