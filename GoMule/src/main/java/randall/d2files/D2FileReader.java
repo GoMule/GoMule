@@ -33,7 +33,7 @@ public class D2FileReader {
     protected byte buffer[];
 
 //    private String iFileName;
-    private int iCounterPos = 0;
+    private int counterPosition = 0;
     private int iCounterBit = 0;
 
     public D2FileReader(String pFileName) {
@@ -60,21 +60,21 @@ public class D2FileReader {
             iCounterBit++;
             if (iCounterBit > 7) {
                 iCounterBit = 0;
-                iCounterPos++;
+                counterPosition++;
             }
         }
     }
 
     public int getCounterPos() {
-        return iCounterPos;
+        return counterPosition;
     }
 
     public int getCounterBit() {
         return iCounterBit;
     }
 
-    public void setCounter(int pCharPos, int pBitNr) {
-        iCounterPos = pCharPos;
+    public void setCounter(int counterPosition, int pBitNr) {
+        this.counterPosition = counterPosition;
         iCounterBit = pBitNr;
     }
 
@@ -83,7 +83,7 @@ public class D2FileReader {
         if (iCounterBit > 0) {
             lNr = lNr << iCounterBit;
         }
-        boolean lBoolean = ((buffer[iCounterPos] & lNr) > 0);
+        boolean lBoolean = ((buffer[counterPosition] & lNr) > 0);
         increaseCounter(1);
         return lBoolean;
     }
