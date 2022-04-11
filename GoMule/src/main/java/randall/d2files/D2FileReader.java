@@ -24,6 +24,7 @@ import gomule.gui.D2FileManager;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 
 /**
  * @author Marco
@@ -36,14 +37,12 @@ public class D2FileReader {
     private int counterPosition = 0;
     private int counterBit = 0;
 
-    public D2FileReader(String pFileName) {
-        File lFile = new File(pFileName);
-        if (lFile.exists() && lFile.isFile() && lFile.canRead()) {
-            try {
-                buffer = new byte[(int) lFile.length()];
-                FileInputStream lIn = new FileInputStream(lFile);
-                lIn.read(buffer);
-                lIn.close();
+    public D2FileReader(String pathToFile) {
+        File file = new File(pathToFile);
+        if (file.exists() && file.isFile() && file.canRead()) {
+            try (InputStream fileInputStream = new FileInputStream(file)) {
+                buffer = new byte[(int) file.length()];
+                fileInputStream.read(buffer);
             } catch (Exception pEx) {
                 buffer = null;
                 D2FileManager.displayErrorDialog(pEx);
