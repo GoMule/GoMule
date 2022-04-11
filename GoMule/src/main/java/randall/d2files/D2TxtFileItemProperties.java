@@ -54,11 +54,11 @@ public class D2TxtFileItemProperties {
 
     public String getName() {
 //        if (txtFile == D2TxtFile.MISC) {
-//            String lType = txtFile.getValue(rowNumber, "type");
-//            if (lType != null && !"".equals(lType.trim())) {
-//                D2TxtFileItemProperties lItemType = D2TxtFile.ITEMTYPES.searchColumns("Code", lType);
-//                if (lItemType != null) {
-//                    return lItemType.get("ItemType");
+//            String type = txtFile.getValue(rowNumber, "type");
+//            if (type != null && !"".equals(type.trim())) {
+//                D2TxtFileItemProperties itemType = D2TxtFile.ITEMTYPES.searchColumns("Code", type);
+//                if (itemType != null) {
+//                    return itemType.get("ItemType");
 //                }
 //            }
 //        }
