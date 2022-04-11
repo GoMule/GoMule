@@ -32,7 +32,7 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class GoMule {
@@ -105,7 +105,7 @@ public class GoMule {
             String lLine = lIn.readLine();
             lIn.close();
 
-            ArrayList lString = RandallUtil.split(lLine, " ", false);
+            List lString = RandallUtil.split(lLine, " ", false);
 
             // Convert here
             String lReturn[] = new String[lString.size()];

@@ -11,8 +11,8 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author mbr
@@ -32,7 +32,7 @@ public class FlavieDupeFilter implements FlavieItemFilter {
             if (!lLine.trim().equals("")) {
 //				System.err.println("Test: " + lLine );
                 // Find fingerprint in this line
-                ArrayList lSplit = RandallUtil.split(lLine, " ", false);
+                List lSplit = RandallUtil.split(lLine, " ", false);
                 for (int i = 0; i < lSplit.size(); i++) {
                     if ((String) lSplit.get(i) != null) {
                         String lSplitted = ((String) lSplit.get(i)).trim();
