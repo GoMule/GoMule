@@ -219,10 +219,13 @@ public final class D2TxtFile {
                 || !values.isEmpty() && !values.get(0).equals("Expansion");
     }
 
-    protected String getValue(int pRowNr, String pCol) {
-        int lColNr = findColumnNumber(pCol);
-        if (lColNr != -1 && pRowNr < data.size() && data.get(pRowNr).size() > lColNr) {
-            return data.get(pRowNr).get(lColNr);
+    String getValue(String columnName, int rowNumber) {
+        int columnNumber = findColumnNumber(columnName);
+        if (columnNumber != -1 && rowNumber < data.size()) {
+            List<String> row = data.get(rowNumber);
+            if (columnNumber < row.size()) {
+                return row.get(columnNumber);
+            }
         }
         return "";
     }
