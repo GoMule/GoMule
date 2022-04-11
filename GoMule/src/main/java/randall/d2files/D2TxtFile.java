@@ -64,7 +64,7 @@ public final class D2TxtFile {
     public static D2TxtFile SUPUNIQ;
     public static D2TxtFile ITEMRATIO;
 
-    private static String sMod;
+    private static String folder;
     private static boolean read = false;
 
     private final String fileName;
@@ -75,9 +75,9 @@ public final class D2TxtFile {
         this.fileName = fileName;
     }
 
-    public static void constructTxtFiles(String pMod) {
+    public static void constructTxtFiles(String folder) {
         if (read) return;
-        sMod = pMod;
+        D2TxtFile.folder = folder;
         MISC = new D2TxtFile("misc");
         ARMOR = new D2TxtFile("armor");
         WEAPONS = new D2TxtFile("weapons");
@@ -200,7 +200,7 @@ public final class D2TxtFile {
     private void readInData() {
         try {
             List<String[]> strArr = new ArrayList<>();
-            FileReader lFileIn = new FileReader(sMod + File.separator + fileName + ".txt");
+            FileReader lFileIn = new FileReader(folder + File.separator + fileName + ".txt");
             BufferedReader lIn = new BufferedReader(lFileIn);
             String lFirstLine = lIn.readLine();
 
