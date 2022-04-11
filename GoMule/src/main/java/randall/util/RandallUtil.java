@@ -73,17 +73,10 @@ public class RandallUtil {
 //	}
 
     public static String merge(List<String> strings, String delimiter) {
-        String result = "";
-        if (!strings.isEmpty()) {
-            result += strings.get(0);
-            for (int i = 1; i < strings.size(); i++) {
-                result += delimiter + strings.get(i);
-            }
-        }
-        return result;
+        return String.join(delimiter, strings);
     }
 
-//	public static int count(String pString, String pOccurance, boolean pIgnoreCase)
+    //	public static int count(String pString, String pOccurance, boolean pIgnoreCase)
 //	{
 //	    int lCount = 0;
 //	    
