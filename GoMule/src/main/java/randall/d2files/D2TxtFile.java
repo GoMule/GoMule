@@ -28,12 +28,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
+
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Marco
  */
 public final class D2TxtFile {
+
+    private static final String DELIMITER = "	";
 
     public static D2TxtFile MISC;
     public static D2TxtFile ARMOR;
@@ -198,34 +202,23 @@ public final class D2TxtFile {
     }
 
     private void readInData() {
-        try {
-            List<String[]> strArr = new ArrayList<>();
-            FileReader lFileIn = new FileReader(folder + File.separator + fileName + ".txt");
-            BufferedReader lIn = new BufferedReader(lFileIn);
-            String lFirstLine = lIn.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(folder + File.separator + fileName + ".txt"))) {
+            header = reader.readLine().split(DELIMITER);
+            List<String[]> rows = reader.lines()
+                    .map(line -> line.split(DELIMITER))
+                    .filter(this::meaningfulRow)
+                    .collect(toList());
 
-            Pattern p = Pattern.compile("	");
-            header = p.split(lFirstLine);
-            String lLine = lIn.readLine();
-
-            boolean lSkipExpansion = "UniqueItems".equals(fileName) || "SetItems".equals(fileName);
-            while (lLine != null) {
-                String[] lineArr = p.split(lLine);
-                if (lineArr.length > 0 && lSkipExpansion && lineArr[0].equals("Expansion")) {
-                } else {
-//					data.add(lSplit);
-                    strArr.add(lineArr);
-                }
-                lLine = lIn.readLine();
-            }
-            lFileIn.close();
-            lIn.close();
-
-            data = new String[strArr.size()][];
-            strArr.toArray(data);
-        } catch (Exception pEx) {
-            D2FileManager.displayErrorDialog(pEx);
+            data = new String[rows.size()][];
+            rows.toArray(data);
+        } catch (Exception ex) {
+            D2FileManager.displayErrorDialog(ex);
         }
+    }
+
+    private boolean meaningfulRow(String[] values) {
+        return !asList("UniqueItems", "SetItems").contains(fileName)
+                || values.length > 0 && !values[0].equals("Expansion");
     }
 
     protected String getValue(int pRowNr, String pCol) {
