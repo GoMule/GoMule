@@ -127,7 +127,7 @@ public class RandallUtil {
         return result;
     }
 
-    public static String fill(int pValue, int pDigits) {
+    public static String intToString(int pValue, int pDigits) {
         String lValue = Integer.toString(pValue);
 
         if (lValue.length() > pDigits) {
