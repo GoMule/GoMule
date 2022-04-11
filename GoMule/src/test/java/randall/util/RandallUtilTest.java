@@ -1,6 +1,5 @@
 package randall.util;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,8 +11,7 @@ import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RandallUtilTest {
 
@@ -72,5 +70,25 @@ class RandallUtilTest {
                                                            String delimiter, List<String> expected) {
         List<String> actual = RandallUtil.split(stringToSplit, delimiter.toLowerCase(), true);
         assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+
+    @Test
+    void intToStringShouldAddLeadingZeros() {
+        String actual = RandallUtil.intToString(1, 10);
+        assertEquals("0000000001", actual);
+        assertEquals(10, actual.length());
+    }
+
+    @Test
+    void intToStringShouldAddLeadingZerosLongValue() {
+        String actual = RandallUtil.intToString(1, 100);
+        assertTrue(actual.contains("01"));
+        assertEquals(100, actual.length());
+    }
+
+    @Test
+    void intToStringShouldCutLeadingNumbers() {
+        String actual = RandallUtil.intToString(111111114, 4);
+        assertEquals("1114", actual);
     }
 }
