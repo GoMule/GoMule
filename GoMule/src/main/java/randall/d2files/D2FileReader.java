@@ -30,7 +30,7 @@ import java.io.FileInputStream;
  */
 public class D2FileReader {
 
-    protected byte iBuffer[];
+    protected byte buffer[];
 
 //    private String iFileName;
     private int iCounterPos = 0;
@@ -40,19 +40,19 @@ public class D2FileReader {
         File lFile = new File(pFileName);
         if (lFile.exists() && lFile.isFile() && lFile.canRead()) {
             try {
-                iBuffer = new byte[(int) lFile.length()];
+                buffer = new byte[(int) lFile.length()];
                 FileInputStream lIn = new FileInputStream(lFile);
-                lIn.read(iBuffer);
+                lIn.read(buffer);
                 lIn.close();
             } catch (Exception pEx) {
-                iBuffer = null;
+                buffer = null;
                 D2FileManager.displayErrorDialog(pEx);
             }
         }
     }
 
-    public D2FileReader(byte pBuffer[]) {
-        iBuffer = pBuffer;
+    public D2FileReader(byte buffer[]) {
+        this.buffer = buffer;
     }
 
     public void increaseCounter(int pNrBits) {
@@ -83,7 +83,7 @@ public class D2FileReader {
         if (iCounterBit > 0) {
             lNr = lNr << iCounterBit;
         }
-        boolean lBoolean = ((iBuffer[iCounterPos] & lNr) > 0);
+        boolean lBoolean = ((buffer[iCounterPos] & lNr) > 0);
         increaseCounter(1);
         return lBoolean;
     }
