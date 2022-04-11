@@ -68,7 +68,7 @@ public final class D2TxtFile {
     private static boolean read = false;
 
     private String iFileName;
-    private String[] iHeader;
+    private String[] header;
     private String[][] iData;
 
     private D2TxtFile(String pFileName) {
@@ -205,7 +205,7 @@ public final class D2TxtFile {
             String lFirstLine = lIn.readLine();
 
             Pattern p = Pattern.compile("	");
-            iHeader = p.split(lFirstLine);
+            header = p.split(lFirstLine);
             String lLine = lIn.readLine();
 
             boolean lSkipExpansion = "UniqueItems".equals(iFileName) || "SetItems".equals(iFileName);
@@ -240,8 +240,8 @@ public final class D2TxtFile {
         if (iData == null) {
             readInData();
         }
-        for (int x = 0; x < iHeader.length; x++) {
-            if (iHeader[x].equals(col)) {
+        for (int x = 0; x < header.length; x++) {
+            if (header[x].equals(col)) {
                 return x;
             }
         }
