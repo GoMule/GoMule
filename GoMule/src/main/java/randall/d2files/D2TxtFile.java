@@ -67,12 +67,12 @@ public final class D2TxtFile {
     private static String sMod;
     private static boolean read = false;
 
-    private String iFileName;
+    private String fileName;
     private String[] header;
     private String[][] data;
 
-    private D2TxtFile(String pFileName) {
-        iFileName = pFileName;
+    private D2TxtFile(String fileName) {
+        this.fileName = fileName;
     }
 
     public static void constructTxtFiles(String pMod) {
@@ -187,7 +187,7 @@ public final class D2TxtFile {
     }
 
     public String getFileName() {
-        return iFileName;
+        return fileName;
     }
 
     public int getRowSize() {
@@ -200,7 +200,7 @@ public final class D2TxtFile {
     private void readInData() {
         try {
             List<String[]> strArr = new ArrayList<>();
-            FileReader lFileIn = new FileReader(sMod + File.separator + iFileName + ".txt");
+            FileReader lFileIn = new FileReader(sMod + File.separator + fileName + ".txt");
             BufferedReader lIn = new BufferedReader(lFileIn);
             String lFirstLine = lIn.readLine();
 
@@ -208,7 +208,7 @@ public final class D2TxtFile {
             header = p.split(lFirstLine);
             String lLine = lIn.readLine();
 
-            boolean lSkipExpansion = "UniqueItems".equals(iFileName) || "SetItems".equals(iFileName);
+            boolean lSkipExpansion = "UniqueItems".equals(fileName) || "SetItems".equals(fileName);
             while (lLine != null) {
                 String[] lineArr = p.split(lLine);
                 if (lineArr.length > 0 && lSkipExpansion && lineArr[0].equals("Expansion")) {
