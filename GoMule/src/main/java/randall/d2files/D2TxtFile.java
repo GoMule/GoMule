@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
  * Preferences - Java - Code Style - Code Templates
  */
 public final class D2TxtFile {
+
     public static D2TxtFile MISC;
     public static D2TxtFile ARMOR;
     public static D2TxtFile WEAPONS;
@@ -56,28 +57,27 @@ public final class D2TxtFile {
     public static D2TxtFile FULLSET;
     public static D2TxtFile CHARSTATS;
     public static D2TxtFile AUTOMAGIC;
-    //	/**
-//	* DROP CALC
-//	*/
+    /*
+     * DROP CALC
+     */
     public static D2TxtFile MONSTATS;
     public static D2TxtFile TCS;
     public static D2TxtFile LEVELS;
     public static D2TxtFile SUPUNIQ;
     public static D2TxtFile ITEMRATIO;
+
     private static String sMod;
     private static boolean read = false;
+
     private String iFileName;
     private String[] iHeader;
     private String[][] iData;
 
-
     private D2TxtFile(String pFileName) {
         iFileName = pFileName;
-
     }
 
     public static void constructTxtFiles(String pMod) {
-
         if (read) return;
         sMod = pMod;
         MISC = new D2TxtFile("misc");
@@ -105,7 +105,6 @@ public final class D2TxtFile {
         CHARSTATS = new D2TxtFile("charstats");
         AUTOMAGIC = new D2TxtFile("automagic");
         ITEMRATIO = new D2TxtFile("itemRatio");
-
         read = true;
     }
 
@@ -130,10 +129,8 @@ public final class D2TxtFile {
     }
 
     public static ArrayList propToStat(String pCode, String pMin, String pMax, String pParam, int qFlag) {
-
         ArrayList outArr = new ArrayList();
         for (int x = 1; x < 8; x++) {
-
             String propsStatCode = D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x);
             if (propsStatCode.equals("")) {
                 if (pCode.equals("dmg%") && x == 1) {
@@ -142,9 +139,7 @@ public final class D2TxtFile {
                     break;
                 }
             }
-
             int[] pVals = {0, 0, 0};
-
             if (!pMin.equals("")) {
                 try {
                     pVals[0] = Integer.parseInt(pMin);
@@ -152,8 +147,6 @@ public final class D2TxtFile {
                     return outArr;
                 }
             }
-            ;
-
             if (!pMax.equals("")) {
                 try {
                     pVals[1] = Integer.parseInt(pMax);
@@ -161,8 +154,6 @@ public final class D2TxtFile {
                     return outArr;
                 }
             }
-            ;
-
             if (!pParam.equals("")) {
                 try {
                     pVals[2] = Integer.parseInt(pParam);
@@ -170,8 +161,6 @@ public final class D2TxtFile {
                     return outArr;
                 }
             }
-            ;
-
             if (propsStatCode.indexOf("max") != -1) {
                 pVals[0] = pVals[1];
             } else if (propsStatCode.indexOf("length") != -1) {
@@ -180,16 +169,12 @@ public final class D2TxtFile {
                 }
             }
             pVals[2] = 0;
-
             if (propsStatCode.equals("item_addclassskills")) {
                 pVals[0] = Integer.parseInt(D2TxtFile.PROPS.searchColumns("code", pCode).get("val1"));
             }
-
             outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat", propsStatCode).get("*ID")), pVals, qFlag));
-
         }
         return outArr;
-
     }
 
     public static D2TxtFileItemProperties search(String pCode) {
@@ -229,20 +214,17 @@ public final class D2TxtFile {
             while (lLine != null) {
                 String[] lineArr = p.split(lLine);
                 if (lineArr.length > 0 && lSkipExpansion && lineArr[0].equals("Expansion")) {
-
                 } else {
 //					iData.add(lSplit);
                     strArr.add(lineArr);
                 }
                 lLine = lIn.readLine();
             }
-
             lFileIn.close();
             lIn.close();
 
             iData = new String[strArr.size()][];
             strArr.toArray(iData);
-
         } catch (Exception pEx) {
             D2FileManager.displayErrorDialog(pEx);
         }
@@ -250,26 +232,21 @@ public final class D2TxtFile {
 
     protected String getValue(int pRowNr, String pCol) {
         int lColNr = getCol(pCol);
-
         if (lColNr != -1 && pRowNr < iData.length && iData[pRowNr].length > lColNr) {
             return iData[pRowNr][lColNr];
         }
-
         return "";
     }
 
     private int getCol(String col) {
-
         if (iData == null) {
             readInData();
         }
-
         for (int x = 0; x < iHeader.length; x++) {
             if (iHeader[x].equals(col)) {
                 return x;
             }
         }
-
         return -1;
     }
 
@@ -278,9 +255,7 @@ public final class D2TxtFile {
     }
 
     public D2TxtFileItemProperties searchColumns(String pCol, String pText) {
-
         int lColNr = getCol(pCol);
-
         if (lColNr != -1) {
             for (int i = 0; i < iData.length; i++) {
                 if (iData[i].length - 1 >= lColNr) {
@@ -290,14 +265,12 @@ public final class D2TxtFile {
                 }
             }
         }
-
         return null;
     }
 
     public ArrayList searchColumnsMultipleHits(String pCol, String pText) {
         ArrayList hits = new ArrayList();
         int lColNr = getCol(pCol);
-
         if (lColNr != -1) {
             for (int i = 0; i < iData.length; i++) {
                 if (iData[i].length - 1 >= lColNr) {
@@ -307,7 +280,6 @@ public final class D2TxtFile {
                 }
             }
         }
-
         return hits;
     }
 
@@ -317,14 +289,12 @@ public final class D2TxtFile {
             ArrayList lRW = new ArrayList();
             for (int j = 0; j < lRuneNr.length; j++) {
                 String lFile = iData[i][lRuneNr[j]];
-
                 if (lFile != null && !lFile.equals("")) {
                     lRW.add(lFile);
                 } else {
                     break;
                 }
             }
-
             if (pList.size() == lRW.size()) {
                 boolean lIsRuneWord = true;
                 for (int j = 0; j < pList.size() && lIsRuneWord; j++) {
