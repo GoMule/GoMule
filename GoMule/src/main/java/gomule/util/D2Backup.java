@@ -116,22 +116,16 @@ public class D2Backup {
                 : String.format("%0" + maxLength + "d", number);
     }
 
-    private static void checkDirectory(String pDir) throws Exception {
-        File lDir = new File(pDir);
-
-        if (!lDir.exists()) {
-            if (!lDir.mkdirs()) {
-                throw new Exception("Can not create backup dir: " + pDir);
-            }
-        }
-        if (!lDir.isDirectory()) {
-            throw new Exception("File exists with name of backup dir: " + pDir);
-        }
-        if (!lDir.canRead()) {
-            throw new Exception("Can not read backup dir: " + pDir);
-        }
-        if (!lDir.canWrite()) {
-            throw new Exception("Can not write backup dir: " + pDir);
+    private static void checkDirectory(String pathToDirectory) {
+        File file = new File(pathToDirectory);
+        if (!file.exists() && !file.mkdirs()) {
+            throw new IllegalArgumentException("Can not create backup dir: " + pathToDirectory);
+        } else if (!file.isDirectory()) {
+            throw new IllegalArgumentException("File exists with name of backup dir: " + pathToDirectory);
+        } else if (!file.canRead()) {
+            throw new IllegalArgumentException("Can not read backup dir: " + pathToDirectory);
+        } else if (!file.canWrite()) {
+            throw new IllegalArgumentException("Can not write backup dir: " + pathToDirectory);
         }
     }
 }
