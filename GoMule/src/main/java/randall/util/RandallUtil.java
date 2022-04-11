@@ -29,7 +29,11 @@ public class RandallUtil {
 
     private static final String DEFAULT_SEPARATOR = ",";
 
-//	private static final String ICON_PATH = "/randall/images/";
+    private RandallUtil() {
+        // Utility class
+    }
+
+    //	private static final String ICON_PATH = "/randall/images/";
 //	private static HashMap iIcons = new HashMap();
 
 //   public static ImageIcon getIcon( String iconName )
