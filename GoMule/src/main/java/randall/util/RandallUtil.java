@@ -127,7 +127,7 @@ public class RandallUtil {
         return result;
     }
 
-    public static void checkDir(String pDir) throws Exception {
+    public static void checkDirectory(String pDir) throws Exception {
         File lDir = new File(pDir);
 
         if (!lDir.exists()) {
