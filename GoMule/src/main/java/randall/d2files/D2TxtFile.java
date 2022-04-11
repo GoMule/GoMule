@@ -72,7 +72,7 @@ public final class D2TxtFile {
     private static boolean read = false;
 
     private final String fileName;
-    private String[] header;
+    private List<String> header;
     private String[][] data;
 
     private D2TxtFile(String fileName) {
@@ -204,7 +204,7 @@ public final class D2TxtFile {
             return;
         }
         try (BufferedReader reader = new BufferedReader(new FileReader(folder + File.separator + fileName + ".txt"))) {
-            header = reader.readLine().split(DELIMITER);
+            header = asList(reader.readLine().split(DELIMITER));
             List<String[]> rows = reader.lines()
                     .map(line -> line.split(DELIMITER))
                     .filter(this::meaningfulRow)
@@ -232,8 +232,8 @@ public final class D2TxtFile {
 
     private int getCol(String col) {
         init();
-        for (int x = 0; x < header.length; x++) {
-            if (header[x].equals(col)) {
+        for (int x = 0; x < header.size(); x++) {
+            if (header.get(x).equals(col)) {
                 return x;
             }
         }
