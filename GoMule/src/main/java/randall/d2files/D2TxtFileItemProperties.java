@@ -33,9 +33,9 @@ public class D2TxtFileItemProperties {
         this.rowNumber = rowNumber;
     }
 
-    public String get(String pKey) {
+    public String get(String propertyName) {
 //        int x = 1;
-//        if (pKey.equals("str name")) {
+//        if (propertyName.equals("str name")) {
 //            while (x == 1) {
 //                int test = 221;
 //                if (D2Files.getInstance().getTranslations().getTranslation(txtFile.getValue(test, "str name")) != null) {
@@ -45,7 +45,7 @@ public class D2TxtFileItemProperties {
 //                }
 //            }
 //        }
-        return txtFile.getValue(rowNumber, pKey);
+        return txtFile.getValue(rowNumber, propertyName);
     }
 
     public String getFileName() {
