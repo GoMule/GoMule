@@ -45,7 +45,7 @@ public class D2TxtFileItemProperties {
 //                }
 //            }
 //        }
-        return txtFile.getValue(rowNumber, propertyName);
+        return txtFile.getValue(propertyName, rowNumber);
     }
 
     public String getFileName() {
@@ -62,11 +62,11 @@ public class D2TxtFileItemProperties {
 //                }
 //            }
 //        }
-        return txtFile.getValue(rowNumber, "name");
+        return txtFile.getValue("name", rowNumber);
     }
 
     public String getTblName() {
-        return txtFile.getValue(rowNumber, "transtbl");
+        return txtFile.getValue("transtbl", rowNumber);
     }
 
     public int getRowNum() {
