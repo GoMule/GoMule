@@ -127,18 +127,12 @@ public class RandallUtil {
         return result;
     }
 
-    public static String intToString(int pValue, int pDigits) {
-        String lValue = Integer.toString(pValue);
-
-        if (lValue.length() > pDigits) {
-            return lValue.substring(lValue.length() - pDigits);
-        }
-
-        while (lValue.length() < pDigits) {
-            lValue = "0" + lValue;
-        }
-
-        return lValue;
+    public static String intToString(int number, int maxLength) {
+        String string = Integer.toString(number);
+        int length = string.length();
+        return length > maxLength
+                ? string.substring(length - maxLength)
+                : String.format("%0" + maxLength + "d", number);
     }
 
     public static void checkDir(String pDir) throws Exception {
