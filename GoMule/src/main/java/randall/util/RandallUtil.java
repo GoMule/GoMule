@@ -20,11 +20,15 @@
  ******************************************************************************/
 package randall.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RandallUtil {
+
+    private static final String DEFAULT_SEPARATOR = ",";
 
 //	private static final String ICON_PATH = "/randall/images/";
 //	private static HashMap iIcons = new HashMap();
@@ -79,56 +83,48 @@ public class RandallUtil {
     //	public static int count(String pString, String pOccurance, boolean pIgnoreCase)
 //	{
 //	    int lCount = 0;
-//	    
+//
 //	    int lIndex = pString.indexOf(pOccurance, 0);
 //	    while ( lIndex != -1 )
 //	    {
 //	        lCount++;
 //	        lIndex = pString.indexOf(pOccurance, lIndex+1);
 //	    }
-//	    
+//
 //	    return lCount;
 //	}
 
-    public static ArrayList<String> split(String pString, String pSeparator, boolean pIgnoreCase) {
-        List<String> lSplit = new ArrayList<>();
-        int lIndex = 0;
-        int lSeparator;
-        String lSubString;
-
-        // For (faster) uppercase comparing
-        String pCompStr;
-        String pCompSep;
-        if (pIgnoreCase) {
-            pCompStr = (pString == null) ? null : pString.toLowerCase();
-            pCompSep = (pSeparator == null) ? "," : pSeparator.toLowerCase();
-        } else {
-            pCompStr = pString;
-            pCompSep = pSeparator;
+    public static ArrayList<String> split(String sourceString, String separator, boolean ignoreCase) {
+        if (sourceString == null) {
+            return new ArrayList<>();
         }
+        String nonNullSeparator = separator == null ? DEFAULT_SEPARATOR : separator;
 
-        // In case of lengths not being equal, split while not ignoring case.
-        if (pString != null && pCompStr != null && pCompStr.length() != pString.length()) {
-            // The compare without lowercase
-            pCompStr = pString;
-            pCompSep = pSeparator;
-        }
-
-        if (pString != null) {
-            while (lIndex < pString.length()) {
-                // find first Separator starting from lIndex
-                lSeparator = pCompStr.indexOf(pCompSep, lIndex); // pCompStr.length()
-                if (lSeparator == -1) {
-                    lSubString = pString.substring(lIndex);
-                    lIndex = pString.length();
-                } else {
-                    lSubString = pString.substring(lIndex, lSeparator);
-                    lIndex = lSeparator + pSeparator.length();
-                }
-                lSplit.add(lSubString.trim());
+        if (ignoreCase) {
+            String lowerCaseString = sourceString.toLowerCase();
+            String lowerCaseSeparator = nonNullSeparator.toLowerCase();
+            if (lowerCaseString.length() == sourceString.length()
+                    && lowerCaseSeparator.length() == nonNullSeparator.length()) {
+                return split(sourceString, lowerCaseString, lowerCaseSeparator);
             }
         }
-        return (ArrayList<String>) lSplit;
+        return split(sourceString, sourceString, nonNullSeparator);
+    }
+
+    @NotNull
+    private static ArrayList<String> split(String stringToSplit, String stringToSearch, String separator) {
+        List<String> result = new ArrayList<>();
+        for (int startIndex = 0, endIndex;
+             startIndex < stringToSearch.length(); startIndex = endIndex + separator.length()) {
+
+            endIndex = stringToSearch.indexOf(separator, startIndex);
+            if (endIndex == -1) {
+                result.add(stringToSplit.substring(startIndex).trim());
+                break;
+            }
+            result.add(stringToSplit.substring(startIndex, endIndex).trim());
+        }
+        return (ArrayList<String>) result;
     }
 
     public static String fill(int pValue, int pDigits) {
