@@ -72,7 +72,7 @@ public class D2Backup {
 
             String lBackupName = lBackupSubDir + File.separator + lNewFileName;
 
-            RandallUtil.checkDir(lBackupSubDir);
+            RandallUtil.checkDirectory(lBackupSubDir);
 
             pContent.save(lBackupName);
         } catch (Exception pEx) {
