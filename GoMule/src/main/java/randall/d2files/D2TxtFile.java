@@ -230,14 +230,9 @@ public final class D2TxtFile {
         return "";
     }
 
-    private int getCol(String col) {
+    private int getCol(String columnName) {
         init();
-        for (int x = 0; x < header.size(); x++) {
-            if (header.get(x).equals(col)) {
-                return x;
-            }
-        }
-        return -1;
+        return header.indexOf(columnName);
     }
 
     public D2TxtFileItemProperties getRow(int pRowNr) {
