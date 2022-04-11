@@ -32,7 +32,7 @@ public class D2FileReader {
 
     protected byte[] buffer;
 
-//    private String iFileName;
+//    private String fileName;
     private int counterPosition = 0;
     private int counterBit = 0;
 
