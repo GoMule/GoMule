@@ -69,7 +69,7 @@ public final class D2TxtFile {
 
     private String iFileName;
     private String[] header;
-    private String[][] iData;
+    private String[][] data;
 
     private D2TxtFile(String pFileName) {
         iFileName = pFileName;
@@ -191,10 +191,10 @@ public final class D2TxtFile {
     }
 
     public int getRowSize() {
-        if (iData == null) {
+        if (data == null) {
             readInData();
         }
-        return iData.length;
+        return data.length;
     }
 
     private void readInData() {
@@ -213,7 +213,7 @@ public final class D2TxtFile {
                 String[] lineArr = p.split(lLine);
                 if (lineArr.length > 0 && lSkipExpansion && lineArr[0].equals("Expansion")) {
                 } else {
-//					iData.add(lSplit);
+//					data.add(lSplit);
                     strArr.add(lineArr);
                 }
                 lLine = lIn.readLine();
@@ -221,8 +221,8 @@ public final class D2TxtFile {
             lFileIn.close();
             lIn.close();
 
-            iData = new String[strArr.size()][];
-            strArr.toArray(iData);
+            data = new String[strArr.size()][];
+            strArr.toArray(data);
         } catch (Exception pEx) {
             D2FileManager.displayErrorDialog(pEx);
         }
@@ -230,14 +230,14 @@ public final class D2TxtFile {
 
     protected String getValue(int pRowNr, String pCol) {
         int lColNr = getCol(pCol);
-        if (lColNr != -1 && pRowNr < iData.length && iData[pRowNr].length > lColNr) {
-            return iData[pRowNr][lColNr];
+        if (lColNr != -1 && pRowNr < data.length && data[pRowNr].length > lColNr) {
+            return data[pRowNr][lColNr];
         }
         return "";
     }
 
     private int getCol(String col) {
-        if (iData == null) {
+        if (data == null) {
             readInData();
         }
         for (int x = 0; x < header.length; x++) {
@@ -255,9 +255,9 @@ public final class D2TxtFile {
     public D2TxtFileItemProperties searchColumns(String pCol, String pText) {
         int lColNr = getCol(pCol);
         if (lColNr != -1) {
-            for (int i = 0; i < iData.length; i++) {
-                if (iData[i].length - 1 >= lColNr) {
-                    if (iData[i][lColNr].equals(pText)) {
+            for (int i = 0; i < data.length; i++) {
+                if (data[i].length - 1 >= lColNr) {
+                    if (data[i][lColNr].equals(pText)) {
                         return new D2TxtFileItemProperties(this, i);
                     }
                 }
@@ -270,9 +270,9 @@ public final class D2TxtFile {
         List<D2TxtFileItemProperties> hits = new ArrayList<>();
         int lColNr = getCol(pCol);
         if (lColNr != -1) {
-            for (int i = 0; i < iData.length; i++) {
-                if (iData[i].length - 1 >= lColNr) {
-                    if (iData[i][lColNr].equals(pText)) {
+            for (int i = 0; i < data.length; i++) {
+                if (data[i].length - 1 >= lColNr) {
+                    if (data[i][lColNr].equals(pText)) {
                         hits.add(new D2TxtFileItemProperties(this, i));
                     }
                 }
@@ -283,10 +283,10 @@ public final class D2TxtFile {
 
     public D2TxtFileItemProperties searchRuneWord(List<String> pList) {
         int[] lRuneNr = new int[]{getCol("Rune1"), getCol("Rune2"), getCol("Rune3"), getCol("Rune4"), getCol("Rune5"), getCol("Rune6")};
-        for (int i = 0; i < iData.length; i++) {
+        for (int i = 0; i < data.length; i++) {
             List<String> lRW = new ArrayList<>();
             for (int j = 0; j < lRuneNr.length; j++) {
-                String lFile = iData[i][lRuneNr[j]];
+                String lFile = data[i][lRuneNr[j]];
                 if (lFile != null && !lFile.equals("")) {
                     lRW.add(lFile);
                 } else {
