@@ -67,7 +67,7 @@ public final class D2TxtFile {
     private static String sMod;
     private static boolean read = false;
 
-    private String fileName;
+    private final String fileName;
     private String[] header;
     private String[][] data;
 
