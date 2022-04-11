@@ -26,11 +26,11 @@ package randall.d2files;
 public class D2TxtFileItemProperties {
 
     private final D2TxtFile txtFile;
-    private final int iRowNr;
+    private final int rowNumber;
 
-    public D2TxtFileItemProperties(D2TxtFile txtFile, int pRowNr) {
+    public D2TxtFileItemProperties(D2TxtFile txtFile, int rowNumber) {
         this.txtFile = txtFile; // txtFile.getRowNr()
-        iRowNr = pRowNr;
+        this.rowNumber = rowNumber;
     }
 
     public String get(String pKey) {
@@ -45,7 +45,7 @@ public class D2TxtFileItemProperties {
 //                }
 //            }
 //        }
-        return txtFile.getValue(iRowNr, pKey);
+        return txtFile.getValue(rowNumber, pKey);
     }
 
     public String getFileName() {
@@ -54,7 +54,7 @@ public class D2TxtFileItemProperties {
 
     public String getName() {
 //        if (txtFile == D2TxtFile.MISC) {
-//            String lType = txtFile.getValue(iRowNr, "type");
+//            String lType = txtFile.getValue(rowNumber, "type");
 //            if (lType != null && !"".equals(lType.trim())) {
 //                D2TxtFileItemProperties lItemType = D2TxtFile.ITEMTYPES.searchColumns("Code", lType);
 //                if (lItemType != null) {
@@ -62,14 +62,14 @@ public class D2TxtFileItemProperties {
 //                }
 //            }
 //        }
-        return txtFile.getValue(iRowNr, "name");
+        return txtFile.getValue(rowNumber, "name");
     }
 
     public String getTblName() {
-        return txtFile.getValue(iRowNr, "transtbl");
+        return txtFile.getValue(rowNumber, "transtbl");
     }
 
     public int getRowNum() {
-        return iRowNr;
+        return rowNumber;
     }
 }
