@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -125,8 +126,8 @@ public final class D2TxtFile {
         return "<none>";
     }
 
-    public static ArrayList propToStat(String pCode, String pMin, String pMax, String pParam, int qFlag) {
-        ArrayList outArr = new ArrayList();
+    public static List<D2Prop> propToStat(String pCode, String pMin, String pMax, String pParam, int qFlag) {
+        List<D2Prop> outArr = new ArrayList<>();
         for (int x = 1; x < 8; x++) {
             String propsStatCode = D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x);
             if (propsStatCode.equals("")) {
@@ -198,7 +199,7 @@ public final class D2TxtFile {
 
     private void readInData() {
         try {
-            ArrayList strArr = new ArrayList();
+            List<String[]> strArr = new ArrayList<>();
             FileReader lFileIn = new FileReader(sMod + File.separator + iFileName + ".txt");
             BufferedReader lIn = new BufferedReader(lFileIn);
             String lFirstLine = lIn.readLine();
@@ -265,8 +266,8 @@ public final class D2TxtFile {
         return null;
     }
 
-    public ArrayList searchColumnsMultipleHits(String pCol, String pText) {
-        ArrayList hits = new ArrayList();
+    public List<D2TxtFileItemProperties> searchColumnsMultipleHits(String pCol, String pText) {
+        List<D2TxtFileItemProperties> hits = new ArrayList<>();
         int lColNr = getCol(pCol);
         if (lColNr != -1) {
             for (int i = 0; i < iData.length; i++) {
@@ -280,10 +281,10 @@ public final class D2TxtFile {
         return hits;
     }
 
-    public D2TxtFileItemProperties searchRuneWord(ArrayList pList) {
+    public D2TxtFileItemProperties searchRuneWord(List<String> pList) {
         int[] lRuneNr = new int[]{getCol("Rune1"), getCol("Rune2"), getCol("Rune3"), getCol("Rune4"), getCol("Rune5"), getCol("Rune6")};
         for (int i = 0; i < iData.length; i++) {
-            ArrayList lRW = new ArrayList();
+            List<String> lRW = new ArrayList<>();
             for (int j = 0; j < lRuneNr.length; j++) {
                 String lFile = iData[i][lRuneNr[j]];
                 if (lFile != null && !lFile.equals("")) {
@@ -295,7 +296,7 @@ public final class D2TxtFile {
             if (pList.size() == lRW.size()) {
                 boolean lIsRuneWord = true;
                 for (int j = 0; j < pList.size() && lIsRuneWord; j++) {
-                    if (!((String) lRW.get(j)).equals((String) pList.get(j))) {
+                    if (!lRW.get(j).equals(pList.get(j))) {
                         lIsRuneWord = false;
                     }
                 }
