@@ -1,12 +1,13 @@
 # GoMule generated files
 GoMule.backup
+projects/
 
 # Gradle
 .gradle
 build/
 
 # IntelliJ Idea
-/out/
+out/
 *.iml
 *.iws
 *.ipr
