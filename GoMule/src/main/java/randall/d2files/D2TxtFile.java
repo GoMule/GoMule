@@ -236,14 +236,13 @@ public final class D2TxtFile {
         return new D2TxtFileItemProperties(this, pRowNr);
     }
 
-    public D2TxtFileItemProperties searchColumns(String pCol, String pText) {
-        int lColNr = findColumnNumber(pCol);
-        if (lColNr != -1) {
-            for (int i = 0; i < data.size(); i++) {
-                if (data.get(i).size() - 1 >= lColNr) {
-                    if (data.get(i).get(lColNr).equals(pText)) {
-                        return new D2TxtFileItemProperties(this, i);
-                    }
+    public D2TxtFileItemProperties searchColumns(String columnName, String columnValue) {
+        int columnNumber = findColumnNumber(columnName);
+        if (columnNumber != -1) {
+            for (int rowNumber = 0; rowNumber < data.size(); rowNumber++) {
+                List<String> row = data.get(rowNumber);
+                if (columnNumber < row.size() && row.get(columnNumber).equals(columnValue)) {
+                    return new D2TxtFileItemProperties(this, rowNumber);
                 }
             }
         }
