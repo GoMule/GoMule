@@ -223,14 +223,14 @@ public final class D2TxtFile {
     }
 
     protected String getValue(int pRowNr, String pCol) {
-        int lColNr = getCol(pCol);
+        int lColNr = findColumnNumber(pCol);
         if (lColNr != -1 && pRowNr < data.length && data[pRowNr].length > lColNr) {
             return data[pRowNr][lColNr];
         }
         return "";
     }
 
-    private int getCol(String columnName) {
+    private int findColumnNumber(String columnName) {
         init();
         return header.indexOf(columnName);
     }
@@ -240,7 +240,7 @@ public final class D2TxtFile {
     }
 
     public D2TxtFileItemProperties searchColumns(String pCol, String pText) {
-        int lColNr = getCol(pCol);
+        int lColNr = findColumnNumber(pCol);
         if (lColNr != -1) {
             for (int i = 0; i < data.length; i++) {
                 if (data[i].length - 1 >= lColNr) {
@@ -255,7 +255,7 @@ public final class D2TxtFile {
 
     public List<D2TxtFileItemProperties> searchColumnsMultipleHits(String pCol, String pText) {
         List<D2TxtFileItemProperties> hits = new ArrayList<>();
-        int lColNr = getCol(pCol);
+        int lColNr = findColumnNumber(pCol);
         if (lColNr != -1) {
             for (int i = 0; i < data.length; i++) {
                 if (data[i].length - 1 >= lColNr) {
@@ -269,7 +269,7 @@ public final class D2TxtFile {
     }
 
     public D2TxtFileItemProperties searchRuneWord(List<String> pList) {
-        int[] lRuneNr = new int[]{getCol("Rune1"), getCol("Rune2"), getCol("Rune3"), getCol("Rune4"), getCol("Rune5"), getCol("Rune6")};
+        int[] lRuneNr = new int[]{findColumnNumber("Rune1"), findColumnNumber("Rune2"), findColumnNumber("Rune3"), findColumnNumber("Rune4"), findColumnNumber("Rune5"), findColumnNumber("Rune6")};
         for (int i = 0; i < data.length; i++) {
             List<String> lRW = new ArrayList<>();
             for (int j = 0; j < lRuneNr.length; j++) {
