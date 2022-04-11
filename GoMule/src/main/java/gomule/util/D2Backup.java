@@ -37,13 +37,13 @@ public class D2Backup {
 
             if (lBackup == D2Project.BACKUP_DAY) {
                 lExtra1 = "D"
-                        + RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4)
-                        + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH) + 1, 2)
-                        + "." + RandallUtil.fill(lCalendar.get(Calendar.DAY_OF_MONTH), 2);
+                        + RandallUtil.intToString(lCalendar.get(Calendar.YEAR), 4)
+                        + "." + RandallUtil.intToString(lCalendar.get(Calendar.MONTH) + 1, 2)
+                        + "." + RandallUtil.intToString(lCalendar.get(Calendar.DAY_OF_MONTH), 2);
             } else if (lBackup == D2Project.BACKUP_MONTH) {
                 lExtra1 = "M"
-                        + RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4)
-                        + RandallUtil.fill(lCalendar.get(Calendar.MONTH) + 1, 2);
+                        + RandallUtil.intToString(lCalendar.get(Calendar.YEAR), 4)
+                        + RandallUtil.intToString(lCalendar.get(Calendar.MONTH) + 1, 2);
             } else {
                 GregorianCalendar lWeek = new GregorianCalendar();
 
@@ -51,19 +51,19 @@ public class D2Backup {
                     lWeek.add(Calendar.DAY_OF_MONTH, -1);
                 }
                 lExtra1 = "W"
-                        + RandallUtil.fill(lWeek.get(Calendar.YEAR), 4)
-                        + "." + RandallUtil.fill(lWeek.get(Calendar.MONTH) + 1, 2)
-                        + "." + RandallUtil.fill(lWeek.get(Calendar.DAY_OF_MONTH), 2);
+                        + RandallUtil.intToString(lWeek.get(Calendar.YEAR), 4)
+                        + "." + RandallUtil.intToString(lWeek.get(Calendar.MONTH) + 1, 2)
+                        + "." + RandallUtil.intToString(lWeek.get(Calendar.DAY_OF_MONTH), 2);
             }
 
             String lExtra2 =
-                    RandallUtil.fill(lCalendar.get(Calendar.YEAR), 4)
-                            + "." + RandallUtil.fill(lCalendar.get(Calendar.MONTH) + 1, 2)
-                            + "." + RandallUtil.fill(lCalendar.get(Calendar.DAY_OF_MONTH), 2)
+                    RandallUtil.intToString(lCalendar.get(Calendar.YEAR), 4)
+                            + "." + RandallUtil.intToString(lCalendar.get(Calendar.MONTH) + 1, 2)
+                            + "." + RandallUtil.intToString(lCalendar.get(Calendar.DAY_OF_MONTH), 2)
                             + "-"
-                            + RandallUtil.fill(lCalendar.get(Calendar.HOUR_OF_DAY), 2)
-                            + "." + RandallUtil.fill(lCalendar.get(Calendar.MINUTE), 2)
-                            + "." + RandallUtil.fill(lCalendar.get(Calendar.SECOND), 2);
+                            + RandallUtil.intToString(lCalendar.get(Calendar.HOUR_OF_DAY), 2)
+                            + "." + RandallUtil.intToString(lCalendar.get(Calendar.MINUTE), 2)
+                            + "." + RandallUtil.intToString(lCalendar.get(Calendar.SECOND), 2);
 
             String lBackupDir = lPathName + File.separator + "GoMule.backup";
             String lBackupSubDir = lBackupDir + File.separator + lExtra1;
