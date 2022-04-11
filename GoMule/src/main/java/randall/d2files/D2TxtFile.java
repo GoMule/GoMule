@@ -195,13 +195,14 @@ public final class D2TxtFile {
     }
 
     public int getRowSize() {
-        if (data == null) {
-            init();
-        }
+        init();
         return data.length;
     }
 
     private void init() {
+        if (data != null) {
+            return;
+        }
         try (BufferedReader reader = new BufferedReader(new FileReader(folder + File.separator + fileName + ".txt"))) {
             header = reader.readLine().split(DELIMITER);
             List<String[]> rows = reader.lines()
@@ -230,9 +231,7 @@ public final class D2TxtFile {
     }
 
     private int getCol(String col) {
-        if (data == null) {
-            init();
-        }
+        init();
         for (int x = 0; x < header.length; x++) {
             if (header[x].equals(col)) {
                 return x;
