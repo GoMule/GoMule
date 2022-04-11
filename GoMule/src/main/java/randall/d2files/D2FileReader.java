@@ -32,9 +32,10 @@ import java.io.FileInputStream;
  * Window - Preferences - Java - Code Style - Code Templates
  */
 public class D2FileReader {
-    //	private String	iFileName;
+
     protected byte iBuffer[];
 
+//    private String iFileName;
     private int iCounterPos = 0;
     private int iCounterBit = 0;
 
@@ -85,16 +86,13 @@ public class D2FileReader {
         if (iCounterBit > 0) {
             lNr = lNr << iCounterBit;
         }
-
         boolean lBoolean = ((iBuffer[iCounterPos] & lNr) > 0);
-
         increaseCounter(1);
         return lBoolean;
     }
 
     public String getCounterString() {
         StringBuffer lBuffer = new StringBuffer();
-
         int lInt = 0;
         try {
             lInt = getCounterInt(8);
@@ -109,13 +107,11 @@ public class D2FileReader {
                 lInt = 0;
             }
         }
-
         return lBuffer.toString();
     }
 
     public String getCounterString(int pCharNr) {
         char lBuffer[] = new char[pCharNr];
-
         for (int lCharNr = 0; lCharNr < pCharNr; lCharNr++) {
             lBuffer[lCharNr] = 0;
             for (int lBitNr = 0; lBitNr < 8; lBitNr++) {
@@ -131,50 +127,38 @@ public class D2FileReader {
                 }
             }
         }
-
         return new String(lBuffer);
     }
 
     public long getCounterLong(int pBitNr) {
         long lInt = 0;
-
         boolean lIntCount[] = new boolean[pBitNr];
 
         for (int i = 0; i < pBitNr; i++) {
             lIntCount[i] = getCounterBoolean();
         }
-
         for (int i = pBitNr - 1; i >= 0; i--) {
             lInt = lInt << 1;
             if (lIntCount[i]) {
                 lInt++;
             }
-
         }
-
         return lInt;
     }
-
 
     public int getCounterInt(int pBitNr) {
         int lInt = 0;
-
         boolean lIntCount[] = new boolean[pBitNr];
 
         for (int i = 0; i < pBitNr; i++) {
             lIntCount[i] = getCounterBoolean();
         }
-
         for (int i = pBitNr - 1; i >= 0; i--) {
             lInt = lInt << 1;
             if (lIntCount[i]) {
                 lInt++;
             }
-
         }
-
         return lInt;
     }
-
-
 }
