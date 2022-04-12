@@ -28,6 +28,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -180,15 +182,12 @@ public final class D2TxtFile {
         return outArr;
     }
 
-    public static D2TxtFileItemProperties search(String pCode) {
-        D2TxtFileItemProperties lFound = MISC.searchColumn("code", pCode);
-        if (lFound == null) {
-            lFound = ARMOR.searchColumn("code", pCode);
-        }
-        if (lFound == null) {
-            lFound = WEAPONS.searchColumn("code", pCode);
-        }
-        return lFound;
+    public static D2TxtFileItemProperties search(String columnValue) {
+        return Stream.of(MISC, ARMOR, WEAPONS)
+                .map(d2TxtFile -> d2TxtFile.searchColumn("code", columnValue))
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElse(null);
     }
 
     public String getFileName() {
