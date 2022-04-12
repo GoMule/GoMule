@@ -204,7 +204,7 @@ public class D2Character extends D2ItemListAdapter {
         if (iReader.read(32) != 0) {
             cMercInfo = new HashMap();
             iReader.skipBits(16);
-            D2TxtFileItemProperties hireCol = (D2TxtFileItemProperties) Iterables.getLast(D2TxtFile.HIRE.searchColumnsMultipleHits("Id", Long.toString(iReader.read(16))));
+            D2TxtFileItemProperties hireCol = Iterables.getLast(D2TxtFile.HIRE.searchColumnsMultipleHits("Id", Long.toString(iReader.read(16))));
             cMercInfo.put("race", hireCol.get("Hireling"));
             cMercInfo.put("type", hireCol.get("*SubType"));
             iReader.skipBits(-32);

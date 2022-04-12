@@ -27,9 +27,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -252,16 +254,16 @@ public final class D2TxtFile {
         return null;
     }
 
-    public List<D2TxtFileItemProperties> searchColumnsMultipleHits(String pCol, String pText) {
+    public List<D2TxtFileItemProperties> searchColumnsMultipleHits(String columnName, String columnValue) {
+        int columnNumber = findColumnNumber(columnName);
+        if (columnNumber == -1) {
+            return emptyList();
+        }
         List<D2TxtFileItemProperties> hits = new ArrayList<>();
-        int lColNr = findColumnNumber(pCol);
-        if (lColNr != -1) {
-            for (int i = 0; i < data.size(); i++) {
-                if (data.get(i).size() - 1 >= lColNr) {
-                    if (data.get(i).get(lColNr).equals(pText)) {
-                        hits.add(new D2TxtFileItemProperties(this, i));
-                    }
-                }
+        for (int rowNumber = 0; rowNumber < data.size(); rowNumber++) {
+            List<String> row = data.get(rowNumber);
+            if (columnNumber < row.size() && row.get(columnNumber).equals(columnValue)) {
+                hits.add(new D2TxtFileItemProperties(this, rowNumber));
             }
         }
         return hits;
