@@ -572,7 +572,7 @@ public class D2Item implements Comparable, D2ItemInterface {
                 iItemName = translatedName == null ? nameFromSetFile : translatedName;
                 iSetName = lSet.get("set");
 
-                setSize = (D2TxtFile.SETITEMS.searchColumnsMultipleHits("set",
+                setSize = (D2TxtFile.SETITEMS.searchColumns("set",
                         iSetName)).size();
 
                 int lSetReq = getReq(lSet.get("lvl req"));

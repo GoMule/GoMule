@@ -27,7 +27,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -254,7 +253,7 @@ public final class D2TxtFile {
         return null;
     }
 
-    public List<D2TxtFileItemProperties> searchColumnsMultipleHits(String columnName, String columnValue) {
+    public List<D2TxtFileItemProperties> searchColumns(String columnName, String columnValue) {
         int columnNumber = findColumnNumber(columnName);
         if (columnNumber == -1) {
             return emptyList();
