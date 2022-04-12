@@ -362,7 +362,7 @@ public class D2Prop {
                 return "By time!? Oh shi....";
 
             case (19):
-                List<D2TxtFileItemProperties> matchingPropsRecords = D2TxtFile.PROPS.searchColumnsMultipleHits("stat1", itemStatCostRow.get("Stat"))
+                List<D2TxtFileItemProperties> matchingPropsRecords = D2TxtFile.PROPS.searchColumns("stat1", itemStatCostRow.get("Stat"))
                         .stream()
                         .filter(it -> it.get("stat2").isEmpty())
                         .collect(Collectors.toList());

@@ -204,7 +204,7 @@ public class D2Character extends D2ItemListAdapter {
         if (iReader.read(32) != 0) {
             cMercInfo = new HashMap();
             iReader.skipBits(16);
-            D2TxtFileItemProperties hireCol = Iterables.getLast(D2TxtFile.HIRE.searchColumnsMultipleHits("Id", Long.toString(iReader.read(16))));
+            D2TxtFileItemProperties hireCol = Iterables.getLast(D2TxtFile.HIRE.searchColumns("Id", Long.toString(iReader.read(16))));
             cMercInfo.put("race", hireCol.get("Hireling"));
             cMercInfo.put("type", hireCol.get("*SubType"));
             iReader.skipBits(-32);
@@ -311,7 +311,7 @@ public class D2Character extends D2ItemListAdapter {
         cStats[20] = cStats[20] + (10 * resCounter);
         cStats[21] = cStats[21] + (10 * resCounter);
         if (hasMerc()) {
-            List<D2TxtFileItemProperties> hireArr = D2TxtFile.HIRE.searchColumnsMultipleHits("*SubType", getMercType());
+            List<D2TxtFileItemProperties> hireArr = D2TxtFile.HIRE.searchColumns("*SubType", getMercType());
             for (int x = 0; x < hireArr.size(); x = x + 1) {
                 if (hireArr.get(x).get("Version").equals("100") && Integer.parseInt(hireArr.get(x).get("Level")) <= getMercLevel()) {
                     mercHireCol = hireArr.get(x);
@@ -1401,7 +1401,7 @@ public class D2Character extends D2ItemListAdapter {
         out.append(getStatString());
         out.append("\n\n");
 
-        List<D2TxtFileItemProperties> skillArr = D2TxtFile.SKILLS.searchColumnsMultipleHits("charclass", cClass);
+        List<D2TxtFileItemProperties> skillArr = D2TxtFile.SKILLS.searchColumns("charclass", cClass);
         String[] skillTrees = new String[]{"", "", ""};
         int[] skillCounter = new int[3];
 
