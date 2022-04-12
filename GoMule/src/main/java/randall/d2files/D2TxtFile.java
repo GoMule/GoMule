@@ -133,7 +133,7 @@ public final class D2TxtFile {
     public static List<D2Prop> propToStat(String pCode, String pMin, String pMax, String pParam, int qFlag) {
         List<D2Prop> outArr = new ArrayList<>();
         for (int x = 1; x < 8; x++) {
-            String propsStatCode = D2TxtFile.PROPS.searchColumns("code", pCode).get("stat" + x);
+            String propsStatCode = D2TxtFile.PROPS.searchColumn("code", pCode).get("stat" + x);
             if (propsStatCode.equals("")) {
                 if (pCode.equals("dmg%") && x == 1) {
                     propsStatCode = "item_maxdamage_percent";
@@ -172,20 +172,20 @@ public final class D2TxtFile {
             }
             pVals[2] = 0;
             if (propsStatCode.equals("item_addclassskills")) {
-                pVals[0] = Integer.parseInt(D2TxtFile.PROPS.searchColumns("code", pCode).get("val1"));
+                pVals[0] = Integer.parseInt(D2TxtFile.PROPS.searchColumn("code", pCode).get("val1"));
             }
-            outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumns("Stat", propsStatCode).get("*ID")), pVals, qFlag));
+            outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumn("Stat", propsStatCode).get("*ID")), pVals, qFlag));
         }
         return outArr;
     }
 
     public static D2TxtFileItemProperties search(String pCode) {
-        D2TxtFileItemProperties lFound = MISC.searchColumns("code", pCode);
+        D2TxtFileItemProperties lFound = MISC.searchColumn("code", pCode);
         if (lFound == null) {
-            lFound = ARMOR.searchColumns("code", pCode);
+            lFound = ARMOR.searchColumn("code", pCode);
         }
         if (lFound == null) {
-            lFound = WEAPONS.searchColumns("code", pCode);
+            lFound = WEAPONS.searchColumn("code", pCode);
         }
         return lFound;
     }
@@ -236,7 +236,7 @@ public final class D2TxtFile {
         return new D2TxtFileItemProperties(this, pRowNr);
     }
 
-    public D2TxtFileItemProperties searchColumns(String columnName, String columnValue) {
+    public D2TxtFileItemProperties searchColumn(String columnName, String columnValue) {
         int columnNumber = findColumnNumber(columnName);
         if (columnNumber != -1) {
             for (int rowNumber = 0; rowNumber < data.size(); rowNumber++) {

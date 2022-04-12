@@ -273,15 +273,15 @@ public class D2Item implements Comparable, D2ItemInterface {
             iReqLvl = getReq(iItemType.get("levelreq"));
             iReqStr = getReq(iItemType.get("reqstr"));
 
-            D2TxtFileItemProperties qualSearch = D2TxtFile.ARMOR.searchColumns(
+            D2TxtFileItemProperties qualSearch = D2TxtFile.ARMOR.searchColumn(
                     "normcode", item_type);
             iItemQuality = "normal";
             if (qualSearch == null) {
-                qualSearch = D2TxtFile.ARMOR.searchColumns("ubercode",
+                qualSearch = D2TxtFile.ARMOR.searchColumn("ubercode",
                         item_type);
                 iItemQuality = "exceptional";
                 if (qualSearch == null) {
-                    qualSearch = D2TxtFile.ARMOR.searchColumns("ultracode",
+                    qualSearch = D2TxtFile.ARMOR.searchColumn("ultracode",
                             item_type);
                     iItemQuality = "elite";
                 }
@@ -293,14 +293,14 @@ public class D2Item implements Comparable, D2ItemInterface {
             iReqDex = getReq(iItemType.get("reqdex"));
 
             D2TxtFileItemProperties qualSearch = D2TxtFile.WEAPONS
-                    .searchColumns("normcode", item_type);
+                    .searchColumn("normcode", item_type);
             iItemQuality = "normal";
             if (qualSearch == null) {
-                qualSearch = D2TxtFile.WEAPONS.searchColumns("ubercode",
+                qualSearch = D2TxtFile.WEAPONS.searchColumn("ubercode",
                         item_type);
                 iItemQuality = "exceptional";
                 if (qualSearch == null) {
-                    qualSearch = D2TxtFile.WEAPONS.searchColumns("ultracode",
+                    qualSearch = D2TxtFile.WEAPONS.searchColumn("ultracode",
                             item_type);
                     iItemQuality = "elite";
                 }
@@ -362,13 +362,13 @@ public class D2Item implements Comparable, D2ItemInterface {
             iRune = true;
         }
 
-        D2TxtFileItemProperties lItemType = D2TxtFile.ITEM_TYPES.searchColumns(
+        D2TxtFileItemProperties lItemType = D2TxtFile.ITEM_TYPES.searchColumn(
                 "Code", iType);
 
         if (lItemType == null) {
-            lItemType = D2TxtFile.ITEM_TYPES.searchColumns("Equiv1", iType);
+            lItemType = D2TxtFile.ITEM_TYPES.searchColumn("Equiv1", iType);
             if (lItemType == null) {
-                lItemType = D2TxtFile.ITEM_TYPES.searchColumns("Equiv2", iType);
+                lItemType = D2TxtFile.ITEM_TYPES.searchColumn("Equiv2", iType);
             }
         }
 
@@ -566,7 +566,7 @@ public class D2Item implements Comparable, D2ItemInterface {
                         image_file = s;
                 }
 
-                D2TxtFileItemProperties lSet = D2TxtFile.SETITEMS.searchColumns("*ID", String.valueOf(set_id));
+                D2TxtFileItemProperties lSet = D2TxtFile.SETITEMS.searchColumn("*ID", String.valueOf(set_id));
                 String nameFromSetFile = lSet.get("index");
                 String translatedName = D2Files.getInstance().getTranslations().getTranslation(nameFromSetFile);
                 iItemName = translatedName == null ? nameFromSetFile : translatedName;
@@ -581,7 +581,7 @@ public class D2Item implements Comparable, D2ItemInterface {
                 }
 
                 applyAutomodLvl();
-                addSetProperties(D2TxtFile.FULLSET.searchColumns("index", lSet.get("set")));
+                addSetProperties(D2TxtFile.FULLSET.searchColumn("index", lSet.get("set")));
                 break;
             }
             case 7: {
@@ -593,7 +593,7 @@ public class D2Item implements Comparable, D2ItemInterface {
                 }
 
                 D2TxtFileItemProperties lUnique = D2TxtFile.UNIQUES
-                        .searchColumns("*ID", String.valueOf(unique_id));
+                        .searchColumn("*ID", String.valueOf(unique_id));
                 if (lUnique == null) break;
                 String lNewName = D2Files.getInstance().getTranslations().getTranslation(lUnique.get("index"));
                 if (lNewName != null) {
@@ -735,27 +735,27 @@ public class D2Item implements Comparable, D2ItemInterface {
                 iCurDur = (short) pFile.read(9);
             }
 
-            if ((D2TxtFile.WEAPONS.searchColumns("code", item_type)).get(
+            if ((D2TxtFile.WEAPONS.searchColumn("code", item_type)).get(
                     "1or2handed").equals("")
                     && !iThrow) {
 
-                if ((D2TxtFile.WEAPONS.searchColumns("code", item_type)).get(
+                if ((D2TxtFile.WEAPONS.searchColumn("code", item_type)).get(
                         "2handed").equals("1")) {
                     iWhichHand = 2;
                     i1Dmg = new short[4];
                     i1Dmg[0] = i1Dmg[1] = Short.parseShort((D2TxtFile.WEAPONS
-                            .searchColumns("code", item_type))
+                            .searchColumn("code", item_type))
                             .get("2handmindam"));
                     i1Dmg[2] = i1Dmg[3] = Short.parseShort((D2TxtFile.WEAPONS
-                            .searchColumns("code", item_type))
+                            .searchColumn("code", item_type))
                             .get("2handmaxdam"));
                 } else {
                     iWhichHand = 1;
                     i1Dmg = new short[4];
                     i1Dmg[0] = i1Dmg[1] = Short.parseShort((D2TxtFile.WEAPONS
-                            .searchColumns("code", item_type)).get("mindam"));
+                            .searchColumn("code", item_type)).get("mindam"));
                     i1Dmg[2] = i1Dmg[3] = Short.parseShort((D2TxtFile.WEAPONS
-                            .searchColumns("code", item_type)).get("maxdam"));
+                            .searchColumn("code", item_type)).get("maxdam"));
                 }
 
             } else {
@@ -763,25 +763,25 @@ public class D2Item implements Comparable, D2ItemInterface {
                 if (iThrow) {
                     i2Dmg = new short[4];
                     i2Dmg[0] = i2Dmg[1] = Short
-                            .parseShort((D2TxtFile.WEAPONS.searchColumns(
+                            .parseShort((D2TxtFile.WEAPONS.searchColumn(
                                     "code", item_type)).get("minmisdam"));
                     i2Dmg[2] = i2Dmg[3] = Short
-                            .parseShort((D2TxtFile.WEAPONS.searchColumns(
+                            .parseShort((D2TxtFile.WEAPONS.searchColumn(
                                     "code", item_type)).get("maxmisdam"));
                 } else {
                     i2Dmg = new short[4];
                     i2Dmg[0] = i2Dmg[1] = Short
-                            .parseShort((D2TxtFile.WEAPONS.searchColumns(
+                            .parseShort((D2TxtFile.WEAPONS.searchColumn(
                                     "code", item_type)).get("2handmindam"));
                     i2Dmg[2] = i2Dmg[3] = Short
-                            .parseShort((D2TxtFile.WEAPONS.searchColumns(
+                            .parseShort((D2TxtFile.WEAPONS.searchColumn(
                                     "code", item_type)).get("2handmaxdam"));
                 }
                 i1Dmg = new short[4];
                 i1Dmg[0] = i1Dmg[1] = Short.parseShort((D2TxtFile.WEAPONS
-                        .searchColumns("code", item_type)).get("mindam"));
+                        .searchColumn("code", item_type)).get("mindam"));
                 i1Dmg[2] = i1Dmg[3] = Short.parseShort((D2TxtFile.WEAPONS
-                        .searchColumns("code", item_type)).get("maxdam"));
+                        .searchColumn("code", item_type)).get("maxdam"));
             }
 
             if ("1".equals(iItemType.get("stackable"))) {
@@ -875,14 +875,14 @@ public class D2Item implements Comparable, D2ItemInterface {
 
         for (int x = 0; x < statsToRead.length; x = x + 1) {
 
-            if ((D2TxtFile.MISC.searchColumns("code", item_type)).get(
+            if ((D2TxtFile.MISC.searchColumn("code", item_type)).get(
                     statsToRead[x]).equals(""))
                 continue;
-            iProps.add(new D2Prop(Integer.parseInt((D2TxtFile.ITEM_STAT_COST.searchColumns("Stat", (D2TxtFile.MISC
-                    .searchColumns("code", item_type))
+            iProps.add(new D2Prop(Integer.parseInt((D2TxtFile.ITEM_STAT_COST.searchColumn("Stat", (D2TxtFile.MISC
+                    .searchColumn("code", item_type))
                     .get(statsToRead[x]))).get("*ID")),
                     new int[]{Integer.parseInt(((D2TxtFile.MISC
-                            .searchColumns("code", item_type))
+                            .searchColumn("code", item_type))
                             .get(statsToRead[x].replaceFirst("stat",
                                     "calc"))))}, 0));
         }
@@ -898,17 +898,17 @@ public class D2Item implements Comparable, D2ItemInterface {
 
             for (int y = 0; y < gemHeaders[x].length; y++) {
 
-                if (D2TxtFile.GEMS.searchColumns("code", item_type).get(
+                if (D2TxtFile.GEMS.searchColumn("code", item_type).get(
                         gemHeaders[x][y] + "Code").equals(""))
                     continue;
                 iProps.addAll(D2TxtFile.propToStat(D2TxtFile.GEMS
-                        .searchColumns("code", item_type).get(
+                        .searchColumn("code", item_type).get(
                                 gemHeaders[x][y] + "Code"), D2TxtFile.GEMS
-                        .searchColumns("code", item_type).get(
+                        .searchColumn("code", item_type).get(
                                 gemHeaders[x][y] + "Min"), D2TxtFile.GEMS
-                        .searchColumns("code", item_type).get(
+                        .searchColumn("code", item_type).get(
                                 gemHeaders[x][y] + "Max"), D2TxtFile.GEMS
-                        .searchColumns("code", item_type).get(
+                        .searchColumn("code", item_type).get(
                                 gemHeaders[x][y] + "Param"), (x + 7)));
             }
         }
@@ -981,7 +981,7 @@ public class D2Item implements Comparable, D2ItemInterface {
             if (((D2Prop) iProps.get(x)).getPNum() == 97
                     || ((D2Prop) iProps.get(x)).getPNum() == 107) {
 
-                D2TxtFileItemProperties skillsRow = D2TxtFile.SKILLS.searchColumns(
+                D2TxtFileItemProperties skillsRow = D2TxtFile.SKILLS.searchColumn(
                         "skilldesc",
                         D2TxtFile.SKILL_DESC.getRow(
                                 ((D2Prop) iProps.get(x)).getPVals()[0]).get(

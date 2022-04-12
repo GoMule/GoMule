@@ -340,7 +340,7 @@ public class D2Prop {
                 String lText = lRow.get("skilldesc");
                 String lString = null;
                 if (!"".equals(lText)) {
-                    lString = D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", lText).get("str name"));
+                    lString = D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumn("skilldesc", lText).get("str name"));
                 }
                 if (lString == null) {
                     lString = "Unknown";
@@ -350,7 +350,7 @@ public class D2Prop {
             case (16):
 
                 oString = oString.replaceAll("%d", Integer.toString(pVals[1]));
-                return oString.replaceAll("%s", D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc")).get("str name")));
+                return oString.replaceAll("%s", D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumn("skilldesc", D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc")).get("str name")));
 
 
             case (17):
@@ -368,13 +368,13 @@ public class D2Prop {
                         .collect(Collectors.toList());
                 if (matchingPropsRecords.isEmpty()) {
                     if (oString.equals("Indestructible")) {
-                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "indestruct"));
+                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumn("code", "indestruct"));
                     } else if (oString.equals("%+d%% Enhanced Maximum Damage")) {
-                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg%"));
+                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumn("code", "dmg%"));
                     } else if (oString.equals("%+d to Maximum Damage")) {
-                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg-max"));
+                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumn("code", "dmg-max"));
                     } else if (oString.equals("%+d to Minimum Damage")) {
-                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumns("code", "dmg-min"));
+                        matchingPropsRecords = singletonList(D2TxtFile.PROPS.searchColumn("code", "dmg-min"));
                     } else {
                         return "Unknown property";
                     }
@@ -410,14 +410,14 @@ public class D2Prop {
 
                 oString = oString.replaceFirst("%d", Integer.toString(pVals[2]));
                 oString = oString.replaceAll("%d", Integer.toString(pVals[3]));
-                return "Level " + pVals[0] + " " + D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(pVals[1]).get("skilldesc")).get("str name")) + " " + oString;
+                return "Level " + pVals[0] + " " + D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumn("skilldesc", D2TxtFile.SKILLS.getRow(pVals[1]).get("skilldesc")).get("str name")) + " " + oString;
 
             case (27):
-                return "+" + pVals[1] + " to " + D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc")).get("str name")) + " " + D2Files.getInstance().getTranslations().getTranslation((D2TxtFile.SKILLS.getRow(D2TxtFile.SKILL_DESC.getRow(pVals[0]).getRowNum()).get("charclass").charAt(0) + "").toUpperCase() + D2TxtFile.SKILLS.getRow(D2TxtFile.SKILL_DESC.getRow(pVals[0]).getRowNum()).get("charclass").substring(1) + "Only");
+                return "+" + pVals[1] + " to " + D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumn("skilldesc", D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc")).get("str name")) + " " + D2Files.getInstance().getTranslations().getTranslation((D2TxtFile.SKILLS.getRow(D2TxtFile.SKILL_DESC.getRow(pVals[0]).getRowNum()).get("charclass").charAt(0) + "").toUpperCase() + D2TxtFile.SKILLS.getRow(D2TxtFile.SKILL_DESC.getRow(pVals[0]).getRowNum()).get("charclass").substring(1) + "Only");
 
             case (28):
 
-                return "+" + pVals[1] + " to " + D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc")).get("str name"));
+                return "+" + pVals[1] + " to " + D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumn("skilldesc", D2TxtFile.SKILLS.getRow(pVals[0]).get("skilldesc")).get("str name"));
 
 
             //UNOFFICIAL PROPERTIES

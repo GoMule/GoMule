@@ -108,7 +108,7 @@ public class Flavie {
 //	    System.err.println("checkForRuneWord(" + pName + ", " + pRunes);
         List lRuneList = new ArrayList();
         for (int i = 0; i < lList.size(); i++) {
-            D2TxtFileItemProperties lProps = D2TxtFile.MISC.searchColumns("name", (String) lList.get(i) + " Rune");
+            D2TxtFileItemProperties lProps = D2TxtFile.MISC.searchColumn("name", (String) lList.get(i) + " Rune");
             if (lProps == null) {
                 return false;
             }
