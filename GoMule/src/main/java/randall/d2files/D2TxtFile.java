@@ -281,7 +281,7 @@ public final class D2TxtFile {
     }
 
     public D2TxtFileItemProperties searchRuneWord(ArrayList pList) {
-        int lRuneNr[] = new int[]{getCol("Rune1"), getCol("Rune2"), getCol("Rune3"), getCol("Rune4"), getCol("Rune5"), getCol("Rune6")};
+        int[] lRuneNr = new int[]{getCol("Rune1"), getCol("Rune2"), getCol("Rune3"), getCol("Rune4"), getCol("Rune5"), getCol("Rune6")};
         for (int i = 0; i < iData.length; i++) {
             ArrayList lRW = new ArrayList();
             for (int j = 0; j < lRuneNr.length; j++) {
