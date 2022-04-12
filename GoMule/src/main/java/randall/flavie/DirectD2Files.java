@@ -167,10 +167,10 @@ public class DirectD2Files {
                         matchStr = new String[2];
                         for (int x = 0; x < pItem.getPropCollection().size(); x++) {
                             if (((D2Prop) (pItem.getPropCollection().get(x))).getPNum() == 197) {
-                                matchStr[0] = D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(((D2Prop) (pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
+                                matchStr[0] = D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumn("skilldesc", D2TxtFile.SKILLS.getRow(((D2Prop) (pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
                                 matchStr[1] = "Die";
                             } else if (((D2Prop) (pItem.getPropCollection().get(x))).getPNum() == 199) {
-                                matchStr[0] = D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumns("skilldesc", D2TxtFile.SKILLS.getRow(((D2Prop) (pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
+                                matchStr[0] = D2Files.getInstance().getTranslations().getTranslation(D2TxtFile.SKILL_DESC.searchColumn("skilldesc", D2TxtFile.SKILLS.getRow(((D2Prop) (pItem.getPropCollection().get(x))).getPVals()[1]).get("skilldesc")).get("str name"));
                                 matchStr[1] = "Level Up";
                             }
                         }
