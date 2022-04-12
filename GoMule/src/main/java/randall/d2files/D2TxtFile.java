@@ -241,19 +241,15 @@ public final class D2TxtFile {
     }
 
     public D2TxtFileItemProperties searchColumn(String columnName, String columnValue) {
-        int columnNumber = findColumnNumber(columnName);
-        if (columnNumber != -1) {
-            for (int rowNumber = 0; rowNumber < data.size(); rowNumber++) {
-                List<String> row = data.get(rowNumber);
-                if (columnNumber < row.size() && row.get(columnNumber).equals(columnValue)) {
-                    return new D2TxtFileItemProperties(this, rowNumber);
-                }
-            }
-        }
-        return null;
+        List<D2TxtFileItemProperties> result = searchColumns(columnName, columnValue, true);
+        return result.isEmpty() ? null : result.get(0);
     }
 
     public List<D2TxtFileItemProperties> searchColumns(String columnName, String columnValue) {
+        return searchColumns(columnName, columnValue, false);
+    }
+
+    private List<D2TxtFileItemProperties> searchColumns(String columnName, String columnValue, boolean single) {
         int columnNumber = findColumnNumber(columnName);
         if (columnNumber == -1) {
             return emptyList();
@@ -263,6 +259,7 @@ public final class D2TxtFile {
             List<String> row = data.get(rowNumber);
             if (columnNumber < row.size() && row.get(columnNumber).equals(columnValue)) {
                 hits.add(new D2TxtFileItemProperties(this, rowNumber));
+                if (single) break;
             }
         }
         return hits;
