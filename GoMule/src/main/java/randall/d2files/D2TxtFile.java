@@ -265,30 +265,28 @@ public final class D2TxtFile {
         return hits;
     }
 
-    public D2TxtFileItemProperties searchRuneWord(List<String> pList) {
-        int[] lRuneNr = new int[]{findColumnNumber("Rune1"), findColumnNumber("Rune2"), findColumnNumber("Rune3"), findColumnNumber("Rune4"), findColumnNumber("Rune5"), findColumnNumber("Rune6")};
-        for (int i = 0; i < data.size(); i++) {
-            List<String> lRW = new ArrayList<>();
-            for (int j = 0; j < lRuneNr.length; j++) {
-                String lFile = data.get(i).get(lRuneNr[j]);
-                if (lFile != null && !lFile.equals("")) {
-                    lRW.add(lFile);
-                } else {
-                    break;
-                }
-            }
-            if (pList.size() == lRW.size()) {
-                boolean lIsRuneWord = true;
-                for (int j = 0; j < pList.size() && lIsRuneWord; j++) {
-                    if (!lRW.get(j).equals(pList.get(j))) {
-                        lIsRuneWord = false;
-                    }
-                }
-                if (lIsRuneWord) {
-                    return new D2TxtFileItemProperties(this, i);
-                }
+    public D2TxtFileItemProperties searchRuneWord(List<String> runesEmbedded) {
+        List<Integer> runeColumnNumbers = asList(
+                findColumnNumber("Rune1"),
+                findColumnNumber("Rune2"),
+                findColumnNumber("Rune3"),
+                findColumnNumber("Rune4"),
+                findColumnNumber("Rune5"),
+                findColumnNumber("Rune6")
+        );
+        for (int rowNumber = 0; rowNumber < data.size(); rowNumber++) {
+            List<String> row = data.get(rowNumber);
+            if (runesEmbedded.equals(getRuneWord(row, runeColumnNumbers))) {
+                return new D2TxtFileItemProperties(this, rowNumber);
             }
         }
         return null;
+    }
+
+    private List<String> getRuneWord(List<String> row, List<Integer> runeColumnNumbers) {
+        return runeColumnNumbers.stream()
+                .map(row::get)
+                .filter(rune -> rune != null && !rune.equals(""))
+                .collect(toList());
     }
 }
