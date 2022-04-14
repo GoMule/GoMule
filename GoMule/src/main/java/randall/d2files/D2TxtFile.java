@@ -133,53 +133,67 @@ public final class D2TxtFile {
         return "<none>";
     }
 
-    public static List<D2Prop> propToStat(String pCode, String pMin, String pMax, String pParam, int qFlag) {
-        List<D2Prop> outArr = new ArrayList<>();
-        for (int x = 1; x < 8; x++) {
-            String propsStatCode = D2TxtFile.PROPS.searchColumn("code", pCode).get("stat" + x);
-            if (propsStatCode.equals("")) {
-                if (pCode.equals("dmg%") && x == 1) {
-                    propsStatCode = "item_maxdamage_percent";
-                } else {
-                    break;
-                }
-            }
-            int[] pVals = {0, 0, 0};
-            if (!pMin.equals("")) {
-                try {
-                    pVals[0] = Integer.parseInt(pMin);
-                } catch (NumberFormatException e) {
-                    return outArr;
-                }
-            }
-            if (!pMax.equals("")) {
-                try {
-                    pVals[1] = Integer.parseInt(pMax);
-                } catch (NumberFormatException e) {
-                    return outArr;
-                }
-            }
-            if (!pParam.equals("")) {
-                try {
-                    pVals[2] = Integer.parseInt(pParam);
-                } catch (NumberFormatException e) {
-                    return outArr;
-                }
-            }
-            if (propsStatCode.indexOf("max") != -1) {
-                pVals[0] = pVals[1];
-            } else if (propsStatCode.indexOf("length") != -1) {
-                if (pVals[2] != 0) {
-                    pVals[0] = pVals[2];
-                }
-            }
-            pVals[2] = 0;
-            if (propsStatCode.equals("item_addclassskills")) {
-                pVals[0] = Integer.parseInt(D2TxtFile.PROPS.searchColumn("code", pCode).get("val1"));
-            }
-            outArr.add(new D2Prop(Integer.parseInt(D2TxtFile.ITEM_STAT_COST.searchColumn("Stat", propsStatCode).get("*ID")), pVals, qFlag));
+    public static List<D2Prop> propToStat(
+            String propertyCode, String minStr, String maxStr, String paramStr, int qFlag) {
+        try {
+            int min = minStr.equals("") ? 0 : Integer.parseInt(minStr);
+            int max = maxStr.equals("") ? 0 : Integer.parseInt(maxStr);
+            int param = paramStr.equals("") ? 0 : Integer.parseInt(paramStr);
+            return propToStat(propertyCode, min, max, param, qFlag);
+        } catch (NumberFormatException e) {
+            return emptyList();
         }
-        return outArr;
+    }
+
+    private static List<D2Prop> propToStat(String propertyCode, int minStr, int maxStr, int paramStr, int qFlag) {
+        D2TxtFileItemProperties propertiesRow = D2TxtFile.PROPS.searchColumnUnsafe("code", propertyCode);
+        List<D2Prop> d2Props = new ArrayList<>();
+        for (int index = 1; index < 8; index++) {
+            String statValue = calcStatValue(propertyCode, propertiesRow, index);
+            if (statValue == null) {
+                break;
+            }
+            int id = searchIdStat(statValue);
+            int min = calcMin(minStr, maxStr, paramStr, statValue, propertiesRow);
+            d2Props.add(new D2Prop(id, new int[]{min, maxStr, 0}, qFlag));
+        }
+        return d2Props;
+    }
+
+    private D2TxtFileItemProperties searchColumnUnsafe(String columnName, String propertyCode) {
+        D2TxtFileItemProperties propertiesRow = searchColumn(columnName, propertyCode);
+        if (propertiesRow == null) {
+            throw new IllegalArgumentException("'" + columnName + "' column value not found: " + propertyCode);
+        }
+        return propertiesRow;
+    }
+
+    private static String calcStatValue(String propertyCode, D2TxtFileItemProperties propertiesRow, int index) {
+        String statValue = propertiesRow.get("stat" + index);
+        if (!statValue.equals("")) {
+            return statValue;
+        }
+        if (propertyCode.equals("dmg%") && index == 1) {
+            return "item_maxdamage_percent";
+        }
+        return null;
+    }
+
+    private static int searchIdStat(String statValue) {
+        D2TxtFileItemProperties stat = D2TxtFile.ITEM_STAT_COST.searchColumnUnsafe("Stat", statValue);
+        return Integer.parseInt(stat.get("*ID"));
+    }
+
+    private static int calcMin(int min, int max, int param, String statValue, D2TxtFileItemProperties propertiesRow) {
+        if (statValue.contains("max")) {
+            return max;
+        } else if (statValue.contains("length") && param != 0) {
+            return param;
+        }
+        if (statValue.equals("item_addclassskills")) {
+            return Integer.parseInt(propertiesRow.get("val1"));
+        }
+        return min;
     }
 
     public static D2TxtFileItemProperties search(String columnValue) {
