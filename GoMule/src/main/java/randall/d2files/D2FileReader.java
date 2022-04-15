@@ -77,7 +77,7 @@ public class D2FileReader {
         this.counterBit = counterBit;
     }
 
-    public boolean getCounterBoolean() {
+    private boolean getCounterBoolean() {
         int lNr = 1;
         if (counterBit > 0) {
             lNr = lNr << counterBit;
