@@ -129,8 +129,9 @@ public final class D2TxtFile {
                 return "Druid";
             case 6:
                 return "Assassin";
+            default:
+                return "<none>";
         }
-        return "<none>";
     }
 
     public static List<D2Prop> propToStat(
