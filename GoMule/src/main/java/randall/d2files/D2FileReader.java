@@ -33,7 +33,7 @@ public class D2FileReader {
 
     protected byte[] buffer;
 
-//    private String fileName;
+    //    private String fileName;
     private int counterPosition = 0;
     private int counterBit = 0;
 
@@ -88,7 +88,7 @@ public class D2FileReader {
     }
 
     public String getCounterString() {
-        StringBuffer lBuffer = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         int lInt = 0;
         try {
             lInt = getCounterInt(8);
@@ -97,13 +97,13 @@ public class D2FileReader {
         }
         while (lInt != 0) {
             try {
-                lBuffer.append((char) lInt);
+                builder.append((char) lInt);
                 lInt = getCounterInt(8);
             } catch (Exception pEx) {
                 lInt = 0;
             }
         }
-        return lBuffer.toString();
+        return builder.toString();
     }
 
     public String getCounterString(int pCharNr) {
