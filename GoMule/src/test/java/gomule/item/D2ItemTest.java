@@ -248,7 +248,7 @@ public class D2ItemTest {
                 "Matriarchal Javelin\n" +
                 "Throw Damage: 169 - 324\n" +
                 "One Hand Damage: 149 - 274\n" +
-                "Quantity: 140\n" +
+                "Quantity: 142\n" +
                 "Required Level: 55\n" +
                 "Required Strength: 97\n" +
                 "Required Dexterity: 141\n" +
@@ -267,7 +267,7 @@ public class D2ItemTest {
                 "Replenishes quantity\n" +
                 "Required Level +7\n" +
                 "Ethereal\n";
-        byte[] bytes = {16, 64, -64, 1, 13, 17, -32, 89, 57, -96, 28, 17, -79, 94, -113, -116, 16, -90, -49, -62, -9, 91, 60, 23, -90, -49, -62, -9, 29, -64, -96, 0, 35, 0, 52, 2, 104, 17, 98, -59, -86, -112, 89, -112, -15, 40, 76, -127, -72, 28, -64, -56, 62, 101, -96, 100, -68, 4, 0, -44, -49, -13, -57, -13, 31};
+        byte[] bytes = decode("10 40 C0 01 0D 11 E0 59 39 A0 1C 11 B1 5E 8F 8C 10 4A 3B 13 7A 7B 13 9B 13 4A 3B 13 7A BB 03 60 50 C0 11 00 1A 01 B4 08 B1 62 55 C8 2C C8 78 14 A6 40 5C 0E 60 64 9F 32 50 32 5E 02 00 EA E7 F9 E3 F9 0F");
         runItemDumpComparison(expected, loadD2Item(bytes));
     }
 
@@ -297,7 +297,7 @@ public class D2ItemTest {
                 "Adds 15 - 45 Cold Damage Over 4 Secs (100 Frames)\n" +
                 "+20 to Dexterity\n" +
                 "+40 to Mana\n" +
-                "Cold Absorb 20%\n" +
+                "+20 Cold Absorb\n" +
                 "Cannot Be Frozen\n";
         byte[] bytes = {16, 0, -128, 0, -117, 25, -32, -4, -40, -80, 87, -81, 46, -91, -67, 51, 17, 4, -48, 18, 32, 77, -8, -59, -58, 67, 11, 50, 74, -108, 76, -1, 3};
         runItemDumpComparison(expected, loadD2Item(bytes));

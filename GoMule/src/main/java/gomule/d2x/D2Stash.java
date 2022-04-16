@@ -147,7 +147,7 @@ public class D2Stash extends D2ItemListAdapter {
 
             long lVersionNr = iBR.read(16);
 
-            if (lVersionNr == 97) {
+            if (lVersionNr == 98) {
                 readItems(lNumItems);
             } else {
                 throw new Exception("Stash Version Incorrect!");
@@ -207,7 +207,7 @@ public class D2Stash extends D2ItemListAdapter {
 
         iBR.set_byte_pos(3);
         iBR.write(iItems.size(), 16);
-        iBR.write(97, 16); // version 96
+        iBR.write(98, 16); // version 96
 //        iBR.replace_bytes(11, iBR.get_length(), newbytes);
 
         long lCheckSum1 = calculateAtmaCheckSum();

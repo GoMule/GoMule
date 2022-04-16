@@ -689,7 +689,7 @@ public class D2Item implements Comparable, D2ItemInterface {
             personalization = "";
             boolean lNotEnded = true;
             for (int i = 0; i < 15 && lNotEnded; i++) {
-                char c = (char) pFile.read(7);
+                char c = (char) pFile.read(8);
                 if (c == 0) {
                     lNotEnded = false;
                 } else {
@@ -697,7 +697,7 @@ public class D2Item implements Comparable, D2ItemInterface {
                 }
             }
             if (lNotEnded == true) {
-                pFile.read(7);
+                pFile.read(8);
             }
         }
     }

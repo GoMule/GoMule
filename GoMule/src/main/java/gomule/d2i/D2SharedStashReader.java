@@ -30,7 +30,7 @@ public class D2SharedStashReader {
     private D2SharedStashPane readSharedStashPane(D2BitReader bitReader, String filename) throws Exception {
         int stashPaneStart = bitReader.get_byte_pos();
         D2SharedStash.Header header = D2SharedStash.Header.fromBytes(bitReader);
-        if (header.getVersion() != 97)
+        if (header.getVersion() != 98)
             throw new RuntimeException("Incorrect shared stash version: " + header.getVersion());
         bitReader.set_byte_pos(bitReader.findNextFlag("JM", bitReader.get_byte_pos()));
         bitReader.skipBytes(2);

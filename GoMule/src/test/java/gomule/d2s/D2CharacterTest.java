@@ -106,7 +106,7 @@ public class D2CharacterTest {
             "Ceremonial Javelin\n" +
             "Throw Damage: 74 - 197\n" +
             "One Hand Damage: 74 - 145\n" +
-            "Quantity: 140\n" +
+            "Quantity: 142\n" +
             "Required Level: 42\n" +
             "Required Strength: 25\n" +
             "Required Dexterity: 109\n" +
@@ -369,7 +369,7 @@ public class D2CharacterTest {
             "Adds 15 - 45 Cold Damage Over 4 Secs (100 Frames)\n" +
             "+20 to Dexterity\n" +
             "+40 to Mana\n" +
-            "Cold Absorb 20%\n" +
+            "+20 Cold Absorb\n" +
             "Cannot Be Frozen\n" +
             "\n" +
             "The Stone of Jordan\n" +
@@ -400,7 +400,7 @@ public class D2CharacterTest {
             "+20 to Strength\n" +
             "+20 to Vitality\n" +
             "+10% to Maximum Lightning Resist\n" +
-            "+20 Lightning Absorb\n" +
+            "Lightning Absorb 20%\n" +
             "\n" +
             "Aldur's Advance\n" +
             "Battle Boots\n" +
@@ -732,7 +732,7 @@ public class D2CharacterTest {
             "Matriarchal Javelin\n" +
             "Throw Damage: 169 - 324\n" +
             "One Hand Damage: 149 - 274\n" +
-            "Quantity: 140\n" +
+            "Quantity: 142\n" +
             "Required Level: 55\n" +
             "Required Strength: 97\n" +
             "Required Dexterity: 141\n" +
@@ -793,22 +793,22 @@ public class D2CharacterTest {
             "\n" +
             "Name:       Razan\n" +
             "Race:       Desert Mercenary\n" +
-            "Type:       Def-Nightmare\n" +
+            "Type:       HolyFreeze-Nightmare\n" +
             "Experience: 107329840\n" +
             "Level:      96\n" +
             "Dead?:      unknown\n" +
             "\n" +
             "            Naked/Gear\n" +
-            "Strength:   205/205\n" +
-            "Dexterity:  166/166\n" +
-            "HP:         2207/2207\n" +
-            "Defense:    1614/2175\n" +
-            "AR:         2042/2045\n" +
+            "Strength:   209/209\n" +
+            "Dexterity:  170/170\n" +
+            "HP:         2270/2270\n" +
+            "Defense:    1657/2218\n" +
+            "AR:         2105/2108\n" +
             "\n" +
-            "Fire:       230/190/130\n" +
-            "Cold:       260/220/160\n" +
-            "Lightning:  230/190/130\n" +
-            "Poison:     230/190/130\n" +
+            "Fire:       233/193/133\n" +
+            "Cold:       263/223/163\n" +
+            "Lightning:  233/193/133\n" +
+            "Poison:     233/193/133\n" +
             "\n" +
             "Treachery\n" +
             "Wire Fleece\n" +
