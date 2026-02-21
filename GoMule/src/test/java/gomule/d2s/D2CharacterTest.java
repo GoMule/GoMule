@@ -80,7 +80,7 @@ public class D2CharacterTest {
     @MethodSource("charFileProvider")
     public void testCharacter(CharacterTestCase testCase) throws Exception {
         String actual = testCase.character.fullDumpStr().replaceAll("\r", "");
-        String expected = new String(Files.readAllBytes(testCase.expectedFile.toPath()));
+        String expected = new String(Files.readAllBytes(testCase.expectedFile.toPath())).replaceAll("\r", "");
         assertEquals(expected, actual, "Character dump for " + testCase.name + " does not match expected output");
     }
 

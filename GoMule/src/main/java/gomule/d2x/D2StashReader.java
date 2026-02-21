@@ -38,8 +38,8 @@ public class D2StashReader {
             byte[] startingBytes = bitReader.get_bytes(3);
             String lStart = new String(startingBytes);
             if (!"D2X".equals(lStart)) throw new RuntimeException("Incorrect Stash type: " + lStart);
-            checkChecksum(bitReader);
             checkVersionAndVariant(variant, bitReader);
+            checkChecksum(bitReader);
             return readItems(filename, bitReader);
         } else {
             return new ArrayList<>();
