@@ -4,19 +4,19 @@ import gomule.util.Analytics;
 import gomule.util.AppPaths;
 import gomule.util.Version;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import static gomule.updater.GoMuleLauncher.launchGoMule;
+
 public class GoMuleUpdater {
     private static final String MANIFEST_URL = "https://gomule.github.io/metadata/version.json";
-    private static final String GOMULE_APP_JAR = "app/GoMuleApp.jar";
+    public static final String GOMULE_APP_JAR = "app/GoMuleApp.jar";
     private static final String UPDATES_DISABLED = "updates.disabled";
 
     public static void main(String[] args) {
@@ -98,30 +98,6 @@ public class GoMuleUpdater {
             }
         } catch (Exception e) {
             System.err.println("Could not save updates.disabled: " + e.getMessage());
-        }
-    }
-
-    private static void launchGoMule() {
-        Path jarPath = Paths.get(GOMULE_APP_JAR).toAbsolutePath().normalize();
-        if (!Files.exists(jarPath)) {
-            System.out.println("GoMuleApp.jar not found - running in same process (IDE mode)");
-            try {
-                Class<?> goMuleClass = Class.forName("gomule.GoMule");
-                Method mainMethod = goMuleClass.getMethod("main", String[].class);
-                mainMethod.invoke(null, (Object) new String[0]);
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Failed to start GoMule, you could email this to silospen@silospen.com: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-            return;
-        }
-
-        System.out.println("Launching GoMule...");
-        try {
-            new ProcessBuilder("java", "-jar", jarPath.toString())
-                    .inheritIO()
-                    .start();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to start GoMule, you could email this to silospen@silospen.com: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
