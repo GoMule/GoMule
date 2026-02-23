@@ -652,6 +652,15 @@ public class D2Prop {
             case 50:
                 return "Martial Art Skills (Assassin Only)";
 
+            case 56:
+                return "Demon Skills (Warlock Only)";
+
+            case 57:
+                return "Eldritch Skills (Warlock Only)";
+
+            case 58:
+                return "Chaos Skills (Warlock Only)";
+
         }
         return "Unknown Tree (P 188)";
 

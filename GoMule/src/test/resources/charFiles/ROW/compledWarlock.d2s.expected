@@ -113,7 +113,7 @@ Fingerprint: 0x0
 Item Level: 41
 Version: Resurrected
 15% Chance to cast level 1 Decrepify when struck
-+2 to Unknown Tree (P 188)
++2 to Demon Skills (Warlock Only)
 +3 to Consume (Warlock Only)
 +4 to Blood Boil (Warlock Only)
 +3 to Engorge (Warlock Only)
@@ -151,7 +151,7 @@ Required Strength: 163
 Fingerprint: 0x0
 Item Level: 41
 Version: Resurrected
-+1 to Unknown Tree (P 188)
++1 to Eldritch Skills (Warlock Only)
 +30% Faster Run/Walk
 +20% Faster Hit Recovery
 +60 Defense
@@ -227,7 +227,7 @@ Fingerprint: 0x0
 Item Level: 41
 Version: Resurrected
 15% Chance to cast level 1 Terror when struck
-+2 to Unknown Tree (P 188)
++2 to Chaos Skills (Warlock Only)
 +25% Faster Cast Rate
 +25% to Fire Skill Damage
 +5 to Apocalypse (Warlock Only)
@@ -258,7 +258,7 @@ Required Strength: 97
 Fingerprint: 0x0
 Item Level: 41
 Version: Resurrected
-+2 to Unknown Tree (P 188)
++2 to Demon Skills (Warlock Only)
 +100% Enhanced Defense
 +100 to Mana
 Cold Resist +25%
@@ -753,7 +753,7 @@ Required Strength: 91
 Fingerprint: 0x0
 Item Level: 41
 Version: Resurrected
-+2 to Unknown Tree (P 188)
++2 to Eldritch Skills (Warlock Only)
 +30% Faster Hit Recovery
 20% Increased Chance of Blocking
 +30 to Vitality
