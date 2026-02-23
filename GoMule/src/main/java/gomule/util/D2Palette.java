@@ -21,6 +21,8 @@
 
 package gomule.util;
 
+import java.io.File;
+
 // loads a d2-style palette
 public class D2Palette {
     static private D2Palette p = null;
@@ -28,7 +30,8 @@ public class D2Palette {
 
     private D2Palette() {
         String s = java.io.File.separator;
-        D2BitReader br = new D2BitReader("resources" + s + "palette.dat");
+        File paletteFile = new File(AppPaths.getBaseDir(), "resources" + s + "palette.dat");
+        D2BitReader br = new D2BitReader(paletteFile.getPath());
         colors = new int[256];
         for (int i = 0; i < 256; i++) {
             //int blue = (int)br.read(8);

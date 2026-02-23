@@ -1,0 +1,29 @@
+plugins {
+    id 'application'
+}
+
+dependencies {
+    implementation project(':GoMuleShared')
+    implementation 'com.eclipsesource.minimal-json:minimal-json:0.9.5'
+    testImplementation "org.mockito:mockito-core:3.+"
+    testImplementation "org.junit.jupiter:junit-jupiter:5.5.2"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.5.2"
+}
+
+application {
+    mainClass = 'gomule.updater.GoMuleUpdater'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'gomule.updater.GoMuleUpdater',
+                'Implementation-Version': project.version
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from sourceSets.main.output
+}

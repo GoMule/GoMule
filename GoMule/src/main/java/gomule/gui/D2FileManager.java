@@ -29,6 +29,7 @@ import gomule.d2x.D2StashReader;
 import gomule.gui.sharedStash.D2ViewSharedStash;
 import gomule.item.D2Item;
 import gomule.model.VersionController;
+import gomule.util.AppPaths;
 import gomule.util.D2Project;
 import randall.d2files.D2TxtFile;
 import randall.flavie.Flavie;
@@ -58,6 +59,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static java.lang.Boolean.parseBoolean;
 import static java.lang.Integer.parseInt;
 import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
 
@@ -72,7 +74,6 @@ public class D2FileManager extends JFrame {
      */
     private static final long serialVersionUID = 4010435064410504579L;
 
-    private static final String CURRENT_VERSION = "R5.1";
     private static final D2FileManager iCurrent = new D2FileManager();
     private final D2SharedStashReader sharedStashReader;
     private final D2StashReader stashReader;
@@ -122,7 +123,8 @@ public class D2FileManager extends JFrame {
     private Properties workspaceProperties;
 
     private D2FileManager() {
-        D2TxtFile.constructTxtFiles("d2111");
+        File d2111Dir = new File(AppPaths.getBaseDir(), "d2111");
+        D2TxtFile.constructTxtFiles(d2111Dir.getPath());
         sharedStashReader = new D2SharedStashReader();
         stashReader = new D2StashReader();
         iOpenWindows = new ArrayList();
@@ -180,7 +182,7 @@ public class D2FileManager extends JFrame {
     }
 
     private void setTitle(boolean saved) {
-        setTitle("GoMule " + CURRENT_VERSION + (saved ? " - Saved" : ""));
+        setTitle("GoMule " + gomule.util.Version.getCurrentVersion() + (saved ? " - Saved" : ""));
     }
 
     public static D2FileManager getInstance() {
@@ -828,6 +830,14 @@ public class D2FileManager extends JFrame {
                 }
             });
         }
+        JMenuItem allowAutoupdates = new JCheckBoxMenuItem("Allow Autoupdates", !parseBoolean(iProperties.getProperty("updates.disabled", "false")));
+        allowAutoupdates.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                iProperties.setProperty("updates.disabled", "false");
+            } else {
+                iProperties.setProperty("updates.disabled", "true");
+            }
+        });
         JMenuItem exitProg = new JMenuItem("Exit");
 
         JMenu projMenu = new JMenu("Project");
@@ -845,6 +855,8 @@ public class D2FileManager extends JFrame {
         fileMenu.add(saveAll);
         fileMenu.addSeparator();
         fileMenu.add(switchLookAndFeelMenu);
+        fileMenu.addSeparator();
+        fileMenu.add(allowAutoupdates);
         fileMenu.addSeparator();
         fileMenu.add(exitProg);
 
@@ -1791,7 +1803,7 @@ public class D2FileManager extends JFrame {
         JOptionPane.showMessageDialog(
                 this,
                 "A java-based Diablo II muling application\n\noriniginally created by Andy Theuninck (Gohanman)\nVersion 0.1a"
-                        + "\n\ncurrent release by Randall & Silospen\nVersion " + CURRENT_VERSION
+                        + "\n\ncurrent release by Randall & Silospen\nVersion " + gomule.util.Version.getCurrentVersion()
                         + "\n\nAnd special thanks to:"
                         + "\n\tHakai_no_Tenshi & Gohanman for helping me out with the file formats"
                         + "\nRTB for all his help.\n\tThe Super Beta Testers:\nSkinhead On The MBTA\nnubikon\nOscuro\nThyiad\nMoiselvus\nPurpleLocust\nAnd anyone else I've forgotten..!",

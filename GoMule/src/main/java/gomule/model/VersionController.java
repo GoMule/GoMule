@@ -1,8 +1,5 @@
 package gomule.model;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Function;
@@ -128,12 +125,11 @@ public class VersionController {
         }
     }
 
-    @Nullable
     private static <T, U> T firstOrNull(T[] values, Function<T, U> identifierExtractor, U identifier) {
         return getFirst(values, identifierExtractor, identifier).orElse(null);
     }
 
-    private static <T, U> @NotNull Optional<T> getFirst(T[] values, Function<T, U> identifierExtractor, U identifier) {
+    private static <T, U> Optional<T> getFirst(T[] values, Function<T, U> identifierExtractor, U identifier) {
         return Arrays.stream(values).filter(it -> identifierExtractor.apply(it).equals(identifier)).findFirst();
     }
 

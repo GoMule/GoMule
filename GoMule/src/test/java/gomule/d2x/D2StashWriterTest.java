@@ -1,7 +1,6 @@
 package gomule.d2x;
 
 import gomule.model.VersionController;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import randall.d2files.D2TxtFile;
@@ -33,7 +32,6 @@ public class D2StashWriterTest {
         runTest(createStash(VersionController.Variant.ROW), decode(EMPTY_STASH_ROW), VersionController.Variant.ROW);
     }
 
-    @NotNull
     private static D2Stash createStash(VersionController.Variant variant) {
         return new D2Stash(variant, "test.d2x", new ArrayList<>(), false, false, false);
     }

@@ -42,7 +42,9 @@ import java.util.Properties;
  * Preferences - Java - Code Style - Code Templates
  */
 public class D2Project {
-    public static final String PROJECTS_ROOT_DIR = "projects";
+    public static File getProjectsRootDir() {
+        return new File(AppPaths.getBaseDir(), "projects");
+    }
     public static final int TYPE_SC = 1;
     public static final int TYPE_HC = 2;
     public static final int TYPE_BOTH = 3;
@@ -245,7 +247,7 @@ public class D2Project {
     }
 
     public static File getWorkspaceDir(D2FileManager iFileManager) {
-        return new File( PROJECTS_ROOT_DIR + File.separator + iFileManager.getVersion().name().toLowerCase() + File.separator + iFileManager.getVariant().name().toLowerCase());
+        return new File(getProjectsRootDir(), iFileManager.getVersion().name().toLowerCase() + File.separator + iFileManager.getVariant().name().toLowerCase());
     }
 
     private boolean delDir(File dir) {

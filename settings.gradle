@@ -1,0 +1,5 @@
+rootProject.name = 'gomule'
+
+include 'GoMuleShared'
+include 'GoMuleUpdater'
+include 'GoMule'

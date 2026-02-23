@@ -22,6 +22,7 @@ package gomule.gui;
 
 import gomule.item.D2Item;
 import gomule.item.D2dc6;
+import gomule.util.AppPaths;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -43,7 +44,7 @@ public class D2ImageCache {
     private static HashMap sIcon = new HashMap();
 
     public static Image getImage(String pImageName) {
-        return getImageAbsolute("resources" + File.separator + pImageName);
+        return getImageAbsolute("resources/" + pImageName);
     }
 
     private static Image getImageAbsolute(String pImageName) {
@@ -51,9 +52,10 @@ public class D2ImageCache {
             return (Image) sImages.get(pImageName);
         }
 
-        Image lImage = null;
+        Image lImage;
         try {
-            Image lLoadImage = ImageIO.read(new java.io.File(pImageName));
+            File file = new File(AppPaths.getBaseDir(), pImageName);
+            Image lLoadImage = ImageIO.read(file);
             new ImageIcon(lLoadImage);
 
             lImage = new BufferedImage(lLoadImage.getWidth(null), lLoadImage.getHeight(null), BufferedImage.TYPE_3BYTE_BGR);
@@ -69,7 +71,7 @@ public class D2ImageCache {
     }
 
     public static Icon getIcon(String pIconName) {
-        return getIconAbsolute("resources" + File.separator + "icons" + File.separator + pIconName);
+        return getIconAbsolute("resources/icons/" + pIconName);
     }
 
     private static Icon getIconAbsolute(String pImageName) {
@@ -77,9 +79,10 @@ public class D2ImageCache {
             return (Icon) sIcon.get(pImageName);
         }
 
-        Icon lIcon = null;
+        Icon lIcon;
         try {
-            Image lLoadImage = ImageIO.read(new java.io.File(pImageName));
+            File file = new File(AppPaths.getBaseDir(), pImageName);
+            Image lLoadImage = ImageIO.read(file);
             lIcon = new ImageIcon(lLoadImage);
         } catch (IOException pEx) {
             lIcon = null;
@@ -94,13 +97,14 @@ public class D2ImageCache {
     }
 
     public static Image getDC6Image(String pFileName) {
-        String lFileName = "resources" + File.separator + "gfx" + File.separator + pFileName;
+        String lFileName = "resources/gfx/" + pFileName;
 
         if (sDC6Images.containsKey(lFileName)) {
             return (Image) sDC6Images.get(lFileName);
         }
 
-        D2dc6 lD2S = new D2dc6(lFileName);
+        File file = new File(AppPaths.getBaseDir(), lFileName);
+        D2dc6 lD2S = new D2dc6(file.getPath());
         lD2S.load_file();
         Image lImage = lD2S.getSingleImage();
 

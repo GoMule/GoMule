@@ -11,12 +11,12 @@ import java.util.Properties;
 
 public class FileManagerProperties {
     private static File getFileManagerPropertiesFile() throws IOException {
-        File lProjectsDir = new File(D2Project.PROJECTS_ROOT_DIR);
+        File lProjectsDir = D2Project.getProjectsRootDir();
         if (!lProjectsDir.exists()) {
             lProjectsDir.mkdir();
         }
 
-        File lProps = new File(D2Project.PROJECTS_ROOT_DIR + File.separator + "projects.properties");
+        File lProps = new File(lProjectsDir, "projects.properties");
         if (!lProps.exists()) {
             lProps.createNewFile();
         }

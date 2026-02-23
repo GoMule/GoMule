@@ -21,6 +21,7 @@
 package randall.flavie;
 
 import gomule.model.VersionController;
+import gomule.util.AppPaths;
 import randall.d2files.D2TxtFile;
 import randall.d2files.D2TxtFileItemProperties;
 import randall.flavie.filters.FlavieDupeFilter;
@@ -78,7 +79,7 @@ public class Flavie {
         ArrayList lDataFileObjects = iDataFileBuilder.readDataFileObjects(iDataFile, iDatFile);
         iDirectD2.readDirectD2Files(lDataFileObjects, pFileNames);
 
-        File lDupeDirList = new File("dupelists");
+        File lDupeDirList = new File(AppPaths.getBaseDir(), "dupelists");
         File lDupeFiles[] = lDupeDirList.listFiles();
 
         for (int i = 0; i < lDupeFiles.length; i++) {

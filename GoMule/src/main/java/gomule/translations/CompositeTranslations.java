@@ -1,19 +1,16 @@
 package gomule.translations;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Arrays;
 import java.util.Objects;
 
 public class CompositeTranslations implements Translations {
 
-    private Translations[] translations;
+    private final Translations[] translations;
 
     public CompositeTranslations(Translations... translations) {
         this.translations = translations;
     }
 
-    @Nullable
     @Override
     public String getTranslationOrNull(String key) {
         return Arrays.stream(translations)

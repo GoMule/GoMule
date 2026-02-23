@@ -1,0 +1,37 @@
+subprojects {
+    version = 'R5.2'
+    
+    apply plugin: 'java'
+    
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    compileJava {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+        options.release = 8
+        options.compilerArgs << '-Xlint:all'
+    }
+
+    compileTestJava {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+        options.release = 8
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    plugins.withId('application') {
+        run {
+            systemProperty "app.home", rootProject.file('GoMule').absolutePath
+        }
+    }
+}
