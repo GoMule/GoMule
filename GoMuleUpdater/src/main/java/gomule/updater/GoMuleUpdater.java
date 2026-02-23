@@ -21,6 +21,13 @@ public class GoMuleUpdater {
 
     public static void main(String[] args) {
         String currentVersion = Version.getCurrentVersion();
+        Path appJarPath = Paths.get(GOMULE_APP_JAR).toAbsolutePath().normalize();
+        if (Files.exists(appJarPath)) {
+            String appVersion = Version.getVersionFromJar(appJarPath);
+            if (appVersion != null) {
+                currentVersion = appVersion;
+            }
+        }
         Analytics.trackLaunch(currentVersion);
 
         if (isUpdatesDisabled()) {

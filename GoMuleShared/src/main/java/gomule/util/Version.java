@@ -1,5 +1,9 @@
 package gomule.util;
 
+import java.nio.file.Path;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
+
 public class Version {
     private static String cachedVersion;
 
@@ -38,5 +42,20 @@ public class Version {
         }
 
         return "R5.1";
+    }
+
+    public static String getVersionFromJar(Path jarPath) {
+        try (JarFile jar = new JarFile(jarPath.toFile())) {
+            Manifest manifest = jar.getManifest();
+            if (manifest != null) {
+                String version = manifest.getMainAttributes().getValue("Implementation-Version");
+                if (version != null && !version.isEmpty()) {
+                    return version;
+                }
+            }
+        } catch (Exception e) {
+            // Fall through to return null
+        }
+        return null;
     }
 }
