@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class Analytics {
     private static final String BASE_URL = "https://silospen.com/gomuleevent/handler";
@@ -14,6 +15,20 @@ public class Analytics {
         t.setDaemon(true);
         return t;
     });
+
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            executor.shutdown();
+            try {
+                if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
+                    executor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }, "analytics-shutdown"));
+    }
 
     public static void trackLaunch(String version) {
         track("launch", "version", version);
