@@ -6,7 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -16,9 +18,22 @@ import static gomule.updater.util.UpdaterUIUtils.*;
 public class UpdateApplier {
 
     private static final String UPDATER_JAR = "GoMule.jar";
-    private static final String PROJECTS_DIR = "projects";
     private static final String ZIP_ROOT_PREFIX = "GoMule";
     private static final String BACKUP_DIR = ".gomule_update_backup";
+
+    private static final Set<String> DISTRIBUTION_WHITELIST = new HashSet<>();
+
+    static {
+        DISTRIBUTION_WHITELIST.add("GoMule.jar");
+        DISTRIBUTION_WHITELIST.add("app");
+        DISTRIBUTION_WHITELIST.add("d2111");
+        DISTRIBUTION_WHITELIST.add("dupelists");
+        DISTRIBUTION_WHITELIST.add("resources");
+        DISTRIBUTION_WHITELIST.add("COPYING.txt");
+        DISTRIBUTION_WHITELIST.add("LICENSE.txt");
+        DISTRIBUTION_WHITELIST.add("standard.css");
+        DISTRIBUTION_WHITELIST.add("standard.dat");
+    }
 
     public static void applyUpdate(Path updateDir, Path currentDir, ProgressCallback callback, AtomicBoolean cancelled) throws IOException {
         try {
@@ -53,7 +68,19 @@ public class UpdateApplier {
         Path backupDir = currentDir.resolve(BACKUP_DIR);
         if (Files.exists(backupDir)) deleteDirectory(backupDir);
         Files.createDirectory(backupDir);
-        copyDirectoryContents(currentDir, backupDir, null, callback, "Backed up: ", skipUpdater(), null);
+
+        for (String fileName : DISTRIBUTION_WHITELIST) {
+            Path sourcePath = currentDir.resolve(fileName);
+            if (!Files.exists(sourcePath)) continue;
+
+            Path destPath = backupDir.resolve(fileName);
+            if (Files.isDirectory(sourcePath)) {
+                copyDirectoryContents(sourcePath, destPath, null, callback, "Backed up: ", (it) -> true, null);
+            } else {
+                Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Backed up: " + fileName);
+            }
+        }
     }
 
     private static void restoreFromBackup(Path currentDir, ProgressCallback callback) throws IOException {
@@ -77,27 +104,23 @@ public class UpdateApplier {
         }
     }
 
-    private static void cleanCurrentDirectory(Path currentDir, AtomicBoolean cancelled) throws IOException {
-        try (Stream<Path> stream = Files.list(currentDir)) {
-            stream.forEach(path -> {
-                if (isCancelled(cancelled)) return;
-                String fileName = path.getFileName().toString();
-                if (fileName.equals(UPDATER_JAR) ||
-                        fileName.equals(PROJECTS_DIR) ||
-                        fileName.equals(BACKUP_DIR)) {
-                    return;
+    private static void cleanCurrentDirectory(Path currentDir, AtomicBoolean cancelled) {
+        for (String fileName : DISTRIBUTION_WHITELIST) {
+            if (isCancelled(cancelled)) return;
+            Path path = currentDir.resolve(fileName);
+            if (!Files.exists(path) || fileName.equals(UPDATER_JAR)) {
+                continue;
+            }
+            try {
+                if (Files.isDirectory(path)) {
+                    deleteDirectory(path);
+                } else {
+                    Files.delete(path);
                 }
-                try {
-                    if (Files.isDirectory(path)) {
-                        deleteDirectory(path);
-                    } else {
-                        Files.delete(path);
-                    }
-                    System.out.println("Deleted: " + fileName);
-                } catch (IOException e) {
-                    System.err.println("Failed to delete: " + path + " - " + e.getMessage());
-                }
-            });
+                System.out.println("Deleted: " + fileName);
+            } catch (IOException e) {
+                System.err.println("Failed to delete: " + path + " - " + e.getMessage());
+            }
         }
     }
 
