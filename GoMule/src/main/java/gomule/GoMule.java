@@ -35,6 +35,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import static gomule.updater.Updater.checkAndSwapUpdater;
+
 public class GoMule {
     /**
      * Main Class, runs GoMule
@@ -42,6 +44,7 @@ public class GoMule {
      * @param args Can set L+F
      */
     public static void main(String[] pArgs) {
+        checkAndSwapUpdater();
         try {
             Properties fileManagerPropertiesFile = FileManagerProperties.loadFileManagerProperties();
             String lLookAndFeel = LookAndFeelOptions.valueOf(fileManagerPropertiesFile.getProperty(LookAndFeelOptions.PROPERTY_NAME, LookAndFeelOptions.CLASSIC.name())).getLookAndFeelName();

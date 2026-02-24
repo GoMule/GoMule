@@ -27,6 +27,12 @@ public class BuildConfig {
 
 compileJava.dependsOn generateVersionJava
 
+dependencies {
+    testImplementation "org.mockito:mockito-core:3.+"
+    testImplementation "org.junit.jupiter:junit-jupiter:5.5.2"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.5.2"
+}
+
 jar {
     manifest {
         attributes(

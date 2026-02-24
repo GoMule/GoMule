@@ -88,6 +88,12 @@ task copyUpdaterJarToDistribution(type: Copy) {
     rename { "GoMule.jar" }
 }
 
+task copyUpdaterJarNewToDistribution(type: Copy) {
+    from project(':GoMuleUpdater').jar
+    into "build/tmp/distribution/GoMule/app"
+    rename { "GoMule.jar.new" }
+}
+
 task copyResourcesToDistribution(type: Copy) {
     from ".", {
         include 'd2111/**'
@@ -112,12 +118,14 @@ task distribution(type: Zip) {
     include 'GoMule/**'
     archiveFileName = "${distName}.zip"
     dependsOn copyUpdaterJarToDistribution
+    dependsOn copyUpdaterJarNewToDistribution
     dependsOn copyAppJarToDistribution
     dependsOn copyResourcesToDistribution
 }
 
 copyAppJarToDistribution.dependsOn jar
 copyUpdaterJarToDistribution.dependsOn project(':GoMuleUpdater').jar
+copyUpdaterJarNewToDistribution.dependsOn project(':GoMuleUpdater').jar
 distribution.dependsOn createDistribution
 createDistribution.finalizedBy copyUpdaterJarToDistribution
 createDistribution.finalizedBy copyAppJarToDistribution

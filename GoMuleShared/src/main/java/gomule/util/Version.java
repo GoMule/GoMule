@@ -7,6 +7,9 @@ import java.util.jar.Manifest;
 public class Version {
     private static String cachedVersion;
 
+    private Version() {
+    }
+
     public static String getCurrentVersion() {
         if (cachedVersion == null) {
             cachedVersion = loadVersion();
@@ -57,5 +60,41 @@ public class Version {
             // Fall through to return null
         }
         return null;
+    }
+
+    /**
+     * Compare version strings (e.g., "R5.1" vs "R5.2")
+     *
+     * @return true if proposedVersion is newer than currentVersion
+     */
+    public static boolean isNewerVersion(String proposedVersion, String currentVersion) {
+        // Simple version comparison - handles format like "R5.1", "R5.2-BETA", etc.
+        String proposed = proposedVersion.replaceAll("[^0-9.]", "");
+        String current = currentVersion.replaceAll("[^0-9.]", "");
+
+        String[] proposedParts = proposed.split("\\.");
+        String[] currentParts = current.split("\\.");
+
+        int maxLength = Math.max(proposedParts.length, currentParts.length);
+
+        for (int i = 0; i < maxLength; i++) {
+            int proposedPart = i < proposedParts.length ? parseVersionPart(proposedParts[i]) : 0;
+            int currentPart = i < currentParts.length ? parseVersionPart(currentParts[i]) : 0;
+
+            if (proposedPart > currentPart) {
+                return true;
+            } else if (proposedPart < currentPart) {
+                return false;
+            }
+        }
+        return false; // Versions are equal
+    }
+
+    private static int parseVersionPart(String part) {
+        try {
+            return Integer.parseInt(part);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 }

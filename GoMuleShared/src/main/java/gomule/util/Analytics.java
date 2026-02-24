@@ -15,9 +15,11 @@ public class Analytics {
         t.setDaemon(true);
         return t;
     });
+    private static volatile boolean isShuttingDown = false;
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            isShuttingDown = true;
             executor.shutdown();
             try {
                 if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
@@ -38,16 +40,32 @@ public class Analytics {
         track("update_check", "version", version, "has_update", String.valueOf(hasUpdate));
     }
 
+    public static void trackLoaderUpdateCheck(String version, boolean hasUpdate) {
+        track("loader_update_check", "version", version, "has_update", String.valueOf(hasUpdate));
+    }
+
     public static void trackUpdateStart(String from, String to) {
         track("update_start", "version", from, "new_version", to);
+    }
+
+    public static void trackLoaderUpdateStart(String from, String to) {
+        track("loader_update_start", "version", from, "new_version", to);
     }
 
     public static void trackUpdateSuccess(String from, String to) {
         track("update_success", "version", from, "new_version", to);
     }
 
+    public static void trackLoaderUpdateSuccess(String from, String to) {
+        track("loader_update_success", "version", from, "new_version", to);
+    }
+
     public static void trackUpdateFailed(String from, String to, String error) {
         track("update_failed", "version", from, "new_version", to, "error", error);
+    }
+
+    public static void trackLoaderUpdateFailed(String from, String to, String error) {
+        track("loader_update_failed", "version", from, "new_version", to, "error", error);
     }
 
     public static void trackUpdateSkipped(String from, String to) {
@@ -55,7 +73,7 @@ public class Analytics {
     }
 
     private static void track(String event, String... params) {
-        executor.execute(() -> {
+        Runnable runnable = () -> {
             try {
                 String os = System.getProperty("os.name", "unknown");
                 if (os.toLowerCase().startsWith("windows")) {
@@ -87,7 +105,16 @@ public class Analytics {
             } catch (Exception e) {
                 System.err.println("Analytics tracking failed: " + e.getMessage());
             }
-        });
+        };
+        if (isShuttingDown || executor.isShutdown()) {
+            runnable.run();
+        } else {
+            try {
+                executor.execute(runnable);
+            } catch (Exception e) {
+                runnable.run();
+            }
+        }
     }
 
     private static String urlEncode(String s) {
