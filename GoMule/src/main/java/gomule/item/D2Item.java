@@ -806,26 +806,16 @@ public class D2Item implements Comparable, D2ItemInterface {
                 i1Dmg[2] = i1Dmg[3] = Short.parseShort((D2TxtFile.WEAPONS
                         .searchColumns("code", item_type)).get("maxdam"));
             }
+        }
 
-            if ("1".equals(iItemType.get("stackable"))) {
-                iStackable = true;
-                pFile.read(1);
-                iCurDur = (short) pFile.read(9);
-            }
-        } else if (isTypeMisc()) {
-            if ("1".equals(iItemType.get("stackable"))) {
-                iStackable = true;
-                pFile.read(1);
-                iCurDur = (short) pFile.read(9);
-            }
-
+        int isStackableFlag = (int) pFile.read(1);
+        if ("1".equals(iItemType.get("stackable")) || isStackableFlag == 1) {
+            iStackable = true;
+            iCurDur = (short) pFile.read(9);
         }
 
         if (iSocketed) {
-            pFile.read(1);
             iSocketNrTotal = (short) pFile.read(4);
-        } else if (!iStackable) {
-            pFile.read(1);
         }
 
         int[] lSet = new int[5];
