@@ -40,9 +40,6 @@ public class UpdateApplier {
             emitProgress(callback, "Creating backup...");
             backupCurrentDirectory(currentDir, callback);
             if (isCancelled(cancelled)) return;
-            emitProgress(callback, "Cleaning old files...");
-            cleanCurrentDirectory(currentDir, cancelled);
-            if (isCancelled(cancelled)) return;
             emitProgress(callback, "Installing update...");
             applyFiles(updateDir, currentDir, callback, cancelled);
         } catch (Exception e) {
@@ -56,7 +53,6 @@ public class UpdateApplier {
             if (isCancelled(cancelled)) {
                 restoreFromBackup(currentDir, callback);
             }
-            deleteBackup(currentDir);
         }
     }
 
@@ -84,44 +80,11 @@ public class UpdateApplier {
     }
 
     private static void restoreFromBackup(Path currentDir, ProgressCallback callback) throws IOException {
-        cleanCurrentDirectory(currentDir, null);
         emitProgress(callback, "Restoring backup...");
         Path backupDir = currentDir.resolve(BACKUP_DIR);
         System.out.println("Restoring from backup");
         if (!Files.exists(backupDir)) throw new IOException("No backup found to restore");
         copyDirectoryContents(backupDir, currentDir, null, callback, "Restored: ", skipUpdater(), null);
-    }
-
-    private static void deleteBackup(Path currentDir) {
-        Path backupDir = currentDir.resolve(BACKUP_DIR);
-        try {
-            if (Files.exists(backupDir)) {
-                deleteDirectory(backupDir);
-                System.out.println("Deleted backup");
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to delete backup: " + e.getMessage());
-        }
-    }
-
-    private static void cleanCurrentDirectory(Path currentDir, AtomicBoolean cancelled) {
-        for (String fileName : DISTRIBUTION_WHITELIST) {
-            if (isCancelled(cancelled)) return;
-            Path path = currentDir.resolve(fileName);
-            if (!Files.exists(path) || fileName.equals(UPDATER_JAR)) {
-                continue;
-            }
-            try {
-                if (Files.isDirectory(path)) {
-                    deleteDirectory(path);
-                } else {
-                    Files.delete(path);
-                }
-                System.out.println("Deleted: " + fileName);
-            } catch (IOException e) {
-                System.err.println("Failed to delete: " + path + " - " + e.getMessage());
-            }
-        }
     }
 
     private static void applyFiles(Path updateDir, Path currentDir, ProgressCallback callback, AtomicBoolean cancelled) throws IOException {

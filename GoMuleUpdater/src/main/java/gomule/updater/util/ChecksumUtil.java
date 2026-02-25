@@ -26,7 +26,7 @@ public class ChecksumUtil {
     public static boolean verifySha256(Path file, String expectedChecksum) {
         try {
             String calculated = calculateSha256(file);
-            String expected = expectedChecksum.toLowerCase().replace("sha256-", "").replace("sha256:", "");
+            String expected = expectedChecksum.toLowerCase().replace("sha256_", "");
             return calculated.equals(expected);
         } catch (Exception e) {
             return false;
