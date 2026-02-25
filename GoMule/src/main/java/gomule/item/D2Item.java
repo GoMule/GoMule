@@ -155,6 +155,7 @@ public class D2Item implements Comparable, D2ItemInterface {
     private final HuffmanLookupTable huffmanLookupTable = HuffmanLookupTable.withStandardDictionary();
 
     private int materialStashStackSize = 0;
+    private final int endOfItemInBytes;
 
     public D2Item(String pFileName, D2BitReader pFile, long pCharLvl)
             throws Exception {
@@ -166,6 +167,7 @@ public class D2Item implements Comparable, D2ItemInterface {
             int startOfItemInBytes = pFile.get_byte_pos();
             read_item(pFile);
             int endOfItemInBytes = pFile.getNextByteBoundaryInBits() / 8;
+            this.endOfItemInBytes = endOfItemInBytes;
             int lLengthToNextJM = endOfItemInBytes - startOfItemInBytes;
             pFile.set_byte_pos(startOfItemInBytes);
             iItem = new D2BitReader(pFile.get_bytes(lLengthToNextJM));
@@ -848,6 +850,10 @@ public class D2Item implements Comparable, D2ItemInterface {
         }
         if (iRuneWord) {
             readProperties(pFile, 0);
+        }
+
+        if (!iIdentified && (quality == 5 || quality == 7)) {
+            pFile.skipBits(16 + 32 + 4); //16 monster id + 32 time found + 4 unknown
         }
 
         readMaterialStashStackSize(pFile);
@@ -1790,5 +1796,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 
     public int getiCharLvl() {
         return iCharLvl;
+    }
+
+    public int getEndOfItemInBytes() {
+        return endOfItemInBytes;
     }
 }
