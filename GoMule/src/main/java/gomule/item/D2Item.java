@@ -156,6 +156,7 @@ public class D2Item implements Comparable, D2ItemInterface {
 
     private int materialStashStackSize = 0;
     private final int endOfItemInBytes;
+    private String itemDifficulty;
 
     public D2Item(String pFileName, D2BitReader pFile, long pCharLvl)
             throws Exception {
@@ -333,19 +334,32 @@ public class D2Item implements Comparable, D2ItemInterface {
             }
         }
 
-        long lHasGUID = pFile.read(1);
+        //compact misc quest items
+        if (iTypeMisc && iType.startsWith("ques") && check_flag(22) && isCompactInTxtFiles()) {
+            long questDifficulty = pFile.read(2);
 
-        if (lHasGUID == 1) { // GUID ???
-            if (iType.startsWith("rune") || iType.startsWith("gem")
-                    || iType.startsWith("amu") || iType.startsWith("rin")
-                    || isCharm() || !isTypeMisc()) {
+            if (questDifficulty == 0) {
+                itemDifficulty = "Normal";
+            } else if (questDifficulty == 1) {
+                itemDifficulty = "Nightmare";
+            } else if (questDifficulty == 2) {
+                itemDifficulty = "Hell";
+            }
+        } else {
+            long lHasGUID = pFile.read(1);
 
-                iGUID = "0x" + Integer.toHexString((int) pFile.read(32))
-                        + " 0x" + Integer.toHexString((int) pFile.read(32))
-                        + " 0x" + Integer.toHexString((int) pFile.read(32))
-                        + " 0x" + Integer.toHexString((int) pFile.read(32));
-            } else {
-                pFile.read(3);
+            if (lHasGUID == 1) { // GUID ???
+                if (iType.startsWith("rune") || iType.startsWith("gem")
+                        || iType.startsWith("amu") || iType.startsWith("rin")
+                        || isCharm() || !isTypeMisc()) {
+
+                    iGUID = "0x" + Integer.toHexString((int) pFile.read(32))
+                            + " 0x" + Integer.toHexString((int) pFile.read(32))
+                            + " 0x" + Integer.toHexString((int) pFile.read(32))
+                            + " 0x" + Integer.toHexString((int) pFile.read(32));
+                } else {
+                    pFile.read(3); //skip empty
+                }
             }
         }
 
@@ -852,6 +866,11 @@ public class D2Item implements Comparable, D2ItemInterface {
     private boolean isStackableInTxtFiles() {
         D2TxtFileItemProperties code = D2TxtFile.MISC.searchColumns("code", item_type);
         return code != null && code.get("AdvancedStashStackable").equals("1");
+    }
+
+    private boolean isCompactInTxtFiles() {
+        D2TxtFileItemProperties code = D2TxtFile.MISC.searchColumns("code", item_type);
+        return code != null && code.get("compactsave").equals("1");
     }
 
     private void readMaterialStashStackSize(D2BitReader pFile) {
@@ -1790,5 +1809,9 @@ public class D2Item implements Comparable, D2ItemInterface {
 
     public int getEndOfItemInBytes() {
         return endOfItemInBytes;
+    }
+
+    public String getItemDifficulty() {
+        return itemDifficulty;
     }
 }

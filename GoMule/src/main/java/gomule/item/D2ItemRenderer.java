@@ -149,6 +149,9 @@ public class D2ItemRenderer {
             dispStr.append("Item Level: ").append(d2Item.getIlvl()).append("<br>&#10;");
         dispStr.append("Version: ").append(d2Item.get_version()).append("<br>&#10;");
         if (!d2Item.isiIdentified()) dispStr.append("Unidentified" + "<br>&#10;");
+        if (d2Item.getItemDifficulty() != null) {
+            dispStr.append("Difficulty: ").append(d2Item.getItemDifficulty()).append("<br>&#10;");
+        }
 
         dispStr.append(getItemPropertyString(d2Item));
 

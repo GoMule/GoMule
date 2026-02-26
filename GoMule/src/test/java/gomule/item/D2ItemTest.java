@@ -130,7 +130,8 @@ public class D2ItemTest {
     @Test
     public void khalimsEye() throws Exception {
         String expected = "Khalim's Eye\n" +
-                "Version: Resurrected\n";
+                "Version: Resurrected\n" +
+                "Difficulty: Hell\n";
         byte[] bytes = decode("10 00 A0 00 05 88 64 73 40 25");
         runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
     }
@@ -495,7 +496,8 @@ public class D2ItemTest {
     @Test
     public void jade_figurine() throws Exception {
         String expected = "A Jade Figurine\n" +
-                "Version: Resurrected\n";
+                "Version: Resurrected\n" +
+                "Difficulty: Normal\n";
         byte[] bytes = decode("10 00 A0 00 04 58 04 DD F6 2B 00");
         runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
     }
@@ -503,7 +505,8 @@ public class D2ItemTest {
     @Test
     public void bugged_golden_bird() throws Exception {
         String expected = "The Golden Bird\n" +
-                "Version: Resurrected\n";
+                "Version: Resurrected\n" +
+                "Difficulty: Hell\n";
         byte[] bytes = decode("10 00 A0 00 05 60 64 6D BF 12");
         runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
     }
@@ -511,7 +514,8 @@ public class D2ItemTest {
     @Test
     public void golden_bird() throws Exception {
         String expected = "The Golden Bird\n" +
-                "Version: Resurrected\n";
+                "Version: Resurrected\n" +
+                "Difficulty: Normal\n";
         byte[] bytes = decode("10 20 A0 00 05 58 64 6D BF 02");
         runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
     }
@@ -521,7 +525,8 @@ public class D2ItemTest {
         byte[] bytes = decode("10 00 A0 00 05 C8 54 A5 31 00 00");
         D2Item d2Item = loadD2Item(bytes);
         String expected = "Key to the Cairn Stones\n" +
-                "Version: Resurrected\n";
+                "Version: Resurrected\n" +
+                "Difficulty: Normal\n";
         runItemDumpComparison(expected, d2Item, bytes.length);
     }
 
@@ -545,10 +550,20 @@ public class D2ItemTest {
     }
 
     @Test
-    public void token() throws Exception {
+    public void buggedToken() throws Exception {
         String expected = "Token of Absolution\n" +
                 "Version: Resurrected\n";
         byte[] bytes = decode("10 00 A0 00 04 D4 D4 FC 5F 02 00");
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
+    @Test
+    public void realToken() throws Exception {
+        String expected = "Token of Absolution\n" +
+                "Fingerprint: 0xefae8ff0\n" +
+                "Item Level: 1\n" +
+                "Version: Resurrected\n";
+        byte[] bytes = decode("10 00 80 00 05 40 D4 FC 5F 80 7F 74 7D 0F 08 FC 07");
         runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
     }
 
