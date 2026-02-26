@@ -553,6 +553,27 @@ public class D2ItemTest {
     }
 
     @Test
+    public void coif() throws Exception {
+        String expected = "Coif of Glory\n" +
+                "Helm\n" +
+                "Defense: 26\n" +
+                "Durability: 23 of 24\n" +
+                "Required Level: 14\n" +
+                "Required Strength: 26\n" +
+                "Fingerprint: 0x4e64f6e5\n" +
+                "Item Level: 95\n" +
+                "Version: Resurrected\n" +
+                "Unidentified\n" +
+                "Hit Blinds Target +1\n" +
+                "+10 Defense\n" +
+                "+100 Defense vs. Missile\n" +
+                "Lightning Resist +15%\n" +
+                "Attacker Takes Lightning Damage of 7\n";
+        byte[] bytes = decode("00 00 80 00 05 98 04 5F 1B CA ED C9 9C BE 47 12 D0 00 C6 05 1F 28 00 82 4C 8A 6B 71 02 80 CE 7F");
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
+    @Test
     public void unidGloves() throws Exception {
         String expected = "Dracul's Grasp\n" +
                 "Vampirebone Gloves\n" +

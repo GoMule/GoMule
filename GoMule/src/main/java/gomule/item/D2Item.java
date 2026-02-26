@@ -842,7 +842,7 @@ public class D2Item implements Comparable, D2ItemInterface {
             readProperties(pFile, 0);
         }
 
-        if (!iIdentified && (quality == 5 || quality == 7)) {
+        if (check_flag(29) && !iIdentified && (quality == 5 || quality == 7)) {
             pFile.skipBits(16 + 32 + 4); //16 monster id + 32 time found + 4 unknown
         }
 
