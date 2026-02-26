@@ -611,6 +611,16 @@ public class D2ItemTest {
     }
 
     @Test
+    public void potionOfLife() throws Exception {
+        String expected = "Potion of Life\n" +
+                "Fingerprint: 0x11e40d89\n" +
+                "Item Level: 25\n" +
+                "Version: Resurrected\n";
+        byte[] bytes = decode("10 00 80 00 05 08 84 A3 36 42 62 03 79 44 46 E0 3F");
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
+    @Test
     public void unidGloves2() throws Exception {
         String expected = "Horazon's Hold\n" +
                 "Demonhide Gloves\n" +

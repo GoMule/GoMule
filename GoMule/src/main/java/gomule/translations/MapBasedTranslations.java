@@ -28,7 +28,7 @@ public class MapBasedTranslations implements Translations {
             for (JsonValue value : Json.parse(content).asArray()) {
                 JsonObject node = value.asObject();
                 int id = node.getInt("id", -1);
-                if (id == 27893 || id == 27502 || id == 27542) {
+                if (id == 27893 || id == 27502 || id == 27542 || id == 28085) {
                     continue;
                 }
                 String key = node.getString("Key", null);
