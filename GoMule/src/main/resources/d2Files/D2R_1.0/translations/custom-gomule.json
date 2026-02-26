@@ -1,14 +1,14 @@
 [
-  {
-    "Key": "strap",
-    "enUS": "Strap"
-  },
-  {
-    "Key": "cjw",
-    "enUS": "Jewel"
-  },
-  {
-    "Key": "cs2",
-    "enUS": "Grand Charm"
-  }
+    {
+        "Key": "strap",
+        "enUS": "Strap"
+    },
+    {
+        "Key": "cjw",
+        "enUS": "Jewel"
+    },
+    {
+        "Key": "cs2",
+        "enUS": "Grand Charm"
+    }
 ]

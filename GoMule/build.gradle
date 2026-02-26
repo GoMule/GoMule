@@ -37,6 +37,34 @@ public class BuildConfig {
 
 compileJava.dependsOn generateVersionJava
 
+def translationFiles = fileTree("src/main/resources/d2Files/D2R_1.0/translations") {
+    include '*.json'
+}
+
+task stripTranslations {
+    description = 'Strips translation files to keep only Key and enUS, deduplicating by Key'
+    inputs.files translationFiles
+    outputs.dir file("src/main/resources/d2Files/D2R_1.0/translations")
+
+    doLast {
+        translationFiles.each { file ->
+            def json = new groovy.json.JsonSlurper().parse(file)
+            def seenKeys = new HashSet()
+            def cleaned = json.collect { entry ->
+                def key = entry.Key
+                if (key == null || seenKeys.contains(key)) {
+                    return null
+                }
+                seenKeys.add(key)
+                [Key: key, enUS: entry.enUS]
+            }.grep { it != null }
+
+            def output = new groovy.json.JsonOutput().toJson(cleaned)
+            file.text = groovy.json.JsonOutput.prettyPrint(output)
+        }
+    }
+}
+
 dependencies {
     implementation project(':GoMuleShared')
     implementation 'com.google.guava:guava:31.0-jre'
