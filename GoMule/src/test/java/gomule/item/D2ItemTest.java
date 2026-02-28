@@ -644,6 +644,29 @@ public class D2ItemTest {
         runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
     }
 
+    @Test
+    public void plagueBearer_weirdIdentifiedButStillChronicle() throws Exception {
+        String expected = "Plague Bearer\n" +
+                "Rune Sword\n" +
+                "One Hand Damage: 47 - 202\n" +
+                "Durability: 23 of 23\n" +
+                "Required Level: 41\n" +
+                "Required Strength: 93\n" +
+                "Required Dexterity: 69\n" +
+                "Fingerprint: 0xc78a6067\n" +
+                "Item Level: 80\n" +
+                "Version: Resurrected\n" +
+                "5% Chance to cast level 4 Poison Nova on striking\n" +
+                "150% Enhanced Damage\n" +
+                "Adds 10 - 45 Damage\n" +
+                "Adds 300 Poison Damage Over 8 Secs (200 Frames)\n" +
+                "+5 to Rabies (Druid Only)\n" +
+                "Poison Resist +45%\n" +
+                "Ethereal\n";
+        byte[] bytes = decode("10 00 C0 10 05 C0 D4 5D 0A 67 60 8A C7 D0 03 14 5C 5C 10 C1 92 A5 0A 8A 85 56 8B 7A 39 00 03 0C D9 1A 77 35 46 70 51 F8 DF CB 60 5C 2A 1C 00 00");
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
     public static byte[] decode(String s) {
         return BaseEncoding.base16().decode(s.replaceAll(" ", ""));
     }
