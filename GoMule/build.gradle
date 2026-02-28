@@ -92,69 +92,38 @@ processResources {
 }
 
 jar {
-    manifest {
-        attributes(
-                'Main-Class': 'gomule.GoMule',
-                'Implementation-Version': project.version
-        )
-    }
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+    manifest { attributes('Main-Class': 'gomule.GoMule', 'Implementation-Version': project.version) }
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 }
 
-task copyAppJarToDistribution(type: Copy) {
-    from jar
-    into "build/tmp/distribution/GoMule/app"
-    rename { "GoMuleApp.jar" }
-}
-
-task copyUpdaterJarToDistribution(type: Copy) {
-    from project(':GoMuleUpdater').jar
-    into "build/tmp/distribution/GoMule"
-    rename { "GoMule.jar" }
-}
-
-task copyUpdaterJarNewToDistribution(type: Copy) {
-    from project(':GoMuleUpdater').jar
-    into "build/tmp/distribution/GoMule/app"
-    rename { "GoMule.jar.new" }
-}
-
-task copyResourcesToDistribution(type: Copy) {
-    from ".", {
-        include 'd2111/**'
-        include 'dupelists/**'
-        include 'resources/**'
-        include 'COPYING.txt'
-        include 'LICENSE.txt'
-        include 'standard.css'
-        include 'standard.dat'
-
+def commonDistResources = copySpec {
+    from(".") {
+        include 'd2111/**', 'dupelists/**', 'resources/**'
+        include 'COPYING.txt', 'LICENSE.txt', 'standard.css', 'standard.dat'
     }
-    into "build/tmp/distribution/GoMule/"
-}
-
-task createDistribution {
-    delete "build/tmp/distribution"
-    mkdir "build/tmp/distribution/GoMule"
 }
 
 task distribution(type: Zip) {
-    from 'build/tmp/distribution/'
-    include 'GoMule/**'
     archiveFileName = "${distName}.zip"
-    dependsOn copyUpdaterJarToDistribution
-    dependsOn copyUpdaterJarNewToDistribution
-    dependsOn copyAppJarToDistribution
-    dependsOn copyResourcesToDistribution
+    into("GoMule") {
+        with commonDistResources
+        from(project(':GoMuleUpdater').jar) { rename { "GoMule.jar" } }
+        into("app") {
+            from(jar) { rename { "GoMuleApp.jar" } }
+            from(project(':GoMuleUpdater').jar) { rename { "GoMule.jar.new" } }
+        }
+    }
 }
 
-copyAppJarToDistribution.dependsOn jar
-copyUpdaterJarToDistribution.dependsOn project(':GoMuleUpdater').jar
-copyUpdaterJarNewToDistribution.dependsOn project(':GoMuleUpdater').jar
-distribution.dependsOn createDistribution
-createDistribution.finalizedBy copyUpdaterJarToDistribution
-createDistribution.finalizedBy copyAppJarToDistribution
-createDistribution.finalizedBy copyResourcesToDistribution
+task distributionNoUpdater(type: Zip) {
+    archiveFileName = "${distName}_NO_UPDATER.zip"
+    into("GoMule") {
+        with commonDistResources
+        from(jar) { rename { "GoMule.jar" } }
+    }
+}
+
+assemble.dependsOn distribution, distributionNoUpdater
+distribution.dependsOn test
+distributionNoUpdater.dependsOn test
