@@ -1,158 +1,158 @@
 [
-  {
-    "Key": "asheara",
-    "enUS": "Asheara"
-  },
-  {
-    "Key": "hratli",
-    "enUS": "Hratli"
-  },
-  {
-    "Key": "alkor",
-    "enUS": "Alkor"
-  },
-  {
-    "Key": "ormus",
-    "enUS": "Ormus"
-  },
-  {
-    "Key": "nikita",
-    "enUS": "Natalya"
-  },
-  {
-    "Key": "tyrael",
-    "enUS": "Tyrael"
-  },
-  {
-    "Key": "Jamella",
-    "enUS": "Jamella"
-  },
-  {
-    "Key": "halbu",
-    "enUS": "Halbu"
-  },
-  {
-    "Key": "Malachai",
-    "enUS": "Hadriel"
-  },
-  {
-    "Key": "DeckardCain",
-    "enUS": "Deckard Cain"
-  },
-  {
-    "Key": "Gheed",
-    "enUS": "Gheed"
-  },
-  {
-    "Key": "Akara",
-    "enUS": "Akara"
-  },
-  {
-    "Key": "Kashya",
-    "enUS": "Kashya"
-  },
-  {
-    "Key": "Charsi",
-    "enUS": "Charsi"
-  },
-  {
-    "Key": "Wariv",
-    "enUS": "Warriv"
-  },
-  {
-    "Key": "Warriv",
-    "enUS": "Warriv"
-  },
-  {
-    "Key": "Natalya",
-    "enUS": "Natalya"
-  },
-  {
-    "Key": "Drognan",
-    "enUS": "Drognan"
-  },
-  {
-    "Key": "Atma",
-    "enUS": "Atma"
-  },
-  {
-    "Key": "Fara",
-    "enUS": "Fara"
-  },
-  {
-    "Key": "Lysander",
-    "enUS": "Lysander"
-  },
-  {
-    "Key": "Jerhyn",
-    "enUS": "Jerhyn"
-  },
-  {
-    "Key": "jerhyn",
-    "enUS": "Jerhyn"
-  },
-  {
-    "Key": "Geglash",
-    "enUS": "Geglash"
-  },
-  {
-    "Key": "Elzix",
-    "enUS": "Elzix"
-  },
-  {
-    "Key": "Greiz",
-    "enUS": "Greiz"
-  },
-  {
-    "Key": "Meshif",
-    "enUS": "Meshif"
-  },
-  {
-    "Key": "navi",
-    "enUS": "Flavie"
-  },
-  {
-    "Key": "Kaelan",
-    "enUS": "Kaelan"
-  },
-  {
-    "Key": "meshif",
-    "enUS": "Meshif"
-  },
-  {
-    "Key": "Larzuk",
-    "enUS": "Larzuk"
-  },
-  {
-    "Key": "Drehya",
-    "enUS": "Anya"
-  },
-  {
-    "Key": "Malah",
-    "enUS": "Malah"
-  },
-  {
-    "Key": "Nihlathak Town",
-    "enUS": "Nihlathak"
-  },
-  {
-    "Key": "Qual-Kehk",
-    "enUS": "Qual-Kehk"
-  },
-  {
-    "Key": "Act 5 Townguard",
-    "enUS": "Guard"
-  },
-  {
-    "Key": "Act 5 Combatant",
-    "enUS": "Combatant"
-  },
-  {
-    "Key": "Nihlathak",
-    "enUS": "Nihlathak"
-  },
-  {
-    "Key": "Soldier",
-    "enUS": "Soldier"
-  }
+    {
+        "Key": "asheara",
+        "enUS": "Asheara"
+    },
+    {
+        "Key": "hratli",
+        "enUS": "Hratli"
+    },
+    {
+        "Key": "alkor",
+        "enUS": "Alkor"
+    },
+    {
+        "Key": "ormus",
+        "enUS": "Ormus"
+    },
+    {
+        "Key": "nikita",
+        "enUS": "Natalya"
+    },
+    {
+        "Key": "tyrael",
+        "enUS": "Tyrael"
+    },
+    {
+        "Key": "Jamella",
+        "enUS": "Jamella"
+    },
+    {
+        "Key": "halbu",
+        "enUS": "Halbu"
+    },
+    {
+        "Key": "Malachai",
+        "enUS": "Hadriel"
+    },
+    {
+        "Key": "DeckardCain",
+        "enUS": "Deckard Cain"
+    },
+    {
+        "Key": "Gheed",
+        "enUS": "Gheed"
+    },
+    {
+        "Key": "Akara",
+        "enUS": "Akara"
+    },
+    {
+        "Key": "Kashya",
+        "enUS": "Kashya"
+    },
+    {
+        "Key": "Charsi",
+        "enUS": "Charsi"
+    },
+    {
+        "Key": "Wariv",
+        "enUS": "Warriv"
+    },
+    {
+        "Key": "Warriv",
+        "enUS": "Warriv"
+    },
+    {
+        "Key": "Natalya",
+        "enUS": "Natalya"
+    },
+    {
+        "Key": "Drognan",
+        "enUS": "Drognan"
+    },
+    {
+        "Key": "Atma",
+        "enUS": "Atma"
+    },
+    {
+        "Key": "Fara",
+        "enUS": "Fara"
+    },
+    {
+        "Key": "Lysander",
+        "enUS": "Lysander"
+    },
+    {
+        "Key": "Jerhyn",
+        "enUS": "Jerhyn"
+    },
+    {
+        "Key": "jerhyn",
+        "enUS": "Jerhyn"
+    },
+    {
+        "Key": "Geglash",
+        "enUS": "Geglash"
+    },
+    {
+        "Key": "Elzix",
+        "enUS": "Elzix"
+    },
+    {
+        "Key": "Greiz",
+        "enUS": "Greiz"
+    },
+    {
+        "Key": "Meshif",
+        "enUS": "Meshif"
+    },
+    {
+        "Key": "navi",
+        "enUS": "Flavie"
+    },
+    {
+        "Key": "Kaelan",
+        "enUS": "Kaelan"
+    },
+    {
+        "Key": "meshif",
+        "enUS": "Meshif"
+    },
+    {
+        "Key": "Larzuk",
+        "enUS": "Larzuk"
+    },
+    {
+        "Key": "Drehya",
+        "enUS": "Anya"
+    },
+    {
+        "Key": "Malah",
+        "enUS": "Malah"
+    },
+    {
+        "Key": "Nihlathak Town",
+        "enUS": "Nihlathak"
+    },
+    {
+        "Key": "Qual-Kehk",
+        "enUS": "Qual-Kehk"
+    },
+    {
+        "Key": "Act 5 Townguard",
+        "enUS": "Guard"
+    },
+    {
+        "Key": "Act 5 Combatant",
+        "enUS": "Combatant"
+    },
+    {
+        "Key": "Nihlathak",
+        "enUS": "Nihlathak"
+    },
+    {
+        "Key": "Soldier",
+        "enUS": "Soldier"
+    }
 ]

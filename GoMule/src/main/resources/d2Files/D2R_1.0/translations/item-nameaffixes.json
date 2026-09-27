@@ -1,4122 +1,4122 @@
-﻿[
-  {
-    "Key": "Low Quality",
-    "enUS": "Low Quality"
-  },
-  {
-    "Key": "Damaged",
-    "enUS": "Damaged"
-  },
-  {
-    "Key": "Cracked",
-    "enUS": "Cracked"
-  },
-  {
-    "Key": "Hiquality",
-    "enUS": "Superior"
-  },
-  {
-    "Key": "Gemmed",
-    "enUS": "Gemmed"
-  },
-  {
-    "Key": "Resiliant",
-    "enUS": "Resilient"
-  },
-  {
-    "Key": "Sturdy",
-    "enUS": "Sturdy"
-  },
-  {
-    "Key": "Strong",
-    "enUS": "Strong"
-  },
-  {
-    "Key": "Glorious",
-    "enUS": "Glorious"
-  },
-  {
-    "Key": "Blessed",
-    "enUS": "Blessed"
-  },
-  {
-    "Key": "Saintly",
-    "enUS": "Saintly"
-  },
-  {
-    "Key": "Holy",
-    "enUS": "Holy"
-  },
-  {
-    "Key": "Devious",
-    "enUS": "Devious"
-  },
-  {
-    "Key": "Fortified",
-    "enUS": "Fortified"
-  },
-  {
-    "Key": "Urgent",
-    "enUS": "Urgent"
-  },
-  {
-    "Key": "Fleet",
-    "enUS": "Fleet"
-  },
-  {
-    "Key": "Muscular",
-    "enUS": "Muscular"
-  },
-  {
-    "Key": "Jagged",
-    "enUS": "Jagged"
-  },
-  {
-    "Key": "Deadly",
-    "enUS": "Deadly"
-  },
-  {
-    "Key": "Vicious",
-    "enUS": "Vicious"
-  },
-  {
-    "Key": "Brutal",
-    "enUS": "Brutal"
-  },
-  {
-    "Key": "Massive",
-    "enUS": "Massive"
-  },
-  {
-    "Key": "Savage",
-    "enUS": "Savage"
-  },
-  {
-    "Key": "Merciless",
-    "enUS": "Merciless"
-  },
-  {
-    "Key": "Vulpine",
-    "enUS": "Vulpine"
-  },
-  {
-    "Key": "Swift",
-    "enUS": "Swift"
-  },
-  {
-    "Key": "Artful",
-    "enUS": "Artful"
-  },
-  {
-    "Key": "Adroit",
-    "enUS": "Adroit"
-  },
-  {
-    "Key": "Tireless",
-    "enUS": "Tireless"
-  },
-  {
-    "Key": "Rugged",
-    "enUS": "Rugged"
-  },
-  {
-    "Key": "Bronze",
-    "enUS": "Bronze"
-  },
-  {
-    "Key": "Iron",
-    "enUS": "Iron"
-  },
-  {
-    "Key": "Steel",
-    "enUS": "Steel"
-  },
-  {
-    "Key": "Silver",
-    "enUS": "Silver"
-  },
-  {
-    "Key": "Gold",
-    "enUS": "Gold"
-  },
-  {
-    "Key": "Platinum",
-    "enUS": "Platinum"
-  },
-  {
-    "Key": "Meteoric",
-    "enUS": "Meteoric"
-  },
-  {
-    "Key": "Sharp",
-    "enUS": "Sharp"
-  },
-  {
-    "Key": "Fine",
-    "enUS": "Fine"
-  },
-  {
-    "Key": "Warrior's",
-    "enUS": "Warrior's"
-  },
-  {
-    "Key": "Soldier's",
-    "enUS": "Soldier's"
-  },
-  {
-    "Key": "Knight's",
-    "enUS": "Knight's"
-  },
-  {
-    "Key": "Lord's",
-    "enUS": "Lord's"
-  },
-  {
-    "Key": "King's",
-    "enUS": "King's"
-  },
-  {
-    "Key": "Howling",
-    "enUS": "Howling"
-  },
-  {
-    "Key": "Fortuitous",
-    "enUS": "Fortuitous"
-  },
-  {
-    "Key": "Brilliant",
-    "enUS": "Brilliant"
-  },
-  {
-    "Key": "Omniscient",
-    "enUS": "Omniscient"
-  },
-  {
-    "Key": "Sage",
-    "enUS": "Sage"
-  },
-  {
-    "Key": "Shrewd",
-    "enUS": "Shrewd"
-  },
-  {
-    "Key": "Vivid",
-    "enUS": "Vivid"
-  },
-  {
-    "Key": "Glimmering",
-    "enUS": "Glimmering"
-  },
-  {
-    "Key": "Glowing",
-    "enUS": "Glowing"
-  },
-  {
-    "Key": "Bright",
-    "enUS": "Bright"
-  },
-  {
-    "Key": "Solar",
-    "enUS": "Solar"
-  },
-  {
-    "Key": "Lizard's",
-    "enUS": "Lizard's"
-  },
-  {
-    "Key": "Forceful",
-    "enUS": "Forceful"
-  },
-  {
-    "Key": "Snake's",
-    "enUS": "Snake's"
-  },
-  {
-    "Key": "Serpent's",
-    "enUS": "Serpent's"
-  },
-  {
-    "Key": "Drake's",
-    "enUS": "Drake's"
-  },
-  {
-    "Key": "Dragon's",
-    "enUS": "Dragon's"
-  },
-  {
-    "Key": "Wyrm's",
-    "enUS": "Wyrm's"
-  },
-  {
-    "Key": "Dazzling",
-    "enUS": "Dazzling"
-  },
-  {
-    "Key": "Facinating",
-    "enUS": "Fascinating"
-  },
-  {
-    "Key": "Prismatic",
-    "enUS": "Prismatic"
-  },
-  {
-    "Key": "Azure",
-    "enUS": "Azure"
-  },
-  {
-    "Key": "Lapis",
-    "enUS": "Lapis"
-  },
-  {
-    "Key": "Cobalt",
-    "enUS": "Cobalt"
-  },
-  {
-    "Key": "Indigo",
-    "enUS": "Indigo"
-  },
-  {
-    "Key": "Sapphire",
-    "enUS": "Sapphire"
-  },
-  {
-    "Key": "Cerulean",
-    "enUS": "Cerulean"
-  },
-  {
-    "Key": "Red",
-    "enUS": "Red"
-  },
-  {
-    "Key": "Crimson",
-    "enUS": "Crimson"
-  },
-  {
-    "Key": "Burgundy",
-    "enUS": "Burgundy"
-  },
-  {
-    "Key": "Garnet",
-    "enUS": "Garnet"
-  },
-  {
-    "Key": "Russet",
-    "enUS": "Russet"
-  },
-  {
-    "Key": "Ruby",
-    "enUS": "Ruby"
-  },
-  {
-    "Key": "Vermilion",
-    "enUS": "Vermilion"
-  },
-  {
-    "Key": "Orange",
-    "enUS": "Orange"
-  },
-  {
-    "Key": "Ocher",
-    "enUS": "Ocher"
-  },
-  {
-    "Key": "Tangerine",
-    "enUS": "Tangerine"
-  },
-  {
-    "Key": "Coral",
-    "enUS": "Coral"
-  },
-  {
-    "Key": "Crackling",
-    "enUS": "Crackling"
-  },
-  {
-    "Key": "Amber",
-    "enUS": "Amber"
-  },
-  {
-    "Key": "Forked",
-    "enUS": "Forked"
-  },
-  {
-    "Key": "Beryl",
-    "enUS": "Beryl"
-  },
-  {
-    "Key": "Jade",
-    "enUS": "Jade"
-  },
-  {
-    "Key": "Viridian",
-    "enUS": "Viridian"
-  },
-  {
-    "Key": "Vital",
-    "enUS": "Vital"
-  },
-  {
-    "Key": "Emerald",
-    "enUS": "Emerald"
-  },
-  {
-    "Key": "Enduring",
-    "enUS": "Enduring"
-  },
-  {
-    "Key": "Fletcher's",
-    "enUS": "Fletcher's"
-  },
-  {
-    "Key": "Archer's",
-    "enUS": "Archer's"
-  },
-  {
-    "Key": "Monk's",
-    "enUS": "Monk's"
-  },
-  {
-    "Key": "Priest's",
-    "enUS": "Priest's"
-  },
-  {
-    "Key": "Summoner's",
-    "enUS": "Summoner's"
-  },
-  {
-    "Key": "Necromancer's",
-    "enUS": "Necromancer's"
-  },
-  {
-    "Key": "Angel's",
-    "enUS": "Angel's"
-  },
-  {
-    "Key": "Arch-Angel's",
-    "enUS": "Arch-Angel's"
-  },
-  {
-    "Key": "Slayer's",
-    "enUS": "Slayer's"
-  },
-  {
-    "Key": "Berserker's",
-    "enUS": "Berserker's"
-  },
-  {
-    "Key": "Kicking",
-    "enUS": "Kicking"
-  },
-  {
-    "Key": "Triumphant",
-    "enUS": "Triumphant"
-  },
-  {
-    "Key": "Mighty",
-    "enUS": "Mighty"
-  },
-  {
-    "Key": "Energizing",
-    "enUS": "Energizing"
-  },
-  {
-    "Key": "Empowering",
-    "enUS": "Empowering"
-  },
-  {
-    "Key": "Brisk",
-    "enUS": "Brisk"
-  },
-  {
-    "Key": "Tough",
-    "enUS": "Tough"
-  },
-  {
-    "Key": "Hardy",
-    "enUS": "Hardy"
-  },
-  {
-    "Key": "Robust",
-    "enUS": "Robust"
-  },
-  {
-    "Key": "of Health",
-    "enUS": "of Health"
-  },
-  {
-    "Key": "of Protection",
-    "enUS": "of Protection"
-  },
-  {
-    "Key": "of Absorption",
-    "enUS": "of Absorption"
-  },
-  {
-    "Key": "of Warding",
-    "enUS": "of Warding"
-  },
-  {
-    "Key": "of the Sentinel",
-    "enUS": "of the Sentinel"
-  },
-  {
-    "Key": "of Guarding",
-    "enUS": "of Guarding"
-  },
-  {
-    "Key": "of Negation",
-    "enUS": "of Negation"
-  },
-  {
-    "Key": "of Piercing",
-    "enUS": "of Piercing"
-  },
-  {
-    "Key": "of Bashing",
-    "enUS": "of Bashing"
-  },
-  {
-    "Key": "of Puncturing",
-    "enUS": "of Puncturing"
-  },
-  {
-    "Key": "of Thorns",
-    "enUS": "of Thorns"
-  },
-  {
-    "Key": "of Spikes",
-    "enUS": "of Spikes"
-  },
-  {
-    "Key": "of Readiness",
-    "enUS": "of Readiness"
-  },
-  {
-    "Key": "of Alacrity",
-    "enUS": "of Alacrity"
-  },
-  {
-    "Key": "of Swiftness",
-    "enUS": "of Swiftness"
-  },
-  {
-    "Key": "of Quickness",
-    "enUS": "of Quickness"
-  },
-  {
-    "Key": "of Blocking",
-    "enUS": "of Blocking"
-  },
-  {
-    "Key": "of Deflecting",
-    "enUS": "of Deflecting"
-  },
-  {
-    "Key": "of the Apprentice",
-    "enUS": "of the Apprentice"
-  },
-  {
-    "Key": "of the Magus",
-    "enUS": "of the Magus"
-  },
-  {
-    "Key": "of Frost",
-    "enUS": "of Frost"
-  },
-  {
-    "Key": "of the Glacier",
-    "enUS": "of the Glacier"
-  },
-  {
-    "Key": "of Warmth",
-    "enUS": "of Thawing"
-  },
-  {
-    "Key": "of Flame",
-    "enUS": "of Flame"
-  },
-  {
-    "Key": "of Fire",
-    "enUS": "of Fire"
-  },
-  {
-    "Key": "of Burning",
-    "enUS": "of Burning"
-  },
-  {
-    "Key": "of Shock",
-    "enUS": "of Shock"
-  },
-  {
-    "Key": "of Lightning",
-    "enUS": "of Lightning"
-  },
-  {
-    "Key": "of Thunder",
-    "enUS": "of Thunder"
-  },
-  {
-    "Key": "of Craftsmanship",
-    "enUS": "of Craftmanship"
-  },
-  {
-    "Key": "of Quality",
-    "enUS": "of Quality"
-  },
-  {
-    "Key": "of Maiming",
-    "enUS": "of Maiming"
-  },
-  {
-    "Key": "of Slaying",
-    "enUS": "of Slaying"
-  },
-  {
-    "Key": "of Gore",
-    "enUS": "of Gore"
-  },
-  {
-    "Key": "of Carnage",
-    "enUS": "of Carnage"
-  },
-  {
-    "Key": "of Slaughter",
-    "enUS": "of Slaughter"
-  },
-  {
-    "Key": "of Worth",
-    "enUS": "of Worth"
-  },
-  {
-    "Key": "of Measure",
-    "enUS": "of Measure"
-  },
-  {
-    "Key": "of Excellence",
-    "enUS": "of Excellence"
-  },
-  {
-    "Key": "of Performance",
-    "enUS": "of Performance"
-  },
-  {
-    "Key": "of Blight",
-    "enUS": "of Blight"
-  },
-  {
-    "Key": "of Venom",
-    "enUS": "of Venom"
-  },
-  {
-    "Key": "of Pestilence",
-    "enUS": "of Pestilence"
-  },
-  {
-    "Key": "of Dexterity",
-    "enUS": "of Dexterity"
-  },
-  {
-    "Key": "of Skill",
-    "enUS": "of Skill"
-  },
-  {
-    "Key": "of Accuracy",
-    "enUS": "of Accuracy"
-  },
-  {
-    "Key": "of Precision",
-    "enUS": "of Precision"
-  },
-  {
-    "Key": "of Perfection",
-    "enUS": "of Perfection"
-  },
-  {
-    "Key": "of Balance",
-    "enUS": "of Balance"
-  },
-  {
-    "Key": "of Stability",
-    "enUS": "of Stability"
-  },
-  {
-    "Key": "of the Horse",
-    "enUS": "of the Horse"
-  },
-  {
-    "Key": "of Regeneration",
-    "enUS": "of Regeneration"
-  },
-  {
-    "Key": "of Regrowth",
-    "enUS": "of Regrowth"
-  },
-  {
-    "Key": "of Vileness",
-    "enUS": "of Vileness"
-  },
-  {
-    "Key": "of Greed",
-    "enUS": "of Greed"
-  },
-  {
-    "Key": "of Wealth",
-    "enUS": "of Wealth"
-  },
-  {
-    "Key": "of Chance",
-    "enUS": "of Chance"
-  },
-  {
-    "Key": "of Fortune",
-    "enUS": "of Fortune"
-  },
-  {
-    "Key": "of Energy",
-    "enUS": "of Energy"
-  },
-  {
-    "Key": "of the Mind",
-    "enUS": "of the Mind"
-  },
-  {
-    "Key": "of Brilliance",
-    "enUS": "of Brilliance"
-  },
-  {
-    "Key": "of Sorcery",
-    "enUS": "of Sorcery"
-  },
-  {
-    "Key": "of Wizardry",
-    "enUS": "of Wizardry"
-  },
-  {
-    "Key": "of the Bear",
-    "enUS": "of the Bear"
-  },
-  {
-    "Key": "of Light",
-    "enUS": "of Light"
-  },
-  {
-    "Key": "of Radiance",
-    "enUS": "of Radiance"
-  },
-  {
-    "Key": "of the Sun",
-    "enUS": "of the Sun"
-  },
-  {
-    "Key": "of Life",
-    "enUS": "of Life"
-  },
-  {
-    "Key": "of the Jackal",
-    "enUS": "of the Jackal"
-  },
-  {
-    "Key": "of the Fox",
-    "enUS": "of the Fox"
-  },
-  {
-    "Key": "of the Wolf",
-    "enUS": "of the Wolf"
-  },
-  {
-    "Key": "of the Tiger",
-    "enUS": "of the Tiger"
-  },
-  {
-    "Key": "of the Mammoth",
-    "enUS": "of the Mammoth"
-  },
-  {
-    "Key": "of the Colosuss",
-    "enUS": "of the Colossus"
-  },
-  {
-    "Key": "of the Leech",
-    "enUS": "of the Leech"
-  },
-  {
-    "Key": "of the Locust",
-    "enUS": "of the Locust"
-  },
-  {
-    "Key": "of the Bat",
-    "enUS": "of the Bat"
-  },
-  {
-    "Key": "of the Vampire",
-    "enUS": "of the Vampire"
-  },
-  {
-    "Key": "of Defiance",
-    "enUS": "of Defiance"
-  },
-  {
-    "Key": "of Remedy",
-    "enUS": "of Remedy"
-  },
-  {
-    "Key": "of Amelioration",
-    "enUS": "of Amelioration"
-  },
-  {
-    "Key": "of Ice",
-    "enUS": "of Ice"
-  },
-  {
-    "Key": "of Simplicity",
-    "enUS": "of Simplicity"
-  },
-  {
-    "Key": "of Ease",
-    "enUS": "of Ease"
-  },
-  {
-    "Key": "of the Mule",
-    "enUS": "of the Mule"
-  },
-  {
-    "Key": "of Strength",
-    "enUS": "of Strength"
-  },
-  {
-    "Key": "of Might",
-    "enUS": "of Might"
-  },
-  {
-    "Key": "of the Ox",
-    "enUS": "of the Ox"
-  },
-  {
-    "Key": "of the Giant",
-    "enUS": "of the Giant"
-  },
-  {
-    "Key": "of the Titan",
-    "enUS": "of the Titan"
-  },
-  {
-    "Key": "of Pacing",
-    "enUS": "of Pacing"
-  },
-  {
-    "Key": "of Haste",
-    "enUS": "of Haste"
-  },
-  {
-    "Key": "of Speed",
-    "enUS": "of Speed"
-  },
-  {
-    "Key": "gld",
-    "enUS": "Gold"
-  },
-  {
-    "Key": "gsb",
-    "enUS": "Sapphire"
-  },
-  {
-    "Key": "gsg",
-    "enUS": "Emerald"
-  },
-  {
-    "Key": "gsr",
-    "enUS": "Ruby"
-  },
-  {
-    "Key": "gsw",
-    "enUS": "Diamond"
-  },
-  {
-    "Key": "Beast",
-    "enUS": "Beast"
-  },
-  {
-    "Key": "Eagle",
-    "enUS": "Eagle"
-  },
-  {
-    "Key": "Viper",
-    "enUS": "Viper"
-  },
-  {
-    "Key": "Skull",
-    "enUS": "Skull"
-  },
-  {
-    "Key": "Blood",
-    "enUS": "Blood"
-  },
-  {
-    "Key": "Dread",
-    "enUS": "Dread"
-  },
-  {
-    "Key": "Doom",
-    "enUS": "Doom"
-  },
-  {
-    "Key": "Grim",
-    "enUS": "Grim"
-  },
-  {
-    "Key": "Bone",
-    "enUS": "Bone"
-  },
-  {
-    "Key": "Death",
-    "enUS": "Death"
-  },
-  {
-    "Key": "Shadow",
-    "enUS": "Shadow"
-  },
-  {
-    "Key": "Storm",
-    "enUS": "Storm"
-  },
-  {
-    "Key": "Rune",
-    "enUS": "Rune"
-  },
-  {
-    "Key": "PlagueRI",
-    "enUS": "Plague"
-  },
-  {
-    "Key": "Stone",
-    "enUS": "Stone"
-  },
-  {
-    "Key": "Spirit",
-    "enUS": "Spirit"
-  },
-  {
-    "Key": "Demon",
-    "enUS": "Demon"
-  },
-  {
-    "Key": "Cruel",
-    "enUS": "Cruel"
-  },
-  {
-    "Key": "Empyrion",
-    "enUS": "Empyrian"
-  },
-  {
-    "Key": "Bramble",
-    "enUS": "Bramble"
-  },
-  {
-    "Key": "Pain",
-    "enUS": "Pain"
-  },
-  {
-    "Key": "Loath",
-    "enUS": "Loath"
-  },
-  {
-    "Key": "Glyph",
-    "enUS": "Glyph"
-  },
-  {
-    "Key": "Hailstone",
-    "enUS": "Hailstone"
-  },
-  {
-    "Key": "Gale",
-    "enUS": "Gale"
-  },
-  {
-    "Key": "Dire",
-    "enUS": "Dire"
-  },
-  {
-    "Key": "Soul",
-    "enUS": "Soul"
-  },
-  {
-    "Key": "Brimstone",
-    "enUS": "Brimstone"
-  },
-  {
-    "Key": "Corpse",
-    "enUS": "Corpse"
-  },
-  {
-    "Key": "Carrion",
-    "enUS": "Carrion"
-  },
-  {
-    "Key": "Havoc",
-    "enUS": "Havoc"
-  },
-  {
-    "Key": "Bitter",
-    "enUS": "Bitter"
-  },
-  {
-    "Key": "Entropy",
-    "enUS": "Entropy"
-  },
-  {
-    "Key": "Chaos",
-    "enUS": "Chaos"
-  },
-  {
-    "Key": "Order",
-    "enUS": "Order"
-  },
-  {
-    "Key": "Rift",
-    "enUS": "Rift"
-  },
-  {
-    "Key": "Corruption",
-    "enUS": "Corruption"
-  },
-  {
-    "Key": "bite",
-    "enUS": "Bite"
-  },
-  {
-    "Key": "scratch",
-    "enUS": "Scratch"
-  },
-  {
-    "Key": "scalpel",
-    "enUS": "Scalpel"
-  },
-  {
-    "Key": "fang",
-    "enUS": "Fang"
-  },
-  {
-    "Key": "gutter",
-    "enUS": "Gutter"
-  },
-  {
-    "Key": "thirst",
-    "enUS": "Thirst"
-  },
-  {
-    "Key": "razor",
-    "enUS": "Razor"
-  },
-  {
-    "Key": "scythe",
-    "enUS": "Scythe"
-  },
-  {
-    "Key": "edge",
-    "enUS": "Edge"
-  },
-  {
-    "Key": "splitter",
-    "enUS": "Splitter"
-  },
-  {
-    "Key": "cleaver",
-    "enUS": "Cleaver"
-  },
-  {
-    "Key": "sever",
-    "enUS": "Sever"
-  },
-  {
-    "Key": "sunder",
-    "enUS": "Sunder"
-  },
-  {
-    "Key": "rend",
-    "enUS": "Rend"
-  },
-  {
-    "Key": "mangler",
-    "enUS": "Mangler"
-  },
-  {
-    "Key": "slayer",
-    "enUS": "Slayer"
-  },
-  {
-    "Key": "reaver",
-    "enUS": "Reaver"
-  },
-  {
-    "Key": "Spawn",
-    "enUS": "Spawn"
-  },
-  {
-    "Key": "gnash",
-    "enUS": "Gnash"
-  },
-  {
-    "Key": "star",
-    "enUS": "Star"
-  },
-  {
-    "Key": "blow",
-    "enUS": "Blow"
-  },
-  {
-    "Key": "smasher",
-    "enUS": "Smasher"
-  },
-  {
-    "Key": "Bane",
-    "enUS": "Bane"
-  },
-  {
-    "Key": "breaker",
-    "enUS": "Breaker"
-  },
-  {
-    "Key": "grinder",
-    "enUS": "Grinder"
-  },
-  {
-    "Key": "crack",
-    "enUS": "Crack"
-  },
-  {
-    "Key": "mallet",
-    "enUS": "Mallet"
-  },
-  {
-    "Key": "knell",
-    "enUS": "Knell"
-  },
-  {
-    "Key": "lance",
-    "enUS": "Lance"
-  },
-  {
-    "Key": "spike",
-    "enUS": "Spike"
-  },
-  {
-    "Key": "impaler",
-    "enUS": "Impaler"
-  },
-  {
-    "Key": "skewer",
-    "enUS": "Skewer"
-  },
-  {
-    "Key": "prod",
-    "enUS": "Prod"
-  },
-  {
-    "Key": "scourge",
-    "enUS": "Scourge"
-  },
-  {
-    "Key": "wand",
-    "enUS": "Wand"
-  },
-  {
-    "Key": "wrack",
-    "enUS": "Wrack"
-  },
-  {
-    "Key": "barb",
-    "enUS": "Barb"
-  },
-  {
-    "Key": "needle",
-    "enUS": "Needle"
-  },
-  {
-    "Key": "dart",
-    "enUS": "Dart"
-  },
-  {
-    "Key": "bolt",
-    "enUS": "Bolt"
-  },
-  {
-    "Key": "quarrel",
-    "enUS": "Quarrel"
-  },
-  {
-    "Key": "fletch",
-    "enUS": "Fletch"
-  },
-  {
-    "Key": "flight",
-    "enUS": "Flight"
-  },
-  {
-    "Key": "nock",
-    "enUS": "Nock"
-  },
-  {
-    "Key": "horn",
-    "enUS": "Horn"
-  },
-  {
-    "Key": "stinger",
-    "enUS": "Stinger"
-  },
-  {
-    "Key": "quill",
-    "enUS": "Quill"
-  },
-  {
-    "Key": "goad",
-    "enUS": "Goad"
-  },
-  {
-    "Key": "branch",
-    "enUS": "Branch"
-  },
-  {
-    "Key": "spire",
-    "enUS": "Spire"
-  },
-  {
-    "Key": "song",
-    "enUS": "Song"
-  },
-  {
-    "Key": "call",
-    "enUS": "Call"
-  },
-  {
-    "Key": "spell",
-    "enUS": "Spell"
-  },
-  {
-    "Key": "chant",
-    "enUS": "Chant"
-  },
-  {
-    "Key": "weaver",
-    "enUS": "Weaver"
-  },
-  {
-    "Key": "gnarl",
-    "enUS": "Gnarl"
-  },
-  {
-    "Key": "Civerb's",
-    "enUS": "Civerb's"
-  },
-  {
-    "Key": "Hsarus'",
-    "enUS": "Hsaru's"
-  },
-  {
-    "Key": "Cleglaw's",
-    "enUS": "Cleglaw's"
-  },
-  {
-    "Key": "Iratha's",
-    "enUS": "Iratha's"
-  },
-  {
-    "Key": "Isenhart's",
-    "enUS": "Isenhart's"
-  },
-  {
-    "Key": "Vidala's",
-    "enUS": "Vidala's"
-  },
-  {
-    "Key": "Milabrega's",
-    "enUS": "Milabrega's"
-  },
-  {
-    "Key": "Cathan's",
-    "enUS": "Cathan's"
-  },
-  {
-    "Key": "Tancred's",
-    "enUS": "Tancred's"
-  },
-  {
-    "Key": "Sigon's",
-    "enUS": "Sigon's"
-  },
-  {
-    "Key": "Infernal",
-    "enUS": "Infernal"
-  },
-  {
-    "Key": "Death's",
-    "enUS": "Death's"
-  },
-  {
-    "Key": "Angelical",
-    "enUS": "Angelic"
-  },
-  {
-    "Key": "Arctic",
-    "enUS": "Arctic"
-  },
-  {
-    "Key": "Arcanna's",
-    "enUS": "Arcanna's"
-  },
-  {
-    "Key": "Weird",
-    "enUS": "Weird"
-  },
-  {
-    "Key": "GloomUM",
-    "enUS": "Gloom"
-  },
-  {
-    "Key": "Gray",
-    "enUS": "Gray"
-  },
-  {
-    "Key": "DireUM",
-    "enUS": "Dire"
-  },
-  {
-    "Key": "Black",
-    "enUS": "Black"
-  },
-  {
-    "Key": "ShadowUM",
-    "enUS": "Shadow"
-  },
-  {
-    "Key": "Haze",
-    "enUS": "Haze"
-  },
-  {
-    "Key": "Wind",
-    "enUS": "Wind"
-  },
-  {
-    "Key": "StormUM",
-    "enUS": "Storm"
-  },
-  {
-    "Key": "Warp",
-    "enUS": "Warp"
-  },
-  {
-    "Key": "Night",
-    "enUS": "Night"
-  },
-  {
-    "Key": "Moon",
-    "enUS": "Moon"
-  },
-  {
-    "Key": "Star",
-    "enUS": "Star"
-  },
-  {
-    "Key": "Pit",
-    "enUS": "Pit"
-  },
-  {
-    "Key": "Fire",
-    "enUS": "Flame"
-  },
-  {
-    "Key": "Cold",
-    "enUS": "Ice"
-  },
-  {
-    "Key": "Seethe",
-    "enUS": "Seethe"
-  },
-  {
-    "Key": "SharpUM",
-    "enUS": "Sharp"
-  },
-  {
-    "Key": "AshUM",
-    "enUS": "Ash"
-  },
-  {
-    "Key": "Blade",
-    "enUS": "Blade"
-  },
-  {
-    "Key": "SteelUM",
-    "enUS": "Steel"
-  },
-  {
-    "Key": "StoneUM",
-    "enUS": "Stone"
-  },
-  {
-    "Key": "Rust",
-    "enUS": "Rust"
-  },
-  {
-    "Key": "Mold",
-    "enUS": "Mold"
-  },
-  {
-    "Key": "Blight",
-    "enUS": "Blight"
-  },
-  {
-    "Key": "Plague",
-    "enUS": "Plague"
-  },
-  {
-    "Key": "Rot",
-    "enUS": "Rot"
-  },
-  {
-    "Key": "Ooze",
-    "enUS": "Ooze"
-  },
-  {
-    "Key": "Puke",
-    "enUS": "Puke"
-  },
-  {
-    "Key": "Snot",
-    "enUS": "Snot"
-  },
-  {
-    "Key": "Bile",
-    "enUS": "Bile"
-  },
-  {
-    "Key": "BloodUM",
-    "enUS": "Blood"
-  },
-  {
-    "Key": "Pulse",
-    "enUS": "Pulse"
-  },
-  {
-    "Key": "Gut",
-    "enUS": "Gut"
-  },
-  {
-    "Key": "Gore",
-    "enUS": "Gore"
-  },
-  {
-    "Key": "FleshUM",
-    "enUS": "Flesh"
-  },
-  {
-    "Key": "BoneUM",
-    "enUS": "Bone"
-  },
-  {
-    "Key": "SpineUM",
-    "enUS": "Spine"
-  },
-  {
-    "Key": "Mind",
-    "enUS": "Mind"
-  },
-  {
-    "Key": "SpiritUM",
-    "enUS": "Spirit"
-  },
-  {
-    "Key": "SoulUM",
-    "enUS": "Soul"
-  },
-  {
-    "Key": "Wrath",
-    "enUS": "Wrath"
-  },
-  {
-    "Key": "GriefUM",
-    "enUS": "Grief"
-  },
-  {
-    "Key": "Foul",
-    "enUS": "Foul"
-  },
-  {
-    "Key": "Vile",
-    "enUS": "Vile"
-  },
-  {
-    "Key": "Sin",
-    "enUS": "Sin"
-  },
-  {
-    "Key": "ChaosUM",
-    "enUS": "Chaos"
-  },
-  {
-    "Key": "DreadUM",
-    "enUS": "Dread"
-  },
-  {
-    "Key": "DoomUM",
-    "enUS": "Doom"
-  },
-  {
-    "Key": "BaneUM",
-    "enUS": "Bane"
-  },
-  {
-    "Key": "DeathUM",
-    "enUS": "Death"
-  },
-  {
-    "Key": "ViperUM",
-    "enUS": "Viper"
-  },
-  {
-    "Key": "Dragon",
-    "enUS": "Dragon"
-  },
-  {
-    "Key": "Devil",
-    "enUS": "Devil"
-  },
-  {
-    "Key": "touchUM",
-    "enUS": "Touch"
-  },
-  {
-    "Key": "spellUM",
-    "enUS": "Spell"
-  },
-  {
-    "Key": "feast",
-    "enUS": "Feast"
-  },
-  {
-    "Key": "wound",
-    "enUS": "Wound"
-  },
-  {
-    "Key": "grin",
-    "enUS": "Grin"
-  },
-  {
-    "Key": "maim",
-    "enUS": "Maim"
-  },
-  {
-    "Key": "hack",
-    "enUS": "Hack"
-  },
-  {
-    "Key": "biteUM",
-    "enUS": "Bite"
-  },
-  {
-    "Key": "rendUM",
-    "enUS": "Rend"
-  },
-  {
-    "Key": "burn",
-    "enUS": "Burn"
-  },
-  {
-    "Key": "rip",
-    "enUS": "Ripper"
-  },
-  {
-    "Key": "kill",
-    "enUS": "Kill"
-  },
-  {
-    "Key": "callUM",
-    "enUS": "Call"
-  },
-  {
-    "Key": "vex",
-    "enUS": "Vex"
-  },
-  {
-    "Key": "jade",
-    "enUS": "Jade"
-  },
-  {
-    "Key": "web",
-    "enUS": "Web"
-  },
-  {
-    "Key": "shieldUM",
-    "enUS": "Shield"
-  },
-  {
-    "Key": "KillerUM",
-    "enUS": "Killer"
-  },
-  {
-    "Key": "RazorUM",
-    "enUS": "Razor"
-  },
-  {
-    "Key": "drinker",
-    "enUS": "Drinker"
-  },
-  {
-    "Key": "shifter",
-    "enUS": "Shifter"
-  },
-  {
-    "Key": "crawler",
-    "enUS": "Crawler"
-  },
-  {
-    "Key": "dancer",
-    "enUS": "Dancer"
-  },
-  {
-    "Key": "bender",
-    "enUS": "Bender"
-  },
-  {
-    "Key": "weaverUM",
-    "enUS": "Weaver"
-  },
-  {
-    "Key": "eater",
-    "enUS": "Eater"
-  },
-  {
-    "Key": "widow",
-    "enUS": "Widow"
-  },
-  {
-    "Key": "maggot",
-    "enUS": "Maggot"
-  },
-  {
-    "Key": "spawn",
-    "enUS": "Spawn"
-  },
-  {
-    "Key": "wight",
-    "enUS": "Wight"
-  },
-  {
-    "Key": "GrumbleUM",
-    "enUS": "Grumble"
-  },
-  {
-    "Key": "GrowlerUM",
-    "enUS": "Growler"
-  },
-  {
-    "Key": "SnarlUM",
-    "enUS": "Snarl"
-  },
-  {
-    "Key": "wolf",
-    "enUS": "Wolf"
-  },
-  {
-    "Key": "crow",
-    "enUS": "Crow"
-  },
-  {
-    "Key": "raven",
-    "enUS": "Raven"
-  },
-  {
-    "Key": "hawk",
-    "enUS": "Hawk"
-  },
-  {
-    "Key": "cloud",
-    "enUS": "Cloud"
-  },
-  {
-    "Key": "BangUM",
-    "enUS": "Bang"
-  },
-  {
-    "Key": "head",
-    "enUS": "Head"
-  },
-  {
-    "Key": "skullUM",
-    "enUS": "Skull"
-  },
-  {
-    "Key": "browUM",
-    "enUS": "Brow"
-  },
-  {
-    "Key": "eyeUM",
-    "enUS": "Eye"
-  },
-  {
-    "Key": "maw",
-    "enUS": "Maw"
-  },
-  {
-    "Key": "tongue",
-    "enUS": "Tongue"
-  },
-  {
-    "Key": "fangUM",
-    "enUS": "Fang"
-  },
-  {
-    "Key": "hornUM",
-    "enUS": "Horn"
-  },
-  {
-    "Key": "thorn",
-    "enUS": "Thorn"
-  },
-  {
-    "Key": "clawUM",
-    "enUS": "Claw"
-  },
-  {
-    "Key": "fistUM",
-    "enUS": "Fist"
-  },
-  {
-    "Key": "heartUM",
-    "enUS": "Heart"
-  },
-  {
-    "Key": "shankUM",
-    "enUS": "Shank"
-  },
-  {
-    "Key": "skinUM",
-    "enUS": "Skin"
-  },
-  {
-    "Key": "wingUM",
-    "enUS": "Wing"
-  },
-  {
-    "Key": "pox",
-    "enUS": "Pox"
-  },
-  {
-    "Key": "fester",
-    "enUS": "Fester"
-  },
-  {
-    "Key": "blister",
-    "enUS": "Blister"
-  },
-  {
-    "Key": "pus",
-    "enUS": "Pus"
-  },
-  {
-    "Key": "SlimeUM",
-    "enUS": "Slime"
-  },
-  {
-    "Key": "drool",
-    "enUS": "Drool"
-  },
-  {
-    "Key": "froth",
-    "enUS": "Froth"
-  },
-  {
-    "Key": "sludge",
-    "enUS": "Sludge"
-  },
-  {
-    "Key": "venom",
-    "enUS": "Venom"
-  },
-  {
-    "Key": "poison",
-    "enUS": "Poison"
-  },
-  {
-    "Key": "break",
-    "enUS": "Break"
-  },
-  {
-    "Key": "shard",
-    "enUS": "Shard"
-  },
-  {
-    "Key": "flame",
-    "enUS": "Flame"
-  },
-  {
-    "Key": "maul",
-    "enUS": "Maul"
-  },
-  {
-    "Key": "thirstUM",
-    "enUS": "Thirst"
-  },
-  {
-    "Key": "lust",
-    "enUS": "Lust"
-  },
-  {
-    "Key": "the Hammer",
-    "enUS": "the Hammer"
-  },
-  {
-    "Key": "the Axe",
-    "enUS": "the Axe"
-  },
-  {
-    "Key": "the Sharp",
-    "enUS": "the Sharp"
-  },
-  {
-    "Key": "the Jagged",
-    "enUS": "the Jagged"
-  },
-  {
-    "Key": "the Flayer",
-    "enUS": "the Flayer"
-  },
-  {
-    "Key": "the Slasher",
-    "enUS": "the Slasher"
-  },
-  {
-    "Key": "the Impaler",
-    "enUS": "the Impaler"
-  },
-  {
-    "Key": "the Hunter",
-    "enUS": "the Hunter"
-  },
-  {
-    "Key": "the Slayer",
-    "enUS": "the Slayer"
-  },
-  {
-    "Key": "the Mauler",
-    "enUS": "the Mauler"
-  },
-  {
-    "Key": "the Destroyer",
-    "enUS": "the Destroyer"
-  },
-  {
-    "Key": "theQuick",
-    "enUS": "the Quick"
-  },
-  {
-    "Key": "the Witch",
-    "enUS": "the Witch"
-  },
-  {
-    "Key": "the Mad",
-    "enUS": "the Mad"
-  },
-  {
-    "Key": "the Wraith",
-    "enUS": "the Wraith"
-  },
-  {
-    "Key": "the Shade",
-    "enUS": "the Shade"
-  },
-  {
-    "Key": "the Dead",
-    "enUS": "the Dead"
-  },
-  {
-    "Key": "the Unholy",
-    "enUS": "the Unholy"
-  },
-  {
-    "Key": "the Howler",
-    "enUS": "the Howler"
-  },
-  {
-    "Key": "the Grim",
-    "enUS": "the Grim"
-  },
-  {
-    "Key": "the Dark",
-    "enUS": "the Dark"
-  },
-  {
-    "Key": "the Tainted",
-    "enUS": "the Tainted"
-  },
-  {
-    "Key": "the Unclean",
-    "enUS": "the Unclean"
-  },
-  {
-    "Key": "the Hungry",
-    "enUS": "the Hungry"
-  },
-  {
-    "Key": "the Cold",
-    "enUS": "the Cold"
-  },
-  {
-    "Key": "Champion",
-    "enUS": "Champion"
-  },
-  {
-    "Key": "of the Wraith",
-    "enUS": "of the Wraith"
-  },
-  {
-    "Key": "of Equilibrium",
-    "enUS": "of Equilibrium"
-  },
-  {
-    "Key": "Valkyrie's",
-    "enUS": "Valkyrie's"
-  },
-  {
-    "Key": "Maiden's",
-    "enUS": "Maiden's"
-  },
-  {
-    "Key": "Blank",
-    "enUS": "Void"
-  },
-  {
-    "Key": "champfanaticX",
-    "enUS": "Fanatic"
-  },
-  {
-    "Key": "champberserkX",
-    "enUS": "Berserker"
-  },
-  {
-    "Key": "Stout",
-    "enUS": "Stout"
-  },
-  {
-    "Key": "Antimagic",
-    "enUS": "Antimagic"
-  },
-  {
-    "Key": "Null",
-    "enUS": "Null"
-  },
-  {
-    "Key": "Godly",
-    "enUS": "Godly"
-  },
-  {
-    "Key": "Ivory",
-    "enUS": "Ivory"
-  },
-  {
-    "Key": "Eburin",
-    "enUS": "Eburine"
-  },
-  {
-    "Key": "Blanched",
-    "enUS": "Blanched"
-  },
-  {
-    "Key": "Stalwart",
-    "enUS": "Stalwart"
-  },
-  {
-    "Key": "Burly",
-    "enUS": "Burly"
-  },
-  {
-    "Key": "Dense",
-    "enUS": "Dense"
-  },
-  {
-    "Key": "Thin",
-    "enUS": "Thin"
-  },
-  {
-    "Key": "Compact",
-    "enUS": "Compact"
-  },
-  {
-    "Key": "Witch-hunter's",
-    "enUS": "Witch-hunter's"
-  },
-  {
-    "Key": "Magekiller's",
-    "enUS": "Magekiller's"
-  },
-  {
-    "Key": "Hierophant's",
-    "enUS": "Hierophant's"
-  },
-  {
-    "Key": "Shaman's",
-    "enUS": "Shaman's"
-  },
-  {
-    "Key": "Pestilent",
-    "enUS": "Pestilent"
-  },
-  {
-    "Key": "Toxic",
-    "enUS": "Toxic"
-  },
-  {
-    "Key": "Corosive",
-    "enUS": "Corrosive"
-  },
-  {
-    "Key": "Envenomed",
-    "enUS": "Foul"
-  },
-  {
-    "Key": "Septic",
-    "enUS": "Septic"
-  },
-  {
-    "Key": "Shocking",
-    "enUS": "Shocking"
-  },
-  {
-    "Key": "Arcing",
-    "enUS": "Arcing"
-  },
-  {
-    "Key": "Buzzing",
-    "enUS": "Buzzing"
-  },
-  {
-    "Key": "Static",
-    "enUS": "Static"
-  },
-  {
-    "Key": "Scorching",
-    "enUS": "Condensing"
-  },
-  {
-    "Key": "Flaming",
-    "enUS": "Flaming"
-  },
-  {
-    "Key": "Smoking",
-    "enUS": "Smoking"
-  },
-  {
-    "Key": "Smoldering",
-    "enUS": "Smoldering"
-  },
-  {
-    "Key": "Ember",
-    "enUS": "Fiery"
-  },
-  {
-    "Key": "Hibernal",
-    "enUS": "Hibernal"
-  },
-  {
-    "Key": "Boreal",
-    "enUS": "Boreal"
-  },
-  {
-    "Key": "Shivering",
-    "enUS": "Shivering"
-  },
-  {
-    "Key": "Snowflake",
-    "enUS": "Snowy"
-  },
-  {
-    "Key": "Mnemonic",
-    "enUS": "Mnemonic"
-  },
-  {
-    "Key": "Visionary",
-    "enUS": "Visionary"
-  },
-  {
-    "Key": "Eagleeye",
-    "enUS": "Eagleeye"
-  },
-  {
-    "Key": "Hawkeye",
-    "enUS": "Hawkeye"
-  },
-  {
-    "Key": "Falconeye",
-    "enUS": "Falconeye"
-  },
-  {
-    "Key": "Sparroweye",
-    "enUS": "Sparroweye"
-  },
-  {
-    "Key": "Robineye",
-    "enUS": "Robineye"
-  },
-  {
-    "Key": "Paradox",
-    "enUS": "Paradox"
-  },
-  {
-    "Key": "Shouting",
-    "enUS": "Howling"
-  },
-  {
-    "Key": "Yelling",
-    "enUS": "Yelling"
-  },
-  {
-    "Key": "Calling",
-    "enUS": "Calling"
-  },
-  {
-    "Key": "Loud",
-    "enUS": "Alarming"
-  },
-  {
-    "Key": "Trump",
-    "enUS": "Fool's"
-  },
-  {
-    "Key": "Joker's",
-    "enUS": "Joker's"
-  },
-  {
-    "Key": "Jester's",
-    "enUS": "Jester's"
-  },
-  {
-    "Key": "Jack's",
-    "enUS": "Jack's"
-  },
-  {
-    "Key": "Knave's",
-    "enUS": "Knave's"
-  },
-  {
-    "Key": "Paleocene",
-    "enUS": "Faithful"
-  },
-  {
-    "Key": "Eocene",
-    "enUS": "Righteous"
-  },
-  {
-    "Key": "Oligocene",
-    "enUS": "Honorable"
-  },
-  {
-    "Key": "Miocene",
-    "enUS": "Enlightened"
-  },
-  {
-    "Key": "Kenshi's",
-    "enUS": "Kenshi's"
-  },
-  {
-    "Key": "Sensei's",
-    "enUS": "Sensei's"
-  },
-  {
-    "Key": "Shogukusha's",
-    "enUS": "Shogukusha's"
-  },
-  {
-    "Key": "Psychic",
-    "enUS": "Psychic"
-  },
-  {
-    "Key": "Mentalist's",
-    "enUS": "Mentalist's"
-  },
-  {
-    "Key": "Cunning",
-    "enUS": "Cunning"
-  },
-  {
-    "Key": "Trickster's",
-    "enUS": "Trickster's"
-  },
-  {
-    "Key": "Entrapping",
-    "enUS": "Entrapping"
-  },
-  {
-    "Key": "Gaea's",
-    "enUS": "Gaean"
-  },
-  {
-    "Key": "Terra's",
-    "enUS": "Terrene"
-  },
-  {
-    "Key": "Nature's",
-    "enUS": "Natural"
-  },
-  {
-    "Key": "Communal",
-    "enUS": "Communal"
-  },
-  {
-    "Key": "Feral",
-    "enUS": "Feral"
-  },
-  {
-    "Key": "Spiritual",
-    "enUS": "Spiritual"
-  },
-  {
-    "Key": "Keeper's",
-    "enUS": "Keeper's"
-  },
-  {
-    "Key": "Caretaker's",
-    "enUS": "Caretaker's"
-  },
-  {
-    "Key": "Trainer's",
-    "enUS": "Trainer's"
-  },
-  {
-    "Key": "Veteran's",
-    "enUS": "Veteran's"
-  },
-  {
-    "Key": "Expert's",
-    "enUS": "Expert's"
-  },
-  {
-    "Key": "Furious",
-    "enUS": "Furious"
-  },
-  {
-    "Key": "Raging",
-    "enUS": "Raging"
-  },
-  {
-    "Key": "Echoing",
-    "enUS": "Echoing"
-  },
-  {
-    "Key": "Resonant",
-    "enUS": "Resonant"
-  },
-  {
-    "Key": "Sounding",
-    "enUS": "Sounding"
-  },
-  {
-    "Key": "Guardian's",
-    "enUS": "Guardian's"
-  },
-  {
-    "Key": "Warder's",
-    "enUS": "Warden's"
-  },
-  {
-    "Key": "Preserver's",
-    "enUS": "Preserver's"
-  },
-  {
-    "Key": "Marshal's",
-    "enUS": "Marshal's"
-  },
-  {
-    "Key": "Commander's",
-    "enUS": "Commander's"
-  },
-  {
-    "Key": "Captain's",
-    "enUS": "Captain's"
-  },
-  {
-    "Key": "Rose Branded",
-    "enUS": "Rose Branded"
-  },
-  {
-    "Key": "Hawk Branded",
-    "enUS": "Hawk Branded"
-  },
-  {
-    "Key": "Lion Branded",
-    "enUS": "Lion Branded"
-  },
-  {
-    "Key": "Golemlord's",
-    "enUS": "Golemlord's"
-  },
-  {
-    "Key": "Vodoun",
-    "enUS": "Mojo"
-  },
-  {
-    "Key": "Graverobber's",
-    "enUS": "Graverobber's"
-  },
-  {
-    "Key": "Venomous",
-    "enUS": "Venomous"
-  },
-  {
-    "Key": "Noxious",
-    "enUS": "Noxious"
-  },
-  {
-    "Key": "Fungal",
-    "enUS": "Fungal"
-  },
-  {
-    "Key": "Accursed",
-    "enUS": "Cursing"
-  },
-  {
-    "Key": "Blighting",
-    "enUS": "Blighting"
-  },
-  {
-    "Key": "Hexing",
-    "enUS": "Hexing"
-  },
-  {
-    "Key": "Glacial",
-    "enUS": "Glacial"
-  },
-  {
-    "Key": "Freezing",
-    "enUS": "Freezing"
-  },
-  {
-    "Key": "Chilling",
-    "enUS": "Chilling"
-  },
-  {
-    "Key": "Powered",
-    "enUS": "Powered"
-  },
-  {
-    "Key": "Charged",
-    "enUS": "Charged"
-  },
-  {
-    "Key": "Sparking",
-    "enUS": "Sparking"
-  },
-  {
-    "Key": "Volcanic",
-    "enUS": "Volcanic"
-  },
-  {
-    "Key": "Blazing",
-    "enUS": "Blazing"
-  },
-  {
-    "Key": "Burning",
-    "enUS": "Burning"
-  },
-  {
-    "Key": "Lancer's",
-    "enUS": "Lancer's"
-  },
-  {
-    "Key": "Spearmaiden's",
-    "enUS": "Spearmaiden's"
-  },
-  {
-    "Key": "Harpoonist's",
-    "enUS": "Harpoonist's"
-  },
-  {
-    "Key": "Athlete's",
-    "enUS": "Athletic"
-  },
-  {
-    "Key": "Gymnast's",
-    "enUS": "Gymnastic"
-  },
-  {
-    "Key": "Acrobat's",
-    "enUS": "Acrobatic"
-  },
-  {
-    "Key": "Bowyer's",
-    "enUS": "Bowyer's"
-  },
-  {
-    "Key": "Diamond",
-    "enUS": "Diamond"
-  },
-  {
-    "Key": "Celestial",
-    "enUS": "Celestial"
-  },
-  {
-    "Key": "Elysian",
-    "enUS": "Elysian"
-  },
-  {
-    "Key": "Astral",
-    "enUS": "Astral"
-  },
-  {
-    "Key": "Unearthly",
-    "enUS": "Unearthly"
-  },
-  {
-    "Key": "Arcadian",
-    "enUS": "Arcadian"
-  },
-  {
-    "Key": "Jeweler's",
-    "enUS": "Jeweler's"
-  },
-  {
-    "Key": "Artificer's",
-    "enUS": "Artisan's"
-  },
-  {
-    "Key": "Mechanist's",
-    "enUS": "Mechanic's"
-  },
-  {
-    "Key": "Aureolin",
-    "enUS": "Aureolic"
-  },
-  {
-    "Key": "Victorious",
-    "enUS": "Victorious"
-  },
-  {
-    "Key": "Ambergris",
-    "enUS": "Ambergris"
-  },
-  {
-    "Key": "Camphor",
-    "enUS": "Camphor"
-  },
-  {
-    "Key": "Lapis Lazuli",
-    "enUS": "Lapis Lazuli"
-  },
-  {
-    "Key": "Chromatic",
-    "enUS": "Chromatic"
-  },
-  {
-    "Key": "Scintillating",
-    "enUS": "Scintillating"
-  },
-  {
-    "Key": "Turquoise",
-    "enUS": "Turquoise"
-  },
-  {
-    "Key": "Jacinth",
-    "enUS": "Jacinth"
-  },
-  {
-    "Key": "Zircon",
-    "enUS": "Zircon"
-  },
-  {
-    "Key": "Bahamut's",
-    "enUS": "Bahamut's"
-  },
-  {
-    "Key": "Great Wyrm's",
-    "enUS": "Great Wyrm's"
-  },
-  {
-    "Key": "Felicitous",
-    "enUS": "Felicitous"
-  },
-  {
-    "Key": "Lucky",
-    "enUS": "Lucky"
-  },
-  {
-    "Key": "Wailing",
-    "enUS": "Wailing"
-  },
-  {
-    "Key": "Screaming",
-    "enUS": "Screaming"
-  },
-  {
-    "Key": "Grandmaster's",
-    "enUS": "Grandmaster's"
-  },
-  {
-    "Key": "Master's",
-    "enUS": "Master's"
-  },
-  {
-    "Key": "Argent",
-    "enUS": "Argent"
-  },
-  {
-    "Key": "Tin",
-    "enUS": "Tin"
-  },
-  {
-    "Key": "Nickel",
-    "enUS": "Nickel"
-  },
-  {
-    "Key": "Maroon",
-    "enUS": "Maroon"
-  },
-  {
-    "Key": "Chestnut",
-    "enUS": "Chestnut"
-  },
-  {
-    "Key": "Vigorous",
-    "enUS": "Vigorous"
-  },
-  {
-    "Key": "Brown",
-    "enUS": "Brown"
-  },
-  {
-    "Key": "Dun",
-    "enUS": "Dun"
-  },
-  {
-    "Key": "Realgar",
-    "enUS": "Realgar"
-  },
-  {
-    "Key": "Rusty",
-    "enUS": "Rusty"
-  },
-  {
-    "Key": "Cinnabar",
-    "enUS": "Cinnabar"
-  },
-  {
-    "Key": "Vermillion",
-    "enUS": "Vermilion"
-  },
-  {
-    "Key": "Carmine",
-    "enUS": "Carmine"
-  },
-  {
-    "Key": "Carbuncle",
-    "enUS": "Carbuncle"
-  },
-  {
-    "Key": "Serrated",
-    "enUS": "Serrated"
-  },
-  {
-    "Key": "Scarlet",
-    "enUS": "Scarlet"
-  },
-  {
-    "Key": "Bloody",
-    "enUS": "Bloody"
-  },
-  {
-    "Key": "Sanguinary",
-    "enUS": "Sanguinary"
-  },
-  {
-    "Key": "Pearl",
-    "enUS": "Pearl"
-  },
-  {
-    "Key": "Divine",
-    "enUS": "Divine"
-  },
-  {
-    "Key": "Hallowed",
-    "enUS": "Hallowed"
-  },
-  {
-    "Key": "Sacred",
-    "enUS": "Sacred"
-  },
-  {
-    "Key": "Pure",
-    "enUS": "Pure"
-  },
-  {
-    "Key": "Consecrated",
-    "enUS": "Consecrated"
-  },
-  {
-    "Key": "Assamic",
-    "enUS": "Lunar"
-  },
-  {
-    "Key": "Frantic",
-    "enUS": "Frantic"
-  },
-  {
-    "Key": "Hellatial",
-    "enUS": "Hellacious"
-  },
-  {
-    "Key": "Quixotic",
-    "enUS": "Quixotic"
-  },
-  {
-    "Key": "Smiting",
-    "enUS": "Smiting"
-  },
-  {
-    "Key": "Steller",
-    "enUS": "Stellar"
-  },
-  {
-    "Key": "Stinging",
-    "enUS": "Stinging"
-  },
-  {
-    "Key": "Singing",
-    "enUS": "Singing"
-  },
-  {
-    "Key": "Timeless",
-    "enUS": "Timeless"
-  },
-  {
-    "Key": "Original",
-    "enUS": "Original"
-  },
-  {
-    "Key": "Corporal",
-    "enUS": "Corporal"
-  },
-  {
-    "Key": "Lawful",
-    "enUS": "Lawful"
-  },
-  {
-    "Key": "Chaotic",
-    "enUS": "Chaotic"
-  },
-  {
-    "Key": "Fierce",
-    "enUS": "Fierce"
-  },
-  {
-    "Key": "Ferocious",
-    "enUS": "Ferocious"
-  },
-  {
-    "Key": "Perpetual",
-    "enUS": "Perpetual"
-  },
-  {
-    "Key": "Continuous",
-    "enUS": "Everlasting"
-  },
-  {
-    "Key": "Laden",
-    "enUS": "Laden"
-  },
-  {
-    "Key": "Pernicious",
-    "enUS": "Pernicious"
-  },
-  {
-    "Key": "Harmful",
-    "enUS": "Harmful"
-  },
-  {
-    "Key": "Evil",
-    "enUS": "Evil"
-  },
-  {
-    "Key": "Insidious",
-    "enUS": "Insidious"
-  },
-  {
-    "Key": "Malicious",
-    "enUS": "Malicious"
-  },
-  {
-    "Key": "Spiteful",
-    "enUS": "Spiteful"
-  },
-  {
-    "Key": "Precocious",
-    "enUS": "Precocious"
-  },
-  {
-    "Key": "Majestic",
-    "enUS": "Majestic"
-  },
-  {
-    "Key": "Sanguine",
-    "enUS": "Sanguine"
-  },
-  {
-    "Key": "Monumental",
-    "enUS": "Monumental"
-  },
-  {
-    "Key": "Irresistible",
-    "enUS": "Irresistible"
-  },
-  {
-    "Key": "Festering",
-    "enUS": "Festering"
-  },
-  {
-    "Key": "Musty",
-    "enUS": "Musty"
-  },
-  {
-    "Key": "Dusty",
-    "enUS": "Dusty"
-  },
-  {
-    "Key": "Decaying",
-    "enUS": "Decaying"
-  },
-  {
-    "Key": "Rotting",
-    "enUS": "Rotting"
-  },
-  {
-    "Key": "Infectious",
-    "enUS": "Infectious"
-  },
-  {
-    "Key": "Foggy",
-    "enUS": "Foggy"
-  },
-  {
-    "Key": "Cloudy",
-    "enUS": "Cloudy"
-  },
-  {
-    "Key": "Hazy",
-    "enUS": "Hazy"
-  },
-  {
-    "Key": "Punishing",
-    "enUS": "Punishing"
-  },
-  {
-    "Key": "Obsidian",
-    "enUS": "Obsidian"
-  },
-  {
-    "Key": "Royal",
-    "enUS": "Royal"
-  },
-  {
-    "Key": "Frigid",
-    "enUS": "Frigid"
-  },
-  {
-    "Key": "Moldy",
-    "enUS": "Moldy"
-  },
-  {
-    "Key": "Gaudy",
-    "enUS": "Gaudy"
-  },
-  {
-    "Key": "Impecable",
-    "enUS": "Impeccable"
-  },
-  {
-    "Key": "Soulless",
-    "enUS": "Soulless"
-  },
-  {
-    "Key": "Heated",
-    "enUS": "Heated"
-  },
-  {
-    "Key": "Lasting",
-    "enUS": "Lasting"
-  },
-  {
-    "Key": "Scorched",
-    "enUS": "Scorched"
-  },
-  {
-    "Key": "Marred",
-    "enUS": "Marred"
-  },
-  {
-    "Key": "Lilac",
-    "enUS": "Lilac"
-  },
-  {
-    "Key": "Rose",
-    "enUS": "Rose"
-  },
-  {
-    "Key": "Shimmering",
-    "enUS": "Shimmering"
-  },
-  {
-    "Key": "Green",
-    "enUS": "Green"
-  },
-  {
-    "Key": "Wicked",
-    "enUS": "Wicked"
-  },
-  {
-    "Key": "Strange",
-    "enUS": "Strange"
-  },
-  {
-    "Key": "Repulsive",
-    "enUS": "Repulsive"
-  },
-  {
-    "Key": "Reclusive",
-    "enUS": "Reclusive"
-  },
-  {
-    "Key": "Crude",
-    "enUS": "Crude"
-  },
-  {
-    "Key": "Rude",
-    "enUS": "Rude"
-  },
-  {
-    "Key": "Hermetic",
-    "enUS": "Hermetic"
-  },
-  {
-    "Key": "Rainbow",
-    "enUS": "Rainbow"
-  },
-  {
-    "Key": "Colorful",
-    "enUS": "Colorful"
-  },
-  {
-    "Key": "Stinky",
-    "enUS": "Odiferous"
-  },
-  {
-    "Key": "Gritty",
-    "enUS": "Grinding"
-  },
-  {
-    "Key": "of Warming",
-    "enUS": "of Warming"
-  },
-  {
-    "Key": "of Stoicism",
-    "enUS": "of Stoicism"
-  },
-  {
-    "Key": "of the Dynamo",
-    "enUS": "of the Dynamo"
-  },
-  {
-    "Key": "of Grounding",
-    "enUS": "of Grounding"
-  },
-  {
-    "Key": "of Insulation",
-    "enUS": "of Insulation"
-  },
-  {
-    "Key": "of Resistance",
-    "enUS": "of Resistance"
-  },
-  {
-    "Key": "of Faith",
-    "enUS": "of Faith"
-  },
-  {
-    "Key": "of Fire Quenching",
-    "enUS": "of Quenching"
-  },
-  {
-    "Key": "of Amianthus",
-    "enUS": "of Amianthus"
-  },
-  {
-    "Key": "of Incombustibility",
-    "enUS": "of Inflammability"
-  },
-  {
-    "Key": "of Coolness",
-    "enUS": "of Coolness"
-  },
-  {
-    "Key": "of Anima",
-    "enUS": "of Amicae"
-  },
-  {
-    "Key": "of Life Everlasting",
-    "enUS": "of Life Everlasting"
-  },
-  {
-    "Key": "of Sunlight",
-    "enUS": "of Sunlight"
-  },
-  {
-    "Key": "of Frozen Orb",
-    "enUS": "of Frozen Orb"
-  },
-  {
-    "Key": "of Hydra Shield",
-    "enUS": "of Hydra Shield"
-  },
-  {
-    "Key": "of Chilling Armor",
-    "enUS": "of Chilling Armor"
-  },
-  {
-    "Key": "of Blizzard",
-    "enUS": "of Blizzard"
-  },
-  {
-    "Key": "of Energy Shield",
-    "enUS": "of Energy Shield"
-  },
-  {
-    "Key": "of Thunder Storm",
-    "enUS": "of Thunder Storm"
-  },
-  {
-    "Key": "of Meteor",
-    "enUS": "of Meteor"
-  },
-  {
-    "Key": "of Glacial Spike",
-    "enUS": "of Glacial Spike"
-  },
-  {
-    "Key": "of Teleport Shield",
-    "enUS": "of Teleport Shield"
-  },
-  {
-    "Key": "of Chain Lightning",
-    "enUS": "of Chain Lightning"
-  },
-  {
-    "Key": "of Enchant",
-    "enUS": "of Enchant"
-  },
-  {
-    "Key": "of Fire Wall",
-    "enUS": "of Fire Wall"
-  },
-  {
-    "Key": "of Shiver Armor",
-    "enUS": "of Shiver Armor"
-  },
-  {
-    "Key": "of Nova Shield",
-    "enUS": "of Nova Shield"
-  },
-  {
-    "Key": "of Nova",
-    "enUS": "of Nova"
-  },
-  {
-    "Key": "of Fire Ball",
-    "enUS": "of Fire Ball"
-  },
-  {
-    "Key": "of Blaze",
-    "enUS": "of Blaze"
-  },
-  {
-    "Key": "of Ice Blast",
-    "enUS": "of Ice Blast"
-  },
-  {
-    "Key": "of Frost Shield",
-    "enUS": "of Frost Shield"
-  },
-  {
-    "Key": "of Telekinesis",
-    "enUS": "of Telekinesis"
-  },
-  {
-    "Key": "of Static Field",
-    "enUS": "of Static Field"
-  },
-  {
-    "Key": "of Frozen Armor",
-    "enUS": "of Frozen Armor"
-  },
-  {
-    "Key": "of Icebolt",
-    "enUS": "of Icebolt"
-  },
-  {
-    "Key": "of Charged Shield",
-    "enUS": "of Charged Bolt"
-  },
-  {
-    "Key": "of Firebolts",
-    "enUS": "of Firebolts"
-  },
-  {
-    "Key": "of the Elements",
-    "enUS": "of the Elements"
-  },
-  {
-    "Key": "of the Cobra",
-    "enUS": "of the Cobra"
-  },
-  {
-    "Key": "of the Efreeti",
-    "enUS": "of the Efreeti"
-  },
-  {
-    "Key": "of the Phoenix",
-    "enUS": "of the Phoenix"
-  },
-  {
-    "Key": "of the Yeti",
-    "enUS": "of the Yeti"
-  },
-  {
-    "Key": "of Grace and Power",
-    "enUS": "of Grace and Power"
-  },
-  {
-    "Key": "of Grace",
-    "enUS": "of Grace"
-  },
-  {
-    "Key": "of Power",
-    "enUS": "of Power"
-  },
-  {
-    "Key": "of the Elephant",
-    "enUS": "of the Elephant"
-  },
-  {
-    "Key": "of Memory",
-    "enUS": "of Memory"
-  },
-  {
-    "Key": "of the Kraken1",
-    "enUS": "of the Kraken"
-  },
-  {
-    "Key": "of Propogation",
-    "enUS": "of Propogation"
-  },
-  {
-    "Key": "of Replenishing",
-    "enUS": "of Replenishing"
-  },
-  {
-    "Key": "of Ages",
-    "enUS": "of Ages"
-  },
-  {
-    "Key": "of Fast Repair",
-    "enUS": "of Restoration"
-  },
-  {
-    "Key": "of Self-Repair",
-    "enUS": "of Self-Repair"
-  },
-  {
-    "Key": "of Acceleration",
-    "enUS": "of Acceleration"
-  },
-  {
-    "Key": "of Traveling",
-    "enUS": "of Transportation"
-  },
-  {
-    "Key": "of Virility",
-    "enUS": "of Virility"
-  },
-  {
-    "Key": "of Atlus",
-    "enUS": "of Atlas"
-  },
-  {
-    "Key": "of Freedom",
-    "enUS": "of Freedom"
-  },
-  {
-    "Key": "of the Lamprey",
-    "enUS": "of the Lamprey"
-  },
-  {
-    "Key": "of Hope",
-    "enUS": "of Hope"
-  },
-  {
-    "Key": "of Spirit",
-    "enUS": "of Spirit"
-  },
-  {
-    "Key": "of Vita",
-    "enUS": "of Vita"
-  },
-  {
-    "Key": "of Substinence",
-    "enUS": "of Sustenance"
-  },
-  {
-    "Key": "of the Whale",
-    "enUS": "of the Whale"
-  },
-  {
-    "Key": "of the Squid",
-    "enUS": "of the Squid"
-  },
-  {
-    "Key": "of the Colossus1",
-    "enUS": "of the Colossus"
-  },
-  {
-    "Key": "of Knowledge",
-    "enUS": "of Knowledge"
-  },
-  {
-    "Key": "of Enlightenment",
-    "enUS": "of Enlightenment"
-  },
-  {
-    "Key": "of Prosperity",
-    "enUS": "of Prosperity"
-  },
-  {
-    "Key": "of Good Luck",
-    "enUS": "of Good Luck"
-  },
-  {
-    "Key": "of Luck",
-    "enUS": "of Luck"
-  },
-  {
-    "Key": "of Avarice",
-    "enUS": "of Avarice"
-  },
-  {
-    "Key": "of Honor",
-    "enUS": "of Honor"
-  },
-  {
-    "Key": "of Revivification",
-    "enUS": "of Revivification"
-  },
-  {
-    "Key": "of Truth",
-    "enUS": "of Truth"
-  },
-  {
-    "Key": "of Daring",
-    "enUS": "of Daring"
-  },
-  {
-    "Key": "of Nirvana",
-    "enUS": "of Nirvana"
-  },
-  {
-    "Key": "of Envy",
-    "enUS": "of Envy"
-  },
-  {
-    "Key": "of Anthrax",
-    "enUS": "of Anthrax"
-  },
-  {
-    "Key": "of Bliss",
-    "enUS": "of Bliss"
-  },
-  {
-    "Key": "of Joy",
-    "enUS": "of Joy"
-  },
-  {
-    "Key": "of Transcendence",
-    "enUS": "of Transcendence"
-  },
-  {
-    "Key": "of Wrath",
-    "enUS": "of Wrath"
-  },
-  {
-    "Key": "of Ire",
-    "enUS": "of Ire"
-  },
-  {
-    "Key": "of Evisceration",
-    "enUS": "of Evisceration"
-  },
-  {
-    "Key": "of Butchery",
-    "enUS": "of Butchery"
-  },
-  {
-    "Key": "of Ennui",
-    "enUS": "of Ennui"
-  },
-  {
-    "Key": "of Storms",
-    "enUS": "of Storms"
-  },
-  {
-    "Key": "of Passion",
-    "enUS": "of Passion"
-  },
-  {
-    "Key": "of Incineration",
-    "enUS": "of Incineration"
-  },
-  {
-    "Key": "of Frigidity",
-    "enUS": "of Frigidity"
-  },
-  {
-    "Key": "of Winter",
-    "enUS": "of Winter"
-  },
-  {
-    "Key": "of the Icicle",
-    "enUS": "of the Icicle"
-  },
-  {
-    "Key": "of Fervor",
-    "enUS": "of Fervor"
-  },
-  {
-    "Key": "of Malice",
-    "enUS": "of Malice"
-  },
-  {
-    "Key": "of Swords",
-    "enUS": "of Swords"
-  },
-  {
-    "Key": "of Razors",
-    "enUS": "of Razors"
-  },
-  {
-    "Key": "of Desire",
-    "enUS": "of Desire"
-  },
-  {
-    "Key": "of the Sirocco",
-    "enUS": "of the Scirocco"
-  },
-  {
-    "Key": "of the Dunes",
-    "enUS": "of the Dunes"
-  },
-  {
-    "Key": "of Thawing",
-    "enUS": "of Thawing"
-  },
-  {
-    "Key": "Of the Choir",
-    "enUS": "Of the Choir"
-  },
-  {
-    "Key": "Of the Sniper",
-    "enUS": "Of the Sniper"
-  },
-  {
-    "Key": "Of the Stiletto",
-    "enUS": "Of the Stiletto"
-  },
-  {
-    "Key": "Of Bile",
-    "enUS": "of Bile"
-  },
-  {
-    "Key": "Of Blitzen",
-    "enUS": "of Blitzen"
-  },
-  {
-    "Key": "Of Cremation",
-    "enUS": "of Cremation"
-  },
-  {
-    "Key": "Of Darkness",
-    "enUS": "of Darkness"
-  },
-  {
-    "Key": "Of Disease",
-    "enUS": "of Disease"
-  },
-  {
-    "Key": "Of Remorse",
-    "enUS": "of Remorse"
-  },
-  {
-    "Key": "Of Terror",
-    "enUS": "of Terror"
-  },
-  {
-    "Key": "Of the Sky",
-    "enUS": "of the Sky"
-  },
-  {
-    "Key": "Of Valhalla",
-    "enUS": "of Valhalla"
-  },
-  {
-    "Key": "Of Waste",
-    "enUS": "of Waste"
-  },
-  {
-    "Key": "Of Nobility",
-    "enUS": "of Nobility"
-  },
-  {
-    "Key": "Of Karma",
-    "enUS": "of Karma"
-  },
-  {
-    "Key": "Of Grounding",
-    "enUS": "of Grounding"
-  },
-  {
-    "Key": "Of the River",
-    "enUS": "of the River"
-  },
-  {
-    "Key": "Of the Lake",
-    "enUS": "of the Lake"
-  },
-  {
-    "Key": "Of the Ocean",
-    "enUS": "of the Ocean"
-  },
-  {
-    "Key": "Of the Bayou",
-    "enUS": "of the Bayou"
-  },
-  {
-    "Key": "Of the Stream",
-    "enUS": "of the Stream"
-  },
-  {
-    "Key": "Of the Lady",
-    "enUS": "of the Lady"
-  },
-  {
-    "Key": "Of the Maiden",
-    "enUS": "Of the Maiden"
-  },
-  {
-    "Key": "Of the Virgin",
-    "enUS": "of the Virgin"
-  },
-  {
-    "Key": "Of the Hag",
-    "enUS": "of the Hag"
-  },
-  {
-    "Key": "Of the Witch",
-    "enUS": "of the Witch"
-  },
-  {
-    "Key": "Of Judgement",
-    "enUS": "of Judgement"
-  },
-  {
-    "Key": "Of Illusion",
-    "enUS": "of Illusion"
-  },
-  {
-    "Key": "Of Elusion",
-    "enUS": "of Eluding"
-  },
-  {
-    "Key": "Of Combat",
-    "enUS": "of Combat"
-  },
-  {
-    "Key": "Of Attrition",
-    "enUS": "of Attrition"
-  },
-  {
-    "Key": "Of Abrasion",
-    "enUS": "of Abrasion"
-  },
-  {
-    "Key": "Of Erosion",
-    "enUS": "of Erosion"
-  },
-  {
-    "Key": "Of Searing",
-    "enUS": "of Searing"
-  },
-  {
-    "Key": "Of Stone",
-    "enUS": "of Stone"
-  },
-  {
-    "Key": "Of Stature",
-    "enUS": "of Stature"
-  },
-  {
-    "Key": "Of Fortication",
-    "enUS": "of Fortification"
-  },
-  {
-    "Key": "Of Quickening",
-    "enUS": "of Quickening"
-  },
-  {
-    "Key": "Of Dispatch",
-    "enUS": "of Dispatch"
-  },
-  {
-    "Key": "Of Daring",
-    "enUS": "of Daring"
-  },
-  {
-    "Key": "Of Dread",
-    "enUS": "of Dread"
-  },
-  {
-    "Key": "Of Suffering",
-    "enUS": "of Suffering"
-  },
-  {
-    "Key": "Of Doom",
-    "enUS": "of Doom"
-  },
-  {
-    "Key": "Of Vengence",
-    "enUS": "of Vengence"
-  },
-  {
-    "Key": "Of Redemption",
-    "enUS": "of Redemption"
-  },
-  {
-    "Key": "Of Luck",
-    "enUS": "of Luck"
-  },
-  {
-    "Key": "Of the Avenger",
-    "enUS": "of the Avenger"
-  },
-  {
-    "Key": "Of the Specter",
-    "enUS": "of the Specter"
-  },
-  {
-    "Key": "Of the Ghost",
-    "enUS": "of the Ghost"
-  },
-  {
-    "Key": "Of the Infantry",
-    "enUS": "of the Infantry"
-  },
-  {
-    "Key": "Of the Mosquito",
-    "enUS": "of the Mosquito"
-  },
-  {
-    "Key": "Of the Gnat",
-    "enUS": "of the Gnat"
-  },
-  {
-    "Key": "Of the Fly",
-    "enUS": "of the Fly"
-  },
-  {
-    "Key": "Of the Plague",
-    "enUS": "of the Plague"
-  },
-  {
-    "Key": "Of Twilight",
-    "enUS": "of Twilight"
-  },
-  {
-    "Key": "Of Dusk",
-    "enUS": "of Dusk"
-  },
-  {
-    "Key": "Of Dawn",
-    "enUS": "of Dawn"
-  },
-  {
-    "Key": "Of the Imbecile",
-    "enUS": "of the Imbecile"
-  },
-  {
-    "Key": "Of the Idiot",
-    "enUS": "of the Idiot"
-  },
-  {
-    "Key": "Of the Retard",
-    "enUS": "of the Moron"
-  },
-  {
-    "Key": "Of the Jujube",
-    "enUS": "of the Jujube"
-  },
-  {
-    "Key": "Of the Obscenity",
-    "enUS": "of the Obscene"
-  },
-  {
-    "Key": "Of Quota",
-    "enUS": "of the Quota"
-  },
-  {
-    "Key": "Of the Maggot",
-    "enUS": "of Maggots"
-  },
-  {
-    "Key": "Of Horror",
-    "enUS": "of Horror"
-  },
-  {
-    "Key": "Of Baddass",
-    "enUS": "of the Abyss"
-  },
-  {
-    "Key": "Of the Beast",
-    "enUS": "of the Beast"
-  },
-  {
-    "Key": "Of Cruelty",
-    "enUS": "of Cruelty"
-  },
-  {
-    "Key": "Of Badness",
-    "enUS": "of Badness"
-  },
-  {
-    "Key": "Of the Horde",
-    "enUS": "of the Horde"
-  },
-  {
-    "Key": "Of the Forest",
-    "enUS": "of the Forest"
-  },
-  {
-    "Key": "Of the Lilly",
-    "enUS": "of the Lilly"
-  },
-  {
-    "Key": "Of the Grassy Gnoll",
-    "enUS": "of the Grassy Gnoll"
-  },
-  {
-    "Key": "Of the Stars",
-    "enUS": "of the Stars"
-  },
-  {
-    "Key": "Of the Moon",
-    "enUS": "of the Moon"
-  },
-  {
-    "Key": "Of Love",
-    "enUS": "of Love"
-  },
-  {
-    "Key": "Of the Unicorn",
-    "enUS": "of the Unicorn"
-  },
-  {
-    "Key": "Of the Walrus",
-    "enUS": "of the Walrus"
-  },
-  {
-    "Key": "Of the Earth",
-    "enUS": "of the Earth"
-  },
-  {
-    "Key": "Of Vines",
-    "enUS": "of Vines"
-  },
-  {
-    "Key": "Of Honor",
-    "enUS": "of Honor"
-  },
-  {
-    "Key": "Of Tribute",
-    "enUS": "of Tribute"
-  },
-  {
-    "Key": "Of Credit",
-    "enUS": "of Credit"
-  },
-  {
-    "Key": "Of Admiration",
-    "enUS": "of Admiration"
-  },
-  {
-    "Key": "Of Sweetness",
-    "enUS": "of Sweetness"
-  },
-  {
-    "Key": "Of Beauty",
-    "enUS": "of Beauty"
-  },
-  {
-    "Key": "Of Pilfering",
-    "enUS": "of Pilfering"
-  },
-  {
-    "Key": "of Damage Amplification",
-    "enUS": "of Amplify Damage"
-  },
-  {
-    "Key": "of Hurricane",
-    "enUS": "of Hurricane"
-  },
-  {
-    "Key": "of Armageddon",
-    "enUS": "of Armageddon"
-  },
-  {
-    "Key": "of Tornado",
-    "enUS": "of Tornado"
-  },
-  {
-    "Key": "of Volcano",
-    "enUS": "of Volcano"
-  },
-  {
-    "Key": "of Twister",
-    "enUS": "of Twister"
-  },
-  {
-    "Key": "of Cyclone Armor",
-    "enUS": "of Cyclone Armor"
-  },
-  {
-    "Key": "of Eruption",
-    "enUS": "of Fissure"
-  },
-  {
-    "Key": "of Molten Boulders",
-    "enUS": "of Molten Boulder"
-  },
-  {
-    "Key": "of Firestorms",
-    "enUS": "of Firestorms"
-  },
-  {
-    "Key": "of Battle Command",
-    "enUS": "of Battle Command"
-  },
-  {
-    "Key": "of War Cry",
-    "enUS": "of War Cry"
-  },
-  {
-    "Key": "of Grim Ward",
-    "enUS": "of Grim Ward"
-  },
-  {
-    "Key": "of Battle Orders",
-    "enUS": "of Battle Orders"
-  },
-  {
-    "Key": "of Battle Cry",
-    "enUS": "of Battle Cry"
-  },
-  {
-    "Key": "of Concentration",
-    "enUS": "of Concentration"
-  },
-  {
-    "Key": "of Item Finding",
-    "enUS": "of Find Item"
-  },
-  {
-    "Key": "of Stunning",
-    "enUS": "of Stun"
-  },
-  {
-    "Key": "of Shouting",
-    "enUS": "of Shout"
-  },
-  {
-    "Key": "of Taunting",
-    "enUS": "of Taunt"
-  },
-  {
-    "Key": "of Potion Finding",
-    "enUS": "of Find Potion"
-  },
-  {
-    "Key": "of Howling",
-    "enUS": "of Howl"
-  },
-  {
-    "Key": "of Fist of the Heavens",
-    "enUS": "of Fist of the Heavens"
-  },
-  {
-    "Key": "of Holy Shield",
-    "enUS": "of Holy Shield"
-  },
-  {
-    "Key": "of Conversion",
-    "enUS": "of Conversion"
-  },
-  {
-    "Key": "of Blessed Hammers",
-    "enUS": "of Blessed Hammer"
-  },
-  {
-    "Key": "of Vengeance",
-    "enUS": "of Vengeance"
-  },
-  {
-    "Key": "of Charging",
-    "enUS": "of Charge"
-  },
-  {
-    "Key": "of Zeal",
-    "enUS": "of Zeal"
-  },
-  {
-    "Key": "of Holy Bolts",
-    "enUS": "of Holy Bolt"
-  },
-  {
-    "Key": "of Sacrifice",
-    "enUS": "of Sacrifice"
-  },
-  {
-    "Key": "of Fire Golem Summoning",
-    "enUS": "of Fire Golem"
-  },
-  {
-    "Key": "of Bone Spirits",
-    "enUS": "of Bone Spirit"
-  },
-  {
-    "Key": "of Poison Novas",
-    "enUS": "of Poison Nova"
-  },
-  {
-    "Key": "of Lower Resistance",
-    "enUS": "of Lower Resistance"
-  },
-  {
-    "Key": "of Iron Golem Creation",
-    "enUS": "of Iron Golem"
-  },
-  {
-    "Key": "of Bone Imprisonment",
-    "enUS": "of Bone Prison"
-  },
-  {
-    "Key": "of Decrepification",
-    "enUS": "of Decrepify"
-  },
-  {
-    "Key": "of Attraction",
-    "enUS": "of Attract"
-  },
-  {
-    "Key": "of Blood Golem Summoning",
-    "enUS": "of Blood Golem"
-  },
-  {
-    "Key": "of Bone Spears",
-    "enUS": "of Bone Spear"
-  },
-  {
-    "Key": "of Poison Explosion",
-    "enUS": "of Poison Explosion"
-  },
-  {
-    "Key": "of Life Tap",
-    "enUS": "of Life Tap"
-  },
-  {
-    "Key": "of Confusion",
-    "enUS": "of Confusion"
-  },
-  {
-    "Key": "of Raise Skeletal Mages",
-    "enUS": "of Skeletal Mages"
-  },
-  {
-    "Key": "of Bone Walls",
-    "enUS": "of Bone Wall"
-  },
-  {
-    "Key": "of Terror",
-    "enUS": "of Terror"
-  },
-  {
-    "Key": "of Iron Maiden",
-    "enUS": "of Iron Maiden"
-  },
-  {
-    "Key": "of Clay Golem Summoning",
-    "enUS": "of Clay Golem"
-  },
-  {
-    "Key": "of Corpse Explosions",
-    "enUS": "of Corpse Explosion"
-  },
-  {
-    "Key": "of Poison Dagger",
-    "enUS": "of Poison Dagger"
-  },
-  {
-    "Key": "of Weaken",
-    "enUS": "of Weaken"
-  },
-  {
-    "Key": "of Dim Vision",
-    "enUS": "of Dim Vision"
-  },
-  {
-    "Key": "of Raise Skeletons",
-    "enUS": "of Raise Skeleton"
-  },
-  {
-    "Key": "of Bone Armor",
-    "enUS": "of Bone Armor"
-  },
-  {
-    "Key": "of Teeth",
-    "enUS": "of Teeth"
-  },
-  {
-    "Key": "of Amplify Damage",
-    "enUS": "of Amplify Damage"
-  },
-  {
-    "Key": "of Frozen Orbs",
-    "enUS": "of Frozen Orb"
-  },
-  {
-    "Key": "of Hydras",
-    "enUS": "of Hydra"
-  },
-  {
-    "Key": "of Blizzards",
-    "enUS": "of Blizzard"
-  },
-  {
-    "Key": "of Meteors",
-    "enUS": "of Meteor"
-  },
-  {
-    "Key": "of Glacial Spikes",
-    "enUS": "of Glacial Spike"
-  },
-  {
-    "Key": "of Teleportation",
-    "enUS": "of Teleportation"
-  },
-  {
-    "Key": "of Enchantment",
-    "enUS": "of Enchantment"
-  },
-  {
-    "Key": "of Fire Walls",
-    "enUS": "of Fire Wall"
-  },
-  {
-    "Key": "of Novas",
-    "enUS": "of Nova"
-  },
-  {
-    "Key": "of Fire Balls",
-    "enUS": "of Fire Ball"
-  },
-  {
-    "Key": "of Blazing",
-    "enUS": "of Blazing"
-  },
-  {
-    "Key": "of Ice Blasts",
-    "enUS": "of Ice Blast"
-  },
-  {
-    "Key": "of Frost Novas",
-    "enUS": "of Frost Nova"
-  },
-  {
-    "Key": "of Ice Bolts",
-    "enUS": "of Ice Bolt"
-  },
-  {
-    "Key": "of Charged Bolts",
-    "enUS": "of Charged Bolt"
-  },
-  {
-    "Key": "of Fire Bolts",
-    "enUS": "of Fire Bolt"
-  },
-  {
-    "Key": "of Lightning Fury",
-    "enUS": "of Lightning Fury"
-  },
-  {
-    "Key": "of Lightning Spear",
-    "enUS": "of Lightning Spear"
-  },
-  {
-    "Key": "of Freezing Arrows",
-    "enUS": "of Freezing Arrow"
-  },
-  {
-    "Key": "of Fending",
-    "enUS": "of Fending"
-  },
-  {
-    "Key": "of Immolating Arrows",
-    "enUS": "of Immolating Arrow"
-  },
-  {
-    "Key": "of Plague Javelin",
-    "enUS": "of Plague Javelin"
-  },
-  {
-    "Key": "of Charged Spear",
-    "enUS": "of Charged Spear"
-  },
-  {
-    "Key": "of Guided Arrows",
-    "enUS": "of Guided Arrow"
-  },
-  {
-    "Key": "of Ice Arrows",
-    "enUS": "of Ice Arrow"
-  },
-  {
-    "Key": "of Lightning Javelin",
-    "enUS": "of Lightning Javelin"
-  },
-  {
-    "Key": "of Impaling Spear",
-    "enUS": "of Impaling Spear"
-  },
-  {
-    "Key": "of Slow Missiles",
-    "enUS": "of Slow Missile"
-  },
-  {
-    "Key": "of Exploding Arrows",
-    "enUS": "of Exploding Arrow"
-  },
-  {
-    "Key": "of Poison Javelin",
-    "enUS": "of Poison Javelin"
-  },
-  {
-    "Key": "of Power Spear",
-    "enUS": "of Power Spear"
-  },
-  {
-    "Key": "of Multiple Shot",
-    "enUS": "of Multiple Shot"
-  },
-  {
-    "Key": "of Cold Arrows",
-    "enUS": "of Cold Arrow"
-  },
-  {
-    "Key": "of Jabbing",
-    "enUS": "of Jab"
-  },
-  {
-    "Key": "of Inner Sight",
-    "enUS": "of Inner Sight"
-  },
-  {
-    "Key": "of Fire Arrows",
-    "enUS": "of Fire Arrow"
-  },
-  {
-    "Key": "of Magic Arrows",
-    "enUS": "of Magic Arrow"
-  },
-  {
-    "Key": "Of self-repair",
-    "enUS": "Self-Repair"
-  },
-  {
-    "Key": "of Dawn",
-    "enUS": "of Dawn"
-  },
-  {
-    "Key": "of Inertia",
-    "enUS": "of Inertia"
-  },
-  {
-    "Key": "of Joyfulness",
-    "enUS": "of Joyfulness"
-  },
-  {
-    "Key": "of Lightning Strike",
-    "enUS": "of Lightning Strike"
-  },
-  {
-    "Key": "of Plague Jab",
-    "enUS": "of Plague Jab"
-  },
-  {
-    "Key": "of Charged Strike",
-    "enUS": "of Charged Strike"
-  },
-  {
-    "Key": "of Impaling Strike",
-    "enUS": "of Impaling Strike"
-  },
-  {
-    "Key": "of Poison Jab",
-    "enUS": "of Poison Jab"
-  },
-  {
-    "Key": "of Power Strike",
-    "enUS": "of Power Strike"
-  },
-  {
-    "Key": "of the Colossus",
-    "enUS": "of the Gargantuan"
-  },
-  {
-    "Key": "of the Kraken",
-    "enUS": "of the Centaur"
-  },
-  {
-    "Key": "of the Plague",
-    "enUS": "of the Plague"
-  },
-  {
-    "Key": "UiShadowUI",
-    "enUS": "Shadow"
-  },
-  {
-    "Key": "Ghostly",
-    "enUS": "Ghostly"
-  },
-  {
-    "Key": "Fanatic",
-    "enUS": "Fanatic"
-  },
-  {
-    "Key": "Possessed",
-    "enUS": "Possessed"
-  },
-  {
-    "Key": "Berserk",
-    "enUS": "Berserker"
-  },
-  {
-    "Key": "Virulent",
-    "enUS": "Virulent"
-  },
-  {
-    "Key": "of Acidity",
-    "enUS": "of Acidity"
-  },
-  {
-    "Key": "Incendiary",
-    "enUS": "Incendiary"
-  },
-  {
-    "Key": "of Kindling",
-    "enUS": "of Kindling"
-  },
-  {
-    "Key": "Gelid",
-    "enUS": "Gelid"
-  },
-  {
-    "Key": "of Numbing",
-    "enUS": "of Numbing"
-  },
-  {
-    "Key": "Magnetic",
-    "enUS": "Magnetic"
-  },
-  {
-    "Key": "of Conductivity",
-    "enUS": "of Conductivity"
-  },
-  {
-    "Key": "Mystical",
-    "enUS": "Mystical"
-  },
-  {
-    "Key": "of Thaumaturgy",
-    "enUS": "of Thaumaturgy"
-  },
-  {
-    "Key": "Breaching",
-    "enUS": "Breaching"
-  },
-  {
-    "Key": "of Force",
-    "enUS": "of Force"
-  },
-  {
-    "Key": "Sullied",
-    "enUS": "Sullied"
-  },
-  {
-    "Key": "Fiendish",
-    "enUS": "Fiendish"
-  },
-  {
-    "Key": "Erratic",
-    "enUS": "Erratic"
-  },
-  {
-    "Key": "Torrid",
-    "enUS": "Torrid"
-  },
-  {
-    "Key": "TaintedAffix",
-    "enUS": "Tainted"
-  },
-  {
-    "Key": "Forbidden",
-    "enUS": "Forbidden"
-  },
-  {
-    "Key": "Dreadful",
-    "enUS": "Dreadful"
-  },
-  {
-    "Key": "Malevolent",
-    "enUS": "Malevolent"
-  },
-  {
-    "Key": "of Miasma Bolt",
-    "enUS": "of Miasma Bolt"
-  },
-  {
-    "Key": "of Lethargy",
-    "enUS": "of Lethargy"
-  },
-  {
-    "Key": "of Rancor",
-    "enUS": "of Rancor"
-  },
-  {
-    "Key": "of Apocalypse",
-    "enUS": "of Apocalypse"
-  },
-  {
-    "Key": "Devil's",
-    "enUS": "Devil's"
-  },
-  {
-    "Key": "Arch-Devil's",
-    "enUS": "Arch-Devil's"
-  }
+[
+    {
+        "Key": "Low Quality",
+        "enUS": "Low Quality"
+    },
+    {
+        "Key": "Damaged",
+        "enUS": "Damaged"
+    },
+    {
+        "Key": "Cracked",
+        "enUS": "Cracked"
+    },
+    {
+        "Key": "Hiquality",
+        "enUS": "Superior"
+    },
+    {
+        "Key": "Gemmed",
+        "enUS": "Gemmed"
+    },
+    {
+        "Key": "Resiliant",
+        "enUS": "Resilient"
+    },
+    {
+        "Key": "Sturdy",
+        "enUS": "Sturdy"
+    },
+    {
+        "Key": "Strong",
+        "enUS": "Strong"
+    },
+    {
+        "Key": "Glorious",
+        "enUS": "Glorious"
+    },
+    {
+        "Key": "Blessed",
+        "enUS": "Blessed"
+    },
+    {
+        "Key": "Saintly",
+        "enUS": "Saintly"
+    },
+    {
+        "Key": "Holy",
+        "enUS": "Holy"
+    },
+    {
+        "Key": "Devious",
+        "enUS": "Devious"
+    },
+    {
+        "Key": "Fortified",
+        "enUS": "Fortified"
+    },
+    {
+        "Key": "Urgent",
+        "enUS": "Urgent"
+    },
+    {
+        "Key": "Fleet",
+        "enUS": "Fleet"
+    },
+    {
+        "Key": "Muscular",
+        "enUS": "Muscular"
+    },
+    {
+        "Key": "Jagged",
+        "enUS": "Jagged"
+    },
+    {
+        "Key": "Deadly",
+        "enUS": "Deadly"
+    },
+    {
+        "Key": "Vicious",
+        "enUS": "Vicious"
+    },
+    {
+        "Key": "Brutal",
+        "enUS": "Brutal"
+    },
+    {
+        "Key": "Massive",
+        "enUS": "Massive"
+    },
+    {
+        "Key": "Savage",
+        "enUS": "Savage"
+    },
+    {
+        "Key": "Merciless",
+        "enUS": "Merciless"
+    },
+    {
+        "Key": "Vulpine",
+        "enUS": "Vulpine"
+    },
+    {
+        "Key": "Swift",
+        "enUS": "Swift"
+    },
+    {
+        "Key": "Artful",
+        "enUS": "Artful"
+    },
+    {
+        "Key": "Adroit",
+        "enUS": "Adroit"
+    },
+    {
+        "Key": "Tireless",
+        "enUS": "Tireless"
+    },
+    {
+        "Key": "Rugged",
+        "enUS": "Rugged"
+    },
+    {
+        "Key": "Bronze",
+        "enUS": "Bronze"
+    },
+    {
+        "Key": "Iron",
+        "enUS": "Iron"
+    },
+    {
+        "Key": "Steel",
+        "enUS": "Steel"
+    },
+    {
+        "Key": "Silver",
+        "enUS": "Silver"
+    },
+    {
+        "Key": "Gold",
+        "enUS": "Gold"
+    },
+    {
+        "Key": "Platinum",
+        "enUS": "Platinum"
+    },
+    {
+        "Key": "Meteoric",
+        "enUS": "Meteoric"
+    },
+    {
+        "Key": "Sharp",
+        "enUS": "Sharp"
+    },
+    {
+        "Key": "Fine",
+        "enUS": "Fine"
+    },
+    {
+        "Key": "Warrior's",
+        "enUS": "Warrior's"
+    },
+    {
+        "Key": "Soldier's",
+        "enUS": "Soldier's"
+    },
+    {
+        "Key": "Knight's",
+        "enUS": "Knight's"
+    },
+    {
+        "Key": "Lord's",
+        "enUS": "Lord's"
+    },
+    {
+        "Key": "King's",
+        "enUS": "King's"
+    },
+    {
+        "Key": "Howling",
+        "enUS": "Howling"
+    },
+    {
+        "Key": "Fortuitous",
+        "enUS": "Fortuitous"
+    },
+    {
+        "Key": "Brilliant",
+        "enUS": "Brilliant"
+    },
+    {
+        "Key": "Omniscient",
+        "enUS": "Omniscient"
+    },
+    {
+        "Key": "Sage",
+        "enUS": "Sage"
+    },
+    {
+        "Key": "Shrewd",
+        "enUS": "Shrewd"
+    },
+    {
+        "Key": "Vivid",
+        "enUS": "Vivid"
+    },
+    {
+        "Key": "Glimmering",
+        "enUS": "Glimmering"
+    },
+    {
+        "Key": "Glowing",
+        "enUS": "Glowing"
+    },
+    {
+        "Key": "Bright",
+        "enUS": "Bright"
+    },
+    {
+        "Key": "Solar",
+        "enUS": "Solar"
+    },
+    {
+        "Key": "Lizard's",
+        "enUS": "Lizard's"
+    },
+    {
+        "Key": "Forceful",
+        "enUS": "Forceful"
+    },
+    {
+        "Key": "Snake's",
+        "enUS": "Snake's"
+    },
+    {
+        "Key": "Serpent's",
+        "enUS": "Serpent's"
+    },
+    {
+        "Key": "Drake's",
+        "enUS": "Drake's"
+    },
+    {
+        "Key": "Dragon's",
+        "enUS": "Dragon's"
+    },
+    {
+        "Key": "Wyrm's",
+        "enUS": "Wyrm's"
+    },
+    {
+        "Key": "Dazzling",
+        "enUS": "Dazzling"
+    },
+    {
+        "Key": "Facinating",
+        "enUS": "Fascinating"
+    },
+    {
+        "Key": "Prismatic",
+        "enUS": "Prismatic"
+    },
+    {
+        "Key": "Azure",
+        "enUS": "Azure"
+    },
+    {
+        "Key": "Lapis",
+        "enUS": "Lapis"
+    },
+    {
+        "Key": "Cobalt",
+        "enUS": "Cobalt"
+    },
+    {
+        "Key": "Indigo",
+        "enUS": "Indigo"
+    },
+    {
+        "Key": "Sapphire",
+        "enUS": "Sapphire"
+    },
+    {
+        "Key": "Cerulean",
+        "enUS": "Cerulean"
+    },
+    {
+        "Key": "Red",
+        "enUS": "Red"
+    },
+    {
+        "Key": "Crimson",
+        "enUS": "Crimson"
+    },
+    {
+        "Key": "Burgundy",
+        "enUS": "Burgundy"
+    },
+    {
+        "Key": "Garnet",
+        "enUS": "Garnet"
+    },
+    {
+        "Key": "Russet",
+        "enUS": "Russet"
+    },
+    {
+        "Key": "Ruby",
+        "enUS": "Ruby"
+    },
+    {
+        "Key": "Vermilion",
+        "enUS": "Vermilion"
+    },
+    {
+        "Key": "Orange",
+        "enUS": "Orange"
+    },
+    {
+        "Key": "Ocher",
+        "enUS": "Ocher"
+    },
+    {
+        "Key": "Tangerine",
+        "enUS": "Tangerine"
+    },
+    {
+        "Key": "Coral",
+        "enUS": "Coral"
+    },
+    {
+        "Key": "Crackling",
+        "enUS": "Crackling"
+    },
+    {
+        "Key": "Amber",
+        "enUS": "Amber"
+    },
+    {
+        "Key": "Forked",
+        "enUS": "Forked"
+    },
+    {
+        "Key": "Beryl",
+        "enUS": "Beryl"
+    },
+    {
+        "Key": "Jade",
+        "enUS": "Jade"
+    },
+    {
+        "Key": "Viridian",
+        "enUS": "Viridian"
+    },
+    {
+        "Key": "Vital",
+        "enUS": "Vital"
+    },
+    {
+        "Key": "Emerald",
+        "enUS": "Emerald"
+    },
+    {
+        "Key": "Enduring",
+        "enUS": "Enduring"
+    },
+    {
+        "Key": "Fletcher's",
+        "enUS": "Fletcher's"
+    },
+    {
+        "Key": "Archer's",
+        "enUS": "Archer's"
+    },
+    {
+        "Key": "Monk's",
+        "enUS": "Monk's"
+    },
+    {
+        "Key": "Priest's",
+        "enUS": "Priest's"
+    },
+    {
+        "Key": "Summoner's",
+        "enUS": "Summoner's"
+    },
+    {
+        "Key": "Necromancer's",
+        "enUS": "Necromancer's"
+    },
+    {
+        "Key": "Angel's",
+        "enUS": "Angel's"
+    },
+    {
+        "Key": "Arch-Angel's",
+        "enUS": "Arch-Angel's"
+    },
+    {
+        "Key": "Slayer's",
+        "enUS": "Slayer's"
+    },
+    {
+        "Key": "Berserker's",
+        "enUS": "Berserker's"
+    },
+    {
+        "Key": "Kicking",
+        "enUS": "Kicking"
+    },
+    {
+        "Key": "Triumphant",
+        "enUS": "Triumphant"
+    },
+    {
+        "Key": "Mighty",
+        "enUS": "Mighty"
+    },
+    {
+        "Key": "Energizing",
+        "enUS": "Energizing"
+    },
+    {
+        "Key": "Empowering",
+        "enUS": "Empowering"
+    },
+    {
+        "Key": "Brisk",
+        "enUS": "Brisk"
+    },
+    {
+        "Key": "Tough",
+        "enUS": "Tough"
+    },
+    {
+        "Key": "Hardy",
+        "enUS": "Hardy"
+    },
+    {
+        "Key": "Robust",
+        "enUS": "Robust"
+    },
+    {
+        "Key": "of Health",
+        "enUS": "of Health"
+    },
+    {
+        "Key": "of Protection",
+        "enUS": "of Protection"
+    },
+    {
+        "Key": "of Absorption",
+        "enUS": "of Absorption"
+    },
+    {
+        "Key": "of Warding",
+        "enUS": "of Warding"
+    },
+    {
+        "Key": "of the Sentinel",
+        "enUS": "of the Sentinel"
+    },
+    {
+        "Key": "of Guarding",
+        "enUS": "of Guarding"
+    },
+    {
+        "Key": "of Negation",
+        "enUS": "of Negation"
+    },
+    {
+        "Key": "of Piercing",
+        "enUS": "of Piercing"
+    },
+    {
+        "Key": "of Bashing",
+        "enUS": "of Bashing"
+    },
+    {
+        "Key": "of Puncturing",
+        "enUS": "of Puncturing"
+    },
+    {
+        "Key": "of Thorns",
+        "enUS": "of Thorns"
+    },
+    {
+        "Key": "of Spikes",
+        "enUS": "of Spikes"
+    },
+    {
+        "Key": "of Readiness",
+        "enUS": "of Readiness"
+    },
+    {
+        "Key": "of Alacrity",
+        "enUS": "of Alacrity"
+    },
+    {
+        "Key": "of Swiftness",
+        "enUS": "of Swiftness"
+    },
+    {
+        "Key": "of Quickness",
+        "enUS": "of Quickness"
+    },
+    {
+        "Key": "of Blocking",
+        "enUS": "of Blocking"
+    },
+    {
+        "Key": "of Deflecting",
+        "enUS": "of Deflecting"
+    },
+    {
+        "Key": "of the Apprentice",
+        "enUS": "of the Apprentice"
+    },
+    {
+        "Key": "of the Magus",
+        "enUS": "of the Magus"
+    },
+    {
+        "Key": "of Frost",
+        "enUS": "of Frost"
+    },
+    {
+        "Key": "of the Glacier",
+        "enUS": "of the Glacier"
+    },
+    {
+        "Key": "of Warmth",
+        "enUS": "of Thawing"
+    },
+    {
+        "Key": "of Flame",
+        "enUS": "of Flame"
+    },
+    {
+        "Key": "of Fire",
+        "enUS": "of Fire"
+    },
+    {
+        "Key": "of Burning",
+        "enUS": "of Burning"
+    },
+    {
+        "Key": "of Shock",
+        "enUS": "of Shock"
+    },
+    {
+        "Key": "of Lightning",
+        "enUS": "of Lightning"
+    },
+    {
+        "Key": "of Thunder",
+        "enUS": "of Thunder"
+    },
+    {
+        "Key": "of Craftsmanship",
+        "enUS": "of Craftmanship"
+    },
+    {
+        "Key": "of Quality",
+        "enUS": "of Quality"
+    },
+    {
+        "Key": "of Maiming",
+        "enUS": "of Maiming"
+    },
+    {
+        "Key": "of Slaying",
+        "enUS": "of Slaying"
+    },
+    {
+        "Key": "of Gore",
+        "enUS": "of Gore"
+    },
+    {
+        "Key": "of Carnage",
+        "enUS": "of Carnage"
+    },
+    {
+        "Key": "of Slaughter",
+        "enUS": "of Slaughter"
+    },
+    {
+        "Key": "of Worth",
+        "enUS": "of Worth"
+    },
+    {
+        "Key": "of Measure",
+        "enUS": "of Measure"
+    },
+    {
+        "Key": "of Excellence",
+        "enUS": "of Excellence"
+    },
+    {
+        "Key": "of Performance",
+        "enUS": "of Performance"
+    },
+    {
+        "Key": "of Blight",
+        "enUS": "of Blight"
+    },
+    {
+        "Key": "of Venom",
+        "enUS": "of Venom"
+    },
+    {
+        "Key": "of Pestilence",
+        "enUS": "of Pestilence"
+    },
+    {
+        "Key": "of Dexterity",
+        "enUS": "of Dexterity"
+    },
+    {
+        "Key": "of Skill",
+        "enUS": "of Skill"
+    },
+    {
+        "Key": "of Accuracy",
+        "enUS": "of Accuracy"
+    },
+    {
+        "Key": "of Precision",
+        "enUS": "of Precision"
+    },
+    {
+        "Key": "of Perfection",
+        "enUS": "of Perfection"
+    },
+    {
+        "Key": "of Balance",
+        "enUS": "of Balance"
+    },
+    {
+        "Key": "of Stability",
+        "enUS": "of Stability"
+    },
+    {
+        "Key": "of the Horse",
+        "enUS": "of the Horse"
+    },
+    {
+        "Key": "of Regeneration",
+        "enUS": "of Regeneration"
+    },
+    {
+        "Key": "of Regrowth",
+        "enUS": "of Regrowth"
+    },
+    {
+        "Key": "of Vileness",
+        "enUS": "of Vileness"
+    },
+    {
+        "Key": "of Greed",
+        "enUS": "of Greed"
+    },
+    {
+        "Key": "of Wealth",
+        "enUS": "of Wealth"
+    },
+    {
+        "Key": "of Chance",
+        "enUS": "of Chance"
+    },
+    {
+        "Key": "of Fortune",
+        "enUS": "of Fortune"
+    },
+    {
+        "Key": "of Energy",
+        "enUS": "of Energy"
+    },
+    {
+        "Key": "of the Mind",
+        "enUS": "of the Mind"
+    },
+    {
+        "Key": "of Brilliance",
+        "enUS": "of Brilliance"
+    },
+    {
+        "Key": "of Sorcery",
+        "enUS": "of Sorcery"
+    },
+    {
+        "Key": "of Wizardry",
+        "enUS": "of Wizardry"
+    },
+    {
+        "Key": "of the Bear",
+        "enUS": "of the Bear"
+    },
+    {
+        "Key": "of Light",
+        "enUS": "of Light"
+    },
+    {
+        "Key": "of Radiance",
+        "enUS": "of Radiance"
+    },
+    {
+        "Key": "of the Sun",
+        "enUS": "of the Sun"
+    },
+    {
+        "Key": "of Life",
+        "enUS": "of Life"
+    },
+    {
+        "Key": "of the Jackal",
+        "enUS": "of the Jackal"
+    },
+    {
+        "Key": "of the Fox",
+        "enUS": "of the Fox"
+    },
+    {
+        "Key": "of the Wolf",
+        "enUS": "of the Wolf"
+    },
+    {
+        "Key": "of the Tiger",
+        "enUS": "of the Tiger"
+    },
+    {
+        "Key": "of the Mammoth",
+        "enUS": "of the Mammoth"
+    },
+    {
+        "Key": "of the Colosuss",
+        "enUS": "of the Colossus"
+    },
+    {
+        "Key": "of the Leech",
+        "enUS": "of the Leech"
+    },
+    {
+        "Key": "of the Locust",
+        "enUS": "of the Locust"
+    },
+    {
+        "Key": "of the Bat",
+        "enUS": "of the Bat"
+    },
+    {
+        "Key": "of the Vampire",
+        "enUS": "of the Vampire"
+    },
+    {
+        "Key": "of Defiance",
+        "enUS": "of Defiance"
+    },
+    {
+        "Key": "of Remedy",
+        "enUS": "of Remedy"
+    },
+    {
+        "Key": "of Amelioration",
+        "enUS": "of Amelioration"
+    },
+    {
+        "Key": "of Ice",
+        "enUS": "of Ice"
+    },
+    {
+        "Key": "of Simplicity",
+        "enUS": "of Simplicity"
+    },
+    {
+        "Key": "of Ease",
+        "enUS": "of Ease"
+    },
+    {
+        "Key": "of the Mule",
+        "enUS": "of the Mule"
+    },
+    {
+        "Key": "of Strength",
+        "enUS": "of Strength"
+    },
+    {
+        "Key": "of Might",
+        "enUS": "of Might"
+    },
+    {
+        "Key": "of the Ox",
+        "enUS": "of the Ox"
+    },
+    {
+        "Key": "of the Giant",
+        "enUS": "of the Giant"
+    },
+    {
+        "Key": "of the Titan",
+        "enUS": "of the Titan"
+    },
+    {
+        "Key": "of Pacing",
+        "enUS": "of Pacing"
+    },
+    {
+        "Key": "of Haste",
+        "enUS": "of Haste"
+    },
+    {
+        "Key": "of Speed",
+        "enUS": "of Speed"
+    },
+    {
+        "Key": "gld",
+        "enUS": "Gold"
+    },
+    {
+        "Key": "gsb",
+        "enUS": "Sapphire"
+    },
+    {
+        "Key": "gsg",
+        "enUS": "Emerald"
+    },
+    {
+        "Key": "gsr",
+        "enUS": "Ruby"
+    },
+    {
+        "Key": "gsw",
+        "enUS": "Diamond"
+    },
+    {
+        "Key": "Beast",
+        "enUS": "Beast"
+    },
+    {
+        "Key": "Eagle",
+        "enUS": "Eagle"
+    },
+    {
+        "Key": "Viper",
+        "enUS": "Viper"
+    },
+    {
+        "Key": "Skull",
+        "enUS": "Skull"
+    },
+    {
+        "Key": "Blood",
+        "enUS": "Blood"
+    },
+    {
+        "Key": "Dread",
+        "enUS": "Dread"
+    },
+    {
+        "Key": "Doom",
+        "enUS": "Doom"
+    },
+    {
+        "Key": "Grim",
+        "enUS": "Grim"
+    },
+    {
+        "Key": "Bone",
+        "enUS": "Bone"
+    },
+    {
+        "Key": "Death",
+        "enUS": "Death"
+    },
+    {
+        "Key": "Shadow",
+        "enUS": "Shadow"
+    },
+    {
+        "Key": "Storm",
+        "enUS": "Storm"
+    },
+    {
+        "Key": "Rune",
+        "enUS": "Rune"
+    },
+    {
+        "Key": "PlagueRI",
+        "enUS": "Plague"
+    },
+    {
+        "Key": "Stone",
+        "enUS": "Stone"
+    },
+    {
+        "Key": "Spirit",
+        "enUS": "Spirit"
+    },
+    {
+        "Key": "Demon",
+        "enUS": "Demon"
+    },
+    {
+        "Key": "Cruel",
+        "enUS": "Cruel"
+    },
+    {
+        "Key": "Empyrion",
+        "enUS": "Empyrian"
+    },
+    {
+        "Key": "Bramble",
+        "enUS": "Bramble"
+    },
+    {
+        "Key": "Pain",
+        "enUS": "Pain"
+    },
+    {
+        "Key": "Loath",
+        "enUS": "Loath"
+    },
+    {
+        "Key": "Glyph",
+        "enUS": "Glyph"
+    },
+    {
+        "Key": "Hailstone",
+        "enUS": "Hailstone"
+    },
+    {
+        "Key": "Gale",
+        "enUS": "Gale"
+    },
+    {
+        "Key": "Dire",
+        "enUS": "Dire"
+    },
+    {
+        "Key": "Soul",
+        "enUS": "Soul"
+    },
+    {
+        "Key": "Brimstone",
+        "enUS": "Brimstone"
+    },
+    {
+        "Key": "Corpse",
+        "enUS": "Corpse"
+    },
+    {
+        "Key": "Carrion",
+        "enUS": "Carrion"
+    },
+    {
+        "Key": "Havoc",
+        "enUS": "Havoc"
+    },
+    {
+        "Key": "Bitter",
+        "enUS": "Bitter"
+    },
+    {
+        "Key": "Entropy",
+        "enUS": "Entropy"
+    },
+    {
+        "Key": "Chaos",
+        "enUS": "Chaos"
+    },
+    {
+        "Key": "Order",
+        "enUS": "Order"
+    },
+    {
+        "Key": "Rift",
+        "enUS": "Rift"
+    },
+    {
+        "Key": "Corruption",
+        "enUS": "Corruption"
+    },
+    {
+        "Key": "bite",
+        "enUS": "Bite"
+    },
+    {
+        "Key": "scratch",
+        "enUS": "Scratch"
+    },
+    {
+        "Key": "scalpel",
+        "enUS": "Scalpel"
+    },
+    {
+        "Key": "fang",
+        "enUS": "Fang"
+    },
+    {
+        "Key": "gutter",
+        "enUS": "Gutter"
+    },
+    {
+        "Key": "thirst",
+        "enUS": "Thirst"
+    },
+    {
+        "Key": "razor",
+        "enUS": "Razor"
+    },
+    {
+        "Key": "scythe",
+        "enUS": "Scythe"
+    },
+    {
+        "Key": "edge",
+        "enUS": "Edge"
+    },
+    {
+        "Key": "splitter",
+        "enUS": "Splitter"
+    },
+    {
+        "Key": "cleaver",
+        "enUS": "Cleaver"
+    },
+    {
+        "Key": "sever",
+        "enUS": "Sever"
+    },
+    {
+        "Key": "sunder",
+        "enUS": "Sunder"
+    },
+    {
+        "Key": "rend",
+        "enUS": "Rend"
+    },
+    {
+        "Key": "mangler",
+        "enUS": "Mangler"
+    },
+    {
+        "Key": "slayer",
+        "enUS": "Slayer"
+    },
+    {
+        "Key": "reaver",
+        "enUS": "Reaver"
+    },
+    {
+        "Key": "Spawn",
+        "enUS": "Spawn"
+    },
+    {
+        "Key": "gnash",
+        "enUS": "Gnash"
+    },
+    {
+        "Key": "star",
+        "enUS": "Star"
+    },
+    {
+        "Key": "blow",
+        "enUS": "Blow"
+    },
+    {
+        "Key": "smasher",
+        "enUS": "Smasher"
+    },
+    {
+        "Key": "Bane",
+        "enUS": "Bane"
+    },
+    {
+        "Key": "breaker",
+        "enUS": "Breaker"
+    },
+    {
+        "Key": "grinder",
+        "enUS": "Grinder"
+    },
+    {
+        "Key": "crack",
+        "enUS": "Crack"
+    },
+    {
+        "Key": "mallet",
+        "enUS": "Mallet"
+    },
+    {
+        "Key": "knell",
+        "enUS": "Knell"
+    },
+    {
+        "Key": "lance",
+        "enUS": "Lance"
+    },
+    {
+        "Key": "spike",
+        "enUS": "Spike"
+    },
+    {
+        "Key": "impaler",
+        "enUS": "Impaler"
+    },
+    {
+        "Key": "skewer",
+        "enUS": "Skewer"
+    },
+    {
+        "Key": "prod",
+        "enUS": "Prod"
+    },
+    {
+        "Key": "scourge",
+        "enUS": "Scourge"
+    },
+    {
+        "Key": "wand",
+        "enUS": "Wand"
+    },
+    {
+        "Key": "wrack",
+        "enUS": "Wrack"
+    },
+    {
+        "Key": "barb",
+        "enUS": "Barb"
+    },
+    {
+        "Key": "needle",
+        "enUS": "Needle"
+    },
+    {
+        "Key": "dart",
+        "enUS": "Dart"
+    },
+    {
+        "Key": "bolt",
+        "enUS": "Bolt"
+    },
+    {
+        "Key": "quarrel",
+        "enUS": "Quarrel"
+    },
+    {
+        "Key": "fletch",
+        "enUS": "Fletch"
+    },
+    {
+        "Key": "flight",
+        "enUS": "Flight"
+    },
+    {
+        "Key": "nock",
+        "enUS": "Nock"
+    },
+    {
+        "Key": "horn",
+        "enUS": "Horn"
+    },
+    {
+        "Key": "stinger",
+        "enUS": "Stinger"
+    },
+    {
+        "Key": "quill",
+        "enUS": "Quill"
+    },
+    {
+        "Key": "goad",
+        "enUS": "Goad"
+    },
+    {
+        "Key": "branch",
+        "enUS": "Branch"
+    },
+    {
+        "Key": "spire",
+        "enUS": "Spire"
+    },
+    {
+        "Key": "song",
+        "enUS": "Song"
+    },
+    {
+        "Key": "call",
+        "enUS": "Call"
+    },
+    {
+        "Key": "spell",
+        "enUS": "Spell"
+    },
+    {
+        "Key": "chant",
+        "enUS": "Chant"
+    },
+    {
+        "Key": "weaver",
+        "enUS": "Weaver"
+    },
+    {
+        "Key": "gnarl",
+        "enUS": "Gnarl"
+    },
+    {
+        "Key": "Civerb's",
+        "enUS": "Civerb's"
+    },
+    {
+        "Key": "Hsarus'",
+        "enUS": "Hsaru's"
+    },
+    {
+        "Key": "Cleglaw's",
+        "enUS": "Cleglaw's"
+    },
+    {
+        "Key": "Iratha's",
+        "enUS": "Iratha's"
+    },
+    {
+        "Key": "Isenhart's",
+        "enUS": "Isenhart's"
+    },
+    {
+        "Key": "Vidala's",
+        "enUS": "Vidala's"
+    },
+    {
+        "Key": "Milabrega's",
+        "enUS": "Milabrega's"
+    },
+    {
+        "Key": "Cathan's",
+        "enUS": "Cathan's"
+    },
+    {
+        "Key": "Tancred's",
+        "enUS": "Tancred's"
+    },
+    {
+        "Key": "Sigon's",
+        "enUS": "Sigon's"
+    },
+    {
+        "Key": "Infernal",
+        "enUS": "Infernal"
+    },
+    {
+        "Key": "Death's",
+        "enUS": "Death's"
+    },
+    {
+        "Key": "Angelical",
+        "enUS": "Angelic"
+    },
+    {
+        "Key": "Arctic",
+        "enUS": "Arctic"
+    },
+    {
+        "Key": "Arcanna's",
+        "enUS": "Arcanna's"
+    },
+    {
+        "Key": "Weird",
+        "enUS": "Weird"
+    },
+    {
+        "Key": "GloomUM",
+        "enUS": "Gloom"
+    },
+    {
+        "Key": "Gray",
+        "enUS": "Gray"
+    },
+    {
+        "Key": "DireUM",
+        "enUS": "Dire"
+    },
+    {
+        "Key": "Black",
+        "enUS": "Black"
+    },
+    {
+        "Key": "ShadowUM",
+        "enUS": "Shadow"
+    },
+    {
+        "Key": "Haze",
+        "enUS": "Haze"
+    },
+    {
+        "Key": "Wind",
+        "enUS": "Wind"
+    },
+    {
+        "Key": "StormUM",
+        "enUS": "Storm"
+    },
+    {
+        "Key": "Warp",
+        "enUS": "Warp"
+    },
+    {
+        "Key": "Night",
+        "enUS": "Night"
+    },
+    {
+        "Key": "Moon",
+        "enUS": "Moon"
+    },
+    {
+        "Key": "Star",
+        "enUS": "Star"
+    },
+    {
+        "Key": "Pit",
+        "enUS": "Pit"
+    },
+    {
+        "Key": "Fire",
+        "enUS": "Flame"
+    },
+    {
+        "Key": "Cold",
+        "enUS": "Ice"
+    },
+    {
+        "Key": "Seethe",
+        "enUS": "Seethe"
+    },
+    {
+        "Key": "SharpUM",
+        "enUS": "Sharp"
+    },
+    {
+        "Key": "AshUM",
+        "enUS": "Ash"
+    },
+    {
+        "Key": "Blade",
+        "enUS": "Blade"
+    },
+    {
+        "Key": "SteelUM",
+        "enUS": "Steel"
+    },
+    {
+        "Key": "StoneUM",
+        "enUS": "Stone"
+    },
+    {
+        "Key": "Rust",
+        "enUS": "Rust"
+    },
+    {
+        "Key": "Mold",
+        "enUS": "Mold"
+    },
+    {
+        "Key": "Blight",
+        "enUS": "Blight"
+    },
+    {
+        "Key": "Plague",
+        "enUS": "Plague"
+    },
+    {
+        "Key": "Rot",
+        "enUS": "Rot"
+    },
+    {
+        "Key": "Ooze",
+        "enUS": "Ooze"
+    },
+    {
+        "Key": "Puke",
+        "enUS": "Puke"
+    },
+    {
+        "Key": "Snot",
+        "enUS": "Snot"
+    },
+    {
+        "Key": "Bile",
+        "enUS": "Bile"
+    },
+    {
+        "Key": "BloodUM",
+        "enUS": "Blood"
+    },
+    {
+        "Key": "Pulse",
+        "enUS": "Pulse"
+    },
+    {
+        "Key": "Gut",
+        "enUS": "Gut"
+    },
+    {
+        "Key": "Gore",
+        "enUS": "Gore"
+    },
+    {
+        "Key": "FleshUM",
+        "enUS": "Flesh"
+    },
+    {
+        "Key": "BoneUM",
+        "enUS": "Bone"
+    },
+    {
+        "Key": "SpineUM",
+        "enUS": "Spine"
+    },
+    {
+        "Key": "Mind",
+        "enUS": "Mind"
+    },
+    {
+        "Key": "SpiritUM",
+        "enUS": "Spirit"
+    },
+    {
+        "Key": "SoulUM",
+        "enUS": "Soul"
+    },
+    {
+        "Key": "Wrath",
+        "enUS": "Wrath"
+    },
+    {
+        "Key": "GriefUM",
+        "enUS": "Grief"
+    },
+    {
+        "Key": "Foul",
+        "enUS": "Foul"
+    },
+    {
+        "Key": "Vile",
+        "enUS": "Vile"
+    },
+    {
+        "Key": "Sin",
+        "enUS": "Sin"
+    },
+    {
+        "Key": "ChaosUM",
+        "enUS": "Chaos"
+    },
+    {
+        "Key": "DreadUM",
+        "enUS": "Dread"
+    },
+    {
+        "Key": "DoomUM",
+        "enUS": "Doom"
+    },
+    {
+        "Key": "BaneUM",
+        "enUS": "Bane"
+    },
+    {
+        "Key": "DeathUM",
+        "enUS": "Death"
+    },
+    {
+        "Key": "ViperUM",
+        "enUS": "Viper"
+    },
+    {
+        "Key": "Dragon",
+        "enUS": "Dragon"
+    },
+    {
+        "Key": "Devil",
+        "enUS": "Devil"
+    },
+    {
+        "Key": "touchUM",
+        "enUS": "Touch"
+    },
+    {
+        "Key": "spellUM",
+        "enUS": "Spell"
+    },
+    {
+        "Key": "feast",
+        "enUS": "Feast"
+    },
+    {
+        "Key": "wound",
+        "enUS": "Wound"
+    },
+    {
+        "Key": "grin",
+        "enUS": "Grin"
+    },
+    {
+        "Key": "maim",
+        "enUS": "Maim"
+    },
+    {
+        "Key": "hack",
+        "enUS": "Hack"
+    },
+    {
+        "Key": "biteUM",
+        "enUS": "Bite"
+    },
+    {
+        "Key": "rendUM",
+        "enUS": "Rend"
+    },
+    {
+        "Key": "burn",
+        "enUS": "Burn"
+    },
+    {
+        "Key": "rip",
+        "enUS": "Ripper"
+    },
+    {
+        "Key": "kill",
+        "enUS": "Kill"
+    },
+    {
+        "Key": "callUM",
+        "enUS": "Call"
+    },
+    {
+        "Key": "vex",
+        "enUS": "Vex"
+    },
+    {
+        "Key": "jade",
+        "enUS": "Jade"
+    },
+    {
+        "Key": "web",
+        "enUS": "Web"
+    },
+    {
+        "Key": "shieldUM",
+        "enUS": "Shield"
+    },
+    {
+        "Key": "KillerUM",
+        "enUS": "Killer"
+    },
+    {
+        "Key": "RazorUM",
+        "enUS": "Razor"
+    },
+    {
+        "Key": "drinker",
+        "enUS": "Drinker"
+    },
+    {
+        "Key": "shifter",
+        "enUS": "Shifter"
+    },
+    {
+        "Key": "crawler",
+        "enUS": "Crawler"
+    },
+    {
+        "Key": "dancer",
+        "enUS": "Dancer"
+    },
+    {
+        "Key": "bender",
+        "enUS": "Bender"
+    },
+    {
+        "Key": "weaverUM",
+        "enUS": "Weaver"
+    },
+    {
+        "Key": "eater",
+        "enUS": "Eater"
+    },
+    {
+        "Key": "widow",
+        "enUS": "Widow"
+    },
+    {
+        "Key": "maggot",
+        "enUS": "Maggot"
+    },
+    {
+        "Key": "spawn",
+        "enUS": "Spawn"
+    },
+    {
+        "Key": "wight",
+        "enUS": "Wight"
+    },
+    {
+        "Key": "GrumbleUM",
+        "enUS": "Grumble"
+    },
+    {
+        "Key": "GrowlerUM",
+        "enUS": "Growler"
+    },
+    {
+        "Key": "SnarlUM",
+        "enUS": "Snarl"
+    },
+    {
+        "Key": "wolf",
+        "enUS": "Wolf"
+    },
+    {
+        "Key": "crow",
+        "enUS": "Crow"
+    },
+    {
+        "Key": "raven",
+        "enUS": "Raven"
+    },
+    {
+        "Key": "hawk",
+        "enUS": "Hawk"
+    },
+    {
+        "Key": "cloud",
+        "enUS": "Cloud"
+    },
+    {
+        "Key": "BangUM",
+        "enUS": "Bang"
+    },
+    {
+        "Key": "head",
+        "enUS": "Head"
+    },
+    {
+        "Key": "skullUM",
+        "enUS": "Skull"
+    },
+    {
+        "Key": "browUM",
+        "enUS": "Brow"
+    },
+    {
+        "Key": "eyeUM",
+        "enUS": "Eye"
+    },
+    {
+        "Key": "maw",
+        "enUS": "Maw"
+    },
+    {
+        "Key": "tongue",
+        "enUS": "Tongue"
+    },
+    {
+        "Key": "fangUM",
+        "enUS": "Fang"
+    },
+    {
+        "Key": "hornUM",
+        "enUS": "Horn"
+    },
+    {
+        "Key": "thorn",
+        "enUS": "Thorn"
+    },
+    {
+        "Key": "clawUM",
+        "enUS": "Claw"
+    },
+    {
+        "Key": "fistUM",
+        "enUS": "Fist"
+    },
+    {
+        "Key": "heartUM",
+        "enUS": "Heart"
+    },
+    {
+        "Key": "shankUM",
+        "enUS": "Shank"
+    },
+    {
+        "Key": "skinUM",
+        "enUS": "Skin"
+    },
+    {
+        "Key": "wingUM",
+        "enUS": "Wing"
+    },
+    {
+        "Key": "pox",
+        "enUS": "Pox"
+    },
+    {
+        "Key": "fester",
+        "enUS": "Fester"
+    },
+    {
+        "Key": "blister",
+        "enUS": "Blister"
+    },
+    {
+        "Key": "pus",
+        "enUS": "Pus"
+    },
+    {
+        "Key": "SlimeUM",
+        "enUS": "Slime"
+    },
+    {
+        "Key": "drool",
+        "enUS": "Drool"
+    },
+    {
+        "Key": "froth",
+        "enUS": "Froth"
+    },
+    {
+        "Key": "sludge",
+        "enUS": "Sludge"
+    },
+    {
+        "Key": "venom",
+        "enUS": "Venom"
+    },
+    {
+        "Key": "poison",
+        "enUS": "Poison"
+    },
+    {
+        "Key": "break",
+        "enUS": "Break"
+    },
+    {
+        "Key": "shard",
+        "enUS": "Shard"
+    },
+    {
+        "Key": "flame",
+        "enUS": "Flame"
+    },
+    {
+        "Key": "maul",
+        "enUS": "Maul"
+    },
+    {
+        "Key": "thirstUM",
+        "enUS": "Thirst"
+    },
+    {
+        "Key": "lust",
+        "enUS": "Lust"
+    },
+    {
+        "Key": "the Hammer",
+        "enUS": "the Hammer"
+    },
+    {
+        "Key": "the Axe",
+        "enUS": "the Axe"
+    },
+    {
+        "Key": "the Sharp",
+        "enUS": "the Sharp"
+    },
+    {
+        "Key": "the Jagged",
+        "enUS": "the Jagged"
+    },
+    {
+        "Key": "the Flayer",
+        "enUS": "the Flayer"
+    },
+    {
+        "Key": "the Slasher",
+        "enUS": "the Slasher"
+    },
+    {
+        "Key": "the Impaler",
+        "enUS": "the Impaler"
+    },
+    {
+        "Key": "the Hunter",
+        "enUS": "the Hunter"
+    },
+    {
+        "Key": "the Slayer",
+        "enUS": "the Slayer"
+    },
+    {
+        "Key": "the Mauler",
+        "enUS": "the Mauler"
+    },
+    {
+        "Key": "the Destroyer",
+        "enUS": "the Destroyer"
+    },
+    {
+        "Key": "theQuick",
+        "enUS": "the Quick"
+    },
+    {
+        "Key": "the Witch",
+        "enUS": "the Witch"
+    },
+    {
+        "Key": "the Mad",
+        "enUS": "the Mad"
+    },
+    {
+        "Key": "the Wraith",
+        "enUS": "the Wraith"
+    },
+    {
+        "Key": "the Shade",
+        "enUS": "the Shade"
+    },
+    {
+        "Key": "the Dead",
+        "enUS": "the Dead"
+    },
+    {
+        "Key": "the Unholy",
+        "enUS": "the Unholy"
+    },
+    {
+        "Key": "the Howler",
+        "enUS": "the Howler"
+    },
+    {
+        "Key": "the Grim",
+        "enUS": "the Grim"
+    },
+    {
+        "Key": "the Dark",
+        "enUS": "the Dark"
+    },
+    {
+        "Key": "the Tainted",
+        "enUS": "the Tainted"
+    },
+    {
+        "Key": "the Unclean",
+        "enUS": "the Unclean"
+    },
+    {
+        "Key": "the Hungry",
+        "enUS": "the Hungry"
+    },
+    {
+        "Key": "the Cold",
+        "enUS": "the Cold"
+    },
+    {
+        "Key": "Champion",
+        "enUS": "Champion"
+    },
+    {
+        "Key": "of the Wraith",
+        "enUS": "of the Wraith"
+    },
+    {
+        "Key": "of Equilibrium",
+        "enUS": "of Equilibrium"
+    },
+    {
+        "Key": "Valkyrie's",
+        "enUS": "Valkyrie's"
+    },
+    {
+        "Key": "Maiden's",
+        "enUS": "Maiden's"
+    },
+    {
+        "Key": "Blank",
+        "enUS": "Void"
+    },
+    {
+        "Key": "champfanaticX",
+        "enUS": "Fanatic"
+    },
+    {
+        "Key": "champberserkX",
+        "enUS": "Berserker"
+    },
+    {
+        "Key": "Stout",
+        "enUS": "Stout"
+    },
+    {
+        "Key": "Antimagic",
+        "enUS": "Antimagic"
+    },
+    {
+        "Key": "Null",
+        "enUS": "Null"
+    },
+    {
+        "Key": "Godly",
+        "enUS": "Godly"
+    },
+    {
+        "Key": "Ivory",
+        "enUS": "Ivory"
+    },
+    {
+        "Key": "Eburin",
+        "enUS": "Eburine"
+    },
+    {
+        "Key": "Blanched",
+        "enUS": "Blanched"
+    },
+    {
+        "Key": "Stalwart",
+        "enUS": "Stalwart"
+    },
+    {
+        "Key": "Burly",
+        "enUS": "Burly"
+    },
+    {
+        "Key": "Dense",
+        "enUS": "Dense"
+    },
+    {
+        "Key": "Thin",
+        "enUS": "Thin"
+    },
+    {
+        "Key": "Compact",
+        "enUS": "Compact"
+    },
+    {
+        "Key": "Witch-hunter's",
+        "enUS": "Witch-hunter's"
+    },
+    {
+        "Key": "Magekiller's",
+        "enUS": "Magekiller's"
+    },
+    {
+        "Key": "Hierophant's",
+        "enUS": "Hierophant's"
+    },
+    {
+        "Key": "Shaman's",
+        "enUS": "Shaman's"
+    },
+    {
+        "Key": "Pestilent",
+        "enUS": "Pestilent"
+    },
+    {
+        "Key": "Toxic",
+        "enUS": "Toxic"
+    },
+    {
+        "Key": "Corosive",
+        "enUS": "Corrosive"
+    },
+    {
+        "Key": "Envenomed",
+        "enUS": "Foul"
+    },
+    {
+        "Key": "Septic",
+        "enUS": "Septic"
+    },
+    {
+        "Key": "Shocking",
+        "enUS": "Shocking"
+    },
+    {
+        "Key": "Arcing",
+        "enUS": "Arcing"
+    },
+    {
+        "Key": "Buzzing",
+        "enUS": "Buzzing"
+    },
+    {
+        "Key": "Static",
+        "enUS": "Static"
+    },
+    {
+        "Key": "Scorching",
+        "enUS": "Condensing"
+    },
+    {
+        "Key": "Flaming",
+        "enUS": "Flaming"
+    },
+    {
+        "Key": "Smoking",
+        "enUS": "Smoking"
+    },
+    {
+        "Key": "Smoldering",
+        "enUS": "Smoldering"
+    },
+    {
+        "Key": "Ember",
+        "enUS": "Fiery"
+    },
+    {
+        "Key": "Hibernal",
+        "enUS": "Hibernal"
+    },
+    {
+        "Key": "Boreal",
+        "enUS": "Boreal"
+    },
+    {
+        "Key": "Shivering",
+        "enUS": "Shivering"
+    },
+    {
+        "Key": "Snowflake",
+        "enUS": "Snowy"
+    },
+    {
+        "Key": "Mnemonic",
+        "enUS": "Mnemonic"
+    },
+    {
+        "Key": "Visionary",
+        "enUS": "Visionary"
+    },
+    {
+        "Key": "Eagleeye",
+        "enUS": "Eagleeye"
+    },
+    {
+        "Key": "Hawkeye",
+        "enUS": "Hawkeye"
+    },
+    {
+        "Key": "Falconeye",
+        "enUS": "Falconeye"
+    },
+    {
+        "Key": "Sparroweye",
+        "enUS": "Sparroweye"
+    },
+    {
+        "Key": "Robineye",
+        "enUS": "Robineye"
+    },
+    {
+        "Key": "Paradox",
+        "enUS": "Paradox"
+    },
+    {
+        "Key": "Shouting",
+        "enUS": "Howling"
+    },
+    {
+        "Key": "Yelling",
+        "enUS": "Yelling"
+    },
+    {
+        "Key": "Calling",
+        "enUS": "Calling"
+    },
+    {
+        "Key": "Loud",
+        "enUS": "Alarming"
+    },
+    {
+        "Key": "Trump",
+        "enUS": "Fool's"
+    },
+    {
+        "Key": "Joker's",
+        "enUS": "Joker's"
+    },
+    {
+        "Key": "Jester's",
+        "enUS": "Jester's"
+    },
+    {
+        "Key": "Jack's",
+        "enUS": "Jack's"
+    },
+    {
+        "Key": "Knave's",
+        "enUS": "Knave's"
+    },
+    {
+        "Key": "Paleocene",
+        "enUS": "Faithful"
+    },
+    {
+        "Key": "Eocene",
+        "enUS": "Righteous"
+    },
+    {
+        "Key": "Oligocene",
+        "enUS": "Honorable"
+    },
+    {
+        "Key": "Miocene",
+        "enUS": "Enlightened"
+    },
+    {
+        "Key": "Kenshi's",
+        "enUS": "Kenshi's"
+    },
+    {
+        "Key": "Sensei's",
+        "enUS": "Sensei's"
+    },
+    {
+        "Key": "Shogukusha's",
+        "enUS": "Shogukusha's"
+    },
+    {
+        "Key": "Psychic",
+        "enUS": "Psychic"
+    },
+    {
+        "Key": "Mentalist's",
+        "enUS": "Mentalist's"
+    },
+    {
+        "Key": "Cunning",
+        "enUS": "Cunning"
+    },
+    {
+        "Key": "Trickster's",
+        "enUS": "Trickster's"
+    },
+    {
+        "Key": "Entrapping",
+        "enUS": "Entrapping"
+    },
+    {
+        "Key": "Gaea's",
+        "enUS": "Gaean"
+    },
+    {
+        "Key": "Terra's",
+        "enUS": "Terrene"
+    },
+    {
+        "Key": "Nature's",
+        "enUS": "Natural"
+    },
+    {
+        "Key": "Communal",
+        "enUS": "Communal"
+    },
+    {
+        "Key": "Feral",
+        "enUS": "Feral"
+    },
+    {
+        "Key": "Spiritual",
+        "enUS": "Spiritual"
+    },
+    {
+        "Key": "Keeper's",
+        "enUS": "Keeper's"
+    },
+    {
+        "Key": "Caretaker's",
+        "enUS": "Caretaker's"
+    },
+    {
+        "Key": "Trainer's",
+        "enUS": "Trainer's"
+    },
+    {
+        "Key": "Veteran's",
+        "enUS": "Veteran's"
+    },
+    {
+        "Key": "Expert's",
+        "enUS": "Expert's"
+    },
+    {
+        "Key": "Furious",
+        "enUS": "Furious"
+    },
+    {
+        "Key": "Raging",
+        "enUS": "Raging"
+    },
+    {
+        "Key": "Echoing",
+        "enUS": "Echoing"
+    },
+    {
+        "Key": "Resonant",
+        "enUS": "Resonant"
+    },
+    {
+        "Key": "Sounding",
+        "enUS": "Sounding"
+    },
+    {
+        "Key": "Guardian's",
+        "enUS": "Guardian's"
+    },
+    {
+        "Key": "Warder's",
+        "enUS": "Warden's"
+    },
+    {
+        "Key": "Preserver's",
+        "enUS": "Preserver's"
+    },
+    {
+        "Key": "Marshal's",
+        "enUS": "Marshal's"
+    },
+    {
+        "Key": "Commander's",
+        "enUS": "Commander's"
+    },
+    {
+        "Key": "Captain's",
+        "enUS": "Captain's"
+    },
+    {
+        "Key": "Rose Branded",
+        "enUS": "Rose Branded"
+    },
+    {
+        "Key": "Hawk Branded",
+        "enUS": "Hawk Branded"
+    },
+    {
+        "Key": "Lion Branded",
+        "enUS": "Lion Branded"
+    },
+    {
+        "Key": "Golemlord's",
+        "enUS": "Golemlord's"
+    },
+    {
+        "Key": "Vodoun",
+        "enUS": "Mojo"
+    },
+    {
+        "Key": "Graverobber's",
+        "enUS": "Graverobber's"
+    },
+    {
+        "Key": "Venomous",
+        "enUS": "Venomous"
+    },
+    {
+        "Key": "Noxious",
+        "enUS": "Noxious"
+    },
+    {
+        "Key": "Fungal",
+        "enUS": "Fungal"
+    },
+    {
+        "Key": "Accursed",
+        "enUS": "Cursing"
+    },
+    {
+        "Key": "Blighting",
+        "enUS": "Blighting"
+    },
+    {
+        "Key": "Hexing",
+        "enUS": "Hexing"
+    },
+    {
+        "Key": "Glacial",
+        "enUS": "Glacial"
+    },
+    {
+        "Key": "Freezing",
+        "enUS": "Freezing"
+    },
+    {
+        "Key": "Chilling",
+        "enUS": "Chilling"
+    },
+    {
+        "Key": "Powered",
+        "enUS": "Powered"
+    },
+    {
+        "Key": "Charged",
+        "enUS": "Charged"
+    },
+    {
+        "Key": "Sparking",
+        "enUS": "Sparking"
+    },
+    {
+        "Key": "Volcanic",
+        "enUS": "Volcanic"
+    },
+    {
+        "Key": "Blazing",
+        "enUS": "Blazing"
+    },
+    {
+        "Key": "Burning",
+        "enUS": "Burning"
+    },
+    {
+        "Key": "Lancer's",
+        "enUS": "Lancer's"
+    },
+    {
+        "Key": "Spearmaiden's",
+        "enUS": "Spearmaiden's"
+    },
+    {
+        "Key": "Harpoonist's",
+        "enUS": "Harpoonist's"
+    },
+    {
+        "Key": "Athlete's",
+        "enUS": "Athletic"
+    },
+    {
+        "Key": "Gymnast's",
+        "enUS": "Gymnastic"
+    },
+    {
+        "Key": "Acrobat's",
+        "enUS": "Acrobatic"
+    },
+    {
+        "Key": "Bowyer's",
+        "enUS": "Bowyer's"
+    },
+    {
+        "Key": "Diamond",
+        "enUS": "Diamond"
+    },
+    {
+        "Key": "Celestial",
+        "enUS": "Celestial"
+    },
+    {
+        "Key": "Elysian",
+        "enUS": "Elysian"
+    },
+    {
+        "Key": "Astral",
+        "enUS": "Astral"
+    },
+    {
+        "Key": "Unearthly",
+        "enUS": "Unearthly"
+    },
+    {
+        "Key": "Arcadian",
+        "enUS": "Arcadian"
+    },
+    {
+        "Key": "Jeweler's",
+        "enUS": "Jeweler's"
+    },
+    {
+        "Key": "Artificer's",
+        "enUS": "Artisan's"
+    },
+    {
+        "Key": "Mechanist's",
+        "enUS": "Mechanic's"
+    },
+    {
+        "Key": "Aureolin",
+        "enUS": "Aureolic"
+    },
+    {
+        "Key": "Victorious",
+        "enUS": "Victorious"
+    },
+    {
+        "Key": "Ambergris",
+        "enUS": "Ambergris"
+    },
+    {
+        "Key": "Camphor",
+        "enUS": "Camphor"
+    },
+    {
+        "Key": "Lapis Lazuli",
+        "enUS": "Lapis Lazuli"
+    },
+    {
+        "Key": "Chromatic",
+        "enUS": "Chromatic"
+    },
+    {
+        "Key": "Scintillating",
+        "enUS": "Scintillating"
+    },
+    {
+        "Key": "Turquoise",
+        "enUS": "Turquoise"
+    },
+    {
+        "Key": "Jacinth",
+        "enUS": "Jacinth"
+    },
+    {
+        "Key": "Zircon",
+        "enUS": "Zircon"
+    },
+    {
+        "Key": "Bahamut's",
+        "enUS": "Bahamut's"
+    },
+    {
+        "Key": "Great Wyrm's",
+        "enUS": "Great Wyrm's"
+    },
+    {
+        "Key": "Felicitous",
+        "enUS": "Felicitous"
+    },
+    {
+        "Key": "Lucky",
+        "enUS": "Lucky"
+    },
+    {
+        "Key": "Wailing",
+        "enUS": "Wailing"
+    },
+    {
+        "Key": "Screaming",
+        "enUS": "Screaming"
+    },
+    {
+        "Key": "Grandmaster's",
+        "enUS": "Grandmaster's"
+    },
+    {
+        "Key": "Master's",
+        "enUS": "Master's"
+    },
+    {
+        "Key": "Argent",
+        "enUS": "Argent"
+    },
+    {
+        "Key": "Tin",
+        "enUS": "Tin"
+    },
+    {
+        "Key": "Nickel",
+        "enUS": "Nickel"
+    },
+    {
+        "Key": "Maroon",
+        "enUS": "Maroon"
+    },
+    {
+        "Key": "Chestnut",
+        "enUS": "Chestnut"
+    },
+    {
+        "Key": "Vigorous",
+        "enUS": "Vigorous"
+    },
+    {
+        "Key": "Brown",
+        "enUS": "Brown"
+    },
+    {
+        "Key": "Dun",
+        "enUS": "Dun"
+    },
+    {
+        "Key": "Realgar",
+        "enUS": "Realgar"
+    },
+    {
+        "Key": "Rusty",
+        "enUS": "Rusty"
+    },
+    {
+        "Key": "Cinnabar",
+        "enUS": "Cinnabar"
+    },
+    {
+        "Key": "Vermillion",
+        "enUS": "Vermilion"
+    },
+    {
+        "Key": "Carmine",
+        "enUS": "Carmine"
+    },
+    {
+        "Key": "Carbuncle",
+        "enUS": "Carbuncle"
+    },
+    {
+        "Key": "Serrated",
+        "enUS": "Serrated"
+    },
+    {
+        "Key": "Scarlet",
+        "enUS": "Scarlet"
+    },
+    {
+        "Key": "Bloody",
+        "enUS": "Bloody"
+    },
+    {
+        "Key": "Sanguinary",
+        "enUS": "Sanguinary"
+    },
+    {
+        "Key": "Pearl",
+        "enUS": "Pearl"
+    },
+    {
+        "Key": "Divine",
+        "enUS": "Divine"
+    },
+    {
+        "Key": "Hallowed",
+        "enUS": "Hallowed"
+    },
+    {
+        "Key": "Sacred",
+        "enUS": "Sacred"
+    },
+    {
+        "Key": "Pure",
+        "enUS": "Pure"
+    },
+    {
+        "Key": "Consecrated",
+        "enUS": "Consecrated"
+    },
+    {
+        "Key": "Assamic",
+        "enUS": "Lunar"
+    },
+    {
+        "Key": "Frantic",
+        "enUS": "Frantic"
+    },
+    {
+        "Key": "Hellatial",
+        "enUS": "Hellacious"
+    },
+    {
+        "Key": "Quixotic",
+        "enUS": "Quixotic"
+    },
+    {
+        "Key": "Smiting",
+        "enUS": "Smiting"
+    },
+    {
+        "Key": "Steller",
+        "enUS": "Stellar"
+    },
+    {
+        "Key": "Stinging",
+        "enUS": "Stinging"
+    },
+    {
+        "Key": "Singing",
+        "enUS": "Singing"
+    },
+    {
+        "Key": "Timeless",
+        "enUS": "Timeless"
+    },
+    {
+        "Key": "Original",
+        "enUS": "Original"
+    },
+    {
+        "Key": "Corporal",
+        "enUS": "Corporal"
+    },
+    {
+        "Key": "Lawful",
+        "enUS": "Lawful"
+    },
+    {
+        "Key": "Chaotic",
+        "enUS": "Chaotic"
+    },
+    {
+        "Key": "Fierce",
+        "enUS": "Fierce"
+    },
+    {
+        "Key": "Ferocious",
+        "enUS": "Ferocious"
+    },
+    {
+        "Key": "Perpetual",
+        "enUS": "Perpetual"
+    },
+    {
+        "Key": "Continuous",
+        "enUS": "Everlasting"
+    },
+    {
+        "Key": "Laden",
+        "enUS": "Laden"
+    },
+    {
+        "Key": "Pernicious",
+        "enUS": "Pernicious"
+    },
+    {
+        "Key": "Harmful",
+        "enUS": "Harmful"
+    },
+    {
+        "Key": "Evil",
+        "enUS": "Evil"
+    },
+    {
+        "Key": "Insidious",
+        "enUS": "Insidious"
+    },
+    {
+        "Key": "Malicious",
+        "enUS": "Malicious"
+    },
+    {
+        "Key": "Spiteful",
+        "enUS": "Spiteful"
+    },
+    {
+        "Key": "Precocious",
+        "enUS": "Precocious"
+    },
+    {
+        "Key": "Majestic",
+        "enUS": "Majestic"
+    },
+    {
+        "Key": "Sanguine",
+        "enUS": "Sanguine"
+    },
+    {
+        "Key": "Monumental",
+        "enUS": "Monumental"
+    },
+    {
+        "Key": "Irresistible",
+        "enUS": "Irresistible"
+    },
+    {
+        "Key": "Festering",
+        "enUS": "Festering"
+    },
+    {
+        "Key": "Musty",
+        "enUS": "Musty"
+    },
+    {
+        "Key": "Dusty",
+        "enUS": "Dusty"
+    },
+    {
+        "Key": "Decaying",
+        "enUS": "Decaying"
+    },
+    {
+        "Key": "Rotting",
+        "enUS": "Rotting"
+    },
+    {
+        "Key": "Infectious",
+        "enUS": "Infectious"
+    },
+    {
+        "Key": "Foggy",
+        "enUS": "Foggy"
+    },
+    {
+        "Key": "Cloudy",
+        "enUS": "Cloudy"
+    },
+    {
+        "Key": "Hazy",
+        "enUS": "Hazy"
+    },
+    {
+        "Key": "Punishing",
+        "enUS": "Punishing"
+    },
+    {
+        "Key": "Obsidian",
+        "enUS": "Obsidian"
+    },
+    {
+        "Key": "Royal",
+        "enUS": "Royal"
+    },
+    {
+        "Key": "Frigid",
+        "enUS": "Frigid"
+    },
+    {
+        "Key": "Moldy",
+        "enUS": "Moldy"
+    },
+    {
+        "Key": "Gaudy",
+        "enUS": "Gaudy"
+    },
+    {
+        "Key": "Impecable",
+        "enUS": "Impeccable"
+    },
+    {
+        "Key": "Soulless",
+        "enUS": "Soulless"
+    },
+    {
+        "Key": "Heated",
+        "enUS": "Heated"
+    },
+    {
+        "Key": "Lasting",
+        "enUS": "Lasting"
+    },
+    {
+        "Key": "Scorched",
+        "enUS": "Scorched"
+    },
+    {
+        "Key": "Marred",
+        "enUS": "Marred"
+    },
+    {
+        "Key": "Lilac",
+        "enUS": "Lilac"
+    },
+    {
+        "Key": "Rose",
+        "enUS": "Rose"
+    },
+    {
+        "Key": "Shimmering",
+        "enUS": "Shimmering"
+    },
+    {
+        "Key": "Green",
+        "enUS": "Green"
+    },
+    {
+        "Key": "Wicked",
+        "enUS": "Wicked"
+    },
+    {
+        "Key": "Strange",
+        "enUS": "Strange"
+    },
+    {
+        "Key": "Repulsive",
+        "enUS": "Repulsive"
+    },
+    {
+        "Key": "Reclusive",
+        "enUS": "Reclusive"
+    },
+    {
+        "Key": "Crude",
+        "enUS": "Crude"
+    },
+    {
+        "Key": "Rude",
+        "enUS": "Rude"
+    },
+    {
+        "Key": "Hermetic",
+        "enUS": "Hermetic"
+    },
+    {
+        "Key": "Rainbow",
+        "enUS": "Rainbow"
+    },
+    {
+        "Key": "Colorful",
+        "enUS": "Colorful"
+    },
+    {
+        "Key": "Stinky",
+        "enUS": "Odiferous"
+    },
+    {
+        "Key": "Gritty",
+        "enUS": "Grinding"
+    },
+    {
+        "Key": "of Warming",
+        "enUS": "of Warming"
+    },
+    {
+        "Key": "of Stoicism",
+        "enUS": "of Stoicism"
+    },
+    {
+        "Key": "of the Dynamo",
+        "enUS": "of the Dynamo"
+    },
+    {
+        "Key": "of Grounding",
+        "enUS": "of Grounding"
+    },
+    {
+        "Key": "of Insulation",
+        "enUS": "of Insulation"
+    },
+    {
+        "Key": "of Resistance",
+        "enUS": "of Resistance"
+    },
+    {
+        "Key": "of Faith",
+        "enUS": "of Faith"
+    },
+    {
+        "Key": "of Fire Quenching",
+        "enUS": "of Quenching"
+    },
+    {
+        "Key": "of Amianthus",
+        "enUS": "of Amianthus"
+    },
+    {
+        "Key": "of Incombustibility",
+        "enUS": "of Inflammability"
+    },
+    {
+        "Key": "of Coolness",
+        "enUS": "of Coolness"
+    },
+    {
+        "Key": "of Anima",
+        "enUS": "of Amicae"
+    },
+    {
+        "Key": "of Life Everlasting",
+        "enUS": "of Life Everlasting"
+    },
+    {
+        "Key": "of Sunlight",
+        "enUS": "of Sunlight"
+    },
+    {
+        "Key": "of Frozen Orb",
+        "enUS": "of Frozen Orb"
+    },
+    {
+        "Key": "of Hydra Shield",
+        "enUS": "of Hydra Shield"
+    },
+    {
+        "Key": "of Chilling Armor",
+        "enUS": "of Chilling Armor"
+    },
+    {
+        "Key": "of Blizzard",
+        "enUS": "of Blizzard"
+    },
+    {
+        "Key": "of Energy Shield",
+        "enUS": "of Energy Shield"
+    },
+    {
+        "Key": "of Thunder Storm",
+        "enUS": "of Thunder Storm"
+    },
+    {
+        "Key": "of Meteor",
+        "enUS": "of Meteor"
+    },
+    {
+        "Key": "of Glacial Spike",
+        "enUS": "of Glacial Spike"
+    },
+    {
+        "Key": "of Teleport Shield",
+        "enUS": "of Teleport Shield"
+    },
+    {
+        "Key": "of Chain Lightning",
+        "enUS": "of Chain Lightning"
+    },
+    {
+        "Key": "of Enchant",
+        "enUS": "of Enchant"
+    },
+    {
+        "Key": "of Fire Wall",
+        "enUS": "of Fire Wall"
+    },
+    {
+        "Key": "of Shiver Armor",
+        "enUS": "of Shiver Armor"
+    },
+    {
+        "Key": "of Nova Shield",
+        "enUS": "of Nova Shield"
+    },
+    {
+        "Key": "of Nova",
+        "enUS": "of Nova"
+    },
+    {
+        "Key": "of Fire Ball",
+        "enUS": "of Fire Ball"
+    },
+    {
+        "Key": "of Blaze",
+        "enUS": "of Blaze"
+    },
+    {
+        "Key": "of Ice Blast",
+        "enUS": "of Ice Blast"
+    },
+    {
+        "Key": "of Frost Shield",
+        "enUS": "of Frost Shield"
+    },
+    {
+        "Key": "of Telekinesis",
+        "enUS": "of Telekinesis"
+    },
+    {
+        "Key": "of Static Field",
+        "enUS": "of Static Field"
+    },
+    {
+        "Key": "of Frozen Armor",
+        "enUS": "of Frozen Armor"
+    },
+    {
+        "Key": "of Icebolt",
+        "enUS": "of Icebolt"
+    },
+    {
+        "Key": "of Charged Shield",
+        "enUS": "of Charged Bolt"
+    },
+    {
+        "Key": "of Firebolts",
+        "enUS": "of Firebolts"
+    },
+    {
+        "Key": "of the Elements",
+        "enUS": "of the Elements"
+    },
+    {
+        "Key": "of the Cobra",
+        "enUS": "of the Cobra"
+    },
+    {
+        "Key": "of the Efreeti",
+        "enUS": "of the Efreeti"
+    },
+    {
+        "Key": "of the Phoenix",
+        "enUS": "of the Phoenix"
+    },
+    {
+        "Key": "of the Yeti",
+        "enUS": "of the Yeti"
+    },
+    {
+        "Key": "of Grace and Power",
+        "enUS": "of Grace and Power"
+    },
+    {
+        "Key": "of Grace",
+        "enUS": "of Grace"
+    },
+    {
+        "Key": "of Power",
+        "enUS": "of Power"
+    },
+    {
+        "Key": "of the Elephant",
+        "enUS": "of the Elephant"
+    },
+    {
+        "Key": "of Memory",
+        "enUS": "of Memory"
+    },
+    {
+        "Key": "of the Kraken1",
+        "enUS": "of the Kraken"
+    },
+    {
+        "Key": "of Propogation",
+        "enUS": "of Propogation"
+    },
+    {
+        "Key": "of Replenishing",
+        "enUS": "of Replenishing"
+    },
+    {
+        "Key": "of Ages",
+        "enUS": "of Ages"
+    },
+    {
+        "Key": "of Fast Repair",
+        "enUS": "of Restoration"
+    },
+    {
+        "Key": "of Self-Repair",
+        "enUS": "of Self-Repair"
+    },
+    {
+        "Key": "of Acceleration",
+        "enUS": "of Acceleration"
+    },
+    {
+        "Key": "of Traveling",
+        "enUS": "of Transportation"
+    },
+    {
+        "Key": "of Virility",
+        "enUS": "of Virility"
+    },
+    {
+        "Key": "of Atlus",
+        "enUS": "of Atlas"
+    },
+    {
+        "Key": "of Freedom",
+        "enUS": "of Freedom"
+    },
+    {
+        "Key": "of the Lamprey",
+        "enUS": "of the Lamprey"
+    },
+    {
+        "Key": "of Hope",
+        "enUS": "of Hope"
+    },
+    {
+        "Key": "of Spirit",
+        "enUS": "of Spirit"
+    },
+    {
+        "Key": "of Vita",
+        "enUS": "of Vita"
+    },
+    {
+        "Key": "of Substinence",
+        "enUS": "of Sustenance"
+    },
+    {
+        "Key": "of the Whale",
+        "enUS": "of the Whale"
+    },
+    {
+        "Key": "of the Squid",
+        "enUS": "of the Squid"
+    },
+    {
+        "Key": "of the Colossus1",
+        "enUS": "of the Colossus"
+    },
+    {
+        "Key": "of Knowledge",
+        "enUS": "of Knowledge"
+    },
+    {
+        "Key": "of Enlightenment",
+        "enUS": "of Enlightenment"
+    },
+    {
+        "Key": "of Prosperity",
+        "enUS": "of Prosperity"
+    },
+    {
+        "Key": "of Good Luck",
+        "enUS": "of Good Luck"
+    },
+    {
+        "Key": "of Luck",
+        "enUS": "of Luck"
+    },
+    {
+        "Key": "of Avarice",
+        "enUS": "of Avarice"
+    },
+    {
+        "Key": "of Honor",
+        "enUS": "of Honor"
+    },
+    {
+        "Key": "of Revivification",
+        "enUS": "of Revivification"
+    },
+    {
+        "Key": "of Truth",
+        "enUS": "of Truth"
+    },
+    {
+        "Key": "of Daring",
+        "enUS": "of Daring"
+    },
+    {
+        "Key": "of Nirvana",
+        "enUS": "of Nirvana"
+    },
+    {
+        "Key": "of Envy",
+        "enUS": "of Envy"
+    },
+    {
+        "Key": "of Anthrax",
+        "enUS": "of Anthrax"
+    },
+    {
+        "Key": "of Bliss",
+        "enUS": "of Bliss"
+    },
+    {
+        "Key": "of Joy",
+        "enUS": "of Joy"
+    },
+    {
+        "Key": "of Transcendence",
+        "enUS": "of Transcendence"
+    },
+    {
+        "Key": "of Wrath",
+        "enUS": "of Wrath"
+    },
+    {
+        "Key": "of Ire",
+        "enUS": "of Ire"
+    },
+    {
+        "Key": "of Evisceration",
+        "enUS": "of Evisceration"
+    },
+    {
+        "Key": "of Butchery",
+        "enUS": "of Butchery"
+    },
+    {
+        "Key": "of Ennui",
+        "enUS": "of Ennui"
+    },
+    {
+        "Key": "of Storms",
+        "enUS": "of Storms"
+    },
+    {
+        "Key": "of Passion",
+        "enUS": "of Passion"
+    },
+    {
+        "Key": "of Incineration",
+        "enUS": "of Incineration"
+    },
+    {
+        "Key": "of Frigidity",
+        "enUS": "of Frigidity"
+    },
+    {
+        "Key": "of Winter",
+        "enUS": "of Winter"
+    },
+    {
+        "Key": "of the Icicle",
+        "enUS": "of the Icicle"
+    },
+    {
+        "Key": "of Fervor",
+        "enUS": "of Fervor"
+    },
+    {
+        "Key": "of Malice",
+        "enUS": "of Malice"
+    },
+    {
+        "Key": "of Swords",
+        "enUS": "of Swords"
+    },
+    {
+        "Key": "of Razors",
+        "enUS": "of Razors"
+    },
+    {
+        "Key": "of Desire",
+        "enUS": "of Desire"
+    },
+    {
+        "Key": "of the Sirocco",
+        "enUS": "of the Scirocco"
+    },
+    {
+        "Key": "of the Dunes",
+        "enUS": "of the Dunes"
+    },
+    {
+        "Key": "of Thawing",
+        "enUS": "of Thawing"
+    },
+    {
+        "Key": "Of the Choir",
+        "enUS": "Of the Choir"
+    },
+    {
+        "Key": "Of the Sniper",
+        "enUS": "Of the Sniper"
+    },
+    {
+        "Key": "Of the Stiletto",
+        "enUS": "Of the Stiletto"
+    },
+    {
+        "Key": "Of Bile",
+        "enUS": "of Bile"
+    },
+    {
+        "Key": "Of Blitzen",
+        "enUS": "of Blitzen"
+    },
+    {
+        "Key": "Of Cremation",
+        "enUS": "of Cremation"
+    },
+    {
+        "Key": "Of Darkness",
+        "enUS": "of Darkness"
+    },
+    {
+        "Key": "Of Disease",
+        "enUS": "of Disease"
+    },
+    {
+        "Key": "Of Remorse",
+        "enUS": "of Remorse"
+    },
+    {
+        "Key": "Of Terror",
+        "enUS": "of Terror"
+    },
+    {
+        "Key": "Of the Sky",
+        "enUS": "of the Sky"
+    },
+    {
+        "Key": "Of Valhalla",
+        "enUS": "of Valhalla"
+    },
+    {
+        "Key": "Of Waste",
+        "enUS": "of Waste"
+    },
+    {
+        "Key": "Of Nobility",
+        "enUS": "of Nobility"
+    },
+    {
+        "Key": "Of Karma",
+        "enUS": "of Karma"
+    },
+    {
+        "Key": "Of Grounding",
+        "enUS": "of Grounding"
+    },
+    {
+        "Key": "Of the River",
+        "enUS": "of the River"
+    },
+    {
+        "Key": "Of the Lake",
+        "enUS": "of the Lake"
+    },
+    {
+        "Key": "Of the Ocean",
+        "enUS": "of the Ocean"
+    },
+    {
+        "Key": "Of the Bayou",
+        "enUS": "of the Bayou"
+    },
+    {
+        "Key": "Of the Stream",
+        "enUS": "of the Stream"
+    },
+    {
+        "Key": "Of the Lady",
+        "enUS": "of the Lady"
+    },
+    {
+        "Key": "Of the Maiden",
+        "enUS": "Of the Maiden"
+    },
+    {
+        "Key": "Of the Virgin",
+        "enUS": "of the Virgin"
+    },
+    {
+        "Key": "Of the Hag",
+        "enUS": "of the Hag"
+    },
+    {
+        "Key": "Of the Witch",
+        "enUS": "of the Witch"
+    },
+    {
+        "Key": "Of Judgement",
+        "enUS": "of Judgement"
+    },
+    {
+        "Key": "Of Illusion",
+        "enUS": "of Illusion"
+    },
+    {
+        "Key": "Of Elusion",
+        "enUS": "of Eluding"
+    },
+    {
+        "Key": "Of Combat",
+        "enUS": "of Combat"
+    },
+    {
+        "Key": "Of Attrition",
+        "enUS": "of Attrition"
+    },
+    {
+        "Key": "Of Abrasion",
+        "enUS": "of Abrasion"
+    },
+    {
+        "Key": "Of Erosion",
+        "enUS": "of Erosion"
+    },
+    {
+        "Key": "Of Searing",
+        "enUS": "of Searing"
+    },
+    {
+        "Key": "Of Stone",
+        "enUS": "of Stone"
+    },
+    {
+        "Key": "Of Stature",
+        "enUS": "of Stature"
+    },
+    {
+        "Key": "Of Fortication",
+        "enUS": "of Fortification"
+    },
+    {
+        "Key": "Of Quickening",
+        "enUS": "of Quickening"
+    },
+    {
+        "Key": "Of Dispatch",
+        "enUS": "of Dispatch"
+    },
+    {
+        "Key": "Of Daring",
+        "enUS": "of Daring"
+    },
+    {
+        "Key": "Of Dread",
+        "enUS": "of Dread"
+    },
+    {
+        "Key": "Of Suffering",
+        "enUS": "of Suffering"
+    },
+    {
+        "Key": "Of Doom",
+        "enUS": "of Doom"
+    },
+    {
+        "Key": "Of Vengence",
+        "enUS": "of Vengence"
+    },
+    {
+        "Key": "Of Redemption",
+        "enUS": "of Redemption"
+    },
+    {
+        "Key": "Of Luck",
+        "enUS": "of Luck"
+    },
+    {
+        "Key": "Of the Avenger",
+        "enUS": "of the Avenger"
+    },
+    {
+        "Key": "Of the Specter",
+        "enUS": "of the Specter"
+    },
+    {
+        "Key": "Of the Ghost",
+        "enUS": "of the Ghost"
+    },
+    {
+        "Key": "Of the Infantry",
+        "enUS": "of the Infantry"
+    },
+    {
+        "Key": "Of the Mosquito",
+        "enUS": "of the Mosquito"
+    },
+    {
+        "Key": "Of the Gnat",
+        "enUS": "of the Gnat"
+    },
+    {
+        "Key": "Of the Fly",
+        "enUS": "of the Fly"
+    },
+    {
+        "Key": "Of the Plague",
+        "enUS": "of the Plague"
+    },
+    {
+        "Key": "Of Twilight",
+        "enUS": "of Twilight"
+    },
+    {
+        "Key": "Of Dusk",
+        "enUS": "of Dusk"
+    },
+    {
+        "Key": "Of Dawn",
+        "enUS": "of Dawn"
+    },
+    {
+        "Key": "Of the Imbecile",
+        "enUS": "of the Imbecile"
+    },
+    {
+        "Key": "Of the Idiot",
+        "enUS": "of the Idiot"
+    },
+    {
+        "Key": "Of the Retard",
+        "enUS": "of the Moron"
+    },
+    {
+        "Key": "Of the Jujube",
+        "enUS": "of the Jujube"
+    },
+    {
+        "Key": "Of the Obscenity",
+        "enUS": "of the Obscene"
+    },
+    {
+        "Key": "Of Quota",
+        "enUS": "of the Quota"
+    },
+    {
+        "Key": "Of the Maggot",
+        "enUS": "of Maggots"
+    },
+    {
+        "Key": "Of Horror",
+        "enUS": "of Horror"
+    },
+    {
+        "Key": "Of Baddass",
+        "enUS": "of the Abyss"
+    },
+    {
+        "Key": "Of the Beast",
+        "enUS": "of the Beast"
+    },
+    {
+        "Key": "Of Cruelty",
+        "enUS": "of Cruelty"
+    },
+    {
+        "Key": "Of Badness",
+        "enUS": "of Badness"
+    },
+    {
+        "Key": "Of the Horde",
+        "enUS": "of the Horde"
+    },
+    {
+        "Key": "Of the Forest",
+        "enUS": "of the Forest"
+    },
+    {
+        "Key": "Of the Lilly",
+        "enUS": "of the Lilly"
+    },
+    {
+        "Key": "Of the Grassy Gnoll",
+        "enUS": "of the Grassy Gnoll"
+    },
+    {
+        "Key": "Of the Stars",
+        "enUS": "of the Stars"
+    },
+    {
+        "Key": "Of the Moon",
+        "enUS": "of the Moon"
+    },
+    {
+        "Key": "Of Love",
+        "enUS": "of Love"
+    },
+    {
+        "Key": "Of the Unicorn",
+        "enUS": "of the Unicorn"
+    },
+    {
+        "Key": "Of the Walrus",
+        "enUS": "of the Walrus"
+    },
+    {
+        "Key": "Of the Earth",
+        "enUS": "of the Earth"
+    },
+    {
+        "Key": "Of Vines",
+        "enUS": "of Vines"
+    },
+    {
+        "Key": "Of Honor",
+        "enUS": "of Honor"
+    },
+    {
+        "Key": "Of Tribute",
+        "enUS": "of Tribute"
+    },
+    {
+        "Key": "Of Credit",
+        "enUS": "of Credit"
+    },
+    {
+        "Key": "Of Admiration",
+        "enUS": "of Admiration"
+    },
+    {
+        "Key": "Of Sweetness",
+        "enUS": "of Sweetness"
+    },
+    {
+        "Key": "Of Beauty",
+        "enUS": "of Beauty"
+    },
+    {
+        "Key": "Of Pilfering",
+        "enUS": "of Pilfering"
+    },
+    {
+        "Key": "of Damage Amplification",
+        "enUS": "of Amplify Damage"
+    },
+    {
+        "Key": "of Hurricane",
+        "enUS": "of Hurricane"
+    },
+    {
+        "Key": "of Armageddon",
+        "enUS": "of Armageddon"
+    },
+    {
+        "Key": "of Tornado",
+        "enUS": "of Tornado"
+    },
+    {
+        "Key": "of Volcano",
+        "enUS": "of Volcano"
+    },
+    {
+        "Key": "of Twister",
+        "enUS": "of Twister"
+    },
+    {
+        "Key": "of Cyclone Armor",
+        "enUS": "of Cyclone Armor"
+    },
+    {
+        "Key": "of Eruption",
+        "enUS": "of Fissure"
+    },
+    {
+        "Key": "of Molten Boulders",
+        "enUS": "of Molten Boulder"
+    },
+    {
+        "Key": "of Firestorms",
+        "enUS": "of Firestorms"
+    },
+    {
+        "Key": "of Battle Command",
+        "enUS": "of Battle Command"
+    },
+    {
+        "Key": "of War Cry",
+        "enUS": "of War Cry"
+    },
+    {
+        "Key": "of Grim Ward",
+        "enUS": "of Grim Ward"
+    },
+    {
+        "Key": "of Battle Orders",
+        "enUS": "of Battle Orders"
+    },
+    {
+        "Key": "of Battle Cry",
+        "enUS": "of Battle Cry"
+    },
+    {
+        "Key": "of Concentration",
+        "enUS": "of Concentration"
+    },
+    {
+        "Key": "of Item Finding",
+        "enUS": "of Find Item"
+    },
+    {
+        "Key": "of Stunning",
+        "enUS": "of Stun"
+    },
+    {
+        "Key": "of Shouting",
+        "enUS": "of Shout"
+    },
+    {
+        "Key": "of Taunting",
+        "enUS": "of Taunt"
+    },
+    {
+        "Key": "of Potion Finding",
+        "enUS": "of Find Potion"
+    },
+    {
+        "Key": "of Howling",
+        "enUS": "of Howl"
+    },
+    {
+        "Key": "of Fist of the Heavens",
+        "enUS": "of Fist of the Heavens"
+    },
+    {
+        "Key": "of Holy Shield",
+        "enUS": "of Holy Shield"
+    },
+    {
+        "Key": "of Conversion",
+        "enUS": "of Conversion"
+    },
+    {
+        "Key": "of Blessed Hammers",
+        "enUS": "of Blessed Hammer"
+    },
+    {
+        "Key": "of Vengeance",
+        "enUS": "of Vengeance"
+    },
+    {
+        "Key": "of Charging",
+        "enUS": "of Charge"
+    },
+    {
+        "Key": "of Zeal",
+        "enUS": "of Zeal"
+    },
+    {
+        "Key": "of Holy Bolts",
+        "enUS": "of Holy Bolt"
+    },
+    {
+        "Key": "of Sacrifice",
+        "enUS": "of Sacrifice"
+    },
+    {
+        "Key": "of Fire Golem Summoning",
+        "enUS": "of Fire Golem"
+    },
+    {
+        "Key": "of Bone Spirits",
+        "enUS": "of Bone Spirit"
+    },
+    {
+        "Key": "of Poison Novas",
+        "enUS": "of Poison Nova"
+    },
+    {
+        "Key": "of Lower Resistance",
+        "enUS": "of Lower Resistance"
+    },
+    {
+        "Key": "of Iron Golem Creation",
+        "enUS": "of Iron Golem"
+    },
+    {
+        "Key": "of Bone Imprisonment",
+        "enUS": "of Bone Prison"
+    },
+    {
+        "Key": "of Decrepification",
+        "enUS": "of Decrepify"
+    },
+    {
+        "Key": "of Attraction",
+        "enUS": "of Attract"
+    },
+    {
+        "Key": "of Blood Golem Summoning",
+        "enUS": "of Blood Golem"
+    },
+    {
+        "Key": "of Bone Spears",
+        "enUS": "of Bone Spear"
+    },
+    {
+        "Key": "of Poison Explosion",
+        "enUS": "of Poison Explosion"
+    },
+    {
+        "Key": "of Life Tap",
+        "enUS": "of Life Tap"
+    },
+    {
+        "Key": "of Confusion",
+        "enUS": "of Confusion"
+    },
+    {
+        "Key": "of Raise Skeletal Mages",
+        "enUS": "of Skeletal Mages"
+    },
+    {
+        "Key": "of Bone Walls",
+        "enUS": "of Bone Wall"
+    },
+    {
+        "Key": "of Terror",
+        "enUS": "of Terror"
+    },
+    {
+        "Key": "of Iron Maiden",
+        "enUS": "of Iron Maiden"
+    },
+    {
+        "Key": "of Clay Golem Summoning",
+        "enUS": "of Clay Golem"
+    },
+    {
+        "Key": "of Corpse Explosions",
+        "enUS": "of Corpse Explosion"
+    },
+    {
+        "Key": "of Poison Dagger",
+        "enUS": "of Poison Dagger"
+    },
+    {
+        "Key": "of Weaken",
+        "enUS": "of Weaken"
+    },
+    {
+        "Key": "of Dim Vision",
+        "enUS": "of Dim Vision"
+    },
+    {
+        "Key": "of Raise Skeletons",
+        "enUS": "of Raise Skeleton"
+    },
+    {
+        "Key": "of Bone Armor",
+        "enUS": "of Bone Armor"
+    },
+    {
+        "Key": "of Teeth",
+        "enUS": "of Teeth"
+    },
+    {
+        "Key": "of Amplify Damage",
+        "enUS": "of Amplify Damage"
+    },
+    {
+        "Key": "of Frozen Orbs",
+        "enUS": "of Frozen Orb"
+    },
+    {
+        "Key": "of Hydras",
+        "enUS": "of Hydra"
+    },
+    {
+        "Key": "of Blizzards",
+        "enUS": "of Blizzard"
+    },
+    {
+        "Key": "of Meteors",
+        "enUS": "of Meteor"
+    },
+    {
+        "Key": "of Glacial Spikes",
+        "enUS": "of Glacial Spike"
+    },
+    {
+        "Key": "of Teleportation",
+        "enUS": "of Teleportation"
+    },
+    {
+        "Key": "of Enchantment",
+        "enUS": "of Enchantment"
+    },
+    {
+        "Key": "of Fire Walls",
+        "enUS": "of Fire Wall"
+    },
+    {
+        "Key": "of Novas",
+        "enUS": "of Nova"
+    },
+    {
+        "Key": "of Fire Balls",
+        "enUS": "of Fire Ball"
+    },
+    {
+        "Key": "of Blazing",
+        "enUS": "of Blazing"
+    },
+    {
+        "Key": "of Ice Blasts",
+        "enUS": "of Ice Blast"
+    },
+    {
+        "Key": "of Frost Novas",
+        "enUS": "of Frost Nova"
+    },
+    {
+        "Key": "of Ice Bolts",
+        "enUS": "of Ice Bolt"
+    },
+    {
+        "Key": "of Charged Bolts",
+        "enUS": "of Charged Bolt"
+    },
+    {
+        "Key": "of Fire Bolts",
+        "enUS": "of Fire Bolt"
+    },
+    {
+        "Key": "of Lightning Fury",
+        "enUS": "of Lightning Fury"
+    },
+    {
+        "Key": "of Lightning Spear",
+        "enUS": "of Lightning Spear"
+    },
+    {
+        "Key": "of Freezing Arrows",
+        "enUS": "of Freezing Arrow"
+    },
+    {
+        "Key": "of Fending",
+        "enUS": "of Fending"
+    },
+    {
+        "Key": "of Immolating Arrows",
+        "enUS": "of Immolating Arrow"
+    },
+    {
+        "Key": "of Plague Javelin",
+        "enUS": "of Plague Javelin"
+    },
+    {
+        "Key": "of Charged Spear",
+        "enUS": "of Charged Spear"
+    },
+    {
+        "Key": "of Guided Arrows",
+        "enUS": "of Guided Arrow"
+    },
+    {
+        "Key": "of Ice Arrows",
+        "enUS": "of Ice Arrow"
+    },
+    {
+        "Key": "of Lightning Javelin",
+        "enUS": "of Lightning Javelin"
+    },
+    {
+        "Key": "of Impaling Spear",
+        "enUS": "of Impaling Spear"
+    },
+    {
+        "Key": "of Slow Missiles",
+        "enUS": "of Slow Missile"
+    },
+    {
+        "Key": "of Exploding Arrows",
+        "enUS": "of Exploding Arrow"
+    },
+    {
+        "Key": "of Poison Javelin",
+        "enUS": "of Poison Javelin"
+    },
+    {
+        "Key": "of Power Spear",
+        "enUS": "of Power Spear"
+    },
+    {
+        "Key": "of Multiple Shot",
+        "enUS": "of Multiple Shot"
+    },
+    {
+        "Key": "of Cold Arrows",
+        "enUS": "of Cold Arrow"
+    },
+    {
+        "Key": "of Jabbing",
+        "enUS": "of Jab"
+    },
+    {
+        "Key": "of Inner Sight",
+        "enUS": "of Inner Sight"
+    },
+    {
+        "Key": "of Fire Arrows",
+        "enUS": "of Fire Arrow"
+    },
+    {
+        "Key": "of Magic Arrows",
+        "enUS": "of Magic Arrow"
+    },
+    {
+        "Key": "Of self-repair",
+        "enUS": "Self-Repair"
+    },
+    {
+        "Key": "of Dawn",
+        "enUS": "of Dawn"
+    },
+    {
+        "Key": "of Inertia",
+        "enUS": "of Inertia"
+    },
+    {
+        "Key": "of Joyfulness",
+        "enUS": "of Joyfulness"
+    },
+    {
+        "Key": "of Lightning Strike",
+        "enUS": "of Lightning Strike"
+    },
+    {
+        "Key": "of Plague Jab",
+        "enUS": "of Plague Jab"
+    },
+    {
+        "Key": "of Charged Strike",
+        "enUS": "of Charged Strike"
+    },
+    {
+        "Key": "of Impaling Strike",
+        "enUS": "of Impaling Strike"
+    },
+    {
+        "Key": "of Poison Jab",
+        "enUS": "of Poison Jab"
+    },
+    {
+        "Key": "of Power Strike",
+        "enUS": "of Power Strike"
+    },
+    {
+        "Key": "of the Colossus",
+        "enUS": "of the Gargantuan"
+    },
+    {
+        "Key": "of the Kraken",
+        "enUS": "of the Centaur"
+    },
+    {
+        "Key": "of the Plague",
+        "enUS": "of the Plague"
+    },
+    {
+        "Key": "UiShadowUI",
+        "enUS": "Shadow"
+    },
+    {
+        "Key": "Ghostly",
+        "enUS": "Ghostly"
+    },
+    {
+        "Key": "Fanatic",
+        "enUS": "Fanatic"
+    },
+    {
+        "Key": "Possessed",
+        "enUS": "Possessed"
+    },
+    {
+        "Key": "Berserk",
+        "enUS": "Berserker"
+    },
+    {
+        "Key": "Virulent",
+        "enUS": "Virulent"
+    },
+    {
+        "Key": "of Acidity",
+        "enUS": "of Acidity"
+    },
+    {
+        "Key": "Incendiary",
+        "enUS": "Incendiary"
+    },
+    {
+        "Key": "of Kindling",
+        "enUS": "of Kindling"
+    },
+    {
+        "Key": "Gelid",
+        "enUS": "Gelid"
+    },
+    {
+        "Key": "of Numbing",
+        "enUS": "of Numbing"
+    },
+    {
+        "Key": "Magnetic",
+        "enUS": "Magnetic"
+    },
+    {
+        "Key": "of Conductivity",
+        "enUS": "of Conductivity"
+    },
+    {
+        "Key": "Mystical",
+        "enUS": "Mystical"
+    },
+    {
+        "Key": "of Thaumaturgy",
+        "enUS": "of Thaumaturgy"
+    },
+    {
+        "Key": "Breaching",
+        "enUS": "Breaching"
+    },
+    {
+        "Key": "of Force",
+        "enUS": "of Force"
+    },
+    {
+        "Key": "Sullied",
+        "enUS": "Sullied"
+    },
+    {
+        "Key": "Fiendish",
+        "enUS": "Fiendish"
+    },
+    {
+        "Key": "Erratic",
+        "enUS": "Erratic"
+    },
+    {
+        "Key": "Torrid",
+        "enUS": "Torrid"
+    },
+    {
+        "Key": "TaintedAffix",
+        "enUS": "Tainted"
+    },
+    {
+        "Key": "Forbidden",
+        "enUS": "Forbidden"
+    },
+    {
+        "Key": "Dreadful",
+        "enUS": "Dreadful"
+    },
+    {
+        "Key": "Malevolent",
+        "enUS": "Malevolent"
+    },
+    {
+        "Key": "of Miasma Bolt",
+        "enUS": "of Miasma Bolt"
+    },
+    {
+        "Key": "of Lethargy",
+        "enUS": "of Lethargy"
+    },
+    {
+        "Key": "of Rancor",
+        "enUS": "of Rancor"
+    },
+    {
+        "Key": "of Apocalypse",
+        "enUS": "of Apocalypse"
+    },
+    {
+        "Key": "Devil's",
+        "enUS": "Devil's"
+    },
+    {
+        "Key": "Arch-Devil's",
+        "enUS": "Arch-Devil's"
+    }
 ]

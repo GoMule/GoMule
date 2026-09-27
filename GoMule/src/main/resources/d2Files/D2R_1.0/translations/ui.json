@@ -4929,7 +4929,7 @@
     },
     {
         "Key": "GoOnlineNotification",
-        "enUS": "You have not been online in the last 30 days. Please start the game while online to check for any login agreements."
+        "enUS": "You have not been online in the last 30 days. Please start the game while online to verify the product license."
     },
     {
         "Key": "VoiceLanguage",
@@ -8506,5 +8506,17 @@
     {
         "Key": "LF_NameProfaneOrReserved",
         "enUS": "Name contains profane or reserved words. Please try another name."
+    },
+    {
+        "Key": "DesktopModeSettingName",
+        "enUS": "Desktop Mode"
+    },
+    {
+        "Key": "DesktopModeSettingTooltip",
+        "enUS": "Changes the UI to match Desktop and\n enables full mouse and keyboard support"
+    },
+    {
+        "Key": "HandheldTitle",
+        "enUS": "Handheld"
     }
 ]
