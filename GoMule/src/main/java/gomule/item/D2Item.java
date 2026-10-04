@@ -857,7 +857,14 @@ public class D2Item implements Comparable, D2ItemInterface {
         }
 
         if (check_flag(29) && (quality == 5 || quality == 7)) {
-            pFile.skipBits(16 + 32 + 4); //16 monster id + 32 time found + 4 unknown
+            pFile.read(16); //ID?
+            pFile.read(32); //Timestamp?
+            int chronicleCount = (int) pFile.read(4);
+            if (chronicleCount > 8) chronicleCount = 8;
+            if (chronicleCount <= 0) chronicleCount = 0;
+            for (int i = 0; i < chronicleCount; i++) {
+                pFile.skipBits(64);
+            }
         }
 
         readMaterialStashStackSize(pFile);

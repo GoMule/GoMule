@@ -667,6 +667,121 @@ public class D2ItemTest {
         runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
     }
 
+    @Test
+    public void vidala_unid_with_chronicle() throws Exception {
+        String expected = "Vidala's Fetlock\n" +
+                "Light Plated Boots\n" +
+                "Defense: 10\n" +
+                "Durability: 17 of 18\n" +
+                "Required Level: 14\n" +
+                "Required Strength: 50\n" +
+                "Fingerprint: 0xabf0bb63\n" +
+                "Item Level: 99\n" +
+                "Version: Resurrected\n" +
+                "Unidentified\n" +
+                "+30% Faster Run/Walk\n" +
+                "+150 Maximum Stamina\n" +
+                "Set (2 items): Cold Resist +8%\n" +
+                "Lightning Resist +8%\n" +
+                "Fire Resist +8%\n" +
+                "Poison Resist +8%\n\n";
+        byte[] bytes = decode("00 00 80 10 05 14 D5 A8 09 63 BB F0 AB E3 42 02 50 40 22 82 B0 C0 16 8C EC FF 09 68 29 A0 AD 80 D6 02 DA FF D7 2B 5B 52 E1 00 00");
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
+    @Test
+    public void manald_heal_pre_3_3() throws Exception {
+        String expected = "Manald Heal\n" +
+                "Ring\n" +
+                "Required Level: 15\n" +
+                "Fingerprint: 0xd535d080\n" +
+                "Item Level: 76\n" +
+                "Version: Resurrected\n" +
+                "4% Mana stolen per hit\n" +
+                "+20 to Life\n" +
+                "Replenish Life +8\n" +
+                "Regenerate Mana 20%\n";
+        byte[] bytes = decode("10 00 80 00 05 88 F4 FC D8 00 08 5D 53 CD BC 94 07 1C A0 B1 81 C2 07 41 89 F9 1F");
+        System.out.println(bytes.length);
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
+    @Test
+    public void manald_heal_post_3_3() throws Exception {
+        String expected = "Manald Heal\n" +
+                "Ring\n" +
+                "Required Level: 15\n" +
+                "Fingerprint: 0xa55d620d\n" +
+                "Item Level: 75\n" +
+                "Version: Resurrected\n" +
+                "+10% Faster Cast Rate\n" +
+                "6% Mana stolen per hit\n" +
+                "+20 to Life\n" +
+                "Replenish Life +7\n" +
+                "Regenerate Mana 20%\n";
+        byte[] bytes = decode("10 00 80 00 05 04 E4 FC D8 D0 20 D6 55 BA BC 90 07 1C A0 B1 81 C2 87 41 49 99 C6 F3 1F");
+        System.out.println(bytes.length);
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
+    @Test
+    public void manald_heal_post_3_3_with_flag_29() throws Exception {
+        String expected = "Manald Heal\n" +
+                "Ring\n" +
+                "Required Level: 15\n" +
+                "Fingerprint: 0xd1eedeb2\n" +
+                "Item Level: 49\n" +
+                "Version: Resurrected\n" +
+                "+10% Faster Cast Rate\n" +
+                "5% Mana stolen per hit\n" +
+                "+20 to Life\n" +
+                "Replenish Life +5\n" +
+                "Regenerate Mana 20%\n";
+        byte[] bytes = decode("10 00 80 10 8D 19 E0 FC D8 20 EB ED 1E 1D BB 94 07 1C A0 B1 81 C2 47 41 C9 98 C6 F3 BF 79 81 7E DF 38 20 00 00 00 00 00 00 00 00 00");
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
+    @Test
+    public void venom_ward_post_3_3_with_flag_29_unid() throws Exception {
+        String expected = "Venom Ward\n" +
+                "Breast Plate\n" +
+                "Defense: 126\n" +
+                "Durability: 41 of 50\n" +
+                "Required Level: 20\n" +
+                "Required Strength: 30\n" +
+                "Fingerprint: 0x743029d0\n" +
+                "Item Level: 75\n" +
+                "Version: Resurrected\n" +
+                "Unidentified\n" +
+                "+83% Enhanced Defense\n" +
+                "+15% to Maximum Poison Resist\n" +
+                "Poison Resist +90%\n" +
+                "Poison Length Reduced by 50%\n" +
+                "+2 to Light Radius\n";
+        byte[] bytes = decode("00 00 80 10 05 60 44 0F 05 E8 14 18 BA E5 61 05 9E 20 93 02 84 29 2D 44 BA 78 59 CC 8D D1 FF DF 85 2B AE E3 80 00 00 00 00 00 00 00 00 00");
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
+    @Test
+    public void venom_ward_post_3_3_with_flag_29_id() throws Exception {
+        String expected = "Venom Ward\n" +
+                "Breast Plate\n" +
+                "Defense: 126\n" +
+                "Durability: 41 of 50\n" +
+                "Required Level: 20\n" +
+                "Required Strength: 30\n" +
+                "Fingerprint: 0x743029d0\n" +
+                "Item Level: 75\n" +
+                "Version: Resurrected\n" +
+                "+83% Enhanced Defense\n" +
+                "+15% to Maximum Poison Resist\n" +
+                "Poison Resist +90%\n" +
+                "Poison Length Reduced by 50%\n" +
+                "+2 to Light Radius\n";
+        byte[] bytes = decode("10 00 80 00 05 60 44 0F 05 E8 14 18 BA E5 61 05 9E 20 93 02 84 29 2D 44 BA 78 59 CC 8D D1 7F");
+        runItemDumpComparison(expected, loadD2Item(bytes), bytes.length);
+    }
+
     public static byte[] decode(String s) {
         return BaseEncoding.base16().decode(s.replaceAll(" ", ""));
     }
