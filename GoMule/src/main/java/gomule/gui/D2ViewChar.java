@@ -1856,11 +1856,11 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                         int lY = pEvent.getY();
                         if (iCharacter.getCharCode() == 7) {
                             if ((lX >= 6 && lX <= 96) && (lY >= 6 && lY <= 31)) {
-                                setSkillSlot(0);
+                                setSkillSlot(2);
                             } else if ((lX >= 97 && lX <= 187) && (lY >= 6 && lY <= 31)) {
                                 setSkillSlot(1);
                             } else if ((lX >= 188 && lX <= 278) && (lY >= 6 && lY <= 31)) {
-                                setSkillSlot(2);
+                                setSkillSlot(0);
                             }
                         } else {
                             if ((lX >= 208 && lX <= 283) && (lY >= 300 && lY <= 388)) {
@@ -2016,13 +2016,13 @@ public class D2ViewChar extends JInternalFrame implements D2ItemContainer, D2Ite
                 case 7:
                     switch (iSkillSlot) {
                         case 0:
-                            lEmptyBackground = D2ImageCache.getImage("wartab1sm2.png");
+                            lEmptyBackground = D2ImageCache.getImage("wartab3sm2.png");
                             break;
                         case 1:
                             lEmptyBackground = D2ImageCache.getImage("wartab2sm2.png");
                             break;
                         case 2:
-                            lEmptyBackground = D2ImageCache.getImage("wartab3sm2.png");
+                            lEmptyBackground = D2ImageCache.getImage("wartab1sm2.png");
                             break;
 
                     }
