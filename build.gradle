@@ -1,5 +1,5 @@
 subprojects {
-    version = 'R5.10'
+    version = 'R5.11'
     
     apply plugin: 'java'
     
