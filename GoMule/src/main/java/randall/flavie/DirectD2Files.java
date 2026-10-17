@@ -221,8 +221,15 @@ public class DirectD2Files {
                             lFound = lItemObject;
                         }
                     } else if (lItemObject.getName().equals(pItem.getName())) {
-                        if (pItem.isUnique() && pItem.isJewel() && matchStr[0].equals(lItemObject.getExtraDetect().get(0)) && matchStr[1].equals(lItemObject.getExtraDetect().get(1))) {
-                            lFound = lItemObject;
+                        if (pItem.isUnique() && pItem.isJewel()) {
+                            // Rainbow Facets are disambiguated by skill and trigger event; all other
+                            // unique jewels (which have no such properties) match on name alone.
+                            ArrayList lDetect = lItemObject.getExtraDetect();
+                            if (lDetect == null || matchStr == null || matchStr[0] == null || matchStr[1] == null) {
+                                lFound = lItemObject;
+                            } else if (matchStr[0].equals(lDetect.get(0)) && matchStr[1].equals(lDetect.get(1))) {
+                                lFound = lItemObject;
+                            }
                         }
 
                         if (lCatObj.isUnique() && pItem.isUnique() && !pItem.isJewel()) {

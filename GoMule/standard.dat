@@ -480,9 +480,47 @@ Rainbow Facet,Jewel,(Lightning/Die)[Chain Lightning/Die]
 Rainbow Facet,Jewel,(Lightning/Level Up)[Nova/Level Up]
 Rainbow Facet,Jewel,(Poison/Die)[Poison Nova/Die]
 Rainbow Facet,Jewel,(Poison/Level Up)[Venom/Level Up]
+Defender's Bile,Jewel
+Guardian's Thunder,Jewel
+Protector's Frost,Jewel
+Defender's Fire,Jewel
+Protector's Stone,Jewel
+Guardian's Light,Jewel
 
 
-**Class-Specific Items[u][newcol][unique]
+**Sunder Charms[u][newrow][unique]
+
+*Sunder Charms
+Cold Rupture,Grand Charm
+Flame Rift,Grand Charm
+Crack of the Heavens,Grand Charm
+Rotting Fissure,Grand Charm
+Bone Break,Grand Charm
+Black Cleft,Grand Charm
+
+
+**Reign of the Warlock Uniques[u][newrow][unique]
+
+*Weapons
+Dreadfang,Legend Sword (TC 60)
+Bloodpact Shard,Mithral Point (TC 72)
+Ars Al'Diabolos,Blasphemous Grimoire (TC 87)
+Ars Tor'Baalos,Blasphemous Compendium (TC 81)
+Ars Dul'Mephistos,Occult Tome (TC 69)
+Measured Wrath,Burnt Text (TC 33)
+
+*Armor
+Hellwarden's Will,Death Mask (TC 48)
+Wraithstep,Mirrored Boots (TC 81)
+Gheed's Wager,Troll Belt (TC 84)
+
+*Jewelry
+Sling,Ring
+Opalvein,Ring
+Entropy Locket,Amulet
+
+
+**Class-Specific Items[u][newrow][unique]
 
 *Weapons
 Titan's Revenge,Ceremonial Javelin (TC 36)
@@ -712,6 +750,27 @@ Trang-Oul's Wing,Cantor Trophy (TC 51)
 Trang-Oul's Girth,Troll Belt (TC 84)
 Trang-Oul's Claws,Heavy Bracers (TC 45)
 
+**Reign of the Warlock Sets[t][newcol][set]
+
+*Warlord's Glory
+Warlord's Lust,Great Helm (TC 24)
+Warlord's Mantle,Full Plate Mail (TC 39)
+Warlord's Crushers,Greaves (TC 27)
+Warlord's Authority,Plated Belt (TC 27)
+Warlord's Conquest,Gauntlets (TC 27)
+
+*Bane's Garments
+Bane's Authority,Light Belt (TC 9)
+Bane's Oathmaker,Kriss (TC 18)
+Bane's Wraithskin,Hard Leather Armor (TC 6)
+
+*Horazon's Splendor
+Horazon's Countenance,Demonhead (TC 75)
+Horazon's Dominion,Russet Armor (TC 51)
+Horazon's Hold,Demonhide Gloves (TC 33)
+Horazon's Legacy,Mirrored Boots (TC 81)
+Horazon's Secrets,Occult Codex (TC 66)
+
 **Gems[g][newcol][gem]
 
 *Amethyst
@@ -902,6 +961,39 @@ Principle, Ral-Gul-Eld
 Rain, Ort-Mal-Ith
 Treachery, Shael-Thul-Lem
 
+**2.4 Runewords[w][newrow][runeword]
+
+*2.4 Runewords
+Flickering Flame, Nef-Pul-Vex
+Mist, Cham-Shael-Gul-Thul-Ith
+Obsession, Zod-Ist-Lem-Lum-Io-Nef
+Pattern, Tal-Ort-Thul
+Plague, Cham-Shael-Um
+Unbending Will, Fal-Io-Ith-Eld-El-Hel
+Wisdom, Pul-Ith-Eld
+
+**2.6 Runewords[w][newcol][runeword]
+
+*2.6 Runewords
+Bulwark, Shael-Io-Sol
+Cure, Shael-Io-Tal
+Ground, Shael-Io-Ort
+Hearth, Shael-Io-Thul
+Temper, Shael-Io-Ral
+Mosaic, Mal-Gul-Amn
+Metamorphosis, Io-Cham-Fal
+Hysteria, Shael-Ko-Eld
+Mania, Shael-Ko-Eld
+
+**3.0 Runewords[w][newcol][runeword]
+
+*3.0 Runewords
+Authority, Hel-Shael-Ral
+Coven, Ist-Ral-Io
+Vigilance, Dol-Gul
+Ritual, Amn-Shael-Ohm
+Void, Thul-Zod-Ist
+
 **Skillers Amazon[sk][newrow][skiller]
 
 *Amazon
@@ -951,6 +1043,13 @@ Fire, Burning Grand Charm
 Lightning, Sparking Grand Charm
 Cold, Chilling Grand Charm
 
+**Skillers Warlock[sk][newrow][skiller]
+
+*Warlock
+Demon, Fiendish Grand Charm
+Eldritch, Sullied Grand Charm
+Chaos, Chaotic Grand Charm
+
 **Miscellaneous[g][newrow][misc]
 
 *Potions
@@ -985,6 +1084,12 @@ Token of Absolution
 Key of Destruction
 Key of Hate
 Key of Terror
+Western Worldstone Shard
+Eastern Worldstone Shard
+Southern Worldstone Shard
+Deep Worldstone Shard
+Northern Worldstone Shard
+Potion of Life
 
 *Other
 Horadric Cube
