@@ -5,6 +5,9 @@ import gomule.util.D2BitReader;
 import org.junit.jupiter.api.Test;
 import randall.d2files.D2TxtFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class D2ItemTest {
@@ -521,13 +524,37 @@ public class D2ItemTest {
     }
 
     @Test
-    public void cairn_stones_partial_read() throws Exception {
-        byte[] bytes = decode("10 00 A0 00 05 C8 54 A5 31 00 00");
+    public void cairn_stones() throws Exception {
+        byte[] bytes = decode("10 00 A0 00 05 80 44 A5 31 00");
         D2Item d2Item = loadD2Item(bytes);
         String expected = "Key to the Cairn Stones\n" +
                 "Version: Resurrected\n" +
                 "Difficulty: Normal\n";
         runItemDumpComparison(expected, d2Item, bytes.length);
+    }
+
+    @Test
+    public void long_staff() throws Exception {
+        byte[] bytes = decode("10 00 80 00 0D 11 E0 92 09 D7 27 A4 41 08 81 87 07 6B 4A E4 3F");
+        D2Item d2Item = loadD2Item(bytes);
+        String expected = "Long Staff\n" +
+                "Two Hand Damage: 2 - 8\n" +
+                "Durability: 30 of 30\n" +
+                "Required Level: 1\n" +
+                "Fingerprint: 0x41a427d7\n" +
+                "Item Level: 8\n" +
+                "Version: Resurrected\n" +
+                "+1 to Warmth (Sorceress Only)\n";
+        runItemDumpComparison(expected, d2Item, bytes.length);
+    }
+
+    @Test
+    public void long_staff_and_cairn_stones() throws Exception {
+        byte[] bytes = decode("10 00 A0 00 05 80 44 A5 31 00 10 00 80 00 05 24 F4 92 09 D7 27 A4 41 08 81 87 07 6B 4A E4 3F");
+        List<D2Item> d2Items = loadD2Items(bytes, 2);
+        for (D2Item d2Item : d2Items) {
+            System.out.println(d2Item);
+        }
     }
 
     @Test
@@ -802,5 +829,15 @@ public class D2ItemTest {
     private D2Item loadD2Item(byte[] bytes) throws Exception {
         D2TxtFile.constructTxtFiles("./d2111");
         return new D2Item("my-test-file", new D2BitReader(bytes), 10);
+    }
+
+    private List<D2Item> loadD2Items(byte[] bytes, int numItems) throws Exception {
+        D2TxtFile.constructTxtFiles("./d2111");
+        List<D2Item> items = new ArrayList<>();
+        D2BitReader iReader = new D2BitReader(bytes);
+        for (int i = 0; i < numItems; i++) {
+            items.add(new D2Item("my-test-file", iReader, 10));
+        }
+        return items;
     }
 }

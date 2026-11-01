@@ -472,16 +472,6 @@ public class D2Item implements Comparable, D2ItemInterface {
                 iReqDex -= 10;
             }
         }
-
-        if ("bkd".equals(item_type) && pFile.read(8) != 0) {
-            /*
-            Strange case with this quest item, it seems to have a trailing 10th byte of 00
-            This needs to be skipped over, it's not clear if there's a general rule here but
-            I've implemented it as a specific one just in case. This code reads and checks if there's a zero
-            and then resets the skip if there is.
-             */
-            pFile.set_byte_pos(pFile.get_pos() - 8);
-        }
     }
 
     private void readExtend1(D2BitReader pFile) throws Exception {
